@@ -1,0 +1,19 @@
+{
+  "slug": "nekusar-the-mindrazer",
+  "format": "commander",
+  "commanders": [
+    "Nekusar, the Mindrazer"
+  ],
+  "deckName": null,
+  "createdAt": "2026-11-09T14:40:54.775Z",
+  "options": {
+    "maxSwaps": 15,
+    "budgetPerCard": null,
+    "budgetTotal": null,
+    "bracket": null,
+    "tone": "balanced",
+    "locked": [],
+    "webResearch": true
+  },
+  "image": "https://cards.scryfall.io/art_crop/front/4/a/4afdc65d-3c97-47af-83fa-df340389802e.jpg?1783915612"
+}

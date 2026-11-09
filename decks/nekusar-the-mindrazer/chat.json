@@ -1,0 +1,169 @@
+[
+  {
+    "id": "bc37a5cb-3b1f-435b-a196-a53531679f4a",
+    "role": "user",
+    "content": "isn't ob nixilis really good in this deck?",
+    "at": "2026-11-09T18:35:43.928Z"
+  },
+  {
+    "id": "81c0a705-2c68-4acf-a37a-2ed5713978a9",
+    "role": "assistant",
+    "content": "Yes—if you mean Ob Nixilis, the Hate-Twisted, he’s another Nekusar-style payoff: each opponent’s draw costs them 1 life, and his −2 can destroy a creature while forcing its controller to draw two cards. The trade-off is spending five mana on a planeswalker that’s vulnerable to attacks. If you mean Ob Nixilis, Captive Kingpin, he also works well with Nekusar’s individual 1-damage triggers, generating +1/+1 counters and cards you can play from exile—which one did you mean?",
+    "at": "2026-11-09T18:35:52.327Z"
+  },
+  {
+    "id": "ad44099f-5f2e-45eb-af2c-c265e303c9be",
+    "role": "user",
+    "content": "can we just add both?",
+    "at": "2026-11-09T18:36:06.034Z"
+  },
+  {
+    "id": "47ed0488-cfb7-408d-ac5e-eacbcd4b61a2",
+    "role": "assistant",
+    "content": "Yes—both fit Nekusar’s color identity and your bracket without adding another Game Changer. The Hate-Twisted adds draw punishment and creature removal, while Captive Kingpin turns Nekusar’s individual damage triggers into growth and playable exiled cards. Cutting two slower artifacts keeps the deck at 100, though you lose some lifegain.",
+    "at": "2026-11-09T18:36:15.304Z",
+    "changes": [
+      {
+        "action": "remove",
+        "name": "Venser's Journal",
+        "qty": 1,
+        "reason": "Five mana for lifegain is less proactive than another draw-punishment payoff.",
+        "ok": true,
+        "card": {
+          "name": "Venser's Journal",
+          "oracleId": "f7907327-4df3-4bb2-a274-03d9e266af2f",
+          "manaCost": "{5}",
+          "cmc": 5,
+          "typeLine": "Artifact — Book",
+          "oracleText": "You have no maximum hand size.\nAt the beginning of your upkeep, you gain 1 life for each card in your hand.",
+          "colors": [],
+          "colorIdentity": [],
+          "producedMana": [],
+          "isLand": false,
+          "isMdfcLand": false,
+          "entersTapped": false,
+          "legalCommander": true,
+          "gameChanger": false,
+          "canBeCommander": false,
+          "priceUsd": 8.17,
+          "image": "https://cards.scryfall.io/normal/front/d/2/d2877f52-b46f-4039-a72b-f1fcd024f032.jpg?1783927500",
+          "imageArt": "https://cards.scryfall.io/art_crop/front/d/2/d2877f52-b46f-4039-a72b-f1fcd024f032.jpg?1783927500",
+          "scryfallUri": "https://scryfall.com/card/c21/273/vensers-journal?utm_source=api",
+          "roles": [
+            "other"
+          ]
+        }
+      },
+      {
+        "action": "remove",
+        "name": "Viseling",
+        "qty": 1,
+        "reason": "Its upkeep damage depends on opponents keeping large hands, making it less reliable.",
+        "ok": true,
+        "card": {
+          "name": "Viseling",
+          "oracleId": "05b9dccb-2364-4bca-a12e-8cb54a3f3a0b",
+          "manaCost": "{4}",
+          "cmc": 4,
+          "typeLine": "Artifact Creature — Phyrexian Construct",
+          "oracleText": "At the beginning of each opponent's upkeep, this creature deals X damage to that player, where X is the number of cards in their hand minus 4.",
+          "colors": [],
+          "colorIdentity": [],
+          "producedMana": [],
+          "isLand": false,
+          "isMdfcLand": false,
+          "entersTapped": false,
+          "legalCommander": true,
+          "gameChanger": false,
+          "canBeCommander": false,
+          "priceUsd": 0.38,
+          "power": "2",
+          "toughness": "2",
+          "image": "https://cards.scryfall.io/normal/front/3/8/38a6105e-a67b-4805-b50c-dea404f60fac.jpg?1783939633",
+          "imageArt": "https://cards.scryfall.io/art_crop/front/3/8/38a6105e-a67b-4805-b50c-dea404f60fac.jpg?1783939633",
+          "scryfallUri": "https://scryfall.com/card/c13/269/viseling?utm_source=api",
+          "roles": [
+            "other"
+          ]
+        }
+      },
+      {
+        "action": "add",
+        "name": "Ob Nixilis, the Hate-Twisted",
+        "qty": 1,
+        "reason": "Punishes every opposing draw and offers creature removal that forces additional draws.",
+        "ok": true,
+        "card": {
+          "name": "Ob Nixilis, the Hate-Twisted",
+          "oracleId": "88cd12e5-ca89-4176-96fd-320fe2ccd087",
+          "manaCost": "{3}{B}{B}",
+          "cmc": 5,
+          "typeLine": "Legendary Planeswalker — Nixilis",
+          "oracleText": "Whenever an opponent draws a card, Ob Nixilis deals 1 damage to that player.\n−2: Destroy target creature. Its controller draws two cards.",
+          "colors": [
+            "B"
+          ],
+          "colorIdentity": [
+            "B"
+          ],
+          "producedMana": [],
+          "isLand": false,
+          "isMdfcLand": false,
+          "entersTapped": false,
+          "legalCommander": true,
+          "gameChanger": false,
+          "canBeCommander": false,
+          "priceUsd": 0.56,
+          "loyalty": "5",
+          "image": "https://cards.scryfall.io/normal/front/1/4/14916e2d-73af-4747-a927-d2d4cb3e32db.jpg?1783933441",
+          "imageArt": "https://cards.scryfall.io/art_crop/front/1/4/14916e2d-73af-4747-a927-d2d4cb3e32db.jpg?1783933441",
+          "scryfallUri": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api",
+          "roles": [
+            "removal",
+            "draw"
+          ]
+        }
+      },
+      {
+        "action": "add",
+        "name": "Ob Nixilis, Captive Kingpin",
+        "qty": 1,
+        "reason": "Nekusar's individual 1-damage triggers grow him and exile cards you can play until your next end step.",
+        "ok": true,
+        "card": {
+          "name": "Ob Nixilis, Captive Kingpin",
+          "oracleId": "55b6434b-1542-40fd-b12a-697d40976582",
+          "manaCost": "{2}{B}{R}",
+          "cmc": 4,
+          "typeLine": "Legendary Creature — Demon",
+          "oracleText": "Flying, trample\nWhenever one or more opponents each lose exactly 1 life, put a +1/+1 counter on Ob Nixilis. Exile the top card of your library. Until your next end step, you may play that card.",
+          "colors": [
+            "B",
+            "R"
+          ],
+          "colorIdentity": [
+            "B",
+            "R"
+          ],
+          "producedMana": [],
+          "isLand": false,
+          "isMdfcLand": false,
+          "entersTapped": false,
+          "legalCommander": true,
+          "gameChanger": false,
+          "canBeCommander": true,
+          "priceUsd": 15.34,
+          "power": "4",
+          "toughness": "3",
+          "image": "https://cards.scryfall.io/normal/front/d/d/ddb68233-3683-41bd-9b6e-4f07a1b54244.jpg?1783916511",
+          "imageArt": "https://cards.scryfall.io/art_crop/front/d/d/ddb68233-3683-41bd-9b6e-4f07a1b54244.jpg?1783916511",
+          "scryfallUri": "https://scryfall.com/card/mat/41/ob-nixilis-captive-kingpin?utm_source=api",
+          "roles": [
+            "other"
+          ]
+        }
+      }
+    ],
+    "applied": true
+  }
+]
