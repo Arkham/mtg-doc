@@ -1,7 +1,7 @@
 # mtg-doc
 
 <p align="center">
-  <img src="docs/mtg-doc.webp" alt="A hand-drawn wild-haired inventor happily holding a fan of Magic cards" width="720">
+  <img src="docs/mtg-doc.webp" alt="A hand-drawn wild-haired inventor joyfully throwing Magic cards into the air" width="720">
 </p>
 
 <p align="center"><em>Great Scott, that mana base needs work.</em></p>
