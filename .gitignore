@@ -7,3 +7,4 @@ decks/*/uploads
 .shots
 test-results
 playwright-report
+.vite

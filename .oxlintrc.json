@@ -13,5 +13,13 @@
     "eqeqeq": ["error", "smart"],
     "no-unmodified-loop-condition": "off"
   },
-  "ignorePatterns": ["node_modules", "dist", "site", "decks", "test-results", "playwright-report"]
+  "ignorePatterns": [
+    "node_modules",
+    "dist",
+    "site",
+    "decks",
+    "test-results",
+    "playwright-report",
+    ".vite"
+  ]
 }
