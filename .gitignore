@@ -8,3 +8,4 @@ decks/*/uploads
 test-results
 playwright-report
 .vite
+decks/*/chat.json

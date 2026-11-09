@@ -21,17 +21,18 @@ import {
   parseCommand,
   structuralProblem,
 } from "./analysis/edits.ts";
+import { makeRerun } from "./analysis/rerun.ts";
 import { makeViolation } from "./analysis/search.ts";
 import { config, llmEnabled } from "./config.ts";
-import { chatJson } from "./llm.ts";
-import { loadDeck, snapshot, twoCardCombos } from "./pipeline.ts";
+import { chatJson, decide } from "./llm.ts";
+import { loadDeck, snapshot, startOptimize, twoCardCombos } from "./pipeline.ts";
 import { buildCardIndex } from "./card-index.ts";
 import { suggestManaFixes } from "./mana-advice.ts";
 import { findSynergies, keepPresentSynergies } from "./synergies.ts";
 import { renderMarkdown } from "./report.ts";
 import { lookupExact, lookupFuzzy } from "./sources/scryfall.ts";
 import { estimateBracket, findCombos } from "./sources/spellbook.ts";
-import { HttpError, readMeta, readReport, writeResults } from "./storage.ts";
+import { HttpError, readMeta, readReport, writeMeta, writeResults } from "./storage.ts";
 
 const HISTORY_FILE = "chat.json";
 const SIMPLE_COMMANDS_HELP =
@@ -63,7 +64,21 @@ const ReplySchema = z.object({
       }),
     )
     .catch([]),
+  rerun: z
+    .object({
+      bracket: z.number().int().min(1).max(5).nullable().optional(),
+      budgetTotal: z.number().positive().nullable().optional(),
+      budgetPerCard: z.number().positive().nullable().optional(),
+      maxSwaps: z.number().int().min(1).max(40).optional(),
+      tone: z.enum(["max", "balanced", "casual"]).optional(),
+    })
+    .nullable()
+    .catch(null)
+    .default(null),
 });
+
+/** A confirmed re-run needs a fairly clear yes; anything else is treated as a new message. */
+const CONFIRM_THRESHOLD = 0.7;
 
 function deckSummary(deck: Deck, report: Report | null) {
   const lines = deck.slots
@@ -84,8 +99,9 @@ function deckSummary(deck: Deck, report: Report | null) {
     b
       ? `Target bracket ${b.target} (${b.name}): Game Changers ${b.after.gameChangers.length}/${b.gameChangerLimit ?? "any"} (${b.after.gameChangers.join(", ") || "none"}); mass land denial ${BRACKETS[b.target].massLandDenial ? "allowed" : "not allowed"}; two-card combos ${BRACKETS[b.target].twoCardCombos}.`
       : "",
-    report?.options.budgetTotal ? `Deck budget: $${report.options.budgetTotal}` : "",
-    report?.options.budgetPerCard ? `Max per card: $${report.options.budgetPerCard}` : "",
+    report
+      ? `Optimizer settings: target bracket ${report.options.bracket ?? "keep current"}, deck budget ${report.options.budgetTotal ? `$${report.options.budgetTotal}` : "none"}, per-card budget ${report.options.budgetPerCard ? `$${report.options.budgetPerCard}` : "none"}, up to ${report.options.maxSwaps} swaps, tone ${report.options.tone}`
+      : "",
     `Current list:\n${lines.join("\n")}`,
   ]
     .filter(Boolean)
@@ -101,7 +117,8 @@ Rules:
 - Respect the commander's color identity, singleton (basics excepted), the target bracket and the budget. Every change is validated; invalid ones are rejected.
 - Only remove cards that are in the current list.
 - Keep "reply" short (2-5 sentences); mention the key trade-offs.
-Reply with JSON only: {"reply": string, "changes": [{"action": "add"|"remove", "name": string, "qty": number, "reason": string}]}`;
+- If the user wants different optimizer settings (another target bracket, a total or per-card budget, more or fewer swaps, a different tone), propose re-running the optimizer instead of card changes: set "rerun" to only the settings that change and leave "changes" empty. In "reply", say what will change and ask them to confirm; the re-run replaces the current suggestions and chat edits. Otherwise set "rerun" to null.
+Reply with JSON only: {"reply": string, "changes": [{"action": "add"|"remove", "name": string, "qty": number, "reason": string}], "rerun": null | {"bracket"?: 1-5, "budgetTotal"?: number | null, "budgetPerCard"?: number | null, "maxSwaps"?: number, "tone"?: "max"|"balanced"|"casual"}}`;
 
 async function proposeWithLlm(deck: Deck, report: Report | null, history: DeckChatMessage[]) {
   const recent = history.slice(-HISTORY_FOR_MODEL).map((m) => ({
@@ -109,7 +126,9 @@ async function proposeWithLlm(deck: Deck, report: Report | null, history: DeckCh
     content:
       m.role === "assistant" && m.changes?.length
         ? `${m.content}\n[Proposed: ${m.changes.map((c) => `${c.action} ${c.qty} ${c.name}${c.ok ? "" : ` (rejected: ${c.problem})`}`).join("; ")}${m.applied ? " — applied" : ""}]`
-        : m.content,
+        : m.role === "assistant" && m.rerun
+          ? `${m.content}\n[Proposed re-run: ${m.rerun.summary}${m.rerun.jobId ? " — started" : " — awaiting confirmation"}]`
+          : m.content,
   }));
   return chatJson(ReplySchema, [
     { role: "system", content: `${SYSTEM}\n\n${deckSummary(deck, report)}` },
@@ -219,15 +238,32 @@ export async function chatAboutDeck(slug: string, message: string): Promise<Deck
   };
   history.push(user);
 
+  const confirmed = await confirmsPendingRerun(history, message);
+  if (confirmed) {
+    const jobId = await startChatRerun(slug, confirmed.id, history);
+    const assistant: DeckChatMessage = {
+      id: randomUUID(),
+      role: "assistant",
+      content: `On it: re-optimizing for ${confirmed.rerun!.summary}. The report updates when the run finishes.`,
+      at: new Date().toISOString(),
+      rerun: { ...confirmed.rerun!, jobId },
+    };
+    history.push(assistant);
+    await writeChat(slug, history);
+    return assistant;
+  }
+
   let reply: string;
   let proposed: ProposedChange[];
+  let rerun: DeckChatMessage["rerun"];
   const parsed = parseCommand(message);
   const llm = llmEnabled()
     ? await proposeWithLlm(deck, report, history).catch((err: unknown) => ({ error: err }))
     : null;
   if (llm && !("error" in llm)) {
     reply = llm.reply;
-    proposed = llm.changes;
+    rerun = makeRerun(llm.rerun, meta.options);
+    proposed = rerun ? [] : llm.changes;
   } else if (parsed) {
     // Simple commands work without the model, including when the provider refuses a request.
     proposed = parsed;
@@ -252,10 +288,51 @@ export async function chatAboutDeck(slug: string, message: string): Promise<Deck
     content: reply,
     at: new Date().toISOString(),
     ...(changes.length ? { changes } : {}),
+    ...(rerun ? { rerun } : {}),
   };
   history.push(assistant);
   await writeChat(slug, history);
   return assistant;
+}
+
+/**
+ * When the doc's last message proposed a re-run that hasn't started, asks the decision model whether
+ * this reply agrees to it. Returns the proposing message if so.
+ */
+async function confirmsPendingRerun(history: DeckChatMessage[], message: string) {
+  const last = history.slice(0, -1).findLast((m) => m.role === "assistant");
+  if (!last?.rerun || last.rerun.jobId || !llmEnabled()) return null;
+  const answers = await decide(
+    `The assistant proposed re-running a deck optimizer with new settings (${last.rerun.summary}) and asked: "${last.content}"\nThe user replied: "${message}"`,
+    [],
+    [
+      {
+        name: "confirms",
+        instructions:
+          "The user's reply agrees to go ahead with the proposed re-run now, without asking for anything different.",
+      },
+    ],
+  ).catch(() => new Map<string, number>());
+  return (answers.get("confirms") ?? 0) >= CONFIRM_THRESHOLD ? last : null;
+}
+
+/** Saves the proposed settings and starts the optimizer; the proposal remembers the job. */
+export async function startChatRerun(
+  slug: string,
+  messageId: string,
+  history?: DeckChatMessage[],
+): Promise<string> {
+  const messages = history ?? (await readChat(slug));
+  const message = messages.find((m) => m.id === messageId);
+  if (!message?.rerun) throw new HttpError(404, "No re-run proposed in that message.");
+  if (message.rerun.jobId) throw new HttpError(409, "That re-run already started.");
+  const meta = await readMeta(slug);
+  meta.options = { ...meta.options, ...message.rerun.options };
+  await writeMeta(meta);
+  const jobId = startOptimize(slug).id;
+  message.rerun = { ...message.rerun, jobId };
+  if (!history) await writeChat(slug, messages);
+  return jobId;
 }
 
 /**

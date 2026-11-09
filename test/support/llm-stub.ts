@@ -25,8 +25,15 @@ const DECISIONS: Record<string, number> = {
 
 function decisions(body: Record<string, unknown>) {
   const questions = body.questions as { name: string; instructions: string }[];
+  const context = JSON.stringify(body.input);
   return {
     answers: questions.map((q) => {
+      if (q.name === "confirms")
+        return {
+          type: "predicate",
+          name: q.name,
+          probability: /The user replied: \\"(yes|go ahead)/i.test(context) ? 0.95 : 0.1,
+        };
       const card = Object.keys(DECISIONS).find((c) => q.instructions.includes(`"${c}"`));
       return { type: "predicate", name: q.name, probability: card ? DECISIONS[card] : 0.5 };
     }),
@@ -71,6 +78,15 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
   if (text.includes("You are the mtg doc, an expert Commander")) {
     // Simulates the provider refusing a request, which the app must survive.
     if (/Fellwar Stone|risky/.test(text)) return CONTENT_FILTER;
+    const last = (body.input as { content: { text?: string }[] }[]).at(-1)?.content[0]?.text ?? "";
+    if (/bracket 2/i.test(last))
+      return message(
+        JSON.stringify({
+          reply: "I can re-run the optimizer for bracket 2. Want me to go ahead?",
+          changes: [{ action: "add", name: "Sol Ring", qty: 1, reason: "ignored for re-runs" }],
+          rerun: { bracket: 2 },
+        }),
+      );
     return message(
       JSON.stringify({
         reply: "Stub chat: trade Sol Ring for a fairer rock.",

@@ -150,6 +150,35 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     }
   });
 
+  test("deck chat proposes a re-run, and only starts it once the user confirms", async () => {
+    const { chatAboutDeck, startChatRerun } = await import("../../server/chat.ts");
+    const { readMeta } = await import("../../server/storage.ts");
+    const { getJob } = await import("../../server/pipeline.ts");
+    const { slug } = await optimizeFixtureDeck("lathril.txt", { bracket: 3, maxSwaps: 4 });
+
+    const proposal = await chatAboutDeck(slug, "can you make it bracket 2?");
+    assert.deepEqual(proposal.rerun?.options, { bracket: 2 });
+    assert.match(proposal.rerun!.summary, /bracket 2 \(Core\)/);
+    assert.equal(proposal.rerun!.jobId, undefined, "nothing starts before confirming");
+    assert.equal(proposal.changes, undefined, "a re-run replaces card changes");
+    assert.equal((await readMeta(slug)).options.bracket, 3);
+
+    const unsure = await chatAboutDeck(slug, "hmm, what would that cut?");
+    assert.equal(unsure.rerun, undefined, "a question isn't a confirmation");
+
+    await chatAboutDeck(slug, "can you make it bracket 2?");
+    const confirmed = await chatAboutDeck(slug, "yes please");
+    assert.ok(confirmed.rerun?.jobId);
+    assert.equal((await readMeta(slug)).options.bracket, 2);
+    await new Promise<void>((resolve) => {
+      const wait = () =>
+        getJob(confirmed.rerun!.jobId!)?.status === "running" ? setTimeout(wait, 100) : resolve();
+      wait();
+    });
+    assert.equal(getJob(confirmed.rerun!.jobId!)!.status, "done");
+    await assert.rejects(startChatRerun(slug, confirmed.id), /already started/);
+  });
+
   test("deck chat: model proposals, and a content-filter refusal falls back to simple commands", async () => {
     const { chatAboutDeck } = await import("../../server/chat.ts");
     const { slug } = await optimizeFixtureDeck("lathril.txt", {

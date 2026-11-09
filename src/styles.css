@@ -2466,6 +2466,26 @@ pre {
   --c: #f06272;
 }
 
+.bracket-actions {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.target-bracket {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.target-bracket label {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+}
+.target-bracket select {
+  min-height: 44px;
+}
 .bracket-head {
   display: flex;
   align-items: center;
@@ -2910,6 +2930,17 @@ pre {
   gap: 6px;
   flex-wrap: wrap;
   font-weight: 600;
+}
+.chat-rerun p {
+  margin: 4px 0 10px;
+  color: var(--text-2);
+}
+.chat-rerun-title {
+  font-weight: 650;
+}
+.chat-rerun-title span {
+  color: var(--accent-hi);
+  margin-right: 4px;
 }
 .chat-applied {
   color: var(--ok);

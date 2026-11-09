@@ -250,6 +250,18 @@ export interface DeckChange {
   card?: Card;
 }
 
+export type RerunOptions = Partial<
+  Pick<OptimizeOptions, "bracket" | "budgetTotal" | "budgetPerCard" | "maxSwaps" | "tone">
+>;
+
+/** A re-run of the optimizer with changed settings, proposed in chat; starts only once confirmed. */
+export interface RerunProposal {
+  options: RerunOptions;
+  summary: string;
+  /** Set once the user confirmed and the job started. */
+  jobId?: string;
+}
+
 export interface DeckChatMessage {
   id: string;
   role: "user" | "assistant";
@@ -257,6 +269,7 @@ export interface DeckChatMessage {
   at: string;
   changes?: DeckChange[];
   applied?: boolean;
+  rerun?: RerunProposal;
 }
 
 export interface CardPreview {

@@ -1,11 +1,13 @@
 import { type FormEvent, type KeyboardEvent, useEffect, useRef, useState } from "react";
 import type { DeckChatMessage, Report } from "../../shared/types.ts";
 import { api } from "../api.ts";
+import { navigate } from "../nav.ts";
 import { CardName } from "./CardName.tsx";
 import { ManaCost } from "./Mana.tsx";
 
 const SUGGESTIONS = [
   "Cut the weakest card for more removal",
+  "Re-optimize this for bracket 2",
   "Make this deck cheaper",
   "Swap a tapped land for an untapped dual",
   "What are this deck's weaknesses?",
@@ -53,6 +55,40 @@ function Changes({
             Apply {valid.length} change{valid.length > 1 ? "s" : ""}
           </button>
         )
+      )}
+    </div>
+  );
+}
+
+function Rerun({
+  slug,
+  message,
+  busy,
+  onConfirm,
+}: {
+  slug: string;
+  message: DeckChatMessage;
+  busy: boolean;
+  onConfirm: () => void;
+}) {
+  const r = message.rerun!;
+  return (
+    <div className="chat-changes chat-rerun">
+      <div className="chat-rerun-title">
+        <span aria-hidden>↻</span> Re-run the optimizer
+      </div>
+      <p className="small">
+        With {r.summary}. This replaces the current suggestions and any chat edits.
+      </p>
+      {r.jobId ? (
+        <a className="small" href={`#/job/${slug}/${r.jobId}`}>
+          ✓ Started · see progress
+        </a>
+      ) : (
+        <button className="primary" disabled={busy} onClick={onConfirm}>
+          {busy ? <span className="spinner" aria-hidden /> : null}
+          Re-run
+        </button>
       )}
     </div>
   );
@@ -109,6 +145,8 @@ export function ChatPanel({
     try {
       const reply = await api.sendChat(slug, content);
       setMessages((m) => [...(m ?? []), reply]);
+      // A "yes" to a proposed re-run starts it right away.
+      if (reply.rerun?.jobId) navigate(`#/job/${slug}/${reply.rerun.jobId}`);
     } catch (e) {
       setError(String(e instanceof Error ? e.message : e));
       setText(content);
@@ -129,6 +167,18 @@ export function ChatPanel({
     } catch (e) {
       setError(String(e instanceof Error ? e.message : e));
     } finally {
+      setApplying(null);
+    }
+  };
+
+  const rerun = async (id: string) => {
+    setApplying(id);
+    setError(null);
+    try {
+      const { jobId } = await api.rerunFromChat(slug, id);
+      navigate(`#/job/${slug}/${jobId}`);
+    } catch (e) {
+      setError(String(e instanceof Error ? e.message : e));
       setApplying(null);
     }
   };
@@ -189,6 +239,14 @@ export function ChatPanel({
                 <div className="chat-bubble">{m.content}</div>
                 {m.role === "assistant" && m.changes?.length ? (
                   <Changes message={m} busy={applying === m.id} onApply={() => apply(m.id)} />
+                ) : null}
+                {m.role === "assistant" && m.rerun ? (
+                  <Rerun
+                    slug={slug}
+                    message={m}
+                    busy={applying === m.id}
+                    onConfirm={() => rerun(m.id)}
+                  />
                 ) : null}
               </div>
             ))}

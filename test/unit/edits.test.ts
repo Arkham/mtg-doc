@@ -150,3 +150,26 @@ describe("keepPresentSynergies", () => {
     assert.equal(keepPresentSynergies(undefined, deck), undefined);
   });
 });
+
+describe("re-run proposals", () => {
+  const current = {
+    maxSwaps: 15,
+    budgetPerCard: null,
+    budgetTotal: 300,
+    bracket: 3,
+    tone: "max" as const,
+    locked: [],
+    webResearch: true,
+  };
+
+  test("keep only settings that change, described in plain words", async () => {
+    const { makeRerun } = await import("../../server/analysis/rerun.ts");
+    assert.deepEqual(makeRerun({ bracket: 2, budgetTotal: 300, tone: "casual" }, current), {
+      options: { bracket: 2, tone: "casual" },
+      summary: "bracket 2 (Core), casual tone",
+    });
+    assert.equal(makeRerun({ bracket: 3 }, current), undefined, "no-op");
+    assert.equal(makeRerun(null, current), undefined);
+    assert.equal(makeRerun({ budgetTotal: null }, current)!.summary, "deck budget none");
+  });
+});

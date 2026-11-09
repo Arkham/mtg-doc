@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { BracketReport } from "../../shared/types.ts";
 import { CardList, CardName } from "./CardName.tsx";
 
@@ -48,7 +49,16 @@ function PowerMeter({ power, position }: { power: number; position: string }) {
   );
 }
 
-export function BracketPanel({ b, rule0Href }: { b: BracketReport; rule0Href: string }) {
+export function BracketPanel({
+  b,
+  rule0Href,
+  actions,
+}: {
+  b: BracketReport;
+  rule0Href: string;
+  /** Extra controls in the header, e.g. changing the target bracket. */
+  actions?: ReactNode;
+}) {
   const a = b.after;
   const limit = b.gameChangerLimit;
   const slots = limit ?? Math.max(a.gameChangers.length, 0);
@@ -70,9 +80,12 @@ export function BracketPanel({ b, rule0Href }: { b: BracketReport; rule0Href: st
               ` · Commander Spellbook: ${SPELLBOOK_TAG[a.spellbookTag] ?? a.spellbookTag}`}
           </div>
         </div>
-        <a className="button" href={rule0Href}>
-          Pre-game summary
-        </a>
+        <div className="bracket-actions">
+          {actions}
+          <a className="button" href={rule0Href}>
+            Pre-game summary
+          </a>
+        </div>
       </div>
 
       <PowerMeter power={a.power} position={POSITION_LABEL[a.position].toLowerCase()} />

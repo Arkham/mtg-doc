@@ -99,6 +99,10 @@ export const api = {
   chat: (slug: string) => request<DeckChatMessage[]>(`/api/decks/${slug}/chat`),
   sendChat: (slug: string, message: string) =>
     request<DeckChatMessage>(`/api/decks/${slug}/chat`, json({ message })),
+  rerunFromChat: (slug: string, messageId: string) =>
+    request<{ slug: string; jobId: string }>(`/api/decks/${slug}/chat/${messageId}/rerun`, {
+      method: "POST",
+    }),
   applyChat: (slug: string, messageId: string) =>
     request<{ report: Report; message: DeckChatMessage }>(
       `/api/decks/${slug}/chat/${messageId}/apply`,

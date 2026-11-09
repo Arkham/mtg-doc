@@ -46,6 +46,14 @@ test.describe("local app", () => {
     await expect(page.locator(".checks li.bad")).toHaveCount(0);
     await expect(page.getByRole("button", { name: /Re-run with different options/ })).toBeVisible();
 
+    // The target bracket can be changed from the bracket panel; it only re-runs on a second tap.
+    const aim = page.locator("#bracket").getByLabel("Target bracket");
+    await expect(aim).toHaveValue("3");
+    await expect(page.getByRole("button", { name: /Re-run for bracket/ })).toHaveCount(0);
+    await aim.selectOption("2");
+    await expect(page.getByRole("button", { name: "Re-run for bracket 2" })).toBeVisible();
+    await aim.selectOption("3");
+
     // Chat: propose a swap, apply it, and see the report update.
     await page.getByRole("button", { name: /Ask the doc/ }).click();
     await expect(page.getByRole("complementary", { name: "Deck chat" })).toBeVisible();

@@ -588,6 +588,49 @@ function Roles({ before, after }: { before: DeckSnapshot; after: DeckSnapshot })
   );
 }
 
+/** Pick another target bracket; the re-run only starts after an explicit second tap. */
+function TargetBracket({
+  slug,
+  options,
+  current,
+}: {
+  slug: string;
+  options: OptimizeOptions;
+  current: number;
+}) {
+  const [target, setTarget] = useState(current);
+  const [busy, setBusy] = useState(false);
+  const run = async () => {
+    setBusy(true);
+    const { jobId } = await api.reoptimize(slug, { ...options, bracket: target });
+    navigate(`#/job/${slug}/${jobId}`);
+  };
+  return (
+    <div className="target-bracket">
+      <label>
+        <span className="muted small">Aim for</span>
+        <select
+          aria-label="Target bracket"
+          value={target}
+          onChange={(e) => setTarget(Number(e.target.value))}
+        >
+          {[1, 2, 3, 4, 5].map((n) => (
+            <option key={n} value={n}>
+              Bracket {n}
+            </option>
+          ))}
+        </select>
+      </label>
+      {target !== current && (
+        <button className="primary" disabled={busy} onClick={run}>
+          {busy ? <span className="spinner" aria-hidden /> : null}
+          Re-run for bracket {target}
+        </button>
+      )}
+    </div>
+  );
+}
+
 function Rerun({ slug, initial }: { slug: string; initial: OptimizeOptions }) {
   const [opts, setOpts] = useState(initial);
   const [open, setOpen] = useState(false);
@@ -1548,7 +1591,15 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
 
         {r.bracket && (
           <section className="panel" id="bracket">
-            <BracketPanel b={r.bracket} rule0Href={deckHash(slug, view, "rule0")} />
+            <BracketPanel
+              b={r.bracket}
+              rule0Href={deckHash(slug, view, "rule0")}
+              actions={
+                !IS_STATIC && (
+                  <TargetBracket slug={slug} options={full.options} current={r.bracket.target} />
+                )
+              }
+            />
           </section>
         )}
 

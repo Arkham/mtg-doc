@@ -11,6 +11,7 @@ import {
   chatAboutDeck,
   readChat,
   refreshSynergies,
+  startChatRerun,
 } from "./chat.ts";
 import { recognizeImages, recognizeText } from "./ocr.ts";
 import { getJob, startOptimize } from "./pipeline.ts";
@@ -248,6 +249,14 @@ export function createApp() {
     wrap(async (req, res) =>
       res.json(await applyChatChanges(String(req.params.slug), String(req.params.messageId))),
     ),
+  );
+
+  app.post(
+    "/api/decks/:slug/chat/:messageId/rerun",
+    wrap(async (req, res) => {
+      const slug = String(req.params.slug);
+      res.json({ slug, jobId: await startChatRerun(slug, String(req.params.messageId)) });
+    }),
   );
 
   app.post(
