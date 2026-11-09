@@ -29,6 +29,12 @@ const CATEGORY_EMOJI: Record<Swap["category"], string> = {
   other: "✨",
 };
 
+/** Removal, counterspells and board wipes: the cards that answer opponents. */
+const interaction = (snap: DeckSnapshot) =>
+  snap.roles
+    .filter((r) => r.role === "removal" || r.role === "counter" || r.role === "wipe")
+    .reduce((n, r) => n + r.count, 0);
+
 const money = (n: number | null | undefined) => (n == null ? "–" : `$${n.toFixed(2)}`);
 
 function Delta({
@@ -495,30 +501,53 @@ function scrollToSection(id: string) {
 function SectionNav({ sections }: { sections: [string, string][] }) {
   const [active, setActive] = useState(sections[0]?.[0]);
   const navRef = useRef<HTMLElement>(null);
+  // While scrolling to a clicked tab, keep that tab active; side-by-side sections share a top, so
+  // position alone can't tell them apart. Any user-driven scroll hands control back.
+  const clicked = useRef<string | null>(null);
+  // Otherwise the active section is the last one whose top has passed the tab bar (ties go to the
+  // first), computed from scroll position each frame so it's deterministic in every browser.
   useEffect(() => {
-    const els = sections
-      .map(([id]) => document.getElementById(id))
-      .filter(Boolean) as HTMLElement[];
-    const io = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible.length) setActive(visible[0].target.id);
-      },
-      { rootMargin: "-130px 0px -60% 0px" },
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
+    const raf = { id: 0 };
+    const update = () => {
+      raf.id = 0;
+      if (clicked.current) return setActive(clicked.current);
+      const line = (navRef.current?.getBoundingClientRect().bottom ?? 0) + 24;
+      let current = sections[0]?.[0];
+      let bestTop = -Infinity;
+      for (const [id] of sections) {
+        const top = document.getElementById(id)?.getBoundingClientRect().top;
+        if (top !== undefined && top <= line && top > bestTop + 1) {
+          current = id;
+          bestTop = top;
+        }
+      }
+      setActive(current);
+    };
+    const onScroll = () => {
+      if (!raf.id) raf.id = requestAnimationFrame(update);
+    };
+    const release = () => {
+      clicked.current = null;
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    for (const ev of ["wheel", "touchstart", "keydown"])
+      window.addEventListener(ev, release, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      for (const ev of ["wheel", "touchstart", "keydown"]) window.removeEventListener(ev, release);
+      cancelAnimationFrame(raf.id);
+    };
   }, [sections]);
-  // Scroll only the tab strip: scrollIntoView would also scroll the page and, in WebKit,
-  // cancel the page's in-progress smooth scroll.
+  // Scroll only the tab strip, and instantly: WebKit runs one smooth scroll at a time, so animating
+  // the strip would cancel the page's in-progress smooth scroll.
   useEffect(() => {
     const nav = navRef.current;
     const btn = nav?.querySelector<HTMLElement>(`[data-id="${active}"]`);
     if (!nav || !btn) return;
-    nav.scrollTo({
-      left: btn.offsetLeft - (nav.clientWidth - btn.clientWidth) / 2,
-      behavior: "smooth",
-    });
+    nav.scrollLeft = btn.offsetLeft - (nav.clientWidth - btn.clientWidth) / 2;
   }, [active]);
   return (
     <nav className="section-nav" aria-label="Report sections" ref={navRef}>
@@ -527,7 +556,11 @@ function SectionNav({ sections }: { sections: [string, string][] }) {
           key={id}
           data-id={id}
           className={active === id ? "active" : ""}
-          onClick={() => scrollToSection(id)}
+          onClick={() => {
+            clicked.current = id;
+            setActive(id);
+            scrollToSection(id);
+          }}
         >
           {label}
         </button>
@@ -797,6 +830,12 @@ export function ReportView({ slug }: { slug: string }) {
             before={r.before.mana.avgCmc}
             after={r.after.mana.avgCmc}
             better="down"
+          />
+          <Stat
+            label="Interaction"
+            before={interaction(r.before)}
+            after={interaction(r.after)}
+            better="up"
           />
           <Stat
             label="Commander on curve"

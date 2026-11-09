@@ -34,6 +34,12 @@ test.describe("static site", () => {
     await page.locator(".section-nav").getByRole("button", { name: "Mana" }).click();
     await expect(page.locator("#mana")).toBeInViewport();
     await expect(page.locator(".section-nav button.active")).toHaveText("Mana");
+    // Scrolling by hand hands control back to the position-based highlight.
+    await page.evaluate(() => {
+      window.dispatchEvent(new Event("wheel"));
+      window.scrollTo(0, 0);
+    });
+    await expect(page.locator(".section-nav button.active")).toHaveText("Bracket");
   });
 
   test("export menu offers lists and the pull list", async ({ page }) => {
