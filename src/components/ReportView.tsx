@@ -14,6 +14,7 @@ import { BracketBadge, BracketPanel } from "./BracketPanel.tsx";
 import { CardName } from "./CardName.tsx";
 import { ManaCost, OracleText } from "./Mana.tsx";
 import { Markdown } from "./Markdown.tsx";
+import { Sheet } from "./Sheet.tsx";
 
 const COLOR_NAME = { W: "White", U: "Blue", B: "Black", R: "Red", G: "Green" } as const;
 const CATEGORY_EMOJI: Record<Swap["category"], string> = {
@@ -637,6 +638,7 @@ export function ReportView({ slug }: { slug: string }) {
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [optimizedText, setOptimizedText] = useState<string | null>(null);
+  const [zoomed, setZoomed] = useState<Card | null>(null);
 
   useEffect(() => {
     api.deck(slug).then(setDetail, (e) => setError(String(e.message ?? e)));
@@ -696,14 +698,27 @@ export function ReportView({ slug }: { slug: string }) {
         <div className={`hero-cards ${r.commanderCards.length > 1 ? "pair" : ""}`}>
           {r.commanderCards.map((c) =>
             c.image ? (
-              <CardName
+              <button
                 key={c.name}
-                name={c.name}
-                card={c}
                 className="hero-card"
-                label={<img src={c.image} alt={c.name} />}
-              />
+                aria-label={`Show ${c.name} full size`}
+                onClick={() => setZoomed(c)}
+              >
+                <img src={c.image} alt={c.name} />
+              </button>
             ) : null,
+          )}
+          {zoomed?.image && (
+            <Sheet
+              src={zoomed.image}
+              alt={zoomed.name}
+              onClose={() => setZoomed(null)}
+              actions={
+                <a className="button" href={zoomed.scryfallUri} target="_blank" rel="noreferrer">
+                  Scryfall ↗
+                </a>
+              }
+            />
           )}
         </div>
         <div className="hero-head">

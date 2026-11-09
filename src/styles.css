@@ -92,10 +92,10 @@ p {
   margin: 0 0 0.8em;
 }
 
+/* Outlines follow each element's own border-radius, so pills keep their shape. */
 :focus-visible {
   outline: 2px solid var(--accent-hi);
   outline-offset: 2px;
-  border-radius: 6px;
 }
 
 .muted {
@@ -1082,15 +1082,24 @@ code {
   margin-left: -120px;
   margin-top: 40px;
 }
+button.hero-card {
+  padding: 0;
+  border: none;
+  background: none;
+  min-height: 0;
+  border-radius: 4.75% / 3.5%;
+  cursor: zoom-in;
+}
+button.hero-card:hover:not(:disabled),
+button.hero-card:active:not(:disabled) {
+  border: none;
+  transform: none;
+}
 .hero-card img {
   display: block;
   width: 220px;
   border-radius: 4.75% / 3.5%;
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
-  transition: transform 0.2s;
-}
-.hero-card a:hover img {
-  transform: translateY(-3px) rotate(-0.6deg);
 }
 .hero-head {
   grid-area: head;
@@ -1262,6 +1271,15 @@ code {
   border-color: var(--line);
   color: var(--text-2);
   font-size: 0.9rem;
+}
+/* Gold is reserved for the active section; hover only lifts the background. */
+.section-nav button:hover:not(:disabled):not(.active) {
+  border-color: var(--line-strong);
+  background: #232838;
+  color: var(--text);
+}
+.section-nav button:active:not(:disabled) {
+  transform: none;
 }
 .section-nav button.active {
   background: var(--accent-soft);
