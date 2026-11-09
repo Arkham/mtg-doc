@@ -22,7 +22,7 @@ const RULES: [Role, RegExp][] = [
   ],
   [
     "protection",
-    /\b(gain|have|has) (hexproof|indestructible|shroud|protection)|phases? out|can't be (countered|the target)/i,
+    /\b(gains?|have|has) (hexproof|indestructible|shroud|protection)|phases? out|can't be (countered|the target)/i,
   ],
   ["recursion", /return (target|up to [^ ]+ target|all|each) [^.]*from (your|a) graveyard/i],
   [

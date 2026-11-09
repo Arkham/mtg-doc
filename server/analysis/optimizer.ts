@@ -238,7 +238,9 @@ export async function applyPlan(
   const missing = plan.swaps.map((s) => s.in).filter((n) => !known.has(n));
   if (missing.length) for (const [n, c] of await lookupExact(missing)) known.set(n, c);
 
-  for (const s of plan.swaps.slice(0, options.maxSwaps)) {
+  // Validate everything the model proposed; invalid suggestions must not use up swap slots.
+  for (const s of plan.swaps) {
+    if (swaps.length >= options.maxSwaps) break;
     const outSlot = next.slots.find((x) => x.card.name.toLowerCase() === s.out.toLowerCase());
     if (!outSlot) {
       warnings.push(`Skipped swap: "${s.out}" is not in the deck.`);

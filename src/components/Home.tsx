@@ -72,7 +72,9 @@ export function Home({
   const [decks, setDecks] = useState<DeckSummary[] | null>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [text, setText] = useState("");
-  const [mode, setMode] = useState<"image" | "text">("image");
+  const [preferredMode, setMode] = useState<"image" | "text">("image");
+  // Photo recognition needs an LLM; fall back to text input when none is configured.
+  const mode = config && !config.llm ? "text" : preferredMode;
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [drag, setDrag] = useState(false);
@@ -81,10 +83,6 @@ export function Home({
   useEffect(() => {
     api.decks().then(setDecks, () => setDecks([]));
   }, []);
-
-  useEffect(() => {
-    if (config && !config.llm) setMode("text");
-  }, [config]);
 
   useEffect(() => {
     if (IS_STATIC) return;

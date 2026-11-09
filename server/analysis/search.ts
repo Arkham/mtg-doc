@@ -223,32 +223,13 @@ export async function buildSolverContext(opts: {
   for (const s of [...scored, ...candidates]) flagByName.set(s.card.name, s.flags);
   const flagOf = (c: Card) => flagByName.get(c.name) ?? opts.flagsFor(c);
 
-  const violation = (card: Card, d: Deck, out?: Card): string | null => {
-    const f = flagOf(card);
-    if (f.banned) return "banned in Commander";
-    if (blockedByCombo.has(card.name))
-      return `${blockedByCombo.get(card.name)}, a two-card combo bracket ${target} doesn't allow`;
-    if (f.massLandDenial && !rules.massLandDenial)
-      return `mass land denial isn't allowed in bracket ${target}`;
-    const others = [...d.commanders, ...d.slots.map((s) => s.card)].filter(
-      (c) => c.name !== out?.name,
-    );
-    if (f.extraTurn && others.filter((c) => flagOf(c).extraTurn).length + 1 > rules.extraTurnCards)
-      return `extra turns are limited in bracket ${target}`;
-    const budget = options.budgetTotal;
-    if (budget !== null && priceOf(card) > (out ? priceOf(out) : 0)) {
-      const next = totalPrice(d) - (out ? priceOf(out) : 0) + priceOf(card);
-      if (next > budget) return `would put the deck over the $${budget} budget`;
-    }
-    if (f.gameChanger) {
-      const used = others.filter((c) => flagOf(c).gameChanger).length;
-      if (used + 1 > rules.gameChangers)
-        return rules.gameChangers === 0
-          ? `Game Changers aren't allowed in bracket ${target}`
-          : `all ${rules.gameChangers} Game Changer slots are used`;
-    }
-    return null;
-  };
+  const violation = makeViolation({
+    rules,
+    target,
+    flagOf,
+    budgetTotal: options.budgetTotal ?? null,
+    blockedByCombo,
+  });
 
   return {
     deck,
@@ -319,6 +300,43 @@ export function trimToBudget(
     });
   }
   return swaps;
+}
+
+/** Builds the hard-constraint check shared by the solver, plan validation and land fixes. */
+export function makeViolation(opts: {
+  rules: BracketRules;
+  target: number;
+  flagOf: (card: Card) => CardFlags;
+  budgetTotal: number | null;
+  blockedByCombo?: Map<string, string>;
+}) {
+  const { rules, target, flagOf, budgetTotal } = opts;
+  const blocked = opts.blockedByCombo ?? new Map<string, string>();
+  return (card: Card, d: Deck, out?: Card): string | null => {
+    const f = flagOf(card);
+    if (f.banned) return "banned in Commander";
+    if (blocked.has(card.name))
+      return `${blocked.get(card.name)}, a two-card combo bracket ${target} doesn't allow`;
+    if (f.massLandDenial && !rules.massLandDenial)
+      return `mass land denial isn't allowed in bracket ${target}`;
+    const others = [...d.commanders, ...d.slots.map((s) => s.card)].filter(
+      (c) => c.name !== out?.name,
+    );
+    if (f.extraTurn && others.filter((c) => flagOf(c).extraTurn).length + 1 > rules.extraTurnCards)
+      return `extra turns are limited in bracket ${target}`;
+    if (budgetTotal !== null && priceOf(card) > (out ? priceOf(out) : 0)) {
+      const next = totalPrice(d) - (out ? priceOf(out) : 0) + priceOf(card);
+      if (next > budgetTotal) return `would put the deck over the $${budgetTotal} budget`;
+    }
+    if (f.gameChanger) {
+      const used = others.filter((c) => flagOf(c).gameChanger).length;
+      if (used + 1 > rules.gameChangers)
+        return rules.gameChangers === 0
+          ? `Game Changers aren't allowed in bracket ${target}`
+          : `all ${rules.gameChangers} Game Changer slots are used`;
+    }
+    return null;
+  };
 }
 
 /** Greedy best-improvement hill climbing over one-for-one swaps, with hard bracket constraints. */

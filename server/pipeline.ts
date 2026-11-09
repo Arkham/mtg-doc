@@ -199,12 +199,7 @@ async function run(job: Job) {
   before.mana = analyzeMana(deck, edhAll?.avgLands ?? null);
 
   const research: Research | null = await step(job, 4, async (s) => {
-    if (
-      !options.webResearch ||
-      !llmEnabled() ||
-      !config.llm.webSearch ||
-      !commanderNames.length
-    ) {
+    if (!options.webResearch || !llmEnabled() || !config.llm.webSearch || !commanderNames.length) {
       s.status = "skipped";
       s.detail = !config.llm.webSearch ? "web search disabled (LLM_WEB_SEARCH=false)" : undefined;
       return null;
@@ -297,12 +292,14 @@ async function run(job: Job) {
 
   const { finalDeck, swaps, after, assessAfter } = await step(job, 7, async (s) => {
     const alternatives = new Map(solver.swaps.map((p) => [p.out.name, [p.in, ...p.alternatives]]));
+    // Required bracket/budget fixes may exceed maxSwaps; never let the cap drop them.
+    const swapLimit = Math.max(options.maxSwaps, solver.swaps.length);
     const applied = await applyPlan(
       deck,
       plan,
       identity,
       ctx.candidates,
-      options,
+      { ...options, maxSwaps: swapLimit },
       ctx.violation,
       alternatives,
     );

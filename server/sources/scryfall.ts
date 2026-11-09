@@ -3,13 +3,12 @@ import { config } from "../config.ts";
 import { classifyRoles } from "../analysis/roles.ts";
 
 const API = "https://api.scryfall.com";
-const MIN_INTERVAL_MS = 110;
 let nextSlot = 0;
 
 async function throttle() {
   const now = Date.now();
   const wait = Math.max(0, nextSlot - now);
-  nextSlot = Math.max(now, nextSlot) + MIN_INTERVAL_MS;
+  nextSlot = Math.max(now, nextSlot) + config.scryfallIntervalMs;
   if (wait) await new Promise((r) => setTimeout(r, wait));
 }
 
@@ -54,7 +53,8 @@ export interface ScryfallCard {
 }
 
 const BASIC_NAMES = new Set(["Plains", "Island", "Swamp", "Mountain", "Forest", "Wastes"]);
-export const isBasicLand = (name: string) => BASIC_NAMES.has(name) || /^Snow-Covered /.test(name);
+export const isBasicLand = (name: string) =>
+  BASIC_NAMES.has(name) || name.startsWith("Snow-Covered ");
 
 export function toCard(sc: ScryfallCard): Card {
   const faces = sc.card_faces ?? [];

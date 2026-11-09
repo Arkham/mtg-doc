@@ -2,8 +2,7 @@ import type { z } from "zod";
 import { config } from "./config.ts";
 
 export type ContentPart =
-  | { type: "text"; text: string }
-  | { type: "image"; url: string; detail?: "low" | "high" | "auto" };
+  { type: "text"; text: string } | { type: "image"; url: string; detail?: "low" | "high" | "auto" };
 
 export interface ChatMessage {
   role: "system" | "user" | "assistant";
@@ -30,7 +29,8 @@ export class LlmError extends Error {}
 /** Converts our provider-neutral messages to OpenAI Responses API input items. */
 export function toResponsesInput(messages: ChatMessage[]) {
   return messages.map((m) => {
-    const parts = typeof m.content === "string" ? [{ type: "text" as const, text: m.content }] : m.content;
+    const parts =
+      typeof m.content === "string" ? [{ type: "text" as const, text: m.content }] : m.content;
     return {
       role: m.role,
       content: parts.map((p) =>
@@ -42,7 +42,10 @@ export function toResponsesInput(messages: ChatMessage[]) {
   });
 }
 
-async function respond(body: Record<string, unknown>, timeoutMs = 300_000): Promise<ResponsesResult> {
+async function respond(
+  body: Record<string, unknown>,
+  timeoutMs = 300_000,
+): Promise<ResponsesResult> {
   if (!config.llm.apiKey) throw new LlmError("LLM_API_KEY is not configured");
   for (let attempt = 0; ; attempt++) {
     const res = await fetch(`${config.llm.baseUrl}/responses`, {

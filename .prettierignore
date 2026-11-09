@@ -1,2 +1,7 @@
 decks
 pnpm-lock.yaml
+test/fixtures
+test-results
+playwright-report
+site
+.shots

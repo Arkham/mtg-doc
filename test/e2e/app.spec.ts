@@ -1,0 +1,60 @@
+import fs from "node:fs";
+import path from "node:path";
+import { APP_URL, expect, test } from "./fixtures.ts";
+
+const deckText = fs.readFileSync(
+  path.resolve(import.meta.dirname, "../fixtures/decks/lathril-overpowered.txt"),
+  "utf8",
+);
+
+test.describe("local app", () => {
+  test("paste a list → review → optimize to bracket 3 → report", async ({ page }) => {
+    test.slow();
+    await page.goto(APP_URL);
+    await expect(page.getByRole("heading", { name: "Analyze a deck" })).toBeVisible();
+    await expect(page.getByRole("tab", { name: "Photo" })).toBeDisabled();
+
+    await page.locator("textarea.decklist").fill(deckText);
+    await page.getByRole("button", { name: "Analyze deck" }).click();
+
+    await expect(page.getByRole("heading", { name: "Check the cards" })).toBeVisible();
+    await expect(page.locator(".status-chip").first()).toHaveText("100 / 100 cards");
+    await expect(page.getByText("2 off-color")).toBeVisible();
+    await expect(page.locator(".commander-pick")).toContainText("Lathril, Blade of the Elves");
+
+    await page.getByRole("button", { name: /Needs attention/ }).click();
+    await expect(page.locator(".card-row")).toHaveCount(2);
+    await expect(page.locator(".card-row").first()).toContainText("Outside the commander’s colors");
+
+    await page.getByRole("button", { name: /^All/ }).click();
+    const row = page.locator(".card-row").filter({ has: page.locator('input[value="Sol Ring"]') });
+    await row.getByRole("button", { name: /Keep/ }).click();
+    await expect(row.locator(".lock")).toHaveAttribute("aria-pressed", "true");
+
+    await page.locator(".disclosure > summary").click();
+    await page.getByLabel("Target bracket").selectOption("3");
+    await page.getByLabel("Deck budget ($)").fill("300");
+    await expect(page.locator(".disclosure summary")).toContainText("deck ≤ $300");
+
+    await page.getByRole("button", { name: "Save & optimize" }).click();
+    await expect(page.getByRole("heading", { name: "Optimizing your deck" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Bracket 3: Upgraded" })).toBeVisible({
+      timeout: 180_000,
+    });
+    await expect(page.locator(".checks li.bad")).toHaveCount(0);
+    await expect(page.getByRole("button", { name: /Re-run with different options/ })).toBeVisible();
+
+    await page.getByRole("button", { name: "Back" }).click();
+    await expect(page.locator(".deck-card")).toContainText(["Lathril, Blade of the Elves"]);
+  });
+
+  test("text list with no commander shows a helpful prompt", async ({ page }) => {
+    await page.goto(APP_URL);
+    await page.locator("textarea.decklist").fill("1 Sol Ring\n1 Arcane Signet");
+    await page.getByRole("button", { name: "Analyze deck" }).click();
+    await page.getByRole("button", { name: "Other" }).click();
+    await page.getByRole("button", { name: "Commander" }).click();
+    await expect(page.getByText("Pick a commander to continue")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Save & optimize" })).toBeDisabled();
+  });
+});

@@ -550,9 +550,7 @@ export function Review({
                 />
                 <span>
                   Web research
-                  {!config?.webResearch && (
-                    <span className="muted small"> (needs an LLM)</span>
-                  )}
+                  {!config?.webResearch && <span className="muted small"> (needs an LLM)</span>}
                 </span>
               </label>
             </div>

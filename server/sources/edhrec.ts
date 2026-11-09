@@ -25,6 +25,7 @@ export const slugify = (name: string) =>
   name
     .split(" // ")[0]
     .toLowerCase()
+    .replace(/æ/g, "ae")
     .normalize("NFKD")
     .replace(/[^a-z0-9\s-]/g, "")
     .trim()
@@ -83,7 +84,7 @@ export async function getCommanderData(
     slugs.length > 1
       ? [[...slugs].sort().join("-"), slugs.join("-"), [...slugs].reverse().join("-")]
       : slugs;
-  for (const slug of [...new Set(candidates)]) {
+  for (const slug of new Set(candidates)) {
     const page = await fetchPage(slug, variant);
     if (!page?.container?.json_dict) continue;
     const cards = new Map<string, EdhrecCard>();

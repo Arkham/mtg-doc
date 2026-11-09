@@ -16,14 +16,16 @@ export function Progress({ jobId, onDone }: { jobId: string; onDone: () => void 
   const [job, setJob] = useState<Job | null>(null);
   const [error, setError] = useState<string | null>(null);
   const doneRef = useRef(onDone);
-  doneRef.current = onDone;
+  useEffect(() => {
+    doneRef.current = onDone;
+  }, [onDone]);
 
   useEffect(() => {
-    let stop = false;
+    const state = { stopped: false };
     const poll = async () => {
       try {
         const j = await api.job(jobId);
-        if (stop) return;
+        if (state.stopped) return;
         setJob(j);
         if (j.status === "done") return doneRef.current();
         if (j.status === "running") setTimeout(poll, 1000);
@@ -33,7 +35,7 @@ export function Progress({ jobId, onDone }: { jobId: string; onDone: () => void 
     };
     poll();
     return () => {
-      stop = true;
+      state.stopped = true;
     };
   }, [jobId]);
 

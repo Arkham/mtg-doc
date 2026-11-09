@@ -9,9 +9,17 @@
     "start": "NODE_ENV=production tsx server/index.ts",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
-    "test": "tsx --test server/*.test.ts",
+    "test": "tsx --test test/unit/*.test.ts test/integration/*.test.ts",
     "build:static": "tsx scripts/build-static.ts",
-    "preview:static": "vite preview --outDir site --port 4173 --host"
+    "preview:static": "vite preview --outDir site --port 4173 --host",
+    "test:unit": "tsx --test test/unit/*.test.ts",
+    "test:integration": "tsx --test test/integration/*.test.ts",
+    "test:e2e": "playwright test",
+    "test:record": "FIXTURES=record tsx --test --test-concurrency=1 test/unit/*.test.ts test/integration/*.test.ts && FIXTURES=record playwright test",
+    "test:coverage": "tsx --test --experimental-test-coverage --test-coverage-include=\"server/**\" test/unit/*.test.ts test/integration/*.test.ts",
+    "lint": "oxlint",
+    "format:check": "prettier --check .",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test"
   },
   "dependencies": {
     "express": "^5.3.0",
@@ -20,12 +28,14 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.0",
     "@types/express": "^5.0.6",
     "@types/multer": "^2.3.0",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.2.1",
+    "oxlint": "^1.91.0",
     "prettier": "^3.9.10",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",

@@ -11,6 +11,15 @@ import { config } from "./config.ts";
 import { formatDecklist } from "./decklist.ts";
 import { slugify } from "./sources/edhrec.ts";
 
+export class HttpError extends Error {
+  constructor(
+    readonly status: number,
+    message: string,
+  ) {
+    super(message);
+  }
+}
+
 export interface DeckMeta {
   slug: string;
   format: "commander" | "other";
@@ -22,7 +31,7 @@ export interface DeckMeta {
 }
 
 const deckDir = (slug: string) => {
-  if (!/^[a-z0-9-]+$/.test(slug)) throw new Error("Invalid deck slug");
+  if (!/^[a-z0-9-]+$/.test(slug)) throw new HttpError(400, "Invalid deck slug");
   return path.join(config.decksDir, slug);
 };
 

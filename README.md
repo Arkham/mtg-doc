@@ -115,12 +115,18 @@ Pick a target bracket (or keep the current one) and how hard to push: **Max**, *
 `.github/workflows/pages.yml` runs the tests, builds the static site and deploys it on every push
 to `main`. Enable it once in the repo under **Settings → Pages → Source: GitHub Actions**.
 
-## Scripts
+## Development
 
 ```bash
-pnpm dev         # server + Vite with HMR
+pnpm dev            # server + Vite with HMR
+pnpm check          # format check, lint (oxlint), typecheck, unit + integration tests
+pnpm test:e2e       # Playwright: local app flow + static site on desktop, iPhone and iPad (WebKit)
+pnpm test:coverage  # tests with a coverage report for server/
+pnpm test:record    # re-record the HTTP fixtures against the live APIs
 pnpm build && pnpm start
-pnpm test        # unit tests for parsing, mana math and the simulator
-pnpm typecheck
-pnpm format
 ```
+
+Tests never touch the network: Scryfall, EDHREC and Commander Spellbook responses are recorded once
+into `test/fixtures/http` and replayed, and LLM calls go to a local Responses API stub. CI runs
+everything above on every push and pull request. See [AGENTS.md](AGENTS.md) for the development
+practices this project follows.

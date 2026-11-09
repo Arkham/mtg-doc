@@ -5,3 +5,5 @@ site
 .DS_Store
 decks/*/uploads
 .shots
+test-results
+playwright-report

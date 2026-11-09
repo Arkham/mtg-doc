@@ -15,5 +15,13 @@
     "noEmit": true,
     "types": ["node"]
   },
-  "include": ["server", "shared", "src", "scripts", "vite.config.ts"]
+  "include": [
+    "server",
+    "shared",
+    "src",
+    "scripts",
+    "test",
+    "vite.config.ts",
+    "playwright.config.ts"
+  ]
 }
