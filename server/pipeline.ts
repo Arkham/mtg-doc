@@ -398,6 +398,11 @@ async function run(job: Job) {
     return { finalDeck, swaps, after, assessAfter };
   });
 
+  // Combos shown in the report must match the final deck, not the starting one.
+  const finalCombos = isCommander
+    ? await findCombos(commanderNames, legalMain(finalDeck), identity).catch(() => combos)
+    : combos;
+
   await step(job, 8, async () => {
     const bracket: BracketReport | undefined = isCommander
       ? {
@@ -427,8 +432,8 @@ async function run(job: Job) {
       manaNotes: plan.manaNotes,
       before,
       after,
-      combosPresent: combos.present,
-      combosOneAway: combos.oneAway.slice(0, 20),
+      combosPresent: finalCombos.present,
+      combosOneAway: finalCombos.oneAway.slice(0, 20),
       research,
       edhrec: edhAll
         ? {

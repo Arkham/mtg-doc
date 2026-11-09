@@ -1457,6 +1457,81 @@ button.hero-card:active:not(:disabled) {
   text-decoration: line-through;
 }
 
+.deck-images section + section {
+  margin-top: 6px;
+}
+.deck-images h3 {
+  margin: 14px 0 8px;
+}
+.deck-images ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.deck-image button {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  min-height: 0;
+  border-radius: 4.75% / 3.5%;
+}
+.deck-image button:hover:not(:disabled),
+.deck-image button:active:not(:disabled) {
+  border: none;
+  transform: none;
+}
+.deck-image img,
+.deck-image-missing {
+  display: block;
+  width: 100%;
+  aspect-ratio: 488 / 680;
+  border-radius: 4.75% / 3.5%;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  background: var(--raised);
+}
+.deck-image-missing {
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  font-size: 0.8rem;
+  color: var(--text-2);
+}
+.deck-image.cut img {
+  filter: grayscale(1) brightness(0.55);
+}
+.deck-image-qty {
+  position: absolute;
+  right: 6px;
+  bottom: 8%;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(10, 12, 18, 0.85);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+/* Below the title bar so it never covers the card name; solid so it reads on any frame. */
+.deck-image .deck-image-badge {
+  position: absolute;
+  left: 6px;
+  top: 13%;
+  background: var(--ok);
+  color: #0a0c12;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+}
+@media (max-width: 640px) {
+  .deck-images ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+}
+
 .color-bars {
   display: flex;
   flex-direction: column;

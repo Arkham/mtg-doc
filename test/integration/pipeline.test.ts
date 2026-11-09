@@ -55,6 +55,15 @@ describe("full optimizer pipeline (recorded APIs, no LLM)", () => {
     assert.ok(report.swaps.some((s) => s.alternatives && s.alternatives.length > 0));
     assert.equal(report.model, null);
 
+    // Combos describe the final deck: nothing "one card away" is already in it.
+    const finalNames = new Set(report.decklist!.map((c) => c.name));
+    assert.ok(report.combosOneAway.every((c) => !finalNames.has(c.missing[0])));
+    assert.ok(
+      report.combosPresent.every((c) =>
+        c.cards.every((n) => finalNames.has(n) || report.commanders.includes(n)),
+      ),
+    );
+
     // Every card the report mentions has preview data.
     const index = report.cardIndex!;
     const mentioned = [

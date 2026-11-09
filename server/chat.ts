@@ -28,7 +28,7 @@ import { loadDeck, snapshot, twoCardCombos } from "./pipeline.ts";
 import { buildCardIndex } from "./card-index.ts";
 import { renderMarkdown } from "./report.ts";
 import { lookupExact, lookupFuzzy } from "./sources/scryfall.ts";
-import { estimateBracket } from "./sources/spellbook.ts";
+import { estimateBracket, findCombos } from "./sources/spellbook.ts";
 import { HttpError, readMeta, readReport, writeResults } from "./storage.ts";
 
 const HISTORY_FILE = "chat.json";
@@ -290,7 +290,10 @@ export async function applyChatChanges(
   const legalMain = next.slots
     .filter((s) => s.card.colorIdentity.every((c) => identity.includes(c)))
     .map((s) => s.card.name);
-  const est = await estimateBracket(commanders, legalMain).catch(() => null);
+  const [est, combos] = await Promise.all([
+    estimateBracket(commanders, legalMain).catch(() => null),
+    findCombos(commanders, legalMain, identity).catch(() => null),
+  ]);
   const after = snapshot(
     next,
     report.edhrec?.avgLands ?? null,
@@ -300,6 +303,10 @@ export async function applyChatChanges(
   const updated: Report = {
     ...report,
     after,
+    // Edits can complete or break combos, so the lists are recomputed from the new deck.
+    ...(combos
+      ? { combosPresent: combos.present, combosOneAway: combos.oneAway.slice(0, 20) }
+      : {}),
     decklist: toDecklist(next, initial),
     bracket: report.bracket
       ? { ...report.bracket, after: assessBracket(next, est, after.sim, report.bracket.target) }

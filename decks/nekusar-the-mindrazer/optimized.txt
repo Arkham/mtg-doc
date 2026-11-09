@@ -21,10 +21,10 @@ Deck
 1 Evolving Wilds
 1 Fate Unraveler
 1 Fevered Visions
-1 Fog Bank
 1 Frozen Aether
 1 Grixis Charm
 1 Grixis Panorama
+1 Helm of the Ghastlord
 1 Incendiary Command
 8 Island
 1 Izzet Boilerworks

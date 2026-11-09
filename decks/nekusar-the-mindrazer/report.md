@@ -10,13 +10,14 @@ Build a resilient draw-punishment board, then turn symmetrical draw effects and 
 
 ## Bracket 3: Upgraded
 
-Tone: balanced. Before: bracket 3 (power 31). After: bracket 3 (power 40, low Upgraded). Expect at least 6 turns.
+Tone: balanced. Before: bracket 3 (power 31). After: bracket 3 (power 48, mid Upgraded). Expect at least 6 turns.
 
 - ✅ **Game Changers:** 3 of 3 allowed
 - ✅ **Mass land denial:** none
 - ✅ **Extra turns:** none
 - ✅ **Two-card combos:** only late-game ones
 - Game Changers: Cyclonic Rift, Orcish Bowmasters, Rhystic Study
+- Combo: Niv-Mizzet, the Firemind + Helm of the Ghastlord (0.2% assembled before turn 6)
 
 Skipped to stay in the bracket:
 - Kefka, Court Mage // Kefka, Ruler of Ruin: completes Kefka, Court Mage // Kefka, Ruler of Ruin + Psychosis Crawler, a two-card combo bracket 3 doesn't allow
@@ -26,7 +27,7 @@ Skipped to stay in the bracket:
 | | Before | After |
 |---|---|---|
 | Lands | 36 | 36 (recommended 36) |
-| Avg mana value | 3.62 | 2.98 |
+| Avg mana value | 3.62 | 3.02 |
 | Ramp | 7 | 10 |
 | Tapped lands | 10 | 10 |
 | U sources (target 21) | 18 | 18 |
@@ -50,14 +51,14 @@ Skipped to stay in the bracket:
 
 | | Before | After |
 |---|---|---|
-| Mulligan rate | 20.7% | 21.5% |
-| Land drop on turn 2 | 99.7% | 99.6% |
-| Land drop on turn 3 | 89.7% | 89.4% |
-| Land drop on turn 4 | 72.8% | 72.7% |
-| Land drop on turn 5 | 54.2% | 52.7% |
-| Commander on curve | 55.4% | 64.6% |
-| All colors by turn 3 | 80.6% | 83.9% |
-| Mana on turn 4 | 4.29 | 4.58 |
+| Mulligan rate | 20.7% | 21.1% |
+| Land drop on turn 2 | 99.7% | 99.8% |
+| Land drop on turn 3 | 89.7% | 89.1% |
+| Land drop on turn 4 | 72.8% | 71.7% |
+| Land drop on turn 5 | 54.2% | 52.5% |
+| Commander on curve | 55.4% | 64.1% |
+| All colors by turn 3 | 80.6% | 84.1% |
+| Mana on turn 4 | 4.29 | 4.56 |
 | Screw (<3 lands T4) | 6.5% | 6.7% |
 | Flood (10+ lands seen by T7) | 0.4% | 0.3% |
 
@@ -67,7 +68,7 @@ Skipped to stay in the bracket:
 |---|---|---|---|
 | land | 36 | 36 |  |
 | ramp | 7 | 10 | 10 |
-| draw | 28 | 32 | 10 |
+| draw | 28 | 33 | 10 |
 | removal | 6 | 9 | 8 |
 | wipe | 2 | 2 | 2 |
 | counter | 1 | 1 | 0 |
@@ -75,7 +76,7 @@ Skipped to stay in the bracket:
 | protection | 1 | 2 | 3 |
 | recursion | 1 | 1 | 2 |
 | wincon | 1 | 1 |  |
-| other | 23 | 14 |  |
+| other | 23 | 13 |  |
 
 ## Combos in the deck
 
@@ -84,15 +85,15 @@ Skipped to stay in the bracket:
 ## Combos one card away
 
 - add **Hullbreaker Horror** → [Hullbreaker Horror + Sol Ring](https://commanderspellbook.com/combo/513-5034--46/): Infinite colorless mana, Infinite storm count
+- add **Peer into the Abyss** → [Orcish Bowmasters + Peer into the Abyss](https://commanderspellbook.com/combo/1561-3862/): Infinite +1/+1 counters on a creature, Near-infinite card draw for target opponent, Near-infinite damage, Near-infinite draw triggers for target opponent, Target opponent loses the game
 - add **Tidespout Tyrant** → [Tidespout Tyrant + Sol Ring](https://commanderspellbook.com/combo/542-5034/): Infinite colorless mana, Infinite storm count
 - add **Peer into the Abyss** → [Peer into the Abyss + Underworld Dreams](https://commanderspellbook.com/combo/1561-2720/): Target opponent loses the game
 - add **Peer into the Abyss** → [Psychosis Crawler + Peer into the Abyss](https://commanderspellbook.com/combo/1561-2384/): Near-infinite lifeloss, Near-infinite card draw, Near-infinite draw triggers
 - add **Curiosity** → [Niv-Mizzet, the Firemind + Curiosity](https://commanderspellbook.com/combo/1089-4971/): Infinite card draw, Infinite draw triggers, Near-infinite damage
 - add **Niv-Mizzet, Visionary** → [Niv-Mizzet, the Firemind + Niv-Mizzet, Visionary](https://commanderspellbook.com/combo/4971-6092/): Near-infinite damage, Infinite card draw, Infinite draw triggers
+- add **Peer into the Abyss** → [Razorkin Needlehead + Peer into the Abyss](https://commanderspellbook.com/combo/1561-5919/): Near-infinite damage to one opponent, Near-infinite draw triggers for target opponent, Near-infinite card draw for target opponent, Near-infinite lifeloss for target opponent
 - add **Peer into the Abyss** → [Nekusar, the Mindrazer + Peer into the Abyss](https://commanderspellbook.com/combo/1561-1972/): Near-infinite card draw for target opponent, Near-infinite damage to one opponent, Near-infinite draw triggers for target opponent, Target opponent loses the game
-- add **Kefka, Court Mage // Kefka, Ruler of Ruin** → [Kefka, Court Mage // Kefka, Ruler of Ruin + Psychosis Crawler](https://commanderspellbook.com/combo/2384-6574/): Infinite card draw, Near-infinite lifeloss, Infinite draw triggers
-- add **Ophidian Eye** → [Niv-Mizzet, the Firemind + Ophidian Eye](https://commanderspellbook.com/combo/2396-4971/): Infinite card draw, Infinite draw triggers, Near-infinite damage
-- add **Tandem Lookout** → [Niv-Mizzet, the Firemind + Tandem Lookout](https://commanderspellbook.com/combo/406-4971/): Infinite card draw, Infinite draw triggers, Near-infinite damage
+- add **Peer into the Abyss** → [Ob Nixilis, the Hate-Twisted + Peer into the Abyss](https://commanderspellbook.com/combo/1561-5165/): Target player loses the game
 
 ## Swaps
 
@@ -117,6 +118,7 @@ Skipped to stay in the bracket:
 ## Changes from chat
 
 - 2026-11-09 “can we just add both?”: −Venser's Journal, −Viseling, +Ob Nixilis, the Hate-Twisted, +Ob Nixilis, Captive Kingpin
+- 2026-11-09 “please add back "Helm of the Ghastlord"”: −Fog Bank, +Helm of the Ghastlord
 
 ## Web research
 
@@ -180,6 +182,6 @@ Commander Spellbook documents these Nekusar-specific lines and their prerequisit
 - [Nekusar, the Mindrazer | Commander Makeover | EDHREC](https://edhrec.com/articles/nekusar-the-mindrazer-commander-makeover)
 - [Nekusar, the Mindrazer (Commander) on EDH.Wiki](https://edh.wiki/commanders/nekusar-the-mindrazer/)
 
-Totals: 100 → 100 cards, $247.82 → $327.17
+Totals: 100 → 100 cards, $247.82 → $334.66
 
 EDHREC: https://edhrec.com/commanders/nekusar-the-mindrazer/upgraded

@@ -11,9 +11,10 @@ import { optimizeFixtureDeck } from "../support/sample.ts";
 let base = "";
 let close: () => void;
 let slug = "";
+let optimized: Report;
 
 before(async () => {
-  ({ slug } = await optimizeFixtureDeck("lathril.txt", {
+  ({ slug, report: optimized } = await optimizeFixtureDeck("lathril.txt", {
     bracket: 3,
     tone: "balanced",
     maxSwaps: 6,
@@ -66,6 +67,28 @@ describe("deck chat without an LLM", () => {
     assert.equal((await apply(reply.id)).status, 409, "can't apply twice");
   });
 
+  test("applying edits recomputes combos", async () => {
+    // Add the missing piece of a combo the deck is one card away from.
+    const piece = optimized.combosOneAway[0].missing[0];
+    const reply = await say(`swap Forest for ${piece}`);
+    assert.deepEqual(
+      reply.changes!.map((c) => [c.action, c.name, c.ok]),
+      [
+        ["remove", "Forest", true],
+        ["add", piece, true],
+      ],
+    );
+    const res = await apply(reply.id);
+    assert.equal(res.status, 200);
+    const { report } = (await res.json()) as { report: Report };
+    assert.ok(
+      report.combosPresent.some((c) => c.cards.includes(piece)),
+      `${piece} now completes a combo in the deck`,
+    );
+    assert.ok(!report.combosOneAway.some((c) => c.missing[0] === piece), "no longer one card away");
+    assert.ok(report.cardIndex![piece]?.image, "new combo cards have previews");
+  });
+
   test("invalid changes are rejected with a reason", async () => {
     const reply = await say(
       "add Counterspell; remove Definitely Not A Card; add Lathril, Blade of the Elves",
@@ -87,7 +110,7 @@ describe("deck chat without an LLM", () => {
     const history = (await (
       await fetch(`${base}/api/decks/${slug}/chat`)
     ).json()) as DeckChatMessage[];
-    assert.equal(history.length, 6);
+    assert.equal(history.length, 8);
     assert.equal(history[1].applied, true);
   });
 

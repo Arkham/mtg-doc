@@ -1434,12 +1434,12 @@
       "landCount": 36,
       "mdfcLands": 0,
       "recommendedLands": 36,
-      "avgCmc": 2.98,
+      "avgCmc": 3.02,
       "curve": {
         "1": 7,
-        "2": 19,
+        "2": 18,
         "3": 17,
-        "4": 12,
+        "4": 13,
         "5": 6,
         "6": 1,
         "7+": 1
@@ -1447,8 +1447,8 @@
       "colors": [
         {
           "color": "U",
-          "pips": 31,
-          "pipShare": 0.344,
+          "pips": 30.5,
+          "pipShare": 0.339,
           "landSources": 18,
           "rampSources": 4,
           "targetSources": 21,
@@ -1460,8 +1460,8 @@
         },
         {
           "color": "B",
-          "pips": 26,
-          "pipShare": 0.289,
+          "pips": 26.5,
+          "pipShare": 0.294,
           "landSources": 19,
           "rampSources": 4,
           "targetSources": 21,
@@ -1517,33 +1517,50 @@
     },
     "sim": {
       "games": 10000,
-      "mulliganRate": 21.5,
+      "mulliganRate": 21.1,
       "landDropByTurn": {
         "1": 99.9,
-        "2": 99.6,
-        "3": 89.4,
-        "4": 72.7,
-        "5": 52.7,
-        "6": 35.8,
-        "7": 22.7,
-        "8": 13.3
+        "2": 99.8,
+        "3": 89.1,
+        "4": 71.7,
+        "5": 52.5,
+        "6": 35.3,
+        "7": 22.2,
+        "8": 12.5
       },
-      "commanderOnCurve": 64.6,
+      "commanderOnCurve": 64.1,
       "commanderByTurn": {
         "1": 0,
         "2": 0,
-        "3": 3.7,
-        "4": 32.1,
-        "5": 64.6,
-        "6": 81.5,
-        "7": 87.6,
-        "8": 92.3
+        "3": 3,
+        "4": 31.3,
+        "5": 64.1,
+        "6": 80.8,
+        "7": 87.5,
+        "8": 92.1
       },
-      "allColorsByTurn3": 83.9,
-      "avgManaTurn4": 4.58,
+      "allColorsByTurn3": 84.1,
+      "avgManaTurn4": 4.56,
       "screwRate": 6.7,
       "floodRate": 0.3,
-      "combos": []
+      "combos": [
+        {
+          "cards": [
+            "Niv-Mizzet, the Firemind",
+            "Helm of the Ghastlord"
+          ],
+          "byTurn": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0.2,
+            "6": 0.5,
+            "7": 0.9,
+            "8": 1.2
+          }
+        }
+      ]
     },
     "roles": [
       {
@@ -1558,7 +1575,7 @@
       },
       {
         "role": "draw",
-        "count": 32,
+        "count": 33,
         "target": 10
       },
       {
@@ -1598,12 +1615,12 @@
       },
       {
         "role": "other",
-        "count": 14,
+        "count": 13,
         "target": null
       }
     ],
     "totalCards": 100,
-    "totalPriceUsd": 327.17
+    "totalPriceUsd": 334.66
   },
   "combosPresent": [
     {
@@ -1641,6 +1658,27 @@
       "bracketTag": "E",
       "url": "https://commanderspellbook.com/combo/513-5034--46/",
       "popularity": 367460
+    },
+    {
+      "id": "1561-3862",
+      "cards": [
+        "Orcish Bowmasters",
+        "Peer into the Abyss"
+      ],
+      "missing": [
+        "Peer into the Abyss"
+      ],
+      "produces": [
+        "Infinite +1/+1 counters on a creature",
+        "Near-infinite card draw for target opponent",
+        "Near-infinite damage",
+        "Near-infinite draw triggers for target opponent",
+        "Target opponent loses the game"
+      ],
+      "description": "Cast Peer into the Abyss by paying {4}{B}{B}{B}, targeting an opponent whose library size is larger than or equal to their life total.\nResolve Peer into the Abyss, causing that opponent to draw cards equal to half their library size and causing them to lose half their life total, rounded up.\nOrcish Bowmasters triggers for each card drawn, dealing 1 damage to the opponent for each card drawn this way and putting that many +1/+1 counters on an Army you control.\nThe opponent loses the game due to having zero or less life.\n",
+      "bracketTag": "P",
+      "url": "https://commanderspellbook.com/combo/1561-3862/",
+      "popularity": 46850
     },
     {
       "id": "542-5034",
@@ -1735,6 +1773,26 @@
       "popularity": 23256
     },
     {
+      "id": "1561-5919",
+      "cards": [
+        "Razorkin Needlehead",
+        "Peer into the Abyss"
+      ],
+      "missing": [
+        "Peer into the Abyss"
+      ],
+      "produces": [
+        "Near-infinite damage to one opponent",
+        "Near-infinite draw triggers for target opponent",
+        "Near-infinite card draw for target opponent",
+        "Near-infinite lifeloss for target opponent"
+      ],
+      "description": "Cast Peer into the Abyss by paying {4}{B}{B}{B}, causing an opponent to draw cards equal to half their library and causing them to lose half their life total, rounded up.\nRazorkin Needlehead triggers for each card drawn this way.\nResolve the first trigger, dealing 1 damage to the opponent.\nIf the opponent has 0 or less life, the opponent loses the game due to having zero or less life.\nRepeat from step 3 for each remaining trigger and/or until the opponent loses the game.",
+      "bracketTag": "P",
+      "url": "https://commanderspellbook.com/combo/1561-5919/",
+      "popularity": 18121
+    },
+    {
       "id": "1561-1972",
       "cards": [
         "Nekusar, the Mindrazer",
@@ -1755,6 +1813,23 @@
       "popularity": 18106
     },
     {
+      "id": "1561-5165",
+      "cards": [
+        "Ob Nixilis, the Hate-Twisted",
+        "Peer into the Abyss"
+      ],
+      "missing": [
+        "Peer into the Abyss"
+      ],
+      "produces": [
+        "Target player loses the game"
+      ],
+      "description": "With Ob Nixilis, the Hate-Twisted on the battlefield, cast Peer into the Abyss targeting an opponent.\nPeer into the Abyss would resolve (with card draw and life loss rounded up in instances of odd number of cards or life), and then the static ability on Ob Nixilis, the Hate-Twisted dealing damage for each card drawn.",
+      "bracketTag": "O",
+      "url": "https://commanderspellbook.com/combo/1561-5165/",
+      "popularity": 17064
+    },
+    {
       "id": "2384-6574",
       "cards": [
         "Kefka, Court Mage // Kefka, Ruler of Ruin",
@@ -1772,6 +1847,25 @@
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/2384-6574/",
       "popularity": 15165
+    },
+    {
+      "id": "790-2384-5042-6833",
+      "cards": [
+        "Psychosis Crawler",
+        "Scrawling Crawler",
+        "Windfall",
+        "Teferi's Ageless Insight"
+      ],
+      "missing": [
+        "Teferi's Ageless Insight"
+      ],
+      "produces": [
+        "Near-infinite lifeloss"
+      ],
+      "description": "Cast Windfall by paying {2}{U}, causing each player to discard their hand and each opponent to draw cards equal to the greatest number of cards discarded this way, and you to draw twice that number due to Teferi's Ageless Insight.\nPsychosis Crawler triggers for each card you draw, and Scrawling Crawler triggers for each card opponents draw.\nResolve the Psychosis Crawler triggers, causing each opponent to lose 1 life for each card you drew.\nResolve the Scrawling Crawler triggers, causing each opponent to lose 1 life for each card they drew.",
+      "bracketTag": "E",
+      "url": "https://commanderspellbook.com/combo/790-2384-5042-6833/",
+      "popularity": 14061
     },
     {
       "id": "2396-4971",
@@ -1831,6 +1925,81 @@
       "popularity": 9700
     },
     {
+      "id": "2390-4166",
+      "cards": [
+        "Ob Nixilis, Captive Kingpin",
+        "All Will Be One"
+      ],
+      "missing": [
+        "All Will Be One"
+      ],
+      "produces": [
+        "Exile your library",
+        "Infinite +1/+1 counters on a creature",
+        "Infinite damage"
+      ],
+      "description": "Cause an opponent to lose 1 life.\nOb Nixilis triggers, putting a +1/+1 counter on itself and exiling the top card of your library.\nAll Will Be One triggers, dealing 1 damage to an opponent.\nRepeat from step 2.",
+      "bracketTag": "S",
+      "url": "https://commanderspellbook.com/combo/2390-4166/",
+      "popularity": 8948
+    },
+    {
+      "id": "1177-2286",
+      "cards": [
+        "Narset, Parter of Veils",
+        "Teferi's Puzzle Box"
+      ],
+      "missing": [
+        "Narset, Parter of Veils"
+      ],
+      "produces": [
+        "Each opponent shuffles their hand into their library during their draw step",
+        "Opponents can't draw cards during their turn",
+        "Lock"
+      ],
+      "description": "During your opponent's draw step, they draw a card, and Teferi's Puzzle Box triggers.\nResolve the Teferi's Puzzle Box trigger, causing the opponent to put the cards in their hand onto the bottom of their library and draw no cards due to Narset.",
+      "bracketTag": "S",
+      "url": "https://commanderspellbook.com/combo/1177-2286/",
+      "popularity": 8434
+    },
+    {
+      "id": "2286-3221",
+      "cards": [
+        "Notion Thief",
+        "Teferi's Puzzle Box"
+      ],
+      "missing": [
+        "Notion Thief"
+      ],
+      "produces": [
+        "Opponents put all cards in hand on the bottom of their library on each of their draw steps",
+        "Lock"
+      ],
+      "description": "At the beginning of your opponent's draw step, after they draw their card, Teferi's Puzzle Box triggers, causing them to put the cards in their hand on the bottom of their library, then attempt to draw that many cards.\nNotion Thief's replacement effect causes you to draw that many cards instead.\nRepeat on each opponent's draw step.",
+      "bracketTag": "S",
+      "url": "https://commanderspellbook.com/combo/2286-3221/",
+      "popularity": 6060
+    },
+    {
+      "id": "790-2384-4435-6833",
+      "cards": [
+        "Psychosis Crawler",
+        "Scrawling Crawler",
+        "Windfall",
+        "Alhammarret's Archive"
+      ],
+      "missing": [
+        "Alhammarret's Archive"
+      ],
+      "produces": [
+        "Near-infinite lifeloss"
+      ],
+      "description": "Cast Windfall by paying {2}{U}, causing each player to discard their hand and each opponent to draw cards equal to the greatest number of cards discarded this way, and you to draw twice that number due to Alhammarret's Archive.\nPsychosis Crawler triggers for each card you draw, and Scrawling Crawler triggers for each card opponents draw.\nResolve the Psychosis Crawler triggers, causing each opponent to lose 1 life for each card you drew.\nResolve the Scrawling Crawler triggers, causing each opponent to lose 1 life for each card they drew.",
+      "bracketTag": "E",
+      "url": "https://commanderspellbook.com/combo/790-2384-4435-6833/",
+      "popularity": 5441
+    },
+    {
       "id": "700-4971",
       "cards": [
         "Niv-Mizzet, the Firemind",
@@ -1847,154 +2016,6 @@
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/700-4971/",
       "popularity": 5188
-    },
-    {
-      "id": "790-1972-4651",
-      "cards": [
-        "Windfall",
-        "Nekusar, the Mindrazer",
-        "Phyresis"
-      ],
-      "missing": [
-        "Phyresis"
-      ],
-      "produces": [
-        "Each opponent loses the game"
-      ],
-      "description": "Cast Windfall by paying {2}{U}, causing each player to discard their hand and then draw a number of cards equal to the greatest number of cards a player discarded this way.\nNekusar triggers for each card drawn this way, giving each opponent a poison counter for each card they drew.\nEach opponent loses the game due to having ten or more poison counters",
-      "bracketTag": "E",
-      "url": "https://commanderspellbook.com/combo/790-1972-4651/",
-      "popularity": 5161
-    },
-    {
-      "id": "4971-6574",
-      "cards": [
-        "Niv-Mizzet, the Firemind",
-        "Kefka, Court Mage // Kefka, Ruler of Ruin"
-      ],
-      "missing": [
-        "Kefka, Court Mage // Kefka, Ruler of Ruin"
-      ],
-      "produces": [
-        "Near-infinite damage",
-        "Infinite card draw",
-        "Infinite draw triggers"
-      ],
-      "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to an opponent.\nKefka triggers, causing you to draw a card.\nRepeat from step 2.",
-      "bracketTag": "R",
-      "url": "https://commanderspellbook.com/combo/4971-6574/",
-      "popularity": 4397
-    },
-    {
-      "id": "790-2152-4651",
-      "cards": [
-        "Windfall",
-        "Fate Unraveler",
-        "Phyresis"
-      ],
-      "missing": [
-        "Phyresis"
-      ],
-      "produces": [
-        "Each opponent loses the game"
-      ],
-      "description": "Cast Windfall by paying {2}{U}, causing each player to discard their hand and then draw a number of cards equal to the greatest number of cards a player discarded this way.\nFate Unraveler triggers for each card drawn this way, giving each opponent a poison counter for each card they drew.\nEach opponent loses the game due to having ten or more poison counters",
-      "bracketTag": "E",
-      "url": "https://commanderspellbook.com/combo/790-2152-4651/",
-      "popularity": 3899
-    },
-    {
-      "id": "5941-6790",
-      "cards": [
-        "Pyromancer's Goggles",
-        "Wild Ricochet"
-      ],
-      "missing": [
-        "Pyromancer's Goggles"
-      ],
-      "produces": [
-        "Infinite magecraft triggers"
-      ],
-      "description": "Cast any instant or sorcery by paying its mana cost.\nHolding priority, activate Pyromancer's Goggles by tapping it, adding {R}.\nCast Wild Ricochet by paying its mana cost, targeting the instant or sorcery cast in step 1.\nPyromancer's Goggles triggers, copying Wild Ricochet, with the copy targeting the original Wild Ricochet.\nResolve the copy of Wild Ricochet, creating a copy of Wild Ricochet targeting the original Wild Ricochet.\nRepeat step 5.",
-      "bracketTag": "E",
-      "url": "https://commanderspellbook.com/combo/5941-6790/",
-      "popularity": 3073
-    },
-    {
-      "id": "4067-4857",
-      "cards": [
-        "Mind Over Matter",
-        "Temple Bell"
-      ],
-      "missing": [
-        "Mind Over Matter"
-      ],
-      "produces": [
-        "Infinite looting",
-        "Infinite self-discard triggers",
-        "Infinite draw triggers",
-        "Near-infinite card draw for each opponent",
-        "Near-infinite draw triggers for each opponent"
-      ],
-      "description": "Activate Temple Bell by tapping it, causing each player to draw a card.\nActivate Mind Over Matter by discarding a card, untapping Temple Bell.\nRepeat.",
-      "bracketTag": "R",
-      "url": "https://commanderspellbook.com/combo/4067-4857/",
-      "popularity": 2933
-    },
-    {
-      "id": "3141-4067",
-      "cards": [
-        "Jace's Archivist",
-        "Mind Over Matter"
-      ],
-      "missing": [
-        "Mind Over Matter"
-      ],
-      "produces": [
-        "Infinite draw triggers for all players",
-        "Infinite rummaging for all players",
-        "Infinite self-discard triggers for all players",
-        "Near-infinite mana permanents you control can produce"
-      ],
-      "description": "Activate any mana-producing permanent you control by tapping it, adding {U}.\nActivate Jace's Archivist by paying {U} and tapping it, causing each player to discard their hand and draw cards equal to the greatest number of cards discarded this way.\nActivate Mind over Matter twice by discarding two cards, untapping Jace's Archivist and the mana-producing permanent.\nRepeat.",
-      "bracketTag": "S",
-      "url": "https://commanderspellbook.com/combo/3141-4067/",
-      "popularity": 2540
-    },
-    {
-      "id": "11-5941",
-      "cards": [
-        "Narset's Reversal",
-        "Wild Ricochet"
-      ],
-      "missing": [
-        "Narset's Reversal"
-      ],
-      "produces": [
-        "Infinite magecraft triggers"
-      ],
-      "description": "Cast any instant or sorcery by paying its mana cost.\nHolding priority, cast Wild Ricochet by paying its mana cost, targeting the instant or sorcery cast in step 1.\nCast Narset's Reversal by paying {U}{U}, copying Wild Ricochet targeting the spell cast in step 1 and returning the original Wild Ricochet to your hand.\nCast Wild Ricochet by paying its mana cost, copying the copy of Wild Ricochet, targeting the copy of Wild Ricochet.\nResolve the copy of Wild Ricochet, creating a copy of Wild Ricochet targeting the copy of Wild Ricochet.\nRepeat step 5.",
-      "bracketTag": "E",
-      "url": "https://commanderspellbook.com/combo/11-5941/",
-      "popularity": 2460
-    },
-    {
-      "id": "790-1218-1972",
-      "cards": [
-        "Windfall",
-        "Tainted Strike",
-        "Nekusar, the Mindrazer"
-      ],
-      "missing": [
-        "Tainted Strike"
-      ],
-      "produces": [
-        "Each opponent loses the game"
-      ],
-      "description": "Cast Tainted Strike by paying {B}, giving Nekusar infect until end of turn.\nCast Windfall by paying {2}{U}, causing each player to discard their hand and then draw a number of cards equal to the greatest number of cards a player discarded this way.\nNekusar triggers for each card drawn this way, giving each opponent a poison counter for each card they drew.\nEach opponent loses the game due to having ten or more poison counters",
-      "bracketTag": "E",
-      "url": "https://commanderspellbook.com/combo/790-1218-1972/",
-      "popularity": 2105
     }
   ],
   "research": {
@@ -2172,7 +2193,7 @@
     },
     "after": {
       "bracket": 3,
-      "spellbookTag": "P",
+      "spellbookTag": "S",
       "gameChangers": [
         "Cyclonic Rift",
         "Orcish Bowmasters",
@@ -2180,9 +2201,25 @@
       ],
       "massLandDenial": [],
       "extraTurns": [],
-      "combos": [],
-      "power": 40,
-      "position": "low",
+      "combos": [
+        {
+          "cards": [
+            "Niv-Mizzet, the Firemind",
+            "Helm of the Ghastlord"
+          ],
+          "produces": [
+            "Infinite card draw",
+            "Infinite draw triggers",
+            "Near-infinite damage"
+          ],
+          "twoCard": true,
+          "tag": "S",
+          "earlyPct": 0.2,
+          "url": "https://commanderspellbook.com/combo/384-4971/"
+        }
+      ],
+      "power": 48,
+      "position": "mid",
       "checks": [
         {
           "label": "Game Changers",
@@ -2498,18 +2535,6 @@
       "delta": 1
     },
     {
-      "name": "Fog Bank",
-      "manaCost": "{1}{U}",
-      "qty": 1,
-      "group": "Creature",
-      "cmc": 2,
-      "image": "https://cards.scryfall.io/normal/front/1/8/18748b1d-4161-482c-a726-8762b4c1819c.jpg?1783908934",
-      "scryfallUri": "https://scryfall.com/card/fdn/591/fog-bank?utm_source=api",
-      "priceUsd": 0.14,
-      "isNew": false,
-      "delta": 0
-    },
-    {
       "name": "Frozen Aether",
       "manaCost": "{3}{U}",
       "qty": 1,
@@ -2796,6 +2821,30 @@
       "priceUsd": 0.2,
       "isNew": false,
       "delta": 0
+    },
+    {
+      "name": "Ob Nixilis, Captive Kingpin",
+      "manaCost": "{2}{B}{R}",
+      "qty": 1,
+      "group": "Creature",
+      "cmc": 4,
+      "image": "https://cards.scryfall.io/normal/front/d/d/ddb68233-3683-41bd-9b6e-4f07a1b54244.jpg?1783916511",
+      "scryfallUri": "https://scryfall.com/card/mat/41/ob-nixilis-captive-kingpin?utm_source=api",
+      "priceUsd": 15.34,
+      "isNew": true,
+      "delta": 1
+    },
+    {
+      "name": "Ob Nixilis, the Hate-Twisted",
+      "manaCost": "{3}{B}{B}",
+      "qty": 1,
+      "group": "Planeswalker",
+      "cmc": 5,
+      "image": "https://cards.scryfall.io/normal/front/1/4/14916e2d-73af-4747-a927-d2d4cb3e32db.jpg?1783933441",
+      "scryfallUri": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api",
+      "priceUsd": 0.56,
+      "isNew": true,
+      "delta": 1
     },
     {
       "name": "Opal Palace",
@@ -3254,28 +3303,16 @@
       "delta": 0
     },
     {
-      "name": "Ob Nixilis, the Hate-Twisted",
-      "manaCost": "{3}{B}{B}",
+      "name": "Helm of the Ghastlord",
+      "manaCost": "{3}{U/B}",
       "qty": 1,
-      "group": "Planeswalker",
-      "cmc": 5,
-      "image": "https://cards.scryfall.io/normal/front/1/4/14916e2d-73af-4747-a927-d2d4cb3e32db.jpg?1783933441",
-      "scryfallUri": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api",
-      "priceUsd": 0.56,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Ob Nixilis, Captive Kingpin",
-      "manaCost": "{2}{B}{R}",
-      "qty": 1,
-      "group": "Creature",
+      "group": "Enchantment",
       "cmc": 4,
-      "image": "https://cards.scryfall.io/normal/front/d/d/ddb68233-3683-41bd-9b6e-4f07a1b54244.jpg?1783916511",
-      "scryfallUri": "https://scryfall.com/card/mat/41/ob-nixilis-captive-kingpin?utm_source=api",
-      "priceUsd": 15.34,
-      "isNew": true,
-      "delta": 1
+      "image": "https://cards.scryfall.io/normal/front/6/5/653dd5b7-1ad3-4df1-bd2a-4e6ae362a8a2.jpg?1783942732",
+      "scryfallUri": "https://scryfall.com/card/shm/166/helm-of-the-ghastlord?utm_source=api",
+      "priceUsd": 7.63,
+      "isNew": false,
+      "delta": 0
     }
   ],
   "cardIndex": {
@@ -3790,6 +3827,22 @@
     "Ob Nixilis, Captive Kingpin": {
       "image": "https://cards.scryfall.io/normal/front/d/d/ddb68233-3683-41bd-9b6e-4f07a1b54244.jpg?1783916511",
       "scryfallUri": "https://scryfall.com/card/mat/41/ob-nixilis-captive-kingpin?utm_source=api"
+    },
+    "Teferi's Ageless Insight": {
+      "image": "https://cards.scryfall.io/normal/front/b/4/b4077e58-a497-4c8f-8e58-919c3204ad52.jpg?1783908752",
+      "scryfallUri": "https://scryfall.com/card/j25/371/teferis-ageless-insight?utm_source=api"
+    },
+    "All Will Be One": {
+      "image": "https://cards.scryfall.io/normal/front/6/d/6d75e1f4-bd63-428e-8e6e-131594b3ba44.jpg?1783918036",
+      "scryfallUri": "https://scryfall.com/card/one/118/all-will-be-one?utm_source=api"
+    },
+    "Narset, Parter of Veils": {
+      "image": "https://cards.scryfall.io/normal/front/4/e/4e6e5c63-b6e5-4756-bf23-6c6f8669442d.jpg?1783915440",
+      "scryfallUri": "https://scryfall.com/card/cmm/853/narset-parter-of-veils?utm_source=api"
+    },
+    "Alhammarret's Archive": {
+      "image": "https://cards.scryfall.io/normal/front/a/b/abe6d2a2-3bc7-4998-bd46-50af74344b5d.jpg?1793111932",
+      "scryfallUri": "https://scryfall.com/card/trc/484/alhammarrets-archive?utm_source=api"
     }
   },
   "edits": [
@@ -3820,6 +3873,24 @@
           "name": "Ob Nixilis, Captive Kingpin",
           "qty": 1,
           "reason": "Nekusar's individual 1-damage triggers grow him and exile cards you can play until your next end step."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-09T19:29:50.367Z",
+      "request": "please add back \"Helm of the Ghastlord\"",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Fog Bank",
+          "qty": 1,
+          "reason": "Low-synergy blocker; makes room for a stronger Nekusar payoff."
+        },
+        {
+          "action": "add",
+          "name": "Helm of the Ghastlord",
+          "qty": 1,
+          "reason": "On Nekusar, each damage trigger draws you a card and makes the damaged opponent discard."
         }
       ]
     }

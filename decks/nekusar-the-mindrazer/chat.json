@@ -165,5 +165,94 @@
       }
     ],
     "applied": true
+  },
+  {
+    "id": "fe447659-267b-4b94-bc7b-93e32dc4135c",
+    "role": "user",
+    "content": "please add back \"Helm of the Ghastlord\"",
+    "at": "2026-11-09T19:29:17.235Z"
+  },
+  {
+    "id": "d6f9ca43-01ac-4809-b80a-1a3c181aebcb",
+    "role": "assistant",
+    "content": "Helm of the Ghastlord turns Nekusar’s damage triggers into cards for you and discards for opponents. Swap out Fog Bank to keep the deck at 100 cards; you lose an early blocker, and the Aura is vulnerable to removal in response.",
+    "at": "2026-11-09T19:29:25.363Z",
+    "changes": [
+      {
+        "action": "remove",
+        "name": "Fog Bank",
+        "qty": 1,
+        "reason": "Low-synergy blocker; makes room for a stronger Nekusar payoff.",
+        "ok": true,
+        "card": {
+          "name": "Fog Bank",
+          "oracleId": "3a2bb47d-228d-499e-a34b-9e10d99e9b2c",
+          "manaCost": "{1}{U}",
+          "cmc": 2,
+          "typeLine": "Creature — Wall",
+          "oracleText": "Defender (This creature can't attack.)\nFlying\nPrevent all combat damage that would be dealt to and dealt by this creature.",
+          "colors": [
+            "U"
+          ],
+          "colorIdentity": [
+            "U"
+          ],
+          "producedMana": [],
+          "isLand": false,
+          "isMdfcLand": false,
+          "entersTapped": false,
+          "legalCommander": true,
+          "gameChanger": false,
+          "canBeCommander": false,
+          "priceUsd": 0.14,
+          "power": "0",
+          "toughness": "2",
+          "image": "https://cards.scryfall.io/normal/front/1/8/18748b1d-4161-482c-a726-8762b4c1819c.jpg?1783908934",
+          "imageArt": "https://cards.scryfall.io/art_crop/front/1/8/18748b1d-4161-482c-a726-8762b4c1819c.jpg?1783908934",
+          "scryfallUri": "https://scryfall.com/card/fdn/591/fog-bank?utm_source=api",
+          "roles": [
+            "other"
+          ]
+        }
+      },
+      {
+        "action": "add",
+        "name": "Helm of the Ghastlord",
+        "qty": 1,
+        "reason": "On Nekusar, each damage trigger draws you a card and makes the damaged opponent discard.",
+        "ok": true,
+        "card": {
+          "name": "Helm of the Ghastlord",
+          "oracleId": "66fa528f-0e3a-450f-9035-1ba5a8a921e6",
+          "manaCost": "{3}{U/B}",
+          "cmc": 4,
+          "typeLine": "Enchantment — Aura",
+          "oracleText": "Enchant creature\nAs long as enchanted creature is blue, it gets +1/+1 and has \"Whenever this creature deals damage to an opponent, draw a card.\"\nAs long as enchanted creature is black, it gets +1/+1 and has \"Whenever this creature deals damage to an opponent, that player discards a card.\"",
+          "colors": [
+            "B",
+            "U"
+          ],
+          "colorIdentity": [
+            "B",
+            "U"
+          ],
+          "producedMana": [],
+          "isLand": false,
+          "isMdfcLand": false,
+          "entersTapped": false,
+          "legalCommander": true,
+          "gameChanger": false,
+          "canBeCommander": false,
+          "priceUsd": 7.63,
+          "image": "https://cards.scryfall.io/normal/front/6/5/653dd5b7-1ad3-4df1-bd2a-4e6ae362a8a2.jpg?1783942732",
+          "imageArt": "https://cards.scryfall.io/art_crop/front/6/5/653dd5b7-1ad3-4df1-bd2a-4e6ae362a8a2.jpg?1783942732",
+          "scryfallUri": "https://scryfall.com/card/shm/166/helm-of-the-ghastlord?utm_source=api",
+          "roles": [
+            "draw"
+          ]
+        }
+      }
+    ],
+    "applied": true
   }
 ]

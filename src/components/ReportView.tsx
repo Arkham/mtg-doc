@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import type {
   Card,
   Combo,
@@ -470,8 +470,114 @@ const GROUP_ORDER = [
   "Other",
 ];
 
+const VIEW_KEY = "mtg-doc:decklist-view";
+
+/** Deck list as a visual grid of card images, grouped by type; tap a card to see it full size. */
+function DeckImages({
+  groups,
+  cuts,
+}: {
+  groups: { group: string; cards: DecklistCard[] }[];
+  cuts: Swap[];
+}) {
+  const [zoomed, setZoomed] = useState<{ name: string; image: string; scryfallUri: string } | null>(
+    null,
+  );
+  const tile = (
+    key: string,
+    name: string,
+    image: string | null,
+    scryfallUri: string,
+    badge: ReactNode,
+    cut = false,
+  ) => (
+    <li key={key} className={`deck-image ${cut ? "cut" : ""}`}>
+      <button
+        aria-label={`Show ${name} full size`}
+        onClick={() => image && setZoomed({ name, image, scryfallUri })}
+      >
+        {image ? (
+          <img src={image} alt={name} loading="lazy" />
+        ) : (
+          <span className="deck-image-missing">{name}</span>
+        )}
+        {badge}
+      </button>
+    </li>
+  );
+  return (
+    <div className="deck-images">
+      {groups.map(({ group, cards }) => (
+        <section key={group}>
+          <h3>
+            {group} <span className="muted">({cards.reduce((n, c) => n + c.qty, 0)})</span>
+          </h3>
+          <ul>
+            {cards.map((c) =>
+              tile(
+                c.name,
+                c.name,
+                c.image,
+                c.scryfallUri,
+                <>
+                  {c.qty > 1 && <span className="deck-image-qty">×{c.qty}</span>}
+                  {c.isNew ? (
+                    <span className="badge new deck-image-badge">new</span>
+                  ) : c.delta !== 0 ? (
+                    <span className="badge new deck-image-badge">
+                      {c.delta > 0 ? `+${c.delta}` : `−${-c.delta}`}
+                    </span>
+                  ) : null}
+                </>,
+              ),
+            )}
+          </ul>
+        </section>
+      ))}
+      {cuts.length > 0 && (
+        <section>
+          <h3>
+            Cut <span className="muted">({cuts.length})</span>
+          </h3>
+          <ul>
+            {cuts.map((s, i) =>
+              tile(
+                `cut-${i}`,
+                s.out,
+                s.outCard?.image ?? null,
+                s.outCard?.scryfallUri ?? "",
+                null,
+                true,
+              ),
+            )}
+          </ul>
+        </section>
+      )}
+      {zoomed && (
+        <Sheet
+          src={zoomed.image}
+          alt={zoomed.name}
+          onClose={() => setZoomed(null)}
+          actions={
+            <a className="button" href={zoomed.scryfallUri} target="_blank" rel="noreferrer">
+              Scryfall ↗
+            </a>
+          }
+        />
+      )}
+    </div>
+  );
+}
+
 function Decklist({ cards, swaps }: { cards: DecklistCard[]; swaps: Swap[] }) {
   const [showCuts, setShowCuts] = useState(false);
+  const [view, setView] = useState<"list" | "images">(() =>
+    localStorage.getItem(VIEW_KEY) === "images" ? "images" : "list",
+  );
+  const changeView = (v: "list" | "images") => {
+    setView(v);
+    localStorage.setItem(VIEW_KEY, v);
+  };
   const groups = GROUP_ORDER.map((g) => ({
     group: g,
     cards: cards
@@ -481,9 +587,15 @@ function Decklist({ cards, swaps }: { cards: DecklistCard[]; swaps: Swap[] }) {
   return (
     <>
       <div className="list-toolbar">
-        <span className="muted small">
-          {cards.reduce((n, c) => n + c.qty, 0)} cards · tap a name to see the card
-        </span>
+        <div className="segmented" role="tablist" aria-label="Deck list view">
+          <button role="tab" aria-selected={view === "list"} onClick={() => changeView("list")}>
+            List
+          </button>
+          <button role="tab" aria-selected={view === "images"} onClick={() => changeView("images")}>
+            Images
+          </button>
+        </div>
+        <span className="muted small grow">{cards.reduce((n, c) => n + c.qty, 0)} cards</span>
         <button
           className={`toggle ${showCuts ? "on" : ""}`}
           aria-pressed={showCuts}
@@ -492,47 +604,51 @@ function Decklist({ cards, swaps }: { cards: DecklistCard[]; swaps: Swap[] }) {
           {showCuts ? "Hide" : "Show"} cut cards
         </button>
       </div>
-      <div className="decklist-groups">
-        {groups.map(({ group, cards }) => (
-          <div key={group} className="deck-group">
-            <h3>
-              {group} <span className="muted">({cards.reduce((n, c) => n + c.qty, 0)})</span>
-            </h3>
-            <ul>
-              {cards.map((c) => (
-                <li key={c.name} className={c.isNew || c.delta > 0 ? "new" : ""}>
-                  <span className="qty">{c.qty}</span>
-                  <CardName name={c.name} card={c} className="grow" />
-                  {c.isNew ? (
-                    <span className="badge new">new</span>
-                  ) : c.delta !== 0 ? (
-                    <span className="badge new">
-                      {c.delta > 0 ? `+${c.delta}` : `−${-c.delta}`}
-                    </span>
-                  ) : null}
-                  <ManaCost cost={c.manaCost} size={13} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-        {showCuts && (
-          <div className="deck-group">
-            <h3>
-              Cut <span className="muted">({swaps.length})</span>
-            </h3>
-            <ul>
-              {swaps.map((s, i) => (
-                <li key={i} className="cut">
-                  <span className="qty">1</span>
-                  <CardName name={s.out} card={s.outCard} className="grow" />
-                  <ManaCost cost={s.outCard?.manaCost} size={13} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+      {view === "images" ? (
+        <DeckImages groups={groups} cuts={showCuts ? swaps : []} />
+      ) : (
+        <div className="decklist-groups">
+          {groups.map(({ group, cards }) => (
+            <div key={group} className="deck-group">
+              <h3>
+                {group} <span className="muted">({cards.reduce((n, c) => n + c.qty, 0)})</span>
+              </h3>
+              <ul>
+                {cards.map((c) => (
+                  <li key={c.name} className={c.isNew || c.delta > 0 ? "new" : ""}>
+                    <span className="qty">{c.qty}</span>
+                    <CardName name={c.name} card={c} className="grow" />
+                    {c.isNew ? (
+                      <span className="badge new">new</span>
+                    ) : c.delta !== 0 ? (
+                      <span className="badge new">
+                        {c.delta > 0 ? `+${c.delta}` : `−${-c.delta}`}
+                      </span>
+                    ) : null}
+                    <ManaCost cost={c.manaCost} size={13} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          {showCuts && (
+            <div className="deck-group">
+              <h3>
+                Cut <span className="muted">({swaps.length})</span>
+              </h3>
+              <ul>
+                {swaps.map((s, i) => (
+                  <li key={i} className="cut">
+                    <span className="qty">1</span>
+                    <CardName name={s.out} card={s.outCard} className="grow" />
+                    <ManaCost cost={s.outCard?.manaCost} size={13} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
     </>
   );
 }

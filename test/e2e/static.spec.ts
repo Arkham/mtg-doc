@@ -75,6 +75,32 @@ test.describe("static site", () => {
     }
   });
 
+  test("deck list can be shown as card images, and the choice is remembered", async ({
+    page,
+    isMobile,
+  }) => {
+    await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
+    const imagesTab = page.getByRole("tab", { name: "Images" });
+    await (isMobile ? imagesTab.tap() : imagesTab.click());
+    const tiles = page.locator(".deck-image");
+    await expect(tiles.first()).toBeVisible();
+    expect(await tiles.count()).toBeGreaterThan(60);
+    await expect(page.locator(".deck-image-qty").first()).toHaveText(/^×\d+$/);
+    await expectNoHorizontalOverflow(page);
+
+    const first = tiles.first().getByRole("button");
+    await (isMobile ? first.tap() : first.click());
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await page.getByRole("dialog").getByRole("button", { name: "Close" }).click();
+
+    await page.reload();
+    await expect(page.getByRole("tab", { name: "Images" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await expect(tiles.first()).toBeVisible();
+  });
+
   test("pre-game summary and back navigation", async ({ page }) => {
     await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
     await page.getByRole("link", { name: "Pre-game summary" }).click();
