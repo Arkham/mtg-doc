@@ -485,7 +485,10 @@ function scrollToSection(id: string) {
   const el = document.getElementById(id);
   if (!el) return;
   const offset = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
-  window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: "smooth" });
+  window.scrollTo({
+    top: el.getBoundingClientRect().top + window.scrollY - offset,
+    behavior: "smooth",
+  });
 }
 
 function SectionNav({ sections }: { sections: [string, string][] }) {
@@ -511,7 +514,10 @@ function SectionNav({ sections }: { sections: [string, string][] }) {
     const nav = navRef.current;
     const btn = nav?.querySelector<HTMLElement>(`[data-id="${active}"]`);
     if (!nav || !btn) return;
-    nav.scrollTo({ left: btn.offsetLeft - (nav.clientWidth - btn.clientWidth) / 2, behavior: "smooth" });
+    nav.scrollTo({
+      left: btn.offsetLeft - (nav.clientWidth - btn.clientWidth) / 2,
+      behavior: "smooth",
+    });
   }, [active]);
   return (
     <nav className="section-nav" aria-label="Report sections" ref={navRef}>
