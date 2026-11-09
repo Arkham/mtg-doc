@@ -32,9 +32,12 @@ function referencedNames(r: Report): string[] {
   return [...names];
 }
 
-const preview = (c: Pick<Card, "image" | "scryfallUri">): CardPreview => ({
+const preview = (
+  c: Pick<Card, "image" | "scryfallUri"> & { priceUsd?: number | null },
+): CardPreview => ({
   image: c.image,
   scryfallUri: c.scryfallUri,
+  priceUsd: c.priceUsd ?? null,
 });
 
 /**
@@ -46,8 +49,11 @@ export async function buildCardIndex(
   known: Card[] = [],
 ): Promise<Record<string, CardPreview>> {
   const index: Record<string, CardPreview> = { ...report.cardIndex };
-  const add = (c: Pick<Card, "name" | "image" | "scryfallUri"> | undefined) => {
-    if (c?.image && !index[c.name]) index[c.name] = preview(c);
+  const add = (
+    c: (Pick<Card, "name" | "image" | "scryfallUri"> & { priceUsd?: number | null }) | undefined,
+  ) => {
+    // Entries without price data (swap alternatives) are looked up instead, so prices show too.
+    if (c?.image && c.priceUsd !== undefined && !index[c.name]) index[c.name] = preview(c);
   };
   known.forEach(add);
   report.commanderCards.forEach(add);

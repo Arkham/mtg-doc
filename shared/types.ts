@@ -259,6 +259,7 @@ export interface DeckChatMessage {
 export interface CardPreview {
   image: string | null;
   scryfallUri: string;
+  priceUsd?: number | null;
 }
 
 /** A notable interaction between cards in the deck that isn't an infinite combo. */

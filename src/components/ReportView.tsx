@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { type ReactNode, useContext, useEffect, useRef, useState } from "react";
 import type {
   Card,
   Combo,
@@ -9,6 +9,7 @@ import type {
   Swap,
 } from "../../shared/types.ts";
 import { type DeckDetail, IS_STATIC, api, fileUrl } from "../api.ts";
+import { groupByMissing } from "../combos.ts";
 import { navigate } from "../nav.ts";
 import { BracketBadge, BracketPanel } from "./BracketPanel.tsx";
 import { ChatPanel } from "./ChatPanel.tsx";
@@ -925,14 +926,75 @@ function Stat({
   );
 }
 
-function OneAway({ combos }: { combos: Combo[] }) {
+function OneAway({ combos, report: r }: { combos: Combo[]; report: Report }) {
   const [all, setAll] = useState(false);
+  const index = useContext(CardIndex);
+  const groups = groupByMissing(combos);
+  const blocked = new Map((r.bracket?.excluded ?? []).map((e) => [e.name, e.reason]));
+  const shown = all ? groups : groups.slice(0, 5);
   return (
     <>
-      <ComboList combos={all ? combos : combos.slice(0, 5)} oneAway />
-      {combos.length > 5 && (
+      <ul className="missing-pieces">
+        {shown.map((g) => {
+          const card = index[g.name];
+          const reason = blocked.get(g.name);
+          return (
+            <li key={g.name} className="missing-piece">
+              {card?.image && (
+                <CardName
+                  name={g.name}
+                  className="missing-thumb"
+                  label={<img src={card.image} alt={g.name} loading="lazy" />}
+                />
+              )}
+              <div className="missing-body">
+                <div className="missing-head">
+                  <strong>
+                    <CardName name={g.name} />
+                  </strong>
+                  {card?.priceUsd != null && (
+                    <span className="muted small">${card.priceUsd.toFixed(2)}</span>
+                  )}
+                </div>
+                <div className="missing-tags">
+                  <span className="outcome">{g.best}</span>
+                  {g.combos.length > 1 && (
+                    <span className="muted small">completes {g.combos.length} combos</span>
+                  )}
+                  {reason && (
+                    <span className="badge warn" title={reason}>
+                      Outside bracket {r.bracket?.target}
+                    </span>
+                  )}
+                </div>
+                <ul className="missing-combos">
+                  {g.combos.map(({ combo, partners, outcome }) => (
+                    <li key={combo.id}>
+                      <span className="muted small">with</span> <CardList names={partners} />
+                      {g.combos.length > 1 && (
+                        <span className="muted small"> · {outcome}</span>
+                      )}{" "}
+                      <a
+                        href={combo.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="small spellbook-link"
+                        aria-label="View combo on Commander Spellbook"
+                        title={combo.produces.join(" · ")}
+                      >
+                        ↗
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+      {groups.length > 5 && (
         <button className="ghost small-btn" onClick={() => setAll(!all)}>
-          {all ? "Show fewer" : `Show all ${combos.length}`}
+          {all ? "Show fewer" : `Show all ${groups.length} cards`}
         </button>
       )}
     </>
@@ -1277,10 +1339,11 @@ export function ReportView({ slug }: { slug: string }) {
               </div>
               <div>
                 <h3>
-                  One card away <span className="muted">· {r.combosOneAway.length}</span>
+                  One card away{" "}
+                  <span className="muted">· {groupByMissing(r.combosOneAway).length} cards</span>
                 </h3>
                 {r.combosOneAway.length ? (
-                  <OneAway combos={r.combosOneAway} />
+                  <OneAway combos={r.combosOneAway} report={r} />
                 ) : (
                   <p className="muted small">None found.</p>
                 )}

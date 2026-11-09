@@ -31,6 +31,20 @@ test.describe("static site", () => {
     await expectNoHorizontalOverflow(page);
   });
 
+  test("one card away lists each missing card once, with what it combos with", async ({ page }) => {
+    await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
+    const pieces = page.locator(".missing-piece");
+    await expect(pieces.first()).toBeVisible();
+    const showAll = page.getByRole("button", { name: /Show all \d+ cards/ });
+    if (await showAll.count()) await showAll.click();
+    const names = await page.locator(".missing-head strong").allTextContents();
+    expect(names.length).toBeGreaterThan(0);
+    expect(new Set(names).size).toBe(names.length);
+    await expect(pieces.first().locator(".outcome")).not.toBeEmpty();
+    await expect(pieces.first().locator(".missing-combos li").first()).toContainText("with");
+    await expectNoHorizontalOverflow(page);
+  });
+
   test("section nav scrolls and highlights the active section", async ({ page }) => {
     await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
     await page.locator(".section-nav").getByRole("button", { name: "Mana" }).click();

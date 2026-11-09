@@ -486,6 +486,10 @@ input[type="checkbox"] {
   color: var(--ok);
   background: var(--ok-soft);
 }
+.badge.warn {
+  color: var(--warn);
+  background: var(--warn-soft);
+}
 
 .mana-cost {
   display: inline-flex;
@@ -1776,6 +1780,63 @@ table.data th:not(:first-child) {
 .combos li {
   padding: 10px 0;
   border-bottom: 1px solid var(--line);
+}
+.missing-pieces {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.missing-piece {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.missing-thumb img {
+  display: block;
+  width: 56px;
+  border-radius: 4.75% / 3.5%;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+}
+.missing-body {
+  grid-column: 2;
+  min-width: 0;
+}
+.missing-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.missing-tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.outcome {
+  font-size: 0.78em;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.missing-combos {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  font-size: 0.92em;
+}
+.missing-combos li {
+  padding: 2px 0;
+}
+.spellbook-link {
+  display: inline-block;
+  padding: 6px 8px;
+  margin: -6px -4px;
 }
 .sources {
   columns: 2 260px;

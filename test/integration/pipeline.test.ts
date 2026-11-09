@@ -94,6 +94,11 @@ describe("full optimizer pipeline (recorded APIs, no LLM)", () => {
     ];
     const missing = [...new Set(mentioned)].filter((n) => !index[n]?.image);
     assert.deepEqual(missing, [], "every mentioned card has a preview");
+    const pieces = report.combosOneAway.map((c) => c.missing[0]);
+    assert.ok(
+      pieces.every((n) => index[n]?.priceUsd !== undefined),
+      "one-card-away pieces show a price",
+    );
     assert.match(report.strategy, /no LLM configured/);
   });
 
