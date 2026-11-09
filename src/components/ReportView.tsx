@@ -724,11 +724,11 @@ export function ReportView({ slug }: { slug: string }) {
   const hasCombos = r.combosPresent.length > 0 || r.combosOneAway.length > 0;
   const sections: [string, string][] = [
     ...(r.bracket ? [["bracket", "Bracket"] as [string, string]] : []),
-    ["swaps", "Swaps"],
     ...(r.decklist ? [["decklist", "Deck list"] as [string, string]] : []),
     ["mana", "Mana"],
-    ["sim", "Simulation"],
+    ["sim", "Goldfish"],
     ...(hasCombos ? [["combos", "Combos"] as [string, string]] : []),
+    ["swaps", "Swaps"],
     ...(r.research ? [["research", "Research"] as [string, string]] : []),
   ];
 
@@ -887,33 +887,6 @@ export function ReportView({ slug }: { slug: string }) {
           </section>
         )}
 
-        <section className="panel" id="swaps">
-          <h2>Swaps</h2>
-          <SwapList swaps={r.swaps} />
-          {r.edits && r.edits.length > 0 && (
-            <div className="swap-group edits">
-              <h3>
-                Changes from chat <span className="muted">· {r.edits.length}</span>
-              </h3>
-              <ul className="edit-log">
-                {r.edits.map((e, i) => (
-                  <li key={i}>
-                    <div className="edit-changes">
-                      {e.changes.map((c, j) => (
-                        <span key={j} className={`edit-chip ${c.action}`}>
-                          {c.action === "add" ? "+" : "−"} {c.qty > 1 ? `${c.qty} ` : ""}
-                          <CardName name={c.name} />
-                        </span>
-                      ))}
-                    </div>
-                    {e.request && <div className="muted small">“{e.request}”</div>}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </section>
-
         {r.decklist && (
           <section className="panel" id="decklist">
             <h2>Optimized deck list</h2>
@@ -969,21 +942,59 @@ export function ReportView({ slug }: { slug: string }) {
         </div>
 
         {hasCombos && (
-          <div className="grid2" id="combos">
-            <section className="panel">
-              <h2>Combos in the deck</h2>
-              {r.combosPresent.length ? (
-                <ComboList combos={r.combosPresent} />
-              ) : (
-                <p className="muted">None found.</p>
-              )}
-            </section>
-            <section className="panel">
-              <h2>One card away</h2>
-              <OneAway combos={r.combosOneAway} />
-            </section>
-          </div>
+          <section className="panel" id="combos">
+            <h2>Combos</h2>
+            <div className="combo-columns">
+              <div>
+                <h3>
+                  In the deck <span className="muted">· {r.combosPresent.length}</span>
+                </h3>
+                {r.combosPresent.length ? (
+                  <ComboList combos={r.combosPresent} />
+                ) : (
+                  <p className="muted small">None found.</p>
+                )}
+              </div>
+              <div>
+                <h3>
+                  One card away <span className="muted">· {r.combosOneAway.length}</span>
+                </h3>
+                {r.combosOneAway.length ? (
+                  <OneAway combos={r.combosOneAway} />
+                ) : (
+                  <p className="muted small">None found.</p>
+                )}
+              </div>
+            </div>
+          </section>
         )}
+
+        <section className="panel" id="swaps">
+          <h2>Swaps</h2>
+          <SwapList swaps={r.swaps} />
+          {r.edits && r.edits.length > 0 && (
+            <div className="swap-group edits">
+              <h3>
+                Changes from chat <span className="muted">· {r.edits.length}</span>
+              </h3>
+              <ul className="edit-log">
+                {r.edits.map((e, i) => (
+                  <li key={i}>
+                    <div className="edit-changes">
+                      {e.changes.map((c, j) => (
+                        <span key={j} className={`edit-chip ${c.action}`}>
+                          {c.action === "add" ? "+" : "−"} {c.qty > 1 ? `${c.qty} ` : ""}
+                          <CardName name={c.name} />
+                        </span>
+                      ))}
+                    </div>
+                    {e.request && <div className="muted small">“{e.request}”</div>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
 
         {r.research && (
           <section className="panel" id="research">

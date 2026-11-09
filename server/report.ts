@@ -31,21 +31,6 @@ export function renderMarkdown(r: Report): string {
     lines.push("");
   }
 
-  lines.push("## Swaps", "", "| Out | In | Category | Why |", "|---|---|---|---|");
-  for (const s of r.swaps)
-    lines.push(`| ${s.out} | ${s.in} | ${s.category} | ${s.reason.replace(/\|/g, "/")} |`);
-  lines.push("");
-
-  if (r.edits?.length) {
-    lines.push("## Changes from chat", "");
-    for (const e of r.edits) {
-      lines.push(
-        `- ${e.at.slice(0, 10)}${e.request ? ` “${e.request.replace(/\n/g, " ")}”` : ""}: ${e.changes.map((c) => `${c.action === "add" ? "+" : "−"}${c.qty > 1 ? `${c.qty} ` : ""}${c.name}`).join(", ")}`,
-      );
-    }
-    lines.push("");
-  }
-
   lines.push("## Mana base", "", "| | Before | After |", "|---|---|---|");
   lines.push(
     `| Lands | ${b.mana.landCount} | ${a.mana.landCount} (recommended ${a.mana.recommendedLands}) |`,
@@ -104,6 +89,21 @@ export function renderMarkdown(r: Report): string {
       );
     lines.push("");
   }
+  lines.push("## Swaps", "", "| Out | In | Category | Why |", "|---|---|---|---|");
+  for (const s of r.swaps)
+    lines.push(`| ${s.out} | ${s.in} | ${s.category} | ${s.reason.replace(/\|/g, "/")} |`);
+  lines.push("");
+
+  if (r.edits?.length) {
+    lines.push("## Changes from chat", "");
+    for (const e of r.edits) {
+      lines.push(
+        `- ${e.at.slice(0, 10)}${e.request ? ` “${e.request.replace(/\n/g, " ")}”` : ""}: ${e.changes.map((c) => `${c.action === "add" ? "+" : "−"}${c.qty > 1 ? `${c.qty} ` : ""}${c.name}`).join(", ")}`,
+      );
+    }
+    lines.push("");
+  }
+
   if (r.research) {
     lines.push("## Web research", "", r.research.summary, "");
     for (const s of r.research.sources) lines.push(`- [${s.title}](${s.url})`);
