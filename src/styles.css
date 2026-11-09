@@ -949,7 +949,7 @@ textarea.decklist {
 }
 .card-row {
   display: grid;
-  grid-template-columns: 52px 56px minmax(0, 1fr) auto auto;
+  grid-template-columns: 52px 56px minmax(0, 1fr) auto auto auto;
   gap: 10px;
   align-items: center;
   padding: 8px 6px;
@@ -998,6 +998,15 @@ textarea.decklist {
 .card-row .name:focus {
   background: var(--bg);
   border-color: var(--accent);
+}
+.card-row-cost {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 0;
+}
+.card-row-cost-inline {
+  display: none;
+  margin-right: 6px;
 }
 .card-row-sub {
   padding: 0 7px;
@@ -2913,8 +2922,13 @@ pre {
     gap: 6px;
     padding: 8px 2px;
   }
-  .card-row .thumb {
+  .card-row .thumb,
+  .card-row-cost {
     display: none;
+  }
+  .card-row-cost-inline {
+    display: inline-flex;
+    vertical-align: -2px;
   }
   .card-row .qty {
     width: 52px;

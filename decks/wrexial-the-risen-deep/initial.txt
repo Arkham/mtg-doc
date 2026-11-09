@@ -1,0 +1,87 @@
+Commander
+1 Wrexial, the Risen Deep
+
+Deck
+1 Academy Ruins
+1 Animate Dead
+1 Baleful Strix
+1 Barren Moor
+1 Basalt Monolith
+1 Beacon of Unrest
+1 Black Sun's Zenith
+1 Blatant Thievery
+1 Blue Sun's Zenith
+1 Body Double
+1 Bribery
+1 Burnished Hart
+1 Cabal Coffers
+1 Capsize
+1 Clone
+1 Consecrated Sphinx
+1 Counterspell
+1 Creeping Tar Pit
+1 Curse of the Swine
+1 Cyclonic Rift
+1 Damnation
+1 Demonic Tutor
+1 Dimir Aqueduct
+1 Dimir Guildgate
+1 Dimir Signet
+1 Dreadship Reef
+1 Dreamborn Muse
+1 Duplicant
+1 Everflowing Chalice
+1 Expedition Map
+1 Exsanguinate
+1 Fellwar Stone
+1 Future Sight
+1 Hinder
+11 Island
+1 Ixidron
+1 Jin-Gitaxias, Core Augur
+1 Lightning Greaves
+1 Lonely Sandbar
+1 Mana Vault
+1 Mimic Vat
+1 Mind Stone
+1 Mindcrank
+1 Miren, the Moaning Well
+1 Mystical Teachings
+1 Mystical Tutor
+1 Oblivion Stone
+1 Phyrexian Metamorph
+1 Praetor's Grasp
+1 Quicksilver Elemental
+1 Reliquary Tower
+1 Rhystic Study
+1 Rite of Replication
+1 Sakashima the Impostor
+1 Salt Marsh
+1 Sculpting Steel
+1 Sensei's Divining Top
+1 Shadowmage Infiltrator
+1 Snuff Out
+1 Sol Ring
+1 Spell Crumple
+1 Spinal Embrace
+1 Steel Hellkite
+1 Stormtide Leviathan
+1 Strip Mine
+1 Submerge
+1 Sudden Death
+7 Swamp
+1 Temple of the False God
+1 Terramorphic Expanse
+1 Tezzeret the Seeker
+1 Thada Adel, Acquisitor
+1 Thespian's Stage
+1 Thran Dynamo
+1 Tolaria West
+1 Toxic Deluge
+1 Trinket Mage
+1 Urborg, Tomb of Yawgmoth
+1 Urza's Factory
+1 Vampiric Tutor
+1 Wash Out
+1 Watery Grave
+1 Whispersilk Cloak

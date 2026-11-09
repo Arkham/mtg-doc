@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 import type { Combo } from "../../shared/types.ts";
+import { byManaValue } from "../../src/cards.ts";
 import { comboOutcome, groupByMissing } from "../../src/combos.ts";
 
 const combo = (id: string, cards: string[], missing: string, produces: string[]): Combo => ({
@@ -67,5 +68,21 @@ describe("groupByMissing", () => {
       "partners exclude the missing card; strongest combo first",
     );
     assert.deepEqual(groups[2].combos[0].partners, ["Nekusar", "Psychosis Crawler"]);
+  });
+});
+
+describe("byManaValue", () => {
+  test("sorts by mana value, then name; unknown cards count as zero", () => {
+    const rows = [
+      { name: "Wrath", card: { cmc: 4 } },
+      { name: "Sol Ring", card: { cmc: 1 } },
+      { name: "Arcane Signet", card: { cmc: 2 } },
+      { name: "Mind Stone", card: { cmc: 2 } },
+      { name: "Typo", card: null },
+    ];
+    assert.deepEqual(
+      rows.sort(byManaValue).map((r) => r.name),
+      ["Typo", "Sol Ring", "Arcane Signet", "Mind Stone", "Wrath"],
+    );
   });
 });

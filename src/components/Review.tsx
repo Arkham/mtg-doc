@@ -3,6 +3,7 @@ import type { Card, OptimizeOptions } from "../../shared/types.ts";
 import { type AppConfig, type Recognition, api } from "../api.ts";
 import { CardName, useHoverPreview } from "./CardName.tsx";
 import { LockIcon, TrashIcon } from "./Icons.tsx";
+import { byManaValue } from "../cards.ts";
 import { ManaCost } from "./Mana.tsx";
 import { Sheet } from "./Sheet.tsx";
 
@@ -139,6 +140,11 @@ function CardRow({
           {offColor && <span className="warn">Outside the commander’s colors, will be cut.</span>}
           {r.status === "exact" && !offColor && (
             <span className="muted">
+              {r.card?.manaCost && (
+                <span className="card-row-cost-inline">
+                  <ManaCost cost={r.card.manaCost} size={13} />
+                </span>
+              )}
               {r.card?.typeLine}
               {printed &&
                 ` · printed “${printed}”${r.lang && LANG_NAMES[r.lang] ? ` (${LANG_NAMES[r.lang]})` : ""}`}
@@ -146,6 +152,9 @@ function CardRow({
           )}
         </div>
       </div>
+      <span className="card-row-cost">
+        <ManaCost cost={r.card?.manaCost} size={15} />
+      </span>
       <button
         className={`lock ${r.locked ? "on" : ""}`}
         aria-pressed={r.locked}
@@ -346,12 +355,10 @@ export function Review({
     }
   };
 
-  const rank = (r: Row) =>
-    r.status === "unresolved" ? 0 : r.status === "fuzzy" ? 1 : isOffColor(r) ? 2 : 3;
   const visible = mainRows
     .filter((r) => view === "all" || needsAttention(r))
     .filter((r) => !search || r.name.toLowerCase().includes(search.toLowerCase()))
-    .sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name));
+    .sort(byManaValue);
 
   const groups = GROUP_ORDER.map((group) => ({
     group,

@@ -1,0 +1,19 @@
+{
+  "slug": "wrexial-the-risen-deep",
+  "format": "commander",
+  "commanders": [
+    "Wrexial, the Risen Deep"
+  ],
+  "deckName": null,
+  "createdAt": "2026-11-09T21:17:11.358Z",
+  "options": {
+    "maxSwaps": 15,
+    "budgetPerCard": null,
+    "budgetTotal": null,
+    "bracket": null,
+    "tone": "max",
+    "locked": [],
+    "webResearch": true
+  },
+  "image": "https://cards.scryfall.io/art_crop/front/c/9/c96b11ad-67fd-4a2b-89ea-e9df9c50731e.jpg?1783923218"
+}
