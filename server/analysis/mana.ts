@@ -75,6 +75,7 @@ export function analyzeMana(deck: Deck, edhrecAvgLands: number | null): ManaRepo
 
   const pipTotals: Record<Color, number> = { W: 0, U: 0, B: 0, R: 0, G: 0 };
   const maxPips: Record<Color, number> = { W: 0, U: 0, B: 0, R: 0, G: 0 };
+  const heaviest: Partial<Record<Color, { name: string; manaCost: string; pips: number }>> = {};
   const spells = [
     ...nonland.map((s) => ({ card: s.card, qty: s.qty, cmdr: false })),
     ...deck.commanders.map((card) => ({ card, qty: 1, cmdr: true })),
@@ -85,6 +86,9 @@ export function analyzeMana(deck: Deck, edhrecAvgLands: number | null): ManaRepo
       // Commander pips are weighted up because it is cast every game.
       pipTotals[c] += pips[c] * qty * (cmdr ? 4 : 1);
       maxPips[c] = Math.max(maxPips[c], pips[c] + (cmdr ? 1 : 0));
+      if (pips[c] > 0 && pips[c] > (heaviest[c]?.pips ?? 0)) {
+        heaviest[c] = { name: card.name, manaCost: card.manaCost, pips: pips[c] };
+      }
     }
   }
   const pipSum = COLORS.reduce((n, c) => n + pipTotals[c], 0) || 1;
@@ -105,16 +109,17 @@ export function analyzeMana(deck: Deck, edhrecAvgLands: number | null): ManaRepo
       identity.length === 1
         ? recommendedLands
         : Math.round(recommendedLands * (0.25 + 0.6 * pipShare));
+    const shareTarget = pipTotals[color] > 0 ? base : 0;
+    const h = heaviest[color];
     return {
       color,
       pips: Math.round(pipTotals[color] * 10) / 10,
       pipShare: Math.round(pipShare * 1000) / 1000,
       landSources,
       rampSources,
-      targetSources: Math.min(
-        recommendedLands,
-        Math.max(intensity, pipTotals[color] > 0 ? base : 0),
-      ),
+      targetSources: Math.min(recommendedLands, Math.max(intensity, shareTarget)),
+      targetReason: intensity > shareTarget ? "heaviest-card" : "share",
+      ...(h ? { heaviestCard: { name: h.name, manaCost: h.manaCost } } : {}),
     };
   });
 
@@ -139,10 +144,11 @@ export function analyzeMana(deck: Deck, edhrecAvgLands: number | null): ManaRepo
     issues.push(
       `${landCount} lands is more than the ~${recommendedLands} this curve needs; consider trading a land for a spell.`,
     );
+  const colorWord = { W: "White", U: "Blue", B: "Black", R: "Red", G: "Green" } as const;
   for (const c of colors) {
     if (c.landSources < c.targetSources - 1)
       issues.push(
-        `${c.color}: ${c.landSources} land sources vs ~${c.targetSources} wanted (${Math.round(c.pipShare * 100)}% of pips).`,
+        `${colorWord[c.color]}: ${c.landSources} lands make it, about ${c.targetSources} wanted.`,
       );
   }
   if (tappedLands.length > 4)

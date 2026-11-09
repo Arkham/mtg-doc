@@ -126,6 +126,10 @@ export interface ColorStat {
   landSources: number;
   rampSources: number;
   targetSources: number;
+  /** What sets the target: one card's heavy cost in this color, or the color's overall share. */
+  targetReason?: "heaviest-card" | "share";
+  /** The spell needing the most symbols of this color, with its cost. */
+  heaviestCard?: { name: string; manaCost: string };
 }
 
 export interface ManaReport {

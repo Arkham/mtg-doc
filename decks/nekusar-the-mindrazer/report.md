@@ -39,8 +39,8 @@ Skipped to stay in the bracket:
 - Reduce the ten unconditional tapped lands where practical, replacing Guildgates and Akoum Refuge before sacrificing useful effects such as Bojuka Bog.
 - Temple of the False God is the first utility land to reconsider: it cannot help early development. Avoid adding more colorless utility lands.
 - No extra-turn cards or mass land denial are added. Peer into the Abyss, infect finishers, and replacement infinite-combo auras are deliberately omitted to support turn-six-or-later pacing.
-- ⚠️ U: 18 land sources vs ~21 wanted (34% of pips).
-- ⚠️ B: 19 land sources vs ~21 wanted (29% of pips).
+- ⚠️ Blue: 18 lands make it, about 21 wanted.
+- ⚠️ Black: 19 lands make it, about 21 wanted.
 - ⚠️ 10 lands enter tapped unconditionally; aim for 4 or fewer.
 - ⚠️ 3 colorless-only lands strain a 3-color mana base.
 

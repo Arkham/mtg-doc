@@ -143,47 +143,84 @@ function SwapList({ swaps }: { swaps: Swap[] }) {
   );
 }
 
+const COLOR_WORD = { W: "white", U: "blue", B: "black", R: "red", G: "green" } as const;
+
 function ColorBars({ before, after }: { before: DeckSnapshot; after: DeckSnapshot }) {
   const max = Math.max(
     ...after.mana.colors.map((c) => Math.max(c.targetSources, c.landSources)),
     ...before.mana.colors.map((c) => c.landSources),
     1,
   );
+  const changed = after.mana.colors.some(
+    (c) => c.landSources !== before.mana.colors.find((x) => x.color === c.color)?.landSources,
+  );
   return (
     <div className="color-bars">
+      <p className="muted small mana-intro">
+        How many of your lands can make each color, against how many a deck leaning on that color
+        this much should have to reliably cast its spells on time.
+      </p>
       {after.mana.colors.map((c) => {
         const b = before.mana.colors.find((x) => x.color === c.color);
+        const gap = c.targetSources - c.landSources;
+        const word = COLOR_WORD[c.color];
         return (
           <div key={c.color} className="color-row">
             <span title={COLOR_NAME[c.color]}>
               <ManaCost cost={`{${c.color}}`} size={22} />
             </span>
+            <div className="color-row-head">
+              <span>
+                <strong>{c.landSources}</strong> of the <strong>{c.targetSources}</strong> lands
+                we&apos;d want make {word}
+                {changed && b && b.landSources !== c.landSources && (
+                  <span className="muted"> (was {b.landSources})</span>
+                )}
+              </span>
+              <span className={`status-chip ${gap > 1 ? "warn" : "ok"}`}>
+                {gap > 0 ? `${gap} short` : "enough"}
+              </span>
+            </div>
             <div className="bar-track">
+              {changed && (
+                <div
+                  className="bar before"
+                  style={{ width: `${((b?.landSources ?? 0) / max) * 100}%` }}
+                />
+              )}
               <div
-                className="bar before"
-                style={{ width: `${((b?.landSources ?? 0) / max) * 100}%` }}
+                className={`bar after ${changed ? "" : "solo"}`}
+                style={{ width: `${(c.landSources / max) * 100}%` }}
               />
-              <div className="bar after" style={{ width: `${(c.landSources / max) * 100}%` }} />
               <div
                 className="target"
                 style={{ left: `${(c.targetSources / max) * 100}%` }}
                 title={`target ${c.targetSources}`}
               />
             </div>
-            <span className="small">
-              <strong className={c.landSources >= c.targetSources ? "ok" : "warn"}>
-                {c.landSources} sources
-              </strong>{" "}
-              (target {c.targetSources}, was {b?.landSources}) · {Math.round(c.pipShare * 100)}% of
-              pips
-              {c.rampSources ? ` · +${c.rampSources} from ramp` : ""}
+            <span className="small color-why">
+              {Math.round(c.pipShare * 100)}% of the colored mana symbols in your spells are {word}.{" "}
+              {c.targetReason === "heaviest-card" && c.heaviestCard ? (
+                <>
+                  The target is higher because <CardName name={c.heaviestCard.name} /> costs{" "}
+                  <ManaCost cost={c.heaviestCard.manaCost} size={13} />.
+                </>
+              ) : null}
+              {c.rampSources
+                ? ` Your mana rocks and creatures add ${c.rampSources} more ${word} sources.`
+                : ""}
             </span>
           </div>
         );
       })}
       <div className="muted small legend">
-        <span className="bar-swatch before" /> before <span className="bar-swatch after" /> after{" "}
-        <span className="target-swatch" /> target sources
+        {changed && (
+          <>
+            <span className="bar-swatch before" /> before <span className="bar-swatch after" />{" "}
+            after
+          </>
+        )}
+        <span className="target-swatch" /> lands we&apos;d want
       </div>
     </div>
   );
@@ -898,7 +935,10 @@ export function ReportView({ slug }: { slug: string }) {
           <section className="panel" id="mana">
             <h2>Mana base</h2>
             <ColorBars before={r.before} after={r.after} />
-            <h3>Curve</h3>
+            <h3>Mana curve</h3>
+            <p className="muted small mana-intro">
+              Number of spells at each mana value (lands not counted).
+            </p>
             <Curve before={r.before} after={r.after} />
             {r.manaNotes.length > 0 && (
               <ul>

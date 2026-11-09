@@ -1255,7 +1255,12 @@
           "pipShare": 0.389,
           "landSources": 18,
           "rampSources": 3,
-          "targetSources": 21
+          "targetSources": 21,
+          "targetReason": "heaviest-card",
+          "heaviestCard": {
+            "name": "Blue Sun's Zenith",
+            "manaCost": "{X}{U}{U}{U}"
+          }
         },
         {
           "color": "B",
@@ -1263,7 +1268,12 @@
           "pipShare": 0.293,
           "landSources": 19,
           "rampSources": 2,
-          "targetSources": 21
+          "targetSources": 21,
+          "targetReason": "heaviest-card",
+          "heaviestCard": {
+            "name": "Army of the Damned",
+            "manaCost": "{5}{B}{B}{B}"
+          }
         },
         {
           "color": "R",
@@ -1271,7 +1281,12 @@
           "pipShare": 0.317,
           "landSources": 17,
           "rampSources": 2,
-          "targetSources": 21
+          "targetSources": 21,
+          "targetReason": "heaviest-card",
+          "heaviestCard": {
+            "name": "Insurrection",
+            "manaCost": "{5}{R}{R}{R}"
+          }
         }
       ],
       "tappedLands": [
@@ -1299,9 +1314,9 @@
       "rampCount": 7,
       "issues": [
         "Only 36 lands; about 38 recommended for an average mana value of 3.62.",
-        "U: 18 land sources vs ~21 wanted (39% of pips).",
-        "B: 19 land sources vs ~21 wanted (29% of pips).",
-        "R: 17 land sources vs ~21 wanted (32% of pips).",
+        "Blue: 18 lands make it, about 21 wanted.",
+        "Black: 19 lands make it, about 21 wanted.",
+        "Red: 17 lands make it, about 21 wanted.",
         "10 lands enter tapped unconditionally; aim for 4 or fewer.",
         "3 colorless-only lands strain a 3-color mana base.",
         "Only 7 ramp pieces; 10 or so is typical."
@@ -1436,7 +1451,12 @@
           "pipShare": 0.344,
           "landSources": 18,
           "rampSources": 4,
-          "targetSources": 21
+          "targetSources": 21,
+          "targetReason": "heaviest-card",
+          "heaviestCard": {
+            "name": "Blue Sun's Zenith",
+            "manaCost": "{X}{U}{U}{U}"
+          }
         },
         {
           "color": "B",
@@ -1444,7 +1464,12 @@
           "pipShare": 0.289,
           "landSources": 19,
           "rampSources": 4,
-          "targetSources": 21
+          "targetSources": 21,
+          "targetReason": "heaviest-card",
+          "heaviestCard": {
+            "name": "Underworld Dreams",
+            "manaCost": "{B}{B}{B}"
+          }
         },
         {
           "color": "R",
@@ -1452,7 +1477,12 @@
           "pipShare": 0.367,
           "landSources": 17,
           "rampSources": 4,
-          "targetSources": 17
+          "targetSources": 17,
+          "targetReason": "share",
+          "heaviestCard": {
+            "name": "Incendiary Command",
+            "manaCost": "{3}{R}{R}"
+          }
         }
       ],
       "tappedLands": [
@@ -1479,8 +1509,8 @@
       },
       "rampCount": 10,
       "issues": [
-        "U: 18 land sources vs ~21 wanted (34% of pips).",
-        "B: 19 land sources vs ~21 wanted (29% of pips).",
+        "Blue: 18 lands make it, about 21 wanted.",
+        "Black: 19 lands make it, about 21 wanted.",
         "10 lands enter tapped unconditionally; aim for 4 or fewer.",
         "3 colorless-only lands strain a 3-color mana base."
       ]

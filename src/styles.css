@@ -1465,12 +1465,39 @@ button.hero-card:active:not(:disabled) {
 .color-row {
   display: grid;
   grid-template-columns: 28px 1fr;
-  gap: 4px 12px;
+  gap: 6px 12px;
   align-items: center;
 }
-.color-row > span.small {
+.color-row > :not(:first-child) {
   grid-column: 2;
+}
+.color-row > span:first-child {
+  grid-row: 1 / span 3;
+  align-self: start;
+  padding-top: 2px;
+}
+.color-row-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.color-row-head .status-chip {
+  padding: 2px 10px;
+  font-size: 0.8rem;
+}
+.color-why {
   color: var(--muted);
+  line-height: 1.5;
+}
+.mana-intro {
+  margin: 0 0 4px;
+}
+.bar-track .bar.after.solo {
+  top: 50%;
+  bottom: auto;
+  transform: translateY(-50%);
 }
 .bar-track {
   position: relative;

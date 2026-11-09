@@ -15,6 +15,7 @@ function referencedNames(r: Report): string[] {
   for (const snap of [r.before, r.after]) {
     snap.mana.tappedLands.forEach((n) => names.add(n));
     snap.mana.colorlessLands.forEach((n) => names.add(n));
+    snap.mana.colors.forEach((c) => c.heaviestCard && names.add(c.heaviestCard.name));
   }
   const b = r.bracket;
   if (b) {
