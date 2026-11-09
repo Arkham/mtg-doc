@@ -801,11 +801,11 @@ function Decklist({
 }: {
   cards: DecklistCard[];
   swaps: Swap[];
-  /** Offer the new/cut highlights; off for the deck as submitted. */
+  /** Mark new cards and offer the cut ones; off for the deck as submitted. */
   compare: boolean;
 }) {
   const [showCuts, setShowCuts] = useState(false);
-  const [showNew, setShowNew] = useState(false);
+  const showNew = compare;
   const [view, setView] = useState<"list" | "images">(() =>
     localStorage.getItem(VIEW_KEY) === "images" ? "images" : "list",
   );
@@ -835,13 +835,6 @@ function Decklist({
         </span>
         {compare && (
           <>
-            <button
-              className={`toggle ${showNew ? "on" : ""}`}
-              aria-pressed={showNew}
-              onClick={() => setShowNew(!showNew)}
-            >
-              New cards
-            </button>
             <button
               className={`toggle ${showCuts ? "on" : ""}`}
               aria-pressed={showCuts}
@@ -1013,8 +1006,9 @@ function Overview({ report: r, full, slug }: { report: Report; full: Report; slu
       {full.swaps.length > 0 && (
         <div className="overview-cta">
           <p>
+            The doc prescribes{" "}
             <strong>
-              {full.swaps.length} suggested {full.swaps.length === 1 ? "swap" : "swaps"}
+              {full.swaps.length} {full.swaps.length === 1 ? "swap" : "swaps"}
             </strong>
             {target ? ` to tune it for bracket ${target}` : ""}
             {full.options.budgetTotal ? ` within your $${full.options.budgetTotal} budget` : ""}.

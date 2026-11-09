@@ -101,10 +101,13 @@ export interface DeckSummary {
   hasReport: boolean;
   image: string | null;
   colorIdentity?: Color[];
+  /** Stats of the deck as submitted; the swaps are only suggestions. */
   bracket?: number;
-  swapCount?: number;
   landCount?: number;
   priceUsd?: number;
+  swapCount?: number;
+  /** Bracket the suggested swaps aim for. */
+  targetBracket?: number;
 }
 
 export interface Swap {

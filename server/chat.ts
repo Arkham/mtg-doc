@@ -92,7 +92,7 @@ function deckSummary(deck: Deck, report: Report | null) {
     .join("\n\n");
 }
 
-const SYSTEM = `You are mtg-doc, an expert Commander (EDH) deckbuilding assistant chatting with the deck's owner.
+const SYSTEM = `You are the mtg doc, an expert Commander (EDH) deckbuilding assistant chatting with the deck's owner.
 Answer questions about the deck concisely and concretely. When the user asks for changes, propose them as
 "changes": exact official English card names, "add" or "remove", quantities, and a short reason each.
 Rules:

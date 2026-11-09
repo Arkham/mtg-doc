@@ -1,10 +1,55 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import type { DeckSummary } from "../../shared/types.ts";
 import { type AppConfig, IS_STATIC, type Recognition, type RecognitionJob, api } from "../api.ts";
 import { BracketBadge } from "./BracketPanel.tsx";
 import { ColorIdentity } from "./Mana.tsx";
 
 const isTouch = () => window.matchMedia("(pointer: coarse)").matches;
+
+const AURA: Record<string, string> = {
+  W: "#f4e7b8",
+  U: "#3d9be9",
+  B: "#8f5bd8",
+  R: "#ec5a3a",
+  G: "#3dbb6c",
+};
+
+/** Glow colors for a deck card, from the commander's color identity. */
+function auraOf(colors: string[] | undefined): CSSProperties {
+  const c = colors?.length ? colors.map((x) => AURA[x]) : ["#b9bfd0"];
+  return {
+    "--aura-1": c[0],
+    "--aura-2": c[1] ?? c[0],
+    "--aura-3": c[2] ?? c[1] ?? c[0],
+  } as CSSProperties;
+}
+
+function Welcome({ decks }: { decks: DeckSummary[] | null }) {
+  const examined = decks?.filter((d) => d.hasReport).length ?? 0;
+  return (
+    <section className="home-hero">
+      <div className="home-hero-text">
+        <span className="hero-role">
+          <span aria-hidden>♛</span> The mtg doc
+        </span>
+        <h1>The doc will see your deck now.</h1>
+        <p>
+          {IS_STATIC
+            ? "Check-ups for Commander decks: what each one does today, its bracket and combos, and the swaps the doc prescribes."
+            : "Snap a photo of your Commander deck. The doc reads every card, works out its bracket and prescribes swaps that fit your budget."}
+        </p>
+        {examined > 0 && (
+          <p className="home-hero-count">
+            {examined} {examined === 1 ? "deck" : "decks"} examined so far
+          </p>
+        )}
+      </div>
+      <div className="home-hero-doc" aria-hidden>
+        <img src="./doc.webp" alt="" width={360} height={360} />
+      </div>
+    </section>
+  );
+}
 
 function DeckGallery({ decks }: { decks: DeckSummary[] }) {
   const [filter, setFilter] = useState("");
@@ -14,7 +59,7 @@ function DeckGallery({ decks }: { decks: DeckSummary[] }) {
   return (
     <section>
       <div className="section-head">
-        <h1>{IS_STATIC ? "Decks" : "Your decks"}</h1>
+        <h2 className="home-section-title">{IS_STATIC ? "Decks" : "Your decks"}</h2>
         {decks.length > 6 && (
           <input
             type="search"
@@ -35,25 +80,39 @@ function DeckGallery({ decks }: { decks: DeckSummary[] }) {
       )}
       <div className="deck-grid">
         {shown.map((d) => (
-          <a key={d.slug} className="deck-card" href={`#/deck/${d.slug}`}>
+          <a
+            key={d.slug}
+            className="deck-card"
+            href={`#/deck/${d.slug}`}
+            style={auraOf(d.colorIdentity)}
+          >
             <div className="deck-art">
               {d.image ? <img src={d.image} alt="" loading="lazy" /> : <span>🃏</span>}
-              <ColorIdentity colors={d.colorIdentity} size={20} />
-              {d.bracket && <BracketBadge n={d.bracket} size="sm" />}
+              <div className="deck-art-top">
+                <ColorIdentity colors={d.colorIdentity} size={20} />
+                {d.bracket && <BracketBadge n={d.bracket} size="sm" />}
+              </div>
+              <strong className="deck-art-name">{d.commanders.join(" + ") || d.slug}</strong>
             </div>
             <div className="deck-card-body">
-              <strong>{d.commanders.join(" + ") || d.slug}</strong>
               <span className="muted small">
                 {d.hasReport
                   ? [
-                      d.swapCount !== undefined && `${d.swapCount} swaps`,
+                      d.bracket !== undefined && `Bracket ${d.bracket}`,
                       d.landCount !== undefined && `${d.landCount} lands`,
                       d.priceUsd !== undefined && `$${Math.round(d.priceUsd)}`,
                     ]
                       .filter(Boolean)
                       .join(" · ")
-                  : "Not optimized yet"}
+                  : "Not analyzed yet"}
               </span>
+              {d.swapCount ? (
+                <span className="deck-suggest">
+                  <img src="./icon-64.png" alt="" width={18} height={18} />
+                  {d.swapCount} suggested {d.swapCount === 1 ? "swap" : "swaps"}
+                  {d.targetBracket ? ` for bracket ${d.targetBracket}` : ""}
+                </span>
+              ) : null}
             </div>
           </a>
         ))}
@@ -143,10 +202,11 @@ export function Home({
 
   return (
     <div className="stack">
+      <Welcome decks={decks} />
       {!IS_STATIC && (
         <section className="panel analyze">
           <div className="section-head">
-            <h1>Analyze a deck</h1>
+            <h2 className="home-section-title">Analyze a deck</h2>
             <div className="segmented" role="tablist">
               <button
                 role="tab"

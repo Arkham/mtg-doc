@@ -26,13 +26,22 @@ describe("static site export", () => {
     assert.match(html, /src="\.\/assets\/index-[\w-]+\.js"/, "assets use relative URLs");
     assert.ok(fs.existsSync(path.join(out, "symbols/G.svg")), "mana symbols ship with the site");
     assert.match(html, /<title>mtg-doc<\/title>/);
-    for (const f of [".nojekyll", "manifest.webmanifest", "apple-touch-icon.png", "icon.svg"]) {
+    for (const f of [
+      ".nojekyll",
+      "manifest.webmanifest",
+      "apple-touch-icon.png",
+      "icon-64.png",
+      "icon-96.png",
+    ]) {
       assert.ok(fs.existsSync(path.join(out, f)), `${f} exists`);
     }
 
     const decks = JSON.parse(fs.readFileSync(path.join(out, "data/decks.json"), "utf8"));
     assert.ok(
-      decks.some((d: { slug: string; bracket: number }) => d.slug === slug && d.bracket === 3),
+      decks.some(
+        (d: { slug: string; targetBracket: number; swapCount: number }) =>
+          d.slug === slug && d.targetBracket === 3 && d.swapCount > 0,
+      ),
     );
     const detail = JSON.parse(
       fs.readFileSync(path.join(out, `data/decks/${slug}/detail.json`), "utf8"),

@@ -15,6 +15,8 @@
   --accent-soft: rgba(212, 171, 82, 0.13);
   --ok: #5ccf8c;
   --ok-soft: rgba(92, 207, 140, 0.12);
+  /* Quieter than --ok: new cards are marked, not celebrated. */
+  --new-text: #a9cdb6;
   --warn: #f2a65a;
   --warn-soft: rgba(242, 166, 90, 0.12);
   --bad: #f06272;
@@ -185,7 +187,8 @@ p {
   text-decoration: none;
 }
 .brand img {
-  border-radius: 7px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--accent-soft);
 }
 button.back {
   background: none;
@@ -690,36 +693,117 @@ textarea.decklist {
 .deck-filter {
   width: 240px;
 }
+/* ---------- home: welcome ---------- */
+
+.home-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-5);
+  padding: var(--sp-6) var(--sp-6) 0;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(520px 320px at 85% 60%, rgba(212, 171, 82, 0.2), transparent 70%),
+    linear-gradient(135deg, #161c2e, #0e1220 60%);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.home-hero-text {
+  padding-bottom: var(--sp-6);
+  max-width: 560px;
+}
+.home-hero h1 {
+  margin: var(--sp-2) 0 var(--sp-3);
+  font-size: 2.6rem;
+  font-weight: 780;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  background: linear-gradient(180deg, #ffffff 30%, #f1d898 130%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.home-hero p {
+  margin: 0;
+  color: var(--text-2);
+  font-size: 1.067rem;
+  line-height: 1.6;
+}
+.home-hero .home-hero-count {
+  margin-top: var(--sp-4);
+  color: var(--accent-hi);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+.home-hero-doc {
+  align-self: end;
+  position: relative;
+}
+.home-hero-doc img {
+  display: block;
+  width: 300px;
+  height: auto;
+  /* The portrait has its own navy background: fade its edges into the banner. */
+  -webkit-mask-image: radial-gradient(closest-side, #000 58%, transparent);
+  mask-image: radial-gradient(closest-side, #000 58%, transparent);
+  animation: doc-bob 5s ease-in-out infinite alternate;
+}
+@keyframes doc-bob {
+  from {
+    transform: translateY(6px) rotate(-1deg);
+  }
+  to {
+    transform: translateY(-4px) rotate(1.5deg);
+  }
+}
+.home-section-title {
+  margin: 0;
+  font-size: var(--fs-xl);
+  letter-spacing: -0.025em;
+}
+
+/* ---------- home: deck gallery ---------- */
+
 .deck-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: var(--sp-4);
 }
 .deck-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
-  overflow: hidden;
   color: var(--text);
   box-shadow: var(--shadow);
   transition:
-    transform 0.15s,
-    border-color 0.15s;
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.25s,
+    box-shadow 0.25s;
 }
 .deck-card:hover {
   text-decoration: none;
-  border-color: rgba(212, 171, 82, 0.45);
-  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateY(-4px);
+  /* Aura in the commander's colors. */
+  box-shadow:
+    -10px 14px 36px -14px var(--aura-1),
+    0 18px 40px -16px var(--aura-2),
+    10px 14px 36px -14px var(--aura-3);
 }
 .deck-art {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 4 / 3;
   background: var(--raised);
   display: grid;
   place-items: center;
   font-size: 2rem;
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  overflow: hidden;
 }
 .deck-art > img {
   position: absolute;
@@ -727,27 +811,62 @@ textarea.decklist {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 25%;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.deck-card:hover .deck-art > img {
+  transform: scale(1.06);
 }
 .deck-art::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 55%, rgba(10, 12, 18, 0.85));
+  background:
+    linear-gradient(180deg, rgba(10, 12, 18, 0.55), transparent 28%),
+    linear-gradient(0deg, rgba(18, 21, 30, 1), rgba(18, 21, 30, 0.6) 22%, transparent 55%);
 }
-.deck-art .mana-cost {
+.deck-art-top {
   position: absolute;
   z-index: 1;
-  left: 12px;
-  bottom: 10px;
+  top: 12px;
+  left: 14px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.deck-art-name {
+  position: absolute;
+  z-index: 1;
+  left: 16px;
+  right: 16px;
+  bottom: 8px;
+  font-size: var(--fs-md);
+  font-weight: 720;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 .deck-card-body {
-  padding: 12px 14px 14px;
+  padding: 4px 16px 16px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--sp-3);
 }
-.deck-card-body strong {
-  font-size: var(--fs-base);
+.deck-suggest {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  padding: 4px 10px 4px 4px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-hi);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+.deck-suggest img {
+  border-radius: 50%;
 }
 
 .scan-progress {
@@ -1720,7 +1839,12 @@ button.hero-card:active:not(:disabled) {
   color: var(--text);
 }
 .deck-group li.new .card-name a {
-  color: var(--ok);
+  color: var(--new-text);
+}
+.deck-group .badge.new,
+.deck-image-badge.badge.new {
+  color: var(--new-text);
+  background: rgba(150, 200, 170, 0.1);
 }
 .deck-group li.cut .card-name a {
   color: var(--muted);
@@ -2341,12 +2465,6 @@ pre {
 .bracket-badge.b5 {
   --c: #f06272;
 }
-.deck-art .bracket-badge {
-  position: absolute;
-  z-index: 1;
-  right: 12px;
-  bottom: 10px;
-}
 
 .bracket-head {
   display: flex;
@@ -2609,6 +2727,9 @@ pre {
   border-radius: 999px;
   min-height: 48px;
   padding: 10px 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   box-shadow:
     0 10px 30px rgba(0, 0, 0, 0.45),
     0 4px 14px rgba(212, 171, 82, 0.3);
@@ -2634,8 +2755,19 @@ pre {
     transform: translateY(8px);
   }
 }
+.doc-avatar {
+  display: block;
+  border-radius: 50%;
+  margin: -4px 2px -4px -10px;
+  box-shadow: 0 0 0 2px rgba(29, 21, 5, 0.35);
+}
+.doc-avatar.lg {
+  margin: 0;
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
 .chat-head {
   display: flex;
+  gap: 12px;
   justify-content: space-between;
   align-items: center;
   padding: 12px 12px 12px 18px;
@@ -2843,9 +2975,6 @@ pre {
     min-height: 44px;
     padding: 8px 16px;
   }
-  .chat-fab-long {
-    display: none;
-  }
   .chat-panel {
     inset: 0;
     width: auto;
@@ -2989,6 +3118,27 @@ pre {
   }
   h1 {
     font-size: 1.6rem;
+  }
+  .home-hero {
+    grid-template-columns: minmax(0, 1fr) 132px;
+    padding: var(--sp-5) var(--sp-4) 0;
+    gap: var(--sp-2);
+  }
+  .home-hero h1 {
+    font-size: 1.75rem;
+  }
+  .home-hero p {
+    font-size: var(--fs-sm);
+  }
+  .home-hero-text {
+    padding-bottom: var(--sp-5);
+  }
+  .home-hero-doc img {
+    width: 150px;
+    margin-right: -18px;
+  }
+  .deck-art {
+    aspect-ratio: 16 / 10;
   }
   .topbar-meta {
     display: none;

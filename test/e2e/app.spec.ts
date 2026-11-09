@@ -47,7 +47,7 @@ test.describe("local app", () => {
     await expect(page.getByRole("button", { name: /Re-run with different options/ })).toBeVisible();
 
     // Chat: propose a swap, apply it, and see the report update.
-    await page.getByRole("button", { name: /Ask mtg-doc/ }).click();
+    await page.getByRole("button", { name: /Ask the doc/ }).click();
     await expect(page.getByRole("complementary", { name: "Deck chat" })).toBeVisible();
     const message = page.getByLabel("Message");
     await message.fill("swap Sol Ring for Mind Stone");
@@ -59,7 +59,6 @@ test.describe("local app", () => {
     await expect(proposal).toContainText("Applied", { timeout: 30_000 });
     await expect(page.locator(".edit-log")).toContainText("Mind Stone");
     await page.getByRole("button", { name: "Close chat" }).click();
-    await page.getByRole("button", { name: "New cards" }).click();
     await expect(page.locator(".deck-group li.new").filter({ hasText: "Mind Stone" })).toHaveCount(
       1,
     );

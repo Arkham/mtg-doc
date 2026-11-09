@@ -68,7 +68,7 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
       }),
     );
   }
-  if (text.includes("You are mtg-doc, an expert Commander")) {
+  if (text.includes("You are the mtg doc, an expert Commander")) {
     // Simulates the provider refusing a request, which the app must survive.
     if (/Fellwar Stone|risky/.test(text)) return CONTENT_FILTER;
     return message(

@@ -125,10 +125,11 @@ export async function listDecks(): Promise<DeckSummary[]> {
         colorIdentity: report
           ? COLORS.filter((c) => report.commanderCards.some((k) => k.colorIdentity.includes(c)))
           : undefined,
-        bracket: report?.bracket?.after.bracket,
+        bracket: report?.bracket?.before.bracket,
+        landCount: report?.before.mana.landCount,
+        priceUsd: report?.before.totalPriceUsd,
         swapCount: report?.swaps.length,
-        landCount: report?.after.mana.landCount,
-        priceUsd: report?.after.totalPriceUsd,
+        targetBracket: report?.bracket?.target,
       });
     } catch {
       // Folders without deck.json aren't managed by the app.

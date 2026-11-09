@@ -150,16 +150,18 @@ export function ChatPanel({
         <button
           className="chat-fab primary"
           onClick={() => setOpen(true)}
-          aria-label="Ask mtg-doc about this deck"
+          aria-label="Ask the doc about this deck"
         >
-          <span aria-hidden>✦</span> Ask<span className="chat-fab-long"> mtg-doc</span>
+          <img className="doc-avatar" src="./icon-96.png" alt="" width={30} height={30} /> Ask
+          <span className="chat-fab-long"> the doc</span>
         </button>
       )}
       {open && (
         <aside className="chat-panel" aria-label="Deck chat">
           <header className="chat-head">
-            <div>
-              <strong>Ask mtg-doc</strong>
+            <img className="doc-avatar lg" src="./icon-96.png" alt="" width={40} height={40} />
+            <div className="grow">
+              <strong>The mtg doc</strong>
               <div className="muted small">{commander}</div>
             </div>
             <button className="icon" aria-label="Close chat" onClick={() => setOpen(false)}>

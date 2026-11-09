@@ -84,7 +84,7 @@ export function App() {
           </button>
         ) : (
           <a href="#/" className="brand">
-            <img src="./icon.svg" alt="" width={28} height={28} />
+            <img src="./icon-64.png" alt="" width={32} height={32} />
             mtg-doc
           </a>
         )}

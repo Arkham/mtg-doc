@@ -9,7 +9,14 @@ test.describe("static site", () => {
     await expect(page.getByRole("heading", { name: "Decks" })).toBeVisible();
     const cards = page.locator(".deck-card");
     await expect(cards).toHaveCount(2);
-    await expect(page.locator(".deck-card .bracket-badge")).toHaveText(["3", "2"]);
+    // Cards describe the decks as submitted; the optimizer's swaps are only a suggestion.
+    await expect(page.locator(".deck-card .bracket-badge")).toHaveText(["4", "2"]);
+    await expect(page.locator(".deck-card").first().locator(".deck-suggest")).toHaveText(
+      /\d+ suggested swaps? for bracket 3/,
+    );
+    await expect(
+      page.getByRole("heading", { name: "The doc will see your deck now." }),
+    ).toBeVisible();
     await expect(page.getByText("Analyze a deck")).toHaveCount(0);
     await expectNoHorizontalOverflow(page);
   });
@@ -105,21 +112,23 @@ test.describe("static site", () => {
     expect(await preview.evaluate((el) => getComputedStyle(el).width)).toBe("244px");
   });
 
-  test("deck list highlights new cards only when asked", async ({ page }) => {
+  test("optimized deck list marks new cards in a muted color, the original doesn't", async ({
+    page,
+  }) => {
     await page.goto(`${STATIC_URL}#/deck/${OPTIMIZED}`);
     const list = page.locator("#decklist");
-    await expect(list.locator(".deck-group li").first()).toBeVisible();
-    await expect(list.locator(".badge.new")).toHaveCount(0);
-    await expect(list.locator("li.new")).toHaveCount(0);
-    await list.getByRole("button", { name: "New cards" }).click();
-    await expect(list.getByRole("button", { name: "New cards" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
-    await expect(list.locator(".badge.new").first()).toBeVisible();
     await expect(list.locator("li.new").first()).toBeVisible();
-    await list.getByRole("button", { name: "New cards" }).click();
-    await expect(list.locator(".badge.new")).toHaveCount(0);
+    await expect(list.locator(".badge.new").first()).toBeVisible();
+    await expect(list.getByRole("button", { name: "New cards" })).toHaveCount(0);
+    const color = await list
+      .locator("li.new .card-name a")
+      .first()
+      .evaluate((el) => getComputedStyle(el).color);
+    expect(color).toBe("rgb(169, 205, 182)");
+
+    await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
+    await expect(list.locator(".deck-group li").first()).toBeVisible();
+    await expect(list.locator("li.new")).toHaveCount(0);
   });
 
   test("section nav scrolls and highlights the active section", async ({ page }) => {
