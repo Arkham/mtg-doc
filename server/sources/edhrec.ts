@@ -50,28 +50,41 @@ interface EdhrecPage {
   };
 }
 
-async function fetchPage(slug: string): Promise<EdhrecPage | null> {
-  const res = await fetch(`https://json.edhrec.com/pages/commanders/${slug}.json`, {
+/** EDHREC page suffix for each bracket's filtered recommendations. */
+export const BRACKET_PAGE: Record<number, string> = {
+  1: "exhibition",
+  2: "core",
+  3: "upgraded",
+  4: "optimized",
+  5: "cedh",
+};
+
+async function fetchPage(slug: string, variant?: string): Promise<EdhrecPage | null> {
+  const path = variant ? `${slug}/${variant}` : slug;
+  const res = await fetch(`https://json.edhrec.com/pages/commanders/${path}.json`, {
     headers: { "user-agent": config.userAgent },
     signal: AbortSignal.timeout(30_000),
   });
   if (!res.ok) return null;
   const page = (await res.json()) as EdhrecPage & { redirect?: string };
   if (page.redirect) {
-    const target = page.redirect.replace(/^\/commanders\//, "");
-    return target !== slug ? fetchPage(target) : null;
+    const target = page.redirect.replace(/^\/commanders\//, "").split("/")[0];
+    return target !== slug ? fetchPage(target, variant) : null;
   }
   return page;
 }
 
-export async function getCommanderData(commanders: string[]): Promise<EdhrecData | null> {
+export async function getCommanderData(
+  commanders: string[],
+  variant?: string,
+): Promise<EdhrecData | null> {
   const slugs = commanders.map(slugify);
   const candidates =
     slugs.length > 1
       ? [[...slugs].sort().join("-"), slugs.join("-"), [...slugs].reverse().join("-")]
       : slugs;
   for (const slug of [...new Set(candidates)]) {
-    const page = await fetchPage(slug);
+    const page = await fetchPage(slug, variant);
     if (!page?.container?.json_dict) continue;
     const cards = new Map<string, EdhrecCard>();
     for (const list of page.container.json_dict.cardlists ?? []) {
@@ -90,7 +103,7 @@ export async function getCommanderData(commanders: string[]): Promise<EdhrecData
       }
     }
     return {
-      url: `https://edhrec.com/commanders/${slug}`,
+      url: `https://edhrec.com/commanders/${slug}${variant ? `/${variant}` : ""}`,
       numDecks: page.container.json_dict.card?.num_decks ?? null,
       avgLands: page.land ?? null,
       avgBasics: page.basic ?? null,

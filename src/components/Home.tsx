@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { DeckSummary } from "../../shared/types.ts";
 import { type AppConfig, IS_STATIC, type Recognition, api } from "../api.ts";
+import { BracketBadge } from "./BracketPanel.tsx";
 import { ColorIdentity } from "./Mana.tsx";
 
 const isTouch = () => window.matchMedia("(pointer: coarse)").matches;
@@ -38,6 +39,7 @@ function DeckGallery({ decks }: { decks: DeckSummary[] }) {
             <div className="deck-art">
               {d.image ? <img src={d.image} alt="" loading="lazy" /> : <span>🃏</span>}
               <ColorIdentity colors={d.colorIdentity} size={20} />
+              {d.bracket && <BracketBadge n={d.bracket} size="sm" />}
             </div>
             <div className="deck-card-body">
               <strong>{d.commanders.join(" + ") || d.slug}</strong>

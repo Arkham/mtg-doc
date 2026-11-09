@@ -62,7 +62,8 @@ function optionsSummary(o: OptimizeOptions) {
   return [
     `up to ${o.maxSwaps} swaps`,
     o.budgetPerCard ? `≤ $${o.budgetPerCard}/card` : "any budget",
-    o.bracket ? `bracket ${o.bracket}` : "current power level",
+    o.bracket ? `bracket ${o.bracket}` : "current bracket",
+    o.tone === "max" ? "max power" : o.tone,
     o.webResearch ? "web research" : null,
   ]
     .filter(Boolean)
@@ -98,6 +99,7 @@ export function Review({
     maxSwaps: 15,
     budgetPerCard: null,
     bracket: null,
+    tone: "max",
     locked: [],
     webResearch: Boolean(config?.webResearch),
   });
@@ -488,7 +490,7 @@ export function Review({
                 />
               </label>
               <label className="field">
-                <span>Power level</span>
+                <span>Target bracket</span>
                 <select
                   value={options.bracket ?? ""}
                   onChange={(e) =>
@@ -498,14 +500,28 @@ export function Review({
                     })
                   }
                 >
-                  <option value="">Keep current</option>
-                  <option value="1">Bracket 1: Exhibition</option>
-                  <option value="2">Bracket 2: Core</option>
-                  <option value="3">Bracket 3: Upgraded</option>
-                  <option value="4">Bracket 4: Optimized</option>
-                  <option value="5">Bracket 5: cEDH</option>
+                  <option value="">Stay in current bracket</option>
+                  <option value="1">1: Exhibition</option>
+                  <option value="2">2: Core</option>
+                  <option value="3">3: Upgraded</option>
+                  <option value="4">4: Optimized</option>
+                  <option value="5">5: cEDH</option>
                 </select>
               </label>
+              <div className="field">
+                <span>Push</span>
+                <div className="segmented">
+                  {(["max", "balanced", "casual"] as const).map((t) => (
+                    <button
+                      key={t}
+                      aria-selected={options.tone === t}
+                      onClick={() => setOptions({ ...options, tone: t })}
+                    >
+                      {t === "max" ? "Max" : t === "balanced" ? "Balanced" : "Casual"}
+                    </button>
+                  ))}
+                </div>
+              </div>
               <label className="field checkbox">
                 <input
                   type="checkbox"

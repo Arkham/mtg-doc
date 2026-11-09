@@ -24,6 +24,7 @@ function card(partial: Partial<Card> & { name: string }): Card {
     entersTapped: false,
     legalCommander: true,
     canBeCommander: false,
+    gameChanger: false,
     priceUsd: null,
     image: null,
     imageArt: null,
@@ -191,4 +192,39 @@ test("merges chained basic land swaps", () => {
   assert.equal(merged.length, 1);
   assert.equal(merged[0].out, "Rogue's Passage");
   assert.equal(merged[0].in, "Forest");
+});
+
+test("bracket rules: combos and limits", async () => {
+  const { BRACKETS, comboViolates } = await import("./analysis/bracket.ts");
+  const combo = {
+    id: "x",
+    cards: ["A", "B"],
+    produces: [],
+    definitelyTwoCard: true,
+    arguablyTwoCard: false,
+    relevant: true,
+    lock: false,
+    extraTurn: false,
+    massLandDenial: false,
+    tag: "S",
+    url: "",
+  };
+  assert.equal(comboViolates(combo, 2, 0), true);
+  assert.equal(comboViolates(combo, 3, 5), false);
+  assert.equal(comboViolates(combo, 3, 40), true);
+  assert.equal(comboViolates({ ...combo, tag: "R" }, 3, 0), true);
+  assert.equal(comboViolates({ ...combo, tag: "R" }, 4, 90), false);
+  assert.equal(BRACKETS[3].gameChangers, 3);
+  assert.equal(BRACKETS[2].gameChangers, 0);
+});
+
+test("simulation tracks combo assembly", () => {
+  const deck = testDeck(37);
+  const piece = card({ name: "Piece", manaCost: "{1}{G}", cmc: 2, colorIdentity: ["G"] });
+  deck.slots[2].qty -= 1;
+  deck.slots.push({ card: piece, qty: 1 });
+  const sim = simulate(deck, 2000, 1, [["Cmdr", "Piece"]]);
+  const byTurn = sim.combos![0].byTurn;
+  assert.ok(byTurn[8] >= byTurn[4]);
+  assert.ok(byTurn[8] > 0);
 });

@@ -4,13 +4,18 @@ import { Home } from "./components/Home.tsx";
 import { Progress } from "./components/Progress.tsx";
 import { ReportView } from "./components/ReportView.tsx";
 import { Review } from "./components/Review.tsx";
+import { Rule0 } from "./components/Rule0.tsx";
 import { navigate } from "./nav.ts";
 
 type Route =
-  { page: "home" } | { page: "deck"; slug: string } | { page: "job"; slug: string; jobId: string };
+  | { page: "home" }
+  | { page: "deck"; slug: string }
+  | { page: "rule0"; slug: string }
+  | { page: "job"; slug: string; jobId: string };
 
 function parseHash(): Route {
   const [, page, a, b] = window.location.hash.split("/");
+  if (page === "deck" && a && b === "rule0") return { page: "rule0", slug: a };
   if (page === "deck" && a) return { page: "deck", slug: a };
   if (page === "job" && a && b && !IS_STATIC) return { page: "job", slug: a, jobId: b };
   return { page: "home" };
@@ -33,14 +38,16 @@ export function App() {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
-  const goHome = () => {
+  const goBack = () => {
     setRecognition(null);
-    navigate("#/");
+    navigate(route.page === "rule0" ? `#/deck/${route.slug}` : "#/");
   };
 
   let body;
   if (route.page === "job") {
     body = <Progress jobId={route.jobId} onDone={() => navigate(`#/deck/${route.slug}`)} />;
+  } else if (route.page === "rule0") {
+    body = <Rule0 slug={route.slug} />;
   } else if (route.page === "deck") {
     body = <ReportView slug={route.slug} />;
   } else if (recognition) {
@@ -68,8 +75,8 @@ export function App() {
     <div className="app">
       <header className="topbar">
         {inner ? (
-          <button className="back" onClick={goHome} aria-label="Back to decks">
-            <span aria-hidden>‹</span> Decks
+          <button className="back" onClick={goBack} aria-label="Back">
+            <span aria-hidden>‹</span> {route.page === "rule0" ? "Report" : "Decks"}
           </button>
         ) : (
           <a href="#/" className="brand">

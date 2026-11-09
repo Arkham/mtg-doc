@@ -10,12 +10,14 @@ import type {
 } from "../../shared/types.ts";
 import { type DeckDetail, IS_STATIC, api, fileUrl } from "../api.ts";
 import { navigate } from "../nav.ts";
+import { BracketBadge, BracketPanel } from "./BracketPanel.tsx";
 import { CardName } from "./CardName.tsx";
 import { ManaCost } from "./Mana.tsx";
 import { Markdown } from "./Markdown.tsx";
 
 const COLOR_NAME = { W: "White", U: "Blue", B: "Black", R: "Red", G: "Green" } as const;
 const CATEGORY_EMOJI: Record<Swap["category"], string> = {
+  bracket: "🎯",
   synergy: "🧩",
   combo: "♾️",
   mana: "💧",
@@ -103,6 +105,17 @@ function SwapGroup({ title, swaps }: { title: string; swaps: Swap[] }) {
                 {CATEGORY_EMOJI[s.category]} {s.category}
               </span>
               <p>{s.reason}</p>
+              {s.alternatives && s.alternatives.length > 0 && (
+                <p className="alternatives small">
+                  <span className="muted">Also consider: </span>
+                  {s.alternatives.map((a, j) => (
+                    <span key={a.name}>
+                      {j > 0 && <span className="muted"> · </span>}
+                      <CardName name={a.name} card={a} />
+                    </span>
+                  ))}
+                </p>
+              )}
             </div>
           </article>
         ))}
@@ -343,6 +356,17 @@ function Rerun({ slug, initial }: { slug: string; initial: OptimizeOptions }) {
           {[1, 2, 3, 4, 5].map((b) => (
             <option key={b}>{b}</option>
           ))}
+        </select>
+      </label>
+      <label>
+        Tone{" "}
+        <select
+          value={opts.tone ?? "max"}
+          onChange={(e) => setOpts({ ...opts, tone: e.target.value as OptimizeOptions["tone"] })}
+        >
+          <option value="max">max power</option>
+          <option value="balanced">balanced</option>
+          <option value="casual">casual</option>
         </select>
       </label>
       <label className="checkbox">
@@ -626,6 +650,7 @@ export function ReportView({ slug }: { slug: string }) {
   const ins = r.swaps.reduce((n, s) => n + (s.inCard?.priceUsd ?? 0), 0);
   const hasCombos = r.combosPresent.length > 0 || r.combosOneAway.length > 0;
   const sections: [string, string][] = [
+    ...(r.bracket ? [["bracket", "Bracket"] as [string, string]] : []),
     ["swaps", "Swaps"],
     ...(r.decklist ? [["decklist", "Deck list"] as [string, string]] : []),
     ["mana", "Mana"],
@@ -642,6 +667,7 @@ export function ReportView({ slug }: { slug: string }) {
         )}
         <div className="hero-body">
           <div className="hero-title">
+            {r.bracket && <BracketBadge n={r.bracket.after.bracket} />}
             <h1>{r.commanders.join(" + ") || slug}</h1>
             <div className="hero-costs">
               {r.commanderCards.map((c) => (
@@ -707,6 +733,12 @@ export function ReportView({ slug }: { slug: string }) {
           <Stat label="Cost of new cards" after={ins} format={(n) => money(n)} />
         </div>
       </section>
+
+      {r.bracket && (
+        <section className="panel" id="bracket">
+          <BracketPanel b={r.bracket} slug={slug} />
+        </section>
+      )}
 
       <section className="panel" id="swaps">
         <h2>Swaps</h2>

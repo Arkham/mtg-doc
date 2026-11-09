@@ -11,11 +11,14 @@ import type {
 } from "../../shared/types.ts";
 import { chatJson } from "../llm.ts";
 import { isBasicLand, lookupExact, lookupFuzzy } from "../sources/scryfall.ts";
+import type { BracketRules } from "./bracket.ts";
 import type { ScoredCard } from "./candidates.ts";
-import { type Deck, cloneDeck } from "./deck.ts";
+import { type Deck, cloneDeck, countRoles } from "./deck.ts";
 import { BASIC_FOR, analyzeMana, landColors } from "./mana.ts";
+import type { ProposedSwap, SolverCard, SolverResult } from "./search.ts";
 
 const CATEGORIES = [
+  "bracket",
   "synergy",
   "combo",
   "mana",
@@ -49,8 +52,11 @@ export type Plan = z.infer<typeof PlanSchema>;
 export interface PlanInput {
   deck: Deck;
   identity: Color[];
-  scored: ScoredCard[];
-  candidates: ScoredCard[];
+  scored: SolverCard[];
+  candidates: SolverCard[];
+  solver: SolverResult;
+  target: number;
+  rules: BracketRules;
   combosPresent: Combo[];
   oneAway: Combo[];
   mana: ManaReport;
@@ -60,30 +66,41 @@ export interface PlanInput {
   options: OptimizeOptions;
 }
 
-const fmtCard = (s: ScoredCard) =>
+const pct = (x: number | null) => (x === null ? "n/a" : `${Math.round(x * 100)}%`);
+
+const fmtCard = (s: ScoredCard & { flags?: SolverCard["flags"] }) =>
   [
     s.offIdentity ? `${s.card.name} [OFF-COLOR/ILLEGAL: must cut]` : s.card.name,
     `mv${s.card.cmc}`,
     s.card.typeLine.split(" — ")[0],
     s.card.roles.join("/"),
-    s.inclusion !== null ? `incl ${Math.round(s.inclusion * 100)}%` : "not on EDHREC",
+    s.inclusion !== null ? `incl ${pct(s.inclusion)}` : "not on EDHREC",
     s.synergy !== null ? `syn ${s.synergy >= 0 ? "+" : ""}${Math.round(s.synergy * 100)}%` : "",
+    `score ${s.score.toFixed(2)}`,
+    s.flags?.gameChanger ? "GAME CHANGER" : "",
+    s.flags?.massLandDenial ? "MASS LAND DENIAL" : "",
+    s.flags?.extraTurn ? "EXTRA TURN" : "",
     s.comboPiece ? "COMBO" : "",
     s.card.priceUsd !== null ? `$${s.card.priceUsd}` : "",
   ]
     .filter(Boolean)
     .join(" | ");
 
-function landDeltaText(mana: ManaReport) {
-  const delta = Math.round(mana.recommendedLands - (mana.landCount + mana.mdfcLands * 0.5));
-  if (delta === 0) return "Keep the land count the same (land-for-land swaps only).";
-  return delta > 0
-    ? `Include exactly ${delta} swap(s) with a NONLAND out and a LAND in (net +${delta} lands).`
-    : `Include exactly ${-delta} swap(s) with a LAND out and a NONLAND in (net ${delta} lands).`;
-}
+const fmtProposal = (p: ProposedSwap, i: number) =>
+  `${i + 1}. OUT ${p.out.name} → IN ${p.in.name} (gain ${p.gain.toFixed(2)}${p.forced ? `, REQUIRED: ${p.forced}` : ""})${
+    p.alternatives.length ? `; alternatives: ${p.alternatives.map((a) => a.name).join(", ")}` : ""
+  }`;
+
+const TONE_TEXT = {
+  max: "Push power as high as the bracket allows: best-in-slot staples, efficient interaction, tutors and fast mana where legal, and use every Game Changer slot that improves the deck.",
+  balanced:
+    "Improve consistency and synergy, but don't chase every staple; keep the deck's personality.",
+  casual:
+    "Keep it friendly: favour synergy and fun over raw power, avoid tutors, stax and salty cards, and leave Game Changer slots empty unless thematic.",
+};
 
 export async function planWithLlm(input: PlanInput): Promise<Plan> {
-  const { deck, options } = input;
+  const { deck, options, rules, target } = input;
   const commander = deck.commanders
     .map((c) => `${c.name} (${c.manaCost}) — ${c.typeLine}\n${c.oracleText}`)
     .join("\n\n");
@@ -94,91 +111,107 @@ export async function planWithLlm(input: PlanInput): Promise<Plan> {
       const n = qty.get(s.card.name) ?? 1;
       return `- ${s.card.isLand ? "[land] " : ""}${fmtCard(s)}${n > 1 ? ` x${n}` : ""}`;
     });
-  const candLines = input.candidates.map((s) => `- ${fmtCard(s)} | via ${s.source.join(", ")}`);
-  const prompt = `You are an expert Commander (EDH) deckbuilder. Optimize this deck while keeping its identity and plan.
+  const candLines = input.candidates
+    .slice(0, 70)
+    .map((s) => `- ${fmtCard(s)} | via ${s.source.join(", ")}`);
+  const gcLimit = rules.gameChangers === Infinity ? "unlimited" : String(rules.gameChangers);
+  const prompt = `You are an expert Commander (EDH) deckbuilder. A constraint solver has proposed swaps for this deck. Review them like a strong player would, then produce the final list with explanations.
 
 ## Commander
 ${commander}
 
-## Constraints
-- Propose at most ${options.maxSwaps} one-for-one swaps (fewer is fine if the deck is already tight). Deck must stay at exactly 100 cards.
-- "out" must be a card currently in the deck. Never cut: ${[...deck.commanders.map((c) => c.name), ...options.locked].join(", ") || "(nothing locked)"}.
-- Prefer "in" cards from the candidate list (validated: legal, in color identity${options.budgetPerCard ? `, ≤ $${options.budgetPerCard}` : ""}). You may suggest other real cards if clearly better; they'll be validated.
-- No duplicates except basic lands. To change basic counts, use the basic land name as "out" or "in".
-${options.bracket ? `- Target power bracket ${options.bracket} (1 exhibition … 5 cEDH). Don't add Game Changers, mass land denial, or early 2-card infinite combos if that would exceed it.` : "- Keep roughly the same power level; don't turn a casual deck into cEDH."}
-- Land count: ${input.mana.landCount} lands${input.mana.mdfcLands ? ` + ${input.mana.mdfcLands} MDFCs` : ""} now, ~${input.mana.recommendedLands} recommended. ${landDeltaText(input.mana)}
-- Cut lands that enter tapped unconditionally or produce only colorless when better fixing exists. Count MDFCs as half a land.
-- Address role gaps: ${
-    input.roles
-      .filter((r) => r.target !== null && r.count < r.target)
-      .map((r) => `${r.role} ${r.count}/${r.target}`)
-      .join(", ") || "none"
-  }.
-- Prioritize: cutting low-synergy / low-inclusion / clunky cards, completing strong combos only if it suits the deck, and keeping the curve lean.
+## Target: Bracket ${target} (${rules.name}), tone "${options.tone ?? "max"}"
+${TONE_TEXT[options.tone ?? "max"]}
+Hard bracket rules (the final deck MUST satisfy them; every swap is re-validated):
+- Game Changers: ${gcLimit}
+- Mass land denial: ${rules.massLandDenial ? "allowed" : "NOT allowed"}
+- Extra-turn cards: ${rules.extraTurnCards === Infinity ? "allowed" : `at most ${rules.extraTurnCards}, never chained`}
+- Two-card infinite combos: ${rules.twoCardCombos === "any" ? "allowed" : rules.twoCardCombos === "late" ? "only ones that don't come together before turn 6" : "NOT allowed"}
+- Players should expect at least ${rules.minTurns} turns before anyone wins or loses.
+
+## Solver proposals (ordered; gain = data-driven improvement)
+${input.solver.swaps.map(fmtProposal).join("\n") || "none"}
+
+Swaps marked REQUIRED fix bracket or legality violations: keep them (you may pick one of their alternatives instead).
+For the rest: keep, drop, or replace the "in" with one of its alternatives or another card from the candidate list. Drop swaps that are anti-synergistic, nonbos, or off-plan. You may add swaps from the candidate list, up to ${options.maxSwaps} total.
+
+## Game Changer slots
+${(() => {
+  const flagged = new Map(input.candidates.map((c) => [c.card.name, c.flags.gameChanger]));
+  for (const c of input.scored) flagged.set(c.card.name, c.flags.gameChanger);
+  const after = new Set(input.scored.filter((c) => c.flags.gameChanger).map((c) => c.card.name));
+  for (const p of input.solver.swaps) {
+    after.delete(p.out.name);
+    if (flagged.get(p.in.name)) after.add(p.in.name);
+  }
+  const limit = rules.gameChangers === Infinity ? "unlimited" : rules.gameChangers;
+  return `After the proposals: ${after.size}/${limit} (${[...after].join(", ") || "none"}). To add a different Game Changer when slots are full, cut one of these in the same swap.`;
+})()}
+
+## Cards excluded to stay in the bracket (do not add these)
+${input.solver.excluded.map((e) => `- ${e.name}: ${e.reason}`).join("\n") || "none"}
+
+## Other constraints
+- "out" must be in the deck. Never cut: ${[...deck.commanders.map((c) => c.name), ...options.locked].join(", ") || "(nothing locked)"}.
+- No duplicates except basic lands.${options.budgetPerCard ? ` Max $${options.budgetPerCard} per card.` : ""}
+- Land count: ${input.mana.landCount} lands now, ~${input.mana.recommendedLands} recommended. Lands are fixed automatically afterwards, so focus on spells unless a land swap is clearly better.
 
 ## Mana analysis
-${JSON.stringify({ lands: input.mana.landCount, mdfc: input.mana.mdfcLands, recommended: input.mana.recommendedLands, avgCmc: input.mana.avgCmc, curve: input.mana.curve, colors: input.mana.colors, tapped: input.mana.tappedLands, colorless: input.mana.colorlessLands, basics: input.mana.basics, issues: input.mana.issues })}
+${JSON.stringify({ avgCmc: input.mana.avgCmc, curve: input.mana.curve, colors: input.mana.colors, tapped: input.mana.tappedLands, issues: input.mana.issues })}
 
-## Current deck (sorted weakest first by data score)
+## Roles (count/typical)
+${input.roles
+  .filter((r) => r.target !== null)
+  .map((r) => `${r.role} ${r.count}/${r.target}`)
+  .join(", ")}
+
+## Current deck (weakest first)
 ${deckLines.join("\n")}
 
-## Combos already in the deck
+## Combos in the deck
 ${input.combosPresent.map((c) => `- ${c.cards.join(" + ")} → ${c.produces.join(", ")}`).join("\n") || "none"}
-
-## Combos one card away
-${
-  input.oneAway
-    .slice(0, 15)
-    .map((c) => `- add ${c.missing[0]}: ${c.cards.join(" + ")} → ${c.produces.join(", ")}`)
-    .join("\n") || "none"
-}
 
 ## Popular themes on EDHREC
 ${input.edhrecThemes.join(", ") || "n/a"}
 
 ## Web research
-${input.research?.summary.slice(0, 5000) ?? "n/a"}
+${input.research?.summary.slice(0, 4000) ?? "n/a"}
 
-## Candidate additions (best first)
+## Candidate additions (validated for legality, identity and budget; best first)
 ${candLines.join("\n")}
 
 Reply with JSON only:
-{"strategy": "2-4 sentence summary of the deck's game plan and what these changes improve", "themes": string[], "swaps": [{"out": string, "in": string, "category": "synergy|combo|mana|ramp|draw|interaction|curve|other", "reason": "one or two sentences, specific to this commander"}], "manaNotes": ["concise mana base observations/recommendations"]}`;
+{"strategy": "2-4 sentences: the game plan, what these changes improve, and where the deck sits in bracket ${target}", "themes": string[], "swaps": [{"out": string, "in": string, "category": "bracket|synergy|combo|mana|ramp|draw|interaction|curve|other", "reason": "one or two sentences, specific to this commander"}], "manaNotes": ["concise mana base observations"]}`;
   return chatJson(PlanSchema, [{ role: "user", content: prompt }]);
 }
 
-/** Data-only plan used when no LLM is configured or the LLM call fails. */
+/** Solver output as a plan, used when no LLM is configured or the LLM call fails. */
 export function planHeuristic(input: PlanInput): Plan {
-  const locked = new Set([...input.options.locked, ...input.deck.commanders.map((c) => c.name)]);
-  const cuts = input.scored
-    .filter((s) => (s.offIdentity || !s.card.isLand) && !locked.has(s.card.name) && !s.comboPiece)
-    .sort((a, b) => a.score - b.score);
-  const adds = input.candidates.filter((s) => !s.card.isLand);
-  const swaps: Plan["swaps"] = [];
-  const used = new Set<string>();
-  for (const cut of cuts) {
-    if (swaps.length >= input.options.maxSwaps) break;
-    const add = (cut.card.isLand ? input.candidates : adds).find(
-      (a) =>
-        !used.has(a.card.name) && a.score > cut.score + 0.15 && (!cut.card.isLand || a.card.isLand),
-    );
-    if (!add) break;
-    used.add(add.card.name);
-    const shared = add.card.roles.find((r) => cut.card.roles.includes(r) && r !== "other");
-    swaps.push({
-      out: cut.card.name,
-      in: add.card.name,
-      category: add.comboPiece ? "combo" : "synergy",
-      reason: `${add.card.name} sees play in ${add.inclusion !== null ? Math.round(add.inclusion * 100) + "%" : "many"} of decks for this commander vs ${cut.inclusion !== null ? Math.round(cut.inclusion * 100) + "%" : "almost none"} for ${cut.card.name}${shared ? `; both fill the ${shared} role` : ""}.`,
-    });
-  }
   return {
-    strategy: "Data-driven swaps based on EDHREC inclusion and synergy (no LLM configured).",
+    strategy: `Data-driven swaps for bracket ${input.target} (${input.rules.name}) based on EDHREC inclusion and synergy (no LLM configured).`,
     themes: input.edhrecThemes.slice(0, 3),
-    swaps,
+    swaps: input.solver.swaps.map((p) => ({
+      out: p.out.name,
+      in: p.in.name,
+      category: p.forced
+        ? "bracket"
+        : p.in.roles.includes("ramp")
+          ? "ramp"
+          : p.in.roles.includes("draw")
+            ? "draw"
+            : p.in.roles.some((r) => r === "removal" || r === "counter" || r === "wipe")
+              ? "interaction"
+              : "synergy",
+      reason: p.forced
+        ? `${p.out.name} is ${p.forced}; ${p.in.name} is the best legal replacement.`
+        : `${p.in.name} scores ${p.gain.toFixed(2)} higher for this commander at bracket ${input.target}.`,
+    })),
     manaNotes: [],
   };
 }
+
+/** Returns why a card can't be added (bracket rules etc.), or null. */
+export type Violation = (card: Card, deck: Deck, out?: Card) => string | null;
 
 export interface ApplyResult {
   deck: Deck;
@@ -192,6 +225,8 @@ export async function applyPlan(
   identity: Color[],
   candidates: ScoredCard[],
   options: OptimizeOptions,
+  violation: Violation = () => null,
+  alternatives: Map<string, Card[]> = new Map(),
 ): Promise<ApplyResult> {
   const next = cloneDeck(deck);
   const warnings: string[] = [];
@@ -231,6 +266,11 @@ export async function applyPlan(
       warnings.push(`Skipped swap: ${inCard.name} ($${inCard.priceUsd}) is over budget.`);
       continue;
     }
+    const why = violation(inCard, next, outSlot.card);
+    if (why) {
+      warnings.push(`Skipped swap: ${inCard.name} (${why}).`);
+      continue;
+    }
     outSlot.qty--;
     if (outSlot.qty === 0) next.slots.splice(next.slots.indexOf(outSlot), 1);
     if (existing) existing.qty++;
@@ -242,6 +282,10 @@ export async function applyPlan(
       reason: s.reason,
       outCard: outSlot.card,
       inCard,
+      alternatives: (alternatives.get(outSlot.card.name) ?? [])
+        .filter((a) => a.name !== inCard!.name)
+        .slice(0, 3)
+        .map((a) => ({ name: a.name, image: a.image, scryfallUri: a.scryfallUri })),
     });
   }
   return { deck: next, swaps, warnings };
@@ -319,6 +363,7 @@ export async function fixLandCount(
   locked: Set<string>,
   justAdded: Set<string>,
   budget: number,
+  violation: Violation = () => null,
 ): Promise<{ deck: Deck; swaps: Swap[] }> {
   const next = cloneDeck(deck);
   const swaps: Swap[] = [];
@@ -336,11 +381,16 @@ export async function fixLandCount(
         !scoreOf.get(s.card.name)?.comboPiece,
     );
     if (diff >= 1) {
+      // Don't cut into roles that are already short (e.g. the last pieces of removal).
+      const roles = countRoles(next, true);
+      const short = new Set(
+        roles.filter((r) => r.target !== null && r.count <= r.target).map((r) => r.role),
+      );
+      const cutCost = (c: Card) =>
+        (scoreOf.get(c.name)?.score ?? 0) + (c.roles.some((r) => short.has(r)) ? 0.35 : 0);
       const cut = cuttable
         .filter((s) => !s.card.isLand)
-        .sort(
-          (a, b) => (scoreOf.get(a.card.name)?.score ?? 0) - (scoreOf.get(b.card.name)?.score ?? 0),
-        )[0];
+        .sort((a, b) => cutCost(a.card) - cutCost(b.card))[0];
       const needy = [...mana.colors].sort(
         (a, b) => b.targetSources - b.landSources - (a.targetSources - a.landSources),
       )[0];
@@ -349,6 +399,7 @@ export async function fixLandCount(
           (c) =>
             c.card.isLand &&
             !inDeck.has(c.card.name) &&
+            !violation(c.card, next, cut?.card) &&
             !c.card.entersTapped &&
             landColors(c.card, identity).length >= Math.min(2, identity.length),
         )?.card ?? (needy ? basics.get(BASIC_FOR[needy.color]) : undefined);
@@ -379,7 +430,9 @@ export async function fixLandCount(
             landColors(a.card, identity).length - landColors(b.card, identity).length ||
             surplus(b.card) - surplus(a.card),
         )[0];
-      const spell = candidates.find((c) => !c.card.isLand && !inDeck.has(c.card.name))?.card;
+      const spell = candidates.find(
+        (c) => !c.card.isLand && !inDeck.has(c.card.name) && !violation(c.card, next, cut?.card),
+      )?.card;
       if (!cut || !spell) break;
       moveCard(next, cut.card, spell);
       justAdded.add(spell.name);

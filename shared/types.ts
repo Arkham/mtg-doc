@@ -30,6 +30,7 @@ export interface Card {
   entersTapped: boolean;
   legalCommander: boolean;
   canBeCommander: boolean;
+  gameChanger: boolean;
   priceUsd: number | null;
   image: string | null;
   imageArt: string | null;
@@ -60,10 +61,15 @@ export interface RecognitionResult {
   notes: string[];
 }
 
+export type Tone = "max" | "balanced" | "casual";
+
 export interface OptimizeOptions {
   maxSwaps: number;
   budgetPerCard: number | null;
+  /** Target bracket; null keeps the deck in the bracket it already fits. */
   bracket: number | null;
+  /** How hard to push within the bracket. */
+  tone: Tone;
   locked: string[];
   webResearch: boolean;
 }
@@ -84,6 +90,7 @@ export interface DeckSummary {
   hasReport: boolean;
   image: string | null;
   colorIdentity?: Color[];
+  bracket?: number;
   swapCount?: number;
   landCount?: number;
   priceUsd?: number;
@@ -92,8 +99,11 @@ export interface DeckSummary {
 export interface Swap {
   out: string;
   in: string;
-  category: "synergy" | "combo" | "mana" | "ramp" | "draw" | "interaction" | "curve" | "other";
+  category:
+    "bracket" | "synergy" | "combo" | "mana" | "ramp" | "draw" | "interaction" | "curve" | "other";
   reason: string;
+  /** Other strong options for the same slot. */
+  alternatives?: { name: string; image: string | null; scryfallUri: string }[];
   outCard?: Card;
   inCard?: Card;
 }
@@ -131,6 +141,8 @@ export interface SimResult {
   avgManaTurn4: number;
   screwRate: number;
   floodRate: number;
+  /** Cumulative % of games where each combo is assembled and castable by a given turn. */
+  combos?: { cards: string[]; byTurn: Record<number, number> }[];
 }
 
 export interface RoleCount {
@@ -163,6 +175,51 @@ export interface DeckSnapshot {
   totalPriceUsd: number;
 }
 
+export interface BracketCombo {
+  cards: string[];
+  produces: string[];
+  twoCard: boolean;
+  tag: string | null;
+  /** % of goldfish games assembled before the bracket's minimum game length. */
+  earlyPct: number | null;
+  url: string;
+}
+
+export interface BracketCheck {
+  label: string;
+  ok: boolean;
+  detail: string;
+}
+
+export interface BracketAssessment {
+  /** Lowest bracket whose rules the deck satisfies. */
+  bracket: number;
+  spellbookTag: string | null;
+  gameChangers: string[];
+  massLandDenial: string[];
+  extraTurns: string[];
+  combos: BracketCombo[];
+  /** 0-100 heuristic power estimate. */
+  power: number;
+  /** Where the deck sits inside the target bracket. */
+  position: "low" | "mid" | "high";
+  checks: BracketCheck[];
+}
+
+export interface BracketReport {
+  target: number;
+  name: string;
+  minTurns: number;
+  tone: Tone;
+  before: BracketAssessment;
+  after: BracketAssessment;
+  gameChangerLimit: number | null;
+  /** Best Game Changers not in the deck, for brackets with free slots. */
+  gameChangerOptions: { name: string; score: number; inDeck: boolean }[];
+  /** Strong cards the optimizer skipped to stay in the bracket. */
+  excluded: { name: string; reason: string }[];
+}
+
 export interface Report {
   slug: string;
   commanders: string[];
@@ -181,6 +238,7 @@ export interface Report {
   edhrec: { url: string; numDecks: number | null; avgLands: number | null } | null;
   warnings: string[];
   options: OptimizeOptions;
+  bracket?: BracketReport;
   /** Optimized list with display data; absent in reports generated before it existed. */
   decklist?: DecklistCard[];
 }

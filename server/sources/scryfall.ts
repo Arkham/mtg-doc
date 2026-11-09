@@ -47,6 +47,7 @@ export interface ScryfallCard {
   layout: string;
   legalities: Record<string, string>;
   prices: { usd?: string | null; usd_foil?: string | null };
+  game_changer?: boolean;
   image_uris?: { normal?: string; art_crop?: string };
   card_faces?: ScryfallFace[];
   scryfall_uri: string;
@@ -84,6 +85,7 @@ export function toCard(sc: ScryfallCard): Card {
     isMdfcLand,
     entersTapped,
     legalCommander: sc.legalities.commander === "legal",
+    gameChanger: Boolean(sc.game_changer),
     canBeCommander:
       (/\bLegendary\b/.test(frontType) && /\b(Creature|Vehicle|Spacecraft)\b/.test(frontType)) ||
       /can be your commander/i.test(oracleText),
@@ -166,4 +168,12 @@ export async function resolveNames(names: string[]): Promise<Resolved[]> {
     results.push({ requested: name, card: fuzzy, status: fuzzy ? "fuzzy" : "unresolved" });
   }
   return results;
+}
+
+/** Scryfall full-text search (first page only, which is plenty for targeted queries). */
+export async function searchCards(q: string): Promise<Card[]> {
+  const res = await sfFetch(`/cards/search?q=${encodeURIComponent(q)}`);
+  if (!res.ok) return [];
+  const { data } = (await res.json()) as { data: ScryfallCard[] };
+  return data.map(toCard);
 }

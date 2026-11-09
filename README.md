@@ -65,20 +65,48 @@ decks/lathril-blade-of-the-elves/
   uploads/        # original photos (gitignored)
 ```
 
+## Brackets
+
+Pick a target bracket (or keep the current one) and how hard to push: **Max**, **Balanced** or
+**Casual**. The optimizer then improves the deck as much as it can without breaking that bracket:
+
+- Rules come from the official Commander Brackets: Game Changer limits (0 / 0 / 3 / any), no mass land
+  denial or chained extra turns below bracket 4, no two-card combos in brackets 1-2 and only
+  late-game ones in bracket 3, plus the minimum game length for each bracket.
+- Game Changers come from Scryfall's live `is:gamechanger` data; mass land denial, extra turns and
+  combo severity come from Commander Spellbook's bracket estimator.
+- Recommendations come from EDHREC's page for the target bracket (e.g. `/upgraded`), so a
+  bracket 3 deck is tuned toward what bracket 3 decks actually play.
+- The goldfish simulator estimates how often each two-card combo comes together before the bracket's
+  minimum game length; combos that show up too early don't count as "late-game".
+- Every swap is checked against the rules, the final deck is re-verified with Commander Spellbook,
+  and any swap that sneaks in a forbidden combo is undone.
+- The report shows the bracket checks, Game Changer slots (and the best other options), combo speed,
+  strong cards skipped to stay in the bracket, and a **Pre-game summary** screen to show the table.
+
 ## How the optimizer decides
 
 - **Data score** per card: EDHREC inclusion rate and synergy for this commander, combo membership,
   role gaps (ramp/draw/removal/…), and a penalty for very expensive spells. Off-color cards are always cut.
 - **Candidates**: EDHREC's lists for the commander, the missing piece of combos that are one card
   away, and cards mentioned in web research, all filtered for legality, color identity and budget.
-- **LLM plan**: picks one-for-one swaps from that data and explains them. Every swap is validated
-  (card exists, legal, in identity, not a duplicate, under budget, not locked).
+- **Solver**: greedy hill climbing over one-for-one swaps with an explicit score (bracket-specific
+  EDHREC inclusion and synergy, role coverage, curve, tone) and hard bracket constraints. It keeps the
+  runner-up cards for each slot as alternatives.
+- **LLM review**: keeps, drops or adjusts the solver's swaps (catching anti-synergies) and explains
+  them. Every swap is validated again (legal, in identity, not a duplicate, under budget, not locked,
+  inside the bracket).
 - **Mana base**: land count from Frank Karsten's regression (31.42 + 3.13 × avg MV − 0.28 × cheap
   ramp/draw) blended with the EDHREC average; color source targets from pip share and the heaviest
   colored costs. After the LLM plan, land count is enforced and basics are rebalanced toward the colors
   that are short. Basic-land rebalancing doesn't count toward the max-swaps limit.
 - **Goldfish simulation**: 10,000 seeded games per deck (same seed before/after) with a free mulligan,
   greedy land/ramp sequencing and a bipartite check for casting the commander with the right colors.
+
+## GitHub Pages
+
+`.github/workflows/pages.yml` runs the tests, builds the static site and deploys it on every push
+to `main`. Enable it once in the repo under **Settings → Pages → Source: GitHub Actions**.
 
 ## Scripts
 

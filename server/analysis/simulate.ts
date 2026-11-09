@@ -25,6 +25,8 @@ interface Encoded {
   cost: Uint8Array;
   mask: Uint8Array;
   tapped: Uint8Array;
+  tutor: Uint8Array;
+  names: string[];
   size: number;
 }
 
@@ -32,6 +34,8 @@ function encode(deck: Deck): Encoded {
   const identity = identityOf(deck.commanders);
   const idMask = maskOf(identity) || ALL_MASK;
   const rows: [Kind, number, number, number][] = [];
+  const names: string[] = [];
+  const tutors: number[] = [];
   for (const { card, qty } of deck.slots) {
     let row: [Kind, number, number, number];
     if (card.isLand) {
@@ -50,7 +54,11 @@ function encode(deck: Deck): Encoded {
     } else {
       row = [Kind.Spell, Math.min(card.cmc, 255), 0, 0];
     }
-    for (let i = 0; i < qty; i++) rows.push(row);
+    for (let i = 0; i < qty; i++) {
+      rows.push(row);
+      names.push(card.name);
+      tutors.push(card.roles.includes("tutor") ? 1 : 0);
+    }
   }
   const size = rows.length;
   const enc: Encoded = {
@@ -58,6 +66,8 @@ function encode(deck: Deck): Encoded {
     cost: new Uint8Array(size),
     mask: new Uint8Array(size),
     tapped: new Uint8Array(size),
+    tutor: Uint8Array.from(tutors),
+    names,
     size,
   };
   rows.forEach(([k, c, m, t], i) => {
@@ -99,8 +109,38 @@ function canPay(sources: number[], pipList: number[], generic: number): boolean 
   return true;
 }
 
-export function simulate(deck: Deck, games = 10_000, seed = 42): SimResult {
+interface ComboPlan {
+  cards: string[];
+  /** Library rows for each non-commander piece. */
+  pieces: number[][];
+  maxCost: number;
+  totalCost: number;
+}
+
+export function simulate(
+  deck: Deck,
+  games = 10_000,
+  seed = 42,
+  combos: string[][] = [],
+): SimResult {
   const enc = encode(deck);
+  const rowsByName = new Map<string, number[]>();
+  enc.names.forEach((n, i) => rowsByName.set(n, [...(rowsByName.get(n) ?? []), i]));
+  const cmdrNames = new Set(deck.commanders.map((c) => c.name));
+  const costOf = (name: string) =>
+    deck.commanders.find((c) => c.name === name)?.cmc ??
+    deck.slots.find((s) => s.card.name === name)?.card.cmc ??
+    0;
+  const comboPlans: ComboPlan[] = combos
+    .filter((cards) => cards.every((n) => cmdrNames.has(n) || rowsByName.has(n)))
+    .map((cards) => ({
+      cards,
+      pieces: cards.filter((n) => !cmdrNames.has(n)).map((n) => rowsByName.get(n)!),
+      maxCost: Math.max(...cards.map(costOf)),
+      totalCost: cards.reduce((n, c) => n + costOf(c), 0),
+    }));
+  const comboBy = comboPlans.map(() => new Float64Array(MAX_TURN + 1));
+  const seen = new Uint8Array(enc.size);
   const rand = mulberry32(seed);
   const identity = identityOf(deck.commanders);
   const idMask = maskOf(identity);
@@ -167,6 +207,11 @@ export function simulate(deck: Deck, games = 10_000, seed = 42): SimResult {
       }
     }
 
+    seen.fill(0);
+    for (const c of hand) seen[c] = 1;
+    const comboDone = new Int8Array(comboPlans.length);
+    let prevMana = 0;
+    let peakMana = 0;
     const sources: number[] = [];
     let pendingSources: number[] = [];
     let landsInPlay = 0;
@@ -180,6 +225,7 @@ export function simulate(deck: Deck, games = 10_000, seed = 42): SimResult {
       if (!(turn === 1 && skipFirstDraw) && top < enc.size) {
         const drawn = order[top++];
         hand.push(drawn);
+        seen[drawn] = 1;
         if (isLand(drawn)) landsSeen++;
       }
 
@@ -207,6 +253,28 @@ export function simulate(deck: Deck, games = 10_000, seed = 42): SimResult {
       if (landsInPlay >= turn) landDrop[turn]++;
 
       let available = sources.length;
+      peakMana = Math.max(peakMana, available);
+      if (comboPlans.length) {
+        let wildcards = 0;
+        for (let i = 0; i < enc.size; i++) {
+          if (seen[i] && enc.tutor[i] && enc.cost[i] <= peakMana) wildcards++;
+        }
+        for (let k = 0; k < comboPlans.length; k++) {
+          if (comboDone[k]) continue;
+          const plan = comboPlans[k];
+          let missing = 0;
+          for (const rows of plan.pieces) if (!rows.some((r) => seen[r])) missing++;
+          if (
+            missing <= wildcards &&
+            available >= plan.maxCost &&
+            available + prevMana >= plan.totalCost
+          ) {
+            comboDone[k] = 1;
+            for (let t = turn; t <= MAX_TURN; t++) comboBy[k][t]++;
+          }
+        }
+      }
+      prevMana = available;
       if (!castTurn && cmdr && available >= cmdrCmc && canPay(sources, cmdrPips, cmdrGeneric)) {
         castTurn = turn;
         available -= cmdrCmc;
@@ -263,6 +331,11 @@ export function simulate(deck: Deck, games = 10_000, seed = 42): SimResult {
     avgManaTurn4: Math.round((mana4 / games) * 100) / 100,
     screwRate: pct(screw),
     floodRate: pct(flood),
+    combos: comboPlans.map((plan, k) => {
+      const byTurn: Record<number, number> = {};
+      for (let t = 1; t <= MAX_TURN; t++) byTurn[t] = pct(comboBy[k][t]);
+      return { cards: plan.cards, byTurn };
+    }),
   };
 }
 

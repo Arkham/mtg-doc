@@ -9,6 +9,28 @@ export function renderMarkdown(r: Report): string {
   lines.push("## Strategy", "", r.strategy, "");
   if (r.themes.length) lines.push(`**Themes:** ${r.themes.join(", ")}`, "");
 
+  if (r.bracket) {
+    const b = r.bracket;
+    lines.push(`## Bracket ${b.target}: ${b.name}`, "");
+    lines.push(
+      `Tone: ${b.tone}. Before: bracket ${b.before.bracket} (power ${b.before.power}). After: bracket ${b.after.bracket} (power ${b.after.power}, ${b.after.position} ${b.name}). Expect at least ${b.minTurns} turns.`,
+      "",
+    );
+    for (const c of b.after.checks)
+      lines.push(`- ${c.ok ? "✅" : "❌"} **${c.label}:** ${c.detail}`);
+    if (b.after.gameChangers.length)
+      lines.push(`- Game Changers: ${b.after.gameChangers.join(", ")}`);
+    for (const c of b.after.combos.filter((x) => x.twoCard))
+      lines.push(
+        `- Combo: ${c.cards.join(" + ")}${c.earlyPct !== null ? ` (${c.earlyPct}% assembled before turn ${b.minTurns})` : ""}`,
+      );
+    if (b.excluded.length) {
+      lines.push("", "Skipped to stay in the bracket:");
+      for (const e of b.excluded) lines.push(`- ${e.name}: ${e.reason}`);
+    }
+    lines.push("");
+  }
+
   lines.push("## Swaps", "", "| Out | In | Category | Why |", "|---|---|---|---|");
   for (const s of r.swaps)
     lines.push(`| ${s.out} | ${s.in} | ${s.category} | ${s.reason.replace(/\|/g, "/")} |`);

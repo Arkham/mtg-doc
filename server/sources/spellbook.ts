@@ -61,3 +61,90 @@ export async function findCombos(
       .sort((a, b) => b.popularity - a.popularity),
   };
 }
+
+export interface CardFlags {
+  gameChanger: boolean;
+  massLandDenial: boolean;
+  extraTurn: boolean;
+  banned: boolean;
+}
+
+export interface ClassifiedCombo {
+  id: string;
+  cards: string[];
+  produces: string[];
+  definitelyTwoCard: boolean;
+  arguablyTwoCard: boolean;
+  relevant: boolean;
+  lock: boolean;
+  extraTurn: boolean;
+  massLandDenial: boolean;
+  tag: string | null;
+  url: string;
+}
+
+export interface BracketEstimate {
+  tag: string;
+  cards: Map<string, CardFlags>;
+  combos: ClassifiedCombo[];
+}
+
+interface EstimateResponse {
+  bracketTag: string;
+  cards: (CardFlags & { card: { name: string } })[];
+  combos: {
+    combo: SpellbookVariant;
+    relevant: boolean;
+    definitelyTwoCard: boolean;
+    arguablyTwoCard: boolean;
+    lock: boolean;
+    extraTurn: boolean;
+    massLandDenial: boolean;
+  }[];
+}
+
+/** Commander Spellbook's bracket classifier: per-card flags and per-combo severity. */
+export async function estimateBracket(
+  commanders: string[],
+  main: string[],
+): Promise<BracketEstimate> {
+  const res = await fetch("https://backend.commanderspellbook.com/estimate-bracket", {
+    method: "POST",
+    headers: { "content-type": "application/json", "user-agent": config.userAgent },
+    body: JSON.stringify({
+      commanders: commanders.map((card) => ({ card })),
+      main: main.map((card) => ({ card })),
+    }),
+    signal: AbortSignal.timeout(60_000),
+  });
+  if (!res.ok) throw new Error(`Commander Spellbook bracket estimate failed: ${res.status}`);
+  const data = (await res.json()) as EstimateResponse;
+  const cards = new Map<string, CardFlags>();
+  for (const c of data.cards) {
+    const flags = {
+      gameChanger: c.gameChanger,
+      massLandDenial: c.massLandDenial,
+      extraTurn: c.extraTurn,
+      banned: c.banned,
+    };
+    cards.set(c.card.name, flags);
+    cards.set(c.card.name.split(" // ")[0], flags);
+  }
+  return {
+    tag: data.bracketTag,
+    cards,
+    combos: data.combos.map((v) => ({
+      id: v.combo.id,
+      cards: v.combo.uses.map((u) => u.card.name),
+      produces: v.combo.produces.map((p) => p.feature.name),
+      definitelyTwoCard: v.definitelyTwoCard,
+      arguablyTwoCard: v.arguablyTwoCard,
+      relevant: v.relevant,
+      lock: v.lock,
+      extraTurn: v.extraTurn,
+      massLandDenial: v.massLandDenial,
+      tag: v.combo.bracketTag ?? null,
+      url: `https://commanderspellbook.com/combo/${v.combo.id}/`,
+    })),
+  };
+}
