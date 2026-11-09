@@ -512,6 +512,11 @@ async function run(job: Job) {
       options,
       bracket,
       decklist: toDecklist(finalDeck, deck),
+      original: {
+        decklist: toDecklist(deck, deck),
+        combosPresent: combos.present,
+        combosOneAway: combos.oneAway.slice(0, 20),
+      },
       manaSuggestions,
       synergies,
     };

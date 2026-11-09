@@ -3,6 +3,8 @@ import { describe, test } from "node:test";
 import type { Combo } from "../../shared/types.ts";
 import { byManaValue } from "../../src/cards.ts";
 import { symbolUrl } from "../../src/mana-symbols.ts";
+import { asOriginal, deckHash } from "../../src/views.ts";
+import type { Report } from "../../shared/types.ts";
 import { comboOutcome, groupByMissing } from "../../src/combos.ts";
 
 const combo = (id: string, cards: string[], missing: string, produces: string[]): Combo => ({
@@ -98,5 +100,55 @@ describe("symbolUrl", () => {
 
   test("falls back to Scryfall for symbols not bundled yet", () => {
     assert.equal(symbolUrl("Z/Q"), "https://svgs.scryfall.io/card-symbols/ZQ.svg");
+  });
+});
+
+describe("asOriginal", () => {
+  const snap = (n: number) => ({ totalCards: n }) as unknown as Report["before"];
+  const report = {
+    before: snap(99),
+    after: snap(100),
+    swaps: [{ out: "Old", in: "New" }],
+    decklist: [{ name: "New" }],
+    original: {
+      decklist: [{ name: "Old" }, { name: "Keep" }],
+      combosPresent: [],
+      combosOneAway: [],
+    },
+    combosPresent: [{ id: "x" }],
+    combosOneAway: [],
+    synergies: [
+      { title: "kept", cards: ["Old", "Keep"], explanation: "" },
+      { title: "needs new card", cards: ["New", "Keep"], explanation: "" },
+    ],
+    bracket: { before: { bracket: 4 }, after: { bracket: 3 }, excluded: [{ name: "X" }] },
+  } as unknown as Report;
+
+  test("shows the submitted deck with nothing to compare", () => {
+    const o = asOriginal(report);
+    assert.equal(o.after, o.before, "same snapshot: components drop before/after columns");
+    assert.deepEqual(o.swaps, []);
+    assert.deepEqual(
+      o.decklist!.map((c) => c.name),
+      ["Old", "Keep"],
+    );
+    assert.deepEqual(o.combosPresent, []);
+    assert.deepEqual(
+      o.synergies!.map((s) => s.title),
+      ["kept"],
+    );
+    assert.equal(o.bracket!.after.bracket, 4);
+    assert.deepEqual(o.bracket!.excluded, []);
+  });
+
+  test("reports without the original deck stay as they are", () => {
+    const old = { ...report, original: undefined };
+    assert.equal(asOriginal(old), old);
+  });
+
+  test("routes for each view", () => {
+    assert.equal(deckHash("x", "current"), "#/deck/x");
+    assert.equal(deckHash("x", "optimized"), "#/deck/x/optimized");
+    assert.equal(deckHash("x", "optimized", "rule0"), "#/deck/x/optimized/rule0");
   });
 });

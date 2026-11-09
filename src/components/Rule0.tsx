@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { type DeckDetail, api } from "../api.ts";
 import { BracketBadge } from "./BracketPanel.tsx";
 import { CardIndex, CardList } from "./CardName.tsx";
+import { type DeckView, asOriginal } from "../views.ts";
 import { ManaCost } from "./Mana.tsx";
 
 const NAMES: Record<number, string> = {
@@ -13,7 +14,7 @@ const NAMES: Record<number, string> = {
 };
 
 /** Full-screen summary to show the table during the pre-game (Rule 0) conversation. */
-export function Rule0({ slug }: { slug: string }) {
+export function Rule0({ slug, view }: { slug: string; view: DeckView }) {
   const [detail, setDetail] = useState<DeckDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
@@ -22,7 +23,7 @@ export function Rule0({ slug }: { slug: string }) {
 
   if (error) return <p className="error">{error}</p>;
   if (!detail?.report) return <div className="loading">Loading…</div>;
-  const r = detail.report;
+  const r = view === "current" ? asOriginal(detail.report) : detail.report;
   const b = r.bracket;
   const cmdr = r.commanderCards[0];
   if (!b)

@@ -6,17 +6,21 @@ import { ReportView } from "./components/ReportView.tsx";
 import { Review } from "./components/Review.tsx";
 import { Rule0 } from "./components/Rule0.tsx";
 import { navigate } from "./nav.ts";
+import { type DeckView, deckHash } from "./views.ts";
 
 type Route =
   | { page: "home" }
-  | { page: "deck"; slug: string }
-  | { page: "rule0"; slug: string }
+  | { page: "deck"; slug: string; view: DeckView }
+  | { page: "rule0"; slug: string; view: DeckView }
   | { page: "job"; slug: string; jobId: string };
 
 function parseHash(): Route {
-  const [, page, a, b] = window.location.hash.split("/");
-  if (page === "deck" && a && b === "rule0") return { page: "rule0", slug: a };
-  if (page === "deck" && a) return { page: "deck", slug: a };
+  const [, page, a, b, c] = window.location.hash.split("/");
+  if (page === "deck" && a) {
+    const view: DeckView = b === "optimized" ? "optimized" : "current";
+    const rest = view === "optimized" ? c : b;
+    return rest === "rule0" ? { page: "rule0", slug: a, view } : { page: "deck", slug: a, view };
+  }
   if (page === "job" && a && b && !IS_STATIC) return { page: "job", slug: a, jobId: b };
   return { page: "home" };
 }
@@ -40,16 +44,16 @@ export function App() {
 
   const goBack = () => {
     setRecognition(null);
-    navigate(route.page === "rule0" ? `#/deck/${route.slug}` : "#/");
+    navigate(route.page === "rule0" ? deckHash(route.slug, route.view) : "#/");
   };
 
   let body;
   if (route.page === "job") {
     body = <Progress jobId={route.jobId} onDone={() => navigate(`#/deck/${route.slug}`)} />;
   } else if (route.page === "rule0") {
-    body = <Rule0 slug={route.slug} />;
+    body = <Rule0 slug={route.slug} view={route.view} />;
   } else if (route.page === "deck") {
-    body = <ReportView slug={route.slug} />;
+    body = <ReportView slug={route.slug} view={route.view} />;
   } else if (recognition) {
     body = (
       <Review
@@ -84,6 +88,7 @@ export function App() {
             mtg-doc
           </a>
         )}
+        <div id="topbar-slot" className="topbar-slot" />
         {config && !inner && (
           <span className="muted small topbar-meta">
             {config.llm

@@ -48,7 +48,7 @@ function PowerMeter({ power, position }: { power: number; position: string }) {
   );
 }
 
-export function BracketPanel({ b, slug }: { b: BracketReport; slug: string }) {
+export function BracketPanel({ b, rule0Href }: { b: BracketReport; rule0Href: string }) {
   const a = b.after;
   const limit = b.gameChangerLimit;
   const slots = limit ?? Math.max(a.gameChangers.length, 0);
@@ -70,7 +70,7 @@ export function BracketPanel({ b, slug }: { b: BracketReport; slug: string }) {
               ` · Commander Spellbook: ${SPELLBOOK_TAG[a.spellbookTag] ?? a.spellbookTag}`}
           </div>
         </div>
-        <a className="button" href={`#/deck/${slug}/rule0`}>
+        <a className="button" href={rule0Href}>
           Pre-game summary
         </a>
       </div>

@@ -1,0 +1,19 @@
+{
+  "slug": "derevi-empyrial-tactician",
+  "format": "commander",
+  "commanders": [
+    "Derevi, Empyrial Tactician"
+  ],
+  "deckName": null,
+  "createdAt": "2026-11-09T21:50:04.712Z",
+  "options": {
+    "maxSwaps": 15,
+    "budgetPerCard": null,
+    "budgetTotal": null,
+    "bracket": null,
+    "tone": "max",
+    "locked": [],
+    "webResearch": true
+  },
+  "image": "https://cards.scryfall.io/art_crop/front/3/a/3a1d0dad-18a8-489e-ac11-08f64b72fda4.jpg?1783936231"
+}

@@ -35,7 +35,7 @@ Skipped to stay in the bracket:
 | R sources (target 17) | 17 | 17 |
 
 - Suggested: −Temple of the False God, +Exotic Orchard: Temple of the False God only makes colorless mana; Exotic Orchard makes black and red and blue untapped, helping blue and black, which are short.
-- Suggested: −Mountain, +Watery Grave: you have plenty of red sources; Watery Grave makes black and blue untapped, helping blue and black, which are short.
+- Suggested: −Mountain, +Watery Grave: You have plenty of red sources; Watery Grave makes black and blue untapped, helping blue and black, which are short.
 - Suggested: −Akoum Refuge, +City of Brass: Akoum Refuge always enters tapped; City of Brass makes black and red and blue untapped, helping blue, which is short.
 - ⚠️ Blue: 18 lands make it, about 21 wanted.
 - ⚠️ Black: 19 lands make it, about 21 wanted.

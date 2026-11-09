@@ -1,4 +1,5 @@
 import { type ReactNode, useContext, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import type {
   Card,
   CardPreview,
@@ -11,6 +12,7 @@ import type {
 } from "../../shared/types.ts";
 import { type DeckDetail, IS_STATIC, api, fileUrl } from "../api.ts";
 import { comboOutcome, groupByMissing } from "../combos.ts";
+import { type DeckView, asOriginal, deckHash, hasOriginal } from "../views.ts";
 import { navigate } from "../nav.ts";
 import { BracketBadge, BracketPanel } from "./BracketPanel.tsx";
 import { ChatPanel } from "./ChatPanel.tsx";
@@ -248,10 +250,12 @@ function ColorBars({ before, after }: { before: DeckSnapshot; after: DeckSnapsho
 function Synergies({
   report: r,
   slug,
+  canRefresh,
   onUpdated,
 }: {
   report: Report;
   slug: string;
+  canRefresh: boolean;
   onUpdated: (report: Report) => void;
 }) {
   const [busy, setBusy] = useState(false);
@@ -276,7 +280,8 @@ function Synergies({
         title="Synergies"
         desc="Cards that are stronger together, without being an infinite combo."
         actions={
-          !IS_STATIC && (
+          !IS_STATIC &&
+          canRefresh && (
             <button className="small-btn" disabled={busy} onClick={refresh}>
               {busy ? <span className="spinner" aria-hidden /> : null}
               {items.length ? "Find again" : "Find synergies"}
@@ -416,6 +421,7 @@ function ManaAdvice({
 
 function Curve({ before, after }: { before: DeckSnapshot; after: DeckSnapshot }) {
   const keys = ["0", "1", "2", "3", "4", "5", "6", "7+"];
+  const single = before === after;
   // Headroom above the tallest bar for its count label.
   const max =
     Math.max(...keys.map((k) => Math.max(before.mana.curve[k] ?? 0, after.mana.curve[k] ?? 0)), 1) *
@@ -436,11 +442,13 @@ function Curve({ before, after }: { before: DeckSnapshot; after: DeckSnapshot })
                 >
                   {now}
                 </span>
-                <div
-                  className="bar before"
-                  style={{ height: `${(was / max) * 100}%` }}
-                  title={`before: ${was}`}
-                />
+                {!single && (
+                  <div
+                    className="bar before"
+                    style={{ height: `${(was / max) * 100}%` }}
+                    title={`before: ${was}`}
+                  />
+                )}
                 <div
                   className="bar after"
                   style={{ height: `${(now / max) * 100}%` }}
@@ -453,7 +461,12 @@ function Curve({ before, after }: { before: DeckSnapshot; after: DeckSnapshot })
         })}
       </div>
       <figcaption className="legend">
-        <span className="bar-swatch before" /> before <span className="bar-swatch after" /> after
+        {!single && (
+          <>
+            <span className="bar-swatch before" /> before <span className="bar-swatch after" />{" "}
+            after
+          </>
+        )}
         <span className="grow" />
         mana value
       </figcaption>
@@ -480,6 +493,25 @@ function SimTable({ before, after }: { before: DeckSnapshot; after: DeckSnapshot
     ["Mana screw (<3 lands on T4)", b.screwRate, a.screwRate, false, "%"],
     ["Flood (10+ lands seen by T7)", b.floodRate, a.floodRate, false, "%"],
   ];
+  const single = before === after;
+  if (single)
+    return (
+      <table className="data">
+        <tbody>
+          {rows.map(([label, , y, , unit]) => (
+            <tr key={label}>
+              <td>{label}</td>
+              <td>
+                <strong>
+                  {y}
+                  {unit}
+                </strong>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
   return (
     <table className="data">
       <thead>
@@ -515,13 +547,14 @@ function SimTable({ before, after }: { before: DeckSnapshot; after: DeckSnapshot
 }
 
 function Roles({ before, after }: { before: DeckSnapshot; after: DeckSnapshot }) {
+  const single = before === after;
   return (
     <table className="data">
       <thead>
         <tr>
           <th>Role</th>
-          <th>Before</th>
-          <th>After</th>
+          {!single && <th>Before</th>}
+          <th>{single ? "Cards" : "After"}</th>
           <th>Typical</th>
         </tr>
       </thead>
@@ -534,7 +567,7 @@ function Roles({ before, after }: { before: DeckSnapshot; after: DeckSnapshot })
             return (
               <tr key={r.role}>
                 <td>{r.role}</td>
-                <td>{b}</td>
+                {!single && <td>{b}</td>}
                 <td className={short ? "warn" : ""}>
                   <strong>{r.count}</strong>
                 </td>
@@ -753,7 +786,16 @@ function DeckImages({
   );
 }
 
-function Decklist({ cards, swaps }: { cards: DecklistCard[]; swaps: Swap[] }) {
+function Decklist({
+  cards,
+  swaps,
+  compare,
+}: {
+  cards: DecklistCard[];
+  swaps: Swap[];
+  /** Offer the new/cut highlights; off for the deck as submitted. */
+  compare: boolean;
+}) {
   const [showCuts, setShowCuts] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [view, setView] = useState<"list" | "images">(() =>
@@ -783,20 +825,24 @@ function Decklist({ cards, swaps }: { cards: DecklistCard[]; swaps: Swap[] }) {
         <span className="muted small grow nowrap">
           {cards.reduce((n, c) => n + c.qty, 0)} cards
         </span>
-        <button
-          className={`toggle ${showNew ? "on" : ""}`}
-          aria-pressed={showNew}
-          onClick={() => setShowNew(!showNew)}
-        >
-          New cards
-        </button>
-        <button
-          className={`toggle ${showCuts ? "on" : ""}`}
-          aria-pressed={showCuts}
-          onClick={() => setShowCuts(!showCuts)}
-        >
-          Cut cards
-        </button>
+        {compare && (
+          <>
+            <button
+              className={`toggle ${showNew ? "on" : ""}`}
+              aria-pressed={showNew}
+              onClick={() => setShowNew(!showNew)}
+            >
+              New cards
+            </button>
+            <button
+              className={`toggle ${showCuts ? "on" : ""}`}
+              aria-pressed={showCuts}
+              onClick={() => setShowCuts(!showCuts)}
+            >
+              Cut cards
+            </button>
+          </>
+        )}
       </div>
       {view === "images" ? (
         <DeckImages groups={groups} cuts={showCuts ? swaps : []} showNew={showNew} />
@@ -925,6 +971,52 @@ function SectionNav({ sections }: { sections: [string, string][] }) {
         </button>
       ))}
     </nav>
+  );
+}
+
+/** Stats for the deck as submitted, and a way into the suggested changes. */
+function Overview({ report: r, full, slug }: { report: Report; full: Report; slug: string }) {
+  const draw = r.after.roles.find((x) => x.role === "draw")?.count ?? 0;
+  const target = full.bracket?.target;
+  return (
+    <section className="panel">
+      <PanelHead title="Your deck" desc="How the deck plays as you built it." />
+      <div className="stats">
+        <Stat
+          label={`Lands (rec. ${r.after.mana.recommendedLands})`}
+          after={r.after.mana.landCount}
+        />
+        <Stat label="Avg mana value" after={r.after.mana.avgCmc} />
+        <Stat label="Interaction" after={interaction(r.after)} />
+        <Stat label="Card draw" after={draw} />
+        <Stat
+          label="Commander on curve"
+          after={r.after.sim.commanderOnCurve}
+          format={(n) => `${n}%`}
+        />
+        <Stat label="Mana screw" after={r.after.sim.screwRate} format={(n) => `${n}%`} />
+        <Stat label="Combos" after={r.combosPresent.length} />
+        <Stat
+          label="Deck price"
+          after={r.after.totalPriceUsd}
+          format={(n) => `$${Math.round(n)}`}
+        />
+      </div>
+      {full.swaps.length > 0 && (
+        <div className="overview-cta">
+          <p>
+            <strong>
+              {full.swaps.length} suggested {full.swaps.length === 1 ? "swap" : "swaps"}
+            </strong>
+            {target ? ` to tune it for bracket ${target}` : ""}
+            {full.options.budgetTotal ? ` within your $${full.options.budgetTotal} budget` : ""}.
+          </p>
+          <a className="button primary" href={deckHash(slug, "optimized")}>
+            See the optimized deck
+          </a>
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -1152,7 +1244,33 @@ function ExportMenu({
   );
 }
 
-export function ReportView({ slug }: { slug: string }) {
+/** "Your deck" / "Optimized" switch, placed in the sticky top bar so it's always in reach. */
+function ViewToggle({ slug, view, swaps }: { slug: string; view: DeckView; swaps: number }) {
+  // Rendered only once the report has loaded, so the top bar's slot is already in the DOM.
+  const slot = document.getElementById("topbar-slot");
+  if (!slot) return null;
+  return createPortal(
+    <div className="segmented view-toggle" role="tablist" aria-label="Which deck">
+      <button
+        role="tab"
+        aria-selected={view === "current"}
+        onClick={() => navigate(deckHash(slug, "current"))}
+      >
+        Your deck
+      </button>
+      <button
+        role="tab"
+        aria-selected={view === "optimized"}
+        onClick={() => navigate(deckHash(slug, "optimized"))}
+      >
+        Optimized {swaps > 0 && <span className="count">{swaps}</span>}
+      </button>
+    </div>,
+    slot,
+  );
+}
+
+export function ReportView({ slug, view: requested }: { slug: string; view: DeckView }) {
   const [detail, setDetail] = useState<DeckDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -1174,8 +1292,8 @@ export function ReportView({ slug }: { slug: string }) {
         <span className="spinner" aria-hidden /> Loading deck…
       </div>
     );
-  const r: Report | null = detail.report;
-  if (!r) {
+  const full: Report | null = detail.report;
+  if (!full) {
     return (
       <section className="panel">
         <h1>{detail.meta.commanders.join(" + ") || slug}</h1>
@@ -1185,9 +1303,13 @@ export function ReportView({ slug }: { slug: string }) {
     );
   }
 
+  const view: DeckView = hasOriginal(full) ? requested : "optimized";
+  const optimized = view === "optimized";
+  const r = optimized ? full : asOriginal(full);
+  const listText = optimized ? optimizedText : detail.initial;
   const copyOptimized = () => {
-    if (!optimizedText) return;
-    navigator.clipboard.writeText(optimizedText).then(() => {
+    if (!listText) return;
+    navigator.clipboard.writeText(listText).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     });
@@ -1202,13 +1324,16 @@ export function ReportView({ slug }: { slug: string }) {
     ["mana", "Mana"],
     ["sim", "Goldfish"],
     ...(hasCombos ? [["combos", "Combos"] as [string, string]] : []),
-    ...(r.synergies?.length || !IS_STATIC ? [["synergies", "Synergies"] as [string, string]] : []),
-    ["swaps", "Swaps"],
+    ...(r.synergies?.length || (!IS_STATIC && optimized)
+      ? [["synergies", "Synergies"] as [string, string]]
+      : []),
+    ...(optimized ? [["swaps", "Swaps"] as [string, string]] : []),
     ...(r.research ? [["research", "Research"] as [string, string]] : []),
   ];
 
   return (
     <CardIndex.Provider value={r.cardIndex ?? {}}>
+      {hasOriginal(full) && <ViewToggle slug={slug} view={view} swaps={full.swaps.length} />}
       <div className="stack report">
         <section className="hero">
           {cmdr?.imageArt && (
@@ -1299,10 +1424,10 @@ export function ReportView({ slug }: { slug: string }) {
               </p>
             )}
             <div className="hero-actions">
-              <button className="primary" onClick={copyOptimized} disabled={!optimizedText}>
+              <button className="primary" onClick={copyOptimized} disabled={!listText}>
                 {copied ? "✓ Copied" : "Copy deck list"}
               </button>
-              <ExportMenu slug={slug} edhrecUrl={r.edhrec?.url} swaps={r.swaps} />
+              <ExportMenu slug={slug} edhrecUrl={r.edhrec?.url} swaps={full.swaps} />
             </div>
             <p className="hero-meta">
               Updated{" "}
@@ -1320,68 +1445,72 @@ export function ReportView({ slug }: { slug: string }) {
 
         <SectionNav sections={sections} />
 
-        <section className="panel">
-          <h2>The plan</h2>
-          <p className="lede">{r.strategy}</p>
-          <div className="stats">
-            <Stat label="Swaps" after={r.swaps.length} />
-            <Stat
-              label={`Lands (rec. ${r.after.mana.recommendedLands})`}
-              before={r.before.mana.landCount}
-              after={r.after.mana.landCount}
-              better={r.before.mana.landCount < r.after.mana.recommendedLands ? "up" : "down"}
-            />
-            <Stat
-              label="Avg mana value"
-              before={r.before.mana.avgCmc}
-              after={r.after.mana.avgCmc}
-              better="down"
-            />
-            <Stat
-              label="Interaction"
-              before={interaction(r.before)}
-              after={interaction(r.after)}
-              better="up"
-            />
-            <Stat
-              label="Commander on curve"
-              before={r.before.sim.commanderOnCurve}
-              after={r.after.sim.commanderOnCurve}
-              better="up"
-              format={(n) => `${n}%`}
-            />
-            <Stat
-              label="Mana screw"
-              before={r.before.sim.screwRate}
-              after={r.after.sim.screwRate}
-              better="down"
-              format={(n) => `${n}%`}
-            />
-            <Stat label="Cost of new cards" after={ins} format={(n) => money(n)} />
-            <Stat
-              label={
-                r.options.budgetTotal
-                  ? `Deck price (budget $${r.options.budgetTotal})`
-                  : "Deck price"
-              }
-              before={r.before.totalPriceUsd}
-              after={r.after.totalPriceUsd}
-              better={r.options.budgetTotal ? "down" : undefined}
-              format={(n) => `$${Math.round(n)}`}
-            />
-          </div>
-        </section>
+        {optimized ? (
+          <section className="panel">
+            <h2>The plan</h2>
+            <p className="lede">{r.strategy}</p>
+            <div className="stats">
+              <Stat label="Swaps" after={r.swaps.length} />
+              <Stat
+                label={`Lands (rec. ${r.after.mana.recommendedLands})`}
+                before={r.before.mana.landCount}
+                after={r.after.mana.landCount}
+                better={r.before.mana.landCount < r.after.mana.recommendedLands ? "up" : "down"}
+              />
+              <Stat
+                label="Avg mana value"
+                before={r.before.mana.avgCmc}
+                after={r.after.mana.avgCmc}
+                better="down"
+              />
+              <Stat
+                label="Interaction"
+                before={interaction(r.before)}
+                after={interaction(r.after)}
+                better="up"
+              />
+              <Stat
+                label="Commander on curve"
+                before={r.before.sim.commanderOnCurve}
+                after={r.after.sim.commanderOnCurve}
+                better="up"
+                format={(n) => `${n}%`}
+              />
+              <Stat
+                label="Mana screw"
+                before={r.before.sim.screwRate}
+                after={r.after.sim.screwRate}
+                better="down"
+                format={(n) => `${n}%`}
+              />
+              <Stat label="Cost of new cards" after={ins} format={(n) => money(n)} />
+              <Stat
+                label={
+                  r.options.budgetTotal
+                    ? `Deck price (budget $${r.options.budgetTotal})`
+                    : "Deck price"
+                }
+                before={r.before.totalPriceUsd}
+                after={r.after.totalPriceUsd}
+                better={r.options.budgetTotal ? "down" : undefined}
+                format={(n) => `$${Math.round(n)}`}
+              />
+            </div>
+          </section>
+        ) : (
+          <Overview report={r} full={full} slug={slug} />
+        )}
 
         {r.bracket && (
           <section className="panel" id="bracket">
-            <BracketPanel b={r.bracket} slug={slug} />
+            <BracketPanel b={r.bracket} rule0Href={deckHash(slug, view, "rule0")} />
           </section>
         )}
 
         {r.decklist && (
           <section className="panel" id="decklist">
             <PanelHead title="Deck list" />
-            <Decklist cards={r.decklist} swaps={r.swaps} />
+            <Decklist cards={r.decklist} swaps={r.swaps} compare={optimized} />
           </section>
         )}
 
@@ -1459,49 +1588,52 @@ export function ReportView({ slug }: { slug: string }) {
           </section>
         )}
 
-        {(r.synergies?.length || !IS_STATIC) && (
+        {(r.synergies?.length || (!IS_STATIC && optimized)) && (
           <section className="panel" id="synergies">
             <Synergies
               report={r}
               slug={slug}
+              canRefresh={optimized}
               onUpdated={(report) => setDetail((d) => (d ? { ...d, report } : d))}
             />
           </section>
         )}
 
-        <section className="panel" id="swaps">
-          <PanelHead
-            title="Swaps"
-            desc={
-              r.swaps.length
-                ? `${r.swaps.length} changes from your original list, and why.`
-                : undefined
-            }
-          />
-          <SwapList swaps={r.swaps} />
-          {r.edits && r.edits.length > 0 && (
-            <div className="swap-group edits">
-              <h3>
-                Changes from chat <span className="muted">· {r.edits.length}</span>
-              </h3>
-              <ul className="edit-log">
-                {r.edits.map((e, i) => (
-                  <li key={i}>
-                    <div className="edit-changes">
-                      {e.changes.map((c, j) => (
-                        <span key={j} className={`edit-chip ${c.action}`}>
-                          {c.action === "add" ? "+" : "−"} {c.qty > 1 ? `${c.qty} ` : ""}
-                          <CardName name={c.name} />
-                        </span>
-                      ))}
-                    </div>
-                    {e.request && <div className="muted small">“{e.request}”</div>}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </section>
+        {optimized && (
+          <section className="panel" id="swaps">
+            <PanelHead
+              title="Swaps"
+              desc={
+                r.swaps.length
+                  ? `${r.swaps.length} changes from your original list, and why.`
+                  : undefined
+              }
+            />
+            <SwapList swaps={r.swaps} />
+            {r.edits && r.edits.length > 0 && (
+              <div className="swap-group edits">
+                <h3>
+                  Changes from chat <span className="muted">· {r.edits.length}</span>
+                </h3>
+                <ul className="edit-log">
+                  {r.edits.map((e, i) => (
+                    <li key={i}>
+                      <div className="edit-changes">
+                        {e.changes.map((c, j) => (
+                          <span key={j} className={`edit-chip ${c.action}`}>
+                            {c.action === "add" ? "+" : "−"} {c.qty > 1 ? `${c.qty} ` : ""}
+                            <CardName name={c.name} />
+                          </span>
+                        ))}
+                      </div>
+                      {e.request && <div className="muted small">“{e.request}”</div>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </section>
+        )}
 
         {r.research && (
           <section className="panel" id="research">
@@ -1544,6 +1676,8 @@ export function ReportView({ slug }: { slug: string }) {
             commander={r.commanders.join(" + ")}
             onApplied={(report) => {
               setDetail((d) => (d ? { ...d, report } : d));
+              // Chat edits the optimized list, so show it.
+              if (!optimized) navigate(deckHash(slug, "optimized"));
               fetch(fileUrl(slug, "optimized.txt"))
                 .then((res) => (res.ok ? res.text() : null))
                 .then(setOptimizedText, () => {});

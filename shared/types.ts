@@ -302,6 +302,8 @@ export interface Report {
   bracket?: BracketReport;
   /** Changes applied through chat after optimization, oldest first. */
   edits?: DeckEdit[];
+  /** The deck as submitted, for the default view; `before` and `bracket.before` hold its stats. */
+  original?: { decklist: DecklistCard[]; combosPresent: Combo[]; combosOneAway: Combo[] };
   /** Strong non-combo interactions in the deck (needs an LLM). */
   synergies?: Synergy[];
   /** Land swaps that would still improve the mana base; recomputed after every edit. */

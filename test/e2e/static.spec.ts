@@ -1,6 +1,7 @@
 import { STATIC_URL, expect, expectNoHorizontalOverflow, test } from "./fixtures.ts";
 
 const OVERPOWERED = "lathril-blade-of-the-elves";
+const OPTIMIZED = `${OVERPOWERED}/optimized`;
 
 test.describe("static site", () => {
   test("gallery lists published decks with bracket badges", async ({ page }) => {
@@ -14,7 +15,7 @@ test.describe("static site", () => {
   });
 
   test("report shows bracket, swaps, deck list and mana sections", async ({ page }) => {
-    await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
+    await page.goto(`${STATIC_URL}#/deck/${OPTIMIZED}`);
     await expect(
       page.getByRole("heading", { level: 1, name: /Lathril, Blade of the Elves/ }),
     ).toBeVisible();
@@ -31,8 +32,37 @@ test.describe("static site", () => {
     await expectNoHorizontalOverflow(page);
   });
 
-  test("combos list shows those in the deck and one card away together", async ({ page }) => {
+  test("opens on the deck as submitted, with a toggle to the optimized view", async ({ page }) => {
     await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
+    const toggle = page.getByRole("tablist", { name: "Which deck" });
+    await expect(toggle.getByRole("tab", { name: "Your deck" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await expect(page.getByRole("heading", { name: "Your deck", level: 2 })).toBeVisible();
+    await expect(page.locator("#swaps")).toHaveCount(0);
+    await expect(page.locator(".section-nav").getByRole("button", { name: "Swaps" })).toHaveCount(
+      0,
+    );
+    await expect(page.getByRole("button", { name: "New cards" })).toHaveCount(0);
+    // The original list has the cards the optimizer cut, and its stats aren't compared.
+    await expect(page.locator("#sim th", { hasText: "Before" })).toHaveCount(0);
+    await expectNoHorizontalOverflow(page);
+
+    await page.getByRole("link", { name: "See the optimized deck" }).click();
+    await expect(page).toHaveURL(/\/optimized$/);
+    await expect(toggle.getByRole("tab", { name: /Optimized/ })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await expect(page.getByRole("heading", { name: "The plan" })).toBeVisible();
+    await expect(page.locator("#swaps")).toBeVisible();
+    await toggle.getByRole("tab", { name: "Your deck" }).click();
+    await expect(page.locator("#swaps")).toHaveCount(0);
+  });
+
+  test("combos list shows those in the deck and one card away together", async ({ page }) => {
+    await page.goto(`${STATIC_URL}#/deck/${OPTIMIZED}`);
     const combos = page.locator("#combos");
     const present = combos.locator(".combo-row.present");
     const away = combos.locator(".combo-row.away");
@@ -65,7 +95,7 @@ test.describe("static site", () => {
 
   test("hovering a card thumbnail shows a full-size preview", async ({ page }, info) => {
     test.skip(info.project.name !== "desktop", "hover previews need a mouse");
-    await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
+    await page.goto(`${STATIC_URL}#/deck/${OPTIMIZED}`);
     const thumb = page.locator("#combos .combo-thumbs .card-name:last-child .card-thumb").first();
     await thumb.evaluate((el) => el.scrollIntoView({ block: "center" }));
     await thumb.hover();
@@ -76,7 +106,7 @@ test.describe("static site", () => {
   });
 
   test("deck list highlights new cards only when asked", async ({ page }) => {
-    await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
+    await page.goto(`${STATIC_URL}#/deck/${OPTIMIZED}`);
     const list = page.locator("#decklist");
     await expect(list.locator(".deck-group li").first()).toBeVisible();
     await expect(list.locator(".badge.new")).toHaveCount(0);
@@ -165,7 +195,7 @@ test.describe("static site", () => {
   });
 
   test("pre-game summary and back navigation", async ({ page }) => {
-    await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
+    await page.goto(`${STATIC_URL}#/deck/${OPTIMIZED}`);
     await page.getByRole("link", { name: "Pre-game summary" }).click();
     await expect(page.locator(".rule0-name")).toHaveText("Upgraded");
     await expect(page.getByText("6+ turns")).toBeVisible();

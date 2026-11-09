@@ -1,0 +1,86 @@
+Commander
+1 Derevi, Empyrial Tactician
+
+Deck
+1 Acidic Slime
+1 Angel of Finality
+1 Arcane Denial
+1 Aura Shards
+1 Austere Command
+1 Azami, Lady of Scrolls
+1 Azorius Chancery
+1 Azorius Guildgate
+1 Bant Charm
+1 Bant Panorama
+1 Basalt Monolith
+1 Bident of Thassa
+1 Command Tower
+1 Condemn
+1 Control Magic
+1 Cultivate
+1 Darksteel Ingot
+1 Darksteel Mutation
+1 Deglamer
+1 Dissipate
+1 Energy Flux
+1 Enlightened Tutor
+1 Eternal Witness
+1 Evolving Wilds
+1 Faerie Conclave
+6 Forest
+1 Glare of Subdual
+1 Hokori, Dust Drinker
+1 Intrepid Hero
+7 Island
+1 Karmic Guide
+1 Kataki, War's Wage
+1 Kazandu Tuskcaller
+1 Kirtar's Wrath
+1 Kodama's Reach
+1 Krosan Grip
+1 Land Equilibrium
+1 Lightning Greaves
+1 Lu Xun, Scholar General
+1 Luminate Primordial
+1 Mirror Entity
+1 Murkfiend Liege
+1 Oblation
+1 Opal Palace
+1 Opposition
+1 Path to Exile
+7 Plains
+1 Ray of Command
+1 Reveillark
+1 Rising Waters
+1 Roon of the Hidden Realm
+1 Rout
+1 Rubinia Soulsinger
+1 Saltcrusted Steppe
+1 Seaside Citadel
+1 Secluded Steppe
+1 Sejiri Refuge
+1 Selesnya Guildgate
+1 Selesnya Sanctuary
+1 Simic Guildgate
+1 Skyward Eye Prophets
+1 Sol Ring
+1 Squirrel Nest
+1 Stoic Angel
+1 Stonecloaker
+1 Stonybrook Schoolmaster
+1 Stroke of Genius
+1 Sun Titan
+1 Sunblast Angel
+1 Swiftfoot Boots
+1 Sword of the Paruns
+1 Swords to Plowshares
+1 Temple of the False God
+1 Terramorphic Expanse
+1 Transguild Promenade
+1 True Conviction
+1 Trygon Predator
+1 Unexpectedly Absent
+1 Voidmage Prodigy
+1 Wash Out
+1 Windborn Muse
+1 Winter Orb

@@ -9,8 +9,13 @@ function referencedNames(r: Report): string[] {
     names.add(s.in);
     for (const a of s.alternatives ?? []) names.add(a.name);
   }
-  for (const c of r.decklist ?? []) names.add(c.name);
-  for (const combo of [...r.combosPresent, ...r.combosOneAway])
+  for (const c of [...(r.decklist ?? []), ...(r.original?.decklist ?? [])]) names.add(c.name);
+  for (const combo of [
+    ...r.combosPresent,
+    ...r.combosOneAway,
+    ...(r.original?.combosPresent ?? []),
+    ...(r.original?.combosOneAway ?? []),
+  ])
     combo.cards.forEach((n) => names.add(n));
   for (const snap of [r.before, r.after]) {
     snap.mana.tappedLands.forEach((n) => names.add(n));
@@ -63,6 +68,7 @@ export async function buildCardIndex(
     s.alternatives?.forEach((a) => add({ ...a }));
   }
   report.decklist?.forEach((c) => add(c));
+  report.original?.decklist.forEach((c) => add(c));
   const missing = referencedNames(report).filter((n) => !index[n]);
   if (missing.length) {
     const found = await lookupExact(missing).catch(() => new Map<string, Card>());

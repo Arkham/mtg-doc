@@ -71,6 +71,12 @@ describe("full optimizer pipeline (recorded APIs, no LLM)", () => {
       assert.ok(m.changes.every((c) => c.ok && c.card?.isLand));
     }
 
+    // The submitted deck is kept for the default view, untouched by the swaps.
+    const original = report.original!;
+    assert.ok(original.decklist.every((c) => !c.isNew && c.delta === 0));
+    assert.ok(report.swaps.every((s) => original.decklist.some((c) => c.name === s.out)));
+    assert.ok(Array.isArray(original.combosPresent) && Array.isArray(original.combosOneAway));
+
     // Combos describe the final deck: nothing "one card away" is already in it.
     const finalNames = new Set(report.decklist!.map((c) => c.name));
     assert.ok(report.combosOneAway.every((c) => !finalNames.has(c.missing[0])));

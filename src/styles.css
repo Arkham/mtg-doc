@@ -1427,6 +1427,31 @@ button.hero-card:active:not(:disabled) {
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
+.overview-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3) var(--sp-5);
+  flex-wrap: wrap;
+  margin-top: var(--sp-5);
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: var(--r-md);
+  background: var(--accent-soft);
+  border: 1px solid rgba(212, 171, 82, 0.3);
+}
+.overview-cta p {
+  margin: 0;
+  color: var(--text-2);
+}
+.overview-cta strong {
+  color: var(--text);
+}
+.topbar-slot {
+  margin-left: auto;
+}
+.view-toggle button {
+  white-space: nowrap;
+}
 .stat-was {
   color: var(--muted);
   font-size: var(--fs-xs);
