@@ -90,6 +90,27 @@ function MiniCard({ card, name, side }: { card?: Card; name: string; side: "out"
   );
 }
 
+/** Section title with an optional one-line description and actions on the right. */
+function PanelHead({
+  title,
+  desc,
+  actions,
+}: {
+  title: ReactNode;
+  desc?: ReactNode;
+  actions?: ReactNode;
+}) {
+  return (
+    <header className="panel-head">
+      <div className="panel-head-text">
+        <h2>{title}</h2>
+        {desc && <p className="panel-desc">{desc}</p>}
+      </div>
+      {actions && <div className="panel-actions">{actions}</div>}
+    </header>
+  );
+}
+
 const isManaSwap = (s: Swap) =>
   s.category === "mana" || (Boolean(s.inCard?.isLand) && Boolean(s.outCard?.isLand));
 
@@ -112,7 +133,7 @@ function SwapGroup({ title, swaps }: { title: string; swaps: Swap[] }) {
             </div>
             <div className="reason">
               <span className="badge">
-                {CATEGORY_EMOJI[s.category]} {s.category}
+                {CATEGORY_EMOJI[s.category]} {s.category[0].toUpperCase() + s.category.slice(1)}
               </span>
               <p>{s.reason}</p>
               {s.alternatives && s.alternatives.length > 0 && (
@@ -158,10 +179,6 @@ function ColorBars({ before, after }: { before: DeckSnapshot; after: DeckSnapsho
   );
   return (
     <div className="color-bars">
-      <p className="muted small mana-intro">
-        How many of your lands can make each color, against how many a deck leaning on that color
-        this much should have to reliably cast its spells on time.
-      </p>
       {after.mana.colors.map((c) => {
         const b = before.mana.colors.find((x) => x.color === c.color);
         const gap = c.targetSources - c.landSources;
@@ -255,18 +272,18 @@ function Synergies({
   };
   return (
     <>
-      <div className="row between">
-        <h2>Synergies</h2>
-        {!IS_STATIC && (
-          <button className="small-btn" disabled={busy} onClick={refresh}>
-            {busy ? <span className="spinner" aria-hidden /> : null}
-            {items.length ? "Find synergies again" : "Find synergies"}
-          </button>
-        )}
-      </div>
-      <p className="muted small">
-        Cards that are stronger together, without being an infinite combo.
-      </p>
+      <PanelHead
+        title="Synergies"
+        desc="Cards that are stronger together, without being an infinite combo."
+        actions={
+          !IS_STATIC && (
+            <button className="small-btn" disabled={busy} onClick={refresh}>
+              {busy ? <span className="spinner" aria-hidden /> : null}
+              {items.length ? "Find again" : "Find synergies"}
+            </button>
+          )
+        }
+      />
       {error && <p className="error small">{error}</p>}
       {items.length === 0 ? (
         <p className="muted">No synergies yet.</p>
@@ -356,14 +373,16 @@ function ManaAdvice({
             {suggestions.map((m) => (
               <li key={m.id}>
                 <div className="mana-swap">
-                  {m.changes.map((c, i) => (
-                    <span key={i} className={`edit-chip ${c.action}`}>
-                      {c.action === "add" ? "+" : "−"} <CardName name={c.name} card={c.card} />
-                      {c.action === "add" && c.card?.priceUsd != null && (
-                        <span className="muted small"> ${c.card.priceUsd.toFixed(2)}</span>
-                      )}
-                    </span>
-                  ))}
+                  <span className="mana-swap-chips">
+                    {m.changes.map((c, i) => (
+                      <span key={i} className={`edit-chip ${c.action}`}>
+                        {c.action === "add" ? "+" : "−"} <CardName name={c.name} card={c.card} />
+                        {c.action === "add" && c.card?.priceUsd != null && (
+                          <span className="muted small"> ${c.card.priceUsd.toFixed(2)}</span>
+                        )}
+                      </span>
+                    ))}
+                  </span>
                   {!IS_STATIC && (
                     <button
                       className="small-btn"
@@ -397,31 +416,48 @@ function ManaAdvice({
 
 function Curve({ before, after }: { before: DeckSnapshot; after: DeckSnapshot }) {
   const keys = ["0", "1", "2", "3", "4", "5", "6", "7+"];
-  const max = Math.max(
-    ...keys.map((k) => Math.max(before.mana.curve[k] ?? 0, after.mana.curve[k] ?? 0)),
-    1,
-  );
+  // Headroom above the tallest bar for its count label.
+  const max =
+    Math.max(...keys.map((k) => Math.max(before.mana.curve[k] ?? 0, after.mana.curve[k] ?? 0)), 1) *
+    1.18;
   return (
-    <div className="curve">
-      {keys.map((k) => (
-        <div key={k} className="curve-col">
-          <div className="curve-bars">
-            <div
-              className="bar before"
-              style={{ height: `${((before.mana.curve[k] ?? 0) / max) * 100}%` }}
-              title={`before: ${before.mana.curve[k] ?? 0}`}
-            />
-            <div
-              className="bar after"
-              style={{ height: `${((after.mana.curve[k] ?? 0) / max) * 100}%` }}
-              title={`after: ${after.mana.curve[k] ?? 0}`}
-            />
-          </div>
-          <span className="small">{after.mana.curve[k] ?? 0}</span>
-          <span className="muted small">{k}</span>
-        </div>
-      ))}
-    </div>
+    <figure className="curve-figure">
+      <div className="curve" role="img" aria-label="Mana curve, before and after">
+        {keys.map((k) => {
+          const was = before.mana.curve[k] ?? 0;
+          const now = after.mana.curve[k] ?? 0;
+          return (
+            <div key={k} className="curve-col">
+              <div className="curve-bars">
+                <span
+                  className="curve-count"
+                  style={{ bottom: `${(Math.max(was, now) / max) * 100}%` }}
+                  title={was !== now ? `was ${was}` : undefined}
+                >
+                  {now}
+                </span>
+                <div
+                  className="bar before"
+                  style={{ height: `${(was / max) * 100}%` }}
+                  title={`before: ${was}`}
+                />
+                <div
+                  className="bar after"
+                  style={{ height: `${(now / max) * 100}%` }}
+                  title={`after: ${now}`}
+                />
+              </div>
+              <span className="curve-mv">{k}</span>
+            </div>
+          );
+        })}
+      </div>
+      <figcaption className="legend">
+        <span className="bar-swatch before" /> before <span className="bar-swatch after" /> after
+        <span className="grow" />
+        mana value
+      </figcaption>
+    </figure>
   );
 }
 
@@ -514,7 +550,7 @@ function Roles({ before, after }: { before: DeckSnapshot; after: DeckSnapshot })
 function Rerun({ slug, initial }: { slug: string; initial: OptimizeOptions }) {
   const [opts, setOpts] = useState(initial);
   const [open, setOpen] = useState(false);
-  if (!open) return <button onClick={() => setOpen(true)}>⚙️ Re-run with different options</button>;
+  if (!open) return <button onClick={() => setOpen(true)}>Re-run with different options</button>;
   return (
     <div className="rerun">
       <label>
@@ -609,6 +645,14 @@ const GROUP_ORDER = [
 ];
 
 const VIEW_KEY = "mtg-doc:decklist-view";
+
+const hostOf = (url: string) => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return "";
+  }
+};
 
 /** Deck list as a visual grid of card images, grouped by type; tap a card to see it full size. */
 function DeckImages({
@@ -964,16 +1008,24 @@ function Combos({ report: r }: { report: Report }) {
   ];
   return (
     <>
-      <div className="row between">
-        <h2>Combos</h2>
-        <div className="segmented" role="tablist" aria-label="Which combos">
-          {tabs.map(([id, label, n]) => (
-            <button key={id} role="tab" aria-selected={filter === id} onClick={() => setFilter(id)}>
-              {label} <span className="count">{n}</span>
-            </button>
-          ))}
-        </div>
-      </div>
+      <PanelHead
+        title="Combos"
+        desc="Infinite combos from Commander Spellbook, in your deck or one card away."
+        actions={
+          <div className="segmented" role="tablist" aria-label="Which combos">
+            {tabs.map(([id, label, n]) => (
+              <button
+                key={id}
+                role="tab"
+                aria-selected={filter === id}
+                onClick={() => setFilter(id)}
+              >
+                {label} <span className="count">{n}</span>
+              </button>
+            ))}
+          </div>
+        }
+      />
       <ul className="combo-rows">
         {shownPresent.map((c) => (
           <li key={c.id} className="combo-row present">
@@ -1194,7 +1246,7 @@ export function ReportView({ slug }: { slug: string }) {
             <div className="hero-kicker">
               {r.bracket && (
                 <a
-                  className="bracket-pill"
+                  className="bracket-link"
                   href="#bracket"
                   onClick={(e) => {
                     e.preventDefault();
@@ -1206,47 +1258,63 @@ export function ReportView({ slug }: { slug: string }) {
                 </a>
               )}
             </div>
-            <h1>{r.commanders.join(" + ") || slug}</h1>
+            <div className="hero-title">
+              <h1>{r.commanders.join(" + ") || slug}</h1>
+              {r.commanderCards.length === 1 && (
+                <ManaCost cost={r.commanderCards[0].manaCost} size={20} />
+              )}
+            </div>
           </div>
           <div className="hero-text">
             {r.commanderCards.map((c) => (
               <div key={c.name} className="commander-rules">
                 {r.commanderCards.length > 1 && <h2>{c.name}</h2>}
                 <div className="type-line">
-                  <span>{c.typeLine}</span>
-                  <ManaCost cost={c.manaCost} size={17} />
+                  <span>
+                    {c.typeLine}
+                    {(c.power || c.loyalty) && (
+                      <>
+                        <span className="type-sep"> · </span>
+                        <span className="pt">
+                          {c.loyalty ? `Loyalty ${c.loyalty}` : `${c.power}/${c.toughness}`}
+                        </span>
+                      </>
+                    )}
+                  </span>
+                  {r.commanderCards.length > 1 && <ManaCost cost={c.manaCost} size={17} />}
                 </div>
                 <OracleText text={c.oracleText} />
-                {(c.power || c.loyalty) && (
-                  <span className="pt">
-                    {c.loyalty ? `Loyalty ${c.loyalty}` : `${c.power}/${c.toughness}`}
-                  </span>
-                )}
               </div>
             ))}
           </div>
           <div className="hero-foot">
             {r.themes.length > 0 && (
-              <div className="chips themes">
-                {r.themes.map((t) => (
-                  <span key={t} className="chip">
+              <p className="hero-themes">
+                {r.themes.map((t, i) => (
+                  <span key={t}>
+                    {i > 0 && <span className="type-sep"> · </span>}
                     {t}
                   </span>
                 ))}
-              </div>
+              </p>
             )}
             <div className="hero-actions">
               <button className="primary" onClick={copyOptimized} disabled={!optimizedText}>
                 {copied ? "✓ Copied" : "Copy deck list"}
               </button>
               <ExportMenu slug={slug} edhrecUrl={r.edhrec?.url} swaps={r.swaps} />
-              <span className="hero-meta small">
-                Updated {new Date(r.generatedAt).toLocaleDateString()}
-                {r.edhrec?.numDecks
-                  ? ` · ${r.edhrec.numDecks.toLocaleString()} decks on EDHREC`
-                  : ""}
-              </span>
             </div>
+            <p className="hero-meta">
+              Updated{" "}
+              {new Date(r.generatedAt).toLocaleDateString(undefined, {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+              {r.edhrec?.numDecks
+                ? ` · based on ${r.edhrec.numDecks.toLocaleString()} decks on EDHREC`
+                : ""}
+            </p>
           </div>
         </section>
 
@@ -1312,56 +1380,78 @@ export function ReportView({ slug }: { slug: string }) {
 
         {r.decklist && (
           <section className="panel" id="decklist">
-            <h2>Deck list</h2>
+            <PanelHead title="Deck list" />
             <Decklist cards={r.decklist} swaps={r.swaps} />
           </section>
         )}
 
-        <div className="grid2">
-          <section className="panel" id="mana">
-            <h2>Mana base</h2>
-            <ColorBars before={r.before} after={r.after} />
-            <h3>Mana curve</h3>
-            <p className="muted small mana-intro">
-              Number of spells at each mana value (lands not counted).
-            </p>
-            <Curve before={r.before} after={r.after} />
-            <ManaAdvice
-              report={r}
-              slug={slug}
-              onApplied={(report) => {
-                setDetail((d) => (d ? { ...d, report } : d));
-                fetch(fileUrl(slug, "optimized.txt"))
-                  .then((res) => (res.ok ? res.text() : null))
-                  .then(setOptimizedText, () => {});
-              }}
-            />
-            {r.after.mana.tappedLands.length > 0 && (
-              <p className="muted small">
-                Enters tapped: <CardList names={r.after.mana.tappedLands} separator=", " />
-              </p>
-            )}
-            {r.after.mana.colorlessLands.length > 0 && (
-              <p className="muted small">
-                Colorless lands: <CardList names={r.after.mana.colorlessLands} separator=", " />
-              </p>
-            )}
-          </section>
-          <section className="panel" id="sim">
-            <h2>Goldfish simulation</h2>
-            <p className="muted small">
-              {r.after.sim.games.toLocaleString()} solo games: free mulligan, greedy land and ramp
-              plays.
-            </p>
-            <div className="table-wrap">
-              <SimTable before={r.before} after={r.after} />
+        <section className="panel" id="mana">
+          <PanelHead
+            title="Mana base"
+            desc="How many of your lands make each color, against how many a deck leaning on that color this much needs to cast its spells on time."
+          />
+          <div className="split">
+            <div>
+              <ColorBars before={r.before} after={r.after} />
+              <h3>Mana curve</h3>
+              <p className="sub-desc">Spells at each mana value; lands not counted.</p>
+              <Curve before={r.before} after={r.after} />
             </div>
-            <h3>Roles</h3>
-            <div className="table-wrap">
-              <Roles before={r.before} after={r.after} />
+            <div>
+              <ManaAdvice
+                report={r}
+                slug={slug}
+                onApplied={(report) => {
+                  setDetail((d) => (d ? { ...d, report } : d));
+                  fetch(fileUrl(slug, "optimized.txt"))
+                    .then((res) => (res.ok ? res.text() : null))
+                    .then(setOptimizedText, () => {});
+                }}
+              />
+              {(r.after.mana.tappedLands.length > 0 || r.after.mana.colorlessLands.length > 0) && (
+                <dl className="land-notes">
+                  {r.after.mana.tappedLands.length > 0 && (
+                    <>
+                      <dt>Enters tapped</dt>
+                      <dd>
+                        <CardList names={r.after.mana.tappedLands} separator=", " />
+                      </dd>
+                    </>
+                  )}
+                  {r.after.mana.colorlessLands.length > 0 && (
+                    <>
+                      <dt>Colorless only</dt>
+                      <dd>
+                        <CardList names={r.after.mana.colorlessLands} separator=", " />
+                      </dd>
+                    </>
+                  )}
+                </dl>
+              )}
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
+
+        <section className="panel" id="sim">
+          <PanelHead
+            title="Goldfish simulation"
+            desc={`${r.after.sim.games.toLocaleString()} solo games with a free mulligan and greedy land and ramp plays.`}
+          />
+          <div className="split">
+            <div>
+              <h3 className="split-head">Mana development</h3>
+              <div className="table-wrap">
+                <SimTable before={r.before} after={r.after} />
+              </div>
+            </div>
+            <div>
+              <h3 className="split-first">Card roles</h3>
+              <div className="table-wrap">
+                <Roles before={r.before} after={r.after} />
+              </div>
+            </div>
+          </div>
+        </section>
 
         {hasCombos && (
           <section className="panel" id="combos">
@@ -1380,7 +1470,14 @@ export function ReportView({ slug }: { slug: string }) {
         )}
 
         <section className="panel" id="swaps">
-          <h2>Swaps</h2>
+          <PanelHead
+            title="Swaps"
+            desc={
+              r.swaps.length
+                ? `${r.swaps.length} changes from your original list, and why.`
+                : undefined
+            }
+          />
           <SwapList swaps={r.swaps} />
           {r.edits && r.edits.length > 0 && (
             <div className="swap-group edits">
@@ -1408,17 +1505,22 @@ export function ReportView({ slug }: { slug: string }) {
 
         {r.research && (
           <section className="panel" id="research">
-            <h2>Web research</h2>
-            <details>
-              <summary>Show summary ({r.research.sources.length} sources)</summary>
+            <PanelHead
+              title="Web research"
+              desc={`What ${r.research.sources.length} guides and discussions say about this commander.`}
+            />
+            <details className="disclosure">
+              <summary>Read the summary</summary>
               <Markdown text={r.research.summary} />
             </details>
+            <h3>Sources</h3>
             <ul className="sources">
               {r.research.sources.map((s) => (
                 <li key={s.url}>
                   <a href={s.url} target="_blank" rel="noreferrer">
                     {s.title}
                   </a>
+                  <span className="source-host">{hostOf(s.url)}</span>
                 </li>
               ))}
             </ul>
@@ -1451,8 +1553,8 @@ export function ReportView({ slug }: { slug: string }) {
 
         <section className="panel">
           <div className="row between">
-            <details>
-              <summary>Original list (initial.txt)</summary>
+            <details className="disclosure">
+              <summary>Original list</summary>
               <pre>{detail.initial}</pre>
             </details>
             {!IS_STATIC && <Rerun slug={slug} initial={r.options} />}
