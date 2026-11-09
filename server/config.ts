@@ -32,9 +32,14 @@ export const config = {
     apiKey: env("LLM_API_KEY"),
     model: env("LLM_MODEL") ?? "gpt-5.4",
     visionModel: env("LLM_VISION_MODEL") ?? env("LLM_MODEL") ?? "gpt-5.4",
-    searchModel: env("LLM_SEARCH_MODEL"),
+    /** Model used with the Responses API web_search tool. */
+    searchModel: env("LLM_SEARCH_MODEL") ?? env("LLM_MODEL") ?? "gpt-5.4",
+    webSearch: (env("LLM_WEB_SEARCH") ?? "true") !== "false",
+    retryDelayMs: Number(env("LLM_RETRY_DELAY_MS") ?? 2000),
   },
   userAgent: "mtg-doc/0.1 (local)",
+  /** Scryfall asks for 50-100ms between requests. */
+  scryfallIntervalMs: Number(env("SCRYFALL_MIN_INTERVAL_MS") ?? 110),
 };
 
 export const llmEnabled = () => Boolean(config.llm.apiKey);

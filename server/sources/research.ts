@@ -1,17 +1,14 @@
 import { z } from "zod";
 import type { Research } from "../../shared/types.ts";
 import { config } from "../config.ts";
-import { chatJson, chatWithCitations } from "../llm.ts";
+import { chatJson, webSearch } from "../llm.ts";
 
-/** Web research via a search-capable model; returns null when no search model is configured. */
+/** Web research via the Responses API web_search tool; null when disabled. */
 export async function researchCommander(commanders: string[]): Promise<Research | null> {
-  if (!config.llm.searchModel) return null;
+  if (!config.llm.webSearch) return null;
   const who = commanders.join(" + ");
-  const { text, citations } = await chatWithCitations(
-    [
-      {
-        role: "user",
-        content: `Search the web (EDHREC, Commander Spellbook, MTGGoldfish, Moxfield, Command Zone, Card Kingdom blog, etc.) for current Commander/EDH deckbuilding advice for ${who}.
+  const { text, citations } = await webSearch(
+    `Search the web (EDHREC, Commander Spellbook, MTGGoldfish, Moxfield, Command Zone, Card Kingdom blog, etc.) for current Commander/EDH deckbuilding advice for ${who}.
 Report concisely:
 1. The main strategies/archetypes people build around this commander.
 2. Key synergy cards and engines (name specific cards).
@@ -19,9 +16,6 @@ Report concisely:
 4. Common mistakes or cards that underperform in this deck.
 5. Mana base advice specific to this commander.
 Use exact Magic card names.`,
-      },
-    ],
-    config.llm.searchModel,
   );
   const extracted = await chatJson(z.object({ cards: z.array(z.string()) }), [
     {

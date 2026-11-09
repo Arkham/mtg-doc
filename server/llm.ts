@@ -1,31 +1,51 @@
 import type { z } from "zod";
 import { config } from "./config.ts";
 
-type ContentPart =
+export type ContentPart =
   | { type: "text"; text: string }
-  | { type: "image_url"; image_url: { url: string; detail?: "low" | "high" | "auto" } };
+  | { type: "image"; url: string; detail?: "low" | "high" | "auto" };
 
 export interface ChatMessage {
   role: "system" | "user" | "assistant";
   content: string | ContentPart[];
 }
 
-interface ChatResponse {
-  choices?: {
-    message?: {
-      content?: string | null;
-      annotations?: { type: string; url_citation?: { url: string; title?: string } }[];
-    };
+interface ResponsesOutput {
+  type: string;
+  content?: {
+    type: string;
+    text?: string;
+    annotations?: { type: string; url?: string; title?: string }[];
   }[];
-  error?: unknown;
+}
+
+interface ResponsesResult {
+  status?: string;
+  output?: ResponsesOutput[];
+  error?: { message?: string } | null;
 }
 
 export class LlmError extends Error {}
 
-async function post(body: Record<string, unknown>, timeoutMs = 300_000): Promise<ChatResponse> {
+/** Converts our provider-neutral messages to OpenAI Responses API input items. */
+export function toResponsesInput(messages: ChatMessage[]) {
+  return messages.map((m) => {
+    const parts = typeof m.content === "string" ? [{ type: "text" as const, text: m.content }] : m.content;
+    return {
+      role: m.role,
+      content: parts.map((p) =>
+        p.type === "text"
+          ? { type: m.role === "assistant" ? "output_text" : "input_text", text: p.text }
+          : { type: "input_image", image_url: p.url, detail: p.detail ?? "auto" },
+      ),
+    };
+  });
+}
+
+async function respond(body: Record<string, unknown>, timeoutMs = 300_000): Promise<ResponsesResult> {
   if (!config.llm.apiKey) throw new LlmError("LLM_API_KEY is not configured");
   for (let attempt = 0; ; attempt++) {
-    const res = await fetch(`${config.llm.baseUrl}/chat/completions`, {
+    const res = await fetch(`${config.llm.baseUrl}/responses`, {
       method: "POST",
       headers: {
         authorization: `Bearer ${config.llm.apiKey}`,
@@ -34,17 +54,31 @@ async function post(body: Record<string, unknown>, timeoutMs = 300_000): Promise
       body: JSON.stringify(body),
       signal: AbortSignal.timeout(timeoutMs),
     });
-    if (res.ok) return (await res.json()) as ChatResponse;
+    if (res.ok) {
+      const data = (await res.json()) as ResponsesResult;
+      if (data.error?.message) throw new LlmError(`LLM error: ${data.error.message}`);
+      return data;
+    }
     const text = await res.text();
     const retryable = res.status === 429 || res.status >= 500;
     if (!retryable || attempt >= 2) {
       throw new LlmError(`LLM request failed (${res.status}): ${text.slice(0, 500)}`);
     }
-    await new Promise((r) => setTimeout(r, 2000 * (attempt + 1)));
+    await new Promise((r) => setTimeout(r, config.llm.retryDelayMs * (attempt + 1)));
   }
 }
 
-function extractJson(text: string): unknown {
+/** All assistant text from a Responses API result, in order. */
+export function outputText(res: ResponsesResult): string {
+  return (res.output ?? [])
+    .filter((o) => o.type === "message")
+    .flatMap((o) => o.content ?? [])
+    .filter((c) => c.type === "output_text")
+    .map((c) => c.text ?? "")
+    .join("");
+}
+
+export function extractJson(text: string): unknown {
   const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/);
   const candidate = fenced ? fenced[1] : text;
   const start = candidate.indexOf("{");
@@ -62,8 +96,12 @@ export async function chatJson<T extends z.ZodType>(
   let lastError: unknown;
   const convo = [...messages];
   for (let attempt = 0; attempt < 2; attempt++) {
-    const res = await post({ model, messages: convo, response_format: { type: "json_object" } });
-    const content = res.choices?.[0]?.message?.content ?? "";
+    const res = await respond({
+      model,
+      input: toResponsesInput(convo),
+      text: { format: { type: "json_object" } },
+    });
+    const content = outputText(res);
     try {
       return schema.parse(extractJson(content));
     } catch (err) {
@@ -80,21 +118,29 @@ export async function chatJson<T extends z.ZodType>(
   throw new LlmError(`LLM returned invalid JSON: ${String(lastError)}`);
 }
 
-export async function chatWithCitations(
-  messages: ChatMessage[],
-  model: string,
+/** Runs a prompt with the built-in web_search tool and returns the answer with its cited sources. */
+export async function webSearch(
+  prompt: string,
+  model = config.llm.searchModel,
 ): Promise<{ text: string; citations: { title: string; url: string }[] }> {
-  const res = await post({ model, messages });
-  const msg = res.choices?.[0]?.message;
+  const res = await respond({
+    model,
+    tools: [{ type: "web_search" }],
+    input: toResponsesInput([{ role: "user", content: prompt }]),
+  });
   const citations = new Map<string, string>();
-  for (const a of msg?.annotations ?? []) {
-    if (a.url_citation?.url) {
-      const url = a.url_citation.url.replace(/[?&]utm_source=[^&]*/, "");
-      citations.set(url, a.url_citation.title ?? url);
+  for (const o of res.output ?? []) {
+    for (const c of o.content ?? []) {
+      for (const a of c.annotations ?? []) {
+        if (a.type === "url_citation" && a.url) {
+          const url = a.url.replace(/[?&]utm_source=[^&]*/, "");
+          citations.set(url, a.title ?? url);
+        }
+      }
     }
   }
   return {
-    text: msg?.content ?? "",
+    text: outputText(res),
     citations: [...citations].map(([url, title]) => ({ url, title })),
   };
 }

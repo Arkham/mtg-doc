@@ -202,11 +202,11 @@ async function run(job: Job) {
     if (
       !options.webResearch ||
       !llmEnabled() ||
-      !config.llm.searchModel ||
+      !config.llm.webSearch ||
       !commanderNames.length
     ) {
       s.status = "skipped";
-      s.detail = !config.llm.searchModel ? "LLM_SEARCH_MODEL not set" : undefined;
+      s.detail = !config.llm.webSearch ? "web search disabled (LLM_WEB_SEARCH=false)" : undefined;
       return null;
     }
     const r = await researchCommander(commanderNames).catch((e) => {

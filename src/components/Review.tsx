@@ -551,7 +551,7 @@ export function Review({
                 <span>
                   Web research
                   {!config?.webResearch && (
-                    <span className="muted small"> (set LLM_SEARCH_MODEL)</span>
+                    <span className="muted small"> (needs an LLM)</span>
                   )}
                 </span>
               </label>

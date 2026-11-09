@@ -25,14 +25,15 @@ cp .env.example .env   # then fill in LLM_* values
 pnpm dev               # http://localhost:5173
 ```
 
-Any OpenAI-compatible `/chat/completions` endpoint works. `.env` supports `${VAR}` references, so a
+Any endpoint implementing the OpenAI **Responses API** (`POST /responses`) works; it's used for
+photo OCR (image input), JSON planning, and web research via the built-in `web_search` tool. `.env` supports `${VAR}` references, so a
 key already exported in your shell can be used without copying it:
 
 ```bash
 LLM_BASE_URL=https://your-endpoint/v1
 LLM_API_KEY=${SOME_EXPORTED_KEY}
 LLM_MODEL=gpt-5.4
-LLM_SEARCH_MODEL=gpt-5-search-api   # optional, enables web research
+LLM_WEB_SEARCH=true                 # web research via the web_search tool
 ```
 
 Without an API key the app still works with pasted lists and data-only (EDHREC-ranked) swaps.

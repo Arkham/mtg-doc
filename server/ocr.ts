@@ -45,10 +45,7 @@ export async function recognizeImages(images: Buffer[]): Promise<RecognitionResu
       role: "user",
       content: [
         { type: "text", text: PROMPT },
-        ...urls.map((url) => ({
-          type: "image_url" as const,
-          image_url: { url, detail: "high" as const },
-        })),
+        ...urls.map((url) => ({ type: "image" as const, url, detail: "high" as const })),
       ],
     },
   ];
