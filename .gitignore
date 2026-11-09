@@ -1,5 +1,7 @@
 node_modules
 dist
+site
 .env
 .DS_Store
 decks/*/uploads
+.shots

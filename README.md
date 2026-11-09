@@ -31,6 +31,28 @@ LLM_SEARCH_MODEL=gpt-5-search-api   # optional, enables web research
 
 Without an API key the app still works with pasted lists and data-only (EDHREC-ranked) swaps.
 
+## Using it from your phone
+
+The local app binds to `127.0.0.1` by default. To snap deck photos straight from your phone on the
+same Wi-Fi, run `HOST=0.0.0.0 pnpm dev` and open `http://<your-computer-ip>:5173`.
+
+## Publishing a static site
+
+```bash
+pnpm build:static                 # writes a read-only site to site/
+pnpm build:static --only atraxa-praetors-voice,lathril-blade-of-the-elves
+pnpm build:static --out ../my-pages-repo/decks
+pnpm preview:static               # serve site/ locally (also on your LAN)
+```
+
+The output is plain HTML/JS/JSON with relative paths and hash routing, so it works on any static
+host and under any sub-path (GitHub Pages, Netlify, Cloudflare Pages, S3) with no rewrite rules.
+Uploaded photos, warnings and local paths are not published.
+
+It's built for iPhone and iPad: tap any card name to see the card, sticky section navigation,
+"Copy deck list" for Moxfield/Archidekt import, and "Copy cards to add" as a pull list. Use Safari's
+**Share → Add to Home Screen** to get an app icon that opens full screen.
+
 ## Files per deck
 
 ```

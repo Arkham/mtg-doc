@@ -1,6 +1,12 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { DeckEntry, DeckSummary, OptimizeOptions, Report } from "../shared/types.ts";
+import {
+  COLORS,
+  type DeckEntry,
+  type DeckSummary,
+  type OptimizeOptions,
+  type Report,
+} from "../shared/types.ts";
 import { config } from "./config.ts";
 import { formatDecklist } from "./decklist.ts";
 import { slugify } from "./sources/edhrec.ts";
@@ -99,13 +105,20 @@ export async function listDecks(): Promise<DeckSummary[]> {
     if (!d.isDirectory()) continue;
     try {
       const meta = await readMeta(d.name);
+      const report = await readReport(d.name).catch(() => null);
       out.push({
         slug: meta.slug,
         commanders: meta.commanders,
         format: meta.format,
         createdAt: meta.createdAt,
-        hasReport: await exists(path.join(deckDir(d.name), "report.json")),
+        hasReport: report !== null,
         image: meta.image,
+        colorIdentity: report
+          ? COLORS.filter((c) => report.commanderCards.some((k) => k.colorIdentity.includes(c)))
+          : undefined,
+        swapCount: report?.swaps.length,
+        landCount: report?.after.mana.landCount,
+        priceUsd: report?.after.totalPriceUsd,
       });
     } catch {
       // Folders without deck.json aren't managed by the app.

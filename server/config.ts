@@ -25,6 +25,7 @@ const env = (k: string) => process.env[k]?.trim() || undefined;
 export const config = {
   root: ROOT,
   port: Number(env("PORT") ?? 5173),
+  host: env("HOST") ?? "127.0.0.1",
   decksDir: path.resolve(ROOT, env("DECKS_DIR") ?? "decks"),
   llm: {
     baseUrl: (env("LLM_BASE_URL") ?? "https://api.openai.com/v1").replace(/\/$/, ""),

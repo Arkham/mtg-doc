@@ -1,4 +1,4 @@
-import type { Card, Color, DeckEntry, Role, RoleCount } from "../../shared/types.ts";
+import type { Card, Color, DeckEntry, DecklistCard, Role, RoleCount } from "../../shared/types.ts";
 import { COLORS } from "../../shared/types.ts";
 import { ROLE_TARGETS } from "./roles.ts";
 
@@ -56,5 +56,41 @@ export function countRoles(deck: Deck, isCommander: boolean): RoleCount[] {
     role,
     count: counts.get(role) ?? 0,
     target: isCommander ? (ROLE_TARGETS[role] ?? null) : null,
+  }));
+}
+
+const GROUPS = [
+  "Creature",
+  "Planeswalker",
+  "Battle",
+  "Instant",
+  "Sorcery",
+  "Artifact",
+  "Enchantment",
+  "Land",
+];
+
+export function typeGroup(card: Card): string {
+  const front = card.typeLine.split(" // ")[0];
+  return GROUPS.find((g) => new RegExp(`\\b${g}\\b`).test(front)) ?? "Other";
+}
+
+export function toDecklist(deck: Deck, initial: Deck): DecklistCard[] {
+  const before = new Map(initial.slots.map((s) => [s.card.name, s.qty]));
+  const all = [
+    ...deck.commanders.map((card) => ({ card, qty: 1, group: "Commander" })),
+    ...deck.slots.map((s) => ({ ...s, group: typeGroup(s.card) })),
+  ];
+  return all.map(({ card, qty, group }) => ({
+    name: card.name,
+    manaCost: card.manaCost,
+    qty,
+    group,
+    cmc: card.cmc,
+    image: card.image,
+    scryfallUri: card.scryfallUri,
+    priceUsd: card.priceUsd,
+    isNew: group !== "Commander" && !before.has(card.name),
+    delta: group === "Commander" ? 0 : qty - (before.get(card.name) ?? 0),
   }));
 }

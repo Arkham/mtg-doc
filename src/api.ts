@@ -7,6 +7,9 @@ import type {
   SaveDeckRequest,
 } from "../shared/types.ts";
 
+/** Static builds are read-only and load pre-exported JSON instead of calling the server. */
+export const IS_STATIC = import.meta.env.VITE_STATIC === "1";
+
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const res = await fetch(url, init);
   const body = await res.json().catch(() => ({}));
@@ -41,10 +44,17 @@ export interface DeckDetail {
   initial: string;
 }
 
+export type DeckFile = "initial.txt" | "optimized.txt" | "report.md";
+
+export const fileUrl = (slug: string, file: DeckFile) =>
+  IS_STATIC ? `data/decks/${slug}/${file}` : `/api/decks/${slug}/files/${file}`;
+
 export const api = {
-  config: () => request<AppConfig>("/api/config"),
-  decks: () => request<DeckSummary[]>("/api/decks"),
-  deck: (slug: string) => request<DeckDetail>(`/api/decks/${slug}`),
+  config: () =>
+    IS_STATIC ? Promise.resolve(null) : request<AppConfig>("/api/config").catch(() => null),
+  decks: () => request<DeckSummary[]>(IS_STATIC ? "data/decks.json" : "/api/decks"),
+  deck: (slug: string) =>
+    request<DeckDetail>(IS_STATIC ? `data/decks/${slug}/detail.json` : `/api/decks/${slug}`),
   recognize: (images: File[], text: string) => {
     const form = new FormData();
     for (const f of images) form.append("images", f);

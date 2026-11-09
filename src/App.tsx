@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { type AppConfig, type Recognition, api } from "./api.ts";
+import { type AppConfig, IS_STATIC, type Recognition, api } from "./api.ts";
 import { Home } from "./components/Home.tsx";
 import { Progress } from "./components/Progress.tsx";
 import { ReportView } from "./components/ReportView.tsx";
@@ -12,21 +12,31 @@ type Route =
 function parseHash(): Route {
   const [, page, a, b] = window.location.hash.split("/");
   if (page === "deck" && a) return { page: "deck", slug: a };
-  if (page === "job" && a && b) return { page: "job", slug: a, jobId: b };
+  if (page === "job" && a && b && !IS_STATIC) return { page: "job", slug: a, jobId: b };
   return { page: "home" };
 }
 
 export function App() {
   const [route, setRoute] = useState<Route>(parseHash);
-  const [recognition, setRecognition] = useState<Recognition | null>(null);
+  const [recognition, setRecognition] = useState<{ result: Recognition; photos: string[] } | null>(
+    null,
+  );
   const [config, setConfig] = useState<AppConfig | null>(null);
 
   useEffect(() => {
-    const onHash = () => setRoute(parseHash());
+    const onHash = () => {
+      setRoute(parseHash());
+      window.scrollTo(0, 0);
+    };
     window.addEventListener("hashchange", onHash);
     api.config().then(setConfig, () => setConfig(null));
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
+
+  const goHome = () => {
+    setRecognition(null);
+    navigate("#/");
+  };
 
   let body;
   if (route.page === "job") {
@@ -36,7 +46,8 @@ export function App() {
   } else if (recognition) {
     body = (
       <Review
-        recognition={recognition}
+        recognition={recognition.result}
+        photos={recognition.photos}
         config={config}
         onCancel={() => setRecognition(null)}
         onSaved={(slug, jobId) => {
@@ -46,25 +57,30 @@ export function App() {
       />
     );
   } else {
-    body = <Home config={config} onRecognized={setRecognition} />;
+    body = (
+      <Home config={config} onRecognized={(result, photos) => setRecognition({ result, photos })} />
+    );
   }
+
+  const inner = route.page !== "home" || recognition !== null;
 
   return (
     <div className="app">
       <header className="topbar">
-        <a
-          href="#/"
-          className="brand"
-          onClick={() => {
-            setRecognition(null);
-          }}
-        >
-          🃏 Deck Doctor
-        </a>
-        {config && (
-          <span className="muted small">
+        {inner ? (
+          <button className="back" onClick={goHome} aria-label="Back to decks">
+            <span aria-hidden>‹</span> Decks
+          </button>
+        ) : (
+          <a href="#/" className="brand">
+            <img src="./icon.svg" alt="" width={28} height={28} />
+            Deck Doctor
+          </a>
+        )}
+        {config && !inner && (
+          <span className="muted small topbar-meta">
             {config.llm
-              ? `AI: ${config.model}${config.webResearch ? " · web research on" : ""}`
+              ? `${config.model}${config.webResearch ? " · web research" : ""}`
               : "AI disabled (set LLM_API_KEY)"}
           </span>
         )}

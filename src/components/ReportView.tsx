@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type {
   Card,
   Combo,
   DeckSnapshot,
+  DecklistCard,
   OptimizeOptions,
   Report,
   Swap,
 } from "../../shared/types.ts";
-import { type DeckDetail, api } from "../api.ts";
+import { type DeckDetail, IS_STATIC, api, fileUrl } from "../api.ts";
 import { navigate } from "../nav.ts";
 import { CardName } from "./CardName.tsx";
+import { ManaCost } from "./Mana.tsx";
 import { Markdown } from "./Markdown.tsx";
 
 const COLOR_NAME = { W: "White", U: "Blue", B: "Black", R: "Red", G: "Green" } as const;
@@ -51,19 +53,59 @@ function Delta({
   );
 }
 
-function MiniCard({ card, name }: { card?: Card; name: string }) {
+function MiniCard({ card, name, side }: { card?: Card; name: string; side: "out" | "in" }) {
   return (
-    <div className="mini-card">
+    <div className={`mini-card ${side}`}>
       {card?.image ? (
-        <img src={card.image} alt={name} loading="lazy" />
+        <CardName
+          name={name}
+          card={card}
+          className="mini-card-img"
+          label={<img src={card.image} alt={name} loading="lazy" />}
+        />
       ) : (
         <div className="placeholder">🃏</div>
       )}
-      <div>
-        <CardName name={name} card={card} />
-        <div className="muted small">
-          {card?.typeLine.split(" — ")[0]} · {money(card?.priceUsd)}
+      <div className="mini-card-text">
+        <span className="side-label">{side === "out" ? "Cut" : "Add"}</span>
+        <CardName name={name} card={card} className="mini-card-name" />
+        <div className="muted small mini-card-meta">
+          <ManaCost cost={card?.manaCost} size={13} />
+          <span>{card?.priceUsd != null ? money(card.priceUsd) : ""}</span>
         </div>
+      </div>
+    </div>
+  );
+}
+
+const isManaSwap = (s: Swap) =>
+  s.category === "mana" || (Boolean(s.inCard?.isLand) && Boolean(s.outCard?.isLand));
+
+function SwapGroup({ title, swaps }: { title: string; swaps: Swap[] }) {
+  if (!swaps.length) return null;
+  return (
+    <div className="swap-group">
+      <h3>
+        {title} <span className="muted">· {swaps.length}</span>
+      </h3>
+      <div className="swaps">
+        {swaps.map((s, i) => (
+          <article key={i} className="swap">
+            <div className="swap-cards">
+              <MiniCard card={s.outCard} name={s.out} side="out" />
+              <div className="arrow" aria-hidden>
+                →
+              </div>
+              <MiniCard card={s.inCard} name={s.in} side="in" />
+            </div>
+            <div className="reason">
+              <span className="badge">
+                {CATEGORY_EMOJI[s.category]} {s.category}
+              </span>
+              <p>{s.reason}</p>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   );
@@ -73,21 +115,10 @@ function SwapList({ swaps }: { swaps: Swap[] }) {
   if (!swaps.length)
     return <p className="muted">No swaps suggested. The deck already looks tight.</p>;
   return (
-    <div className="swaps">
-      {swaps.map((s, i) => (
-        <div key={i} className="swap">
-          <MiniCard card={s.outCard} name={s.out} />
-          <div className="arrow">→</div>
-          <MiniCard card={s.inCard} name={s.in} />
-          <div className="reason">
-            <span className="badge">
-              {CATEGORY_EMOJI[s.category]} {s.category}
-            </span>
-            <p>{s.reason}</p>
-          </div>
-        </div>
-      ))}
-    </div>
+    <>
+      <SwapGroup title="Spells" swaps={swaps.filter((s) => !isManaSwap(s))} />
+      <SwapGroup title="Mana base" swaps={swaps.filter(isManaSwap)} />
+    </>
   );
 }
 
@@ -103,8 +134,8 @@ function ColorBars({ before, after }: { before: DeckSnapshot; after: DeckSnapsho
         const b = before.mana.colors.find((x) => x.color === c.color);
         return (
           <div key={c.color} className="color-row">
-            <span className={`pip pip-${c.color}`} title={COLOR_NAME[c.color]}>
-              {c.color}
+            <span title={COLOR_NAME[c.color]}>
+              <ManaCost cost={`{${c.color}}`} size={22} />
             </span>
             <div className="bar-track">
               <div
@@ -119,9 +150,12 @@ function ColorBars({ before, after }: { before: DeckSnapshot; after: DeckSnapsho
               />
             </div>
             <span className="small">
-              {b?.landSources} → <strong>{c.landSources}</strong> / {c.targetSources} ·{" "}
-              {Math.round(c.pipShare * 100)}% of pips
-              {c.rampSources ? ` · +${c.rampSources} rocks/dorks` : ""}
+              <strong className={c.landSources >= c.targetSources ? "ok" : "warn"}>
+                {c.landSources} sources
+              </strong>{" "}
+              (target {c.targetSources}, was {b?.landSources}) · {Math.round(c.pipShare * 100)}% of
+              pips
+              {c.rampSources ? ` · +${c.rampSources} from ramp` : ""}
             </span>
           </div>
         );
@@ -332,59 +366,295 @@ function Rerun({ slug, initial }: { slug: string; initial: OptimizeOptions }) {
   );
 }
 
+const GROUP_ORDER = [
+  "Commander",
+  "Creature",
+  "Planeswalker",
+  "Battle",
+  "Instant",
+  "Sorcery",
+  "Artifact",
+  "Enchantment",
+  "Land",
+  "Other",
+];
+
+function Decklist({ cards, swaps }: { cards: DecklistCard[]; swaps: Swap[] }) {
+  const [showCuts, setShowCuts] = useState(false);
+  const groups = GROUP_ORDER.map((g) => ({
+    group: g,
+    cards: cards
+      .filter((c) => c.group === g)
+      .sort((a, b) => a.cmc - b.cmc || a.name.localeCompare(b.name)),
+  })).filter((g) => g.cards.length);
+  return (
+    <>
+      <div className="list-toolbar">
+        <span className="muted small">
+          {cards.reduce((n, c) => n + c.qty, 0)} cards · tap a name to see the card
+        </span>
+        <button
+          className={`toggle ${showCuts ? "on" : ""}`}
+          aria-pressed={showCuts}
+          onClick={() => setShowCuts(!showCuts)}
+        >
+          {showCuts ? "Hide" : "Show"} cut cards
+        </button>
+      </div>
+      <div className="decklist-groups">
+        {groups.map(({ group, cards }) => (
+          <div key={group} className="deck-group">
+            <h3>
+              {group} <span className="muted">({cards.reduce((n, c) => n + c.qty, 0)})</span>
+            </h3>
+            <ul>
+              {cards.map((c) => (
+                <li key={c.name} className={c.isNew || c.delta > 0 ? "new" : ""}>
+                  <span className="qty">{c.qty}</span>
+                  <CardName name={c.name} card={c} className="grow" />
+                  {c.isNew ? (
+                    <span className="badge new">new</span>
+                  ) : c.delta !== 0 ? (
+                    <span className="badge new">
+                      {c.delta > 0 ? `+${c.delta}` : `−${-c.delta}`}
+                    </span>
+                  ) : null}
+                  <ManaCost cost={c.manaCost} size={13} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        {showCuts && (
+          <div className="deck-group">
+            <h3>
+              Cut <span className="muted">({swaps.length})</span>
+            </h3>
+            <ul>
+              {swaps.map((s, i) => (
+                <li key={i} className="cut">
+                  <span className="qty">1</span>
+                  <CardName name={s.out} card={s.outCard} className="grow" />
+                  <ManaCost cost={s.outCard?.manaCost} size={13} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+function SectionNav({ sections }: { sections: [string, string][] }) {
+  const [active, setActive] = useState(sections[0]?.[0]);
+  useEffect(() => {
+    const els = sections
+      .map(([id]) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length) setActive(visible[0].target.id);
+      },
+      { rootMargin: "-130px 0px -60% 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [sections]);
+  useEffect(() => {
+    document.querySelector(`.section-nav [data-id="${active}"]`)?.scrollIntoView({
+      inline: "center",
+      block: "nearest",
+      behavior: "smooth",
+    });
+  }, [active]);
+  return (
+    <nav className="section-nav" aria-label="Report sections">
+      {sections.map(([id, label]) => (
+        <button
+          key={id}
+          data-id={id}
+          className={active === id ? "active" : ""}
+          onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })}
+        >
+          {label}
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+function Stat({
+  label,
+  before,
+  after,
+  better,
+  format = (n) => String(n),
+}: {
+  label: string;
+  before?: number;
+  after: number;
+  better?: "up" | "down";
+  format?: (n: number) => string;
+}) {
+  const changed = before !== undefined && before !== after;
+  const good = changed && better && (better === "up" ? after > before! : after < before!);
+  return (
+    <div className="stat">
+      <span className="stat-label">{label}</span>
+      <strong className={changed && better ? (good ? "ok" : "warn") : ""}>{format(after)}</strong>
+      {changed && <span className="stat-was">was {format(before!)}</span>}
+    </div>
+  );
+}
+
+function OneAway({ combos }: { combos: Combo[] }) {
+  const [all, setAll] = useState(false);
+  return (
+    <>
+      <ComboList combos={all ? combos : combos.slice(0, 5)} oneAway />
+      {combos.length > 5 && (
+        <button className="ghost small-btn" onClick={() => setAll(!all)}>
+          {all ? "Show fewer" : `Show all ${combos.length}`}
+        </button>
+      )}
+    </>
+  );
+}
+
+function ExportMenu({
+  slug,
+  edhrecUrl,
+  swaps,
+}: {
+  slug: string;
+  edhrecUrl?: string;
+  swaps: Swap[];
+}) {
+  const ref = useRef<HTMLDetailsElement>(null);
+  const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    const close = (e: PointerEvent) => {
+      if (ref.current?.open && !ref.current.contains(e.target as Node)) ref.current.open = false;
+    };
+    document.addEventListener("pointerdown", close);
+    return () => document.removeEventListener("pointerdown", close);
+  }, []);
+  const adds = new Map<string, number>();
+  for (const s of swaps) adds.set(s.in, (adds.get(s.in) ?? 0) + 1);
+  const copyAdds = () => {
+    const text = [...adds].map(([n, q]) => `${q} ${n}`).join("\n") + "\n";
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => {
+        setCopied(false);
+        if (ref.current) ref.current.open = false;
+      }, 1000);
+    });
+  };
+  return (
+    <details className="menu" ref={ref}>
+      <summary className="button">Export ▾</summary>
+      <div className="menu-items">
+        {adds.size > 0 && (
+          <button className="menu-item" onClick={copyAdds}>
+            {copied ? "✓ Copied" : "Copy cards to add"}
+            <span className="muted small">{swaps.length}</span>
+          </button>
+        )}
+        <a href={fileUrl(slug, "optimized.txt")} download={`${slug}-optimized.txt`}>
+          Optimized list <span className="muted small">.txt</span>
+        </a>
+        <a href={fileUrl(slug, "initial.txt")} download={`${slug}-initial.txt`}>
+          Original list <span className="muted small">.txt</span>
+        </a>
+        <a href={fileUrl(slug, "report.md")} download={`${slug}-report.md`}>
+          Full report <span className="muted small">.md</span>
+        </a>
+        {edhrecUrl && (
+          <a href={edhrecUrl} target="_blank" rel="noreferrer">
+            View on EDHREC ↗
+          </a>
+        )}
+      </div>
+    </details>
+  );
+}
+
 export function ReportView({ slug }: { slug: string }) {
   const [detail, setDetail] = useState<DeckDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [optimizedText, setOptimizedText] = useState<string | null>(null);
 
   useEffect(() => {
     api.deck(slug).then(setDetail, (e) => setError(String(e.message ?? e)));
+    // Prefetched so the clipboard write happens synchronously in the tap; iOS Safari rejects it otherwise.
+    fetch(fileUrl(slug, "optimized.txt"))
+      .then((r) => (r.ok ? r.text() : null))
+      .then(setOptimizedText, () => {});
   }, [slug]);
 
   if (error) return <p className="error">{error}</p>;
-  if (!detail) return <p className="muted">Loading…</p>;
+  if (!detail)
+    return (
+      <div className="loading">
+        <span className="spinner" aria-hidden /> Loading deck…
+      </div>
+    );
   const r: Report | null = detail.report;
   if (!r) {
     return (
       <section className="panel">
         <h1>{detail.meta.commanders.join(" + ") || slug}</h1>
         <p>No report yet.</p>
-        <Rerun slug={slug} initial={detail.meta.options} />
+        {!IS_STATIC && <Rerun slug={slug} initial={detail.meta.options} />}
       </section>
     );
   }
 
-  const copyOptimized = async () => {
-    const res = await fetch(`/api/decks/${slug}/files/optimized.txt`);
-    await navigator.clipboard.writeText(await res.text());
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
+  const copyOptimized = () => {
+    if (!optimizedText) return;
+    navigator.clipboard.writeText(optimizedText).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
   };
 
   const cmdr = r.commanderCards[0];
   const ins = r.swaps.reduce((n, s) => n + (s.inCard?.priceUsd ?? 0), 0);
+  const hasCombos = r.combosPresent.length > 0 || r.combosOneAway.length > 0;
+  const sections: [string, string][] = [
+    ["swaps", "Swaps"],
+    ...(r.decklist ? [["decklist", "Deck list"] as [string, string]] : []),
+    ["mana", "Mana"],
+    ["sim", "Simulation"],
+    ...(hasCombos ? [["combos", "Combos"] as [string, string]] : []),
+    ...(r.research ? [["research", "Research"] as [string, string]] : []),
+  ];
 
   return (
     <div className="stack report">
-      <section
-        className="hero"
-        style={
-          cmdr?.imageArt
-            ? {
-                backgroundImage: `linear-gradient(90deg, rgba(10,12,20,.95) 30%, rgba(10,12,20,.4)), url(${cmdr.imageArt})`,
-              }
-            : undefined
-        }
-      >
-        <div>
-          <h1>{r.commanders.join(" + ") || slug}</h1>
-          <div className="muted small">
-            decks/{slug}/ · generated {new Date(r.generatedAt).toLocaleString()}
-            {r.model ? ` · ${r.model}` : " · data-only"}
-            {r.edhrec?.numDecks ? ` · EDHREC: ${r.edhrec.numDecks.toLocaleString()} decks` : ""}
+      <section className="hero">
+        {cmdr?.imageArt && (
+          <div className="hero-art" style={{ backgroundImage: `url(${cmdr.imageArt})` }} />
+        )}
+        <div className="hero-body">
+          <div className="hero-title">
+            <h1>{r.commanders.join(" + ") || slug}</h1>
+            <div className="hero-costs">
+              {r.commanderCards.map((c) => (
+                <ManaCost key={c.name} cost={c.manaCost} size={20} />
+              ))}
+            </div>
+          </div>
+          <div className="hero-meta small">
+            Updated {new Date(r.generatedAt).toLocaleDateString()}
+            {r.edhrec?.numDecks ? ` · ${r.edhrec.numDecks.toLocaleString()} decks on EDHREC` : ""}
           </div>
           {r.themes.length > 0 && (
-            <div className="chips">
+            <div className="chips themes">
               {r.themes.map((t) => (
                 <span key={t} className="chip">
                   {t}
@@ -392,84 +662,66 @@ export function ReportView({ slug }: { slug: string }) {
               ))}
             </div>
           )}
-        </div>
-        <div className="actions">
-          <button className="primary" onClick={copyOptimized}>
-            {copied ? "Copied ✓" : "📋 Copy optimized list"}
-          </button>
-          <a
-            className="button"
-            href={`/api/decks/${slug}/files/optimized.txt`}
-            download={`${slug}-optimized.txt`}
-          >
-            ⬇ optimized.txt
-          </a>
-          <a
-            className="button"
-            href={`/api/decks/${slug}/files/initial.txt`}
-            download={`${slug}-initial.txt`}
-          >
-            ⬇ initial.txt
-          </a>
-          <a
-            className="button"
-            href={`/api/decks/${slug}/files/report.md`}
-            download={`${slug}-report.md`}
-          >
-            ⬇ report.md
-          </a>
-          {r.edhrec && (
-            <a className="button" href={r.edhrec.url} target="_blank" rel="noreferrer">
-              EDHREC ↗
-            </a>
-          )}
+          <div className="hero-actions">
+            <button className="primary" onClick={copyOptimized} disabled={!optimizedText}>
+              {copied ? "✓ Copied" : "Copy deck list"}
+            </button>
+            <ExportMenu slug={slug} edhrecUrl={r.edhrec?.url} swaps={r.swaps} />
+          </div>
         </div>
       </section>
 
+      <SectionNav sections={sections} />
+
       <section className="panel">
-        <h2>Strategy</h2>
-        <p>{r.strategy}</p>
+        <h2>The plan</h2>
+        <p className="lede">{r.strategy}</p>
         <div className="stats">
-          <div>
-            <strong>{r.swaps.length}</strong>
-            <span>swaps</span>
-          </div>
-          <div>
-            <strong>
-              {r.before.mana.landCount} → {r.after.mana.landCount}
-            </strong>
-            <span>lands (rec. {r.after.mana.recommendedLands})</span>
-          </div>
-          <div>
-            <strong>
-              {r.before.mana.avgCmc} → {r.after.mana.avgCmc}
-            </strong>
-            <span>avg mana value</span>
-          </div>
-          <div>
-            <strong>
-              {r.before.sim.commanderOnCurve}% → {r.after.sim.commanderOnCurve}%
-            </strong>
-            <span>commander on curve</span>
-          </div>
-          <div>
-            <strong>{money(ins)}</strong>
-            <span>cost of additions</span>
-          </div>
-          <div>
-            <strong>{r.after.totalCards}</strong>
-            <span>cards</span>
-          </div>
+          <Stat label="Swaps" after={r.swaps.length} />
+          <Stat
+            label={`Lands (rec. ${r.after.mana.recommendedLands})`}
+            before={r.before.mana.landCount}
+            after={r.after.mana.landCount}
+            better={r.before.mana.landCount < r.after.mana.recommendedLands ? "up" : "down"}
+          />
+          <Stat
+            label="Avg mana value"
+            before={r.before.mana.avgCmc}
+            after={r.after.mana.avgCmc}
+            better="down"
+          />
+          <Stat
+            label="Commander on curve"
+            before={r.before.sim.commanderOnCurve}
+            after={r.after.sim.commanderOnCurve}
+            better="up"
+            format={(n) => `${n}%`}
+          />
+          <Stat
+            label="Mana screw"
+            before={r.before.sim.screwRate}
+            after={r.after.sim.screwRate}
+            better="down"
+            format={(n) => `${n}%`}
+          />
+          <Stat label="Cost of new cards" after={ins} format={(n) => money(n)} />
         </div>
       </section>
 
-      <section className="panel">
-        <h2>Cards out → cards in</h2>
+      <section className="panel" id="swaps">
+        <h2>Swaps</h2>
         <SwapList swaps={r.swaps} />
       </section>
 
+      {r.decklist && (
+        <section className="panel" id="decklist">
+          <h2>Optimized deck list</h2>
+          <Decklist cards={r.decklist} swaps={r.swaps} />
+        </section>
+      )}
+
       <div className="grid2">
-        <section className="panel">
+        <section className="panel" id="mana">
           <h2>Mana base</h2>
           <ColorBars before={r.before} after={r.after} />
           <h3>Curve</h3>
@@ -495,20 +747,24 @@ export function ReportView({ slug }: { slug: string }) {
             <p className="muted small">Colorless lands: {r.after.mana.colorlessLands.join(", ")}</p>
           )}
         </section>
-        <section className="panel">
+        <section className="panel" id="sim">
           <h2>Goldfish simulation</h2>
           <p className="muted small">
             {r.after.sim.games.toLocaleString()} solo games: free mulligan, greedy land and ramp
             plays.
           </p>
-          <SimTable before={r.before} after={r.after} />
+          <div className="table-wrap">
+            <SimTable before={r.before} after={r.after} />
+          </div>
           <h3>Roles</h3>
-          <Roles before={r.before} after={r.after} />
+          <div className="table-wrap">
+            <Roles before={r.before} after={r.after} />
+          </div>
         </section>
       </div>
 
-      {(r.combosPresent.length > 0 || r.combosOneAway.length > 0) && (
-        <div className="grid2">
+      {hasCombos && (
+        <div className="grid2" id="combos">
           <section className="panel">
             <h2>Combos in the deck</h2>
             {r.combosPresent.length ? (
@@ -519,13 +775,13 @@ export function ReportView({ slug }: { slug: string }) {
           </section>
           <section className="panel">
             <h2>One card away</h2>
-            <ComboList combos={r.combosOneAway.slice(0, 10)} oneAway />
+            <OneAway combos={r.combosOneAway} />
           </section>
         </div>
       )}
 
       {r.research && (
-        <section className="panel">
+        <section className="panel" id="research">
           <h2>Web research</h2>
           <details>
             <summary>Show summary ({r.research.sources.length} sources)</summary>
@@ -543,7 +799,7 @@ export function ReportView({ slug }: { slug: string }) {
         </section>
       )}
 
-      {r.warnings.length > 0 && (
+      {!IS_STATIC && r.warnings.length > 0 && (
         <section className="panel">
           <h2>Warnings</h2>
           <ul className="notes">
@@ -557,10 +813,10 @@ export function ReportView({ slug }: { slug: string }) {
       <section className="panel">
         <div className="row between">
           <details>
-            <summary>initial.txt</summary>
+            <summary>Original list (initial.txt)</summary>
             <pre>{detail.initial}</pre>
           </details>
-          <Rerun slug={slug} initial={r.options} />
+          {!IS_STATIC && <Rerun slug={slug} initial={r.options} />}
         </div>
       </section>
     </div>

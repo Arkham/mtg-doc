@@ -211,8 +211,10 @@ if (process.env.NODE_ENV === "production") {
   app.use(vite.middlewares);
 }
 
-app.listen(config.port, "127.0.0.1", () => {
-  console.log(`MTG Deck Doctor running at http://localhost:${config.port}`);
+app.listen(config.port, config.host, () => {
+  console.log(
+    `Deck Doctor running at http://${config.host === "0.0.0.0" ? "<this-machine-ip>" : "localhost"}:${config.port}`,
+  );
   if (!llmEnabled())
     console.log("LLM_API_KEY not set: image recognition and AI swaps are disabled.");
 });

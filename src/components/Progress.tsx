@@ -1,8 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import type { Job } from "../../shared/types.ts";
+import type { Job, JobStep } from "../../shared/types.ts";
 import { api } from "../api.ts";
 
-const ICON = { pending: "⏳", running: "🔄", done: "✅", error: "❌", skipped: "⏭" } as const;
+function StepIcon({ status }: { status: JobStep["status"] }) {
+  if (status === "running") return <span className="spinner step-icon" aria-label="running" />;
+  const glyph = { pending: "○", done: "✓", error: "✕", skipped: "–" }[status];
+  return (
+    <span className={`step-icon ${status}`} aria-label={status}>
+      {glyph}
+    </span>
+  );
+}
 
 export function Progress({ jobId, onDone }: { jobId: string; onDone: () => void }) {
   const [job, setJob] = useState<Job | null>(null);
@@ -29,17 +37,33 @@ export function Progress({ jobId, onDone }: { jobId: string; onDone: () => void 
     };
   }, [jobId]);
 
+  const finished =
+    job?.steps.filter((s) => s.status === "done" || s.status === "skipped").length ?? 0;
+  const pct = job ? Math.round((finished / job.steps.length) * 100) : 0;
+
   return (
     <section className="panel narrow">
-      <h1>Optimizing {job?.slug ?? "deck"}…</h1>
-      <p className="muted small">
-        This takes about 30–90 seconds. The deck folder is already saved.
+      <h1>Optimizing your deck</h1>
+      <p className="muted">
+        Usually 30–90 seconds. Your list is already saved in <code>decks/{job?.slug ?? "…"}/</code>.
       </p>
+      <div
+        className="progress"
+        role="progressbar"
+        aria-valuenow={pct}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
+        <div style={{ width: `${Math.max(4, pct)}%` }} />
+      </div>
       <ul className="steps">
         {job?.steps.map((s) => (
           <li key={s.label} className={s.status}>
-            <span className={s.status === "running" ? "spin" : ""}>{ICON[s.status]}</span> {s.label}
-            {s.detail && <span className="muted small"> · {s.detail}</span>}
+            <StepIcon status={s.status} />
+            <div>
+              {s.label}
+              {s.detail && <div className="muted small">{s.detail}</div>}
+            </div>
           </li>
         ))}
       </ul>

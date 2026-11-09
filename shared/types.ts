@@ -83,6 +83,10 @@ export interface DeckSummary {
   createdAt: string;
   hasReport: boolean;
   image: string | null;
+  colorIdentity?: Color[];
+  swapCount?: number;
+  landCount?: number;
+  priceUsd?: number;
 }
 
 export interface Swap {
@@ -177,6 +181,22 @@ export interface Report {
   edhrec: { url: string; numDecks: number | null; avgLands: number | null } | null;
   warnings: string[];
   options: OptimizeOptions;
+  /** Optimized list with display data; absent in reports generated before it existed. */
+  decklist?: DecklistCard[];
+}
+
+export interface DecklistCard {
+  name: string;
+  manaCost?: string;
+  qty: number;
+  group: string;
+  cmc: number;
+  image: string | null;
+  scryfallUri: string;
+  priceUsd: number | null;
+  isNew: boolean;
+  /** Quantity change vs the initial list (basics can go up or down). */
+  delta: number;
 }
 
 export interface JobStep {

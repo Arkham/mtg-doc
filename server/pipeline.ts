@@ -5,6 +5,7 @@ import {
   type Deck,
   countRoles,
   identityOf,
+  toDecklist,
   toEntries,
   totalCards,
   totalPrice,
@@ -266,6 +267,7 @@ async function run(job: Job) {
         : null,
       warnings,
       options,
+      decklist: toDecklist(finalDeck, deck),
     };
     await writeResults(
       job.slug,
