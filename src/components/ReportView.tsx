@@ -1,4 +1,12 @@
-import { type ReactNode, useContext, useEffect, useRef, useState } from "react";
+import {
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+  type ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import type {
   Card,
@@ -1244,6 +1252,42 @@ function ExportMenu({
   );
 }
 
+const AURA: Record<string, string> = {
+  W: "#f4e7b8",
+  U: "#3d9be9",
+  B: "#8f5bd8",
+  R: "#ec5a3a",
+  G: "#3dbb6c",
+};
+
+/** The commander's colors, for the glow behind the card. */
+function auraStyle(cards: Card[]): CSSProperties {
+  const ids = [...new Set(cards.flatMap((c) => c.colorIdentity))];
+  const colors = ids.length ? ids.map((c) => AURA[c] ?? "#b9bfd0") : ["#b9bfd0"];
+  const [a, b = a, c = b] = colors;
+  return { "--aura-1": a, "--aura-2": b, "--aura-3": c } as CSSProperties;
+}
+
+/** Tilts the card toward the pointer and moves the foil highlight with it (mouse and pen only). */
+function tilt(e: ReactPointerEvent<HTMLElement>) {
+  if (e.pointerType === "touch") return;
+  const el = e.currentTarget;
+  const box = el.getBoundingClientRect();
+  const x = (e.clientX - box.left) / box.width;
+  const y = (e.clientY - box.top) / box.height;
+  el.style.setProperty("--rx", `${(0.5 - y) * 14}deg`);
+  el.style.setProperty("--ry", `${(x - 0.5) * 18}deg`);
+  el.style.setProperty("--mx", `${x * 100}%`);
+  el.style.setProperty("--my", `${y * 100}%`);
+  el.classList.add("tilting");
+}
+
+function untilt(e: ReactPointerEvent<HTMLElement>) {
+  const el = e.currentTarget;
+  el.classList.remove("tilting");
+  for (const v of ["--rx", "--ry", "--mx", "--my"]) el.style.removeProperty(v);
+}
+
 /** "Your deck" / "Optimized" switch, placed in the sticky top bar so it's always in reach. */
 function ViewToggle({ slug, view, swaps }: { slug: string; view: DeckView; swaps: number }) {
   // Rendered only once the report has loaded, so the top bar's slot is already in the DOM.
@@ -1335,10 +1379,11 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
     <CardIndex.Provider value={r.cardIndex ?? {}}>
       {hasOriginal(full) && <ViewToggle slug={slug} view={view} swaps={full.swaps.length} />}
       <div className="stack report">
-        <section className="hero">
+        <section className="hero" style={auraStyle(r.commanderCards)}>
           {cmdr?.imageArt && (
             <div className="hero-backdrop" aria-hidden>
-              <div style={{ backgroundImage: `url(${cmdr.imageArt})` }} />
+              <div className="hero-ambient" style={{ backgroundImage: `url(${cmdr.imageArt})` }} />
+              <div className="hero-art" style={{ backgroundImage: `url(${cmdr.imageArt})` }} />
             </div>
           )}
           <div className={`hero-cards ${r.commanderCards.length > 1 ? "pair" : ""}`}>
@@ -1349,8 +1394,11 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
                   className="hero-card"
                   aria-label={`Show ${c.name} full size`}
                   onClick={() => setZoomed(c)}
+                  onPointerMove={tilt}
+                  onPointerLeave={untilt}
                 >
                   <img src={c.image} alt={c.name} />
+                  <span className="hero-foil" aria-hidden />
                 </button>
               ) : null,
             )}
@@ -1369,6 +1417,9 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
           </div>
           <div className="hero-head">
             <div className="hero-kicker">
+              <span className="hero-role">
+                <span aria-hidden>♛</span> Commander
+              </span>
               {r.bracket && (
                 <a
                   className="bracket-link"
