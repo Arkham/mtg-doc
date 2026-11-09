@@ -12,7 +12,7 @@ import { type DeckDetail, IS_STATIC, api, fileUrl } from "../api.ts";
 import { navigate } from "../nav.ts";
 import { BracketBadge, BracketPanel } from "./BracketPanel.tsx";
 import { CardName } from "./CardName.tsx";
-import { ManaCost } from "./Mana.tsx";
+import { ManaCost, OracleText } from "./Mana.tsx";
 import { Markdown } from "./Markdown.tsx";
 
 const COLOR_NAME = { W: "White", U: "Blue", B: "Black", R: "Red", G: "Green" } as const;
@@ -689,22 +689,59 @@ export function ReportView({ slug }: { slug: string }) {
     <div className="stack report">
       <section className="hero">
         {cmdr?.imageArt && (
-          <div className="hero-art" style={{ backgroundImage: `url(${cmdr.imageArt})` }} />
+          <div className="hero-backdrop" aria-hidden>
+            <div style={{ backgroundImage: `url(${cmdr.imageArt})` }} />
+          </div>
         )}
-        <div className="hero-body">
-          <div className="hero-title">
-            {r.bracket && <BracketBadge n={r.bracket.after.bracket} />}
-            <h1>{r.commanders.join(" + ") || slug}</h1>
-            <div className="hero-costs">
-              {r.commanderCards.map((c) => (
-                <ManaCost key={c.name} cost={c.manaCost} size={20} />
-              ))}
+        <div className={`hero-cards ${r.commanderCards.length > 1 ? "pair" : ""}`}>
+          {r.commanderCards.map((c) =>
+            c.image ? (
+              <CardName
+                key={c.name}
+                name={c.name}
+                card={c}
+                className="hero-card"
+                label={<img src={c.image} alt={c.name} />}
+              />
+            ) : null,
+          )}
+        </div>
+        <div className="hero-head">
+          <div className="hero-kicker">
+            {r.bracket && (
+              <a
+                className="bracket-pill"
+                href="#bracket"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("bracket")?.scrollIntoView();
+                }}
+              >
+                <BracketBadge n={r.bracket.after.bracket} size="sm" />
+                Bracket {r.bracket.after.bracket} · {r.bracket.name}
+              </a>
+            )}
+          </div>
+          <h1>{r.commanders.join(" + ") || slug}</h1>
+        </div>
+        <div className="hero-text">
+          {r.commanderCards.map((c) => (
+            <div key={c.name} className="commander-rules">
+              {r.commanderCards.length > 1 && <h2>{c.name}</h2>}
+              <div className="type-line">
+                <span>{c.typeLine}</span>
+                <ManaCost cost={c.manaCost} size={17} />
+              </div>
+              <OracleText text={c.oracleText} />
+              {(c.power || c.loyalty) && (
+                <span className="pt">
+                  {c.loyalty ? `Loyalty ${c.loyalty}` : `${c.power}/${c.toughness}`}
+                </span>
+              )}
             </div>
-          </div>
-          <div className="hero-meta small">
-            Updated {new Date(r.generatedAt).toLocaleDateString()}
-            {r.edhrec?.numDecks ? ` · ${r.edhrec.numDecks.toLocaleString()} decks on EDHREC` : ""}
-          </div>
+          ))}
+        </div>
+        <div className="hero-foot">
           {r.themes.length > 0 && (
             <div className="chips themes">
               {r.themes.map((t) => (
@@ -719,6 +756,10 @@ export function ReportView({ slug }: { slug: string }) {
               {copied ? "✓ Copied" : "Copy deck list"}
             </button>
             <ExportMenu slug={slug} edhrecUrl={r.edhrec?.url} swaps={r.swaps} />
+            <span className="hero-meta small">
+              Updated {new Date(r.generatedAt).toLocaleDateString()}
+              {r.edhrec?.numDecks ? ` · ${r.edhrec.numDecks.toLocaleString()} decks on EDHREC` : ""}
+            </span>
           </div>
         </div>
       </section>

@@ -32,6 +32,9 @@ export interface Card {
   canBeCommander: boolean;
   gameChanger: boolean;
   priceUsd: number | null;
+  power?: string;
+  toughness?: string;
+  loyalty?: string;
   image: string | null;
   imageArt: string | null;
   scryfallUri: string;

@@ -1037,74 +1037,164 @@ code {
   border-radius: var(--r-lg);
   border: 1px solid var(--line);
   background: var(--surface);
-  min-height: 240px;
-  display: flex;
-  align-items: flex-end;
   box-shadow: var(--shadow);
+  padding: 26px 28px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "card head"
+    "card text"
+    "card foot";
+  grid-template-rows: auto 1fr auto;
+  column-gap: 28px;
+  row-gap: 10px;
 }
-.hero-art {
+/* The art is ambience only: blurred so it never competes with the card or the text. */
+.hero-backdrop {
   position: absolute;
   inset: 0;
   border-radius: inherit;
   overflow: hidden;
-  background: center 25% / cover no-repeat;
+  pointer-events: none;
 }
-.hero-art::after {
+.hero-backdrop > div {
+  position: absolute;
+  inset: -40px;
+  background: center / cover no-repeat;
+  filter: blur(36px) saturate(1.25);
+  opacity: 0.32;
+}
+.hero-backdrop::after {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: inherit;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(10, 12, 18, 0.92) 0%,
-      rgba(10, 12, 18, 0.55) 55%,
-      rgba(10, 12, 18, 0.15) 100%
-    ),
-    linear-gradient(0deg, rgba(10, 12, 18, 0.85) 0%, transparent 60%);
+  background: linear-gradient(90deg, rgba(18, 21, 30, 0.2), rgba(18, 21, 30, 0.75));
 }
-.hero-body {
+.hero > :not(.hero-backdrop) {
   position: relative;
-  width: 100%;
-  min-width: 0;
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 720px;
 }
-.hero-title {
+.hero-cards {
+  grid-area: card;
+  display: flex;
+  align-self: start;
+}
+.hero-cards.pair .hero-card + .hero-card {
+  margin-left: -120px;
+  margin-top: 40px;
+}
+.hero-card img {
+  display: block;
+  width: 220px;
+  border-radius: 4.75% / 3.5%;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
+  transition: transform 0.2s;
+}
+.hero-card a:hover img {
+  transform: translateY(-3px) rotate(-0.6deg);
+}
+.hero-head {
+  grid-area: head;
+}
+.hero-kicker {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   flex-wrap: wrap;
+  margin-bottom: 8px;
 }
-.hero-title h1 {
+.bracket-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 12px 3px 3px;
+  border-radius: 999px;
+  background: rgba(10, 12, 18, 0.55);
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.bracket-pill:hover {
+  text-decoration: none;
+  border-color: rgba(212, 171, 82, 0.55);
+}
+.hero-head h1 {
   margin: 0;
   font-size: 2.1rem;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
 }
-.hero-costs {
+.hero-text {
+  grid-area: text;
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 16px;
 }
-.hero-meta {
+.commander-rules h2 {
+  font-size: 1.05rem;
+  margin: 0 0 4px;
+}
+.type-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--line-strong);
   color: var(--text-2);
+  font-weight: 550;
+}
+.oracle {
+  max-width: 68ch;
+  color: var(--text);
+  line-height: 1.55;
+}
+.oracle p {
+  margin: 0 0 6px;
+}
+.oracle .reminder {
+  color: var(--muted);
+}
+.oracle-face + .oracle-face {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line-strong);
+}
+.oracle-symbol {
+  display: inline-block;
+  vertical-align: -2px;
+  margin: 0 1px;
+  border-radius: 50%;
+}
+.pt {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 10px;
+  border-radius: 6px;
+  background: var(--raised);
+  border: 1px solid var(--line-strong);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.hero-foot {
+  grid-area: foot;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 6px;
 }
 .hero-actions {
   display: flex;
   gap: 10px;
-  margin-top: 6px;
   align-items: center;
+  flex-wrap: wrap;
 }
 .hero-actions .primary {
   min-height: 44px;
   padding: 10px 20px;
 }
-.hero .chip {
-  background: rgba(10, 12, 18, 0.55);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+.hero-meta {
+  color: var(--muted);
+  margin-left: auto;
 }
 
 .menu {
@@ -1986,24 +2076,32 @@ pre {
     gap: 12px;
   }
   .hero {
-    min-height: 300px;
+    padding: 16px;
+    grid-template-columns: 104px minmax(0, 1fr);
+    grid-template-areas:
+      "card head"
+      "text text"
+      "foot foot";
+    grid-template-rows: auto;
+    column-gap: 14px;
+    row-gap: 14px;
   }
-  .hero-art {
-    background-position: center 20%;
+  .hero-card img {
+    width: 104px;
   }
-  .hero-art::after {
-    background: linear-gradient(
-      0deg,
-      rgba(10, 12, 18, 0.97) 10%,
-      rgba(10, 12, 18, 0.55) 55%,
-      rgba(10, 12, 18, 0.15)
-    );
+  .hero-cards.pair .hero-card + .hero-card {
+    margin-left: -70px;
+    margin-top: 24px;
   }
-  .hero-body {
-    padding: 20px 16px 18px;
+  .hero-head {
+    align-self: center;
   }
-  .hero-title h1 {
-    font-size: 1.6rem;
+  .hero-head h1 {
+    font-size: 1.45rem;
+  }
+  .hero-meta {
+    margin-left: 0;
+    width: 100%;
   }
   .themes {
     flex-wrap: nowrap;

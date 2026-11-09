@@ -58,6 +58,9 @@ async function searchAll(q: string, extra = "", maxPages = 4): Promise<ScryfallC
 
 interface ScryfallFace {
   name: string;
+  power?: string;
+  toughness?: string;
+  loyalty?: string;
   mana_cost?: string;
   type_line?: string;
   oracle_text?: string;
@@ -78,6 +81,9 @@ export interface ScryfallCard {
   legalities: Record<string, string>;
   prices: { usd?: string | null; usd_foil?: string | null };
   game_changer?: boolean;
+  power?: string;
+  toughness?: string;
+  loyalty?: string;
   image_uris?: { normal?: string; art_crop?: string };
   card_faces?: ScryfallFace[];
   scryfall_uri: string;
@@ -121,6 +127,9 @@ export function toCard(sc: ScryfallCard): Card {
       (/\bLegendary\b/.test(frontType) && /\b(Creature|Vehicle|Spacecraft)\b/.test(frontType)) ||
       /can be your commander/i.test(oracleText),
     priceUsd: usd ? Number(usd) : null,
+    power: sc.power ?? front?.power,
+    toughness: sc.toughness ?? front?.toughness,
+    loyalty: sc.loyalty ?? front?.loyalty,
     image: sc.image_uris?.normal ?? front?.image_uris?.normal ?? null,
     imageArt: sc.image_uris?.art_crop ?? front?.image_uris?.art_crop ?? null,
     scryfallUri: sc.scryfall_uri,
