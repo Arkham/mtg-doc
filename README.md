@@ -1,6 +1,12 @@
-# 🃏 Deck Doctor
+# mtg-doc
 
-A local web app to analyze and optimize Magic: The Gathering decks, focused on Commander.
+<p align="center">
+  <img src="docs/mtg-doc.webp" alt="A cute wild-haired inventor fanning out glowing Magic cards in front of a time machine" width="720">
+</p>
+
+<p align="center"><em>Great Scott, that mana base needs work.</em></p>
+
+**mtg-doc** is a local web app to analyze and optimize Magic: The Gathering decks, focused on Commander.
 
 1. Upload a photo or screenshot of a deck (or paste a list)
 2. A vision LLM reads the card names; Scryfall validates and fuzzy-matches them

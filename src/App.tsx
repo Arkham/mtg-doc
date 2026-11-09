@@ -81,7 +81,7 @@ export function App() {
         ) : (
           <a href="#/" className="brand">
             <img src="./icon.svg" alt="" width={28} height={28} />
-            Deck Doctor
+            mtg-doc
           </a>
         )}
         {config && !inner && (
