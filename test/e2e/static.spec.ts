@@ -22,7 +22,7 @@ test.describe("static site", () => {
     await expect(page.locator(".checks li.bad")).toHaveCount(0);
     await expect(page.locator(".swap").first()).toBeVisible();
     await expect(page.locator(".side-label", { hasText: "Cut" }).first()).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Optimized deck list" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Deck list", exact: true })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Mana base", exact: true })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Goldfish simulation" })).toBeVisible();
     await expect(page.getByText("Re-run with different options")).toHaveCount(0);

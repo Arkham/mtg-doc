@@ -889,7 +889,7 @@ export function ReportView({ slug }: { slug: string }) {
 
         {r.decklist && (
           <section className="panel" id="decklist">
-            <h2>Optimized deck list</h2>
+            <h2>Deck list</h2>
             <Decklist cards={r.decklist} swaps={r.swaps} />
           </section>
         )}
