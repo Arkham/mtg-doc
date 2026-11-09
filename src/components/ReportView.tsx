@@ -481,8 +481,16 @@ function Decklist({ cards, swaps }: { cards: DecklistCard[]; swaps: Swap[] }) {
   );
 }
 
+function scrollToSection(id: string) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const offset = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+  window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: "smooth" });
+}
+
 function SectionNav({ sections }: { sections: [string, string][] }) {
   const [active, setActive] = useState(sections[0]?.[0]);
+  const navRef = useRef<HTMLElement>(null);
   useEffect(() => {
     const els = sections
       .map(([id]) => document.getElementById(id))
@@ -497,21 +505,22 @@ function SectionNav({ sections }: { sections: [string, string][] }) {
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, [sections]);
+  // Scroll only the tab strip: scrollIntoView would also scroll the page and, in WebKit,
+  // cancel the page's in-progress smooth scroll.
   useEffect(() => {
-    document.querySelector(`.section-nav [data-id="${active}"]`)?.scrollIntoView({
-      inline: "center",
-      block: "nearest",
-      behavior: "smooth",
-    });
+    const nav = navRef.current;
+    const btn = nav?.querySelector<HTMLElement>(`[data-id="${active}"]`);
+    if (!nav || !btn) return;
+    nav.scrollTo({ left: btn.offsetLeft - (nav.clientWidth - btn.clientWidth) / 2, behavior: "smooth" });
   }, [active]);
   return (
-    <nav className="section-nav" aria-label="Report sections">
+    <nav className="section-nav" aria-label="Report sections" ref={navRef}>
       {sections.map(([id, label]) => (
         <button
           key={id}
           data-id={id}
           className={active === id ? "active" : ""}
-          onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })}
+          onClick={() => scrollToSection(id)}
         >
           {label}
         </button>
