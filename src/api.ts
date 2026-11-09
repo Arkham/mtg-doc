@@ -1,0 +1,69 @@
+import type {
+  DeckSummary,
+  Job,
+  OptimizeOptions,
+  RecognitionResult,
+  Report,
+  SaveDeckRequest,
+} from "../shared/types.ts";
+
+async function request<T>(url: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(url, init);
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(body.error ?? `Request failed (${res.status})`);
+  return body as T;
+}
+
+const json = (body: unknown): RequestInit => ({
+  method: "POST",
+  headers: { "content-type": "application/json" },
+  body: JSON.stringify(body),
+});
+
+export interface AppConfig {
+  llm: boolean;
+  model: string;
+  visionModel: string;
+  webResearch: boolean;
+}
+
+export type Recognition = RecognitionResult & { uploadToken?: string };
+
+export interface DeckDetail {
+  meta: {
+    slug: string;
+    format: string;
+    commanders: string[];
+    options: OptimizeOptions;
+    createdAt: string;
+  };
+  report: Report | null;
+  initial: string;
+}
+
+export const api = {
+  config: () => request<AppConfig>("/api/config"),
+  decks: () => request<DeckSummary[]>("/api/decks"),
+  deck: (slug: string) => request<DeckDetail>(`/api/decks/${slug}`),
+  recognize: (images: File[], text: string) => {
+    const form = new FormData();
+    for (const f of images) form.append("images", f);
+    if (text) form.append("text", text);
+    return request<Recognition>("/api/recognize", { method: "POST", body: form });
+  },
+  resolve: (names: string[]) =>
+    request<
+      {
+        requested: string;
+        card: Recognition["entries"][number]["card"] | null;
+        status: "exact" | "fuzzy" | "unresolved";
+      }[]
+    >("/api/cards/resolve", json({ names })),
+  autocomplete: (q: string) =>
+    request<string[]>(`/api/cards/autocomplete?q=${encodeURIComponent(q)}`),
+  save: (body: SaveDeckRequest & { uploadToken?: string }) =>
+    request<{ slug: string; jobId: string }>("/api/decks", json(body)),
+  reoptimize: (slug: string, options: OptimizeOptions) =>
+    request<{ slug: string; jobId: string }>(`/api/decks/${slug}/optimize`, json({ options })),
+  job: (id: string) => request<Job>(`/api/jobs/${id}`),
+};
