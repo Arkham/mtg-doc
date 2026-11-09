@@ -17,6 +17,8 @@ test.describe("static site", () => {
     await expect(
       page.getByRole("heading", { name: "The doc will see your deck now." }),
     ).toBeVisible();
+    await expect(page).toHaveTitle("mtg doc");
+    await expect(page.locator(".brand")).toHaveText("mtg doc");
     await expect(page.getByText("Analyze a deck")).toHaveCount(0);
     await expectNoHorizontalOverflow(page);
   });

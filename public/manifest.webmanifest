@@ -1,6 +1,6 @@
 {
-  "name": "mtg-doc",
-  "short_name": "Decks",
+  "name": "mtg doc",
+  "short_name": "mtg doc",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

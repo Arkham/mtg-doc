@@ -85,7 +85,7 @@ export function App() {
         ) : (
           <a href="#/" className="brand">
             <img src="./icon-64.png" alt="" width={32} height={32} />
-            mtg-doc
+            mtg doc
           </a>
         )}
         <div id="topbar-slot" className="topbar-slot" />
