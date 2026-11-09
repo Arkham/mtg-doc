@@ -228,3 +228,53 @@ test("simulation tracks combo assembly", () => {
   assert.ok(byTurn[8] >= byTurn[4]);
   assert.ok(byTurn[8] > 0);
 });
+
+test("trims an over-budget deck with the cheapest value loss", async () => {
+  const { trimToBudget } = await import("./analysis/search.ts");
+  const { BRACKETS } = await import("./analysis/bracket.ts");
+  const { totalPrice } = await import("./analysis/deck.ts");
+  const deck = testDeck(37);
+  const pricey = card({
+    name: "Pricey",
+    manaCost: "{2}{G}",
+    cmc: 3,
+    colorIdentity: ["G"],
+    priceUsd: 80,
+  });
+  const cheap = card({
+    name: "Cheap",
+    manaCost: "{2}{G}",
+    cmc: 3,
+    colorIdentity: ["G"],
+    priceUsd: 2,
+  });
+  deck.slots[2].qty -= 1;
+  deck.slots.push({ card: pricey, qty: 1 });
+  const noFlags = { gameChanger: false, massLandDenial: false, extraTurn: false, banned: false };
+  const sc = (c: Card, score: number) => ({
+    card: c,
+    score,
+    inclusion: null,
+    synergy: null,
+    comboPiece: false,
+    offIdentity: false,
+    source: [],
+    flags: noFlags,
+  });
+  const ctx = {
+    deck,
+    identity: ["B", "G"] as ("B" | "G")[],
+    target: 3,
+    rules: BRACKETS[3],
+    tone: "max" as const,
+    scored: [sc(pricey, 0.5)],
+    candidates: [sc(cheap, 0.4)],
+    violation: () => null,
+    budgetTotal: 50,
+  };
+  const swaps = trimToBudget(ctx, deck, new Set(["Cmdr"]), []);
+  assert.equal(swaps.length, 1);
+  assert.equal(swaps[0].out.name, "Pricey");
+  assert.equal(swaps[0].in.name, "Cheap");
+  assert.ok(totalPrice(deck) <= 50);
+});

@@ -162,9 +162,7 @@ export function BracketPanel({ b, slug }: { b: BracketReport; slug: string }) {
 
       {b.excluded.length > 0 && (
         <details className="excluded">
-          <summary>
-            {b.excluded.length} strong cards skipped to stay in bracket {b.target}
-          </summary>
+          <summary>{b.excluded.length} strong cards skipped to stay within your limits</summary>
           <ul>
             {b.excluded.map((e) => (
               <li key={e.name}>

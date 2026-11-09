@@ -12,7 +12,7 @@ import { isBasicLand, lookupExact, searchCards } from "../sources/scryfall.ts";
 import type { CardFlags } from "../sources/spellbook.ts";
 import { BRACKETS, type BracketRules } from "./bracket.ts";
 import type { ScoredCard } from "./candidates.ts";
-import { type Deck, countRoles } from "./deck.ts";
+import { type Deck, countRoles, totalPrice } from "./deck.ts";
 
 export interface SolverCard extends ScoredCard {
   flags: CardFlags;
@@ -42,9 +42,14 @@ export interface SolverContext {
   candidates: SolverCard[];
   /** Reason a card can't be added to `deck` (after removing `out`), or null if it's fine. */
   violation: (card: Card, deck: Deck, out?: Card) => string | null;
+  budgetTotal: number | null;
 }
 
 const ROLE_WEIGHT = 0.12;
+/** Gain cost of spending the whole budget on one swap; keeps upgrades value-for-money. */
+const PRICE_WEIGHT = 0.5;
+
+export const priceOf = (c: Card) => c.priceUsd ?? 0;
 const MIN_GAIN = 0.04;
 
 const clamp = (x: number, lo = -1, hi = 1) => Math.max(lo, Math.min(hi, x));
@@ -64,16 +69,18 @@ function cardValue(
   const synergy = eb?.synergy ?? ea?.synergy ?? 0;
   let v = 0.6 * inclusion + 0.4 * clamp(synergy * 2);
   const gcAllowed = rules.gameChangers > 0;
+  // Power bonuses only for cards this commander's decks actually play; a random Game Changer isn't an upgrade.
+  const played = (eb ?? ea) !== undefined;
   const fastMana = card.roles.includes("ramp") && card.cmc <= 2 && !card.isLand;
   const tutor = card.roles.includes("tutor");
-  if (tone === "max") {
+  if (tone === "max" && played) {
     if (flags.gameChanger && gcAllowed) v += 0.22;
     if (tutor) v += 0.08;
     if (fastMana) v += 0.06;
     if (card.roles.includes("removal") || card.roles.includes("counter")) v += 0.04;
-  } else if (tone === "balanced") {
+  } else if (tone === "balanced" && played) {
     if (flags.gameChanger && gcAllowed) v += 0.08;
-  } else {
+  } else if (tone === "casual") {
     if (flags.gameChanger) v -= 0.25;
     if (tutor) v -= 0.1;
     if (flags.massLandDenial || flags.extraTurn) v -= 0.3;
@@ -228,6 +235,11 @@ export async function buildSolverContext(opts: {
     );
     if (f.extraTurn && others.filter((c) => flagOf(c).extraTurn).length + 1 > rules.extraTurnCards)
       return `extra turns are limited in bracket ${target}`;
+    const budget = options.budgetTotal;
+    if (budget !== null && priceOf(card) > (out ? priceOf(out) : 0)) {
+      const next = totalPrice(d) - (out ? priceOf(out) : 0) + priceOf(card);
+      if (next > budget) return `would put the deck over the $${budget} budget`;
+    }
     if (f.gameChanger) {
       const used = others.filter((c) => flagOf(c).gameChanger).length;
       if (used + 1 > rules.gameChangers)
@@ -238,7 +250,75 @@ export async function buildSolverContext(opts: {
     return null;
   };
 
-  return { deck, identity, target, rules, tone, scored, candidates, violation };
+  return {
+    deck,
+    identity,
+    target,
+    rules,
+    tone,
+    scored,
+    candidates,
+    violation,
+    budgetTotal: options.budgetTotal ?? null,
+  };
+}
+
+/**
+ * Swaps expensive cards for cheaper ones until the deck fits the budget, picking the trades that
+ * save the most money per point of value lost.
+ */
+export function trimToBudget(
+  ctx: SolverContext,
+  deck: Deck,
+  locked: Set<string>,
+  roleTargets: RoleCount[],
+  used: Set<string> = new Set(),
+): ProposedSwap[] {
+  const budget = ctx.budgetTotal;
+  if (budget === null) return [];
+  const value = new Map<string, number>();
+  for (const s of [...ctx.scored, ...ctx.candidates]) value.set(s.card.name, s.score);
+  const swaps: ProposedSwap[] = [];
+  const inDeck = () => new Set(deck.slots.map((s) => s.card.name));
+  for (let i = 0; i < 40 && totalPrice(deck) > budget; i++) {
+    const counts = roleCounts(deck);
+    const base = rolePenalty(counts, roleTargets);
+    const present = inDeck();
+    let best: { out: Card; ranked: { card: Card; ratio: number; gain: number }[] } | null = null;
+    for (const { card: out } of deck.slots) {
+      if (locked.has(out.name) || isBasicLand(out.name) || priceOf(out) < 1) continue;
+      const ranked = ctx.candidates
+        .filter((c) => !used.has(c.card.name) && !present.has(c.card.name))
+        .filter((c) => c.card.isLand === out.isLand && priceOf(c.card) < priceOf(out))
+        .filter((c) => !ctx.violation(c.card, deck, out))
+        .map((c) => {
+          const gain =
+            c.score -
+            (value.get(out.name) ?? 0) +
+            base -
+            rolePenalty(deltaRoles(counts, out, c.card), roleTargets);
+          const savings = priceOf(out) - priceOf(c.card);
+          return { card: c.card, gain, ratio: savings / (Math.max(0, -gain) + 0.05) };
+        })
+        .sort((a, b) => b.ratio - a.ratio);
+      if (ranked[0] && (!best || ranked[0].ratio > best.ranked[0].ratio)) best = { out, ranked };
+    }
+    if (!best) break;
+    const pick = best.ranked[0];
+    const slot = deck.slots.find((s) => s.card.name === best!.out.name)!;
+    slot.qty--;
+    if (slot.qty === 0) deck.slots.splice(deck.slots.indexOf(slot), 1);
+    deck.slots.push({ card: pick.card, qty: 1 });
+    used.add(pick.card.name);
+    swaps.push({
+      out: best.out,
+      in: pick.card,
+      gain: pick.gain,
+      forced: `$${priceOf(best.out).toFixed(2)}, trimmed to fit the $${budget} deck budget`,
+      alternatives: best.ranked.slice(1, 4).map((r) => r.card),
+    });
+  }
+  return swaps;
 }
 
 /** Greedy best-improvement hill climbing over one-for-one swaps, with hard bracket constraints. */
@@ -278,7 +358,10 @@ export function solve(
           c.score -
           (value.get(out.name) ?? 0) +
           base -
-          rolePenalty(deltaRoles(counts, out, c.card), roleTargets),
+          rolePenalty(deltaRoles(counts, out, c.card), roleTargets) -
+          (ctx.budgetTotal
+            ? (PRICE_WEIGHT * Math.max(0, priceOf(c.card) - priceOf(out))) / ctx.budgetTotal
+            : 0),
       }))
       .sort((a, b) => b.gain - a.gain);
   };
@@ -330,6 +413,8 @@ export function solve(
       alternatives: ranked.slice(1, 4).map((r) => r.card),
     });
   }
+
+  swaps.push(...trimToBudget(ctx, deck, locked, roleTargets, used));
 
   while (swaps.length < options.maxSwaps) {
     const counts = roleCounts(deck);

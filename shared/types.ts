@@ -66,6 +66,8 @@ export type Tone = "max" | "balanced" | "casual";
 export interface OptimizeOptions {
   maxSwaps: number;
   budgetPerCard: number | null;
+  /** Max total price of the final deck (USD), including the commander. */
+  budgetTotal: number | null;
   /** Target bracket; null keeps the deck in the bracket it already fits. */
   bracket: number | null;
   /** How hard to push within the bracket. */

@@ -37,6 +37,7 @@ const wrap =
 const OptionsSchema = z.object({
   maxSwaps: z.number().int().min(1).max(40).default(15),
   budgetPerCard: z.number().positive().nullable().default(null),
+  budgetTotal: z.number().positive().nullable().default(null),
   bracket: z.number().int().min(1).max(5).nullable().default(null),
   tone: z.enum(["max", "balanced", "casual"]).default("max"),
   locked: z.array(z.string()).default([]),

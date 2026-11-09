@@ -334,6 +334,17 @@ function Rerun({ slug, initial }: { slug: string; initial: OptimizeOptions }) {
         />
       </label>
       <label>
+        Deck budget ${" "}
+        <input
+          type="number"
+          placeholder="none"
+          value={opts.budgetTotal ?? ""}
+          onChange={(e) =>
+            setOpts({ ...opts, budgetTotal: e.target.value ? Number(e.target.value) : null })
+          }
+        />
+      </label>
+      <label>
         Budget/card ${" "}
         <input
           type="number"
@@ -731,6 +742,15 @@ export function ReportView({ slug }: { slug: string }) {
             format={(n) => `${n}%`}
           />
           <Stat label="Cost of new cards" after={ins} format={(n) => money(n)} />
+          <Stat
+            label={
+              r.options.budgetTotal ? `Deck price (budget $${r.options.budgetTotal})` : "Deck price"
+            }
+            before={r.before.totalPriceUsd}
+            after={r.after.totalPriceUsd}
+            better={r.options.budgetTotal ? "down" : undefined}
+            format={(n) => `$${Math.round(n)}`}
+          />
         </div>
       </section>
 

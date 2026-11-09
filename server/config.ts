@@ -34,7 +34,7 @@ export const config = {
     visionModel: env("LLM_VISION_MODEL") ?? env("LLM_MODEL") ?? "gpt-5.4",
     searchModel: env("LLM_SEARCH_MODEL"),
   },
-  userAgent: "mtg-deck-doctor/0.1 (local)",
+  userAgent: "mtg-doc/0.1 (local)",
 };
 
 export const llmEnabled = () => Boolean(config.llm.apiKey);

@@ -30,7 +30,7 @@ import {
   planWithLlm,
   rebalanceBasics,
 } from "./analysis/optimizer.ts";
-import { buildSolverContext, solve } from "./analysis/search.ts";
+import { buildSolverContext, solve, trimToBudget } from "./analysis/search.ts";
 import { simulate } from "./analysis/simulate.ts";
 import { config, llmEnabled } from "./config.ts";
 import { parseDecklist } from "./decklist.ts";
@@ -129,7 +129,11 @@ async function loadDeck(slug: string): Promise<{ deck: Deck; warnings: string[] 
 
 async function run(job: Job) {
   const meta = await readMeta(job.slug);
-  const options: OptimizeOptions = { ...meta.options, tone: meta.options.tone ?? "max" };
+  const options: OptimizeOptions = {
+    ...meta.options,
+    tone: meta.options.tone ?? "max",
+    budgetTotal: meta.options.budgetTotal ?? null,
+  };
   const isCommander = meta.format === "commander";
   const warnings: string[] = [];
 
@@ -322,6 +326,33 @@ async function run(job: Job) {
       : { deck: landFix.deck, swaps: [] };
     let finalDeck = rebalanced.deck;
     let swaps: Swap[] = mergeSwaps([...applied.swaps, ...landFix.swaps, ...rebalanced.swaps]);
+
+    // The LLM may drop the solver's budget trims; enforce the cap on the final list.
+    if (options.budgetTotal !== null && totalPrice(finalDeck) > options.budgetTotal) {
+      const trims = trimToBudget(
+        ctx,
+        finalDeck,
+        locked,
+        before.roles,
+        new Set(swaps.map((x) => x.in)),
+      );
+      swaps = mergeSwaps([
+        ...swaps,
+        ...trims.map((t) => ({
+          out: t.out.name,
+          in: t.in.name,
+          category: "other" as const,
+          reason: `${t.out.name} is ${t.forced}; ${t.in.name} is the best cheaper replacement.`,
+          outCard: t.out,
+          inCard: t.in,
+        })),
+      ]);
+      if (totalPrice(finalDeck) > options.budgetTotal) {
+        warnings.push(
+          `Couldn't get under the $${options.budgetTotal} budget (deck is $${totalPrice(finalDeck)}); locked or irreplaceable cards are too expensive.`,
+        );
+      }
+    }
 
     // Verify with Commander Spellbook; undo swaps that introduced a combo the bracket forbids.
     let estAfter = isCommander ? await estimate(finalDeck) : null;

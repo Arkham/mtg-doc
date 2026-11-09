@@ -13,7 +13,7 @@ import { chatJson } from "../llm.ts";
 import { isBasicLand, lookupExact, lookupFuzzy } from "../sources/scryfall.ts";
 import type { BracketRules } from "./bracket.ts";
 import type { ScoredCard } from "./candidates.ts";
-import { type Deck, cloneDeck, countRoles } from "./deck.ts";
+import { type Deck, cloneDeck, countRoles, totalPrice } from "./deck.ts";
 import { BASIC_FOR, analyzeMana, landColors } from "./mana.ts";
 import type { ProposedSwap, SolverCard, SolverResult } from "./search.ts";
 
@@ -87,7 +87,7 @@ const fmtCard = (s: ScoredCard & { flags?: SolverCard["flags"] }) =>
     .join(" | ");
 
 const fmtProposal = (p: ProposedSwap, i: number) =>
-  `${i + 1}. OUT ${p.out.name} → IN ${p.in.name} (gain ${p.gain.toFixed(2)}${p.forced ? `, REQUIRED: ${p.forced}` : ""})${
+  `${i + 1}. OUT ${p.out.name} ($${p.out.priceUsd ?? "?"}) → IN ${p.in.name} ($${p.in.priceUsd ?? "?"}) (gain ${p.gain.toFixed(2)}${p.forced ? `, REQUIRED: ${p.forced}` : ""})${
     p.alternatives.length ? `; alternatives: ${p.alternatives.map((a) => a.name).join(", ")}` : ""
   }`;
 
@@ -154,6 +154,7 @@ ${input.solver.excluded.map((e) => `- ${e.name}: ${e.reason}`).join("\n") || "no
 ## Other constraints
 - "out" must be in the deck. Never cut: ${[...deck.commanders.map((c) => c.name), ...options.locked].join(", ") || "(nothing locked)"}.
 - No duplicates except basic lands.${options.budgetPerCard ? ` Max $${options.budgetPerCard} per card.` : ""}
+${options.budgetTotal ? `- DECK BUDGET: the whole deck (commander included) must cost at most $${options.budgetTotal}. It costs $${totalPrice(deck)} now; the proposals bring it to $${(totalPrice(deck) + input.solver.swaps.reduce((n, p) => n + (p.in.priceUsd ?? 0) - (p.out.priceUsd ?? 0), 0)).toFixed(2)}. Prefer value per dollar; swaps that push it over are rejected.` : ""}
 - Land count: ${input.mana.landCount} lands now, ~${input.mana.recommendedLands} recommended. Lands are fixed automatically afterwards, so focus on spells unless a land swap is clearly better.
 
 ## Mana analysis

@@ -61,7 +61,9 @@ function PhotoPane({ photos }: { photos: string[] }) {
 function optionsSummary(o: OptimizeOptions) {
   return [
     `up to ${o.maxSwaps} swaps`,
-    o.budgetPerCard ? `≤ $${o.budgetPerCard}/card` : "any budget",
+    o.budgetTotal ? `deck ≤ $${o.budgetTotal}` : null,
+    o.budgetPerCard ? `≤ $${o.budgetPerCard}/card` : null,
+    !o.budgetTotal && !o.budgetPerCard ? "any budget" : null,
     o.bracket ? `bracket ${o.bracket}` : "current bracket",
     o.tone === "max" ? "max power" : o.tone,
     o.webResearch ? "web research" : null,
@@ -98,6 +100,7 @@ export function Review({
   const [options, setOptions] = useState<OptimizeOptions>({
     maxSwaps: 15,
     budgetPerCard: null,
+    budgetTotal: null,
     bracket: null,
     tone: "max",
     locked: [],
@@ -474,7 +477,23 @@ export function Review({
                 />
               </label>
               <label className="field">
-                <span>Budget per card ($)</span>
+                <span>Deck budget ($)</span>
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  min={0}
+                  placeholder="No limit"
+                  value={options.budgetTotal ?? ""}
+                  onChange={(e) =>
+                    setOptions({
+                      ...options,
+                      budgetTotal: e.target.value ? Number(e.target.value) : null,
+                    })
+                  }
+                />
+              </label>
+              <label className="field">
+                <span>Max per card ($)</span>
                 <input
                   type="number"
                   inputMode="decimal"

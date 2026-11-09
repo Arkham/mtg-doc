@@ -128,7 +128,24 @@ export async function lookupExact(names: string[]): Promise<Map<string, Card>> {
       if (hit) out.set(name, hit);
     }
   }
+  await fillMissingPrices([...new Set(out.values())]);
   return out;
+}
+
+/**
+ * Scryfall's default printing sometimes has no USD price (promos, foreign-only, Collectors' Edition),
+ * which would make expensive cards look free. Fall back to the cheapest printing with a price.
+ */
+async function fillMissingPrices(cards: Card[]) {
+  for (const card of cards) {
+    if (card.priceUsd !== null || isBasicLand(card.name)) continue;
+    const q = encodeURIComponent(`oracleid:${card.oracleId} usd>0 unique:prints`);
+    const res = await sfFetch(`/cards/search?q=${q}&order=usd&dir=asc`);
+    if (!res.ok) continue;
+    const { data } = (await res.json()) as { data: ScryfallCard[] };
+    const usd = data[0]?.prices.usd;
+    if (usd) card.priceUsd = Number(usd);
+  }
 }
 
 export async function lookupFuzzy(name: string): Promise<Card | null> {
