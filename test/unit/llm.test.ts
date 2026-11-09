@@ -82,7 +82,7 @@ describe("chatJson", () => {
     assert.equal(calls[0].url, "https://llm.test/v1/responses");
     assert.equal(calls[0].auth, "Bearer test-key");
     assert.deepEqual(calls[0].body.text, { format: { type: "json_object" } });
-    assert.equal(calls[0].body.model, "gpt-5.4");
+    assert.equal(calls[0].body.model, "gpt-6.1-sol");
   });
 
   test("asks again with the validation error when the shape is wrong", async () => {
@@ -144,5 +144,49 @@ describe("webSearch", () => {
     assert.deepEqual(calls[0].body.tools, [{ type: "web_search" }]);
     assert.equal(r.text, "Answer");
     assert.deepEqual(r.citations, [{ url: "https://edhrec.com/x", title: "EDHREC" }]);
+  });
+});
+
+describe("decide", () => {
+  test("asks yes/no questions with images via the Decisions API, in batches", async () => {
+    stub((body) => {
+      const questions = body.questions as { name: string }[];
+      return {
+        json: {
+          answers: questions.map((q, i) => ({
+            type: "predicate",
+            name: q.name,
+            probability: i % 2 ? 0.1 : 0.9,
+          })),
+        },
+      };
+    });
+    const predicates = Array.from({ length: 25 }, (_, i) => ({
+      name: `q${i}`,
+      instructions: `card ${i}?`,
+    }));
+    const answers = await llm.decide("context", ["data:image/jpeg;base64,x"], predicates);
+    assert.equal(calls.length, 2, "20 questions per request");
+    assert.equal(calls[0].url, "https://llm.test/v1/decisions");
+    assert.equal(calls[0].body.model, "gpt-6-luna");
+    const input = calls[0].body.input as { content: { type: string }[] }[];
+    assert.deepEqual(
+      input[0].content.map((c) => c.type),
+      ["input_text", "input_image"],
+    );
+    assert.equal((calls[0].body.questions as { type: string }[])[0].type, "predicate");
+    assert.equal(answers.size, 25);
+    assert.equal(answers.get("q0"), 0.9);
+    assert.equal(answers.get("q1"), 0.1);
+  });
+});
+
+describe("reasoning effort", () => {
+  test("is passed through when requested", async () => {
+    stub(() => ({ json: message('{"n": 1}') }));
+    await llm.chatJson(z.object({ n: z.number() }), [{ role: "user", content: "go" }], {
+      reasoning: "low",
+    });
+    assert.deepEqual(calls[0].body.reasoning, { effort: "low" });
   });
 });

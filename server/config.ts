@@ -30,16 +30,21 @@ export const config = {
   llm: {
     baseUrl: (env("LLM_BASE_URL") ?? "https://api.openai.com/v1").replace(/\/$/, ""),
     apiKey: env("LLM_API_KEY"),
-    model: env("LLM_MODEL") ?? "gpt-5.4",
-    visionModel: env("LLM_VISION_MODEL") ?? env("LLM_MODEL") ?? "gpt-5.4",
+    model: env("LLM_MODEL") ?? "gpt-6.1-sol",
+    visionModel: env("LLM_VISION_MODEL") ?? env("LLM_MODEL") ?? "gpt-6.1-sol",
     /** Model used with the Responses API web_search tool. */
-    searchModel: env("LLM_SEARCH_MODEL") ?? env("LLM_MODEL") ?? "gpt-5.4",
+    searchModel: env("LLM_SEARCH_MODEL") ?? env("LLM_MODEL") ?? "gpt-6.1-sol",
     webSearch: (env("LLM_WEB_SEARCH") ?? "true") !== "false",
+    /** Classifier for yes/no checks via the Decisions API (POST /decisions). */
+    decisionModel: env("LLM_DECISION_MODEL") ?? "gpt-6-luna",
     retryDelayMs: Number(env("LLM_RETRY_DELAY_MS") ?? 2000),
   },
   userAgent: "mtg-doc/0.1 (local)",
-  /** Scryfall asks for 50-100ms between requests. */
-  scryfallIntervalMs: Number(env("SCRYFALL_MIN_INTERVAL_MS") ?? 110),
+  /** Scryfall's hard limits: 2/s for search, named and collection; 10/s for everything else. */
+  scryfallIntervalMs: {
+    limited: Number(env("SCRYFALL_LIMITED_INTERVAL_MS") ?? 520),
+    other: Number(env("SCRYFALL_MIN_INTERVAL_MS") ?? 110),
+  },
 };
 
 export const llmEnabled = () => Boolean(config.llm.apiKey);

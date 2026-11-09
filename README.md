@@ -9,7 +9,10 @@
 **mtg-doc** is a local web app to analyze and optimize Magic: The Gathering decks, focused on Commander.
 
 1. Upload a photo or screenshot of a deck (or paste a list)
-2. A vision LLM reads the card names; Scryfall validates and fuzzy-matches them
+2. The photo is read several times: once whole and twice in overlapping full-resolution crops (vision
+   APIs shrink big photos until titles are unreadable). Cards seen by two or more passes are kept;
+   anything only one pass saw is double-checked against its crop with a calibrated yes/no classifier.
+   Cards in other languages (e.g. Italian) are matched to English through Scryfall by printed name.
 3. Review the result, fix misreads, pick the commander, lock pet cards
 4. The deck is saved to `decks/<commander-name>/initial.txt`
 5. The optimizer pulls EDHREC synergy data, Commander Spellbook combos and (optionally) web research,
@@ -26,13 +29,14 @@ pnpm dev               # http://localhost:5173
 ```
 
 Any endpoint implementing the OpenAI **Responses API** (`POST /responses`) works; it's used for
-photo OCR (image input), JSON planning, and web research via the built-in `web_search` tool. `.env` supports `${VAR}` references, so a
+photo reading (image input), JSON planning, and web research via the built-in `web_search` tool.
+Scanned cards are verified with the **Decisions API** (`POST /decisions`, `LLM_DECISION_MODEL`). `.env` supports `${VAR}` references, so a
 key already exported in your shell can be used without copying it:
 
 ```bash
 LLM_BASE_URL=https://your-endpoint/v1
 LLM_API_KEY=${SOME_EXPORTED_KEY}
-LLM_MODEL=gpt-5.4
+LLM_MODEL=gpt-6.1-sol
 LLM_WEB_SEARCH=true                 # web research via the web_search tool
 ```
 

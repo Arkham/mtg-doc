@@ -48,6 +48,12 @@ export interface RecognizedEntry extends DeckEntry {
   raw: string;
   status: "exact" | "fuzzy" | "unresolved";
   card?: Card;
+  /** Language the card is printed in (Scryfall code), from photo recognition. */
+  lang?: string;
+  /** Independent reading passes that saw this card. */
+  votes?: number;
+  /** 0-1: 1 when several passes agree, otherwise the verification probability. */
+  confidence?: number;
 }
 
 export interface RecognitionResult {

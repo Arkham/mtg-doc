@@ -2,6 +2,7 @@ import "../support/env.ts";
 import assert from "node:assert/strict";
 import { after, describe, test } from "node:test";
 import sharp from "sharp";
+import type { RecognitionResult } from "../../shared/types.ts";
 import { startLlmStub } from "../support/llm-stub.ts";
 
 // Point the app at the stub before any server module reads its config.
@@ -29,7 +30,7 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     ]);
     assert.deepEqual(report.research.cardsMentioned, ["Elvish Archdruid", "Priest of Titania"]);
 
-    assert.equal(report.model, "gpt-5.4");
+    assert.equal(report.model, "gpt-6.1-sol");
     assert.equal(report.strategy, "Stub strategy: go wide with elves.");
     assert.deepEqual(report.manaNotes, ["Stub mana note."]);
     assert.ok(
@@ -49,27 +50,95 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     assert.match(review.text, /Game Changer slots/);
   });
 
-  test("photo recognition resolves OCR names and finds the commander", async () => {
+  test("a screenshot-sized image is read twice and both reads must agree", async () => {
     const photo = await sharp({
       create: { width: 600, height: 400, channels: 3, background: "#2b4a2b" },
     })
       .jpeg()
       .toBuffer();
+    const before = stub.requests.length;
     const r = await recognizeImages([photo]);
+    const calls = stub.requests.slice(before);
+    assert.equal(calls.filter((c) => c.text.includes("reading a photo or screenshot")).length, 2);
     assert.deepEqual(r.commanders, ["Lathril, Blade of the Elves"]);
     const elves = r.entries.find((e) => e.raw === "Llanowar Elfs")!;
     assert.equal(elves.name, "Llanowar Elves");
-    assert.equal(elves.status, "fuzzy");
+    assert.equal(elves.status, "fuzzy", "a misspelled read is flagged for review");
+    const boots = r.entries.find((e) => e.name === "Swiftfoot Boots")!;
+    assert.equal(boots.lang, "it");
+    assert.equal(boots.raw, "Stivali Piedelesto");
     assert.ok(r.notes.includes("Read from a test photo."));
-    assert.ok(
-      r.notes.some((n) => n.includes("Divination")),
-      "off-color note",
-    );
-    const vision = stub.requests.find((x) =>
-      (x.body.input as { content: { type: string }[] }[])[0].content.some(
-        (p) => p.type === "input_image",
-      ),
-    )!;
-    assert.equal(vision.body.model, "gpt-5.4");
+    assert.ok(r.notes.some((n) => n.includes("Divination") && n.includes("color identity")));
+  });
+
+  test("a deck photo: tiled passes, voting, verification and progress via the API job", async () => {
+    const { createApp } = await import("../../server/app.ts");
+    const server = createApp().listen(0, "127.0.0.1");
+    await new Promise((r) => server.once("listening", r));
+    const base = `http://127.0.0.1:${(server.address() as { port: number }).port}`;
+    try {
+      const photo = await sharp({
+        create: { width: 4032, height: 3024, channels: 3, background: "#2b2b4a" },
+      })
+        .jpeg()
+        .toBuffer();
+      const form = new FormData();
+      form.append("images", new Blob([new Uint8Array(photo)], { type: "image/jpeg" }), "deck.jpg");
+      const started = await fetch(`${base}/api/recognize`, { method: "POST", body: form });
+      assert.equal(started.status, 202);
+      const { jobId } = (await started.json()) as { jobId: string };
+
+      const phases = new Set<string>();
+      let job: {
+        status: string;
+        phase: string;
+        result?: RecognitionResult & { uploadToken: string };
+        error?: string;
+      };
+      for (;;) {
+        job = await (await fetch(`${base}/api/recognize/${jobId}`)).json();
+        phases.add(job.phase);
+        if (job.status !== "running") break;
+        await new Promise((r) => setTimeout(r, 20));
+      }
+      assert.equal(job.status, "done", job.error ?? "");
+      const r = job.result!;
+      assert.ok(r.uploadToken);
+      assert.ok(
+        [...phases].some(
+          (p) =>
+            p === "Reading cards" ||
+            p === "Double-checking uncertain cards" ||
+            p === "Matching card names",
+        ),
+      );
+
+      const byName = new Map(r.entries.map((e) => [e.name, e]));
+      assert.equal(byName.get("Llanowar Elves")!.votes, 3, "whole photo + both tilings");
+      assert.equal(
+        byName.get("Llanowar Elves")!.status,
+        "exact",
+        "an exact printed-name match outweighs one misspelled read",
+      );
+      assert.equal(byName.get("Swiftfoot Boots")!.votes, 3);
+      assert.equal(byName.get("Lightning Greaves")!.confidence, 0.92, "confirmed by verification");
+      assert.equal(byName.get("Lightning Greaves")!.status, "exact");
+      assert.equal(
+        byName.get("Divination")!.status,
+        "fuzzy",
+        "verified but unsure: flagged for review",
+      );
+      assert.equal(byName.has("Counterspell"), false, "a hallucination is rejected");
+      assert.ok(r.notes.some((n) => n.includes("Ignored 1 card") && n.includes("Counterspell")));
+      assert.ok(r.notes.some((n) => n.includes("aren't in English")));
+
+      const verify = stub.requests.filter((x) => Array.isArray(x.body.questions));
+      assert.ok(verify.length > 0);
+      assert.ok(verify.every((x) => x.body.model === "gpt-6-luna"));
+      const tiles = stub.requests.filter((x) => x.text.includes("This is a crop of a photo"));
+      assert.equal(tiles.length, 6 + 12, "3x2 and 4x3 tilings of a 12MP photo");
+    } finally {
+      server.close();
+    }
   });
 });

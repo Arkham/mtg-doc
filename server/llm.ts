@@ -42,13 +42,14 @@ export function toResponsesInput(messages: ChatMessage[]) {
   });
 }
 
-async function respond(
+async function post<T>(
+  path: string,
   body: Record<string, unknown>,
   timeoutMs = 300_000,
-): Promise<ResponsesResult> {
+): Promise<T> {
   if (!config.llm.apiKey) throw new LlmError("LLM_API_KEY is not configured");
   for (let attempt = 0; ; attempt++) {
-    const res = await fetch(`${config.llm.baseUrl}/responses`, {
+    const res = await fetch(`${config.llm.baseUrl}/${path}`, {
       method: "POST",
       headers: {
         authorization: `Bearer ${config.llm.apiKey}`,
@@ -58,7 +59,7 @@ async function respond(
       signal: AbortSignal.timeout(timeoutMs),
     });
     if (res.ok) {
-      const data = (await res.json()) as ResponsesResult;
+      const data = (await res.json()) as T & { error?: { message?: string } | null };
       if (data.error?.message) throw new LlmError(`LLM error: ${data.error.message}`);
       return data;
     }
@@ -70,6 +71,8 @@ async function respond(
     await new Promise((r) => setTimeout(r, config.llm.retryDelayMs * (attempt + 1)));
   }
 }
+
+const respond = (body: Record<string, unknown>) => post<ResponsesResult>("responses", body);
 
 /** All assistant text from a Responses API result, in order. */
 export function outputText(res: ResponsesResult): string {
@@ -90,10 +93,12 @@ export function extractJson(text: string): unknown {
   return JSON.parse(candidate.slice(start, end + 1));
 }
 
+export type ReasoningEffort = "low" | "medium" | "high";
+
 export async function chatJson<T extends z.ZodType>(
   schema: T,
   messages: ChatMessage[],
-  opts: { model?: string } = {},
+  opts: { model?: string; reasoning?: ReasoningEffort } = {},
 ): Promise<z.infer<T>> {
   const model = opts.model ?? config.llm.model;
   let lastError: unknown;
@@ -103,6 +108,7 @@ export async function chatJson<T extends z.ZodType>(
       model,
       input: toResponsesInput(convo),
       text: { format: { type: "json_object" } },
+      ...(opts.reasoning ? { reasoning: { effort: opts.reasoning } } : {}),
     });
     const content = outputText(res);
     try {
@@ -146,4 +152,51 @@ export async function webSearch(
     text: outputText(res),
     citations: [...citations].map(([url, title]) => ({ url, title })),
   };
+}
+
+export interface Predicate {
+  name: string;
+  instructions: string;
+}
+
+/**
+ * Yes/no questions about images via the Decisions API, answered with calibrated probabilities.
+ * Returns the probability that each predicate is true, keyed by name.
+ */
+export async function decide(
+  context: string,
+  images: string[],
+  predicates: Predicate[],
+): Promise<Map<string, number>> {
+  const out = new Map<string, number>();
+  // Keep requests small so each stays well inside the API's latency budget.
+  for (let i = 0; i < predicates.length; i += 20) {
+    const batch = predicates.slice(i, i + 20);
+    const res = await post<{ answers?: { name: string; type: string; probability?: number }[] }>(
+      "decisions",
+      {
+        model: config.llm.decisionModel,
+        input: [
+          {
+            role: "user",
+            content: [
+              { type: "input_text", text: context },
+              ...images.map((url) => ({ type: "input_image", image_url: url })),
+            ],
+          },
+        ],
+        questions: batch.map((p) => ({
+          type: "predicate",
+          name: p.name,
+          instructions: p.instructions,
+        })),
+      },
+      60_000,
+    );
+    for (const a of res.answers ?? []) {
+      if (a.type === "predicate" && typeof a.probability === "number")
+        out.set(a.name, a.probability);
+    }
+  }
+  return out;
 }

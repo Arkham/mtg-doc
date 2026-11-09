@@ -7,6 +7,9 @@ import {
   isBasicLand,
   lookupExact,
   lookupFuzzy,
+  lookupPrintedInexact,
+  printedKey,
+  printedToEnglish,
   resolveNames,
   searchCards,
   toCard,
@@ -116,6 +119,32 @@ describe("Scryfall client (recorded)", () => {
     assert.equal(fuzzy.status, "fuzzy");
     assert.equal(fuzzy.card?.name, "Elvish Mystic");
     assert.equal(missing.status, "unresolved");
+  });
+
+  test("batch-resolves printed non-English names, with an inexact fallback", async () => {
+    const items = [
+      "Stivali Piedelesto",
+      "Tempesta Stellare",
+      "Nekusar, il Distruttore di Menti",
+      "Terminate",
+    ].map((printed) => ({
+      printed,
+      lang: "it",
+    }));
+    const map = await printedToEnglish(items);
+    assert.equal(map.get(printedKey("Stivali Piedelesto", "it")), "Swiftfoot Boots");
+    assert.equal(map.get(printedKey("Tempesta Stellare", "it")), "Starstorm");
+    assert.equal(
+      map.get(printedKey("Nekusar, il Distruttore di Menti", "it")),
+      "Nekusar, the Mindrazer",
+    );
+    assert.equal(
+      map.has(printedKey("Terminate", "it")),
+      false,
+      "an English title isn't an Italian printed name",
+    );
+    assert.equal(await lookupPrintedInexact("Stivali Piedelest", "it"), "Swiftfoot Boots");
+    assert.equal(await lookupPrintedInexact("Qwxzz Plorbato", "it"), null);
   });
 
   test("search returns cards", async () => {

@@ -3,26 +3,57 @@ import { config } from "../config.ts";
 import { classifyRoles } from "../analysis/roles.ts";
 
 const API = "https://api.scryfall.com";
-let nextSlot = 0;
+/** Endpoints Scryfall limits to 2 requests/second; everything else allows 10/second. */
+const LIMITED = /^\/cards\/(search|named|collection|random)\b/;
+const nextSlot = { limited: 0, other: 0 };
+/** A 429 locks the client out for 30 seconds, per Scryfall's docs. */
+const RATE_LIMIT_PENALTY_MS = 30_000;
 
-async function throttle() {
+async function throttle(path: string) {
+  const queue = LIMITED.test(path) ? "limited" : "other";
   const now = Date.now();
-  const wait = Math.max(0, nextSlot - now);
-  nextSlot = Math.max(now, nextSlot) + config.scryfallIntervalMs;
+  const wait = Math.max(0, nextSlot[queue] - now);
+  nextSlot[queue] = Math.max(now, nextSlot[queue]) + config.scryfallIntervalMs[queue];
   if (wait) await new Promise((r) => setTimeout(r, wait));
 }
 
 async function sfFetch(path: string, init?: RequestInit): Promise<Response> {
-  await throttle();
-  return fetch(`${API}${path}`, {
-    ...init,
-    headers: {
-      "user-agent": config.userAgent,
-      accept: "application/json",
-      ...(init?.body ? { "content-type": "application/json" } : {}),
-    },
-    signal: AbortSignal.timeout(30_000),
-  });
+  for (let attempt = 0; ; attempt++) {
+    await throttle(path);
+    const res = await fetch(`${API}${path}`, {
+      ...init,
+      headers: {
+        "user-agent": config.userAgent,
+        accept: "application/json",
+        ...(init?.body ? { "content-type": "application/json" } : {}),
+      },
+      signal: AbortSignal.timeout(30_000),
+    });
+    if ((res.status !== 429 && res.status < 500) || attempt >= 3) return res;
+    const retryAfter = Number(res.headers.get("retry-after"));
+    const wait =
+      res.status === 429
+        ? Number.isFinite(retryAfter) && retryAfter > 0
+          ? retryAfter * 1000
+          : RATE_LIMIT_PENALTY_MS
+        : 1000 * 2 ** attempt;
+    const until = Date.now() + wait;
+    nextSlot.limited = Math.max(nextSlot.limited, until);
+    nextSlot.other = Math.max(nextSlot.other, until);
+  }
+}
+
+/** All pages of a search (each page is a rate-limited request). */
+async function searchAll(q: string, extra = "", maxPages = 4): Promise<ScryfallCard[]> {
+  const out: ScryfallCard[] = [];
+  for (let page = 1; page <= maxPages; page++) {
+    const res = await sfFetch(`/cards/search?q=${encodeURIComponent(q)}${extra}&page=${page}`);
+    if (!res.ok) break;
+    const body = (await res.json()) as { data: ScryfallCard[]; has_more?: boolean };
+    out.push(...body.data);
+    if (!body.has_more) break;
+  }
+  return out;
 }
 
 interface ScryfallFace {
@@ -137,14 +168,15 @@ export async function lookupExact(names: string[]): Promise<Map<string, Card>> {
  * which would make expensive cards look free. Fall back to the cheapest printing with a price.
  */
 async function fillMissingPrices(cards: Card[]) {
-  for (const card of cards) {
-    if (card.priceUsd !== null || isBasicLand(card.name)) continue;
-    const q = encodeURIComponent(`oracleid:${card.oracleId} usd>0 unique:prints`);
-    const res = await sfFetch(`/cards/search?q=${q}&order=usd&dir=asc`);
-    if (!res.ok) continue;
-    const { data } = (await res.json()) as { data: ScryfallCard[] };
-    const usd = data[0]?.prices.usd;
-    if (usd) card.priceUsd = Number(usd);
+  const missing = cards.filter((c) => c.priceUsd === null && !isBasicLand(c.name));
+  for (let i = 0; i < missing.length; i += 20) {
+    const batch = missing.slice(i, i + 20);
+    const q = `(${batch.map((c) => `oracleid:${c.oracleId}`).join(" or ")}) usd>0`;
+    const prints = await searchAll(q, "&unique=prints&order=usd&dir=asc");
+    for (const card of batch) {
+      const cheapest = prints.find((p) => p.oracle_id === card.oracleId && p.prices.usd);
+      if (cheapest?.prices.usd) card.priceUsd = Number(cheapest.prices.usd);
+    }
   }
 }
 
@@ -193,4 +225,74 @@ export async function searchCards(q: string): Promise<Card[]> {
   if (!res.ok) return [];
   const { data } = (await res.json()) as { data: ScryfallCard[] };
   return data.map(toCard);
+}
+
+/** Languages Scryfall can filter by (`lang:` search keyword). */
+export const SCRYFALL_LANGS = new Set([
+  "en",
+  "es",
+  "fr",
+  "de",
+  "it",
+  "pt",
+  "ja",
+  "ko",
+  "ru",
+  "zhs",
+  "zht",
+  "he",
+  "la",
+  "grc",
+  "ar",
+  "sa",
+  "ph",
+]);
+
+const cleanPrinted = (name: string) => name.replace(/["\\()]/g, "").trim();
+export const printedKey = (printed: string, lang: string) =>
+  `${lang}|${cleanPrinted(printed).toLowerCase()}`;
+
+/**
+ * Resolves names as printed on non-English cards (e.g. "Stivali Piedelesto", lang "it") to English
+ * card names. Batches many exact-name searches into one query per language with `or`, matching
+ * results back through `printed_name`. Returns a map keyed by `printedKey(printed, lang)`.
+ */
+export async function printedToEnglish(
+  items: { printed: string; lang: string }[],
+): Promise<Map<string, string>> {
+  const out = new Map<string, string>();
+  const byLang = new Map<string, Set<string>>();
+  for (const { printed, lang } of items) {
+    const name = cleanPrinted(printed);
+    if (!name) continue;
+    const l = SCRYFALL_LANGS.has(lang) ? lang : "any";
+    byLang.set(l, (byLang.get(l) ?? new Set()).add(name));
+  }
+  for (const [lang, names] of byLang) {
+    const list = [...names];
+    for (let i = 0; i < list.length; i += 25) {
+      const batch = list.slice(i, i + 25);
+      const q = `(${batch.map((n) => `!"${n}"`).join(" or ")}) lang:${lang}`;
+      for (const c of await searchAll(q, "&unique=prints")) {
+        const printed = (c as ScryfallCard & { printed_name?: string }).printed_name ?? c.name;
+        for (const face of printed.split(" // ")) {
+          const key = printedKey(face, lang);
+          if (!out.has(key)) out.set(key, c.name);
+        }
+      }
+    }
+  }
+  return out;
+}
+
+/** Inexact printed-name search, for titles the model read slightly wrong. Less reliable than exact names. */
+export async function lookupPrintedInexact(printed: string, lang: string): Promise<string | null> {
+  const name = cleanPrinted(printed);
+  if (!name) return null;
+  const [hit] = await searchAll(
+    `"${name}" lang:${SCRYFALL_LANGS.has(lang) ? lang : "any"}`,
+    "&unique=cards",
+    1,
+  );
+  return hit?.name ?? null;
 }

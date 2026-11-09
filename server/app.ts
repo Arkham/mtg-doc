@@ -3,6 +3,7 @@ import path from "node:path";
 import express, { type NextFunction, type Request, type Response } from "express";
 import multer from "multer";
 import { z } from "zod";
+import type { RecognitionResult } from "../shared/types.ts";
 import { config, llmEnabled } from "./config.ts";
 import { recognizeImages, recognizeText } from "./ocr.ts";
 import { getJob, startOptimize } from "./pipeline.ts";
@@ -18,6 +19,18 @@ import {
   writeDeck,
   writeMeta,
 } from "./storage.ts";
+
+interface RecognitionJob {
+  id: string;
+  status: "running" | "done" | "error";
+  phase: string;
+  done: number;
+  total: number;
+  result?: RecognitionResult & { uploadToken: string };
+  error?: string;
+}
+
+const recognitionJobs = new Map<string, RecognitionJob>();
 
 /** Builds the API app. Static/Vite serving and listening happen in index.ts. */
 export function createApp() {
@@ -81,26 +94,47 @@ export function createApp() {
             "Image recognition needs LLM_API_KEY configured. You can paste a decklist instead.",
         });
       }
-      const result = files.length
-        ? await recognizeImages(files.map((f) => f.buffer))
-        : await recognizeText(text);
-      let uploadToken: string | undefined;
-      if (files.length) {
-        uploadToken = randomUUID();
-        const now = Date.now();
-        for (const [k, v] of pendingUploads)
-          if (now - v.at > UPLOAD_TTL_MS) pendingUploads.delete(k);
-        pendingUploads.set(uploadToken, {
-          files: files.map((f, i) => ({
-            name: `${i + 1}-${path.basename(f.originalname).replace(/[^\w.-]/g, "_")}`,
-            data: f.buffer,
-          })),
-          at: now,
-        });
-      }
-      res.json({ ...result, uploadToken });
+      if (!files.length) return res.json(await recognizeText(text));
+
+      const uploadToken = randomUUID();
+      const now = Date.now();
+      for (const [k, v] of pendingUploads) if (now - v.at > UPLOAD_TTL_MS) pendingUploads.delete(k);
+      pendingUploads.set(uploadToken, {
+        files: files.map((f, i) => ({
+          name: `${i + 1}-${path.basename(f.originalname).replace(/[^\w.-]/g, "_")}`,
+          data: f.buffer,
+        })),
+        at: now,
+      });
+      // Photo recognition runs many model calls; clients poll the job for progress.
+      const job: RecognitionJob = {
+        id: randomUUID(),
+        status: "running",
+        phase: "Starting",
+        done: 0,
+        total: 1,
+      };
+      recognitionJobs.set(job.id, job);
+      recognizeImages(
+        files.map((f) => f.buffer),
+        { onProgress: (p) => Object.assign(job, p) },
+      ).then(
+        (result) => Object.assign(job, { status: "done", result: { ...result, uploadToken } }),
+        (err) =>
+          Object.assign(job, {
+            status: "error",
+            error: err instanceof Error ? err.message : String(err),
+          }),
+      );
+      res.status(202).json({ jobId: job.id });
     }),
   );
+
+  app.get("/api/recognize/:id", (req, res) => {
+    const job = recognitionJobs.get(req.params.id);
+    if (!job) return res.status(404).json({ error: "Recognition job not found" });
+    res.json(job);
+  });
 
   app.get(
     "/api/cards/autocomplete",

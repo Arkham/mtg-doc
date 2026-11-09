@@ -32,6 +32,16 @@ export interface AppConfig {
 
 export type Recognition = RecognitionResult & { uploadToken?: string };
 
+export interface RecognitionJob {
+  id: string;
+  status: "running" | "done" | "error";
+  phase: string;
+  done: number;
+  total: number;
+  result?: Recognition;
+  error?: string;
+}
+
 export interface DeckDetail {
   meta: {
     slug: string;
@@ -55,12 +65,17 @@ export const api = {
   decks: () => request<DeckSummary[]>(IS_STATIC ? "data/decks.json" : "/api/decks"),
   deck: (slug: string) =>
     request<DeckDetail>(IS_STATIC ? `data/decks/${slug}/detail.json` : `/api/decks/${slug}`),
+  /** Text resolves immediately; photos return a job to poll with `recognitionJob`. */
   recognize: (images: File[], text: string) => {
     const form = new FormData();
     for (const f of images) form.append("images", f);
     if (text) form.append("text", text);
-    return request<Recognition>("/api/recognize", { method: "POST", body: form });
+    return request<Recognition | { jobId: string }>("/api/recognize", {
+      method: "POST",
+      body: form,
+    });
   },
+  recognitionJob: (id: string) => request<RecognitionJob>(`/api/recognize/${id}`),
   resolve: (names: string[]) =>
     request<
       {

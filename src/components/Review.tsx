@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import type { Card, OptimizeOptions } from "../../shared/types.ts";
 import { type AppConfig, type Recognition, api } from "../api.ts";
-import { CardName } from "./CardName.tsx";
+import { CardName, useHoverPreview } from "./CardName.tsx";
 import { LockIcon, TrashIcon } from "./Icons.tsx";
 import { ManaCost } from "./Mana.tsx";
 import { Sheet } from "./Sheet.tsx";
@@ -14,6 +14,8 @@ interface Row {
   status: "exact" | "fuzzy" | "unresolved" | "checking";
   card?: Card;
   locked: boolean;
+  lang?: string;
+  confidence?: number;
 }
 
 let nextId = 1;
@@ -29,6 +31,137 @@ function useAutocomplete(q: string) {
 }
 
 const toRow = (r: Omit<Row, "id" | "locked">): Row => ({ ...r, id: nextId++, locked: false });
+
+const GROUP_ORDER = [
+  "Not recognized",
+  "Creature",
+  "Planeswalker",
+  "Battle",
+  "Instant",
+  "Sorcery",
+  "Artifact",
+  "Enchantment",
+  "Land",
+  "Other",
+];
+
+function groupOf(r: Row): string {
+  if (!r.card) return "Not recognized";
+  const front = r.card.typeLine.split(" // ")[0];
+  return GROUP_ORDER.find((g) => new RegExp(`\\b${g}\\b`).test(front)) ?? "Other";
+}
+
+const LANG_NAMES: Record<string, string> = {
+  it: "Italian",
+  de: "German",
+  fr: "French",
+  es: "Spanish",
+  pt: "Portuguese",
+  ja: "Japanese",
+  ko: "Korean",
+  ru: "Russian",
+  zhs: "Chinese",
+  zht: "Chinese",
+};
+
+function CardRow({
+  row: r,
+  offColor,
+  flash,
+  onChange,
+  onRecheck,
+  onRemove,
+  onFocusName,
+}: {
+  row: Row;
+  offColor: boolean;
+  flash: boolean;
+  onChange: (patch: Partial<Row>) => void;
+  onRecheck: (name: string) => void;
+  onRemove: () => void;
+  onFocusName: (name: string) => void;
+}) {
+  const { handlers, preview } = useHoverPreview(r.card?.image);
+  const ref = useRef<HTMLLIElement>(null);
+  useEffect(() => {
+    if (flash) ref.current?.scrollIntoView({ block: "nearest" });
+  }, [flash]);
+  const tone = r.status === "unresolved" ? "bad" : r.status === "fuzzy" || offColor ? "warn" : "";
+  const printed = r.raw && r.raw !== r.name ? r.raw : null;
+  return (
+    <li ref={ref} className={`card-row ${tone} ${flash ? "flash" : ""}`} {...handlers}>
+      <div className="thumb">
+        {r.card?.imageArt ? (
+          <CardName
+            name={r.name}
+            card={r.card}
+            label={<img src={r.card.imageArt} alt="" loading="lazy" />}
+          />
+        ) : (
+          <span>?</span>
+        )}
+      </div>
+      <input
+        type="number"
+        inputMode="numeric"
+        min={1}
+        className="qty"
+        aria-label="Quantity"
+        value={r.qty}
+        onChange={(e) => onChange({ qty: Math.max(1, Number(e.target.value)) })}
+      />
+      <div className="card-row-main">
+        <input
+          list="name-ac"
+          className="name"
+          aria-label="Card name"
+          placeholder="Card name"
+          value={r.name}
+          onFocus={() => onFocusName(r.name)}
+          onChange={(e) => {
+            onChange({ name: e.target.value, status: "unresolved", card: undefined });
+            onFocusName(e.target.value);
+          }}
+          onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
+          onBlur={(e) => r.status === "unresolved" && e.target.value && onRecheck(e.target.value)}
+        />
+        <div className="card-row-sub small">
+          {r.status === "unresolved" && (
+            <span className="bad-text">Not recognized. Fix the name or remove it.</span>
+          )}
+          {r.status === "checking" && <span className="muted">Checking…</span>}
+          {r.status === "fuzzy" && (
+            <span className="warn">
+              Read as “{r.raw}”{r.confidence !== undefined && r.confidence < 1 ? ", seen once" : ""}
+              . Check it’s right.
+            </span>
+          )}
+          {offColor && <span className="warn">Outside the commander’s colors, will be cut.</span>}
+          {r.status === "exact" && !offColor && (
+            <span className="muted">
+              {r.card?.typeLine}
+              {printed &&
+                ` · printed “${printed}”${r.lang && LANG_NAMES[r.lang] ? ` (${LANG_NAMES[r.lang]})` : ""}`}
+            </span>
+          )}
+        </div>
+      </div>
+      <button
+        className={`lock ${r.locked ? "on" : ""}`}
+        aria-pressed={r.locked}
+        title={r.locked ? "Kept: will never be cut" : "Keep this card (never cut)"}
+        onClick={() => onChange({ locked: !r.locked })}
+      >
+        <LockIcon locked={r.locked} />
+        <span className="lock-label">{r.locked ? "Kept" : "Keep"}</span>
+      </button>
+      <button className="icon" aria-label={`Remove ${r.name}`} onClick={onRemove}>
+        <TrashIcon />
+      </button>
+      {preview}
+    </li>
+  );
+}
 
 function PhotoPane({ photos }: { photos: string[] }) {
   const [zoom, setZoom] = useState<string | null>(null);
@@ -94,7 +227,15 @@ export function Review({
       toRow({ qty: 1, name: card.name, raw: card.name, status: "exact", card }),
     ),
     ...recognition.entries.map((e) =>
-      toRow({ qty: e.qty, name: e.name, raw: e.raw, status: e.status, card: e.card }),
+      toRow({
+        qty: e.qty,
+        name: e.name,
+        raw: e.raw,
+        status: e.status,
+        card: e.card,
+        lang: e.lang,
+        confidence: e.confidence,
+      }),
     ),
   ]);
   const [options, setOptions] = useState<OptimizeOptions>({
@@ -110,6 +251,18 @@ export function Review({
   const [search, setSearch] = useState("");
   const [cmdrQuery, setCmdrQuery] = useState("");
   const [focusName, setFocusName] = useState("");
+  const [addName, setAddName] = useState("");
+  const [addQty, setAddQty] = useState(1);
+  const [adding, setAdding] = useState(false);
+  const [addError, setAddError] = useState<string | null>(null);
+  const [flashId, setFlashId] = useState<number | null>(null);
+  const addInput = useRef<HTMLInputElement>(null);
+  const addSuggestions = useAutocomplete(addName);
+  useEffect(() => {
+    if (flashId === null) return;
+    const t = setTimeout(() => setFlashId(null), 1600);
+    return () => clearTimeout(t);
+  }, [flashId]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const cmdrSuggestions = useAutocomplete(cmdrQuery);
@@ -199,6 +352,44 @@ export function Review({
     .filter((r) => view === "all" || needsAttention(r))
     .filter((r) => !search || r.name.toLowerCase().includes(search.toLowerCase()))
     .sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name));
+
+  const groups = GROUP_ORDER.map((group) => ({
+    group,
+    rows: visible.filter((r) => groupOf(r) === group),
+  })).filter((g) => g.rows.length);
+
+  const addCard = async () => {
+    const name = addName.trim();
+    if (!name) return;
+    setAdding(true);
+    setAddError(null);
+    try {
+      const [res] = await api.resolve([name]);
+      if (!res.card) {
+        setAddError(`Couldn't find “${name}”. Pick a name from the suggestions.`);
+        return;
+      }
+      const card = res.card;
+      const existing = rows.find((r) => r.name === card.name);
+      if (existing) {
+        update(existing.id, { qty: existing.qty + addQty });
+        setFlashId(existing.id);
+      } else {
+        const row = toRow({ qty: addQty, name: card.name, raw: card.name, status: "exact", card });
+        setRows((rs) => [row, ...rs]);
+        setFlashId(row.id);
+      }
+      setView("all");
+      setSearch("");
+      setAddName("");
+      setAddQty(1);
+    } catch (e) {
+      setAddError(String(e instanceof Error ? e.message : e));
+    } finally {
+      setAdding(false);
+      addInput.current?.focus();
+    }
+  };
 
   const canSave = !saving && (format !== "commander" || commanders.length > 0);
 
@@ -331,6 +522,44 @@ export function Review({
           </section>
 
           <section className="panel">
+            <form
+              className="add-card"
+              onSubmit={(e) => {
+                e.preventDefault();
+                addCard();
+              }}
+            >
+              <input
+                type="number"
+                inputMode="numeric"
+                min={1}
+                className="qty"
+                aria-label="Quantity to add"
+                value={addQty}
+                onChange={(e) => setAddQty(Math.max(1, Number(e.target.value)))}
+              />
+              <input
+                ref={addInput}
+                list="add-ac"
+                aria-label="Add a card"
+                placeholder="Add a card: type a name and press Enter"
+                value={addName}
+                onChange={(e) => {
+                  setAddName(e.target.value);
+                  setAddError(null);
+                }}
+              />
+              <datalist id="add-ac">
+                {addSuggestions.map((s) => (
+                  <option key={s} value={s} />
+                ))}
+              </datalist>
+              <button type="submit" disabled={!addName.trim() || adding}>
+                {adding ? <span className="spinner" aria-hidden /> : "Add"}
+              </button>
+            </form>
+            {addError && <p className="bad-text small add-error">{addError}</p>}
+
             <div className="list-toolbar">
               <div className="segmented">
                 <button aria-selected={view === "all"} onClick={() => setView("all")}>
@@ -346,18 +575,6 @@ export function Review({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              <button
-                onClick={() => {
-                  setView("all");
-                  setSearch("");
-                  setRows((rs) => [
-                    toRow({ qty: 1, name: "", raw: "", status: "unresolved" }),
-                    ...rs,
-                  ]);
-                }}
-              >
-                + Add card
-              </button>
             </div>
             <datalist id="name-ac">
               {nameSuggestions.map((s) => (
@@ -371,91 +588,26 @@ export function Review({
               </p>
             )}
             <ul className="card-rows">
-              {visible.map((r) => {
-                const off = isOffColor(r);
-                const tone =
-                  r.status === "unresolved" ? "bad" : r.status === "fuzzy" || off ? "warn" : "";
-                return (
-                  <li key={r.id} className={`card-row ${tone}`}>
-                    <div className="thumb">
-                      {r.card?.imageArt ? (
-                        <CardName
-                          name={r.name}
-                          card={r.card}
-                          label={<img src={r.card.imageArt} alt="" loading="lazy" />}
-                        />
-                      ) : (
-                        <span>?</span>
-                      )}
-                    </div>
-                    <input
-                      type="number"
-                      inputMode="numeric"
-                      min={1}
-                      className="qty"
-                      aria-label="Quantity"
-                      value={r.qty}
-                      onChange={(e) => update(r.id, { qty: Math.max(1, Number(e.target.value)) })}
-                    />
-                    <div className="card-row-main">
-                      <input
-                        list="name-ac"
-                        className="name"
-                        aria-label="Card name"
-                        placeholder="Card name"
-                        value={r.name}
-                        onFocus={() => setFocusName(r.name)}
-                        onChange={(e) => {
-                          update(r.id, {
-                            name: e.target.value,
-                            status: "unresolved",
-                            card: undefined,
-                          });
-                          setFocusName(e.target.value);
-                        }}
-                        onBlur={(e) =>
-                          r.status === "unresolved" &&
-                          e.target.value &&
-                          recheck(r.id, e.target.value)
-                        }
-                      />
-                      <div className="card-row-sub small">
-                        {r.status === "unresolved" && (
-                          <span className="bad-text">
-                            Not recognized. Fix the name or remove it.
-                          </span>
-                        )}
-                        {r.status === "checking" && <span className="muted">Checking…</span>}
-                        {r.status === "fuzzy" && (
-                          <span className="warn">Read as “{r.raw}”. Check it’s right.</span>
-                        )}
-                        {off && (
-                          <span className="warn">Outside the commander’s colors, will be cut.</span>
-                        )}
-                        {r.status === "exact" && !off && (
-                          <span className="muted">{r.card?.typeLine}</span>
-                        )}
-                      </div>
-                    </div>
-                    <button
-                      className={`lock ${r.locked ? "on" : ""}`}
-                      aria-pressed={r.locked}
-                      title={r.locked ? "Kept: will never be cut" : "Keep this card (never cut)"}
-                      onClick={() => update(r.id, { locked: !r.locked })}
-                    >
-                      <LockIcon locked={r.locked} />
-                      <span className="lock-label">{r.locked ? "Kept" : "Keep"}</span>
-                    </button>
-                    <button
-                      className="icon"
-                      aria-label={`Remove ${r.name}`}
-                      onClick={() => setRows((rs) => rs.filter((x) => x.id !== r.id))}
-                    >
-                      <TrashIcon />
-                    </button>
+              {groups.map(({ group, rows: groupRows }) => (
+                <Fragment key={group}>
+                  <li className="group-head">
+                    {group}{" "}
+                    <span className="muted">{groupRows.reduce((n, r) => n + r.qty, 0)}</span>
                   </li>
-                );
-              })}
+                  {groupRows.map((r) => (
+                    <CardRow
+                      key={r.id}
+                      row={r}
+                      offColor={isOffColor(r)}
+                      flash={flashId === r.id}
+                      onChange={(patch) => update(r.id, patch)}
+                      onRecheck={(name) => recheck(r.id, name)}
+                      onRemove={() => setRows((rs) => rs.filter((x) => x.id !== r.id))}
+                      onFocusName={setFocusName}
+                    />
+                  ))}
+                </Fragment>
+              ))}
             </ul>
           </section>
 

@@ -48,6 +48,41 @@ test.describe("local app", () => {
     await expect(page.locator(".deck-card")).toContainText(["Lathril, Blade of the Elves"]);
   });
 
+  test("review groups cards by type, adds cards with Enter and previews on hover", async ({
+    page,
+  }) => {
+    await page.goto(APP_URL);
+    await page.locator("textarea.decklist").fill(deckText);
+    await page.getByRole("button", { name: "Analyze deck" }).click();
+    await expect(page.getByRole("heading", { name: "Check the cards" })).toBeVisible();
+
+    const heads = page.locator(".group-head");
+    await expect(heads.first()).toContainText("Creature");
+    await expect(heads.filter({ hasText: "Land" })).toHaveCount(1);
+    await expect(page.locator(".status-chip").first()).toHaveText("100 / 100 cards");
+
+    const add = page.getByLabel("Add a card");
+    await add.fill("Lightning Greavs");
+    await add.press("Enter");
+    await expect(page.locator(".card-row.flash input.name")).toHaveValue("Lightning Greaves");
+    await expect(page.locator(".card-row.flash")).not.toContainText("printed");
+    await expect(add).toHaveValue("");
+    await expect(add).toBeFocused();
+    await expect(page.locator(".status-chip").first()).toHaveText("101 / 100 cards");
+
+    await add.fill("Forest");
+    await add.press("Enter");
+    await expect(page.locator(".card-row.flash input.qty")).not.toHaveValue("1");
+
+    await add.fill("Definitely Not A Magic Card");
+    await add.press("Enter");
+    await expect(page.locator(".add-error")).toContainText("Couldn't find");
+
+    const row = page.locator(".card-row").filter({ has: page.locator('input[value="Sol Ring"]') });
+    await row.hover({ position: { x: 400, y: 20 } });
+    await expect(page.locator(".card-preview")).toHaveAttribute("src", /cards\.scryfall\.io/);
+  });
+
   test("text list with no commander shows a helpful prompt", async ({ page }) => {
     await page.goto(APP_URL);
     await page.locator("textarea.decklist").fill("1 Sol Ring\n1 Arcane Signet");

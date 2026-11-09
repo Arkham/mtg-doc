@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { DeckSummary } from "../../shared/types.ts";
-import { type AppConfig, IS_STATIC, type Recognition, api } from "../api.ts";
+import { type AppConfig, IS_STATIC, type Recognition, type RecognitionJob, api } from "../api.ts";
 import { BracketBadge } from "./BracketPanel.tsx";
 import { ColorIdentity } from "./Mana.tsx";
 
@@ -76,6 +76,7 @@ export function Home({
   // Photo recognition needs an LLM; fall back to text input when none is configured.
   const mode = config && !config.llm ? "text" : preferredMode;
   const [busy, setBusy] = useState(false);
+  const [progress, setProgress] = useState<RecognitionJob | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [drag, setDrag] = useState(false);
   const input = useRef<HTMLInputElement>(null);
@@ -109,16 +110,32 @@ export function Home({
     setBusy(true);
     setError(null);
     try {
-      const result = await api.recognize(
+      const started = await api.recognize(
         mode === "image" ? files : [],
         mode === "text" ? text : "",
       );
+      let result: Recognition;
+      if ("jobId" in started) {
+        for (;;) {
+          const job = await api.recognitionJob(started.jobId);
+          setProgress(job);
+          if (job.status === "error") throw new Error(job.error ?? "Recognition failed");
+          if (job.status === "done" && job.result) {
+            result = job.result;
+            break;
+          }
+          await new Promise((r) => setTimeout(r, 600));
+        }
+      } else {
+        result = started;
+      }
       // Fresh URLs: the preview ones are revoked when this screen unmounts.
       onRecognized(result, mode === "image" ? files.map((f) => URL.createObjectURL(f)) : []);
     } catch (e) {
       setError(String(e instanceof Error ? e.message : e));
     } finally {
       setBusy(false);
+      setProgress(null);
     }
   };
 
@@ -211,6 +228,27 @@ export function Home({
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
+          )}
+          {progress && (
+            <div className="scan-progress" role="status">
+              <div className="row between small">
+                <span>{progress.phase}</span>
+                <span className="muted">
+                  {progress.total > 1 ? `${progress.done} / ${progress.total}` : ""}
+                </span>
+              </div>
+              <div className="progress">
+                <div
+                  style={{
+                    width: `${Math.max(4, (progress.done / Math.max(1, progress.total)) * 100)}%`,
+                  }}
+                />
+              </div>
+              <span className="muted small">
+                Reading the photo several times in overlapping crops, then double-checking anything
+                only one pass saw.
+              </span>
+            </div>
           )}
           {error && <p className="error">{error}</p>}
           <div className="row end">

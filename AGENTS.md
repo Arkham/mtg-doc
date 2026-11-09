@@ -49,11 +49,17 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   it proposes and explains; deterministic code decides and enforces.
 - Prices use Scryfall, falling back to the cheapest printing with a USD price. A card must never look
   free because its default printing lacks a price.
+- Respect Scryfall's rate limits (2/s for search, named and collection; 10/s otherwise; a 429 means
+  back off 30s). Batch: `/cards/collection` takes 75 cards, and searches can `or` many names together.
 
 ### LLM usage
 
-- Use the **Responses API** (`POST /responses`) via `server/llm.ts` only: `chatJson` for structured
-  output (validated with zod), `webSearch` for research with citations. No other module calls the LLM.
+- All LLM calls go through `server/llm.ts`: `chatJson` (Responses API, zod-validated structured
+  output), `webSearch` (Responses API `web_search` tool, with citations) and `decide` (Decisions API:
+  calibrated yes/no probabilities, e.g. "is this card in this crop?"). No other module calls the LLM.
+- Never trust a single model read: photo recognition votes across independent passes (whole photo +
+  two tilings) and verifies anything only one pass saw. Keep that shape when changing the scanner, and
+  measure changes with `node --import tsx scripts/ocr-bench.ts photo.jpg [--truth list.txt]`.
 - Keep the codebase provider-neutral: configure through `LLM_BASE_URL` / `LLM_API_KEY` / `LLM_MODEL`;
   no vendor- or company-specific names, URLs or keys in code, docs or tests. Real endpoints and keys
   belong in the gitignored `.env` (which supports `${VAR}` references to shell variables).

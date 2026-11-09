@@ -16,6 +16,23 @@ const message = (text: string, annotations: unknown[] = []) => ({
   output: [{ type: "message", content: [{ type: "output_text", text, annotations }] }],
 });
 
+/** Verification answers by card: confirmed, unsure-but-yes, and a hallucination to reject. */
+const DECISIONS: Record<string, number> = {
+  "Lightning Greaves": 0.92,
+  Divination: 0.7,
+  Counterspell: 0.05,
+};
+
+function decisions(body: Record<string, unknown>) {
+  const questions = body.questions as { name: string; instructions: string }[];
+  return {
+    answers: questions.map((q) => {
+      const card = Object.keys(DECISIONS).find((c) => q.instructions.includes(`"${c}"`));
+      return { type: "predicate", name: q.name, probability: card ? DECISIONS[card] : 0.5 };
+    }),
+  };
+}
+
 function answer(body: Record<string, unknown>, text: string, hasImage: boolean) {
   if (
     Array.isArray(body.tools) &&
@@ -29,16 +46,34 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean) 
       },
     ]);
   }
+  if (hasImage && text.includes("This is a crop of a photo")) {
+    return message(
+      JSON.stringify({
+        cards: [
+          { name: "Llanowar Elves", printed: "Elfi di Llanowar", lang: "it", qty: 1 },
+          { name: "Swiftfoot Boots", printed: "Stivali Piedelesto", lang: "it", qty: 1 },
+        ],
+      }),
+    );
+  }
   if (hasImage) {
     return message(
       JSON.stringify({
         isCommanderDeck: true,
         formatConfidence: 0.9,
-        commanders: ["Lathril, Blade of the Elves"],
+        commanders: [
+          {
+            name: "Lathril, Blade of the Elves",
+            printed: "Lathril, Blade of the Elves",
+            lang: "en",
+          },
+        ],
         cards: [
-          { name: "Llanowar Elfs", qty: 1 },
-          { name: "Sol Ring", qty: 1 },
+          { name: "Llanowar Elfs", printed: "Llanowar Elfs", lang: "en", qty: 1 },
+          { name: "Swiftfoot Boots", printed: "Stivali Piedelesto", lang: "it", qty: 1 },
           { name: "Divination", qty: 1 },
+          { name: "Lightning Greaves", qty: 1 },
+          { name: "Counterspell", qty: 1 },
         ],
         notes: ["Read from a test photo."],
       }),
@@ -88,7 +123,11 @@ export async function startLlmStub(): Promise<LlmStub> {
       requests.push({ body, text });
       const hasImage = parts.some((p: { type: string }) => p.type === "input_image");
       res.setHeader("content-type", "application/json");
-      res.end(JSON.stringify(answer(body, text, hasImage)));
+      res.end(
+        JSON.stringify(
+          req.url?.endsWith("/decisions") ? decisions(body) : answer(body, text, hasImage),
+        ),
+      );
     });
   });
   await new Promise<void>((r) => server.listen(0, "127.0.0.1", r));

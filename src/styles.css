@@ -654,6 +654,16 @@ textarea.decklist {
   font-size: 1.02rem;
 }
 
+.scan-progress {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.scan-progress .progress {
+  margin: 6px 0;
+}
+
 /* ---------- review ---------- */
 
 .review-layout.with-photos {
@@ -790,6 +800,55 @@ textarea.decklist {
   flex: 1;
 }
 
+.add-card {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  gap: 8px;
+  margin: -8px 0 6px;
+  padding: 8px 0;
+  /* Stays in view while the list scrolls to the card that was just added. */
+  position: sticky;
+  top: calc(var(--topbar-h) + var(--safe-top));
+  z-index: 6;
+  background: var(--surface);
+}
+.add-card .qty {
+  text-align: center;
+}
+.add-card button[type="submit"] {
+  min-width: 72px;
+}
+.add-error {
+  margin: 0 0 8px;
+}
+.list-toolbar {
+  margin-top: 12px;
+}
+.group-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 16px 6px 6px;
+  font-size: 0.78rem;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-2);
+  border-bottom: 1px solid var(--line-strong);
+}
+.group-head:first-child {
+  padding-top: 4px;
+}
+.card-row.flash {
+  animation: flash-row 1.6s ease-out;
+}
+@keyframes flash-row {
+  0%,
+  30% {
+    background: var(--ok-soft);
+    box-shadow: inset 3px 0 0 var(--ok);
+  }
+}
 .card-rows {
   list-style: none;
   margin: 0;
