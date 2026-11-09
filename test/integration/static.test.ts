@@ -24,6 +24,7 @@ describe("static site export", () => {
 
     const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
     assert.match(html, /src="\.\/assets\/index-[\w-]+\.js"/, "assets use relative URLs");
+    assert.ok(fs.existsSync(path.join(out, "symbols/G.svg")), "mana symbols ship with the site");
     assert.match(html, /<title>mtg-doc<\/title>/);
     for (const f of [".nojekyll", "manifest.webmanifest", "apple-touch-icon.png", "icon.svg"]) {
       assert.ok(fs.existsSync(path.join(out, f)), `${f} exists`);

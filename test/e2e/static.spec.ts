@@ -53,6 +53,16 @@ test.describe("static site", () => {
     await expectNoHorizontalOverflow(page);
   });
 
+  test("mana symbols load from the site itself", async ({ page }) => {
+    // External requests are blocked in tests, so a rendered symbol proves it's bundled.
+    await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
+    const symbol = page.locator("#decklist .mana-cost img").first();
+    await expect(symbol).toHaveAttribute("src", /^\.?\/?symbols\/[\w]+\.svg$/);
+    await expect
+      .poll(() => symbol.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth))
+      .toBeGreaterThan(0);
+  });
+
   test("hovering a card thumbnail shows a full-size preview", async ({ page }, info) => {
     test.skip(info.project.name !== "desktop", "hover previews need a mouse");
     await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);

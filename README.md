@@ -127,6 +127,7 @@ pnpm check          # format check, lint (oxlint), typecheck, unit + integration
 pnpm test:e2e       # Playwright: local app flow + static site on desktop, iPhone and iPad (WebKit)
 pnpm test:coverage  # tests with a coverage report for server/
 pnpm test:record    # re-record the HTTP fixtures against the live APIs
+pnpm symbols        # refresh the bundled mana symbols in public/symbols from Scryfall
 pnpm build && pnpm start
 ```
 

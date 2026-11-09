@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 import type { Combo } from "../../shared/types.ts";
 import { byManaValue } from "../../src/cards.ts";
+import { symbolUrl } from "../../src/mana-symbols.ts";
 import { comboOutcome, groupByMissing } from "../../src/combos.ts";
 
 const combo = (id: string, cards: string[], missing: string, produces: string[]): Combo => ({
@@ -84,5 +85,18 @@ describe("byManaValue", () => {
       rows.sort(byManaValue).map((r) => r.name),
       ["Typo", "Sol Ring", "Arcane Signet", "Mind Stone", "Wrath"],
     );
+  });
+});
+
+describe("symbolUrl", () => {
+  test("serves bundled symbols, including ones whose file name differs from the symbol", () => {
+    assert.match(symbolUrl("G"), /^\/?\.?\/?symbols\/G\.svg$/);
+    assert.match(symbolUrl("2/W"), /symbols\/2W\.svg$/);
+    assert.match(symbolUrl("½"), /symbols\/HALF\.svg$/);
+    assert.match(symbolUrl("∞"), /symbols\/INFINITY\.svg$/);
+  });
+
+  test("falls back to Scryfall for symbols not bundled yet", () => {
+    assert.equal(symbolUrl("Z/Q"), "https://svgs.scryfall.io/card-symbols/ZQ.svg");
   });
 });

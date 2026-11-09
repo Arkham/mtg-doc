@@ -1,5 +1,4 @@
-const symbolUrl = (sym: string) =>
-  `https://svgs.scryfall.io/card-symbols/${sym.replace(/\//g, "")}.svg`;
+import { symbolUrl } from "../mana-symbols.ts";
 
 /** Renders a mana cost like "{2}{G}{B/P}" using Scryfall's symbol SVGs. */
 export function ManaCost({ cost, size = 16 }: { cost?: string | null; size?: number }) {
