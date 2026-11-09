@@ -34,12 +34,13 @@ import { buildSolverContext, solve, trimToBudget } from "./analysis/search.ts";
 import { simulate } from "./analysis/simulate.ts";
 import { config, llmEnabled } from "./config.ts";
 import { parseDecklist } from "./decklist.ts";
+import { buildCardIndex } from "./card-index.ts";
 import { renderMarkdown } from "./report.ts";
 import { BRACKET_PAGE, getCommanderData } from "./sources/edhrec.ts";
 import { researchCommander } from "./sources/research.ts";
 import { lookupExact, lookupFuzzy } from "./sources/scryfall.ts";
 import { type BracketEstimate, estimateBracket, findCombos } from "./sources/spellbook.ts";
-import { readInitial, readMeta, writeResults } from "./storage.ts";
+import { readDeckFile, readInitial, readMeta, writeResults } from "./storage.ts";
 
 const jobs = new Map<string, Job>();
 
@@ -83,10 +84,10 @@ async function step<T>(job: Job, index: number, fn: (s: JobStep) => Promise<T>):
   return result;
 }
 
-const twoCardCombos = (est: BracketEstimate | null) =>
+export const twoCardCombos = (est: BracketEstimate | null) =>
   (est?.combos ?? []).filter(isTwoCard).map((c) => c.cards);
 
-function snapshot(
+export function snapshot(
   deck: Deck,
   edhrecAvgLands: number | null,
   isCommander: boolean,
@@ -101,8 +102,13 @@ function snapshot(
   };
 }
 
-async function loadDeck(slug: string): Promise<{ deck: Deck; warnings: string[] }> {
-  const parsed = parseDecklist(await readInitial(slug));
+export async function loadDeck(
+  slug: string,
+  file: "initial.txt" | "optimized.txt" = "initial.txt",
+): Promise<{ deck: Deck; warnings: string[] }> {
+  const parsed = parseDecklist(
+    file === "initial.txt" ? await readInitial(slug) : await readDeckFile(slug, file),
+  );
   const names = [...parsed.commanders, ...parsed.entries.map((e) => e.name)];
   const found = await lookupExact(names);
   const warnings: string[] = [];
@@ -436,6 +442,11 @@ async function run(job: Job) {
       bracket,
       decklist: toDecklist(finalDeck, deck),
     };
+    report.cardIndex = await buildCardIndex(report, [
+      ...deck.slots.map((x) => x.card),
+      ...finalDeck.slots.map((x) => x.card),
+      ...ctx.candidates.map((c) => c.card),
+    ]);
     await writeResults(
       job.slug,
       report,

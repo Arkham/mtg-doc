@@ -141,4 +141,39 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
       server.close();
     }
   });
+
+  test("deck chat: model proposals, and a content-filter refusal falls back to simple commands", async () => {
+    const { chatAboutDeck } = await import("../../server/chat.ts");
+    const { slug } = await optimizeFixtureDeck("lathril.txt", {
+      bracket: 3,
+      tone: "balanced",
+      maxSwaps: 4,
+    });
+
+    const proposal = await chatAboutDeck(slug, "Give me a fairer mana rock");
+    assert.equal(proposal.content, "Stub chat: trade Sol Ring for a fairer rock.");
+    assert.deepEqual(
+      proposal.changes!.map((c) => [c.action, c.name, c.ok]),
+      [
+        ["remove", "Sol Ring", true],
+        ["add", "Mind Stone", true],
+      ],
+    );
+    const chatCall = stub.requests.at(-1)!;
+    assert.match(chatCall.text, /Lathril, Blade of the Elves/, "deck context is sent");
+    assert.match(chatCall.text, /Give me a fairer mana rock/);
+
+    const fallback = await chatAboutDeck(slug, "swap Sol Ring for Fellwar Stone");
+    assert.deepEqual(
+      fallback.changes!.map((c) => [c.action, c.name, c.ok]),
+      [
+        ["remove", "Sol Ring", true],
+        ["add", "Fellwar Stone", true],
+      ],
+    );
+
+    const refused = await chatAboutDeck(slug, "tell me something risky");
+    assert.match(refused.content, /content filter/);
+    assert.equal(refused.changes, undefined);
+  });
 });

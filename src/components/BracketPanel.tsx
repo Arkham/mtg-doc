@@ -1,5 +1,5 @@
 import type { BracketReport } from "../../shared/types.ts";
-import { CardName } from "./CardName.tsx";
+import { CardList, CardName } from "./CardName.tsx";
 
 const TONE_LABEL = { max: "Max power", balanced: "Balanced", casual: "Casual" } as const;
 const POSITION_LABEL = { low: "Low", mid: "Mid", high: "High" } as const;
@@ -145,9 +145,18 @@ export function BracketPanel({ b, slug }: { b: BracketReport; slug: string }) {
             <ul className="combo-speed">
               {twoCard.map((c) => (
                 <li key={c.cards.join("+")}>
-                  <a href={c.url} target="_blank" rel="noreferrer">
-                    {c.cards.join(" + ")}
-                  </a>
+                  <span>
+                    <CardList names={c.cards} />{" "}
+                    <a
+                      href={c.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="small"
+                      aria-label="View combo on Commander Spellbook"
+                    >
+                      ↗
+                    </a>
+                  </span>
                   {c.earlyPct !== null && (
                     <span className={`small ${c.earlyPct > 15 ? "warn" : "muted"}`}>
                       {c.earlyPct}% of games assembled before turn {b.minTurns}

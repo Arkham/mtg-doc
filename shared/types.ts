@@ -231,6 +231,38 @@ export interface BracketReport {
   excluded: { name: string; reason: string }[];
 }
 
+/** One add/remove proposed through chat, after validation. */
+export interface DeckChange {
+  action: "add" | "remove";
+  name: string;
+  qty: number;
+  reason: string;
+  ok: boolean;
+  /** Why the change can't be applied, when `ok` is false. */
+  problem?: string;
+  card?: Card;
+}
+
+export interface DeckChatMessage {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+  at: string;
+  changes?: DeckChange[];
+  applied?: boolean;
+}
+
+export interface CardPreview {
+  image: string | null;
+  scryfallUri: string;
+}
+
+export interface DeckEdit {
+  at: string;
+  request: string;
+  changes: { action: "add" | "remove"; name: string; qty: number; reason: string }[];
+}
+
 export interface Report {
   slug: string;
   commanders: string[];
@@ -250,6 +282,10 @@ export interface Report {
   warnings: string[];
   options: OptimizeOptions;
   bracket?: BracketReport;
+  /** Changes applied through chat after optimization, oldest first. */
+  edits?: DeckEdit[];
+  /** Preview data for every card the report mentions, so any card name can show its image. */
+  cardIndex?: Record<string, CardPreview>;
   /** Optimized list with display data; absent in reports generated before it existed. */
   decklist?: DecklistCard[];
 }

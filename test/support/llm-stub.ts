@@ -33,7 +33,31 @@ function decisions(body: Record<string, unknown>) {
   };
 }
 
-function answer(body: Record<string, unknown>, text: string, hasImage: boolean) {
+const CONTENT_FILTER = {
+  status: 400,
+  body: {
+    error: {
+      message:
+        "The response was filtered due to the prompt triggering the content management policy.",
+      code: "content_filter",
+    },
+  },
+};
+
+function answer(body: Record<string, unknown>, text: string, hasImage: boolean): unknown {
+  if (text.includes("You are mtg-doc, an expert Commander")) {
+    // Simulates the provider refusing a request, which the app must survive.
+    if (/Fellwar Stone|risky/.test(text)) return CONTENT_FILTER;
+    return message(
+      JSON.stringify({
+        reply: "Stub chat: trade Sol Ring for a fairer rock.",
+        changes: [
+          { action: "remove", name: "Sol Ring", qty: 1, reason: "stub" },
+          { action: "add", name: "Mind Stone", qty: 1, reason: "stub" },
+        ],
+      }),
+    );
+  }
   if (
     Array.isArray(body.tools) &&
     body.tools.some((t: { type: string }) => t.type === "web_search")
@@ -123,11 +147,11 @@ export async function startLlmStub(): Promise<LlmStub> {
       requests.push({ body, text });
       const hasImage = parts.some((p: { type: string }) => p.type === "input_image");
       res.setHeader("content-type", "application/json");
-      res.end(
-        JSON.stringify(
-          req.url?.endsWith("/decisions") ? decisions(body) : answer(body, text, hasImage),
-        ),
-      );
+      const out = req.url?.endsWith("/decisions") ? decisions(body) : answer(body, text, hasImage);
+      if (out === CONTENT_FILTER) {
+        res.statusCode = CONTENT_FILTER.status;
+        res.end(JSON.stringify(CONTENT_FILTER.body));
+      } else res.end(JSON.stringify(out));
     });
   });
   await new Promise<void>((r) => server.listen(0, "127.0.0.1", r));

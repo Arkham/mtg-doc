@@ -44,6 +44,23 @@ test.describe("local app", () => {
     await expect(page.locator(".checks li.bad")).toHaveCount(0);
     await expect(page.getByRole("button", { name: /Re-run with different options/ })).toBeVisible();
 
+    // Chat: propose a swap, apply it, and see the report update.
+    await page.getByRole("button", { name: /Ask mtg-doc/ }).click();
+    await expect(page.getByRole("complementary", { name: "Deck chat" })).toBeVisible();
+    const message = page.getByLabel("Message");
+    await message.fill("swap Sol Ring for Mind Stone");
+    await message.press("Enter");
+    const proposal = page.locator(".chat-msg.assistant .chat-changes").last();
+    await expect(proposal).toContainText("Sol Ring");
+    await expect(proposal).toContainText("Mind Stone");
+    await proposal.getByRole("button", { name: "Apply 2 changes" }).click();
+    await expect(proposal).toContainText("Applied", { timeout: 30_000 });
+    await expect(page.locator(".edit-log")).toContainText("Mind Stone");
+    await expect(page.locator(".deck-group li.new").filter({ hasText: "Mind Stone" })).toHaveCount(
+      1,
+    );
+    await page.getByRole("button", { name: "Close chat" }).click();
+
     await page.getByRole("button", { name: "Back" }).click();
     await expect(page.locator(".deck-card")).toContainText(["Lathril, Blade of the Elves"]);
   });

@@ -54,6 +54,21 @@ describe("full optimizer pipeline (recorded APIs, no LLM)", () => {
     assert.ok(report.swaps.some((s) => s.category === "bracket"));
     assert.ok(report.swaps.some((s) => s.alternatives && s.alternatives.length > 0));
     assert.equal(report.model, null);
+
+    // Every card the report mentions has preview data.
+    const index = report.cardIndex!;
+    const mentioned = [
+      ...report.commanders,
+      ...report.swaps.flatMap((s) => [s.in, s.out, ...(s.alternatives ?? []).map((a) => a.name)]),
+      ...report.decklist!.map((c) => c.name),
+      ...report.combosOneAway.flatMap((c) => c.cards),
+      ...b.after.gameChangers,
+      ...b.gameChangerOptions.map((g) => g.name),
+      ...b.excluded.map((e) => e.name),
+      ...report.after.mana.tappedLands,
+    ];
+    const missing = [...new Set(mentioned)].filter((n) => !index[n]?.image);
+    assert.deepEqual(missing, [], "every mentioned card has a preview");
     assert.match(report.strategy, /no LLM configured/);
   });
 

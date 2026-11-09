@@ -11,7 +11,8 @@ import type {
 import { type DeckDetail, IS_STATIC, api, fileUrl } from "../api.ts";
 import { navigate } from "../nav.ts";
 import { BracketBadge, BracketPanel } from "./BracketPanel.tsx";
-import { CardName } from "./CardName.tsx";
+import { ChatPanel } from "./ChatPanel.tsx";
+import { CardIndex, CardList, CardName } from "./CardName.tsx";
 import { ManaCost, OracleText } from "./Mana.tsx";
 import { Markdown } from "./Markdown.tsx";
 import { Sheet } from "./Sheet.tsx";
@@ -311,11 +312,22 @@ function ComboList({ combos, oneAway }: { combos: Combo[]; oneAway?: boolean }) 
         <li key={c.id}>
           {oneAway && (
             <>
-              add <strong>{c.missing[0]}</strong>:{" "}
+              add{" "}
+              <strong>
+                <CardName name={c.missing[0]} />
+              </strong>
+              :{" "}
             </>
           )}
-          <a href={c.url} target="_blank" rel="noreferrer">
-            {c.cards.join(" + ")}
+          <CardList names={c.cards} />{" "}
+          <a
+            href={c.url}
+            target="_blank"
+            rel="noreferrer"
+            className="small"
+            aria-label="View combo on Commander Spellbook"
+          >
+            ↗
           </a>
           <div className="muted small">{c.produces.slice(0, 4).join(" · ")}</div>
         </li>
@@ -721,266 +733,311 @@ export function ReportView({ slug }: { slug: string }) {
   ];
 
   return (
-    <div className="stack report">
-      <section className="hero">
-        {cmdr?.imageArt && (
-          <div className="hero-backdrop" aria-hidden>
-            <div style={{ backgroundImage: `url(${cmdr.imageArt})` }} />
-          </div>
-        )}
-        <div className={`hero-cards ${r.commanderCards.length > 1 ? "pair" : ""}`}>
-          {r.commanderCards.map((c) =>
-            c.image ? (
-              <button
-                key={c.name}
-                className="hero-card"
-                aria-label={`Show ${c.name} full size`}
-                onClick={() => setZoomed(c)}
-              >
-                <img src={c.image} alt={c.name} />
-              </button>
-            ) : null,
+    <CardIndex.Provider value={r.cardIndex ?? {}}>
+      <div className="stack report">
+        <section className="hero">
+          {cmdr?.imageArt && (
+            <div className="hero-backdrop" aria-hidden>
+              <div style={{ backgroundImage: `url(${cmdr.imageArt})` }} />
+            </div>
           )}
-          {zoomed?.image && (
-            <Sheet
-              src={zoomed.image}
-              alt={zoomed.name}
-              onClose={() => setZoomed(null)}
-              actions={
-                <a className="button" href={zoomed.scryfallUri} target="_blank" rel="noreferrer">
-                  Scryfall ↗
-                </a>
-              }
-            />
-          )}
-        </div>
-        <div className="hero-head">
-          <div className="hero-kicker">
-            {r.bracket && (
-              <a
-                className="bracket-pill"
-                href="#bracket"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("bracket")?.scrollIntoView();
-                }}
-              >
-                <BracketBadge n={r.bracket.after.bracket} size="sm" />
-                Bracket {r.bracket.after.bracket} · {r.bracket.name}
-              </a>
+          <div className={`hero-cards ${r.commanderCards.length > 1 ? "pair" : ""}`}>
+            {r.commanderCards.map((c) =>
+              c.image ? (
+                <button
+                  key={c.name}
+                  className="hero-card"
+                  aria-label={`Show ${c.name} full size`}
+                  onClick={() => setZoomed(c)}
+                >
+                  <img src={c.image} alt={c.name} />
+                </button>
+              ) : null,
+            )}
+            {zoomed?.image && (
+              <Sheet
+                src={zoomed.image}
+                alt={zoomed.name}
+                onClose={() => setZoomed(null)}
+                actions={
+                  <a className="button" href={zoomed.scryfallUri} target="_blank" rel="noreferrer">
+                    Scryfall ↗
+                  </a>
+                }
+              />
             )}
           </div>
-          <h1>{r.commanders.join(" + ") || slug}</h1>
-        </div>
-        <div className="hero-text">
-          {r.commanderCards.map((c) => (
-            <div key={c.name} className="commander-rules">
-              {r.commanderCards.length > 1 && <h2>{c.name}</h2>}
-              <div className="type-line">
-                <span>{c.typeLine}</span>
-                <ManaCost cost={c.manaCost} size={17} />
-              </div>
-              <OracleText text={c.oracleText} />
-              {(c.power || c.loyalty) && (
-                <span className="pt">
-                  {c.loyalty ? `Loyalty ${c.loyalty}` : `${c.power}/${c.toughness}`}
-                </span>
+          <div className="hero-head">
+            <div className="hero-kicker">
+              {r.bracket && (
+                <a
+                  className="bracket-pill"
+                  href="#bracket"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("bracket")?.scrollIntoView();
+                  }}
+                >
+                  <BracketBadge n={r.bracket.after.bracket} size="sm" />
+                  Bracket {r.bracket.after.bracket} · {r.bracket.name}
+                </a>
               )}
             </div>
-          ))}
-        </div>
-        <div className="hero-foot">
-          {r.themes.length > 0 && (
-            <div className="chips themes">
-              {r.themes.map((t) => (
-                <span key={t} className="chip">
-                  {t}
-                </span>
-              ))}
+            <h1>{r.commanders.join(" + ") || slug}</h1>
+          </div>
+          <div className="hero-text">
+            {r.commanderCards.map((c) => (
+              <div key={c.name} className="commander-rules">
+                {r.commanderCards.length > 1 && <h2>{c.name}</h2>}
+                <div className="type-line">
+                  <span>{c.typeLine}</span>
+                  <ManaCost cost={c.manaCost} size={17} />
+                </div>
+                <OracleText text={c.oracleText} />
+                {(c.power || c.loyalty) && (
+                  <span className="pt">
+                    {c.loyalty ? `Loyalty ${c.loyalty}` : `${c.power}/${c.toughness}`}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="hero-foot">
+            {r.themes.length > 0 && (
+              <div className="chips themes">
+                {r.themes.map((t) => (
+                  <span key={t} className="chip">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            )}
+            <div className="hero-actions">
+              <button className="primary" onClick={copyOptimized} disabled={!optimizedText}>
+                {copied ? "✓ Copied" : "Copy deck list"}
+              </button>
+              <ExportMenu slug={slug} edhrecUrl={r.edhrec?.url} swaps={r.swaps} />
+              <span className="hero-meta small">
+                Updated {new Date(r.generatedAt).toLocaleDateString()}
+                {r.edhrec?.numDecks
+                  ? ` · ${r.edhrec.numDecks.toLocaleString()} decks on EDHREC`
+                  : ""}
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <SectionNav sections={sections} />
+
+        <section className="panel">
+          <h2>The plan</h2>
+          <p className="lede">{r.strategy}</p>
+          <div className="stats">
+            <Stat label="Swaps" after={r.swaps.length} />
+            <Stat
+              label={`Lands (rec. ${r.after.mana.recommendedLands})`}
+              before={r.before.mana.landCount}
+              after={r.after.mana.landCount}
+              better={r.before.mana.landCount < r.after.mana.recommendedLands ? "up" : "down"}
+            />
+            <Stat
+              label="Avg mana value"
+              before={r.before.mana.avgCmc}
+              after={r.after.mana.avgCmc}
+              better="down"
+            />
+            <Stat
+              label="Interaction"
+              before={interaction(r.before)}
+              after={interaction(r.after)}
+              better="up"
+            />
+            <Stat
+              label="Commander on curve"
+              before={r.before.sim.commanderOnCurve}
+              after={r.after.sim.commanderOnCurve}
+              better="up"
+              format={(n) => `${n}%`}
+            />
+            <Stat
+              label="Mana screw"
+              before={r.before.sim.screwRate}
+              after={r.after.sim.screwRate}
+              better="down"
+              format={(n) => `${n}%`}
+            />
+            <Stat label="Cost of new cards" after={ins} format={(n) => money(n)} />
+            <Stat
+              label={
+                r.options.budgetTotal
+                  ? `Deck price (budget $${r.options.budgetTotal})`
+                  : "Deck price"
+              }
+              before={r.before.totalPriceUsd}
+              after={r.after.totalPriceUsd}
+              better={r.options.budgetTotal ? "down" : undefined}
+              format={(n) => `$${Math.round(n)}`}
+            />
+          </div>
+        </section>
+
+        {r.bracket && (
+          <section className="panel" id="bracket">
+            <BracketPanel b={r.bracket} slug={slug} />
+          </section>
+        )}
+
+        <section className="panel" id="swaps">
+          <h2>Swaps</h2>
+          <SwapList swaps={r.swaps} />
+          {r.edits && r.edits.length > 0 && (
+            <div className="swap-group edits">
+              <h3>
+                Changes from chat <span className="muted">· {r.edits.length}</span>
+              </h3>
+              <ul className="edit-log">
+                {r.edits.map((e, i) => (
+                  <li key={i}>
+                    <div className="edit-changes">
+                      {e.changes.map((c, j) => (
+                        <span key={j} className={`edit-chip ${c.action}`}>
+                          {c.action === "add" ? "+" : "−"} {c.qty > 1 ? `${c.qty} ` : ""}
+                          <CardName name={c.name} />
+                        </span>
+                      ))}
+                    </div>
+                    {e.request && <div className="muted small">“{e.request}”</div>}
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
-          <div className="hero-actions">
-            <button className="primary" onClick={copyOptimized} disabled={!optimizedText}>
-              {copied ? "✓ Copied" : "Copy deck list"}
-            </button>
-            <ExportMenu slug={slug} edhrecUrl={r.edhrec?.url} swaps={r.swaps} />
-            <span className="hero-meta small">
-              Updated {new Date(r.generatedAt).toLocaleDateString()}
-              {r.edhrec?.numDecks ? ` · ${r.edhrec.numDecks.toLocaleString()} decks on EDHREC` : ""}
-            </span>
+        </section>
+
+        {r.decklist && (
+          <section className="panel" id="decklist">
+            <h2>Optimized deck list</h2>
+            <Decklist cards={r.decklist} swaps={r.swaps} />
+          </section>
+        )}
+
+        <div className="grid2">
+          <section className="panel" id="mana">
+            <h2>Mana base</h2>
+            <ColorBars before={r.before} after={r.after} />
+            <h3>Curve</h3>
+            <Curve before={r.before} after={r.after} />
+            {r.manaNotes.length > 0 && (
+              <ul>
+                {r.manaNotes.map((n, i) => (
+                  <li key={i}>{n}</li>
+                ))}
+              </ul>
+            )}
+            {r.after.mana.issues.length > 0 && (
+              <ul className="notes">
+                {r.after.mana.issues.map((n, i) => (
+                  <li key={i}>{n}</li>
+                ))}
+              </ul>
+            )}
+            {r.after.mana.tappedLands.length > 0 && (
+              <p className="muted small">
+                Enters tapped: <CardList names={r.after.mana.tappedLands} separator=", " />
+              </p>
+            )}
+            {r.after.mana.colorlessLands.length > 0 && (
+              <p className="muted small">
+                Colorless lands: <CardList names={r.after.mana.colorlessLands} separator=", " />
+              </p>
+            )}
+          </section>
+          <section className="panel" id="sim">
+            <h2>Goldfish simulation</h2>
+            <p className="muted small">
+              {r.after.sim.games.toLocaleString()} solo games: free mulligan, greedy land and ramp
+              plays.
+            </p>
+            <div className="table-wrap">
+              <SimTable before={r.before} after={r.after} />
+            </div>
+            <h3>Roles</h3>
+            <div className="table-wrap">
+              <Roles before={r.before} after={r.after} />
+            </div>
+          </section>
+        </div>
+
+        {hasCombos && (
+          <div className="grid2" id="combos">
+            <section className="panel">
+              <h2>Combos in the deck</h2>
+              {r.combosPresent.length ? (
+                <ComboList combos={r.combosPresent} />
+              ) : (
+                <p className="muted">None found.</p>
+              )}
+            </section>
+            <section className="panel">
+              <h2>One card away</h2>
+              <OneAway combos={r.combosOneAway} />
+            </section>
           </div>
-        </div>
-      </section>
+        )}
 
-      <SectionNav sections={sections} />
-
-      <section className="panel">
-        <h2>The plan</h2>
-        <p className="lede">{r.strategy}</p>
-        <div className="stats">
-          <Stat label="Swaps" after={r.swaps.length} />
-          <Stat
-            label={`Lands (rec. ${r.after.mana.recommendedLands})`}
-            before={r.before.mana.landCount}
-            after={r.after.mana.landCount}
-            better={r.before.mana.landCount < r.after.mana.recommendedLands ? "up" : "down"}
-          />
-          <Stat
-            label="Avg mana value"
-            before={r.before.mana.avgCmc}
-            after={r.after.mana.avgCmc}
-            better="down"
-          />
-          <Stat
-            label="Interaction"
-            before={interaction(r.before)}
-            after={interaction(r.after)}
-            better="up"
-          />
-          <Stat
-            label="Commander on curve"
-            before={r.before.sim.commanderOnCurve}
-            after={r.after.sim.commanderOnCurve}
-            better="up"
-            format={(n) => `${n}%`}
-          />
-          <Stat
-            label="Mana screw"
-            before={r.before.sim.screwRate}
-            after={r.after.sim.screwRate}
-            better="down"
-            format={(n) => `${n}%`}
-          />
-          <Stat label="Cost of new cards" after={ins} format={(n) => money(n)} />
-          <Stat
-            label={
-              r.options.budgetTotal ? `Deck price (budget $${r.options.budgetTotal})` : "Deck price"
-            }
-            before={r.before.totalPriceUsd}
-            after={r.after.totalPriceUsd}
-            better={r.options.budgetTotal ? "down" : undefined}
-            format={(n) => `$${Math.round(n)}`}
-          />
-        </div>
-      </section>
-
-      {r.bracket && (
-        <section className="panel" id="bracket">
-          <BracketPanel b={r.bracket} slug={slug} />
-        </section>
-      )}
-
-      <section className="panel" id="swaps">
-        <h2>Swaps</h2>
-        <SwapList swaps={r.swaps} />
-      </section>
-
-      {r.decklist && (
-        <section className="panel" id="decklist">
-          <h2>Optimized deck list</h2>
-          <Decklist cards={r.decklist} swaps={r.swaps} />
-        </section>
-      )}
-
-      <div className="grid2">
-        <section className="panel" id="mana">
-          <h2>Mana base</h2>
-          <ColorBars before={r.before} after={r.after} />
-          <h3>Curve</h3>
-          <Curve before={r.before} after={r.after} />
-          {r.manaNotes.length > 0 && (
-            <ul>
-              {r.manaNotes.map((n, i) => (
-                <li key={i}>{n}</li>
+        {r.research && (
+          <section className="panel" id="research">
+            <h2>Web research</h2>
+            <details>
+              <summary>Show summary ({r.research.sources.length} sources)</summary>
+              <Markdown text={r.research.summary} />
+            </details>
+            <ul className="sources">
+              {r.research.sources.map((s) => (
+                <li key={s.url}>
+                  <a href={s.url} target="_blank" rel="noreferrer">
+                    {s.title}
+                  </a>
+                </li>
               ))}
             </ul>
-          )}
-          {r.after.mana.issues.length > 0 && (
+          </section>
+        )}
+
+        {!IS_STATIC && r.warnings.length > 0 && (
+          <section className="panel">
+            <h2>Warnings</h2>
             <ul className="notes">
-              {r.after.mana.issues.map((n, i) => (
-                <li key={i}>{n}</li>
+              {r.warnings.map((w, i) => (
+                <li key={i}>{w}</li>
               ))}
             </ul>
-          )}
-          {r.after.mana.tappedLands.length > 0 && (
-            <p className="muted small">Enters tapped: {r.after.mana.tappedLands.join(", ")}</p>
-          )}
-          {r.after.mana.colorlessLands.length > 0 && (
-            <p className="muted small">Colorless lands: {r.after.mana.colorlessLands.join(", ")}</p>
-          )}
-        </section>
-        <section className="panel" id="sim">
-          <h2>Goldfish simulation</h2>
-          <p className="muted small">
-            {r.after.sim.games.toLocaleString()} solo games: free mulligan, greedy land and ramp
-            plays.
-          </p>
-          <div className="table-wrap">
-            <SimTable before={r.before} after={r.after} />
-          </div>
-          <h3>Roles</h3>
-          <div className="table-wrap">
-            <Roles before={r.before} after={r.after} />
+          </section>
+        )}
+
+        {!IS_STATIC && (
+          <ChatPanel
+            slug={slug}
+            commander={r.commanders.join(" + ")}
+            onApplied={(report) => {
+              setDetail((d) => (d ? { ...d, report } : d));
+              fetch(fileUrl(slug, "optimized.txt"))
+                .then((res) => (res.ok ? res.text() : null))
+                .then(setOptimizedText, () => {});
+            }}
+          />
+        )}
+
+        <section className="panel">
+          <div className="row between">
+            <details>
+              <summary>Original list (initial.txt)</summary>
+              <pre>{detail.initial}</pre>
+            </details>
+            {!IS_STATIC && <Rerun slug={slug} initial={r.options} />}
           </div>
         </section>
       </div>
-
-      {hasCombos && (
-        <div className="grid2" id="combos">
-          <section className="panel">
-            <h2>Combos in the deck</h2>
-            {r.combosPresent.length ? (
-              <ComboList combos={r.combosPresent} />
-            ) : (
-              <p className="muted">None found.</p>
-            )}
-          </section>
-          <section className="panel">
-            <h2>One card away</h2>
-            <OneAway combos={r.combosOneAway} />
-          </section>
-        </div>
-      )}
-
-      {r.research && (
-        <section className="panel" id="research">
-          <h2>Web research</h2>
-          <details>
-            <summary>Show summary ({r.research.sources.length} sources)</summary>
-            <Markdown text={r.research.summary} />
-          </details>
-          <ul className="sources">
-            {r.research.sources.map((s) => (
-              <li key={s.url}>
-                <a href={s.url} target="_blank" rel="noreferrer">
-                  {s.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {!IS_STATIC && r.warnings.length > 0 && (
-        <section className="panel">
-          <h2>Warnings</h2>
-          <ul className="notes">
-            {r.warnings.map((w, i) => (
-              <li key={i}>{w}</li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      <section className="panel">
-        <div className="row between">
-          <details>
-            <summary>Original list (initial.txt)</summary>
-            <pre>{detail.initial}</pre>
-          </details>
-          {!IS_STATIC && <Rerun slug={slug} initial={r.options} />}
-        </div>
-      </section>
-    </div>
+    </CardIndex.Provider>
   );
 }

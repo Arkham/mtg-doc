@@ -1,4 +1,5 @@
 import type {
+  DeckChatMessage,
   DeckSummary,
   Job,
   OptimizeOptions,
@@ -91,4 +92,12 @@ export const api = {
   reoptimize: (slug: string, options: OptimizeOptions) =>
     request<{ slug: string; jobId: string }>(`/api/decks/${slug}/optimize`, json({ options })),
   job: (id: string) => request<Job>(`/api/jobs/${id}`),
+  chat: (slug: string) => request<DeckChatMessage[]>(`/api/decks/${slug}/chat`),
+  sendChat: (slug: string, message: string) =>
+    request<DeckChatMessage>(`/api/decks/${slug}/chat`, json({ message })),
+  applyChat: (slug: string, messageId: string) =>
+    request<{ report: Report; message: DeckChatMessage }>(
+      `/api/decks/${slug}/chat/${messageId}/apply`,
+      { method: "POST" },
+    ),
 };

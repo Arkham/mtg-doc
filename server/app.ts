@@ -5,6 +5,7 @@ import multer from "multer";
 import { z } from "zod";
 import type { RecognitionResult } from "../shared/types.ts";
 import { config, llmEnabled } from "./config.ts";
+import { applyChatChanges, chatAboutDeck, readChat } from "./chat.ts";
 import { recognizeImages, recognizeText } from "./ocr.ts";
 import { getJob, startOptimize } from "./pipeline.ts";
 import { autocomplete, lookupExact, resolveNames } from "./sources/scryfall.ts";
@@ -221,6 +222,26 @@ export function createApp() {
       const file = z.enum(["initial.txt", "optimized.txt", "report.md"]).parse(req.params.file);
       res.type("text/plain").send(await readDeckFile(String(req.params.slug), file));
     }),
+  );
+
+  app.get(
+    "/api/decks/:slug/chat",
+    wrap(async (req, res) => res.json(await readChat(String(req.params.slug)))),
+  );
+
+  app.post(
+    "/api/decks/:slug/chat",
+    wrap(async (req, res) => {
+      const { message } = z.object({ message: z.string().trim().min(1).max(2000) }).parse(req.body);
+      res.json(await chatAboutDeck(String(req.params.slug), message));
+    }),
+  );
+
+  app.post(
+    "/api/decks/:slug/chat/:messageId/apply",
+    wrap(async (req, res) =>
+      res.json(await applyChatChanges(String(req.params.slug), String(req.params.messageId))),
+    ),
   );
 
   app.get("/api/jobs/:id", (req, res) => {

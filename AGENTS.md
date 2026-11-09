@@ -79,6 +79,11 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
 
 ### UI
 
+- **Every card shown on a page MUST have a preview** (hover on desktop, tap on touch). Render card
+  names with `CardName` (or `CardList` for several), never as plain text. Reports carry a
+  `cardIndex` with image data for every card they mention (`server/card-index.ts`): when you add a
+  new list of cards to a report, make sure `referencedNames` covers it. `CardName` falls back to
+  Scryfall's by-name image as a last resort, but the index is the source of truth.
 - Mobile first: the static site is mainly read on iPhone and iPad. Touch targets ≥ 44px, inputs ≥ 16px
   (no iOS zoom), respect safe areas, card previews must work on tap (no hover dependency).
 - The static build is read-only: relative asset paths and hash routing so it works on any host and

@@ -1,0 +1,65 @@
+import type { Card, CardPreview, Report } from "../shared/types.ts";
+import { lookupExact } from "./sources/scryfall.ts";
+
+/** Every card name a report mentions, wherever it's displayed. */
+function referencedNames(r: Report): string[] {
+  const names = new Set<string>(r.commanders);
+  for (const s of r.swaps) {
+    names.add(s.out);
+    names.add(s.in);
+    for (const a of s.alternatives ?? []) names.add(a.name);
+  }
+  for (const c of r.decklist ?? []) names.add(c.name);
+  for (const combo of [...r.combosPresent, ...r.combosOneAway])
+    combo.cards.forEach((n) => names.add(n));
+  for (const snap of [r.before, r.after]) {
+    snap.mana.tappedLands.forEach((n) => names.add(n));
+    snap.mana.colorlessLands.forEach((n) => names.add(n));
+  }
+  const b = r.bracket;
+  if (b) {
+    for (const a of [b.before, b.after]) {
+      [...a.gameChangers, ...a.massLandDenial, ...a.extraTurns].forEach((n) => names.add(n));
+      a.combos.forEach((c) => c.cards.forEach((n) => names.add(n)));
+    }
+    b.gameChangerOptions.forEach((g) => names.add(g.name));
+    b.excluded.forEach((e) => names.add(e.name));
+  }
+  for (const e of r.edits ?? []) e.changes.forEach((c) => names.add(c.name));
+  return [...names];
+}
+
+const preview = (c: Pick<Card, "image" | "scryfallUri">): CardPreview => ({
+  image: c.image,
+  scryfallUri: c.scryfallUri,
+});
+
+/**
+ * Builds preview data for every card in the report, reusing card data already in hand and looking
+ * up the rest in one batch, so every card name in the UI can show its image.
+ */
+export async function buildCardIndex(
+  report: Report,
+  known: Card[] = [],
+): Promise<Record<string, CardPreview>> {
+  const index: Record<string, CardPreview> = { ...report.cardIndex };
+  const add = (c: Pick<Card, "name" | "image" | "scryfallUri"> | undefined) => {
+    if (c?.image && !index[c.name]) index[c.name] = preview(c);
+  };
+  known.forEach(add);
+  report.commanderCards.forEach(add);
+  for (const s of report.swaps) {
+    add(s.outCard);
+    add(s.inCard);
+    s.alternatives?.forEach((a) => add({ ...a }));
+  }
+  report.decklist?.forEach((c) => add(c));
+  const missing = referencedNames(report).filter((n) => !index[n]);
+  if (missing.length) {
+    const found = await lookupExact(missing).catch(() => new Map<string, Card>());
+    for (const [name, card] of found) {
+      if (card.image) index[name] = preview(card);
+    }
+  }
+  return index;
+}
