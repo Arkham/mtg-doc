@@ -56,10 +56,11 @@ test.describe("local app", () => {
     await proposal.getByRole("button", { name: "Apply 2 changes" }).click();
     await expect(proposal).toContainText("Applied", { timeout: 30_000 });
     await expect(page.locator(".edit-log")).toContainText("Mind Stone");
+    await page.getByRole("button", { name: "Close chat" }).click();
+    await page.getByRole("button", { name: "New cards" }).click();
     await expect(page.locator(".deck-group li.new").filter({ hasText: "Mind Stone" })).toHaveCount(
       1,
     );
-    await page.getByRole("button", { name: "Close chat" }).click();
 
     await page.getByRole("button", { name: "Back" }).click();
     await expect(page.locator(".deck-card")).toContainText(["Lathril, Blade of the Elves"]);

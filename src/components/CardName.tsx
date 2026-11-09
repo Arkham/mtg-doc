@@ -6,6 +6,7 @@ import {
   useContext,
   useState,
 } from "react";
+import { createPortal } from "react-dom";
 import type { CardPreview } from "../../shared/types.ts";
 import { Sheet } from "./Sheet.tsx";
 
@@ -32,18 +33,22 @@ export function useHoverPreview(image: string | null | undefined) {
     onMouseMove: (e: MouseEvent) => image && canHover() && setPos({ x: e.clientX, y: e.clientY }),
     onMouseLeave: () => setPos(null),
   };
+  // Portaled to <body> so thumbnail styles and transformed ancestors can't resize or misplace it.
   const preview =
-    pos && image ? (
-      <img
-        className="card-preview"
-        src={image}
-        alt=""
-        style={{
-          left: pos.x + 280 > window.innerWidth ? pos.x - 270 : pos.x + 20,
-          top: Math.max(8, Math.min(pos.y - 60, window.innerHeight - 350)),
-        }}
-      />
-    ) : null;
+    pos && image
+      ? createPortal(
+          <img
+            className="card-preview"
+            src={image}
+            alt=""
+            style={{
+              left: pos.x + 280 > window.innerWidth ? pos.x - 270 : pos.x + 20,
+              top: Math.max(8, Math.min(pos.y - 60, window.innerHeight - 350)),
+            }}
+          />,
+          document.body,
+        )
+      : null;
   return { handlers, preview };
 }
 

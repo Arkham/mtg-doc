@@ -31,18 +31,55 @@ test.describe("static site", () => {
     await expectNoHorizontalOverflow(page);
   });
 
-  test("one card away lists each missing card once, with what it combos with", async ({ page }) => {
+  test("combos list shows those in the deck and one card away together", async ({ page }) => {
     await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
-    const pieces = page.locator(".missing-piece");
-    await expect(pieces.first()).toBeVisible();
-    const showAll = page.getByRole("button", { name: /Show all \d+ cards/ });
+    const combos = page.locator("#combos");
+    const present = combos.locator(".combo-row.present");
+    const away = combos.locator(".combo-row.away");
+    await expect(present.first()).toContainText("In your deck");
+    await expect(away.first()).toContainText("1 card away");
+    await expect(away.first().locator(".combo-partners li").first()).toContainText("with");
+    const showAll = combos.getByRole("button", { name: /Show all \d+ cards/ });
     if (await showAll.count()) await showAll.click();
-    const names = await page.locator(".missing-head strong").allTextContents();
-    expect(names.length).toBeGreaterThan(0);
+    const names = await away.locator(".combo-title strong").allTextContents();
     expect(new Set(names).size).toBe(names.length);
-    await expect(pieces.first().locator(".outcome")).not.toBeEmpty();
-    await expect(pieces.first().locator(".missing-combos li").first()).toContainText("with");
+
+    await combos.getByRole("tab", { name: /In deck/ }).click();
+    await expect(away).toHaveCount(0);
+    await expect(present.first()).toBeVisible();
+    await combos.getByRole("tab", { name: /1 card away/ }).click();
+    await expect(present).toHaveCount(0);
+    await expect(away.first()).toBeVisible();
     await expectNoHorizontalOverflow(page);
+  });
+
+  test("hovering a card thumbnail shows a full-size preview", async ({ page }, info) => {
+    test.skip(info.project.name !== "desktop", "hover previews need a mouse");
+    await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
+    const thumb = page.locator("#combos .combo-thumbs .card-name:last-child .card-thumb").first();
+    await thumb.evaluate((el) => el.scrollIntoView({ block: "center" }));
+    await thumb.hover();
+    // Portaled to <body> so thumbnail styles can't shrink it (external images are blocked here).
+    const preview = page.locator("body > .card-preview");
+    await expect(preview).toHaveAttribute("src", /cards\.scryfall\.io/);
+    expect(await preview.evaluate((el) => getComputedStyle(el).width)).toBe("244px");
+  });
+
+  test("deck list highlights new cards only when asked", async ({ page }) => {
+    await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
+    const list = page.locator("#decklist");
+    await expect(list.locator(".deck-group li").first()).toBeVisible();
+    await expect(list.locator(".badge.new")).toHaveCount(0);
+    await expect(list.locator("li.new")).toHaveCount(0);
+    await list.getByRole("button", { name: "New cards" }).click();
+    await expect(list.getByRole("button", { name: "New cards" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await expect(list.locator(".badge.new").first()).toBeVisible();
+    await expect(list.locator("li.new").first()).toBeVisible();
+    await list.getByRole("button", { name: "New cards" }).click();
+    await expect(list.locator(".badge.new")).toHaveCount(0);
   });
 
   test("section nav scrolls and highlights the active section", async ({ page }) => {

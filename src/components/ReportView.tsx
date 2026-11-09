@@ -1,6 +1,7 @@
 import { type ReactNode, useContext, useEffect, useRef, useState } from "react";
 import type {
   Card,
+  CardPreview,
   Combo,
   DeckSnapshot,
   DecklistCard,
@@ -9,7 +10,7 @@ import type {
   Swap,
 } from "../../shared/types.ts";
 import { type DeckDetail, IS_STATIC, api, fileUrl } from "../api.ts";
-import { groupByMissing } from "../combos.ts";
+import { comboOutcome, groupByMissing } from "../combos.ts";
 import { navigate } from "../nav.ts";
 import { BracketBadge, BracketPanel } from "./BracketPanel.tsx";
 import { ChatPanel } from "./ChatPanel.tsx";
@@ -279,7 +280,7 @@ function Synergies({
                     <CardName
                       key={n}
                       name={n}
-                      label={<img src={image(n)!} alt={n} loading="lazy" />}
+                      label={<img className="card-thumb" src={image(n)!} alt={n} loading="lazy" />}
                     />
                   ) : null,
                 )}
@@ -510,37 +511,6 @@ function Roles({ before, after }: { before: DeckSnapshot; after: DeckSnapshot })
   );
 }
 
-function ComboList({ combos, oneAway }: { combos: Combo[]; oneAway?: boolean }) {
-  return (
-    <ul className="combos">
-      {combos.map((c) => (
-        <li key={c.id}>
-          {oneAway && (
-            <>
-              add{" "}
-              <strong>
-                <CardName name={c.missing[0]} />
-              </strong>
-              :{" "}
-            </>
-          )}
-          <CardList names={c.cards} />{" "}
-          <a
-            href={c.url}
-            target="_blank"
-            rel="noreferrer"
-            className="small"
-            aria-label="View combo on Commander Spellbook"
-          >
-            ↗
-          </a>
-          <div className="muted small">{c.produces.slice(0, 4).join(" · ")}</div>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 function Rerun({ slug, initial }: { slug: string; initial: OptimizeOptions }) {
   const [opts, setOpts] = useState(initial);
   const [open, setOpen] = useState(false);
@@ -644,9 +614,11 @@ const VIEW_KEY = "mtg-doc:decklist-view";
 function DeckImages({
   groups,
   cuts,
+  showNew,
 }: {
   groups: { group: string; cards: DecklistCard[] }[];
   cuts: Swap[];
+  showNew: boolean;
 }) {
   const [zoomed, setZoomed] = useState<{ name: string; image: string; scryfallUri: string } | null>(
     null,
@@ -689,7 +661,7 @@ function DeckImages({
                 c.scryfallUri,
                 <>
                   {c.qty > 1 && <span className="deck-image-qty">×{c.qty}</span>}
-                  {c.isNew ? (
+                  {!showNew ? null : c.isNew ? (
                     <span className="badge new deck-image-badge">new</span>
                   ) : c.delta !== 0 ? (
                     <span className="badge new deck-image-badge">
@@ -739,6 +711,7 @@ function DeckImages({
 
 function Decklist({ cards, swaps }: { cards: DecklistCard[]; swaps: Swap[] }) {
   const [showCuts, setShowCuts] = useState(false);
+  const [showNew, setShowNew] = useState(false);
   const [view, setView] = useState<"list" | "images">(() =>
     localStorage.getItem(VIEW_KEY) === "images" ? "images" : "list",
   );
@@ -763,17 +736,26 @@ function Decklist({ cards, swaps }: { cards: DecklistCard[]; swaps: Swap[] }) {
             Images
           </button>
         </div>
-        <span className="muted small grow">{cards.reduce((n, c) => n + c.qty, 0)} cards</span>
+        <span className="muted small grow nowrap">
+          {cards.reduce((n, c) => n + c.qty, 0)} cards
+        </span>
+        <button
+          className={`toggle ${showNew ? "on" : ""}`}
+          aria-pressed={showNew}
+          onClick={() => setShowNew(!showNew)}
+        >
+          New cards
+        </button>
         <button
           className={`toggle ${showCuts ? "on" : ""}`}
           aria-pressed={showCuts}
           onClick={() => setShowCuts(!showCuts)}
         >
-          {showCuts ? "Hide" : "Show"} cut cards
+          Cut cards
         </button>
       </div>
       {view === "images" ? (
-        <DeckImages groups={groups} cuts={showCuts ? swaps : []} />
+        <DeckImages groups={groups} cuts={showCuts ? swaps : []} showNew={showNew} />
       ) : (
         <div className="decklist-groups">
           {groups.map(({ group, cards }) => (
@@ -783,10 +765,10 @@ function Decklist({ cards, swaps }: { cards: DecklistCard[]; swaps: Swap[] }) {
               </h3>
               <ul>
                 {cards.map((c) => (
-                  <li key={c.name} className={c.isNew || c.delta > 0 ? "new" : ""}>
+                  <li key={c.name} className={showNew && (c.isNew || c.delta > 0) ? "new" : ""}>
                     <span className="qty">{c.qty}</span>
                     <CardName name={c.name} card={c} className="grow" />
-                    {c.isNew ? (
+                    {!showNew ? null : c.isNew ? (
                       <span className="badge new">new</span>
                     ) : c.delta !== 0 ? (
                       <span className="badge new">
@@ -926,37 +908,103 @@ function Stat({
   );
 }
 
-function OneAway({ combos, report: r }: { combos: Combo[]; report: Report }) {
+type ComboFilter = "all" | "present" | "away";
+
+const thumbOf = (index: Record<string, CardPreview>, name: string) => index[name]?.image ?? null;
+
+function ComboThumbs({ names }: { names: string[] }) {
+  const index = useContext(CardIndex);
+  return (
+    <div className="combo-thumbs">
+      {names.slice(0, 3).map((n) => {
+        const image = thumbOf(index, n);
+        return image ? (
+          <CardName
+            key={n}
+            name={n}
+            label={<img className="card-thumb" src={image} alt={n} loading="lazy" />}
+          />
+        ) : null;
+      })}
+    </div>
+  );
+}
+
+function SpellbookLink({ combo }: { combo: Combo }) {
+  return (
+    <a
+      href={combo.url}
+      target="_blank"
+      rel="noreferrer"
+      className="small spellbook-link"
+      aria-label="View combo on Commander Spellbook"
+      title={combo.produces.join(" · ")}
+    >
+      ↗
+    </a>
+  );
+}
+
+/** Combos in the deck and one card away in one list; a badge and accent tell them apart. */
+function Combos({ report: r }: { report: Report }) {
+  const [filter, setFilter] = useState<ComboFilter>("all");
   const [all, setAll] = useState(false);
   const index = useContext(CardIndex);
-  const groups = groupByMissing(combos);
+  const groups = groupByMissing(r.combosOneAway);
+  const present = r.combosPresent;
   const blocked = new Map((r.bracket?.excluded ?? []).map((e) => [e.name, e.reason]));
-  const shown = all ? groups : groups.slice(0, 5);
+  const shownPresent = filter === "away" ? [] : present;
+  const awayGroups = filter === "present" ? [] : groups;
+  const limit = filter === "away" ? 8 : 5;
+  const shownAway = all ? awayGroups : awayGroups.slice(0, limit);
+  const tabs: [ComboFilter, string, number][] = [
+    ["all", "All", present.length + groups.length],
+    ["present", "In deck", present.length],
+    ["away", "1 card away", groups.length],
+  ];
   return (
     <>
-      <ul className="missing-pieces">
-        {shown.map((g) => {
-          const card = index[g.name];
+      <div className="row between">
+        <h2>Combos</h2>
+        <div className="segmented" role="tablist" aria-label="Which combos">
+          {tabs.map(([id, label, n]) => (
+            <button key={id} role="tab" aria-selected={filter === id} onClick={() => setFilter(id)}>
+              {label} <span className="count">{n}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      <ul className="combo-rows">
+        {shownPresent.map((c) => (
+          <li key={c.id} className="combo-row present">
+            <ComboThumbs names={c.cards} />
+            <div className="combo-body">
+              <div className="combo-title">
+                <CardList names={c.cards} /> <SpellbookLink combo={c} />
+              </div>
+              <div className="combo-tags">
+                <span className="badge new">✓ In your deck</span>
+                <span className="outcome">{comboOutcome(c.produces)}</span>
+              </div>
+            </div>
+          </li>
+        ))}
+        {shownAway.map((g) => {
           const reason = blocked.get(g.name);
+          const price = index[g.name]?.priceUsd;
           return (
-            <li key={g.name} className="missing-piece">
-              {card?.image && (
-                <CardName
-                  name={g.name}
-                  className="missing-thumb"
-                  label={<img src={card.image} alt={g.name} loading="lazy" />}
-                />
-              )}
-              <div className="missing-body">
-                <div className="missing-head">
+            <li key={g.name} className="combo-row away">
+              <ComboThumbs names={[g.name]} />
+              <div className="combo-body">
+                <div className="combo-title">
+                  <span className="muted">Add</span>{" "}
                   <strong>
                     <CardName name={g.name} />
                   </strong>
-                  {card?.priceUsd != null && (
-                    <span className="muted small">${card.priceUsd.toFixed(2)}</span>
-                  )}
+                  {price != null && <span className="muted small"> ${price.toFixed(2)}</span>}
                 </div>
-                <div className="missing-tags">
+                <div className="combo-tags">
+                  <span className="badge">1 card away</span>
                   <span className="outcome">{g.best}</span>
                   {g.combos.length > 1 && (
                     <span className="muted small">completes {g.combos.length} combos</span>
@@ -967,23 +1015,14 @@ function OneAway({ combos, report: r }: { combos: Combo[]; report: Report }) {
                     </span>
                   )}
                 </div>
-                <ul className="missing-combos">
+                <ul className="combo-partners">
                   {g.combos.map(({ combo, partners, outcome }) => (
                     <li key={combo.id}>
                       <span className="muted small">with</span> <CardList names={partners} />
                       {g.combos.length > 1 && (
                         <span className="muted small"> · {outcome}</span>
                       )}{" "}
-                      <a
-                        href={combo.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="small spellbook-link"
-                        aria-label="View combo on Commander Spellbook"
-                        title={combo.produces.join(" · ")}
-                      >
-                        ↗
-                      </a>
+                      <SpellbookLink combo={combo} />
                     </li>
                   ))}
                 </ul>
@@ -992,9 +1031,10 @@ function OneAway({ combos, report: r }: { combos: Combo[]; report: Report }) {
           );
         })}
       </ul>
-      {groups.length > 5 && (
+      {shownPresent.length + shownAway.length === 0 && <p className="muted">None found.</p>}
+      {awayGroups.length > limit && (
         <button className="ghost small-btn" onClick={() => setAll(!all)}>
-          {all ? "Show fewer" : `Show all ${groups.length} cards`}
+          {all ? "Show fewer" : `Show all ${awayGroups.length} cards one away`}
         </button>
       )}
     </>
@@ -1325,30 +1365,7 @@ export function ReportView({ slug }: { slug: string }) {
 
         {hasCombos && (
           <section className="panel" id="combos">
-            <h2>Combos</h2>
-            <div className="combo-columns">
-              <div>
-                <h3>
-                  In the deck <span className="muted">· {r.combosPresent.length}</span>
-                </h3>
-                {r.combosPresent.length ? (
-                  <ComboList combos={r.combosPresent} />
-                ) : (
-                  <p className="muted small">None found.</p>
-                )}
-              </div>
-              <div>
-                <h3>
-                  One card away{" "}
-                  <span className="muted">· {groupByMissing(r.combosOneAway).length} cards</span>
-                </h3>
-                {r.combosOneAway.length ? (
-                  <OneAway combos={r.combosOneAway} report={r} />
-                ) : (
-                  <p className="muted small">None found.</p>
-                )}
-              </div>
-            </div>
+            <Combos report={r} />
           </section>
         )}
 
