@@ -26,6 +26,8 @@ import { config, llmEnabled } from "./config.ts";
 import { chatJson } from "./llm.ts";
 import { loadDeck, snapshot, twoCardCombos } from "./pipeline.ts";
 import { buildCardIndex } from "./card-index.ts";
+import { suggestManaFixes } from "./mana-advice.ts";
+import { findSynergies, keepPresentSynergies } from "./synergies.ts";
 import { renderMarkdown } from "./report.ts";
 import { lookupExact, lookupFuzzy } from "./sources/scryfall.ts";
 import { estimateBracket, findCombos } from "./sources/spellbook.ts";
@@ -260,26 +262,29 @@ export async function chatAboutDeck(slug: string, message: string): Promise<Deck
  * Applies the valid changes from an assistant message to the current list, re-validating first,
  * then recomputes the report's stats, simulation and bracket check.
  */
-export async function applyChatChanges(
+/**
+ * Validates and applies changes to the current list, then recomputes everything derived from the
+ * deck: stats, simulation, bracket, combos, mana suggestions and card previews.
+ */
+export async function applyDeckChanges(
   slug: string,
-  messageId: string,
-): Promise<{ report: Report; message: DeckChatMessage }> {
+  proposed: DeckChange[],
+  request: string,
+): Promise<{ report: Report; changes: DeckChange[] }> {
   const meta = await readMeta(slug);
   const report = await readReport(slug);
-  if (!report) throw new HttpError(409, "Optimize the deck before editing it through chat.");
-  const history = await readChat(slug);
-  const index = history.findIndex((m) => m.id === messageId);
-  const message = history[index];
-  if (!message?.changes?.length) throw new HttpError(404, "No changes to apply in that message.");
-  if (message.applied) throw new HttpError(409, "Those changes were already applied.");
-
+  if (!report) throw new HttpError(409, "Optimize the deck before editing it.");
+  const budget = {
+    total: meta.options.budgetTotal ?? null,
+    perCard: meta.options.budgetPerCard ?? null,
+  };
   const { deck } = await loadDeck(slug, "optimized.txt");
   const { deck: initial } = await loadDeck(slug, "initial.txt");
   const changes = await validateChanges(
     deck,
     report,
-    message.changes.filter((c) => c.ok),
-    { total: meta.options.budgetTotal ?? null, perCard: meta.options.budgetPerCard ?? null },
+    proposed.filter((c) => c.ok),
+    budget,
   );
   const valid = changes.filter((c) => c.ok);
   if (!valid.length) throw new HttpError(409, "None of those changes are valid any more.");
@@ -294,12 +299,25 @@ export async function applyChatChanges(
     estimateBracket(commanders, legalMain).catch(() => null),
     findCombos(commanders, legalMain, identity).catch(() => null),
   ]);
-  const after = snapshot(
-    next,
-    report.edhrec?.avgLands ?? null,
-    meta.format === "commander",
-    twoCardCombos(est),
-  );
+  const avgLands = report.edhrec?.avgLands ?? null;
+  const after = snapshot(next, avgLands, meta.format === "commander", twoCardCombos(est));
+  const target = report.bracket?.target ?? 4;
+  const manaSuggestions =
+    meta.format === "commander"
+      ? await suggestManaFixes({
+          deck: next,
+          identity,
+          avgLands,
+          budgetPerCard: budget.perCard,
+          violation: makeViolation({
+            rules: BRACKETS[target],
+            target,
+            flagOf: (c) => flagsFor(c, est),
+            budgetTotal: budget.total,
+          }),
+          locked: new Set([...meta.options.locked, ...commanders]),
+        }).catch(() => report.manaSuggestions ?? [])
+      : [];
   const updated: Report = {
     ...report,
     after,
@@ -311,15 +329,13 @@ export async function applyChatChanges(
     bracket: report.bracket
       ? { ...report.bracket, after: assessBracket(next, est, after.sim, report.bracket.target) }
       : report.bracket,
+    manaSuggestions,
+    synergies: keepPresentSynergies(report.synergies, next),
     edits: [
       ...(report.edits ?? []),
       {
         at: new Date().toISOString(),
-        request:
-          history
-            .slice(0, index)
-            .reverse()
-            .find((m) => m.role === "user")?.content ?? "",
+        request,
         changes: valid.map((c) => ({
           action: c.action,
           name: c.name,
@@ -339,7 +355,51 @@ export async function applyChatChanges(
     { commanders, entries: toEntries(next) },
     renderMarkdown(updated),
   );
+  return { report: updated, changes };
+}
+
+export async function applyChatChanges(
+  slug: string,
+  messageId: string,
+): Promise<{ report: Report; message: DeckChatMessage }> {
+  const history = await readChat(slug);
+  const index = history.findIndex((m) => m.id === messageId);
+  const message = history[index];
+  if (!message?.changes?.length) throw new HttpError(404, "No changes to apply in that message.");
+  if (message.applied) throw new HttpError(409, "Those changes were already applied.");
+  const request =
+    history
+      .slice(0, index)
+      .reverse()
+      .find((m) => m.role === "user")?.content ?? "";
+  const { report, changes } = await applyDeckChanges(slug, message.changes, request);
   history[index] = { ...message, changes, applied: true };
   await writeChat(slug, history);
-  return { report: updated, message: history[index] };
+  return { report, message: history[index] };
+}
+
+/** Re-runs the synergy search for the current list (e.g. after edits added new cards). */
+export async function refreshSynergies(slug: string): Promise<Report> {
+  const report = await readReport(slug);
+  if (!report) throw new HttpError(409, "Optimize the deck first.");
+  if (!llmEnabled()) throw new HttpError(409, "Finding synergies needs an LLM configured.");
+  const { deck } = await loadDeck(slug, "optimized.txt");
+  const updated: Report = { ...report, synergies: await findSynergies(deck, report.combosPresent) };
+  updated.cardIndex = await buildCardIndex(updated);
+  const commanders = deck.commanders.map((c) => c.name);
+  await writeResults(
+    slug,
+    updated,
+    { commanders, entries: toEntries(deck) },
+    renderMarkdown(updated),
+  );
+  return updated;
+}
+
+export async function applyManaSuggestion(slug: string, id: string): Promise<Report> {
+  const report = await readReport(slug);
+  const suggestion = report?.manaSuggestions?.find((m) => m.id === id);
+  if (!suggestion) throw new HttpError(404, "That suggestion is no longer available.");
+  return (await applyDeckChanges(slug, suggestion.changes, `Mana base: ${suggestion.reason}`))
+    .report;
 }

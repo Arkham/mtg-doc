@@ -32,13 +32,21 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
 
     assert.equal(report.model, "gpt-6.1-sol");
     assert.equal(report.strategy, "Stub strategy: go wide with elves.");
-    assert.deepEqual(report.manaNotes, ["Stub mana note."]);
     assert.ok(
       report.warnings.some((w) => w.includes("Card Not In Deck")),
       "invalid LLM swap was rejected",
     );
     assert.ok(report.swaps.some((s) => s.reason.startsWith("Stub review keeps")));
     assert.ok(report.bracket!.after.bracket <= 3);
+    assert.deepEqual(
+      report.synergies!.map((x) => x.cards),
+      [
+        ["Sol Ring", "Lathril, Blade of the Elves"],
+        ["Lathril, Blade of the Elves", "Forest"],
+      ],
+      "names normalized to the deck, invented cards dropped",
+    );
+    assert.equal(job.steps.find((s) => s.label === "Find synergies")!.status, "done");
     assert.ok(report.after.totalPriceUsd <= 300);
 
     const review = stub.requests.find((r) =>

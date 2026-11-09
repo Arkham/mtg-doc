@@ -44,7 +44,6 @@ const PlanSchema = z.object({
       reason: z.string(),
     }),
   ),
-  manaNotes: z.array(z.string()).default([]),
 });
 
 export type Plan = z.infer<typeof PlanSchema>;
@@ -182,7 +181,7 @@ ${input.research?.summary.slice(0, 4000) ?? "n/a"}
 ${candLines.join("\n")}
 
 Reply with JSON only:
-{"strategy": "2-4 sentences: the game plan, what these changes improve, and where the deck sits in bracket ${target}", "themes": string[], "swaps": [{"out": string, "in": string, "category": "bracket|synergy|combo|mana|ramp|draw|interaction|curve|other", "reason": "one or two sentences, specific to this commander"}], "manaNotes": ["concise mana base observations"]}`;
+{"strategy": "2-4 sentences: the game plan, what these changes improve, and where the deck sits in bracket ${target}", "themes": string[], "swaps": [{"out": string, "in": string, "category": "bracket|synergy|combo|mana|ramp|draw|interaction|curve|other", "reason": "one or two sentences, specific to this commander"}]}`;
   return chatJson(PlanSchema, [{ role: "user", content: prompt }]);
 }
 
@@ -207,7 +206,6 @@ export function planHeuristic(input: PlanInput): Plan {
         ? `${p.out.name} is ${p.forced}; ${p.in.name} is the best legal replacement.`
         : `${p.in.name} scores ${p.gain.toFixed(2)} higher for this commander at bracket ${input.target}.`,
     })),
-    manaNotes: [],
   };
 }
 

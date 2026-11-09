@@ -229,8 +229,8 @@ export async function resolveNames(names: string[]): Promise<Resolved[]> {
 }
 
 /** Scryfall full-text search (first page only, which is plenty for targeted queries). */
-export async function searchCards(q: string): Promise<Card[]> {
-  const res = await sfFetch(`/cards/search?q=${encodeURIComponent(q)}`);
+export async function searchCards(q: string, extra = ""): Promise<Card[]> {
+  const res = await sfFetch(`/cards/search?q=${encodeURIComponent(q)}${extra}`);
   if (!res.ok) return [];
   const { data } = (await res.json()) as { data: ScryfallCard[] };
   return data.map(toCard);
@@ -304,4 +304,16 @@ export async function lookupPrintedInexact(printed: string, lang: string): Promi
     1,
   );
   return hit?.name ?? null;
+}
+
+/**
+ * Popular nonbasic lands in a color identity that make a given color, most played first. Used to
+ * find untapped duals when a color is short. Entering tapped is filtered by the caller.
+ */
+export async function landsForColor(identity: string[], color: string): Promise<Card[]> {
+  const id = identity.join("").toLowerCase() || "c";
+  return searchCards(
+    `t:land -t:basic id<=${id} produces:${color.toLowerCase()} legal:commander`,
+    "&order=edhrec",
+  );
 }

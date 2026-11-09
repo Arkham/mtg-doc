@@ -45,6 +45,29 @@ const CONTENT_FILTER = {
 };
 
 function answer(body: Record<string, unknown>, text: string, hasImage: boolean): unknown {
+  if (text.includes("most notable synergies")) {
+    return message(
+      JSON.stringify({
+        synergies: [
+          {
+            title: "Ramp into the commander",
+            cards: ["sol ring", "Lathril, Blade of the Elves"],
+            explanation: "Stub synergy.",
+          },
+          {
+            title: "Invented",
+            cards: ["Lathril, Blade of the Elves", "Not A Real Card"],
+            explanation: "Should be dropped.",
+          },
+          {
+            title: "Lands matter",
+            cards: ["Lathril, Blade of the Elves", "Forest"],
+            explanation: "Stub synergy two.",
+          },
+        ],
+      }),
+    );
+  }
   if (text.includes("You are mtg-doc, an expert Commander")) {
     // Simulates the provider refusing a request, which the app must survive.
     if (/Fellwar Stone|risky/.test(text)) return CONTENT_FILTER;
@@ -126,7 +149,6 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
         strategy: "Stub strategy: go wide with elves.",
         themes: ["Elves"],
         swaps,
-        manaNotes: ["Stub mana note."],
       }),
     );
   }

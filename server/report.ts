@@ -45,7 +45,19 @@ export function renderMarkdown(r: Report): string {
     );
   }
   lines.push("");
-  for (const n of r.manaNotes) lines.push(`- ${n}`);
+  const manaChanges = r.swaps.filter(
+    (s) => s.category === "mana" && s.inCard?.isLand && s.outCard?.isLand,
+  );
+  if (manaChanges.length) {
+    lines.push("Mana base changes:", "");
+    for (const s of manaChanges) lines.push(`- ${s.out} → ${s.in}: ${s.reason}`);
+    lines.push("");
+  }
+  for (const m of r.manaSuggestions ?? []) {
+    lines.push(
+      `- Suggested: ${m.changes.map((c) => `${c.action === "add" ? "+" : "−"}${c.name}`).join(", ")}: ${m.reason}`,
+    );
+  }
   for (const i of a.mana.issues) lines.push(`- ⚠️ ${i}`);
   lines.push("");
 
@@ -89,6 +101,13 @@ export function renderMarkdown(r: Report): string {
       );
     lines.push("");
   }
+  if (r.synergies?.length) {
+    lines.push("## Synergies", "");
+    for (const syn of r.synergies)
+      lines.push(`- **${syn.title}** (${syn.cards.join(" + ")}): ${syn.explanation}`);
+    lines.push("");
+  }
+
   lines.push("## Swaps", "", "| Out | In | Category | Why |", "|---|---|---|---|");
   for (const s of r.swaps)
     lines.push(`| ${s.out} | ${s.in} | ${s.category} | ${s.reason.replace(/\|/g, "/")} |`);

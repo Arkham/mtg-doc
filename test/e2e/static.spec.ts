@@ -25,6 +25,8 @@ test.describe("static site", () => {
     await expect(page.getByRole("heading", { name: "Deck list", exact: true })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Mana base", exact: true })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Goldfish simulation" })).toBeVisible();
+    await expect(page.locator(".mana-advice h3").first()).toBeVisible();
+    await expect(page.getByRole("heading", { name: "What we changed" })).toBeVisible();
     await expect(page.getByText("Re-run with different options")).toHaveCount(0);
     await expectNoHorizontalOverflow(page);
   });

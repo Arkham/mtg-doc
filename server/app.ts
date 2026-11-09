@@ -5,7 +5,13 @@ import multer from "multer";
 import { z } from "zod";
 import type { RecognitionResult } from "../shared/types.ts";
 import { config, llmEnabled } from "./config.ts";
-import { applyChatChanges, chatAboutDeck, readChat } from "./chat.ts";
+import {
+  applyChatChanges,
+  applyManaSuggestion,
+  chatAboutDeck,
+  readChat,
+  refreshSynergies,
+} from "./chat.ts";
 import { recognizeImages, recognizeText } from "./ocr.ts";
 import { getJob, startOptimize } from "./pipeline.ts";
 import { autocomplete, lookupExact, resolveNames } from "./sources/scryfall.ts";
@@ -242,6 +248,18 @@ export function createApp() {
     wrap(async (req, res) =>
       res.json(await applyChatChanges(String(req.params.slug), String(req.params.messageId))),
     ),
+  );
+
+  app.post(
+    "/api/decks/:slug/mana-suggestions/:id/apply",
+    wrap(async (req, res) =>
+      res.json(await applyManaSuggestion(String(req.params.slug), String(req.params.id))),
+    ),
+  );
+
+  app.post(
+    "/api/decks/:slug/synergies",
+    wrap(async (req, res) => res.json(await refreshSynergies(String(req.params.slug)))),
   );
 
   app.get("/api/jobs/:id", (req, res) => {

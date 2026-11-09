@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import type {
   BracketReport,
+  ManaSuggestion,
   Card,
   DeckSnapshot,
   Job,
@@ -30,11 +31,14 @@ import {
   planWithLlm,
   rebalanceBasics,
 } from "./analysis/optimizer.ts";
+import { planManaFixes } from "./analysis/manabase.ts";
 import { buildSolverContext, solve, trimToBudget } from "./analysis/search.ts";
 import { simulate } from "./analysis/simulate.ts";
 import { config, llmEnabled } from "./config.ts";
 import { parseDecklist } from "./decklist.ts";
 import { buildCardIndex } from "./card-index.ts";
+import { landCandidates, toSuggestion } from "./mana-advice.ts";
+import { findSynergies } from "./synergies.ts";
 import { renderMarkdown } from "./report.ts";
 import { BRACKET_PAGE, getCommanderData } from "./sources/edhrec.ts";
 import { researchCommander } from "./sources/research.ts";
@@ -46,6 +50,9 @@ const jobs = new Map<string, Job>();
 
 export const getJob = (id: string) => jobs.get(id);
 
+/** Land swaps the optimizer applies on its own to fix the mana base, beyond the spell swaps. */
+const MANA_FIXES = 4;
+
 const STEPS = [
   "Load card data",
   "Find combos & check bracket",
@@ -55,6 +62,7 @@ const STEPS = [
   "Search for upgrades",
   "Review swaps",
   "Fix mana base & verify bracket",
+  "Find synergies",
   "Write report",
 ] as const;
 
@@ -296,6 +304,7 @@ async function run(job: Job) {
     return { plan, model };
   });
 
+  let manaSuggestions: ManaSuggestion[] = [];
   const { finalDeck, swaps, after, assessAfter } = await step(job, 7, async (s) => {
     const alternatives = new Map(solver.swaps.map((p) => [p.out.name, [p.in, ...p.alternatives]]));
     // Required bracket/budget fixes may exceed maxSwaps; never let the cap drop them.
@@ -327,8 +336,53 @@ async function run(job: Job) {
     const rebalanced = isCommander
       ? await rebalanceBasics(landFix.deck, identity, edhAll?.avgLands ?? null, locked)
       : { deck: landFix.deck, swaps: [] };
-    let finalDeck = rebalanced.deck;
-    let swaps: Swap[] = mergeSwaps([...applied.swaps, ...landFix.swaps, ...rebalanced.swaps]);
+    // Replace tapped/colorless lands and fix color shortfalls with better lands, then keep a few
+    // more improvements as suggestions the user can apply.
+    const landPool = isCommander
+      ? [
+          ...ctx.candidates.map((c) => c.card),
+          ...(await landCandidates(identity, options.budgetPerCard)),
+        ]
+      : [];
+    const value = new Map([...ctx.scored, ...ctx.candidates].map((c) => [c.card.name, c.score]));
+    const manaFixed = isCommander
+      ? planManaFixes({
+          deck: rebalanced.deck,
+          identity,
+          avgLands: edhAll?.avgLands ?? null,
+          candidates: landPool,
+          value,
+          violation: ctx.violation,
+          locked,
+          max: MANA_FIXES,
+        })
+      : { deck: rebalanced.deck, fixes: [] };
+    manaSuggestions = isCommander
+      ? planManaFixes({
+          deck: manaFixed.deck,
+          identity,
+          avgLands: edhAll?.avgLands ?? null,
+          candidates: landPool,
+          value,
+          violation: ctx.violation,
+          locked,
+          max: 3,
+        }).fixes.map(toSuggestion)
+      : [];
+    let finalDeck = manaFixed.deck;
+    let swaps: Swap[] = mergeSwaps([
+      ...applied.swaps,
+      ...landFix.swaps,
+      ...rebalanced.swaps,
+      ...manaFixed.fixes.map((f) => ({
+        out: f.out.name,
+        in: f.in.name,
+        category: "mana" as const,
+        reason: f.reason,
+        outCard: f.out,
+        inCard: f.in,
+      })),
+    ]);
 
     // The LLM may drop the solver's budget trims; enforce the cap on the final list.
     if (options.budgetTotal !== null && totalPrice(finalDeck) > options.budgetTotal) {
@@ -403,7 +457,20 @@ async function run(job: Job) {
     ? await findCombos(commanderNames, legalMain(finalDeck), identity).catch(() => combos)
     : combos;
 
-  await step(job, 8, async () => {
+  const synergies = await step(job, 8, async (s) => {
+    if (!llmEnabled() || !isCommander) {
+      s.status = "skipped";
+      return undefined;
+    }
+    const found = await findSynergies(finalDeck, finalCombos.present).catch((e) => {
+      warnings.push(`Synergy search failed: ${e}`);
+      return undefined;
+    });
+    s.detail = found ? `${found.length} found` : "failed";
+    return found;
+  });
+
+  await step(job, 9, async () => {
     const bracket: BracketReport | undefined = isCommander
       ? {
           target,
@@ -429,7 +496,6 @@ async function run(job: Job) {
       strategy: plan.strategy,
       themes: plan.themes,
       swaps,
-      manaNotes: plan.manaNotes,
       before,
       after,
       combosPresent: finalCombos.present,
@@ -446,6 +512,8 @@ async function run(job: Job) {
       options,
       bracket,
       decklist: toDecklist(finalDeck, deck),
+      manaSuggestions,
+      synergies,
     };
     report.cardIndex = await buildCardIndex(report, [
       ...deck.slots.map((x) => x.card),

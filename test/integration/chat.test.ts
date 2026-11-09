@@ -89,6 +89,30 @@ describe("deck chat without an LLM", () => {
     assert.ok(report.cardIndex![piece]?.image, "new combo cards have previews");
   });
 
+  test("mana suggestions are recomputed after edits and can be applied", async () => {
+    const detail = (await (await fetch(`${base}/api/decks/${slug}`)).json()) as { report: Report };
+    const suggestions = detail.report.manaSuggestions!;
+    assert.ok(Array.isArray(suggestions), "recomputed by the previous edit");
+    if (!suggestions.length) return;
+    const [first] = suggestions;
+    const res = await fetch(`${base}/api/decks/${slug}/mana-suggestions/${first.id}/apply`, {
+      method: "POST",
+    });
+    assert.equal(res.status, 200);
+    const report = (await res.json()) as Report;
+    const added = first.changes.find((c) => c.action === "add")!.name;
+    assert.ok(report.decklist!.some((c) => c.name === added));
+    assert.match(report.edits!.at(-1)!.request, /^Mana base:/);
+    assert.ok(
+      !report.manaSuggestions!.some((m) => m.id === first.id),
+      "applied suggestion is gone",
+    );
+    const again = await fetch(`${base}/api/decks/${slug}/mana-suggestions/${first.id}/apply`, {
+      method: "POST",
+    });
+    assert.equal(again.status, 404);
+  });
+
   test("invalid changes are rejected with a reason", async () => {
     const reply = await say(
       "add Counterspell; remove Definitely Not A Card; add Lathril, Blade of the Elves",

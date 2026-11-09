@@ -1566,6 +1566,35 @@ button.hero-card:active:not(:disabled) {
   color: var(--muted);
   line-height: 1.5;
 }
+.mana-advice h3 {
+  margin-top: 18px;
+}
+.mana-changes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mana-changes li {
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mana-swap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.mana-swap .small-btn {
+  margin: 0 0 0 auto;
+}
 .mana-intro {
   margin: 0 0 4px;
 }
@@ -1688,6 +1717,49 @@ table.data th:not(:first-child) {
   -webkit-overflow-scrolling: touch;
 }
 
+.synergies {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(460px, 100%), 1fr));
+  gap: 12px;
+}
+.synergy {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 12px;
+}
+.synergy-cards {
+  display: flex;
+  width: 132px;
+}
+.synergy-cards .card-name + .card-name {
+  margin-left: -30px;
+}
+@media (max-width: 520px) {
+  .synergy {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.synergy-cards img {
+  display: block;
+  width: 64px;
+  border-radius: 4.75% / 3.5%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+.synergy-text p {
+  margin: 4px 0 0;
+  color: var(--text-2);
+}
+.synergy-names {
+  margin-top: 2px;
+}
 .combo-columns {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));

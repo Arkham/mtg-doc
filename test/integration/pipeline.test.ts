@@ -55,6 +55,22 @@ describe("full optimizer pipeline (recorded APIs, no LLM)", () => {
     assert.ok(report.swaps.some((s) => s.alternatives && s.alternatives.length > 0));
     assert.equal(report.model, null);
 
+    // The mana base pass replaces tapped lands with untapped ones and leaves actionable suggestions.
+    assert.ok(report.after.mana.tappedLands.length < report.before.mana.tappedLands.length);
+    const landSwaps = report.swaps.filter(
+      (s) => s.category === "mana" && s.inCard?.isLand && s.outCard?.isLand,
+    );
+    assert.ok(landSwaps.length > 0);
+    assert.ok(landSwaps.every((s) => !s.inCard!.entersTapped));
+    assert.ok(Array.isArray(report.manaSuggestions));
+    for (const m of report.manaSuggestions!) {
+      assert.deepEqual(
+        m.changes.map((c) => c.action),
+        ["remove", "add"],
+      );
+      assert.ok(m.changes.every((c) => c.ok && c.card?.isLand));
+    }
+
     // Combos describe the final deck: nothing "one card away" is already in it.
     const finalNames = new Set(report.decklist!.map((c) => c.name));
     assert.ok(report.combosOneAway.every((c) => !finalNames.has(c.missing[0])));

@@ -34,12 +34,9 @@ Skipped to stay in the bracket:
 | B sources (target 21) | 19 | 19 |
 | R sources (target 17) | 17 | 17 |
 
-- These 15 spell swaps retain the current 36 lands pending automatic land adjustment; approximately 38 remains a sensible starting point.
-- Arcane Signet, Rakdos Signet, and Thought Vessel bring the supplied ramp count from seven to approximately ten.
-- Prioritize untapped colored sources in the automatic mana-base pass. Razorkin Needlehead needs RR, Underworld Dreams needs BBB, and the retained Niv-Mizzet needs UURR.
-- Reduce the ten unconditional tapped lands where practical, replacing Guildgates and Akoum Refuge before sacrificing useful effects such as Bojuka Bog.
-- Temple of the False God is the first utility land to reconsider: it cannot help early development. Avoid adding more colorless utility lands.
-- No extra-turn cards or mass land denial are added. Peer into the Abyss, infect finishers, and replacement infinite-combo auras are deliberately omitted to support turn-six-or-later pacing.
+- Suggested: −Temple of the False God, +Exotic Orchard: Temple of the False God only makes colorless mana; Exotic Orchard makes black and red and blue untapped, helping blue and black, which are short.
+- Suggested: −Mountain, +Watery Grave: you have plenty of red sources; Watery Grave makes black and blue untapped, helping blue and black, which are short.
+- Suggested: −Akoum Refuge, +City of Brass: Akoum Refuge always enters tapped; City of Brass makes black and red and blue untapped, helping blue, which is short.
 - ⚠️ Blue: 18 lands make it, about 21 wanted.
 - ⚠️ Black: 19 lands make it, about 21 wanted.
 - ⚠️ 10 lands enter tapped unconditionally; aim for 4 or fewer.
@@ -94,6 +91,19 @@ Skipped to stay in the bracket:
 - add **Peer into the Abyss** → [Razorkin Needlehead + Peer into the Abyss](https://commanderspellbook.com/combo/1561-5919/): Near-infinite damage to one opponent, Near-infinite draw triggers for target opponent, Near-infinite card draw for target opponent, Near-infinite lifeloss for target opponent
 - add **Peer into the Abyss** → [Nekusar, the Mindrazer + Peer into the Abyss](https://commanderspellbook.com/combo/1561-1972/): Near-infinite card draw for target opponent, Near-infinite damage to one opponent, Near-infinite draw triggers for target opponent, Target opponent loses the game
 - add **Peer into the Abyss** → [Ob Nixilis, the Hate-Twisted + Peer into the Abyss](https://commanderspellbook.com/combo/1561-5165/): Target player loses the game
+
+## Synergies
+
+- **Seven-Card Punishment** (Nekusar, the Mindrazer + Reforge the Soul + Orcish Bowmasters): Reforge the Soul makes each opponent draw seven cards, triggering Nekusar and Orcish Bowmasters seven times per opponent. This combines table-wide damage with a rapidly growing Orc Army and flexible Bowmasters damage.
+- **The Painful Puzzle Box** (Nekusar, the Mindrazer + Teferi's Puzzle Box + Underworld Dreams): Teferi's Puzzle Box forces opponents to redraw their hands every draw step, with Nekusar and Underworld Dreams dealing a combined 2 damage per card drawn. The normal draw and Nekusar's additional draw also trigger both punishers.
+- **One-Damage Advantage Engine** (Nekusar, the Mindrazer + Ob Nixilis, Captive Kingpin + Scrawling Crawler): Nekusar's damage and Scrawling Crawler's life loss each independently trigger Ob Nixilis, Captive Kingpin when an opponent draws. Scrawling Crawler also supplies a group draw every upkeep, turning the punishment engine into counters and access to additional cards.
+- **Draw, Bounce, Delay** (Nekusar, the Mindrazer + Sigil of Sleep + Frozen Aether): With Sigil of Sleep enchanting Nekusar, every opposing draw lets you return a creature that opponent controls to their hand. Frozen Aether makes replayed creatures enter tapped, helping keep attackers and utility creatures under control.
+- **Wheel into Empty Hands** (Nekusar, the Mindrazer + Helm of the Ghastlord + Windfall): Helm of the Ghastlord gives Nekusar both damage-triggered abilities, so every opponent's Windfall draw also generates a card for you and a discard for that opponent. Those triggers resolve after Windfall finishes, potentially stripping opponents of their freshly drawn hands without forming an infinite loop.
+- **Double-Sided Draw Damage** (Nekusar, the Mindrazer + Prosperity + Psychosis Crawler): Prosperity for X causes Nekusar to deal X damage to each opponent while your own X draws make Psychosis Crawler drain each opponent for another X life. You refill your hand while each opponent loses a total of 2X life, assuming the damage is not prevented.
+- **Back-to-Back Wheel Burn** (Nekusar, the Mindrazer + Windfall + Molten Psyche): Windfall refills hands for Molten Psyche to shuffle away and redraw, generating another wave of Nekusar triggers. With metalcraft active, Molten Psyche also damages each opponent for all cards they have drawn that turn, including both spells' draws.
+- **Protected Repeatable Wheels** (Nekusar, the Mindrazer + Jace's Archivist + Lightning Greaves): Lightning Greaves lets Jace's Archivist activate immediately and protects it from targeted removal while equipped. Its repeatable wheel reloads your hand and turns every opposing redraw into Nekusar damage.
+- **Six-Damage Draw Steps** (Nekusar, the Mindrazer + Spiteful Visions): Together they make opponents draw three cards during an ordinary draw step, with each card triggering both damage abilities for 6 total damage. Spiteful Visions also damages you for your own draws, making this a powerful but symmetrical accelerator.
+- **Pay to Attack, Bleed to Pay** (Nekusar, the Mindrazer + Propaganda + Manabarbs + Sol Ring): Propaganda taxes attacks against you, and Manabarbs punishes opponents who tap lands to pay that tax while Nekusar keeps draining them through draws. Sol Ring supplies mana without triggering Manabarbs, helping you operate under your own pressure package.
 
 ## Swaps
 

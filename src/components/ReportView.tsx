@@ -226,6 +226,173 @@ function ColorBars({ before, after }: { before: DeckSnapshot; after: DeckSnapsho
   );
 }
 
+function Synergies({
+  report: r,
+  slug,
+  onUpdated,
+}: {
+  report: Report;
+  slug: string;
+  onUpdated: (report: Report) => void;
+}) {
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const items = r.synergies ?? [];
+  const image = (name: string) =>
+    r.cardIndex?.[name]?.image ?? r.decklist?.find((c) => c.name === name)?.image ?? null;
+  const refresh = async () => {
+    setBusy(true);
+    setError(null);
+    try {
+      onUpdated(await api.refreshSynergies(slug));
+    } catch (e) {
+      setError(String(e instanceof Error ? e.message : e));
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <>
+      <div className="row between">
+        <h2>Synergies</h2>
+        {!IS_STATIC && (
+          <button className="small-btn" disabled={busy} onClick={refresh}>
+            {busy ? <span className="spinner" aria-hidden /> : null}
+            {items.length ? "Find synergies again" : "Find synergies"}
+          </button>
+        )}
+      </div>
+      <p className="muted small">
+        Cards that are stronger together, without being an infinite combo.
+      </p>
+      {error && <p className="error small">{error}</p>}
+      {items.length === 0 ? (
+        <p className="muted">No synergies yet.</p>
+      ) : (
+        <ul className="synergies">
+          {items.map((syn) => (
+            <li key={syn.cards.join("|")} className="synergy">
+              <div className="synergy-cards">
+                {syn.cards.map((n) =>
+                  image(n) ? (
+                    <CardName
+                      key={n}
+                      name={n}
+                      label={<img src={image(n)!} alt={n} loading="lazy" />}
+                    />
+                  ) : null,
+                )}
+              </div>
+              <div className="synergy-text">
+                <strong>{syn.title}</strong>
+                <div className="small synergy-names">
+                  <CardList names={syn.cards} />
+                </div>
+                <p className="small">{syn.explanation}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
+}
+
+function ManaAdvice({
+  report: r,
+  slug,
+  onApplied,
+}: {
+  report: Report;
+  slug: string;
+  onApplied: (report: Report) => void;
+}) {
+  const [busy, setBusy] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const changed = r.swaps.filter(
+    (s) => s.category === "mana" && s.inCard?.isLand && s.outCard?.isLand,
+  );
+  const suggestions = r.manaSuggestions ?? [];
+  const apply = async (id: string) => {
+    setBusy(id);
+    setError(null);
+    try {
+      onApplied(await api.applyManaSuggestion(slug, id));
+    } catch (e) {
+      setError(String(e instanceof Error ? e.message : e));
+    } finally {
+      setBusy(null);
+    }
+  };
+  return (
+    <div className="mana-advice">
+      {changed.length > 0 && (
+        <>
+          <h3>What we changed</h3>
+          <ul className="mana-changes">
+            {changed.map((s, i) => (
+              <li key={i}>
+                <div className="mana-swap">
+                  <span className="edit-chip remove">
+                    − <CardName name={s.out} card={s.outCard} />
+                  </span>
+                  <span className="muted">→</span>
+                  <span className="edit-chip add">
+                    + <CardName name={s.in} card={s.inCard} />
+                  </span>
+                </div>
+                <div className="muted small">{s.reason}</div>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+      {suggestions.length > 0 && (
+        <>
+          <h3>Suggested swaps</h3>
+          <ul className="mana-changes">
+            {suggestions.map((m) => (
+              <li key={m.id}>
+                <div className="mana-swap">
+                  {m.changes.map((c, i) => (
+                    <span key={i} className={`edit-chip ${c.action}`}>
+                      {c.action === "add" ? "+" : "−"} <CardName name={c.name} card={c.card} />
+                      {c.action === "add" && c.card?.priceUsd != null && (
+                        <span className="muted small"> ${c.card.priceUsd.toFixed(2)}</span>
+                      )}
+                    </span>
+                  ))}
+                  {!IS_STATIC && (
+                    <button
+                      className="small-btn"
+                      disabled={busy !== null}
+                      onClick={() => apply(m.id)}
+                    >
+                      {busy === m.id ? <span className="spinner" aria-hidden /> : "Apply"}
+                    </button>
+                  )}
+                </div>
+                <div className="muted small">{m.reason}</div>
+              </li>
+            ))}
+          </ul>
+          {error && <p className="error small">{error}</p>}
+        </>
+      )}
+      {r.after.mana.issues.length > 0 && (
+        <>
+          <h3>Still worth a look</h3>
+          <ul className="notes">
+            {r.after.mana.issues.map((n, i) => (
+              <li key={i}>{n}</li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
+  );
+}
+
 function Curve({ before, after }: { before: DeckSnapshot; after: DeckSnapshot }) {
   const keys = ["0", "1", "2", "3", "4", "5", "6", "7+"];
   const max = Math.max(
@@ -881,6 +1048,7 @@ export function ReportView({ slug }: { slug: string }) {
     ["mana", "Mana"],
     ["sim", "Goldfish"],
     ...(hasCombos ? [["combos", "Combos"] as [string, string]] : []),
+    ...(r.synergies?.length || !IS_STATIC ? [["synergies", "Synergies"] as [string, string]] : []),
     ["swaps", "Swaps"],
     ...(r.research ? [["research", "Research"] as [string, string]] : []),
   ];
@@ -1056,20 +1224,16 @@ export function ReportView({ slug }: { slug: string }) {
               Number of spells at each mana value (lands not counted).
             </p>
             <Curve before={r.before} after={r.after} />
-            {r.manaNotes.length > 0 && (
-              <ul>
-                {r.manaNotes.map((n, i) => (
-                  <li key={i}>{n}</li>
-                ))}
-              </ul>
-            )}
-            {r.after.mana.issues.length > 0 && (
-              <ul className="notes">
-                {r.after.mana.issues.map((n, i) => (
-                  <li key={i}>{n}</li>
-                ))}
-              </ul>
-            )}
+            <ManaAdvice
+              report={r}
+              slug={slug}
+              onApplied={(report) => {
+                setDetail((d) => (d ? { ...d, report } : d));
+                fetch(fileUrl(slug, "optimized.txt"))
+                  .then((res) => (res.ok ? res.text() : null))
+                  .then(setOptimizedText, () => {});
+              }}
+            />
             {r.after.mana.tappedLands.length > 0 && (
               <p className="muted small">
                 Enters tapped: <CardList names={r.after.mana.tappedLands} separator=", " />
@@ -1122,6 +1286,16 @@ export function ReportView({ slug }: { slug: string }) {
                 )}
               </div>
             </div>
+          </section>
+        )}
+
+        {(r.synergies?.length || !IS_STATIC) && (
+          <section className="panel" id="synergies">
+            <Synergies
+              report={r}
+              slug={slug}
+              onUpdated={(report) => setDetail((d) => (d ? { ...d, report } : d))}
+            />
           </section>
         )}
 

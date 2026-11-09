@@ -9,7 +9,7 @@
       "oracleId": "8a5e3c8e-8e22-49b9-8ee5-4a36361f0da6",
       "manaCost": "{2}{U}{B}{R}",
       "cmc": 5,
-      "typeLine": "Legendary Creature — Zombie Wizard",
+      "typeLine": "Legendary Creature \u2014 Zombie Wizard",
       "oracleText": "At the beginning of each player's draw step, that player draws an additional card.\nWhenever an opponent draws a card, Nekusar deals 1 damage to that player.",
       "colors": [
         "B",
@@ -41,7 +41,7 @@
   ],
   "generatedAt": "2026-11-09T14:43:26.632Z",
   "model": "gpt-6.1-sol",
-  "strategy": "Build a resilient draw-punishment board, then turn symmetrical draw effects and wheels into damage rather than racing toward an infinite combo. These changes lower the curve, bring ramp to roughly ten pieces, and improve protection and interaction while preserving the deck’s group-slug personality. The final configuration uses exactly three Game Changers under the supplied classification—Rhystic Study, Orcish Bowmasters, and Cyclonic Rift—and removes the existing two-card infinite combo, aiming for interactive games that reach turn six or later.",
+  "strategy": "Build a resilient draw-punishment board, then turn symmetrical draw effects and wheels into damage rather than racing toward an infinite combo. These changes lower the curve, bring ramp to roughly ten pieces, and improve protection and interaction while preserving the deck\u2019s group-slug personality. The final configuration uses exactly three Game Changers under the supplied classification\u2014Rhystic Study, Orcish Bowmasters, and Cyclonic Rift\u2014and removes the existing two-card infinite combo, aiming for interactive games that reach turn six or later.",
   "themes": [
     "Wheels",
     "Draw punishment",
@@ -54,7 +54,7 @@
       "out": "Army of the Damned",
       "in": "Scrawling Crawler",
       "category": "synergy",
-      "reason": "Crawler supplies both extra draws and redundant draw punishment for three mana. It advances Nekusar’s plan without requiring an eight-mana token spell and another combat step.",
+      "reason": "Crawler supplies both extra draws and redundant draw punishment for three mana. It advances Nekusar\u2019s plan without requiring an eight-mana token spell and another combat step.",
       "outCard": {
         "name": "Army of the Damned",
         "oracleId": "75d667ec-86f4-4850-a3b6-e7a9fc7053b0",
@@ -88,7 +88,7 @@
         "oracleId": "1d60c80d-9a95-4051-bbf7-02ca51ee1be2",
         "manaCost": "{3}",
         "cmc": 3,
-        "typeLine": "Artifact Creature — Phyrexian Construct",
+        "typeLine": "Artifact Creature \u2014 Phyrexian Construct",
         "oracleText": "At the beginning of your upkeep, each player draws a card.\nWhenever an opponent draws a card, that player loses 1 life.",
         "colors": [],
         "colorIdentity": [],
@@ -163,7 +163,7 @@
         "oracleId": "a78f981a-bf8a-42a4-b171-d655cc2cc1a2",
         "manaCost": "{R}{R}",
         "cmc": 2,
-        "typeLine": "Creature — Human Assassin",
+        "typeLine": "Creature \u2014 Human Assassin",
         "oracleText": "This creature has first strike during your turn.\nWhenever an opponent draws a card, this creature deals 1 damage to them.",
         "colors": [
           "R"
@@ -214,7 +214,7 @@
         "oracleId": "9e0e4217-fefe-48dd-9153-032460192b19",
         "manaCost": "{4}{U}{B}{R}",
         "cmc": 7,
-        "typeLine": "Legendary Creature — Zombie Assassin",
+        "typeLine": "Legendary Creature \u2014 Zombie Assassin",
         "oracleText": "Haste\nWhenever Thraximundar attacks, defending player sacrifices a creature of their choice.\nWhenever a player sacrifices a creature, you may put a +1/+1 counter on Thraximundar.",
         "colors": [
           "B",
@@ -293,13 +293,13 @@
       "out": "Charmbreaker Devils",
       "in": "Teferi's Puzzle Box",
       "category": "synergy",
-      "reason": "Puzzle Box repeatedly converts opponents’ hands into fresh draw triggers without needing additional wheel spells. It puts cards on the bottom rather than discarding them, so this build does not add Waste Not expecting those cards to interact.",
+      "reason": "Puzzle Box repeatedly converts opponents\u2019 hands into fresh draw triggers without needing additional wheel spells. It puts cards on the bottom rather than discarding them, so this build does not add Waste Not expecting those cards to interact.",
       "outCard": {
         "name": "Charmbreaker Devils",
         "oracleId": "1b9df437-6988-4ddc-80c4-893e11076067",
         "manaCost": "{5}{R}",
         "cmc": 6,
-        "typeLine": "Creature — Devil",
+        "typeLine": "Creature \u2014 Devil",
         "oracleText": "At the beginning of your upkeep, return an instant or sorcery card at random from your graveyard to your hand.\nWhenever you cast an instant or sorcery spell, this creature gets +4/+0 until end of turn.",
         "colors": [
           "R"
@@ -453,7 +453,7 @@
         "oracleId": "93da1e63-54d6-4b05-af91-f13e7e111176",
         "manaCost": "{4}{U}{U}",
         "cmc": 6,
-        "typeLine": "Legendary Creature — Moonfolk Wizard",
+        "typeLine": "Legendary Creature \u2014 Moonfolk Wizard",
         "oracleText": "Flying\n{2}, Return two lands you control to their owner's hand: Copy target instant or sorcery spell. You may choose new targets for the copy.",
         "colors": [
           "U"
@@ -481,7 +481,7 @@
         "oracleId": "df13dafb-f82e-42ac-b6dc-efe82af5db58",
         "manaCost": "{2}{R}",
         "cmc": 3,
-        "typeLine": "Creature — Human Wizard",
+        "typeLine": "Creature \u2014 Human Wizard",
         "oracleText": "{1}{R}, {T}, Sacrifice this creature: Each player discards their hand, then draws seven cards.",
         "colors": [
           "R"
@@ -526,7 +526,7 @@
       "out": "Cruel Ultimatum",
       "in": "Rakdos Signet",
       "category": "ramp",
-      "reason": "The Signet improves both acceleration and access to red and black mana. Cruel Ultimatum’s demanding seven-mana cost is poorly matched to a deck that wants to establish several smaller engines.",
+      "reason": "The Signet improves both acceleration and access to red and black mana. Cruel Ultimatum\u2019s demanding seven-mana cost is poorly matched to a deck that wants to establish several smaller engines.",
       "outCard": {
         "name": "Cruel Ultimatum",
         "oracleId": "01294ac9-1a06-4ee8-b3b1-db1f07c9d94e",
@@ -612,7 +612,7 @@
       "out": "Price of Knowledge",
       "in": "Orcish Bowmasters",
       "category": "interaction",
-      "reason": "Bowmasters turns wheels and additional draws into flexible damage and a growing blocker at a much lower cost. It does not punish the first card drawn in each opponent’s draw step, but Nekusar’s additional draw still qualifies.",
+      "reason": "Bowmasters turns wheels and additional draws into flexible damage and a growing blocker at a much lower cost. It does not punish the first card drawn in each opponent\u2019s draw step, but Nekusar\u2019s additional draw still qualifies.",
       "outCard": {
         "name": "Price of Knowledge",
         "oracleId": "1c586aa7-7a61-464f-abba-b33f9a525f0e",
@@ -646,7 +646,7 @@
         "oracleId": "ea5103f5-27e0-4eb1-902c-7f34652d6bf3",
         "manaCost": "{1}{B}",
         "cmc": 2,
-        "typeLine": "Creature — Orc Archer",
+        "typeLine": "Creature \u2014 Orc Archer",
         "oracleText": "Flash\nWhen this creature enters and whenever an opponent draws a card except the first one they draw in each of their draw steps, this creature deals 1 damage to any target. Then amass Orcs 1.",
         "colors": [
           "B"
@@ -692,13 +692,13 @@
       "out": "Aura Thief",
       "in": "Lightning Greaves",
       "category": "other",
-      "reason": "Greaves protects Nekusar and can let Magus of the Wheel or Jace’s Archivist activate immediately. Move it off a creature before targeting that creature with Sigil of Sleep, since shroud prevents your own targeting too.",
+      "reason": "Greaves protects Nekusar and can let Magus of the Wheel or Jace\u2019s Archivist activate immediately. Move it off a creature before targeting that creature with Sigil of Sleep, since shroud prevents your own targeting too.",
       "outCard": {
         "name": "Aura Thief",
         "oracleId": "cf0936ea-2741-43a4-ad6a-a1258b54945b",
         "manaCost": "{3}{U}",
         "cmc": 4,
-        "typeLine": "Creature — Illusion",
+        "typeLine": "Creature \u2014 Illusion",
         "oracleText": "Flying\nWhen this creature dies, you gain control of all enchantments. (You don't get to move Auras.)",
         "colors": [
           "U"
@@ -726,7 +726,7 @@
         "oracleId": "ca204b66-8d0c-431a-8d34-282f7c2d17da",
         "manaCost": "{2}",
         "cmc": 2,
-        "typeLine": "Artifact — Equipment",
+        "typeLine": "Artifact \u2014 Equipment",
         "oracleText": "Equipped creature has haste and shroud. (It can't be the target of spells or abilities.)\nEquip {0}",
         "colors": [],
         "colorIdentity": [],
@@ -767,14 +767,14 @@
       "out": "Collective Restraint",
       "in": "Thought Vessel",
       "category": "ramp",
-      "reason": "Keep Propaganda as the efficient defensive tax and use this slot for a third additional ramp piece. Thought Vessel’s hand-size benefit is useful, although its colorless mana does not solve the deck’s demanding colored costs.",
+      "reason": "Keep Propaganda as the efficient defensive tax and use this slot for a third additional ramp piece. Thought Vessel\u2019s hand-size benefit is useful, although its colorless mana does not solve the deck\u2019s demanding colored costs.",
       "outCard": {
         "name": "Collective Restraint",
         "oracleId": "51f561db-ca7f-4661-bc04-99b8af02b8c9",
         "manaCost": "{3}{U}",
         "cmc": 4,
         "typeLine": "Enchantment",
-        "oracleText": "Domain — Creatures can't attack you unless their controller pays {X} for each creature they control that's attacking you, where X is the number of basic land types among lands you control.",
+        "oracleText": "Domain \u2014 Creatures can't attack you unless their controller pays {X} for each creature they control that's attacking you, where X is the number of basic land types among lands you control.",
         "colors": [
           "U"
         ],
@@ -844,7 +844,7 @@
       "out": "Dismiss",
       "in": "Arcane Denial",
       "category": "interaction",
-      "reason": "Two-mana interaction is easier to hold up while developing Nekusar and other engines. The countered spell’s controller can draw additional cards later, creating potential punishment triggers without making the counter dependent on Nekusar.",
+      "reason": "Two-mana interaction is easier to hold up while developing Nekusar and other engines. The countered spell\u2019s controller can draw additional cards later, creating potential punishment triggers without making the counter dependent on Nekusar.",
       "outCard": {
         "name": "Dismiss",
         "oracleId": "5c828a5e-10ae-4f63-86fd-2f160af43cc3",
@@ -931,7 +931,7 @@
         "oracleId": "c08ce0ec-e3fc-4fc3-a7b0-ce8e8fd079c0",
         "manaCost": "{3}",
         "cmc": 3,
-        "typeLine": "Kindred Artifact — Wizard Equipment",
+        "typeLine": "Kindred Artifact \u2014 Wizard Equipment",
         "oracleText": "Equipped creature has \"Whenever you draw a card, this creature gets +1/+1 and gains flying until end of turn\" and \"{4}: Draw a card.\"\nWhenever a Wizard creature enters, you may attach this Equipment to it.\nEquip {3}",
         "colors": [],
         "colorIdentity": [],
@@ -1086,7 +1086,7 @@
         "oracleId": "66fa528f-0e3a-450f-9035-1ba5a8a921e6",
         "manaCost": "{3}{U/B}",
         "cmc": 4,
-        "typeLine": "Enchantment — Aura",
+        "typeLine": "Enchantment \u2014 Aura",
         "oracleText": "Enchant creature\nAs long as enchanted creature is blue, it gets +1/+1 and has \"Whenever this creature deals damage to an opponent, draw a card.\"\nAs long as enchanted creature is black, it gets +1/+1 and has \"Whenever this creature deals damage to an opponent, that player discards a card.\"",
         "colors": [
           "B",
@@ -1147,13 +1147,13 @@
       "out": "Drana, Kalastria Bloodchief",
       "in": "Whispering Madness",
       "category": "synergy",
-      "reason": "Replace a mana-hungry creature with another wheel that directly rewards Nekusar’s damage engines. Cipher offers optional reuse through evasive creatures such as Vampire Nighthawk, but the initial wheel is useful without connecting in combat.",
+      "reason": "Replace a mana-hungry creature with another wheel that directly rewards Nekusar\u2019s damage engines. Cipher offers optional reuse through evasive creatures such as Vampire Nighthawk, but the initial wheel is useful without connecting in combat.",
       "outCard": {
         "name": "Drana, Kalastria Bloodchief",
         "oracleId": "67391f99-739a-490a-ba16-7fa1d758ec34",
         "manaCost": "{3}{B}{B}",
         "cmc": 5,
-        "typeLine": "Legendary Creature — Vampire Shaman",
+        "typeLine": "Legendary Creature \u2014 Vampire Shaman",
         "oracleText": "Flying\n{X}{B}{B}: Target creature gets -0/-X until end of turn and Drana gets +X/+0 until end of turn.",
         "colors": [
           "B"
@@ -1224,14 +1224,6 @@
         }
       ]
     }
-  ],
-  "manaNotes": [
-    "These 15 spell swaps retain the current 36 lands pending automatic land adjustment; approximately 38 remains a sensible starting point.",
-    "Arcane Signet, Rakdos Signet, and Thought Vessel bring the supplied ramp count from seven to approximately ten.",
-    "Prioritize untapped colored sources in the automatic mana-base pass. Razorkin Needlehead needs RR, Underworld Dreams needs BBB, and the retained Niv-Mizzet needs UURR.",
-    "Reduce the ten unconditional tapped lands where practical, replacing Guildgates and Akoum Refuge before sacrificing useful effects such as Bojuka Bog.",
-    "Temple of the False God is the first utility land to reconsider: it cannot help early development. Avoid adding more colorless utility lands.",
-    "No extra-turn cards or mass land denial are added. Peer into the Abyss, infect finishers, and replacement infinite-combo auras are deliberately omitted to support turn-six-or-later pacing."
   ],
   "before": {
     "mana": {
@@ -2019,7 +2011,7 @@
     }
   ],
   "research": {
-    "summary": "## 1. Main strategies/archetypes\n\n- **Wheels / draw-punishment:** The main build—establish effects that punish opponents for drawing, then chain **Windfall**, **Wheel of Fortune**, and similar spells to kill the table.\n- **Group slug:** A slower version using repeatable extra draws and multiple punishment permanents rather than one explosive turn.\n- **Wheel-storm / combo:** Emphasizes rituals, mana-producing discard engines, recursion, and consecutive wheels. **Infect** is a compact finishing package.\n- **Discard-control:** Adds discard payoffs or hand-denial effects. These overlap with wheels, but preventing opponents from drawing can conflict with Nekusar’s damage plan. EDHREC’s leading tags remain Wheels, Group Slug, Burn, and Card Draw. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer?utm_source=openai))\n\n## 2. Key synergy cards and engines\n\n| Role | Specific cards and purpose |\n|---|---|\n| **Wheels** | **Windfall**, **Wheel of Fortune**, **Reforge the Soul**, **Echo of Eons**, **Wheel and Deal**; **Jace's Archivist** and **Magus of the Wheel** provide repeatable/creature-based versions. |\n| **Redundant draw punishment** | **Underworld Dreams**, **Fate Unraveler**, **Razorkin Needlehead**, **Scrawling Crawler**, **Sheoldred, the Apocalypse**, **Orcish Bowmasters**. These let the deck function without its commander. |\n| **Repeatable draw engines** | **Teferi's Puzzle Box**, **Howling Mine**, **Spiteful Visions**. **Teferi's Puzzle Box** repeatedly replaces hands without discarding them. |\n\nThese are established selections on current EDHREC pages, not necessarily automatic inclusions in every power-level build. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer?utm_source=openai))\n\n- **Discard engines:** **Waste Not** converts opponents’ discarded cards into mana, creatures, or cards; **Geth's Grimoire** supplies cards; **Liliana's Caress** and **Megrim** add life-total pressure. Crucially, these need *discarding* wheels, not merely hand-shuffling effects. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer/optimized?utm_source=openai))\n- **Trigger/damage amplification:** **Harmonic Prodigy** doubles Nekusar’s triggered abilities; **Ghyrson Starn, Kelermorph** adds damage after his one-damage hits. Recent EDHREC coverage also highlights **Niv-Mizzet, Visionary** as a draw engine fueled by Nekusar’s damage. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer/wheels?utm_source=openai))\n\n## 3. Popular combos and their outputs\n\n| Exact cards | Result and important conditions |\n|---|---|\n| **Nekusar, the Mindrazer + Peer into the Abyss** | Target opponent draws half their library and loses half their life, rounded up; Nekusar then deals damage for those draws. **Usually kills one opponent**, but depends on their remaining library and life total—not an unconditional kill. |\n| **Nekusar, the Mindrazer + Tainted Strike + Windfall** | Give Nekusar infect, then wheel. Each opponent receives one poison counter per Nekusar damage trigger. From zero poison, **Windfall must make everyone draw at least ten cards** to kill the table. **Phyresis** or an equipped **Grafted Exoskeleton** can replace **Tainted Strike**. |\n| **Nekusar, the Mindrazer + Tainted Strike + Echo of Eons** | Cast **Tainted Strike**, cast **Echo of Eons**, then flash it back that turn. Fourteen draws per opponent produce **fourteen poison counters each**, absent interference. |\n\nCommander Spellbook documents these Nekusar-specific lines and their prerequisites. **One seven-card wheel alone is not lethal infect damage from zero poison.** ([commanderspellbook.com](https://commanderspellbook.com/combo/1561-1972/))\n\n**Higher-power engine:** **Underworld Breach + Lion's Eye Diamond + Wheel of Fortune** repeatedly escapes the Diamond and wheel, producing repeated seven-card draws and increasing storm count. With **Nekusar, the Mindrazer** present, those draws become table-wide damage. Spellbook’s starting setup requires at least six other cards across your hand/graveyard; actual repetitions are limited by available library/fuel. ([commanderspellbook.com](https://commanderspellbook.com/combo/1368-2706-3518/))\n\n## 4. Common mistakes and underperformers\n\n- **Giving away cards without sufficient punishment.** **Howling Mine**, **Kami of the Crescent Moon**, and especially **Font of Mythos** can help three opponents more than you. They suit slower slug builds better than streamlined wheel-storm lists. ([reddit.com](https://www.reddit.com/r/EDH/comments/1j4mlst?utm_source=openai))\n- **Casting Nekusar immediately, unprotected.** Have alternative payoffs and enough mana/protection to exploit him before opponents untap; do not make every game depend on repeatedly resolving a five-mana commander. ([reddit.com](https://www.reddit.com/r/EDH/comments/1uveq2m/the_way_of_the_wheel_how_to_build_a_wheels_deck/?utm_source=openai))\n- **Treating every wheel as equivalent.** Opponents can choose zero for **Wheel of Misfortune** and avoid wheeling. **Day's Undoing**, when cast on your turn, ends the turn before its draw-triggered punishment can resolve. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Confusing damage with life loss.** **Scrawling Crawler** causes life loss: damage amplifiers, infect, and **Niv-Mizzet, Visionary** do not enhance that loss. ([edhrec.com](https://edhrec.com/articles/nekusar-the-mindrazer-commander-makeover))\n- **Current explicit warning:** EDHREC’s September 11, 2026 makeover advises against **Naktamun Lorespinner**: Nekusar’s extra draws make preparing it again unreliable. ([edhrec.com](https://edhrec.com/articles/nekusar-the-mindrazer-commander-makeover))\n\n## 5. Mana base advice specific to Nekusar\n\n**My practical starting point:** approximately **36–37 lands and 10–12 ramp pieces**, adjusted after testing. Prioritize early colored mana and the ability to cast a payoff **plus a wheel/protection**, rather than merely reaching five mana. The published guide emphasizes land/ramp-heavy opening hands and the full Grixis Signet/Talisman suite. ([edh.wiki](https://edh.wiki/commanders/nekusar-the-mindrazer/?utm_source=openai))\n\n- **Fixing core:** **Command Tower**, **Exotic Orchard**, **Watery Grave**, **Steam Vents**, **Blood Crypt**; higher-budget lists add **Polluted Delta**, **Scalding Tarn**, and **Bloodstained Mire**. **Morphic Pool**, **Training Center**, and **Luxury Suite** are useful multiplayer duals. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Ramp:** **Sol Ring**, **Arcane Signet**, **Talisman of Dominance**, **Talisman of Creativity**, **Talisman of Indulgence**, **Dimir Signet**, **Izzet Signet**, **Rakdos Signet**. Colored two-mana rocks are particularly valuable here. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Build for actual pip requirements:** **Underworld Dreams** needs **BBB**, **Razorkin Needlehead** needs **RR**, and blue interaction often needs **UU**. Do not simply divide basics equally; the guide specifically omitted **Underworld Dreams** because of its demanding cost. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Limit colorless utility lands.** **Geier Reach Sanitarium** and **Mikokoro, Center of the Sea** support the plan, but **Reliquary Tower** is not mandatory: it neither fixes colors nor prevents wheel-induced discards. ([edh.wiki](https://edh.wiki/commanders/nekusar-the-mindrazer/?utm_source=openai))",
+    "summary": "## 1. Main strategies/archetypes\n\n- **Wheels / draw-punishment:** The main build\u2014establish effects that punish opponents for drawing, then chain **Windfall**, **Wheel of Fortune**, and similar spells to kill the table.\n- **Group slug:** A slower version using repeatable extra draws and multiple punishment permanents rather than one explosive turn.\n- **Wheel-storm / combo:** Emphasizes rituals, mana-producing discard engines, recursion, and consecutive wheels. **Infect** is a compact finishing package.\n- **Discard-control:** Adds discard payoffs or hand-denial effects. These overlap with wheels, but preventing opponents from drawing can conflict with Nekusar\u2019s damage plan. EDHREC\u2019s leading tags remain Wheels, Group Slug, Burn, and Card Draw. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer?utm_source=openai))\n\n## 2. Key synergy cards and engines\n\n| Role | Specific cards and purpose |\n|---|---|\n| **Wheels** | **Windfall**, **Wheel of Fortune**, **Reforge the Soul**, **Echo of Eons**, **Wheel and Deal**; **Jace's Archivist** and **Magus of the Wheel** provide repeatable/creature-based versions. |\n| **Redundant draw punishment** | **Underworld Dreams**, **Fate Unraveler**, **Razorkin Needlehead**, **Scrawling Crawler**, **Sheoldred, the Apocalypse**, **Orcish Bowmasters**. These let the deck function without its commander. |\n| **Repeatable draw engines** | **Teferi's Puzzle Box**, **Howling Mine**, **Spiteful Visions**. **Teferi's Puzzle Box** repeatedly replaces hands without discarding them. |\n\nThese are established selections on current EDHREC pages, not necessarily automatic inclusions in every power-level build. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer?utm_source=openai))\n\n- **Discard engines:** **Waste Not** converts opponents\u2019 discarded cards into mana, creatures, or cards; **Geth's Grimoire** supplies cards; **Liliana's Caress** and **Megrim** add life-total pressure. Crucially, these need *discarding* wheels, not merely hand-shuffling effects. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer/optimized?utm_source=openai))\n- **Trigger/damage amplification:** **Harmonic Prodigy** doubles Nekusar\u2019s triggered abilities; **Ghyrson Starn, Kelermorph** adds damage after his one-damage hits. Recent EDHREC coverage also highlights **Niv-Mizzet, Visionary** as a draw engine fueled by Nekusar\u2019s damage. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer/wheels?utm_source=openai))\n\n## 3. Popular combos and their outputs\n\n| Exact cards | Result and important conditions |\n|---|---|\n| **Nekusar, the Mindrazer + Peer into the Abyss** | Target opponent draws half their library and loses half their life, rounded up; Nekusar then deals damage for those draws. **Usually kills one opponent**, but depends on their remaining library and life total\u2014not an unconditional kill. |\n| **Nekusar, the Mindrazer + Tainted Strike + Windfall** | Give Nekusar infect, then wheel. Each opponent receives one poison counter per Nekusar damage trigger. From zero poison, **Windfall must make everyone draw at least ten cards** to kill the table. **Phyresis** or an equipped **Grafted Exoskeleton** can replace **Tainted Strike**. |\n| **Nekusar, the Mindrazer + Tainted Strike + Echo of Eons** | Cast **Tainted Strike**, cast **Echo of Eons**, then flash it back that turn. Fourteen draws per opponent produce **fourteen poison counters each**, absent interference. |\n\nCommander Spellbook documents these Nekusar-specific lines and their prerequisites. **One seven-card wheel alone is not lethal infect damage from zero poison.** ([commanderspellbook.com](https://commanderspellbook.com/combo/1561-1972/))\n\n**Higher-power engine:** **Underworld Breach + Lion's Eye Diamond + Wheel of Fortune** repeatedly escapes the Diamond and wheel, producing repeated seven-card draws and increasing storm count. With **Nekusar, the Mindrazer** present, those draws become table-wide damage. Spellbook\u2019s starting setup requires at least six other cards across your hand/graveyard; actual repetitions are limited by available library/fuel. ([commanderspellbook.com](https://commanderspellbook.com/combo/1368-2706-3518/))\n\n## 4. Common mistakes and underperformers\n\n- **Giving away cards without sufficient punishment.** **Howling Mine**, **Kami of the Crescent Moon**, and especially **Font of Mythos** can help three opponents more than you. They suit slower slug builds better than streamlined wheel-storm lists. ([reddit.com](https://www.reddit.com/r/EDH/comments/1j4mlst?utm_source=openai))\n- **Casting Nekusar immediately, unprotected.** Have alternative payoffs and enough mana/protection to exploit him before opponents untap; do not make every game depend on repeatedly resolving a five-mana commander. ([reddit.com](https://www.reddit.com/r/EDH/comments/1uveq2m/the_way_of_the_wheel_how_to_build_a_wheels_deck/?utm_source=openai))\n- **Treating every wheel as equivalent.** Opponents can choose zero for **Wheel of Misfortune** and avoid wheeling. **Day's Undoing**, when cast on your turn, ends the turn before its draw-triggered punishment can resolve. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Confusing damage with life loss.** **Scrawling Crawler** causes life loss: damage amplifiers, infect, and **Niv-Mizzet, Visionary** do not enhance that loss. ([edhrec.com](https://edhrec.com/articles/nekusar-the-mindrazer-commander-makeover))\n- **Current explicit warning:** EDHREC\u2019s September 11, 2026 makeover advises against **Naktamun Lorespinner**: Nekusar\u2019s extra draws make preparing it again unreliable. ([edhrec.com](https://edhrec.com/articles/nekusar-the-mindrazer-commander-makeover))\n\n## 5. Mana base advice specific to Nekusar\n\n**My practical starting point:** approximately **36\u201337 lands and 10\u201312 ramp pieces**, adjusted after testing. Prioritize early colored mana and the ability to cast a payoff **plus a wheel/protection**, rather than merely reaching five mana. The published guide emphasizes land/ramp-heavy opening hands and the full Grixis Signet/Talisman suite. ([edh.wiki](https://edh.wiki/commanders/nekusar-the-mindrazer/?utm_source=openai))\n\n- **Fixing core:** **Command Tower**, **Exotic Orchard**, **Watery Grave**, **Steam Vents**, **Blood Crypt**; higher-budget lists add **Polluted Delta**, **Scalding Tarn**, and **Bloodstained Mire**. **Morphic Pool**, **Training Center**, and **Luxury Suite** are useful multiplayer duals. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Ramp:** **Sol Ring**, **Arcane Signet**, **Talisman of Dominance**, **Talisman of Creativity**, **Talisman of Indulgence**, **Dimir Signet**, **Izzet Signet**, **Rakdos Signet**. Colored two-mana rocks are particularly valuable here. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Build for actual pip requirements:** **Underworld Dreams** needs **BBB**, **Razorkin Needlehead** needs **RR**, and blue interaction often needs **UU**. Do not simply divide basics equally; the guide specifically omitted **Underworld Dreams** because of its demanding cost. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Limit colorless utility lands.** **Geier Reach Sanitarium** and **Mikokoro, Center of the Sea** support the plan, but **Reliquary Tower** is not mandatory: it neither fixes colors nor prevents wheel-induced discards. ([edh.wiki](https://edh.wiki/commanders/nekusar-the-mindrazer/?utm_source=openai))",
     "cardsMentioned": [
       "Windfall",
       "Wheel of Fortune",
@@ -3843,6 +3835,22 @@
     "Alhammarret's Archive": {
       "image": "https://cards.scryfall.io/normal/front/a/b/abe6d2a2-3bc7-4998-bd46-50af74344b5d.jpg?1793111932",
       "scryfallUri": "https://scryfall.com/card/trc/484/alhammarrets-archive?utm_source=api"
+    },
+    "Exotic Orchard": {
+      "image": "https://cards.scryfall.io/normal/front/0/a/0a4a51a3-fb8b-4611-8f94-fbcab547423c.jpg?1793021293",
+      "scryfallUri": "https://scryfall.com/card/trc/528/exotic-orchard?utm_source=api"
+    },
+    "Watery Grave": {
+      "image": "https://cards.scryfall.io/normal/front/5/5/5525d6a6-e532-4047-9da4-bfae7927fecc.jpg?1784036860",
+      "scryfallUri": "https://scryfall.com/card/trk/306/watery-grave?utm_source=api"
+    },
+    "Sunken Hollow": {
+      "image": "https://cards.scryfall.io/normal/front/a/f/af0eb74d-c203-42ea-a24f-c70429b3e4c3.jpg?1793021388",
+      "scryfallUri": "https://scryfall.com/card/trc/564/sunken-hollow?utm_source=api"
+    },
+    "City of Brass": {
+      "image": "https://cards.scryfall.io/normal/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
+      "scryfallUri": "https://scryfall.com/card/tmc/62/city-of-brass?utm_source=api"
     }
   },
   "edits": [
@@ -3893,6 +3901,334 @@
           "reason": "On Nekusar, each damage trigger draws you a card and makes the damaged opponent discard."
         }
       ]
+    }
+  ],
+  "manaSuggestions": [
+    {
+      "id": "781c0186-b395-4287-8712-def576dd67db",
+      "reason": "Temple of the False God only makes colorless mana; Exotic Orchard makes black and red and blue untapped, helping blue and black, which are short.",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Temple of the False God",
+          "qty": 1,
+          "reason": "Temple of the False God only makes colorless mana; Exotic Orchard makes black and red and blue untapped, helping blue and black, which are short.",
+          "ok": true,
+          "card": {
+            "name": "Temple of the False God",
+            "oracleId": "cfdd5dc6-593e-495a-8cfe-3a56b3c4c7df",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Land",
+            "oracleText": "{T}: Add {C}{C}. Activate only if you control five or more lands.",
+            "colors": [],
+            "colorIdentity": [],
+            "producedMana": [
+              "C"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": 0.4,
+            "image": "https://cards.scryfall.io/normal/front/c/d/cd5e9799-00e1-41a9-b5b9-5d5164c71561.jpg?1793281644",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/c/d/cd5e9799-00e1-41a9-b5b9-5d5164c71561.jpg?1793281644",
+            "scryfallUri": "https://scryfall.com/card/trc/570/temple-of-the-false-god?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        },
+        {
+          "action": "add",
+          "name": "Exotic Orchard",
+          "qty": 1,
+          "reason": "Temple of the False God only makes colorless mana; Exotic Orchard makes black and red and blue untapped, helping blue and black, which are short.",
+          "ok": true,
+          "card": {
+            "name": "Exotic Orchard",
+            "oracleId": "27b047e3-0d41-45e2-98e9-9391d7923a1e",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Land",
+            "oracleText": "{T}: Add one mana of any color that a land an opponent controls could produce.",
+            "colors": [],
+            "colorIdentity": [],
+            "producedMana": [
+              "B",
+              "G",
+              "R",
+              "U",
+              "W"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": 0.53,
+            "image": "https://cards.scryfall.io/normal/front/0/a/0a4a51a3-fb8b-4611-8f94-fbcab547423c.jpg?1793021293",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/0/a/0a4a51a3-fb8b-4611-8f94-fbcab547423c.jpg?1793021293",
+            "scryfallUri": "https://scryfall.com/card/trc/528/exotic-orchard?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cbec6344-0e59-44de-86a2-26df36075ba5",
+      "reason": "You have plenty of red sources; Watery Grave makes black and blue untapped, helping blue and black, which are short.",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Mountain",
+          "qty": 1,
+          "reason": "You have plenty of red sources; Watery Grave makes black and blue untapped, helping blue and black, which are short.",
+          "ok": true,
+          "card": {
+            "name": "Mountain",
+            "oracleId": "a3fb7228-e76b-4e96-a40e-20b5fed75685",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Basic Land \u2014 Mountain",
+            "oracleText": "({T}: Add {R}.)",
+            "colors": [],
+            "colorIdentity": [
+              "R"
+            ],
+            "producedMana": [
+              "R"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": null,
+            "image": "https://cards.scryfall.io/normal/front/8/5/85177bd7-6c50-48da-b692-ae5fe7bd357c.jpg?1791578439",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/8/5/85177bd7-6c50-48da-b692-ae5fe7bd357c.jpg?1791578439",
+            "scryfallUri": "https://scryfall.com/card/mdd/298/mountain?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        },
+        {
+          "action": "add",
+          "name": "Watery Grave",
+          "qty": 1,
+          "reason": "You have plenty of red sources; Watery Grave makes black and blue untapped, helping blue and black, which are short.",
+          "ok": true,
+          "card": {
+            "name": "Watery Grave",
+            "oracleId": "fc9ec820-4245-4a96-b009-5308a818ca58",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Land \u2014 Island Swamp",
+            "oracleText": "({T}: Add {U} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
+            "colors": [],
+            "colorIdentity": [
+              "B",
+              "U"
+            ],
+            "producedMana": [
+              "B",
+              "U"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": 6.11,
+            "image": "https://cards.scryfall.io/normal/front/5/5/5525d6a6-e532-4047-9da4-bfae7927fecc.jpg?1784036860",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/5/5/5525d6a6-e532-4047-9da4-bfae7927fecc.jpg?1784036860",
+            "scryfallUri": "https://scryfall.com/card/trk/306/watery-grave?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "0c0ed353-b21b-4f23-8bf7-54d863476744",
+      "reason": "Akoum Refuge always enters tapped; City of Brass makes black and red and blue untapped, helping blue, which is short.",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Akoum Refuge",
+          "qty": 1,
+          "reason": "Akoum Refuge always enters tapped; City of Brass makes black and red and blue untapped, helping blue, which is short.",
+          "ok": true,
+          "card": {
+            "name": "Akoum Refuge",
+            "oracleId": "354fecd1-2371-49e3-81c6-7e47728dbb1f",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Land",
+            "oracleText": "This land enters tapped.\nWhen this land enters, you gain 1 life.\n{T}: Add {B} or {R}.",
+            "colors": [],
+            "colorIdentity": [
+              "B",
+              "R"
+            ],
+            "producedMana": [
+              "B",
+              "R"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": true,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": 0.35,
+            "image": "https://cards.scryfall.io/normal/front/5/1/51aecc57-f0cc-4e35-af38-ead25cf8a1b8.jpg?1783932721",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/5/1/51aecc57-f0cc-4e35-af38-ead25cf8a1b8.jpg?1783932721",
+            "scryfallUri": "https://scryfall.com/card/c19/226/akoum-refuge?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        },
+        {
+          "action": "add",
+          "name": "City of Brass",
+          "qty": 1,
+          "reason": "Akoum Refuge always enters tapped; City of Brass makes black and red and blue untapped, helping blue, which is short.",
+          "ok": true,
+          "card": {
+            "name": "City of Brass",
+            "oracleId": "f25351e3-539b-4bbc-b92d-6480acf4d722",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Land",
+            "oracleText": "Whenever this land becomes tapped, it deals 1 damage to you.\n{T}: Add one mana of any color.",
+            "colors": [],
+            "colorIdentity": [],
+            "producedMana": [
+              "B",
+              "G",
+              "R",
+              "U",
+              "W"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": 10.71,
+            "image": "https://cards.scryfall.io/normal/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
+            "scryfallUri": "https://scryfall.com/card/tmc/62/city-of-brass?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "synergies": [
+    {
+      "title": "Seven-Card Punishment",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Reforge the Soul",
+        "Orcish Bowmasters"
+      ],
+      "explanation": "Reforge the Soul makes each opponent draw seven cards, triggering Nekusar and Orcish Bowmasters seven times per opponent. This combines table-wide damage with a rapidly growing Orc Army and flexible Bowmasters damage."
+    },
+    {
+      "title": "The Painful Puzzle Box",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Teferi's Puzzle Box",
+        "Underworld Dreams"
+      ],
+      "explanation": "Teferi's Puzzle Box forces opponents to redraw their hands every draw step, with Nekusar and Underworld Dreams dealing a combined 2 damage per card drawn. The normal draw and Nekusar's additional draw also trigger both punishers."
+    },
+    {
+      "title": "One-Damage Advantage Engine",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Ob Nixilis, Captive Kingpin",
+        "Scrawling Crawler"
+      ],
+      "explanation": "Nekusar's damage and Scrawling Crawler's life loss each independently trigger Ob Nixilis, Captive Kingpin when an opponent draws. Scrawling Crawler also supplies a group draw every upkeep, turning the punishment engine into counters and access to additional cards."
+    },
+    {
+      "title": "Draw, Bounce, Delay",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Sigil of Sleep",
+        "Frozen Aether"
+      ],
+      "explanation": "With Sigil of Sleep enchanting Nekusar, every opposing draw lets you return a creature that opponent controls to their hand. Frozen Aether makes replayed creatures enter tapped, helping keep attackers and utility creatures under control."
+    },
+    {
+      "title": "Wheel into Empty Hands",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Helm of the Ghastlord",
+        "Windfall"
+      ],
+      "explanation": "Helm of the Ghastlord gives Nekusar both damage-triggered abilities, so every opponent's Windfall draw also generates a card for you and a discard for that opponent. Those triggers resolve after Windfall finishes, potentially stripping opponents of their freshly drawn hands without forming an infinite loop."
+    },
+    {
+      "title": "Double-Sided Draw Damage",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Prosperity",
+        "Psychosis Crawler"
+      ],
+      "explanation": "Prosperity for X causes Nekusar to deal X damage to each opponent while your own X draws make Psychosis Crawler drain each opponent for another X life. You refill your hand while each opponent loses a total of 2X life, assuming the damage is not prevented."
+    },
+    {
+      "title": "Back-to-Back Wheel Burn",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Windfall",
+        "Molten Psyche"
+      ],
+      "explanation": "Windfall refills hands for Molten Psyche to shuffle away and redraw, generating another wave of Nekusar triggers. With metalcraft active, Molten Psyche also damages each opponent for all cards they have drawn that turn, including both spells' draws."
+    },
+    {
+      "title": "Protected Repeatable Wheels",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Jace's Archivist",
+        "Lightning Greaves"
+      ],
+      "explanation": "Lightning Greaves lets Jace's Archivist activate immediately and protects it from targeted removal while equipped. Its repeatable wheel reloads your hand and turns every opposing redraw into Nekusar damage."
+    },
+    {
+      "title": "Six-Damage Draw Steps",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Spiteful Visions"
+      ],
+      "explanation": "Together they make opponents draw three cards during an ordinary draw step, with each card triggering both damage abilities for 6 total damage. Spiteful Visions also damages you for your own draws, making this a powerful but symmetrical accelerator."
+    },
+    {
+      "title": "Pay to Attack, Bleed to Pay",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Propaganda",
+        "Manabarbs",
+        "Sol Ring"
+      ],
+      "explanation": "Propaganda taxes attacks against you, and Manabarbs punishes opponents who tap lands to pay that tax while Nekusar keeps draining them through draws. Sol Ring supplies mana without triggering Manabarbs, helping you operate under your own pressure package."
     }
   ]
 }

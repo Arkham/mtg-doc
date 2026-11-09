@@ -35,7 +35,7 @@ const OPTIONS: OptimizeOptions = {
   webResearch: false,
 };
 
-const plan = (swaps: Plan["swaps"]): Plan => ({ strategy: "", themes: [], swaps, manaNotes: [] });
+const plan = (swaps: Plan["swaps"]): Plan => ({ strategy: "", themes: [], swaps });
 
 describe("applyPlan", () => {
   test("applies valid swaps and skips invalid ones with warnings", async () => {

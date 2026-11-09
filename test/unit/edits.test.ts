@@ -131,3 +131,22 @@ describe("joinCommaNames", () => {
     assert.ok(joined.every((c) => !("afterComma" in c)));
   });
 });
+
+describe("keepPresentSynergies", () => {
+  test("drops synergies that mention cards no longer in the deck", async () => {
+    const { keepPresentSynergies } = await import("../../server/synergies.ts");
+    const deck = testDeck(37, [spell("Engine"), spell("Payoff")]);
+    const kept = keepPresentSynergies(
+      [
+        { title: "a", cards: ["Cmdr", "Engine"], explanation: "" },
+        { title: "b", cards: ["Engine", "Cut Card"], explanation: "" },
+      ],
+      deck,
+    );
+    assert.deepEqual(
+      kept!.map((s) => s.title),
+      ["a"],
+    );
+    assert.equal(keepPresentSynergies(undefined, deck), undefined);
+  });
+});

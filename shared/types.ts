@@ -261,6 +261,20 @@ export interface CardPreview {
   scryfallUri: string;
 }
 
+/** A notable interaction between cards in the deck that isn't an infinite combo. */
+export interface Synergy {
+  title: string;
+  cards: string[];
+  explanation: string;
+}
+
+/** A land swap proposed to improve the mana base, which the user can apply. */
+export interface ManaSuggestion {
+  id: string;
+  reason: string;
+  changes: DeckChange[];
+}
+
 export interface DeckEdit {
   at: string;
   request: string;
@@ -276,7 +290,6 @@ export interface Report {
   strategy: string;
   themes: string[];
   swaps: Swap[];
-  manaNotes: string[];
   before: DeckSnapshot;
   after: DeckSnapshot;
   combosPresent: Combo[];
@@ -288,6 +301,10 @@ export interface Report {
   bracket?: BracketReport;
   /** Changes applied through chat after optimization, oldest first. */
   edits?: DeckEdit[];
+  /** Strong non-combo interactions in the deck (needs an LLM). */
+  synergies?: Synergy[];
+  /** Land swaps that would still improve the mana base; recomputed after every edit. */
+  manaSuggestions?: ManaSuggestion[];
   /** Preview data for every card the report mentions, so any card name can show its image. */
   cardIndex?: Record<string, CardPreview>;
   /** Optimized list with display data; absent in reports generated before it existed. */
