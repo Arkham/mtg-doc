@@ -4,6 +4,7 @@ import {
   type ReactNode,
   createContext,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { createPortal } from "react-dom";
@@ -23,6 +24,65 @@ const fallbackPreview = (name: string): CardPreview => ({
   image: `https://api.scryfall.com/cards/named?exact=${encodeURIComponent(name)}&format=image&version=normal`,
   scryfallUri: `https://scryfall.com/search?q=${encodeURIComponent(`!"${name}"`)}`,
 });
+
+/** Opens a card in the surrounding `CardGallery`'s sheet; null outside one. */
+const Gallery = createContext<((name: string) => void) | null>(null);
+export const useGallery = () => useContext(Gallery);
+
+/**
+ * Shares one full-size sheet between the cards inside it, in the order given, so the viewer can
+ * swipe from card to card. Cards without an image are skipped; a repeated name opens its first spot.
+ */
+export function CardGallery({
+  cards,
+  children,
+}: {
+  cards: { name: string; card?: CardLike | null }[];
+  children: ReactNode;
+}) {
+  const index = useContext(CardIndex);
+  const seen = new Set<string>();
+  const items = cards.flatMap(({ name, card }) => {
+    if (seen.has(name)) return [];
+    seen.add(name);
+    const data = card?.image ? card : (index[name] ?? fallbackPreview(name));
+    if (!data.image) return [];
+    const href = data.scryfallUri || fallbackPreview(name).scryfallUri;
+    return [{ name, image: data.image, href }];
+  });
+  const [at, setAt] = useState<number | null>(null);
+  const open = (name: string) => {
+    const i = items.findIndex((it) => it.name === name);
+    if (i >= 0) setAt(i);
+  };
+  const item = at === null ? null : items[at];
+  // Warm the neighbours so a swipe lands on a loaded image.
+  const prevImage = at === null ? undefined : items[at - 1]?.image;
+  const nextImage = at === null ? undefined : items[at + 1]?.image;
+  useEffect(() => {
+    for (const src of [prevImage, nextImage]) if (src) new Image().src = src;
+  }, [prevImage, nextImage]);
+  return (
+    <Gallery.Provider value={open}>
+      {children}
+      {item && at !== null && (
+        <Sheet
+          src={item.image}
+          alt={item.name}
+          onClose={() => setAt(null)}
+          onPrev={at > 0 ? () => setAt(at - 1) : undefined}
+          onNext={at < items.length - 1 ? () => setAt(at + 1) : undefined}
+          position={`${at + 1} / ${items.length}`}
+          actions={
+            <a className="button" href={item.href} target="_blank" rel="noreferrer">
+              Scryfall ↗
+            </a>
+          }
+        />
+      )}
+    </Gallery.Provider>
+  );
+}
 
 export const canHover = () => window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
@@ -65,6 +125,7 @@ export function CardName({
   className?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const gallery = useGallery();
   const index = useContext(CardIndex);
   const data = card?.image ? card : (index[name] ?? fallbackPreview(name));
   const img = data.image;
@@ -79,7 +140,8 @@ export function CardName({
         onClick={(e) => {
           if (img && !canHover()) {
             e.preventDefault();
-            setOpen(true);
+            if (gallery) gallery(name);
+            else setOpen(true);
           }
         }}
       >
