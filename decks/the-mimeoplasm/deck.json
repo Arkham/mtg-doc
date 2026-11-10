@@ -1,0 +1,19 @@
+{
+  "slug": "the-mimeoplasm",
+  "format": "commander",
+  "commanders": [
+    "The Mimeoplasm"
+  ],
+  "deckName": null,
+  "createdAt": "2026-11-09T23:42:44.763Z",
+  "options": {
+    "maxSwaps": 30,
+    "budgetPerCard": null,
+    "budgetTotal": null,
+    "bracket": 3,
+    "tone": "max",
+    "locked": [],
+    "webResearch": true
+  },
+  "image": "https://cards.scryfall.io/art_crop/front/9/9/998b86f3-e53f-4ebb-b111-6f14577fded1.jpg?1783911897"
+}
