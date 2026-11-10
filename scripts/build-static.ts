@@ -7,6 +7,8 @@ import path from "node:path";
 import { parseArgs } from "node:util";
 import { build } from "vite";
 import { config } from "../server/config.ts";
+import { deckPage, indexFallback, llmsTxt } from "../server/agent-pages.ts";
+import { renderMarkdown } from "../server/report.ts";
 import { listDecks, readDeckFile, readInitial, readMeta, readReport } from "../server/storage.ts";
 
 const { values } = parseArgs({
@@ -39,11 +41,33 @@ for (const d of decks) {
     readInitial(d.slug),
   ]);
   await fs.writeFile(path.join(dir, "detail.json"), JSON.stringify({ meta, report, initial }));
-  for (const file of ["initial.txt", "optimized.txt", "report.md"] as const) {
+  for (const file of ["initial.txt", "optimized.txt"] as const) {
     const text = await readDeckFile(d.slug, file).catch(() => null);
     if (text !== null) await fs.writeFile(path.join(dir, file), text);
   }
+  if (report) {
+    // Rendered fresh so published text always matches the report data.
+    const markdown = renderMarkdown(report);
+    await fs.writeFile(path.join(dir, "report.md"), markdown);
+    const page = path.join(outDir, "decks", d.slug);
+    await fs.mkdir(page, { recursive: true });
+    await fs.writeFile(path.join(page, "index.html"), deckPage(d, report, markdown));
+  }
 }
+
+// Everything published must be readable without JavaScript (see AGENTS.md).
+await fs.writeFile(path.join(outDir, "llms.txt"), llmsTxt(decks));
+const indexPath = path.join(outDir, "index.html");
+const index = await fs.readFile(indexPath, "utf8");
+await fs.writeFile(
+  indexPath,
+  index
+    .replace('<div id="root"></div>', `<div id="root">${indexFallback(decks)}</div>`)
+    .replace(
+      "</head>",
+      '<link rel="alternate" type="text/plain" href="llms.txt" title="Plain-text index" />\n  </head>',
+    ),
+);
 
 await fs.writeFile(path.join(dataDir, "decks.json"), JSON.stringify(decks));
 // Stops GitHub Pages' Jekyll from processing the output.

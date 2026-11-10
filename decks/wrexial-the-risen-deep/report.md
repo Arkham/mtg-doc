@@ -132,6 +132,226 @@ Mana base changes:
 | Lonely Sandbar | Sunken Hollow | mana | Lonely Sandbar always enters tapped; Sunken Hollow makes black and blue untapped, helping blue and black, which are short. |
 | Cabal Coffers | City of Brass | mana | City of Brass makes black and blue untapped, helping blue and black, which are short. |
 
+## Deck list as submitted (100 cards)
+
+### Commander (1)
+
+- 1 Wrexial, the Risen Deep {3}{U}{U}{B}
+
+### Creature (17)
+
+- 1 Baleful Strix {U}{B}
+- 1 Burnished Hart {3}
+- 1 Shadowmage Infiltrator {1}{U}{B}
+- 1 Thada Adel, Acquisitor {1}{U}{U}
+- 1 Trinket Mage {2}{U}
+- 1 Clone {3}{U}
+- 1 Dreamborn Muse {2}{U}{U}
+- 1 Phyrexian Metamorph {3}{U/P}
+- 1 Sakashima the Impostor {2}{U}{U}
+- 1 Body Double {4}{U}
+- 1 Ixidron {3}{U}{U}
+- 1 Quicksilver Elemental {3}{U}{U}
+- 1 Consecrated Sphinx {4}{U}{U}
+- 1 Duplicant {6}
+- 1 Steel Hellkite {6}
+- 1 Stormtide Leviathan {5}{U}{U}{U}
+- 1 Jin-Gitaxias, Core Augur {8}{U}{U}
+
+### Planeswalker (1)
+
+- 1 Tezzeret the Seeker {3}{U}{U}
+
+### Instant (13)
+
+- 1 Mystical Tutor {U}
+- 1 Vampiric Tutor {B}
+- 1 Counterspell {U}{U}
+- 1 Cyclonic Rift {1}{U}
+- 1 Blue Sun's Zenith {X}{U}{U}{U}
+- 1 Capsize {1}{U}{U}
+- 1 Hinder {1}{U}{U}
+- 1 Spell Crumple {1}{U}{U}
+- 1 Sudden Death {1}{B}{B}
+- 1 Mystical Teachings {3}{U}
+- 1 Snuff Out {3}{B}
+- 1 Submerge {4}{U}
+- 1 Spinal Embrace {3}{U}{U}{B}
+
+### Sorcery (12)
+
+- 1 Black Sun's Zenith {X}{B}{B}
+- 1 Curse of the Swine {X}{U}{U}
+- 1 Demonic Tutor {1}{B}
+- 1 Exsanguinate {X}{B}{B}
+- 1 Praetor's Grasp {1}{B}{B}
+- 1 Toxic Deluge {2}{B}
+- 1 Damnation {2}{B}{B}
+- 1 Rite of Replication {2}{U}{U}
+- 1 Wash Out {3}{U}
+- 1 Beacon of Unrest {3}{B}{B}
+- 1 Bribery {3}{U}{U}
+- 1 Blatant Thievery {4}{U}{U}{U}
+
+### Artifact (16)
+
+- 1 Everflowing Chalice {0}
+- 1 Expedition Map {1}
+- 1 Mana Vault {1}
+- 1 Sensei's Divining Top {1}
+- 1 Sol Ring {1}
+- 1 Dimir Signet {2}
+- 1 Fellwar Stone {2}
+- 1 Lightning Greaves {2}
+- 1 Mind Stone {2}
+- 1 Mindcrank {2}
+- 1 Basalt Monolith {3}
+- 1 Mimic Vat {3}
+- 1 Oblivion Stone {3}
+- 1 Sculpting Steel {3}
+- 1 Whispersilk Cloak {3}
+- 1 Thran Dynamo {4}
+
+### Enchantment (3)
+
+- 1 Animate Dead {1}{B}
+- 1 Rhystic Study {2}{U}
+- 1 Future Sight {2}{U}{U}{U}
+
+### Land (37)
+
+- 1 Academy Ruins
+- 1 Barren Moor
+- 1 Cabal Coffers
+- 1 Creeping Tar Pit
+- 1 Dimir Aqueduct
+- 1 Dimir Guildgate
+- 1 Dreadship Reef
+- 11 Island
+- 1 Lonely Sandbar
+- 1 Miren, the Moaning Well
+- 1 Reliquary Tower
+- 1 Salt Marsh
+- 1 Strip Mine
+- 7 Swamp
+- 1 Temple of the False God
+- 1 Terramorphic Expanse
+- 1 Thespian's Stage
+- 1 Tolaria West
+- 1 Urborg, Tomb of Yawgmoth
+- 1 Urza's Factory
+- 1 Watery Grave
+
+## Suggested deck list (100 cards)
+
+### Commander (1)
+
+- 1 Wrexial, the Risen Deep {3}{U}{U}{B}
+
+### Creature (13)
+
+- 1 Baleful Strix {U}{B}
+- 1 Duskmantle Guildmage {U}{B} _(new)_
+- 1 Burnished Hart {3}
+- 1 Opposition Agent {2}{B} _(new)_
+- 1 Shadowmage Infiltrator {1}{U}{B}
+- 1 Thada Adel, Acquisitor {1}{U}{U}
+- 1 Trinket Mage {2}{U}
+- 1 Dreamborn Muse {2}{U}{U}
+- 1 Notion Thief {2}{U}{B} _(new)_
+- 1 Phyrexian Metamorph {3}{U/P}
+- 1 Sakashima the Impostor {2}{U}{U}
+- 1 Consecrated Sphinx {4}{U}{U}
+- 1 Hullbreaker Horror {5}{U}{U} _(new)_
+
+### Planeswalker (2)
+
+- 1 Narset, Parter of Veils {1}{U}{U} _(new)_
+- 1 Tezzeret the Seeker {3}{U}{U}
+
+### Instant (13)
+
+- 1 Mystical Tutor {U}
+- 1 Vampiric Tutor {B}
+- 1 Counterspell {U}{U}
+- 1 Cyclonic Rift {1}{U}
+- 1 Drown in the Loch {U}{B} _(new)_
+- 1 Mana Drain {U}{U} _(new)_
+- 1 Blue Sun's Zenith {X}{U}{U}{U}
+- 1 Capsize {1}{U}{U}
+- 1 Spell Crumple {1}{U}{U}
+- 1 Sudden Death {1}{B}{B}
+- 1 Snuff Out {3}{B}
+- 1 Force of Will {3}{U}{U} _(new)_
+- 1 Submerge {4}{U}
+
+### Sorcery (14)
+
+- 1 Imperial Seal {B} _(new)_
+- 1 Ponder {U} _(new)_
+- 1 Black Sun's Zenith {X}{B}{B}
+- 1 Curse of the Swine {X}{U}{U}
+- 1 Demonic Tutor {1}{B}
+- 1 Exsanguinate {X}{B}{B}
+- 1 Praetor's Grasp {1}{B}{B}
+- 1 Toxic Deluge {2}{B}
+- 1 Windfall {2}{U} _(new)_
+- 1 Damnation {2}{B}{B}
+- 1 Rite of Replication {2}{U}{U}
+- 1 Wash Out {3}{U}
+- 1 Whispering Madness {2}{U}{B} _(new)_
+- 1 Beacon of Unrest {3}{B}{B}
+
+### Artifact (16)
+
+- 1 Everflowing Chalice {0}
+- 1 Expedition Map {1}
+- 1 Mana Vault {1}
+- 1 Sensei's Divining Top {1}
+- 1 Sol Ring {1}
+- 1 Dimir Signet {2}
+- 1 Fellwar Stone {2}
+- 1 Lightning Greaves {2}
+- 1 Mind Stone {2}
+- 1 Mindcrank {2}
+- 1 Basalt Monolith {3}
+- 1 Oblivion Stone {3}
+- 1 Sculpting Steel {3}
+- 1 Whispersilk Cloak {3}
+- 1 Thran Dynamo {4}
+- 1 Bolas's Citadel {3}{B}{B}{B} _(new)_
+
+### Enchantment (4)
+
+- 1 Bloodchief Ascension {B} _(new)_
+- 1 Animate Dead {1}{B}
+- 1 Necropotence {B}{B}{B} _(new)_
+- 1 Rhystic Study {2}{U}
+
+### Land (37)
+
+- 1 Academy Ruins
+- 1 City of Brass _(new)_
+- 1 Command Tower _(new)_
+- 1 Creeping Tar Pit
+- 1 Dimir Aqueduct
+- 1 Dimir Guildgate
+- 1 Dreadship Reef
+- 1 Exotic Orchard _(new)_
+- 11 Island
+- 1 Miren, the Moaning Well
+- 1 Reliquary Tower
+- 1 Salt Marsh
+- 1 Strip Mine
+- 1 Sunken Hollow _(new)_
+- 7 Swamp
+- 1 Terramorphic Expanse
+- 1 Thespian's Stage
+- 1 Tolaria West
+- 1 Urborg, Tomb of Yawgmoth
+- 1 Urza's Factory
+- 1 Watery Grave
+
 ## Web research
 
 ## 1. Main strategies/archetypes

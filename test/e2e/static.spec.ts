@@ -41,6 +41,20 @@ test.describe("static site", () => {
     await expectNoHorizontalOverflow(page);
   });
 
+  test("published content is readable without JavaScript", async ({ page, request }) => {
+    const page1 = await request.get(new URL(`decks/${OVERPOWERED}/`, STATIC_URL).href);
+    expect(page1.ok()).toBe(true);
+    const text = await page1.text();
+    expect(text).toContain("Lathril, Blade of the Elves");
+    expect(text).not.toContain("<script");
+    const shell = await (await request.get(STATIC_URL)).text();
+    expect(shell).toContain(`href="decks/${OVERPOWERED}/"`);
+    // In a browser the app takes over from the fallback.
+    await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
+    await expect(page.locator(".hero")).toBeVisible();
+    await expect(page.locator(".agent-fallback")).toHaveCount(0);
+  });
+
   test("opens on the deck as submitted, with a toggle to the optimized view", async ({ page }) => {
     await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
     const toggle = page.getByRole("tablist", { name: "Which deck" });

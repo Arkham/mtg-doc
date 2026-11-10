@@ -1,4 +1,36 @@
-import type { Report } from "../shared/types.ts";
+import type { DecklistCard, Report } from "../shared/types.ts";
+
+const GROUPS = [
+  "Commander",
+  "Creature",
+  "Planeswalker",
+  "Battle",
+  "Instant",
+  "Sorcery",
+  "Artifact",
+  "Enchantment",
+  "Land",
+  "Other",
+];
+
+/** A full list grouped by type, cheapest first, so readers (and agents) get every card. */
+function decklistSection(title: string, cards: DecklistCard[], markNew = false): string[] {
+  const total = cards.reduce((n, c) => n + c.qty, 0);
+  const out = [`## ${title} (${total} cards)`, ""];
+  for (const g of GROUPS) {
+    const group = cards
+      .filter((c) => c.group === g)
+      .sort((a, b) => a.cmc - b.cmc || a.name.localeCompare(b.name));
+    if (!group.length) continue;
+    out.push(`### ${g} (${group.reduce((n, c) => n + c.qty, 0)})`, "");
+    for (const c of group)
+      out.push(
+        `- ${c.qty} ${c.name}${c.manaCost ? ` ${c.manaCost}` : ""}${markNew && (c.isNew || c.delta > 0) ? " _(new)_" : ""}`,
+      );
+    out.push("");
+  }
+  return out;
+}
 
 export function renderMarkdown(r: Report): string {
   const lines: string[] = [];
@@ -122,6 +154,9 @@ export function renderMarkdown(r: Report): string {
     }
     lines.push("");
   }
+
+  if (r.original) lines.push(...decklistSection("Deck list as submitted", r.original.decklist));
+  if (r.decklist) lines.push(...decklistSection("Suggested deck list", r.decklist, true));
 
   if (r.research) {
     lines.push("## Web research", "", r.research.summary, "");

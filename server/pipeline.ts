@@ -39,7 +39,6 @@ import { parseDecklist } from "./decklist.ts";
 import { buildCardIndex } from "./card-index.ts";
 import { landCandidates, toSuggestion } from "./mana-advice.ts";
 import { findSynergies } from "./synergies.ts";
-import { renderMarkdown } from "./report.ts";
 import { BRACKET_PAGE, getCommanderData } from "./sources/edhrec.ts";
 import { researchCommander } from "./sources/research.ts";
 import { lookupExact, lookupFuzzy } from "./sources/scryfall.ts";
@@ -525,12 +524,10 @@ async function run(job: Job) {
       ...finalDeck.slots.map((x) => x.card),
       ...ctx.candidates.map((c) => c.card),
     ]);
-    await writeResults(
-      job.slug,
-      report,
-      { commanders: commanderNames, entries: toEntries(finalDeck) },
-      renderMarkdown(report),
-    );
+    await writeResults(job.slug, report, {
+      commanders: commanderNames,
+      entries: toEntries(finalDeck),
+    });
   });
   job.status = "done";
 }

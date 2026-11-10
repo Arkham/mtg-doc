@@ -36,6 +36,22 @@ describe("static site export", () => {
       assert.ok(fs.existsSync(path.join(out, f)), `${f} exists`);
     }
 
+    // Everything is readable without JavaScript: an llms.txt index, a fallback inside the app
+    // shell (hash links never reach the server) and a plain page per deck.
+    const llms = fs.readFileSync(path.join(out, "llms.txt"), "utf8");
+    assert.match(llms, new RegExp(`\\[Lathril, Blade of the Elves\\]\\(decks/${slug}/\\)`));
+    assert.match(
+      html,
+      new RegExp(`<div id="root"><main class="agent-fallback">.*href="decks/${slug}/"`),
+    );
+    assert.match(html, /rel="alternate" type="text\/plain" href="llms.txt"/);
+    const page = fs.readFileSync(path.join(out, `decks/${slug}/index.html`), "utf8");
+    assert.doesNotMatch(page, /<script/);
+    assert.match(page, /<h1>Lathril, Blade of the Elves<\/h1>/);
+    assert.match(page, /Deck list as submitted \(100 cards\)/);
+    assert.match(page, /Suggested deck list/);
+    assert.match(page, new RegExp(`href="../../#/deck/${slug}"`));
+
     const decks = JSON.parse(fs.readFileSync(path.join(out, "data/decks.json"), "utf8"));
     assert.ok(
       decks.some(

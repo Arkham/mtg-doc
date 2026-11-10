@@ -210,3 +210,30 @@ describe("ocr", () => {
     assert.equal(meta.width, 3072);
   });
 });
+
+describe("agent pages", () => {
+  test("deck pages render the report as plain HTML, never raw HTML from the model", async () => {
+    const { deckPage, llmsTxt } = await import("../../server/agent-pages.ts");
+    const summary = {
+      slug: "x",
+      commanders: ["Some <Commander>"],
+      format: "commander",
+      createdAt: "",
+      hasReport: true,
+      image: null,
+      bracket: 3,
+      swapCount: 2,
+      targetBracket: 2,
+    };
+    const page = deckPage(
+      summary,
+      { themes: ["Tokens"] } as never,
+      "# Title\n\nA plan <script>alert(1)</script> with **bold**.\n\n<img src=x onerror=alert(1)>\n",
+    );
+    assert.doesNotMatch(page, /<script|<img/);
+    assert.match(page, /&lt;script&gt;/);
+    assert.match(page, /<strong>bold<\/strong>/);
+    assert.match(page, /<title>Some &lt;Commander&gt; · mtg doc<\/title>/);
+    assert.match(llmsTxt([summary]), /bracket 3, 2 suggested swaps for bracket 2/);
+  });
+});

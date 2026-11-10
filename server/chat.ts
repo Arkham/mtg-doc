@@ -29,7 +29,6 @@ import { loadDeck, snapshot, startOptimize, twoCardCombos } from "./pipeline.ts"
 import { buildCardIndex } from "./card-index.ts";
 import { suggestManaFixes } from "./mana-advice.ts";
 import { findSynergies, keepPresentSynergies } from "./synergies.ts";
-import { renderMarkdown } from "./report.ts";
 import { lookupExact, lookupFuzzy } from "./sources/scryfall.ts";
 import { estimateBracket, findCombos } from "./sources/spellbook.ts";
 import { HttpError, readMeta, readReport, writeMeta, writeResults } from "./storage.ts";
@@ -448,12 +447,7 @@ export async function applyDeckChanges(
     updated,
     valid.flatMap((c) => (c.card ? [c.card] : [])),
   );
-  await writeResults(
-    slug,
-    updated,
-    { commanders, entries: toEntries(next) },
-    renderMarkdown(updated),
-  );
+  await writeResults(slug, updated, { commanders, entries: toEntries(next) });
   return { report: updated, changes };
 }
 
@@ -497,12 +491,7 @@ export async function refreshSynergies(
   const updated: Report = { ...report, synergies };
   updated.cardIndex = await buildCardIndex(updated);
   const commanders = deck.commanders.map((c) => c.name);
-  await writeResults(
-    slug,
-    updated,
-    { commanders, entries: toEntries(deck) },
-    renderMarkdown(updated),
-  );
+  await writeResults(slug, updated, { commanders, entries: toEntries(deck) });
   return updated;
 }
 

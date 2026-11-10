@@ -62,7 +62,13 @@ describe("deck chat without an LLM", () => {
     const list = parseDecklist(await readDeckFile(slug, "optimized.txt"));
     assert.ok(list.entries.some((e) => e.name === "Mind Stone"));
     assert.ok(!list.entries.some((e) => e.name === "Sol Ring"));
-    assert.match(await readDeckFile(slug, "report.md"), /## Changes from chat[\s\S]*Mind Stone/);
+    // report.md (and the published plain page built from it) follows the edited list.
+    const md = await readDeckFile(slug, "report.md");
+    assert.match(md, /## Changes from chat[\s\S]*Mind Stone/);
+    const suggested = md.split("## Suggested deck list")[1].split("\n## ")[0];
+    assert.match(suggested, /- 1 Mind Stone .*_\(new\)_/);
+    assert.doesNotMatch(suggested, /Sol Ring/);
+    assert.match(md.split("## Deck list as submitted")[1].split("\n## ")[0], /- 1 Sol Ring/);
 
     assert.equal((await apply(reply.id)).status, 409, "can't apply twice");
   });

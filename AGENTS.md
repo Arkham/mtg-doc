@@ -103,6 +103,20 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   sub-path; no server-only features (upload, re-run) and never publish uploaded photos or local paths.
 - For visual changes, check screenshots at iPhone (390×844), iPad (820×1180) and desktop widths.
 
+### Published content must be readable by agents
+
+- Everything we publish must be accessible to AI agents and other readers that don't run
+  JavaScript. The app's hash routes (`#/deck/<slug>`) never reach the server, so the static build
+  also writes an `llms.txt` index, a plain fallback inside the app shell's `#root`, and a
+  script-free page per deck at `decks/<slug>/` (all in `server/agent-pages.ts`), plus `report.md`.
+- When you add a section or data to a report, add it to `renderMarkdown` (`server/report.ts`) in
+  the same change, so the plain page and markdown carry it too; the static build regenerates both
+  from `report.json`. Extend the static tests that check these pages.
+- Save reports only through `writeResults` (`server/storage.ts`): it renders `report.md` from the
+  report it saves, so any change to the deck (chat edits, applied suggestions, re-runs) updates the
+  markdown too. Never write `report.json` on its own.
+- Render model-written text as escaped markdown in these pages, never as raw HTML.
+
 ### Code style
 
 - TypeScript everywhere, strict mode. Format with prettier, lint with oxlint (typescript-eslint can't

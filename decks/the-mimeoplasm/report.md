@@ -151,6 +151,210 @@ Mana base changes:
 | Golgari Rot Farm | Verdant Catacombs | mana | Golgari Rot Farm always enters tapped; Verdant Catacombs makes black and green untapped. |
 | Simic Growth Chamber | Yavimaya Coast | mana | Simic Growth Chamber always enters tapped; Yavimaya Coast makes green and blue untapped. |
 
+## Deck list as submitted (100 cards)
+
+### Commander (1)
+
+- 1 The Mimeoplasm {2}{B}{G}{U}
+
+### Creature (30)
+
+- 1 Sylvan Safekeeper {G}
+- 1 Nezumi Graverobber // Nighteyes the Desecrator {1}{B}
+- 1 Sakura-Tribe Elder {1}{G}
+- 1 Big Game Hunter {1}{B}{B}
+- 1 Eternal Witness {1}{G}{G}
+- 1 Fleshbag Marauder {2}{B}
+- 1 Trygon Predator {1}{G}{U}
+- 1 Yavimaya Elder {1}{G}{G}
+- 1 Disciple of Bolas {3}{B}
+- 1 Dreamborn Muse {2}{U}{U}
+- 1 Jarad, Golgari Lich Lord {B}{B}{G}{G}
+- 1 Mortivore {2}{B}{B}
+- 1 Solemn Simulacrum {4}
+- 1 Wonder {3}{U}
+- 1 Acidic Slime {3}{G}{G}
+- 1 Corpse Connoisseur {4}{B}
+- 1 Genesis {4}{G}
+- 1 Lord of Extinction {3}{B}{G}
+- 1 Skithiryx, the Blight Dragon {3}{B}{B}
+- 1 Vulturous Zombie {3}{B}{G}
+- 1 Bane of Progress {4}{G}{G}
+- 1 Duplicant {6}
+- 1 Extractor Demon {4}{B}{B}
+- 1 Steel Hellkite {6}
+- 1 Triskelion {6}
+- 1 Gaea's Revenge {5}{G}{G}
+- 1 Sepulchral Primordial {5}{B}{B}
+- 1 Sheoldred, Whispering One {5}{B}{B}
+- 1 Tornado Elemental {5}{G}{G}
+- 1 Mindleech Mass {5}{U}{B}{B}
+
+### Instant (12)
+
+- 1 Entomb {B}
+- 1 Abrupt Decay {B}{G}
+- 1 Beast Within {2}{G}
+- 1 Dissipate {1}{U}{U}
+- 1 Krosan Grip {2}{G}
+- 1 Perplex {1}{U}{B}
+- 1 Putrefy {1}{B}{G}
+- 1 Spell Crumple {1}{U}{U}
+- 1 Thirst for Knowledge {2}{U}
+- 1 Fact or Fiction {3}{U}
+- 1 Momentous Fall {2}{G}{G}
+- 1 Relic Crush {4}{G}
+
+### Sorcery (11)
+
+- 1 Life from the Loam {1}{G}
+- 1 Stitch Together {B}{B}
+- 1 Buried Alive {2}{B}
+- 1 Cultivate {2}{G}
+- 1 Kodama's Reach {2}{G}
+- 1 Yawgmoth's Will {2}{B}
+- 1 Jarad's Orders {2}{B}{G}
+- 1 Skyshroud Claim {3}{G}
+- 1 Living Death {3}{B}{B}
+- 1 Life's Finale {4}{B}{B}
+- 1 Plague Wind {7}{B}{B}
+
+### Artifact (8)
+
+- 1 Skullclamp {1}
+- 1 Sol Ring {1}
+- 1 Lightning Greaves {2}
+- 1 Mindcrank {2}
+- 1 Darksteel Ingot {3}
+- 1 Mimic Vat {3}
+- 1 Sword of Body and Mind {3}
+- 1 Whispersilk Cloak {3}
+
+### Enchantment (2)
+
+- 1 Phyrexian Reclamation {B}
+- 1 Animate Dead {1}{B}
+
+### Land (36)
+
+- 1 Barren Moor
+- 1 Command Tower
+- 1 Dimir Aqueduct
+- 1 Dreadship Reef
+- 8 Forest
+- 1 Golgari Rot Farm
+- 7 Island
+- 1 Jwar Isle Refuge
+- 1 Lonely Sandbar
+- 1 Overgrown Tomb
+- 1 Simic Growth Chamber
+- 9 Swamp
+- 1 Temple of the False God
+- 1 Terramorphic Expanse
+- 1 Tranquil Thicket
+
+## Suggested deck list (100 cards)
+
+### Commander (1)
+
+- 1 The Mimeoplasm {2}{B}{G}{U}
+
+### Creature (24)
+
+- 1 Birds of Paradise {G} _(new)_
+- 1 Sylvan Safekeeper {G}
+- 1 Fauna Shaman {1}{G} _(new)_
+- 1 Likeness Looter {U}{B} _(new)_
+- 1 Sakura-Tribe Elder {1}{G}
+- 1 Scavenging Ooze {1}{G} _(new)_
+- 1 Skull Prophet {B}{G} _(new)_
+- 1 Eternal Witness {1}{G}{G}
+- 1 Trygon Predator {1}{G}{U}
+- 1 Yavimaya Elder {1}{G}{G}
+- 1 Disciple of Bolas {3}{B}
+- 1 Jarad, Golgari Lich Lord {B}{B}{G}{G}
+- 1 Solemn Simulacrum {4}
+- 1 Wonder {3}{U}
+- 1 Acidic Slime {3}{G}{G}
+- 1 Consuming Aberration {3}{U}{B} _(new)_
+- 1 Golgari Grave-Troll {4}{G} _(new)_
+- 1 Lord of Extinction {3}{B}{G}
+- 1 Underrealm Lich {3}{B}{G} _(new)_
+- 1 Vulturous Zombie {3}{B}{G}
+- 1 Bane of Progress {4}{G}{G}
+- 1 Sepulchral Primordial {5}{B}{B}
+- 1 Sheoldred, Whispering One {5}{B}{B}
+- 1 Titanoth Rex {7}{G}{G} _(new)_
+
+### Instant (14)
+
+- 1 Entomb {B}
+- 1 Abrupt Decay {B}{G}
+- 1 Assassin's Trophy {B}{G} _(new)_
+- 1 Counterspell {U}{U} _(new)_
+- 1 Cyclonic Rift {1}{U} _(new)_
+- 1 Grisly Salvage {B}{G} _(new)_
+- 1 Beast Within {2}{G}
+- 1 Dissipate {1}{U}{U}
+- 1 Frantic Search {2}{U} _(new)_
+- 1 Krosan Grip {2}{G}
+- 1 Putrefy {1}{B}{G}
+- 1 Thirst for Knowledge {2}{U}
+- 1 Fact or Fiction {3}{U}
+- 1 Gifts Ungiven {3}{U} _(new)_
+
+### Sorcery (13)
+
+- 1 Farseek {1}{G} _(new)_
+- 1 Life from the Loam {1}{G}
+- 1 Nature's Lore {1}{G} _(new)_
+- 1 Stitch Together {B}{B}
+- 1 Buried Alive {2}{B}
+- 1 Cultivate {2}{G}
+- 1 Kodama's Reach {2}{G}
+- 1 Victimize {2}{B} _(new)_
+- 1 Windfall {2}{U} _(new)_
+- 1 Jarad's Orders {2}{B}{G}
+- 1 Skyshroud Claim {3}{G}
+- 1 Living Death {3}{B}{B}
+- 1 Life's Finale {4}{B}{B}
+
+### Artifact (6)
+
+- 1 Skullclamp {1}
+- 1 Sol Ring {1}
+- 1 Arcane Signet {2} _(new)_
+- 1 Lightning Greaves {2}
+- 1 Mesmeric Orb {2} _(new)_
+- 1 Whispersilk Cloak {3}
+
+### Enchantment (6)
+
+- 1 Phyrexian Reclamation {B}
+- 1 Animate Dead {1}{B}
+- 1 Ripples of Undeath {1}{B} _(new)_
+- 1 Survival of the Fittest {1}{G} _(new)_
+- 1 Necromancy {2}{B} _(new)_
+- 1 Greater Good {2}{G}{G} _(new)_
+
+### Land (36)
+
+- 1 Breeding Pool _(new)_
+- 1 Command Tower
+- 1 Exotic Orchard _(new)_
+- 1 Fabled Passage _(new)_
+- 8 Forest
+- 8 Island _(new)_
+- 1 Overgrown Tomb
+- 1 Reflecting Pool _(new)_
+- 1 Rejuvenating Springs _(new)_
+- 8 Swamp
+- 1 Terramorphic Expanse
+- 1 Undergrowth Stadium _(new)_
+- 1 Verdant Catacombs _(new)_
+- 1 Watery Grave _(new)_
+- 1 Yavimaya Coast _(new)_
+
 ## Web research
 
 ## 1. Main strategies/archetypes

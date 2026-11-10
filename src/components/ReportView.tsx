@@ -1295,6 +1295,11 @@ function ExportMenu({
         <a href={fileUrl(slug, "report.md")} download={`${slug}-report.md`}>
           Full report <span className="muted small">.md</span>
         </a>
+        {IS_STATIC && (
+          <a href={`decks/${slug}/`} target="_blank" rel="noreferrer">
+            Plain-text version <span className="muted small">for AI agents</span>
+          </a>
+        )}
         {edhrecUrl && (
           <a href={edhrecUrl} target="_blank" rel="noreferrer">
             View on EDHREC ↗

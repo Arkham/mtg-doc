@@ -10,6 +10,7 @@ import {
 import { config } from "./config.ts";
 import { formatDecklist } from "./decklist.ts";
 import { slugify } from "./sources/edhrec.ts";
+import { renderMarkdown } from "./report.ts";
 
 export class HttpError extends Error {
   constructor(
@@ -80,15 +81,18 @@ export async function readInitial(slug: string): Promise<string> {
   return fs.readFile(path.join(deckDir(slug), "initial.txt"), "utf8");
 }
 
+/**
+ * Saves a report with its markdown and optimized list. The markdown is always rendered here from
+ * the report being saved, so report.md can never fall behind report.json.
+ */
 export async function writeResults(
   slug: string,
   report: Report,
   optimized: { commanders: string[]; entries: DeckEntry[] },
-  markdown: string,
 ) {
   const dir = deckDir(slug);
   await fs.writeFile(path.join(dir, "report.json"), JSON.stringify(report, null, 2));
-  await fs.writeFile(path.join(dir, "report.md"), markdown);
+  await fs.writeFile(path.join(dir, "report.md"), renderMarkdown(report));
   await fs.writeFile(
     path.join(dir, "optimized.txt"),
     formatDecklist(optimized.commanders, optimized.entries),

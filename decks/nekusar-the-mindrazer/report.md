@@ -130,6 +130,225 @@ Skipped to stay in the bracket:
 - 2026-11-09 “can we just add both?”: −Venser's Journal, −Viseling, +Ob Nixilis, the Hate-Twisted, +Ob Nixilis, Captive Kingpin
 - 2026-11-09 “please add back "Helm of the Ghastlord"”: −Fog Bank, +Helm of the Ghastlord
 
+## Deck list as submitted (100 cards)
+
+### Commander (1)
+
+- 1 Nekusar, the Mindrazer {2}{U}{B}{R}
+
+### Creature (18)
+
+- 1 Fog Bank {1}{U}
+- 1 Kami of the Crescent Moon {U}{U}
+- 1 Nivix Guildmage {U}{R}
+- 1 Burnished Hart {3}
+- 1 Jace's Archivist {1}{U}{U}
+- 1 Vampire Nighthawk {1}{B}{B}
+- 1 Aura Thief {3}{U}
+- 1 Fate Unraveler {3}{B}
+- 1 Solemn Simulacrum {4}
+- 1 Viseling {4}
+- 1 Drana, Kalastria Bloodchief {3}{B}{B}
+- 1 Mnemonic Wall {4}{U}
+- 1 Psychosis Crawler {5}
+- 1 Seizan, Perverter of Truth {3}{B}{B}
+- 1 Charmbreaker Devils {5}{R}
+- 1 Niv-Mizzet, the Firemind {2}{U}{U}{R}{R}
+- 1 Uyo, Silent Prophet {4}{U}{U}
+- 1 Thraximundar {4}{U}{B}{R}
+
+### Instant (10)
+
+- 1 Starstorm {X}{R}{R}
+- 1 Terminate {B}{R}
+- 1 Blue Sun's Zenith {X}{U}{U}{U}
+- 1 Crosis's Charm {U}{B}{R}
+- 1 Dominate {X}{1}{U}{U}
+- 1 Grixis Charm {U}{B}{R}
+- 1 Sudden Spoiling {1}{B}{B}
+- 1 Dismiss {2}{U}{U}
+- 1 Wild Ricochet {2}{R}{R}
+- 1 Opportunity {4}{U}{U}
+
+### Sorcery (13)
+
+- 1 Earthquake {X}{R}
+- 1 Minds Aglow {U}
+- 1 Prosperity {X}{U}
+- 1 Winds of Change {R}
+- 1 Molten Disaster {X}{R}{R}
+- 1 Skyscribing {X}{U}{U}
+- 1 Molten Psyche {1}{R}{R}
+- 1 Windfall {2}{U}
+- 1 Incendiary Command {3}{R}{R}
+- 1 Cruel Ultimatum {U}{U}{B}{B}{B}{R}{R}
+- 1 Army of the Damned {5}{B}{B}{B}
+- 1 Decree of Pain {6}{B}{B}
+- 1 Insurrection {5}{R}{R}{R}
+
+### Artifact (11)
+
+- 1 Sol Ring {1}
+- 1 Wayfarer's Bauble {1}
+- 1 Dimir Signet {2}
+- 1 Izzet Signet {2}
+- 1 Journeyer's Kite {2}
+- 1 Swiftfoot Boots {2}
+- 1 Darksteel Ingot {3}
+- 1 Diviner's Wand {3}
+- 1 Temple Bell {3}
+- 1 Otherworld Atlas {4}
+- 1 Venser's Journal {5}
+
+### Enchantment (11)
+
+- 1 Sigil of Sleep {U}
+- 1 Propaganda {2}{U}
+- 1 Rhystic Study {2}{U}
+- 1 Underworld Dreams {B}{B}{B}
+- 1 Collective Restraint {3}{U}
+- 1 Frozen Aether {3}{U}
+- 1 Helm of the Ghastlord {3}{U/B}
+- 1 Leyline of Punishment {2}{R}{R}
+- 1 Manabarbs {3}{R}
+- 1 Spiteful Visions {2}{B/R}{B/R}
+- 1 Price of Knowledge {6}{B}
+
+### Land (36)
+
+- 1 Akoum Refuge
+- 1 Bojuka Bog
+- 1 Command Tower
+- 1 Crumbling Necropolis
+- 1 Dimir Guildgate
+- 1 Evolving Wilds
+- 1 Grixis Panorama
+- 8 Island
+- 1 Izzet Boilerworks
+- 1 Izzet Guildgate
+- 1 Mikokoro, Center of the Sea
+- 1 Molten Slagheap
+- 4 Mountain
+- 1 Opal Palace
+- 1 Rakdos Carnarium
+- 1 Rakdos Guildgate
+- 1 Reliquary Tower
+- 6 Swamp
+- 1 Temple of the False God
+- 1 Vivid Creek
+- 1 Vivid Marsh
+
+## Suggested deck list (100 cards)
+
+### Commander (1)
+
+- 1 Nekusar, the Mindrazer {2}{U}{B}{R}
+
+### Creature (16)
+
+- 1 Kami of the Crescent Moon {U}{U}
+- 1 Nivix Guildmage {U}{R}
+- 1 Orcish Bowmasters {1}{B} _(new)_
+- 1 Razorkin Needlehead {R}{R} _(new)_
+- 1 Burnished Hart {3}
+- 1 Jace's Archivist {1}{U}{U}
+- 1 Magus of the Wheel {2}{R} _(new)_
+- 1 Scrawling Crawler {3} _(new)_
+- 1 Vampire Nighthawk {1}{B}{B}
+- 1 Fate Unraveler {3}{B}
+- 1 Ob Nixilis, Captive Kingpin {2}{B}{R} _(new)_
+- 1 Solemn Simulacrum {4}
+- 1 Mnemonic Wall {4}{U}
+- 1 Psychosis Crawler {5}
+- 1 Seizan, Perverter of Truth {3}{B}{B}
+- 1 Niv-Mizzet, the Firemind {2}{U}{U}{R}{R}
+
+### Planeswalker (1)
+
+- 1 Ob Nixilis, the Hate-Twisted {3}{B}{B} _(new)_
+
+### Instant (10)
+
+- 1 Arcane Denial {1}{U} _(new)_
+- 1 Cyclonic Rift {1}{U} _(new)_
+- 1 Starstorm {X}{R}{R}
+- 1 Terminate {B}{R}
+- 1 Blue Sun's Zenith {X}{U}{U}{U}
+- 1 Crosis's Charm {U}{B}{R}
+- 1 Grixis Charm {U}{B}{R}
+- 1 Sudden Spoiling {1}{B}{B}
+- 1 Baleful Mastery {3}{B} _(new)_
+- 1 Wild Ricochet {2}{R}{R}
+
+### Sorcery (12)
+
+- 1 Earthquake {X}{R}
+- 1 Minds Aglow {U}
+- 1 Prosperity {X}{U}
+- 1 Winds of Change {R}
+- 1 Molten Disaster {X}{R}{R}
+- 1 Skyscribing {X}{U}{U}
+- 1 Molten Psyche {1}{R}{R}
+- 1 Windfall {2}{U}
+- 1 Whispering Madness {2}{U}{B} _(new)_
+- 1 Incendiary Command {3}{R}{R}
+- 1 Reforge the Soul {3}{R}{R} _(new)_
+- 1 Decree of Pain {6}{B}{B}
+
+### Artifact (14)
+
+- 1 Sol Ring {1}
+- 1 Wayfarer's Bauble {1}
+- 1 Arcane Signet {2} _(new)_
+- 1 Dimir Signet {2}
+- 1 Izzet Signet {2}
+- 1 Journeyer's Kite {2}
+- 1 Lightning Greaves {2} _(new)_
+- 1 Rakdos Signet {2} _(new)_
+- 1 Swiftfoot Boots {2}
+- 1 Thought Vessel {2} _(new)_
+- 1 Darksteel Ingot {3}
+- 1 Temple Bell {3}
+- 1 Otherworld Atlas {4}
+- 1 Teferi's Puzzle Box {4} _(new)_
+
+### Enchantment (10)
+
+- 1 Sigil of Sleep {U}
+- 1 Fevered Visions {1}{U}{R} _(new)_
+- 1 Propaganda {2}{U}
+- 1 Rhystic Study {2}{U}
+- 1 Underworld Dreams {B}{B}{B}
+- 1 Frozen Aether {3}{U}
+- 1 Helm of the Ghastlord {3}{U/B}
+- 1 Leyline of Punishment {2}{R}{R}
+- 1 Manabarbs {3}{R}
+- 1 Spiteful Visions {2}{B/R}{B/R}
+
+### Land (36)
+
+- 1 Akoum Refuge
+- 1 Bojuka Bog
+- 1 Command Tower
+- 1 Crumbling Necropolis
+- 1 Dimir Guildgate
+- 1 Evolving Wilds
+- 1 Grixis Panorama
+- 8 Island
+- 1 Izzet Boilerworks
+- 1 Izzet Guildgate
+- 1 Mikokoro, Center of the Sea
+- 1 Molten Slagheap
+- 4 Mountain
+- 1 Opal Palace
+- 1 Rakdos Carnarium
+- 1 Rakdos Guildgate
+- 1 Reliquary Tower
+- 6 Swamp
+- 1 Temple of the False God
+- 1 Vivid Creek
+- 1 Vivid Marsh
+
 ## Web research
 
 ## 1. Main strategies/archetypes

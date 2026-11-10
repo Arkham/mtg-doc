@@ -146,6 +146,218 @@ Mana base changes:
 | Seaside Citadel | Flooded Strand | mana | Seaside Citadel always enters tapped; Flooded Strand makes white and blue untapped. |
 | Secluded Steppe | Temple Garden | mana | Secluded Steppe always enters tapped; Temple Garden makes green and white untapped. |
 
+## Deck list as submitted (100 cards)
+
+### Commander (1)
+
+- 1 Derevi, Empyrial Tactician {G}{W}{U}
+
+### Creature (25)
+
+- 1 Kataki, War's Wage {1}{W}
+- 1 Kazandu Tuskcaller {1}{G}
+- 1 Voidmage Prodigy {U}{U}
+- 1 Eternal Witness {1}{G}{G}
+- 1 Intrepid Hero {2}{W}
+- 1 Mirror Entity {2}{W}
+- 1 Stonecloaker {2}{W}
+- 1 Stonybrook Schoolmaster {2}{W}
+- 1 Trygon Predator {1}{G}{U}
+- 1 Angel of Finality {3}{W}
+- 1 Hokori, Dust Drinker {2}{W}{W}
+- 1 Lu Xun, Scholar General {2}{U}{U}
+- 1 Stoic Angel {1}{G}{W}{U}
+- 1 Windborn Muse {3}{W}
+- 1 Acidic Slime {3}{G}{G}
+- 1 Azami, Lady of Scrolls {2}{U}{U}{U}
+- 1 Karmic Guide {3}{W}{W}
+- 1 Murkfiend Liege {2}{G/U}{G/U}{G/U}
+- 1 Reveillark {4}{W}
+- 1 Roon of the Hidden Realm {2}{G}{W}{U}
+- 1 Rubinia Soulsinger {2}{G}{W}{U}
+- 1 Skyward Eye Prophets {3}{G}{W}{U}
+- 1 Sun Titan {4}{W}{W}
+- 1 Sunblast Angel {4}{W}{W}
+- 1 Luminate Primordial {5}{W}{W}
+
+### Instant (13)
+
+- 1 Condemn {W}
+- 1 Enlightened Tutor {W}
+- 1 Path to Exile {W}
+- 1 Swords to Plowshares {W}
+- 1 Arcane Denial {1}{U}
+- 1 Deglamer {1}{G}
+- 1 Unexpectedly Absent {X}{W}{W}
+- 1 Bant Charm {G}{W}{U}
+- 1 Dissipate {1}{U}{U}
+- 1 Krosan Grip {2}{G}
+- 1 Oblation {2}{W}
+- 1 Stroke of Genius {X}{2}{U}
+- 1 Ray of Command {3}{U}
+
+### Sorcery (6)
+
+- 1 Cultivate {2}{G}
+- 1 Kodama's Reach {2}{G}
+- 1 Wash Out {3}{U}
+- 1 Rout {3}{W}{W}
+- 1 Austere Command {4}{W}{W}
+- 1 Kirtar's Wrath {4}{W}{W}
+
+### Artifact (8)
+
+- 1 Sol Ring {1}
+- 1 Lightning Greaves {2}
+- 1 Swiftfoot Boots {2}
+- 1 Winter Orb {2}
+- 1 Basalt Monolith {3}
+- 1 Darksteel Ingot {3}
+- 1 Bident of Thassa {2}{U}{U}
+- 1 Sword of the Paruns {4}
+
+### Enchantment (10)
+
+- 1 Darksteel Mutation {1}{W}
+- 1 Aura Shards {1}{G}{W}
+- 1 Energy Flux {2}{U}
+- 1 Squirrel Nest {1}{G}{G}
+- 1 Control Magic {2}{U}{U}
+- 1 Glare of Subdual {2}{G}{W}
+- 1 Land Equilibrium {2}{U}{U}
+- 1 Opposition {2}{U}{U}
+- 1 Rising Waters {3}{U}
+- 1 True Conviction {3}{W}{W}{W}
+
+### Land (37)
+
+- 1 Azorius Chancery
+- 1 Azorius Guildgate
+- 1 Bant Panorama
+- 1 Command Tower
+- 1 Evolving Wilds
+- 1 Faerie Conclave
+- 6 Forest
+- 7 Island
+- 1 Opal Palace
+- 7 Plains
+- 1 Saltcrusted Steppe
+- 1 Seaside Citadel
+- 1 Secluded Steppe
+- 1 Sejiri Refuge
+- 1 Selesnya Guildgate
+- 1 Selesnya Sanctuary
+- 1 Simic Guildgate
+- 1 Temple of the False God
+- 1 Terramorphic Expanse
+- 1 Transguild Promenade
+
+## Suggested deck list (100 cards)
+
+### Commander (1)
+
+- 1 Derevi, Empyrial Tactician {G}{W}{U}
+
+### Creature (25)
+
+- 1 Birds of Paradise {G} _(new)_
+- 1 Bloom Tender {1}{G} _(new)_
+- 1 Kazandu Tuskcaller {1}{G}
+- 1 Kinnan, Bonder Prodigy {G}{U} _(new)_
+- 1 Voidmage Prodigy {U}{U}
+- 1 Eternal Witness {1}{G}{G}
+- 1 Faeburrow Elder {1}{G}{W} _(new)_
+- 1 Intrepid Hero {2}{W}
+- 1 Mirror Entity {2}{W}
+- 1 Stonecloaker {2}{W}
+- 1 Stonybrook Schoolmaster {2}{W}
+- 1 Trygon Predator {1}{G}{U}
+- 1 Emiel the Blessed {2}{W}{W} _(new)_
+- 1 Hokori, Dust Drinker {2}{W}{W}
+- 1 Lu Xun, Scholar General {2}{U}{U}
+- 1 Stoic Angel {1}{G}{W}{U}
+- 1 Windborn Muse {3}{W}
+- 1 Azami, Lady of Scrolls {2}{U}{U}{U}
+- 1 Karmic Guide {3}{W}{W}
+- 1 Murkfiend Liege {2}{G/U}{G/U}{G/U}
+- 1 Reveillark {4}{W}
+- 1 Roon of the Hidden Realm {2}{G}{W}{U}
+- 1 Rubinia Soulsinger {2}{G}{W}{U}
+- 1 Seedborn Muse {3}{G}{G} _(new)_
+- 1 Sun Titan {4}{W}{W}
+
+### Instant (14)
+
+- 1 Enlightened Tutor {W}
+- 1 Path to Exile {W}
+- 1 Swords to Plowshares {W}
+- 1 Worldly Tutor {G} _(new)_
+- 1 Arcane Denial {1}{U}
+- 1 Cyclonic Rift {1}{U} _(new)_
+- 1 Eladamri's Call {G}{W} _(new)_
+- 1 Unexpectedly Absent {X}{W}{W}
+- 1 Bant Charm {G}{W}{U}
+- 1 Fierce Guardianship {2}{U} _(new)_
+- 1 Krosan Grip {2}{G}
+- 1 Oblation {2}{W}
+- 1 Stroke of Genius {X}{2}{U}
+- 1 Ray of Command {3}{U}
+
+### Sorcery (5)
+
+- 1 Finale of Devastation {X}{G}{G} _(new)_
+- 1 Cultivate {2}{G}
+- 1 Kodama's Reach {2}{G}
+- 1 Wash Out {3}{U}
+- 1 Rout {3}{W}{W}
+
+### Artifact (9)
+
+- 1 Mana Vault {1} _(new)_
+- 1 Sol Ring {1}
+- 1 Lightning Greaves {2}
+- 1 Winter Orb {2}
+- 1 Basalt Monolith {3}
+- 1 Darksteel Ingot {3}
+- 1 Bident of Thassa {2}{U}{U}
+- 1 Sword of the Paruns {4}
+- 1 The One Ring {4} _(new)_
+
+### Enchantment (9)
+
+- 1 Mystic Remora {U} _(new)_
+- 1 Darksteel Mutation {1}{W}
+- 1 Aura Shards {1}{G}{W}
+- 1 Rhystic Study {2}{U} _(new)_
+- 1 Squirrel Nest {1}{G}{G}
+- 1 Glare of Subdual {2}{G}{W}
+- 1 Land Equilibrium {2}{U}{U}
+- 1 Opposition {2}{U}{U}
+- 1 Rising Waters {3}{U}
+
+### Land (37)
+
+- 1 Bant Panorama
+- 1 Breeding Pool _(new)_
+- 1 Command Tower
+- 1 Evolving Wilds
+- 1 Faerie Conclave
+- 1 Flooded Strand _(new)_
+- 6 Forest
+- 1 Hallowed Fountain _(new)_
+- 9 Island _(new)_
+- 1 Opal Palace
+- 5 Plains
+- 1 Saltcrusted Steppe
+- 1 Sejiri Refuge
+- 1 Selesnya Guildgate
+- 1 Selesnya Sanctuary
+- 1 Simic Guildgate
+- 1 Temple Garden _(new)_
+- 1 Temple of the False God
+- 1 Terramorphic Expanse
+- 1 Transguild Promenade
+
 ## Web research
 
 ## 1. Main strategies/archetypes
