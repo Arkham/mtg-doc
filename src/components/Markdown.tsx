@@ -21,16 +21,70 @@ function inline(text: string): ReactNode[] {
   return out;
 }
 
-/** Minimal markdown for LLM research text: headings, bullet lists, bold/italic, links. */
+const cells = (row: string) =>
+  row
+    .trim()
+    .replace(/^\|/, "")
+    .replace(/\|$/, "")
+    .split("|")
+    .map((c) => c.trim());
+
+const isTableSeparator = (t: string) => /^\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?$/.test(t);
+
+function Table({ rows }: { rows: string[] }) {
+  const [head, , ...body] = rows.map(cells);
+  return (
+    <div className="table-wrap">
+      <table className="data md-table">
+        <thead>
+          <tr>
+            {head.map((c, j) => (
+              <th key={j}>{inline(c)}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {body.map((r, k) => (
+            <tr key={k}>
+              {head.map((_, j) => (
+                <td key={j}>{inline(r[j] ?? "")}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+/** Minimal markdown for LLM research text: headings, lists, tables, bold/italic, links. */
 export function Markdown({ text }: { text: string }) {
   const blocks: ReactNode[] = [];
   let list: ReactNode[] = [];
-  const flush = () => {
+  let table: string[] = [];
+  const flushList = () => {
     if (list.length) blocks.push(<ul key={`l${blocks.length}`}>{list}</ul>);
     list = [];
   };
+  const flushTable = () => {
+    // A header row followed by a |---| separator; anything else stays as plain lines.
+    if (table.length >= 2 && isTableSeparator(table[1]))
+      blocks.push(<Table key={`t${blocks.length}`} rows={table} />);
+    else table.forEach((t, k) => blocks.push(<p key={`tp${blocks.length}-${k}`}>{inline(t)}</p>));
+    table = [];
+  };
+  const flush = () => {
+    flushList();
+    flushTable();
+  };
   text.split(/\r?\n/).forEach((line, i) => {
     const t = line.trim();
+    if (t.startsWith("|")) {
+      flushList();
+      table.push(t);
+      return;
+    }
+    flushTable();
     if (!t || t === "---") return flush();
     const h = t.match(/^#{1,6}\s+(.*)$/);
     const li = t.match(/^(?:[-*]|\d+\.)\s+(.*)$/);

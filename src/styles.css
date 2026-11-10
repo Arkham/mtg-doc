@@ -2383,12 +2383,32 @@ details.disclosure[open] > summary::after {
   font-size: var(--fs-base);
   line-height: 1.6;
   color: var(--text-2);
-  max-width: 70ch;
   margin-top: var(--sp-4);
+}
+/* Text keeps a readable measure; tables may use the panel's full width. */
+.markdown > :not(.table-wrap) {
+  max-width: 70ch;
 }
 .markdown h4 {
   color: var(--text);
   margin-top: 1em;
+}
+.markdown .table-wrap {
+  margin: var(--sp-3) 0 var(--sp-4);
+}
+/* Research tables are prose, not numbers: left-aligned, wrapping, with a clear first column. */
+.md-table td,
+.md-table th,
+table.data.md-table td:not(:first-child),
+table.data.md-table th:not(:first-child) {
+  text-align: left;
+  vertical-align: top;
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+.md-table td:first-child {
+  color: var(--text);
+  min-width: 9em;
 }
 details.inline > summary {
   color: var(--accent-hi);
