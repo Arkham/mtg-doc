@@ -1,3 +1,4 @@
+import sharp from "sharp";
 import { STATIC_URL, expect, expectNoHorizontalOverflow, test } from "./fixtures.ts";
 
 const OVERPOWERED = "lathril-blade-of-the-elves";
@@ -39,6 +40,68 @@ test.describe("static site", () => {
     await expect(page.getByRole("heading", { name: "What we changed" })).toBeVisible();
     await expect(page.getByText("Re-run with different options")).toHaveCount(0);
     await expectNoHorizontalOverflow(page);
+  });
+
+  test("the ♛ sits level with the capitals of its label", async ({ page }) => {
+    // Measured on rendered pixels: box metrics differ between the glyph's font and the text's.
+    await page.goto(STATIC_URL);
+    const label = page.locator(".home-hero .hero-role");
+    const glyphWidth = await label.evaluate(
+      (el) => el.querySelector("span")!.getBoundingClientRect().width,
+    );
+    const shot = await label.screenshot({ scale: "device" });
+    const { data, info } = await sharp(shot).raw().toBuffer({ resolveWithObject: true });
+    const scale = info.width / (await label.boundingBox())!.width;
+    const inkCentre = (x0: number, x1: number) => {
+      const ys: number[] = [];
+      for (let y = 0; y < info.height; y++)
+        for (let x = x0; x < x1; x++) {
+          const i = (y * info.width + x) * info.channels;
+          if (data[i] > 150 && data[i + 1] > 110 && data[i + 2] < 140) {
+            ys.push(y);
+            break;
+          }
+        }
+      return (Math.min(...ys) + Math.max(...ys)) / 2 / scale;
+    };
+    const split = Math.round((glyphWidth + 1) * scale);
+    const glyph = inkCentre(0, split);
+    const caps = inkCentre(split + Math.round(2 * scale), info.width);
+    expect(Math.abs(glyph - caps)).toBeLessThan(0.75);
+  });
+
+  test("the commander card tilts with a foil highlight, in the header and full size", async ({
+    page,
+    isMobile,
+  }) => {
+    await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
+    const card = page.locator(".hero-card");
+    const rotation = (el: Element) => getComputedStyle(el).transform;
+    if (!isMobile) {
+      const box = (await card.boundingBox())!;
+      await page.mouse.move(box.x + box.width * 0.8, box.y + box.height * 0.2);
+      await page.mouse.move(box.x + box.width * 0.85, box.y + box.height * 0.15);
+      await expect(card).toHaveClass(/tilting/);
+      // Hover must not cancel the tilt.
+      await expect.poll(() => card.evaluate(rotation)).not.toBe("none");
+    }
+    await (isMobile ? card.tap() : card.click());
+    const sheet = page.getByRole("dialog");
+    const big = sheet.locator(".sheet-card.tilt");
+    await expect(big.locator(".foil")).toHaveCount(1);
+    const box = (await big.boundingBox())!;
+    await big.dispatchEvent("pointermove", {
+      pointerType: isMobile ? "touch" : "mouse",
+      clientX: box.x + box.width * 0.2,
+      clientY: box.y + box.height * 0.8,
+    });
+    await expect(big).toHaveClass(/tilting/);
+    expect(await big.evaluate((el) => el.style.getPropertyValue("--ry"))).toMatch(/^-/);
+    // Tapping the card tilts it rather than closing the viewer.
+    await big.click({ position: { x: 10, y: 10 } });
+    await expect(sheet).toBeVisible();
+    await sheet.getByRole("button", { name: "Close" }).click();
+    await expect(sheet).toBeHidden();
   });
 
   test("published content is readable without JavaScript", async ({ page, request }) => {

@@ -1,12 +1,4 @@
-import {
-  type CSSProperties,
-  type PointerEvent as ReactPointerEvent,
-  type ReactNode,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { type CSSProperties, type ReactNode, useContext, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type {
   Card,
@@ -25,6 +17,7 @@ import { navigate } from "../nav.ts";
 import { BracketBadge, BracketPanel } from "./BracketPanel.tsx";
 import { ChatPanel } from "./ChatPanel.tsx";
 import { CardIndex, CardList, CardName } from "./CardName.tsx";
+import { tiltHandlers } from "./Foil.tsx";
 import { ManaCost, OracleText } from "./Mana.tsx";
 import { Markdown } from "./Markdown.tsx";
 import { Sheet } from "./Sheet.tsx";
@@ -1326,26 +1319,6 @@ function auraStyle(cards: Card[]): CSSProperties {
   return { "--aura-1": a, "--aura-2": b, "--aura-3": c } as CSSProperties;
 }
 
-/** Tilts the card toward the pointer and moves the foil highlight with it (mouse and pen only). */
-function tilt(e: ReactPointerEvent<HTMLElement>) {
-  if (e.pointerType === "touch") return;
-  const el = e.currentTarget;
-  const box = el.getBoundingClientRect();
-  const x = (e.clientX - box.left) / box.width;
-  const y = (e.clientY - box.top) / box.height;
-  el.style.setProperty("--rx", `${(0.5 - y) * 14}deg`);
-  el.style.setProperty("--ry", `${(x - 0.5) * 18}deg`);
-  el.style.setProperty("--mx", `${x * 100}%`);
-  el.style.setProperty("--my", `${y * 100}%`);
-  el.classList.add("tilting");
-}
-
-function untilt(e: ReactPointerEvent<HTMLElement>) {
-  const el = e.currentTarget;
-  el.classList.remove("tilting");
-  for (const v of ["--rx", "--ry", "--mx", "--my"]) el.style.removeProperty(v);
-}
-
 /** "Your deck" / "Optimized" switch, placed in the sticky top bar so it's always in reach. */
 function ViewToggle({ slug, view, swaps }: { slug: string; view: DeckView; swaps: number }) {
   // Rendered only once the report has loaded, so the top bar's slot is already in the DOM.
@@ -1449,14 +1422,13 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
               c.image ? (
                 <button
                   key={c.name}
-                  className="hero-card"
+                  className="hero-card tilt"
                   aria-label={`Show ${c.name} full size`}
                   onClick={() => setZoomed(c)}
-                  onPointerMove={tilt}
-                  onPointerLeave={untilt}
+                  {...tiltHandlers()}
                 >
                   <img src={c.image} alt={c.name} />
-                  <span className="hero-foil" aria-hidden />
+                  <span className="foil" aria-hidden />
                 </button>
               ) : null,
             )}
@@ -1464,6 +1436,8 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
               <Sheet
                 src={zoomed.image}
                 alt={zoomed.name}
+                foil
+                style={auraStyle(r.commanderCards)}
                 onClose={() => setZoomed(null)}
                 actions={
                   <a className="button" href={zoomed.scryfallUri} target="_blank" rel="noreferrer">
