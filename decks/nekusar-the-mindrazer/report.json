@@ -4360,6 +4360,141 @@
       "image": "https://cards.scryfall.io/normal/front/d/0/d0f82007-99f6-4c6c-8182-ee631c33531f.jpg?1783941727",
       "scryfallUri": "https://scryfall.com/card/som/80/tainted-strike?utm_source=api",
       "priceUsd": 3.39
+    },
+    "Wheel of Fortune": {
+      "image": "https://cards.scryfall.io/normal/front/a/c/acca1fd4-6384-460e-905f-118f01aa76ed.jpg?1783903856",
+      "scryfallUri": "https://scryfall.com/card/soc/33/naktamun-lorespinner-wheel-of-fortune?utm_source=api",
+      "priceUsd": 1.68
+    },
+    "Echo of Eons": {
+      "image": "https://cards.scryfall.io/normal/front/b/5/b5d7a598-374a-4f3c-a9d3-9f350cf0acb2.jpg?1793281341",
+      "scryfallUri": "https://scryfall.com/card/trc/437/echo-of-eons?utm_source=api",
+      "priceUsd": 4.67
+    },
+    "Wheel and Deal": {
+      "image": "https://cards.scryfall.io/normal/front/6/1/61f50a1a-f3d0-4fcf-bd32-0e173b0d3247.jpg?1783945075",
+      "scryfallUri": "https://scryfall.com/card/ons/121/wheel-and-deal?utm_source=api",
+      "priceUsd": 15.9
+    },
+    "Geth's Grimoire": {
+      "image": "https://cards.scryfall.io/normal/front/0/a/0a21d76d-d86c-4348-be45-f65167d2b5a9.jpg?1783944424",
+      "scryfallUri": "https://scryfall.com/card/dst/123/geths-grimoire?utm_source=api",
+      "priceUsd": 10.4
+    },
+    "Liliana's Caress": {
+      "image": "https://cards.scryfall.io/normal/front/0/d/0d995382-57a6-40a4-9050-31f57cb8dae3.jpg?1783941814",
+      "scryfallUri": "https://scryfall.com/card/m11/103/lilianas-caress?utm_source=api",
+      "priceUsd": 7.49
+    },
+    "Megrim": {
+      "image": "https://cards.scryfall.io/normal/front/3/b/3b04fca4-b4de-4343-ba58-d8aea39edc19.jpg?1783942380",
+      "scryfallUri": "https://scryfall.com/card/m10/104/megrim?utm_source=api",
+      "priceUsd": 2.05
+    },
+    "Harmonic Prodigy": {
+      "image": "https://cards.scryfall.io/normal/front/6/3/63a565e3-d7a8-469d-898f-49fef634c107.jpg?1783903818",
+      "scryfallUri": "https://scryfall.com/card/soc/123/harmonic-prodigy?utm_source=api",
+      "priceUsd": 7.6
+    },
+    "Ghyrson Starn, Kelermorph": {
+      "image": "https://cards.scryfall.io/normal/front/f/a/fa7349d9-c82f-4cf8-a852-92168d1f4966.jpg?1783920850",
+      "scryfallUri": "https://scryfall.com/card/40k/124/ghyrson-starn-kelermorph?utm_source=api",
+      "priceUsd": 24.93
+    },
+    "Grafted Exoskeleton": {
+      "image": "https://cards.scryfall.io/normal/front/f/8/f86a9d3f-43a8-4da3-9eed-353582986140.jpg?1783941266",
+      "scryfallUri": "https://scryfall.com/card/td2/74/grafted-exoskeleton?utm_source=api",
+      "priceUsd": 6.5
+    },
+    "Underworld Breach": {
+      "image": "https://cards.scryfall.io/normal/front/0/e/0e51d796-7279-4c06-87f0-37adbdaa41df.jpg?1783931543",
+      "scryfallUri": "https://scryfall.com/card/thb/161/underworld-breach?utm_source=api",
+      "priceUsd": 10.68
+    },
+    "Lion's Eye Diamond": {
+      "image": "https://cards.scryfall.io/normal/front/7/5/758f95f8-bcb0-43ae-b474-56ebd855951e.jpg?1783939234",
+      "scryfallUri": "https://scryfall.com/card/vma/271/lions-eye-diamond?utm_source=api",
+      "priceUsd": 809.21
+    },
+    "Font of Mythos": {
+      "image": "https://cards.scryfall.io/normal/front/c/1/c198caf8-27ab-4300-841b-507e1b0ce9b3.jpg?1783942462",
+      "scryfallUri": "https://scryfall.com/card/con/136/font-of-mythos?utm_source=api",
+      "priceUsd": 14.61
+    },
+    "Wheel of Misfortune": {
+      "image": "https://cards.scryfall.io/normal/front/7/4/74177b51-a300-49d9-8ea7-557b19cf80c7.jpg?1783928800",
+      "scryfallUri": "https://scryfall.com/card/cmr/211/wheel-of-misfortune?utm_source=api",
+      "priceUsd": 6.76
+    },
+    "Day's Undoing": {
+      "image": "https://cards.scryfall.io/normal/front/a/c/ac13a82d-43f5-4b96-bf5f-18e33fae921b.jpg?1783915703",
+      "scryfallUri": "https://scryfall.com/card/cmm/85/days-undoing?utm_source=api",
+      "priceUsd": 1.66
+    },
+    "Naktamun Lorespinner": {
+      "image": "https://cards.scryfall.io/normal/front/a/c/acca1fd4-6384-460e-905f-118f01aa76ed.jpg?1783903856",
+      "scryfallUri": "https://scryfall.com/card/soc/33/naktamun-lorespinner-wheel-of-fortune?utm_source=api",
+      "priceUsd": 1.68
+    },
+    "Steam Vents": {
+      "image": "https://cards.scryfall.io/normal/front/a/8/a83903c7-fd51-4526-aed2-359e946fea36.jpg?1784036844",
+      "scryfallUri": "https://scryfall.com/card/trk/298/steam-vents?utm_source=api",
+      "priceUsd": 5.89
+    },
+    "Blood Crypt": {
+      "image": "https://cards.scryfall.io/normal/front/1/b/1b7eb998-3ec0-4cbc-a416-5a1e3e5a7316.jpg?1784036817",
+      "scryfallUri": "https://scryfall.com/card/trk/278/blood-crypt?utm_source=api",
+      "priceUsd": 5.27
+    },
+    "Polluted Delta": {
+      "image": "https://cards.scryfall.io/normal/front/6/e/6e288374-2b71-4ace-b1d2-a19fee6cb4af.jpg?1783911240",
+      "scryfallUri": "https://scryfall.com/card/mh3/224/polluted-delta?utm_source=api",
+      "priceUsd": 21.35
+    },
+    "Scalding Tarn": {
+      "image": "https://cards.scryfall.io/normal/front/7/1/71e491c5-8c07-449b-b2f1-ffa052e6d311.jpg?1783926793",
+      "scryfallUri": "https://scryfall.com/card/mh2/254/scalding-tarn?utm_source=api",
+      "priceUsd": 35.07
+    },
+    "Bloodstained Mire": {
+      "image": "https://cards.scryfall.io/normal/front/5/7/579743fe-f71e-4cb2-8629-d6b02ed1591d.jpg?1783911241",
+      "scryfallUri": "https://scryfall.com/card/mh3/216/bloodstained-mire?utm_source=api",
+      "priceUsd": 19.89
+    },
+    "Morphic Pool": {
+      "image": "https://cards.scryfall.io/normal/front/5/6/5667b84e-38d1-4583-80ec-2c4584a81ee8.jpg?1793021331",
+      "scryfallUri": "https://scryfall.com/card/trc/540/morphic-pool?utm_source=api",
+      "priceUsd": 7.25
+    },
+    "Training Center": {
+      "image": "https://cards.scryfall.io/normal/front/4/d/4d7ade96-689e-46a8-9ee3-ac1852effca6.jpg?1793112069",
+      "scryfallUri": "https://scryfall.com/card/trc/572/training-center?utm_source=api",
+      "priceUsd": 5.13
+    },
+    "Luxury Suite": {
+      "image": "https://cards.scryfall.io/normal/front/3/c/3c409d1e-f634-44a2-8fcf-dcdcb0babc3f.jpg?1783903199",
+      "scryfallUri": "https://scryfall.com/card/msc/252/luxury-suite?utm_source=api",
+      "priceUsd": 8.28
+    },
+    "Talisman of Dominance": {
+      "image": "https://cards.scryfall.io/normal/front/4/c/4cfcaacc-216d-4872-8a7a-27eace8039ed.jpg?1793021208",
+      "scryfallUri": "https://scryfall.com/card/trc/505/talisman-of-dominance?utm_source=api",
+      "priceUsd": 0.96
+    },
+    "Talisman of Creativity": {
+      "image": "https://cards.scryfall.io/normal/front/2/0/201a1c88-4faa-4fb2-86e8-706c2745b942.jpg?1793111961",
+      "scryfallUri": "https://scryfall.com/card/trc/504/talisman-of-creativity?utm_source=api",
+      "priceUsd": 1.58
+    },
+    "Talisman of Indulgence": {
+      "image": "https://cards.scryfall.io/normal/front/7/e/7e8c867f-172f-4c17-9ca6-6b4aa853f525.jpg?1793197578",
+      "scryfallUri": "https://scryfall.com/card/trc/507/talisman-of-indulgence?utm_source=api",
+      "priceUsd": 1.37
+    },
+    "Geier Reach Sanitarium": {
+      "image": "https://cards.scryfall.io/normal/front/4/b/4b9c92f0-4242-4a3e-9ede-6a4935f5c75d.jpg?1783913830",
+      "scryfallUri": "https://scryfall.com/card/lcc/335/geier-reach-sanitarium?utm_source=api",
+      "priceUsd": 2.61
     }
   },
   "original": {

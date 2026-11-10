@@ -7849,6 +7849,46 @@
       "image": "https://cards.scryfall.io/normal/front/5/9/59ee2974-07e9-4506-903c-457cb7327dd8.jpg?1783933375",
       "scryfallUri": "https://scryfall.com/card/war/236/vraska-swarms-eminence?utm_source=api",
       "priceUsd": 0.34
+    },
+    "Reanimate": {
+      "image": "https://cards.scryfall.io/normal/front/3/6/368b6903-5fc4-43e7-bd44-46b8107c8bb4.jpg?1783909614",
+      "scryfallUri": "https://scryfall.com/card/dsc/155/reanimate?utm_source=api",
+      "priceUsd": 10.33
+    },
+    "Blighted Agent": {
+      "image": "https://cards.scryfall.io/normal/front/c/d/cddaebde-a060-4510-8c97-68432d931987.jpg?1783941323",
+      "scryfallUri": "https://scryfall.com/card/nph/29/blighted-agent?utm_source=api",
+      "priceUsd": 1.19
+    },
+    "Woodfall Primus": {
+      "image": "https://cards.scryfall.io/normal/front/9/7/97914abe-71d5-4bd6-87d7-8e7379abf1aa.jpg?1783923235",
+      "scryfallUri": "https://scryfall.com/card/ncc/322/woodfall-primus?utm_source=api",
+      "priceUsd": 0.4
+    },
+    "Thassa's Oracle": {
+      "image": "https://cards.scryfall.io/normal/front/7/2/726e8b29-13e9-4138-b6a9-d2a0d8188d1c.jpg?1783931575",
+      "scryfallUri": "https://scryfall.com/card/thb/73/thassas-oracle?utm_source=api",
+      "priceUsd": 22.49
+    },
+    "Dark Hatchling": {
+      "image": "https://cards.scryfall.io/normal/front/1/3/133e9654-74a3-4997-b371-7f36b5d9c4f1.jpg?1783922456",
+      "scryfallUri": "https://scryfall.com/card/clb/747/dark-hatchling?utm_source=api",
+      "priceUsd": 0.31
+    },
+    "Slipstream Eel": {
+      "image": "https://cards.scryfall.io/normal/front/6/8/68ce4a14-b003-4a61-8979-c400fe4392b8.jpg?1783934763",
+      "scryfallUri": "https://scryfall.com/card/cm2/49/slipstream-eel?utm_source=api",
+      "priceUsd": 0.07
+    },
+    "Triskelavus": {
+      "image": "https://cards.scryfall.io/normal/front/8/9/899eb19e-9932-4066-9de6-dfdbbab5e769.jpg?1783934695",
+      "scryfallUri": "https://scryfall.com/card/cm2/226/triskelavus?utm_source=api",
+      "priceUsd": 0.22
+    },
+    "Grave Pact": {
+      "image": "https://cards.scryfall.io/normal/front/f/5/f5a4970b-2ba6-4c91-a301-369369cdf360.jpg?1783915673",
+      "scryfallUri": "https://scryfall.com/card/cmm/165/grave-pact?utm_source=api",
+      "priceUsd": 30.03
     }
   }
 }

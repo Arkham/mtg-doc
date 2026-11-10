@@ -31,6 +31,8 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
       { url: "https://edhrec.com/commanders/lathril-blade-of-the-elves", title: "EDHREC" },
     ]);
     assert.deepEqual(report.research.cardsMentioned, ["Elvish Archdruid", "Priest of Titania"]);
+    for (const name of report.research.cardsMentioned)
+      assert.ok(report.cardIndex![name]?.image, `${name} from the research has a preview`);
 
     assert.equal(report.model, "gpt-6.1-sol");
     assert.equal(report.strategy, "Stub strategy: go wide with elves.");

@@ -34,6 +34,8 @@ function referencedNames(r: Report): string[] {
   for (const e of r.edits ?? []) e.changes.forEach((c) => names.add(c.name));
   for (const m of r.manaSuggestions ?? []) m.changes.forEach((c) => names.add(c.name));
   for (const syn of r.synergies ?? []) syn.cards.forEach((n) => names.add(n));
+  // Research text names cards in bold; they become previews when they're in the index.
+  r.research?.cardsMentioned.forEach((n) => names.add(n));
   return [...names];
 }
 

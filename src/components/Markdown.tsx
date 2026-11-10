@@ -1,4 +1,48 @@
-import type { ReactNode } from "react";
+import { type ReactNode, createContext, useContext, useMemo } from "react";
+import { CardIndex, CardName } from "./CardName.tsx";
+
+type CardOf = (text: string) => string | undefined;
+
+const norm = (s: string) => s.toLowerCase().replace(/[’‘]/g, "'").trim();
+
+/** Resolves text to a card in the report's index, by full name or a double-faced card's front. */
+function useCardOf(): CardOf {
+  const index = useContext(CardIndex);
+  return useMemo(() => {
+    const byName = new Map<string, string>();
+    for (const name of Object.keys(index)) {
+      byName.set(norm(name), name);
+      const front = name.split(" // ")[0];
+      if (front !== name) byName.set(norm(front), name);
+    }
+    return (text) => byName.get(norm(text));
+  }, [index]);
+}
+
+const CardOfContext = createContext<CardOf>(() => undefined);
+
+/**
+ * Bold text that names cards from the report becomes card previews: "Windfall", "Windfall:" or
+ * "Hermit Druid + Thassa's Oracle". Any other bold text stays plain bold.
+ */
+function Bold({ text }: { text: string }) {
+  const cardOf = useContext(CardOfContext);
+  const core = text.replace(/[:.]\s*$/, "");
+  const parts = core.split(/\s+\+\s+/);
+  const cards = parts.map(cardOf);
+  if (!cards.every(Boolean)) return <strong>{text}</strong>;
+  return (
+    <strong>
+      {parts.map((p, i) => (
+        <span key={i}>
+          {i > 0 && " + "}
+          <CardName name={cards[i]!} label={p} />
+        </span>
+      ))}
+      {text.slice(core.length)}
+    </strong>
+  );
+}
 
 function inline(text: string): ReactNode[] {
   const out: ReactNode[] = [];
@@ -7,7 +51,7 @@ function inline(text: string): ReactNode[] {
   let m: RegExpExecArray | null;
   while ((m = re.exec(text))) {
     if (m.index > last) out.push(text.slice(last, m.index));
-    if (m[1]) out.push(<strong key={m.index}>{m[1]}</strong>);
+    if (m[1]) out.push(<Bold key={m.index} text={m[1]} />);
     else if (m[2])
       out.push(
         <a key={m.index} href={m[3]} target="_blank" rel="noreferrer">
@@ -59,6 +103,7 @@ function Table({ rows }: { rows: string[] }) {
 
 /** Minimal markdown for LLM research text: headings, lists, tables, bold/italic, links. */
 export function Markdown({ text }: { text: string }) {
+  const cardOf = useCardOf();
   const blocks: ReactNode[] = [];
   let list: ReactNode[] = [];
   let table: string[] = [];
@@ -99,5 +144,9 @@ export function Markdown({ text }: { text: string }) {
     }
   });
   flush();
-  return <div className="markdown">{blocks}</div>;
+  return (
+    <CardOfContext.Provider value={cardOf}>
+      <div className="markdown">{blocks}</div>
+    </CardOfContext.Provider>
+  );
 }

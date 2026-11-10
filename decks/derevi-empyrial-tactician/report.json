@@ -7472,6 +7472,36 @@
       "image": "https://cards.scryfall.io/normal/front/9/9/993bc69a-b615-48c5-af81-252a73384e8c.jpg?1783936730",
       "scryfallUri": "https://scryfall.com/card/aer/148/crackdown-construct?utm_source=api",
       "priceUsd": 0.3
+    },
+    "Circle of Dreams Druid": {
+      "image": "https://cards.scryfall.io/normal/front/b/e/be6fdec0-a2c4-4da2-ae14-961185eaee66.jpg?1783926466",
+      "scryfallUri": "https://scryfall.com/card/afr/176/circle-of-dreams-druid?utm_source=api",
+      "priceUsd": 14.34
+    },
+    "Cloud of Faeries": {
+      "image": "https://cards.scryfall.io/normal/front/0/3/03aff125-8962-4a0a-a2b4-e5d693b75400.jpg?1783917172",
+      "scryfallUri": "https://scryfall.com/card/moc/219/cloud-of-faeries?utm_source=api",
+      "priceUsd": 0.4
+    },
+    "Slithermuse": {
+      "image": "https://cards.scryfall.io/normal/front/5/8/58b1e5df-de53-4452-90a9-9ff13c4a0bd6.jpg?1783904564",
+      "scryfallUri": "https://scryfall.com/card/ecc/69/slithermuse?utm_source=api",
+      "priceUsd": 0.24
+    },
+    "Nadu, Winged Wisdom": {
+      "image": "https://cards.scryfall.io/normal/front/9/4/94b67489-5eb0-4406-9bf3-27e50dc632eb.jpg?1791803795",
+      "scryfallUri": "https://scryfall.com/card/mh3/193/nadu-winged-wisdom?utm_source=api",
+      "priceUsd": 0.32
+    },
+    "Mana Crypt": {
+      "image": "https://cards.scryfall.io/normal/front/4/d/4d960186-4559-4af0-bd22-63baa15f8939.jpg?1783930103",
+      "scryfallUri": "https://scryfall.com/card/2xm/270/mana-crypt?utm_source=api",
+      "priceUsd": 36.69
+    },
+    "Jeweled Lotus": {
+      "image": "https://cards.scryfall.io/normal/front/d/7/d7183700-6941-4a3d-a581-4f33bea795e9.jpg?1783915595",
+      "scryfallUri": "https://scryfall.com/card/cmm/396/jeweled-lotus?utm_source=api",
+      "priceUsd": 39.84
     }
   }
 }
