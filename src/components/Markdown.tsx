@@ -1,9 +1,7 @@
 import { type ReactNode, createContext, useContext, useMemo } from "react";
-import { CardIndex, CardName } from "./CardName.tsx";
+import { CardIndex, CardName, norm } from "./CardName.tsx";
 
 type CardOf = (text: string) => string | undefined;
-
-const norm = (s: string) => s.toLowerCase().replace(/[’‘]/g, "'").trim();
 
 /** Resolves text to a card in the report's index, by full name or a double-faced card's front. */
 function useCardOf(): CardOf {

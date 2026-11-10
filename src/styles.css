@@ -2874,6 +2874,17 @@ pre {
   border: 1px solid var(--line);
   border-bottom-left-radius: 4px;
 }
+/* Card names inside a bubble stay inline text but are marked as previewable. */
+.chat-bubble .card-name > a {
+  display: inline;
+  color: inherit;
+  text-decoration: underline dotted var(--line-strong);
+  text-underline-offset: 2px;
+}
+.chat-bubble .card-name > a:hover {
+  color: var(--accent-hi);
+  text-decoration-color: currentColor;
+}
 .typing {
   display: inline-flex;
   gap: 4px;

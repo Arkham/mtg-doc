@@ -2,7 +2,7 @@ import { type FormEvent, type KeyboardEvent, useEffect, useRef, useState } from 
 import type { DeckChatMessage, Report } from "../../shared/types.ts";
 import { api } from "../api.ts";
 import { navigate } from "../nav.ts";
-import { CardName } from "./CardName.tsx";
+import { CardName, CardText } from "./CardName.tsx";
 import { ManaCost } from "./Mana.tsx";
 
 const SUGGESTIONS = [
@@ -35,7 +35,7 @@ function Changes({
             <div>
               <div className="chat-change-name">
                 {c.qty > 1 && <span className="muted">{c.qty}× </span>}
-                {c.card ? <CardName name={c.name} card={c.card} /> : c.name}
+                {c.card ? <CardName name={c.name} card={c.card} /> : <CardText text={c.name} />}
                 {c.card && <ManaCost cost={c.card.manaCost} size={13} />}
                 {c.card?.priceUsd != null && c.action === "add" && (
                   <span className="muted small">${c.card.priceUsd.toFixed(2)}</span>
@@ -240,7 +240,9 @@ export function ChatPanel({
             )}
             {messages?.map((m) => (
               <div key={m.id} className={`chat-msg ${m.role}`}>
-                <div className="chat-bubble">{m.content}</div>
+                <div className="chat-bubble">
+                  <CardText text={m.content} />
+                </div>
                 {m.role === "assistant" && m.changes?.length ? (
                   <Changes message={m} busy={applying === m.id} onApply={() => apply(m.id)} />
                 ) : null}

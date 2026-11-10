@@ -63,6 +63,15 @@ test.describe("local app", () => {
     const proposal = page.locator(".chat-msg.assistant .chat-changes").last();
     await expect(proposal).toContainText("Sol Ring");
     await expect(proposal).toContainText("Mind Stone");
+    // Card names in a reply are previews too, like cards anywhere else on the page. With no LLM
+    // configured the reply is the help text, which names Sol Ring and Mind Stone.
+    await message.fill("what should I cut?");
+    await message.press("Enter");
+    const reply = page.locator(".chat-msg.assistant .chat-bubble").last();
+    const mentioned = reply.getByRole("link", { name: "Sol Ring" }).first();
+    await expect(mentioned).toBeVisible();
+    await mentioned.hover();
+    await expect(page.locator("body > .card-preview")).toHaveAttribute("src", /^https:/);
     await proposal.getByRole("button", { name: "Apply 2 changes" }).click();
     await expect(proposal).toContainText("Applied", { timeout: 30_000 });
     await expect(page.locator(".edit-log")).toContainText("Mind Stone");

@@ -93,7 +93,8 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
 ### UI
 
 - **Every card shown on a page MUST have a preview** (hover on desktop, tap on touch). Render card
-  names with `CardName` (or `CardList` for several), never as plain text. Reports carry a
+  names with `CardName` (or `CardList` for several), never as plain text, and with `CardText` for
+  card names inside model-written prose (chat replies) so they preview too. Reports carry a
   `cardIndex` with image data for every card they mention (`server/card-index.ts`): when you add a
   new list of cards to a report, make sure `referencedNames` covers it. `CardName` falls back to
   Scryfall's by-name image as a last resort, but the index is the source of truth.

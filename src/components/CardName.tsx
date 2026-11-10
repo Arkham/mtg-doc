@@ -4,6 +4,7 @@ import {
   type ReactNode,
   createContext,
   useContext,
+  useMemo,
   useState,
 } from "react";
 import { createPortal } from "react-dom";
@@ -17,6 +18,55 @@ interface CardLike {
 
 /** Preview data for the cards on the current page (a report's `cardIndex`). */
 export const CardIndex = createContext<Record<string, CardPreview>>({});
+
+export const norm = (s: string) => s.toLowerCase().replace(/[’‘]/g, "'").trim();
+
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const isWordChar = (c: string | undefined) => !!c && /[\p{L}\p{N}]/u.test(c);
+
+/**
+ * Case-insensitive, whole-name matcher for the cards in the index, longest name first so a longer
+ * name is never shadowed by a shorter one it contains. Double-faced cards also match their front.
+ */
+function cardMatcher(index: Record<string, CardPreview>) {
+  const canonical = new Map<string, string>();
+  for (const name of Object.keys(index)) {
+    canonical.set(norm(name), name);
+    const front = name.split(" // ")[0];
+    if (front !== name && !canonical.has(norm(front))) canonical.set(norm(front), name);
+  }
+  const keys = [...canonical.keys()].sort((a, b) => b.length - a.length);
+  if (!keys.length) return null;
+  return { re: new RegExp(keys.map(escapeRe).join("|"), "gi"), canonical };
+}
+
+/**
+ * Plain text where every card name from the index becomes a preview (hover on desktop, tap on
+ * touch), so cards named in chat prose behave like cards elsewhere on the page.
+ */
+export function CardText({ text }: { text: string }) {
+  const index = useContext(CardIndex);
+  const nodes = useMemo(() => {
+    const matcher = cardMatcher(index);
+    if (!matcher) return [text];
+    const { re, canonical } = matcher;
+    const out: ReactNode[] = [];
+    let last = 0;
+    for (const hit of text.matchAll(re)) {
+      const start = hit.index ?? 0;
+      const end = start + hit[0].length;
+      if (isWordChar(text[start - 1]) || isWordChar(text[end])) continue;
+      const name = canonical.get(norm(hit[0]));
+      if (!name) continue;
+      if (start > last) out.push(text.slice(last, start));
+      out.push(<CardName key={start} name={name} label={hit[0]} />);
+      last = end;
+    }
+    if (last < text.length) out.push(text.slice(last));
+    return out;
+  }, [index, text]);
+  return <>{nodes}</>;
+}
 
 /** Last resort so every card name has a preview: Scryfall serves a card image by exact name. */
 const fallbackPreview = (name: string): CardPreview => ({
