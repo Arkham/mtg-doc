@@ -1,5 +1,7 @@
 import "../support/env.ts";
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
 import { after, describe, test } from "node:test";
 import sharp from "sharp";
 import type { RecognitionResult } from "../../shared/types.ts";
@@ -177,6 +179,46 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     });
     assert.equal(getJob(confirmed.rerun!.jobId!)!.status, "done");
     await assert.rejects(startChatRerun(slug, confirmed.id), /already started/);
+  });
+
+  test("everything the report UI can change, the chat can too", async () => {
+    const { chatAboutDeck } = await import("../../server/chat.ts");
+    const { readReport } = await import("../../server/storage.ts");
+    const { slug } = await optimizeFixtureDeck("lathril.txt", { bracket: 3, maxSwaps: 4 });
+
+    // Re-run with the same settings (the "Re-run" form without changes).
+    const again = await chatAboutDeck(slug, "run it again please");
+    assert.deepEqual(again.rerun, { options: {}, summary: "the current settings" });
+
+    // Find synergies again (the Synergies panel button).
+    const before = (await readReport(slug))!;
+    const refreshed = await chatAboutDeck(slug, "find the synergies again");
+    assert.equal(refreshed.reportUpdated, true);
+    const after = (await readReport(slug))!;
+    assert.ok(after.synergies!.length > 0);
+    assert.deepEqual(after.decklist, before.decklist, "the list itself doesn't change");
+
+    // Apply a suggested land swap (the Mana panel button): the doc sees the suggestions.
+    const { config } = await import("../../server/config.ts");
+    const file = path.join(config.decksDir, slug, "report.json");
+    const withSuggestion = {
+      ...after,
+      manaSuggestions: [
+        {
+          id: "s1",
+          reason: "Stub reason.",
+          changes: [
+            { action: "remove", name: "Forest", qty: 1, reason: "", ok: true },
+            { action: "add", name: "Llanowar Wastes", qty: 1, reason: "", ok: true },
+          ],
+        },
+      ],
+    };
+    fs.writeFileSync(file, JSON.stringify(withSuggestion));
+    await chatAboutDeck(slug, "apply the suggested land swaps");
+    const context = stub.requests.at(-1)!.text;
+    assert.match(context, /Suggested land swaps[^]*remove Forest, add Llanowar Wastes/);
+    assert.match(context, /web research (on|off)/);
   });
 
   test("deck chat: model proposals, and a content-filter refusal falls back to simple commands", async () => {

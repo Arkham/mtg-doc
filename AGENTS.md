@@ -65,6 +65,19 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   belong in the gitignored `.env` (which supports `${VAR}` references to shell variables).
 - The app must keep working without an LLM (pasted lists, data-only swaps).
 
+### Chat parity
+
+- Anything the report UI can change, the user must also be able to do by asking the doc in chat:
+  card edits, applying suggestions, re-running the optimizer with any setting, refreshing derived
+  data. When you add a button or form that changes a deck or its report, extend `server/chat.ts`
+  (reply schema, deck context and system prompt) in the same change, and add a case to the
+  "everything the report UI can change, the chat can too" test in `test/integration/llm-pipeline.test.ts`.
+- Destructive or slow chat actions (re-running the optimizer, anything that replaces the list) are
+  proposed first and start only once the user confirms, by button or by a reply the Decisions API
+  judges as a yes. Cheap, non-destructive ones (like finding synergies again) can run directly.
+- Importing a deck (photo or list, the review screen) happens before the deck exists, so it's out
+  of scope.
+
 ### Testing
 
 - Tests are offline and deterministic. Outbound HTTP is recorded once into `test/fixtures/http`

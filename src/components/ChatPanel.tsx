@@ -147,6 +147,10 @@ export function ChatPanel({
       setMessages((m) => [...(m ?? []), reply]);
       // A "yes" to a proposed re-run starts it right away.
       if (reply.rerun?.jobId) navigate(`#/job/${slug}/${reply.rerun.jobId}`);
+      if (reply.reportUpdated) {
+        const { report } = await api.deck(slug);
+        if (report) onApplied(report);
+      }
     } catch (e) {
       setError(String(e instanceof Error ? e.message : e));
       setText(content);

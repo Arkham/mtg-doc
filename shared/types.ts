@@ -251,7 +251,10 @@ export interface DeckChange {
 }
 
 export type RerunOptions = Partial<
-  Pick<OptimizeOptions, "bracket" | "budgetTotal" | "budgetPerCard" | "maxSwaps" | "tone">
+  Pick<
+    OptimizeOptions,
+    "bracket" | "budgetTotal" | "budgetPerCard" | "maxSwaps" | "tone" | "webResearch"
+  >
 >;
 
 /** A re-run of the optimizer with changed settings, proposed in chat; starts only once confirmed. */
@@ -270,6 +273,8 @@ export interface DeckChatMessage {
   changes?: DeckChange[];
   applied?: boolean;
   rerun?: RerunProposal;
+  /** The doc changed the report directly (e.g. found synergies again); the client reloads it. */
+  reportUpdated?: boolean;
 }
 
 export interface CardPreview {

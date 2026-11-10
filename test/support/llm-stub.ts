@@ -79,6 +79,14 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
     // Simulates the provider refusing a request, which the app must survive.
     if (/Fellwar Stone|risky/.test(text)) return CONTENT_FILTER;
     const last = (body.input as { content: { text?: string }[] }[]).at(-1)?.content[0]?.text ?? "";
+    if (/synergies again/i.test(last))
+      return message(
+        JSON.stringify({ reply: "Looking again.", changes: [], refreshSynergies: true }),
+      );
+    if (/run it again/i.test(last))
+      return message(
+        JSON.stringify({ reply: "Same settings, fresh run?", changes: [], rerun: {} }),
+      );
     if (/bracket 2/i.test(last))
       return message(
         JSON.stringify({

@@ -71,10 +71,12 @@ const ReplySchema = z.object({
       budgetPerCard: z.number().positive().nullable().optional(),
       maxSwaps: z.number().int().min(1).max(40).optional(),
       tone: z.enum(["max", "balanced", "casual"]).optional(),
+      webResearch: z.boolean().optional(),
     })
     .nullable()
     .catch(null)
     .default(null),
+  refreshSynergies: z.boolean().catch(false).default(false),
 });
 
 /** A confirmed re-run needs a fairly clear yes; anything else is treated as a new message. */
@@ -100,7 +102,10 @@ function deckSummary(deck: Deck, report: Report | null) {
       ? `Target bracket ${b.target} (${b.name}): Game Changers ${b.after.gameChangers.length}/${b.gameChangerLimit ?? "any"} (${b.after.gameChangers.join(", ") || "none"}); mass land denial ${BRACKETS[b.target].massLandDenial ? "allowed" : "not allowed"}; two-card combos ${BRACKETS[b.target].twoCardCombos}.`
       : "",
     report
-      ? `Optimizer settings: target bracket ${report.options.bracket ?? "keep current"}, deck budget ${report.options.budgetTotal ? `$${report.options.budgetTotal}` : "none"}, per-card budget ${report.options.budgetPerCard ? `$${report.options.budgetPerCard}` : "none"}, up to ${report.options.maxSwaps} swaps, tone ${report.options.tone}`
+      ? `Optimizer settings: target bracket ${report.options.bracket ?? "keep current"}, deck budget ${report.options.budgetTotal ? `$${report.options.budgetTotal}` : "none"}, per-card budget ${report.options.budgetPerCard ? `$${report.options.budgetPerCard}` : "none"}, up to ${report.options.maxSwaps} swaps, tone ${report.options.tone}, web research ${report.options.webResearch ? "on" : "off"}`
+      : "",
+    report?.manaSuggestions?.length
+      ? `Suggested land swaps (the user can ask you to apply them):\n${report.manaSuggestions.map((m) => `- ${m.changes.map((c) => `${c.action} ${c.name}`).join(", ")}: ${m.reason}`).join("\n")}`
       : "",
     `Current list:\n${lines.join("\n")}`,
   ]
@@ -117,8 +122,9 @@ Rules:
 - Respect the commander's color identity, singleton (basics excepted), the target bracket and the budget. Every change is validated; invalid ones are rejected.
 - Only remove cards that are in the current list.
 - Keep "reply" short (2-5 sentences); mention the key trade-offs.
-- If the user wants different optimizer settings (another target bracket, a total or per-card budget, more or fewer swaps, a different tone), propose re-running the optimizer instead of card changes: set "rerun" to only the settings that change and leave "changes" empty. In "reply", say what will change and ask them to confirm; the re-run replaces the current suggestions and chat edits. Otherwise set "rerun" to null.
-Reply with JSON only: {"reply": string, "changes": [{"action": "add"|"remove", "name": string, "qty": number, "reason": string}], "rerun": null | {"bracket"?: 1-5, "budgetTotal"?: number | null, "budgetPerCard"?: number | null, "maxSwaps"?: number, "tone"?: "max"|"balanced"|"casual"}}`;
+- If the user wants different optimizer settings (another target bracket, a total or per-card budget, more or fewer swaps, a different tone), propose re-running the optimizer instead of card changes: set "rerun" to only the settings that change and leave "changes" empty. In "reply", say what will change and ask them to confirm; the re-run replaces the current suggestions and chat edits. To re-run with the same settings, set "rerun" to {}. Otherwise set "rerun" to null.
+- If the user asks to find the deck's synergies again, set "refreshSynergies" to true (it runs right away and doesn't change the list).
+Reply with JSON only: {"reply": string, "changes": [{"action": "add"|"remove", "name": string, "qty": number, "reason": string}], "rerun": null | {"bracket"?: 1-5, "budgetTotal"?: number | null, "budgetPerCard"?: number | null, "maxSwaps"?: number, "tone"?: "max"|"balanced"|"casual", "webResearch"?: boolean}, "refreshSynergies": boolean}`;
 
 async function proposeWithLlm(deck: Deck, report: Report | null, history: DeckChatMessage[]) {
   const recent = history.slice(-HISTORY_FOR_MODEL).map((m) => ({
@@ -256,6 +262,7 @@ export async function chatAboutDeck(slug: string, message: string): Promise<Deck
   let reply: string;
   let proposed: ProposedChange[];
   let rerun: DeckChatMessage["rerun"];
+  let reportUpdated = false;
   const parsed = parseCommand(message);
   const llm = llmEnabled()
     ? await proposeWithLlm(deck, report, history).catch((err: unknown) => ({ error: err }))
@@ -264,6 +271,13 @@ export async function chatAboutDeck(slug: string, message: string): Promise<Deck
     reply = llm.reply;
     rerun = makeRerun(llm.rerun, meta.options);
     proposed = rerun ? [] : llm.changes;
+    if (llm.refreshSynergies && !rerun && report) {
+      reportUpdated = await refreshSynergies(slug).then(
+        () => true,
+        () => false,
+      );
+      if (!reportUpdated) reply = `${reply}\n\n(I couldn't refresh the synergies just now.)`;
+    }
   } else if (parsed) {
     // Simple commands work without the model, including when the provider refuses a request.
     proposed = parsed;
@@ -289,6 +303,7 @@ export async function chatAboutDeck(slug: string, message: string): Promise<Deck
     at: new Date().toISOString(),
     ...(changes.length ? { changes } : {}),
     ...(rerun ? { rerun } : {}),
+    ...(reportUpdated ? { reportUpdated } : {}),
   };
   history.push(assistant);
   await writeChat(slug, history);

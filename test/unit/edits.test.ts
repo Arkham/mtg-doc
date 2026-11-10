@@ -168,8 +168,13 @@ describe("re-run proposals", () => {
       options: { bracket: 2, tone: "casual" },
       summary: "bracket 2 (Core), casual tone",
     });
-    assert.equal(makeRerun({ bracket: 3 }, current), undefined, "no-op");
+    assert.deepEqual(
+      makeRerun({ bracket: 3 }, current),
+      { options: {}, summary: "the current settings" },
+      "asking for the current values re-runs with the same settings",
+    );
     assert.equal(makeRerun(null, current), undefined);
+    assert.equal(makeRerun({ webResearch: false }, current)!.summary, "web research off");
     assert.equal(makeRerun({ budgetTotal: null }, current)!.summary, "deck budget none");
   });
 });
