@@ -1,0 +1,160 @@
+import assert from "node:assert/strict";
+import { describe, test } from "node:test";
+import type { BracketReport, DeckEdit, Swap } from "../../shared/types.ts";
+import { type Deck, cloneDeck } from "../../server/analysis/deck.ts";
+import { refreshBracketLists, reconcileSwaps } from "../../server/analysis/reconcile.ts";
+import { spell, swamp, testDeck } from "../support/cards.ts";
+
+const helm = spell("Helm of the Ghastlord");
+const fogBank = spell("Fog Bank");
+const visions = spell("Fevered Visions");
+const signet = spell("Arcane Signet");
+const army = spell("Army of the Damned");
+
+const initial = testDeck(37, [helm, fogBank, army]);
+
+/** `deck` with `out` swapped for `add` (by name). */
+function swap(deck: Deck, out: string, add: ReturnType<typeof spell>): Deck {
+  const next = cloneDeck(deck);
+  const slot = next.slots.find((s) => s.card.name === out)!;
+  if (--slot.qty === 0) next.slots.splice(next.slots.indexOf(slot), 1);
+  const have = next.slots.find((s) => s.card.name === add.name);
+  if (have) have.qty++;
+  else next.slots.push({ card: add, qty: 1 });
+  return next;
+}
+
+const optimizerSwaps: Swap[] = [
+  {
+    out: "Helm of the Ghastlord",
+    in: "Fevered Visions",
+    category: "bracket",
+    reason: "Removing Helm breaks the loop with Niv-Mizzet.",
+    alternatives: [{ name: "Fellwar Stone", image: null, scryfallUri: "" }],
+  },
+  {
+    out: "Army of the Damned",
+    in: "Arcane Signet",
+    category: "ramp",
+    reason: "Cheap ramp.",
+    alternatives: [
+      { name: "Mind Stone", image: null, scryfallUri: "" },
+      { name: "Fellwar Stone", image: null, scryfallUri: "" },
+    ],
+  },
+];
+const optimized = swap(
+  swap(initial, "Helm of the Ghastlord", visions),
+  "Army of the Damned",
+  signet,
+);
+
+const edit = (
+  ...changes: [action: "add" | "remove", name: string, reason: string][]
+): DeckEdit => ({
+  at: "2026-01-01T00:00:00.000Z",
+  request: "",
+  changes: changes.map(([action, name, reason]) => ({ action, name, qty: 1, reason })),
+});
+
+const pairs = (swaps: Swap[]) => swaps.map((s) => [s.out, s.in, Boolean(s.fromChat)]);
+
+describe("reconcileSwaps", () => {
+  test("keeps the optimizer's swaps while the list still matches them", () => {
+    assert.deepEqual(reconcileSwaps(optimizerSwaps, initial, optimized, []), optimizerSwaps);
+  });
+
+  test("a cut card put back drops its swap and pairs the added card with the new cut", () => {
+    const putBack = edit(
+      ["remove", "Fog Bank", "Low-synergy blocker."],
+      ["add", "Helm of the Ghastlord", "Draws on every damage trigger."],
+    );
+    const current = swap(optimized, "Fog Bank", helm);
+    const swaps = reconcileSwaps(optimizerSwaps, initial, current, [putBack]);
+    assert.deepEqual(pairs(swaps), [
+      ["Army of the Damned", "Arcane Signet", false],
+      ["Fog Bank", "Fevered Visions", true],
+    ]);
+    const repaired = swaps[1];
+    assert.equal(repaired.reason, "Low-synergy blocker.", "the old reason was about Helm");
+    assert.equal(repaired.category, "other");
+    assert.equal(repaired.outCard?.name, "Fog Bank");
+    assert.equal(repaired.inCard?.name, "Fevered Visions");
+    assert.ok(
+      !swaps.some((s) => s.out === "Helm of the Ghastlord" || s.in === "Helm of the Ghastlord"),
+    );
+  });
+
+  test("an added card taken out again pairs its cut with the card that replaced it", () => {
+    const mindStone = spell("Mind Stone");
+    const current = swap(optimized, "Arcane Signet", mindStone);
+    const swaps = reconcileSwaps(optimizerSwaps, initial, current, [
+      edit(["remove", "Arcane Signet", ""], ["add", "Mind Stone", "Untaps for value."]),
+    ]);
+    assert.deepEqual(pairs(swaps), [
+      ["Helm of the Ghastlord", "Fevered Visions", false],
+      ["Army of the Damned", "Mind Stone", true],
+    ]);
+    assert.equal(swaps[1].reason, "Untaps for value.");
+  });
+
+  test("new chat swaps join the list, and alternatives already in the deck are dropped", () => {
+    const fellwar = spell("Fellwar Stone");
+    const current = swap(optimized, "Fog Bank", fellwar);
+    const swaps = reconcileSwaps(optimizerSwaps, initial, current, [
+      edit(["remove", "Fog Bank", ""], ["add", fellwar.name, "More ramp."]),
+    ]);
+    assert.deepEqual(pairs(swaps), [
+      ["Helm of the Ghastlord", "Fevered Visions", false],
+      ["Army of the Damned", "Arcane Signet", false],
+      ["Fog Bank", "Fellwar Stone", true],
+    ]);
+    assert.equal(swaps[2].reason, "More ramp.");
+    assert.deepEqual(swaps[0].alternatives, []);
+    assert.deepEqual(
+      swaps[1].alternatives!.map((a) => a.name),
+      ["Mind Stone"],
+    );
+  });
+
+  test("undoing every change leaves no swaps", () => {
+    const current = swap(swap(optimized, "Fevered Visions", helm), "Arcane Signet", army);
+    assert.deepEqual(reconcileSwaps(optimizerSwaps, initial, current, []), []);
+  });
+
+  test("basic land swaps count copies and pair as mana swaps", () => {
+    const current = swap(optimized, "Forest", swamp);
+    const swaps = reconcileSwaps(optimizerSwaps, initial, current, [
+      edit(["remove", "Forest", ""], ["add", "Swamp", "Black is the main color."]),
+    ]);
+    const land = swaps.at(-1)!;
+    assert.deepEqual([land.out, land.in, land.category], ["Forest", "Swamp", "mana"]);
+  });
+});
+
+describe("refreshBracketLists", () => {
+  test("marks Game Changers in the deck and drops skipped cards the user added", () => {
+    const bracket = {
+      gameChangerOptions: [
+        { name: "Fevered Visions", score: 1, inDeck: false },
+        { name: "Mind Stone", score: 1, inDeck: true },
+      ],
+      excluded: [
+        { name: "Helm of the Ghastlord", reason: "completes a combo" },
+        { name: "Mind Stone", reason: "too strong" },
+      ],
+    } as BracketReport;
+    const next = refreshBracketLists(bracket, swap(optimized, "Fog Bank", helm));
+    assert.deepEqual(
+      next.gameChangerOptions.map((g) => [g.name, g.inDeck]),
+      [
+        ["Fevered Visions", true],
+        ["Mind Stone", false],
+      ],
+    );
+    assert.deepEqual(
+      next.excluded.map((e) => e.name),
+      ["Mind Stone"],
+    );
+  });
+});

@@ -120,6 +120,8 @@ export interface Swap {
   alternatives?: { name: string; image: string | null; scryfallUri: string }[];
   outCard?: Card;
   inCard?: Card;
+  /** Paired up after chat edits changed the list, rather than proposed by the optimizer. */
+  fromChat?: boolean;
 }
 
 export interface ColorStat {

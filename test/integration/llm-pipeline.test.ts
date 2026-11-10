@@ -275,5 +275,21 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     const refused = await chatAboutDeck(slug, "tell me something risky");
     assert.match(refused.content, /content filter/);
     assert.equal(refused.changes, undefined);
+
+    // Applying the proposal looks for synergies with the card that came in, and lists the swap.
+    const { applyChatChanges } = await import("../../server/chat.ts");
+    const { report } = await applyChatChanges(slug, proposal.id);
+    const found = report.synergies!.filter((x) => x.cards.includes("Mind Stone"));
+    assert.deepEqual(
+      found.map((x) => x.title),
+      ["Rock into the commander"],
+    );
+    assert.ok(!report.synergies!.some((x) => x.title === "Doesn't involve the new card"));
+    assert.match(
+      stub.requests.findLast((q) => q.text.includes("were just added"))!.text,
+      /were just added to this Commander deck: Mind Stone\./,
+    );
+    const swap = report.swaps.find((x) => x.in === "Mind Stone")!;
+    assert.deepEqual([swap.out, swap.fromChat], ["Sol Ring", true]);
   });
 });

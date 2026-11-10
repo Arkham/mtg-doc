@@ -136,7 +136,9 @@ function SwapGroup({ title, swaps }: { title: string; swaps: Swap[] }) {
             </div>
             <div className="reason">
               <span className="badge">
-                {CATEGORY_EMOJI[s.category]} {s.category[0].toUpperCase() + s.category.slice(1)}
+                {s.fromChat
+                  ? "💬 Chat edit"
+                  : `${CATEGORY_EMOJI[s.category]} ${s.category[0].toUpperCase() + s.category.slice(1)}`}
               </span>
               <p>{s.reason}</p>
               {s.alternatives && s.alternatives.length > 0 && (

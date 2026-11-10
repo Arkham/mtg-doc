@@ -52,6 +52,24 @@ const CONTENT_FILTER = {
 };
 
 function answer(body: Record<string, unknown>, text: string, hasImage: boolean): unknown {
+  if (text.includes("were just added to this Commander deck")) {
+    return message(
+      JSON.stringify({
+        synergies: [
+          {
+            title: "Rock into the commander",
+            cards: ["Mind Stone", "Lathril, Blade of the Elves"],
+            explanation: "Stub synergy for an added card.",
+          },
+          {
+            title: "Doesn't involve the new card",
+            cards: ["Forest", "Lathril, Blade of the Elves"],
+            explanation: "Should be skipped.",
+          },
+        ],
+      }),
+    );
+  }
   if (text.includes("more notable synergies")) {
     return message(
       JSON.stringify({

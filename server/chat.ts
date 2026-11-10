@@ -21,6 +21,7 @@ import {
   parseCommand,
   structuralProblem,
 } from "./analysis/edits.ts";
+import { refreshBracketLists, reconcileSwaps } from "./analysis/reconcile.ts";
 import { makeRerun } from "./analysis/rerun.ts";
 import { makeViolation } from "./analysis/search.ts";
 import { config, llmEnabled } from "./config.ts";
@@ -357,12 +358,8 @@ export async function startChatRerun(
 }
 
 /**
- * Applies the valid changes from an assistant message to the current list, re-validating first,
- * then recomputes the report's stats, simulation and bracket check.
- */
-/**
- * Validates and applies changes to the current list, then recomputes everything derived from the
- * deck: stats, simulation, bracket, combos, mana suggestions and card previews.
+ * Validates and applies changes to the current list, then brings every section that names cards up
+ * to date: stats, simulation, bracket, combos, mana suggestions, swaps, synergies and card previews.
  */
 export async function applyDeckChanges(
   slug: string,
@@ -416,6 +413,29 @@ export async function applyDeckChanges(
           locked: new Set([...meta.options.locked, ...commanders]),
         }).catch(() => report.manaSuggestions ?? [])
       : [];
+  const edits = [
+    ...(report.edits ?? []),
+    {
+      at: new Date().toISOString(),
+      request,
+      changes: valid.map((c) => ({
+        action: c.action,
+        name: c.name,
+        qty: c.qty,
+        reason: c.reason,
+      })),
+    },
+  ];
+  const present = keepPresentSynergies(report.synergies, next);
+  const added = valid
+    .filter((c) => c.action === "add" && next.slots.some((s) => s.card.name === c.name))
+    .map((c) => c.name);
+  const newSynergies =
+    llmEnabled() && added.length && present
+      ? await findSynergies(next, combos?.present ?? report.combosPresent, present, added).catch(
+          () => [],
+        )
+      : [];
   const updated: Report = {
     ...report,
     after,
@@ -425,23 +445,18 @@ export async function applyDeckChanges(
       : {}),
     decklist: toDecklist(next, initial),
     bracket: report.bracket
-      ? { ...report.bracket, after: assessBracket(next, est, after.sim, report.bracket.target) }
+      ? refreshBracketLists(
+          {
+            ...report.bracket,
+            after: assessBracket(next, est, after.sim, report.bracket.target),
+          },
+          next,
+        )
       : report.bracket,
     manaSuggestions,
-    synergies: keepPresentSynergies(report.synergies, next),
-    edits: [
-      ...(report.edits ?? []),
-      {
-        at: new Date().toISOString(),
-        request,
-        changes: valid.map((c) => ({
-          action: c.action,
-          name: c.name,
-          qty: c.qty,
-          reason: c.reason,
-        })),
-      },
-    ],
+    swaps: reconcileSwaps(report.swaps, initial, next, edits),
+    synergies: present && [...present, ...newSynergies],
+    edits,
   };
   updated.cardIndex = await buildCardIndex(
     updated,

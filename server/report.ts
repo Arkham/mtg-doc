@@ -142,7 +142,9 @@ export function renderMarkdown(r: Report): string {
 
   lines.push("## Swaps", "", "| Out | In | Category | Why |", "|---|---|---|---|");
   for (const s of r.swaps)
-    lines.push(`| ${s.out} | ${s.in} | ${s.category} | ${s.reason.replace(/\|/g, "/")} |`);
+    lines.push(
+      `| ${s.out} | ${s.in} | ${s.fromChat ? "chat edit" : s.category} | ${s.reason.replace(/\|/g, "/")} |`,
+    );
   lines.push("");
 
   if (r.edits?.length) {
