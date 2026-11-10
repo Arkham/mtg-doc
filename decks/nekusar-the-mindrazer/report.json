@@ -109,19 +109,9 @@
       },
       "alternatives": [
         {
-          "name": "Razorkin Needlehead",
-          "image": "https://cards.scryfall.io/normal/front/b/c/bc73b963-23c0-46d2-853a-34a8b463994e.jpg?1783909463",
-          "scryfallUri": "https://scryfall.com/card/dsk/153/razorkin-needlehead?utm_source=api"
-        },
-        {
           "name": "Howling Mine",
           "image": "https://cards.scryfall.io/normal/front/d/7/d7ae7be5-9c44-4707-9450-5074412a4c9f.jpg?1793111944",
           "scryfallUri": "https://scryfall.com/card/trc/494/howling-mine?utm_source=api"
-        },
-        {
-          "name": "Magus of the Wheel",
-          "image": "https://cards.scryfall.io/normal/front/0/e/0e952dd9-ef09-40f0-993f-eb3a1516616a.jpg?1783915649",
-          "scryfallUri": "https://scryfall.com/card/cmm/241/magus-of-the-wheel?utm_source=api"
         }
       ]
     },
@@ -191,16 +181,6 @@
           "name": "Howling Mine",
           "image": "https://cards.scryfall.io/normal/front/d/7/d7ae7be5-9c44-4707-9450-5074412a4c9f.jpg?1793111944",
           "scryfallUri": "https://scryfall.com/card/trc/494/howling-mine?utm_source=api"
-        },
-        {
-          "name": "Magus of the Wheel",
-          "image": "https://cards.scryfall.io/normal/front/0/e/0e952dd9-ef09-40f0-993f-eb3a1516616a.jpg?1783915649",
-          "scryfallUri": "https://scryfall.com/card/cmm/241/magus-of-the-wheel?utm_source=api"
-        },
-        {
-          "name": "Teferi's Puzzle Box",
-          "image": "https://cards.scryfall.io/normal/front/4/1/415e81e9-ca65-4bc0-8aab-d905d58fe6cc.jpg?1783943890",
-          "scryfallUri": "https://scryfall.com/card/9ed/312/teferis-puzzle-box?utm_source=api"
         }
       ]
     },
@@ -276,16 +256,6 @@
           "name": "Howling Mine",
           "image": "https://cards.scryfall.io/normal/front/d/7/d7ae7be5-9c44-4707-9450-5074412a4c9f.jpg?1793111944",
           "scryfallUri": "https://scryfall.com/card/trc/494/howling-mine?utm_source=api"
-        },
-        {
-          "name": "Magus of the Wheel",
-          "image": "https://cards.scryfall.io/normal/front/0/e/0e952dd9-ef09-40f0-993f-eb3a1516616a.jpg?1783915649",
-          "scryfallUri": "https://scryfall.com/card/cmm/241/magus-of-the-wheel?utm_source=api"
-        },
-        {
-          "name": "Teferi's Puzzle Box",
-          "image": "https://cards.scryfall.io/normal/front/4/1/415e81e9-ca65-4bc0-8aab-d905d58fe6cc.jpg?1783943890",
-          "scryfallUri": "https://scryfall.com/card/9ed/312/teferis-puzzle-box?utm_source=api"
         }
       ]
     },
@@ -347,11 +317,6 @@
         ]
       },
       "alternatives": [
-        {
-          "name": "Whispering Madness",
-          "image": "https://cards.scryfall.io/normal/front/5/a/5a62cda0-34b2-42f0-83bd-c08eecf02fa4.jpg?1783937042",
-          "scryfallUri": "https://scryfall.com/card/c16/229/whispering-madness?utm_source=api"
-        },
         {
           "name": "Dark Deal",
           "image": "https://cards.scryfall.io/normal/front/d/6/d6f0fcd5-232f-4e99-8cfc-ea0fe9c915a6.jpg?1783904806",
@@ -426,11 +391,6 @@
         ]
       },
       "alternatives": [
-        {
-          "name": "Whispering Madness",
-          "image": "https://cards.scryfall.io/normal/front/5/a/5a62cda0-34b2-42f0-83bd-c08eecf02fa4.jpg?1783937042",
-          "scryfallUri": "https://scryfall.com/card/c16/229/whispering-madness?utm_source=api"
-        },
         {
           "name": "Dark Deal",
           "image": "https://cards.scryfall.io/normal/front/d/6/d6f0fcd5-232f-4e99-8cfc-ea0fe9c915a6.jpg?1783904806",
@@ -514,11 +474,6 @@
           "name": "Kederekt Parasite",
           "image": "https://cards.scryfall.io/normal/front/b/c/bc5da9e8-c070-4cf4-a21b-24ff2178d751.jpg?1783909618",
           "scryfallUri": "https://scryfall.com/card/dsc/144/kederekt-parasite?utm_source=api"
-        },
-        {
-          "name": "Orcish Bowmasters",
-          "image": "https://cards.scryfall.io/normal/front/7/c/7c024bae-5631-4e20-ac69-df392ac9e109.jpg?1783916299",
-          "scryfallUri": "https://scryfall.com/card/ltr/103/orcish-bowmasters?utm_source=api"
         }
       ]
     },
@@ -597,11 +552,6 @@
           "scryfallUri": "https://scryfall.com/card/dsc/144/kederekt-parasite?utm_source=api"
         },
         {
-          "name": "Orcish Bowmasters",
-          "image": "https://cards.scryfall.io/normal/front/7/c/7c024bae-5631-4e20-ac69-df392ac9e109.jpg?1783916299",
-          "scryfallUri": "https://scryfall.com/card/ltr/103/orcish-bowmasters?utm_source=api"
-        },
-        {
           "name": "Peer into the Abyss",
           "image": "https://cards.scryfall.io/normal/front/a/a/aac00055-640e-4749-8d23-d242e6d0b23a.jpg?1783930701",
           "scryfallUri": "https://scryfall.com/card/m21/117/peer-into-the-abyss?utm_source=api"
@@ -677,11 +627,6 @@
           "scryfallUri": "https://scryfall.com/card/m21/117/peer-into-the-abyss?utm_source=api"
         },
         {
-          "name": "Thought Vessel",
-          "image": "https://cards.scryfall.io/normal/front/d/f/df44b703-e025-480d-9c7b-55873407bdf4.jpg?1793111967",
-          "scryfallUri": "https://scryfall.com/card/trc/509/thought-vessel?utm_source=api"
-        },
-        {
           "name": "Waste Not",
           "image": "https://cards.scryfall.io/normal/front/2/f/2f5500a2-c6d6-40d7-b586-59b854733160.jpg?1783937067",
           "scryfallUri": "https://scryfall.com/card/c16/117/waste-not?utm_source=api"
@@ -750,11 +695,6 @@
           "name": "Peer into the Abyss",
           "image": "https://cards.scryfall.io/normal/front/a/a/aac00055-640e-4749-8d23-d242e6d0b23a.jpg?1783930701",
           "scryfallUri": "https://scryfall.com/card/m21/117/peer-into-the-abyss?utm_source=api"
-        },
-        {
-          "name": "Thought Vessel",
-          "image": "https://cards.scryfall.io/normal/front/d/f/df44b703-e025-480d-9c7b-55873407bdf4.jpg?1793111967",
-          "scryfallUri": "https://scryfall.com/card/trc/509/thought-vessel?utm_source=api"
         },
         {
           "name": "Waste Not",
@@ -832,11 +772,6 @@
           "name": "Sheoldred, the Apocalypse",
           "image": "https://cards.scryfall.io/normal/front/d/6/d67be074-cdd4-41d9-ac89-0a0456c4e4b2.jpg?1783921327",
           "scryfallUri": "https://scryfall.com/card/dmu/107/sheoldred-the-apocalypse?utm_source=api"
-        },
-        {
-          "name": "Arcane Denial",
-          "image": "https://cards.scryfall.io/normal/front/5/e/5eb843ef-b223-40d0-a461-54b16d188d0e.jpg?1783903242",
-          "scryfallUri": "https://scryfall.com/card/msc/147/arcane-denial?utm_source=api"
         }
       ]
     },
@@ -913,11 +848,6 @@
           "name": "Sheoldred, the Apocalypse",
           "image": "https://cards.scryfall.io/normal/front/d/6/d67be074-cdd4-41d9-ac89-0a0456c4e4b2.jpg?1783921327",
           "scryfallUri": "https://scryfall.com/card/dmu/107/sheoldred-the-apocalypse?utm_source=api"
-        },
-        {
-          "name": "Reforge the Soul",
-          "image": "https://cards.scryfall.io/normal/front/1/c/1c3509c6-2ae7-45be-8ac9-4d14d69db32f.jpg?1783908117",
-          "scryfallUri": "https://scryfall.com/card/inr/167/reforge-the-soul?utm_source=api"
         }
       ]
     },
@@ -984,16 +914,6 @@
           "name": "Sheoldred, the Apocalypse",
           "image": "https://cards.scryfall.io/normal/front/d/6/d67be074-cdd4-41d9-ac89-0a0456c4e4b2.jpg?1783921327",
           "scryfallUri": "https://scryfall.com/card/dmu/107/sheoldred-the-apocalypse?utm_source=api"
-        },
-        {
-          "name": "Arcane Denial",
-          "image": "https://cards.scryfall.io/normal/front/5/e/5eb843ef-b223-40d0-a461-54b16d188d0e.jpg?1783903242",
-          "scryfallUri": "https://scryfall.com/card/msc/147/arcane-denial?utm_source=api"
-        },
-        {
-          "name": "Reforge the Soul",
-          "image": "https://cards.scryfall.io/normal/front/1/c/1c3509c6-2ae7-45be-8ac9-4d14d69db32f.jpg?1783908117",
-          "scryfallUri": "https://scryfall.com/card/inr/167/reforge-the-soul?utm_source=api"
         }
       ]
     },
@@ -1056,89 +976,6 @@
         "scryfallUri": "https://scryfall.com/card/rvr/40/cyclonic-rift?utm_source=api",
         "roles": [
           "removal"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Arcane Denial",
-          "image": "https://cards.scryfall.io/normal/front/5/e/5eb843ef-b223-40d0-a461-54b16d188d0e.jpg?1783903242",
-          "scryfallUri": "https://scryfall.com/card/msc/147/arcane-denial?utm_source=api"
-        },
-        {
-          "name": "Reforge the Soul",
-          "image": "https://cards.scryfall.io/normal/front/1/c/1c3509c6-2ae7-45be-8ac9-4d14d69db32f.jpg?1783908117",
-          "scryfallUri": "https://scryfall.com/card/inr/167/reforge-the-soul?utm_source=api"
-        },
-        {
-          "name": "Fevered Visions",
-          "image": "https://cards.scryfall.io/normal/front/d/3/d3a48c02-b9be-4649-9d20-0e72e1c52c94.jpg?1793111916",
-          "scryfallUri": "https://scryfall.com/card/trc/474/fevered-visions?utm_source=api"
-        }
-      ]
-    },
-    {
-      "out": "Helm of the Ghastlord",
-      "in": "Fevered Visions",
-      "category": "bracket",
-      "reason": "Removing Helm breaks the existing infinite loop with Niv-Mizzet, the Firemind; a six-mana combo piece can still arrive before turn six through acceleration. Fevered Visions retains repeatable draw pressure without introducing a replacement loop.",
-      "outCard": {
-        "name": "Helm of the Ghastlord",
-        "oracleId": "66fa528f-0e3a-450f-9035-1ba5a8a921e6",
-        "manaCost": "{3}{U/B}",
-        "cmc": 4,
-        "typeLine": "Enchantment — Aura",
-        "oracleText": "Enchant creature\nAs long as enchanted creature is blue, it gets +1/+1 and has \"Whenever this creature deals damage to an opponent, draw a card.\"\nAs long as enchanted creature is black, it gets +1/+1 and has \"Whenever this creature deals damage to an opponent, that player discards a card.\"",
-        "colors": [
-          "B",
-          "U"
-        ],
-        "colorIdentity": [
-          "B",
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 7.63,
-        "image": "https://cards.scryfall.io/normal/front/6/5/653dd5b7-1ad3-4df1-bd2a-4e6ae362a8a2.jpg?1783942732",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/6/5/653dd5b7-1ad3-4df1-bd2a-4e6ae362a8a2.jpg?1783942732",
-        "scryfallUri": "https://scryfall.com/card/shm/166/helm-of-the-ghastlord?utm_source=api",
-        "roles": [
-          "draw"
-        ]
-      },
-      "inCard": {
-        "name": "Fevered Visions",
-        "oracleId": "70763549-4b4e-4cb8-8c02-0639ba18bb1a",
-        "manaCost": "{1}{U}{R}",
-        "cmc": 3,
-        "typeLine": "Enchantment",
-        "oracleText": "At the beginning of each player's end step, that player draws a card. If the player is your opponent and has four or more cards in hand, this enchantment deals 2 damage to that player.",
-        "colors": [
-          "R",
-          "U"
-        ],
-        "colorIdentity": [
-          "R",
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.55,
-        "image": "https://cards.scryfall.io/normal/front/d/3/d3a48c02-b9be-4649-9d20-0e72e1c52c94.jpg?1793111916",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/d/3/d3a48c02-b9be-4649-9d20-0e72e1c52c94.jpg?1793111916",
-        "scryfallUri": "https://scryfall.com/card/trc/474/fevered-visions?utm_source=api",
-        "roles": [
-          "draw"
         ]
       },
       "alternatives": []
@@ -1206,23 +1043,200 @@
           "draw"
         ]
       },
-      "alternatives": [
-        {
-          "name": "Reforge the Soul",
-          "image": "https://cards.scryfall.io/normal/front/1/c/1c3509c6-2ae7-45be-8ac9-4d14d69db32f.jpg?1783908117",
-          "scryfallUri": "https://scryfall.com/card/inr/167/reforge-the-soul?utm_source=api"
-        },
-        {
-          "name": "Fevered Visions",
-          "image": "https://cards.scryfall.io/normal/front/d/3/d3a48c02-b9be-4649-9d20-0e72e1c52c94.jpg?1793111916",
-          "scryfallUri": "https://scryfall.com/card/trc/474/fevered-visions?utm_source=api"
-        },
-        {
-          "name": "Ob Nixilis, the Hate-Twisted",
-          "image": "https://cards.scryfall.io/normal/front/1/4/14916e2d-73af-4747-a927-d2d4cb3e32db.jpg?1783933441",
-          "scryfallUri": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api"
-        }
-      ]
+      "alternatives": []
+    },
+    {
+      "out": "Fog Bank",
+      "in": "Fevered Visions",
+      "category": "other",
+      "reason": "Low-synergy blocker; makes room for a stronger Nekusar payoff.",
+      "outCard": {
+        "name": "Fog Bank",
+        "oracleId": "3a2bb47d-228d-499e-a34b-9e10d99e9b2c",
+        "manaCost": "{1}{U}",
+        "cmc": 2,
+        "typeLine": "Creature — Wall",
+        "oracleText": "Defender (This creature can't attack.)\nFlying\nPrevent all combat damage that would be dealt to and dealt by this creature.",
+        "colors": [
+          "U"
+        ],
+        "colorIdentity": [
+          "U"
+        ],
+        "producedMana": [],
+        "isLand": false,
+        "isMdfcLand": false,
+        "entersTapped": false,
+        "legalCommander": true,
+        "gameChanger": false,
+        "canBeCommander": false,
+        "priceUsd": 0.14,
+        "power": "0",
+        "toughness": "2",
+        "image": "https://cards.scryfall.io/normal/front/1/8/18748b1d-4161-482c-a726-8762b4c1819c.jpg?1783908934",
+        "imageArt": "https://cards.scryfall.io/art_crop/front/1/8/18748b1d-4161-482c-a726-8762b4c1819c.jpg?1783908934",
+        "scryfallUri": "https://scryfall.com/card/fdn/591/fog-bank?utm_source=api",
+        "roles": [
+          "other"
+        ]
+      },
+      "inCard": {
+        "name": "Fevered Visions",
+        "oracleId": "70763549-4b4e-4cb8-8c02-0639ba18bb1a",
+        "manaCost": "{1}{U}{R}",
+        "cmc": 3,
+        "typeLine": "Enchantment",
+        "oracleText": "At the beginning of each player's end step, that player draws a card. If the player is your opponent and has four or more cards in hand, this enchantment deals 2 damage to that player.",
+        "colors": [
+          "R",
+          "U"
+        ],
+        "colorIdentity": [
+          "R",
+          "U"
+        ],
+        "producedMana": [],
+        "isLand": false,
+        "isMdfcLand": false,
+        "entersTapped": false,
+        "legalCommander": true,
+        "gameChanger": false,
+        "canBeCommander": false,
+        "priceUsd": 0.53,
+        "image": "https://cards.scryfall.io/normal/front/d/3/d3a48c02-b9be-4649-9d20-0e72e1c52c94.jpg?1793111916",
+        "imageArt": "https://cards.scryfall.io/art_crop/front/d/3/d3a48c02-b9be-4649-9d20-0e72e1c52c94.jpg?1793111916",
+        "scryfallUri": "https://scryfall.com/card/trc/474/fevered-visions?utm_source=api",
+        "roles": [
+          "draw"
+        ]
+      },
+      "fromChat": true
+    },
+    {
+      "out": "Venser's Journal",
+      "in": "Ob Nixilis, the Hate-Twisted",
+      "category": "other",
+      "reason": "Punishes every opposing draw and offers creature removal that forces additional draws.",
+      "outCard": {
+        "name": "Venser's Journal",
+        "oracleId": "f7907327-4df3-4bb2-a274-03d9e266af2f",
+        "manaCost": "{5}",
+        "cmc": 5,
+        "typeLine": "Artifact — Book",
+        "oracleText": "You have no maximum hand size.\nAt the beginning of your upkeep, you gain 1 life for each card in your hand.",
+        "colors": [],
+        "colorIdentity": [],
+        "producedMana": [],
+        "isLand": false,
+        "isMdfcLand": false,
+        "entersTapped": false,
+        "legalCommander": true,
+        "gameChanger": false,
+        "canBeCommander": false,
+        "priceUsd": 8.13,
+        "image": "https://cards.scryfall.io/normal/front/d/2/d2877f52-b46f-4039-a72b-f1fcd024f032.jpg?1783927500",
+        "imageArt": "https://cards.scryfall.io/art_crop/front/d/2/d2877f52-b46f-4039-a72b-f1fcd024f032.jpg?1783927500",
+        "scryfallUri": "https://scryfall.com/card/c21/273/vensers-journal?utm_source=api",
+        "roles": [
+          "other"
+        ]
+      },
+      "inCard": {
+        "name": "Ob Nixilis, the Hate-Twisted",
+        "oracleId": "88cd12e5-ca89-4176-96fd-320fe2ccd087",
+        "manaCost": "{3}{B}{B}",
+        "cmc": 5,
+        "typeLine": "Legendary Planeswalker — Nixilis",
+        "oracleText": "Whenever an opponent draws a card, Ob Nixilis deals 1 damage to that player.\n−2: Destroy target creature. Its controller draws two cards.",
+        "colors": [
+          "B"
+        ],
+        "colorIdentity": [
+          "B"
+        ],
+        "producedMana": [],
+        "isLand": false,
+        "isMdfcLand": false,
+        "entersTapped": false,
+        "legalCommander": true,
+        "gameChanger": false,
+        "canBeCommander": false,
+        "priceUsd": 0.55,
+        "loyalty": "5",
+        "image": "https://cards.scryfall.io/normal/front/1/4/14916e2d-73af-4747-a927-d2d4cb3e32db.jpg?1783933441",
+        "imageArt": "https://cards.scryfall.io/art_crop/front/1/4/14916e2d-73af-4747-a927-d2d4cb3e32db.jpg?1783933441",
+        "scryfallUri": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api",
+        "roles": [
+          "removal",
+          "draw"
+        ]
+      },
+      "fromChat": true
+    },
+    {
+      "out": "Viseling",
+      "in": "Ob Nixilis, Captive Kingpin",
+      "category": "other",
+      "reason": "Nekusar's individual 1-damage triggers grow him and exile cards you can play until your next end step.",
+      "outCard": {
+        "name": "Viseling",
+        "oracleId": "05b9dccb-2364-4bca-a12e-8cb54a3f3a0b",
+        "manaCost": "{4}",
+        "cmc": 4,
+        "typeLine": "Artifact Creature — Phyrexian Construct",
+        "oracleText": "At the beginning of each opponent's upkeep, this creature deals X damage to that player, where X is the number of cards in their hand minus 4.",
+        "colors": [],
+        "colorIdentity": [],
+        "producedMana": [],
+        "isLand": false,
+        "isMdfcLand": false,
+        "entersTapped": false,
+        "legalCommander": true,
+        "gameChanger": false,
+        "canBeCommander": false,
+        "priceUsd": 0.38,
+        "power": "2",
+        "toughness": "2",
+        "image": "https://cards.scryfall.io/normal/front/3/8/38a6105e-a67b-4805-b50c-dea404f60fac.jpg?1783939633",
+        "imageArt": "https://cards.scryfall.io/art_crop/front/3/8/38a6105e-a67b-4805-b50c-dea404f60fac.jpg?1783939633",
+        "scryfallUri": "https://scryfall.com/card/c13/269/viseling?utm_source=api",
+        "roles": [
+          "other"
+        ]
+      },
+      "inCard": {
+        "name": "Ob Nixilis, Captive Kingpin",
+        "oracleId": "55b6434b-1542-40fd-b12a-697d40976582",
+        "manaCost": "{2}{B}{R}",
+        "cmc": 4,
+        "typeLine": "Legendary Creature — Demon",
+        "oracleText": "Flying, trample\nWhenever one or more opponents each lose exactly 1 life, put a +1/+1 counter on Ob Nixilis. Exile the top card of your library. Until your next end step, you may play that card.",
+        "colors": [
+          "B",
+          "R"
+        ],
+        "colorIdentity": [
+          "B",
+          "R"
+        ],
+        "producedMana": [],
+        "isLand": false,
+        "isMdfcLand": false,
+        "entersTapped": false,
+        "legalCommander": true,
+        "gameChanger": false,
+        "canBeCommander": true,
+        "priceUsd": 15.32,
+        "power": "4",
+        "toughness": "3",
+        "image": "https://cards.scryfall.io/normal/front/d/d/ddb68233-3683-41bd-9b6e-4f07a1b54244.jpg?1783916511",
+        "imageArt": "https://cards.scryfall.io/art_crop/front/d/d/ddb68233-3683-41bd-9b6e-4f07a1b54244.jpg?1783916511",
+        "scryfallUri": "https://scryfall.com/card/mat/41/ob-nixilis-captive-kingpin?utm_source=api",
+        "roles": [
+          "other"
+        ]
+      },
+      "fromChat": true
     }
   ],
   "before": {
@@ -3683,6 +3697,40 @@
         "Sol Ring"
       ],
       "explanation": "Propaganda taxes attacks against you, and Manabarbs punishes opponents who tap lands to pay that tax while Nekusar keeps draining them through draws. Sol Ring supplies mana without triggering Manabarbs, helping you operate under your own pressure package."
+    },
+    {
+      "title": "Removal with a Four-Damage Sting",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Ob Nixilis, the Hate-Twisted"
+      ],
+      "explanation": "Ob Nixilis's −2 destroys an opponent's creature, then their two replacement draws trigger both punishers for 4 total damage. Together, they also make every other opposing draw deal 2 damage."
+    },
+    {
+      "title": "Prosperity into Power",
+      "cards": [
+        "Ob Nixilis, Captive Kingpin",
+        "Psychosis Crawler",
+        "Prosperity"
+      ],
+      "explanation": "Your X draws from Prosperity produce X separate Psychosis Crawler triggers, each making every opponent lose exactly 1 life. Each resolution triggers Ob Nixilis once, generating X +1/+1 counters and X exiled cards you may play until your next end step."
+    },
+    {
+      "title": "Their Mana Fuels Your Kingpin",
+      "cards": [
+        "Ob Nixilis, Captive Kingpin",
+        "Manabarbs"
+      ],
+      "explanation": "Each Manabarbs trigger that deals 1 damage to an opponent triggers Ob Nixilis, turning their land-based mana production into counters and temporary card access for you. This pressures opponents for spending mana as well as drawing cards."
+    },
+    {
+      "title": "Draw Pain Becomes Table Pain",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Helm of the Ghastlord",
+        "Psychosis Crawler"
+      ],
+      "explanation": "Enchant Nekusar with Helm of the Ghastlord: each time his draw-triggered damage hits an opponent, that opponent discards a card and you draw a card. Each resulting draw triggers Psychosis Crawler, spreading another 1 life loss to every opponent without creating an infinite loop."
     }
   ],
   "cardIndex": {

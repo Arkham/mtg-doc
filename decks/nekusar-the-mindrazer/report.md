@@ -104,6 +104,10 @@ Skipped to stay in the bracket:
 - **Protected Repeatable Wheels** (Nekusar, the Mindrazer + Jace's Archivist + Lightning Greaves): Lightning Greaves lets Jace's Archivist activate immediately and protects it from targeted removal while equipped. Its repeatable wheel reloads your hand and turns every opposing redraw into Nekusar damage.
 - **Six-Damage Draw Steps** (Nekusar, the Mindrazer + Spiteful Visions): Together they make opponents draw three cards during an ordinary draw step, with each card triggering both damage abilities for 6 total damage. Spiteful Visions also damages you for your own draws, making this a powerful but symmetrical accelerator.
 - **Pay to Attack, Bleed to Pay** (Nekusar, the Mindrazer + Propaganda + Manabarbs + Sol Ring): Propaganda taxes attacks against you, and Manabarbs punishes opponents who tap lands to pay that tax while Nekusar keeps draining them through draws. Sol Ring supplies mana without triggering Manabarbs, helping you operate under your own pressure package.
+- **Removal with a Four-Damage Sting** (Nekusar, the Mindrazer + Ob Nixilis, the Hate-Twisted): Ob Nixilis's −2 destroys an opponent's creature, then their two replacement draws trigger both punishers for 4 total damage. Together, they also make every other opposing draw deal 2 damage.
+- **Prosperity into Power** (Ob Nixilis, Captive Kingpin + Psychosis Crawler + Prosperity): Your X draws from Prosperity produce X separate Psychosis Crawler triggers, each making every opponent lose exactly 1 life. Each resolution triggers Ob Nixilis once, generating X +1/+1 counters and X exiled cards you may play until your next end step.
+- **Their Mana Fuels Your Kingpin** (Ob Nixilis, Captive Kingpin + Manabarbs): Each Manabarbs trigger that deals 1 damage to an opponent triggers Ob Nixilis, turning their land-based mana production into counters and temporary card access for you. This pressures opponents for spending mana as well as drawing cards.
+- **Draw Pain Becomes Table Pain** (Nekusar, the Mindrazer + Helm of the Ghastlord + Psychosis Crawler): Enchant Nekusar with Helm of the Ghastlord: each time his draw-triggered damage hits an opponent, that opponent discards a card and you draw a card. Each resulting draw triggers Psychosis Crawler, spreading another 1 life loss to every opponent without creating an infinite loop.
 
 ## Swaps
 
@@ -122,8 +126,10 @@ Skipped to stay in the bracket:
 | Dismiss | Arcane Denial | interaction | Two-mana interaction is easier to hold up while developing Nekusar and other engines. The countered spell’s controller can draw additional cards later, creating potential punishment triggers without making the counter dependent on Nekusar. |
 | Diviner's Wand | Baleful Mastery | interaction | Reliable creature or planeswalker exile is more valuable than an expensive equipment-based draw outlet. The discounted mode gives an opponent a card, which can also trigger your draw-punishment permanents. |
 | Dominate | Cyclonic Rift | bracket | Rift fills the third Game Changer slot and supplies flexible interaction, with an overloaded reset available later. Preserve Decree of Pain as a true creature wipe rather than removing it for another draw engine. |
-| Helm of the Ghastlord | Fevered Visions | bracket | Removing Helm breaks the existing infinite loop with Niv-Mizzet, the Firemind; a six-mana combo piece can still arrive before turn six through acceleration. Fevered Visions retains repeatable draw pressure without introducing a replacement loop. |
 | Drana, Kalastria Bloodchief | Whispering Madness | synergy | Replace a mana-hungry creature with another wheel that directly rewards Nekusar’s damage engines. Cipher offers optional reuse through evasive creatures such as Vampire Nighthawk, but the initial wheel is useful without connecting in combat. |
+| Fog Bank | Fevered Visions | chat edit | Low-synergy blocker; makes room for a stronger Nekusar payoff. |
+| Venser's Journal | Ob Nixilis, the Hate-Twisted | chat edit | Punishes every opposing draw and offers creature removal that forces additional draws. |
+| Viseling | Ob Nixilis, Captive Kingpin | chat edit | Nekusar's individual 1-damage triggers grow him and exile cards you can play until your next end step. |
 
 ## Changes from chat
 
