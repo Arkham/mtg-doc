@@ -701,7 +701,7 @@ textarea.decklist {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--sp-5);
-  padding: var(--sp-6) var(--sp-6) 0;
+  padding: var(--sp-5) var(--sp-6) 0;
   border-radius: var(--r-lg);
   border: 1px solid var(--line);
   background:
@@ -711,12 +711,12 @@ textarea.decklist {
   overflow: hidden;
 }
 .home-hero-text {
-  padding-bottom: var(--sp-6);
-  max-width: 560px;
+  padding-bottom: var(--sp-5);
+  max-width: 620px;
 }
 .home-hero h1 {
-  margin: var(--sp-2) 0 var(--sp-3);
-  font-size: 2.6rem;
+  margin: var(--sp-1) 0 var(--sp-2);
+  font-size: 2.1rem;
   font-weight: 780;
   letter-spacing: -0.035em;
   line-height: 1.05;
@@ -728,11 +728,11 @@ textarea.decklist {
 .home-hero p {
   margin: 0;
   color: var(--text-2);
-  font-size: 1.067rem;
-  line-height: 1.6;
+  font-size: var(--fs-base);
+  line-height: 1.55;
 }
 .home-hero .home-hero-count {
-  margin-top: var(--sp-4);
+  margin-top: var(--sp-2);
   color: var(--accent-hi);
   font-size: var(--fs-sm);
   font-weight: 600;
@@ -743,7 +743,7 @@ textarea.decklist {
 }
 .home-hero-doc img {
   display: block;
-  width: 300px;
+  width: 180px;
   height: auto;
   /* The portrait has its own navy background: fade its edges into the banner. */
   -webkit-mask-image: radial-gradient(closest-side, #000 58%, transparent);
@@ -3151,22 +3151,25 @@ pre {
     font-size: 1.6rem;
   }
   .home-hero {
-    grid-template-columns: minmax(0, 1fr) 132px;
-    padding: var(--sp-5) var(--sp-4) 0;
+    grid-template-columns: minmax(0, 1fr) 96px;
+    padding: var(--sp-4) var(--sp-4) 0;
     gap: var(--sp-2);
   }
   .home-hero h1 {
-    font-size: 1.75rem;
+    font-size: 1.45rem;
   }
   .home-hero p {
     font-size: var(--fs-sm);
   }
   .home-hero-text {
-    padding-bottom: var(--sp-5);
+    padding-bottom: var(--sp-4);
   }
   .home-hero-doc img {
-    width: 150px;
-    margin-right: -18px;
+    width: 112px;
+    margin-right: -14px;
+  }
+  .home-hero .home-hero-count {
+    display: none;
   }
   .deck-art {
     aspect-ratio: 16 / 10;
