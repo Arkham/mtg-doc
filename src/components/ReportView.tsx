@@ -266,20 +266,20 @@ function Synergies({
   canRefresh: boolean;
   onUpdated: (report: Report) => void;
 }) {
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState<"again" | "more" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const items = r.synergies ?? [];
   const image = (name: string) =>
     r.cardIndex?.[name]?.image ?? r.decklist?.find((c) => c.name === name)?.image ?? null;
-  const refresh = async () => {
-    setBusy(true);
+  const refresh = async (mode: "again" | "more") => {
+    setBusy(mode);
     setError(null);
     try {
-      onUpdated(await api.refreshSynergies(slug));
+      onUpdated(await api.refreshSynergies(slug, mode));
     } catch (e) {
       setError(String(e instanceof Error ? e.message : e));
     } finally {
-      setBusy(false);
+      setBusy(null);
     }
   };
   return (
@@ -290,10 +290,26 @@ function Synergies({
         actions={
           !IS_STATIC &&
           canRefresh && (
-            <button className="small-btn" disabled={busy} onClick={refresh}>
-              {busy ? <span className="spinner" aria-hidden /> : null}
-              {items.length ? "Find again" : "Find synergies"}
-            </button>
+            <>
+              {items.length > 0 && (
+                <button
+                  className="small-btn"
+                  disabled={busy !== null}
+                  onClick={() => refresh("more")}
+                >
+                  {busy === "more" ? <span className="spinner" aria-hidden /> : null}
+                  Find more
+                </button>
+              )}
+              <button
+                className="small-btn"
+                disabled={busy !== null}
+                onClick={() => refresh("again")}
+              >
+                {busy === "again" ? <span className="spinner" aria-hidden /> : null}
+                {items.length ? "Find again" : "Find synergies"}
+              </button>
+            </>
           )
         }
       />

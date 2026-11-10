@@ -94,8 +94,8 @@ export const api = {
   job: (id: string) => request<Job>(`/api/jobs/${id}`),
   applyManaSuggestion: (slug: string, id: string) =>
     request<Report>(`/api/decks/${slug}/mana-suggestions/${id}/apply`, { method: "POST" }),
-  refreshSynergies: (slug: string) =>
-    request<Report>(`/api/decks/${slug}/synergies`, { method: "POST" }),
+  refreshSynergies: (slug: string, mode: "again" | "more" = "again") =>
+    request<Report>(`/api/decks/${slug}/synergies`, json({ mode })),
   chat: (slug: string) => request<DeckChatMessage[]>(`/api/decks/${slug}/chat`),
   sendChat: (slug: string, message: string) =>
     request<DeckChatMessage>(`/api/decks/${slug}/chat`, json({ message })),

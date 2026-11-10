@@ -268,7 +268,14 @@ export function createApp() {
 
   app.post(
     "/api/decks/:slug/synergies",
-    wrap(async (req, res) => res.json(await refreshSynergies(String(req.params.slug)))),
+    wrap(async (req, res) =>
+      res.json(
+        await refreshSynergies(
+          String(req.params.slug),
+          req.body?.mode === "more" ? "more" : "again",
+        ),
+      ),
+    ),
   );
 
   app.get("/api/jobs/:id", (req, res) => {

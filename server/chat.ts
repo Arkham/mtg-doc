@@ -76,7 +76,7 @@ const ReplySchema = z.object({
     .nullable()
     .catch(null)
     .default(null),
-  refreshSynergies: z.boolean().catch(false).default(false),
+  synergies: z.enum(["again", "more"]).nullable().catch(null).default(null),
 });
 
 /** A confirmed re-run needs a fairly clear yes; anything else is treated as a new message. */
@@ -104,6 +104,9 @@ function deckSummary(deck: Deck, report: Report | null) {
     report
       ? `Optimizer settings: target bracket ${report.options.bracket ?? "keep current"}, deck budget ${report.options.budgetTotal ? `$${report.options.budgetTotal}` : "none"}, per-card budget ${report.options.budgetPerCard ? `$${report.options.budgetPerCard}` : "none"}, up to ${report.options.maxSwaps} swaps, tone ${report.options.tone}, web research ${report.options.webResearch ? "on" : "off"}`
       : "",
+    report?.synergies?.length
+      ? `Synergies already listed: ${report.synergies.map((x) => x.title).join("; ")}`
+      : "",
     report?.manaSuggestions?.length
       ? `Suggested land swaps (the user can ask you to apply them):\n${report.manaSuggestions.map((m) => `- ${m.changes.map((c) => `${c.action} ${c.name}`).join(", ")}: ${m.reason}`).join("\n")}`
       : "",
@@ -123,8 +126,8 @@ Rules:
 - Only remove cards that are in the current list.
 - Keep "reply" short (2-5 sentences); mention the key trade-offs.
 - If the user wants different optimizer settings (another target bracket, a total or per-card budget, more or fewer swaps, a different tone), propose re-running the optimizer instead of card changes: set "rerun" to only the settings that change and leave "changes" empty. In "reply", say what will change and ask them to confirm; the re-run replaces the current suggestions and chat edits. To re-run with the same settings, set "rerun" to {}. Otherwise set "rerun" to null.
-- If the user asks to find the deck's synergies again, set "refreshSynergies" to true (it runs right away and doesn't change the list).
-Reply with JSON only: {"reply": string, "changes": [{"action": "add"|"remove", "name": string, "qty": number, "reason": string}], "rerun": null | {"bracket"?: 1-5, "budgetTotal"?: number | null, "budgetPerCard"?: number | null, "maxSwaps"?: number, "tone"?: "max"|"balanced"|"casual", "webResearch"?: boolean}, "refreshSynergies": boolean}`;
+- If the user asks for synergies, set "synergies" to "more" to add new ones to those already found, or "again" to replace them with a fresh search. Either runs right away and doesn't change the list; otherwise set it to null.
+Reply with JSON only: {"reply": string, "changes": [{"action": "add"|"remove", "name": string, "qty": number, "reason": string}], "rerun": null | {"bracket"?: 1-5, "budgetTotal"?: number | null, "budgetPerCard"?: number | null, "maxSwaps"?: number, "tone"?: "max"|"balanced"|"casual", "webResearch"?: boolean}, "synergies": null | "again" | "more"}`;
 
 async function proposeWithLlm(deck: Deck, report: Report | null, history: DeckChatMessage[]) {
   const recent = history.slice(-HISTORY_FOR_MODEL).map((m) => ({
@@ -271,12 +274,16 @@ export async function chatAboutDeck(slug: string, message: string): Promise<Deck
     reply = llm.reply;
     rerun = makeRerun(llm.rerun, meta.options);
     proposed = rerun ? [] : llm.changes;
-    if (llm.refreshSynergies && !rerun && report) {
-      reportUpdated = await refreshSynergies(slug).then(
-        () => true,
-        () => false,
-      );
-      if (!reportUpdated) reply = `${reply}\n\n(I couldn't refresh the synergies just now.)`;
+    if (llm.synergies && !rerun && report) {
+      const before = report.synergies?.length ?? 0;
+      const updated = await refreshSynergies(slug, llm.synergies).catch(() => null);
+      reportUpdated = updated !== null;
+      const found = (updated?.synergies?.length ?? 0) - (llm.synergies === "more" ? before : 0);
+      reply = !updated
+        ? `${reply}\n\n(I couldn't search for synergies just now.)`
+        : llm.synergies === "more" && found <= 0
+          ? `${reply}\n\n(I didn't find any new ones this time.)`
+          : `${reply}\n\n(${found} ${llm.synergies === "more" ? "new " : ""}${found === 1 ? "synergy" : "synergies"} in the Synergies section.)`;
     }
   } else if (parsed) {
     // Simple commands work without the model, including when the provider refuses a request.
@@ -470,13 +477,24 @@ export async function applyChatChanges(
   return { report, message: history[index] };
 }
 
-/** Re-runs the synergy search for the current list (e.g. after edits added new cards). */
-export async function refreshSynergies(slug: string): Promise<Report> {
+/**
+ * Re-runs the synergy search for the current list (e.g. after edits added new cards), or with
+ * "more" keeps the current synergies and adds new ones.
+ */
+export async function refreshSynergies(
+  slug: string,
+  mode: "again" | "more" = "again",
+): Promise<Report> {
   const report = await readReport(slug);
   if (!report) throw new HttpError(409, "Optimize the deck first.");
   if (!llmEnabled()) throw new HttpError(409, "Finding synergies needs an LLM configured.");
   const { deck } = await loadDeck(slug, "optimized.txt");
-  const updated: Report = { ...report, synergies: await findSynergies(deck, report.combosPresent) };
+  const current = keepPresentSynergies(report.synergies, deck) ?? [];
+  const synergies =
+    mode === "more"
+      ? [...current, ...(await findSynergies(deck, report.combosPresent, current))]
+      : await findSynergies(deck, report.combosPresent);
+  const updated: Report = { ...report, synergies };
   updated.cardIndex = await buildCardIndex(updated);
   const commanders = deck.commanders.map((c) => c.name);
   await writeResults(

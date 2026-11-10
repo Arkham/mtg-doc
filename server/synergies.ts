@@ -18,11 +18,18 @@ const SynergySchema = z.object({
 
 const MAX_SYNERGIES = 10;
 
+const keyOf = (cards: string[]) => [...cards].sort().join("|");
+
 /**
  * Asks the model for the deck's best non-infinite interactions, then keeps only those whose cards
- * are really in the deck (names normalized to the deck's spelling).
+ * are really in the deck (names normalized to the deck's spelling). With `known`, it looks for
+ * new ones instead and skips any card group already listed.
  */
-export async function findSynergies(deck: Deck, combos: Combo[]): Promise<Synergy[]> {
+export async function findSynergies(
+  deck: Deck,
+  combos: Combo[],
+  known: Synergy[] = [],
+): Promise<Synergy[]> {
   const commander = deck.commanders
     .map((c) => `${c.name} (${c.manaCost}) — ${c.typeLine}\n${c.oracleText}`)
     .join("\n\n");
@@ -33,12 +40,15 @@ export async function findSynergies(deck: Deck, combos: Combo[]): Promise<Synerg
         `- ${s.card.name} | ${s.card.typeLine} | ${s.card.oracleText.replace(/\n/g, " ").slice(0, 220)}`,
     )
     .join("\n");
-  const known = combos.map((c) => c.cards.join(" + ")).join("; ") || "none";
+  const comboList = combos.map((c) => c.cards.join(" + ")).join("; ") || "none";
+  const ask = known.length
+    ? `Find 4-8 more notable synergies in this Commander deck, different from the ones already found:\n${known.map((s) => `- ${s.title}: ${s.cards.join(" + ")}`).join("\n")}\nLook for other interactions between 2-4 cards in the list (the commander counts) that are stronger together than apart, such as engines, payoffs, protection packages or value loops.`
+    : "Find the 6-10 most notable synergies in this Commander deck: interactions between 2-4 cards in the list (the commander counts) that are stronger together than apart, such as engines, payoffs, protection packages or value loops.";
   const res = await chatJson(SynergySchema, [
     {
       role: "user",
-      content: `Find the 6-10 most notable synergies in this Commander deck: interactions between 2-4 cards in the list (the commander counts) that are stronger together than apart, such as engines, payoffs, protection packages or value loops.
-Exclude infinite combos (already covered: ${known}). Prefer interactions involving the commander and the deck's main plan. Use exact card names from the list.
+      content: `${ask}
+Exclude infinite combos (already covered: ${comboList}). Prefer interactions involving the commander and the deck's main plan. Use exact card names from the list.
 
 Commander:
 ${commander}
@@ -50,7 +60,7 @@ Reply with JSON only: {"synergies": [{"title": "short punchy title", "cards": ["
     },
   ]);
   const out: Synergy[] = [];
-  const seen = new Set<string>();
+  const seen = new Set(known.map((k) => keyOf(k.cards)));
   for (const s of res.synergies) {
     const cards: string[] = [];
     for (const name of s.cards) {
@@ -61,7 +71,7 @@ Reply with JSON only: {"synergies": [{"title": "short punchy title", "cards": ["
       if (!cards.includes(resolved)) cards.push(resolved);
     }
     if (cards.length !== s.cards.length || cards.length < 2) continue;
-    const key = [...cards].sort().join("|");
+    const key = keyOf(cards);
     if (seen.has(key)) continue;
     seen.add(key);
     out.push({ title: s.title, cards, explanation: s.explanation });

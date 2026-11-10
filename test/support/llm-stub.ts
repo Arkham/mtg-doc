@@ -52,6 +52,24 @@ const CONTENT_FILTER = {
 };
 
 function answer(body: Record<string, unknown>, text: string, hasImage: boolean): unknown {
+  if (text.includes("more notable synergies")) {
+    return message(
+      JSON.stringify({
+        synergies: [
+          {
+            title: "Repeat of a known one",
+            cards: ["Forest", "Lathril, Blade of the Elves"],
+            explanation: "Should be skipped as a duplicate.",
+          },
+          {
+            title: "Signet into the commander",
+            cards: ["Lathril, Blade of the Elves", "Arcane Signet"],
+            explanation: "Stub extra synergy.",
+          },
+        ],
+      }),
+    );
+  }
   if (text.includes("most notable synergies")) {
     return message(
       JSON.stringify({
@@ -80,9 +98,9 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
     if (/Fellwar Stone|risky/.test(text)) return CONTENT_FILTER;
     const last = (body.input as { content: { text?: string }[] }[]).at(-1)?.content[0]?.text ?? "";
     if (/synergies again/i.test(last))
-      return message(
-        JSON.stringify({ reply: "Looking again.", changes: [], refreshSynergies: true }),
-      );
+      return message(JSON.stringify({ reply: "Looking again.", changes: [], synergies: "again" }));
+    if (/more synergies/i.test(last))
+      return message(JSON.stringify({ reply: "Digging deeper.", changes: [], synergies: "more" }));
     if (/run it again/i.test(last))
       return message(
         JSON.stringify({ reply: "Same settings, fresh run?", changes: [], rerun: {} }),

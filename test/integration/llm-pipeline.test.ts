@@ -198,6 +198,25 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     assert.ok(after.synergies!.length > 0);
     assert.deepEqual(after.decklist, before.decklist, "the list itself doesn't change");
 
+    // Find more synergies: keeps the current ones and adds only new card groups.
+    const more = await chatAboutDeck(slug, "can you find more synergies?");
+    assert.equal(more.reportUpdated, true);
+    const withMore = (await readReport(slug))!;
+    const titles = withMore.synergies!.map((x) => x.title);
+    assert.deepEqual(
+      titles.slice(0, after.synergies!.length),
+      after.synergies!.map((x) => x.title),
+    );
+    assert.ok(
+      withMore.decklist!.some((c) => c.name === "Arcane Signet"),
+      "fixture keeps the Signet",
+    );
+    assert.ok(titles.includes("Signet into the commander"));
+    assert.ok(!titles.includes("Repeat of a known one"), "duplicates are skipped");
+    assert.match(more.content, /new synerg|didn't find any new/);
+    const prompt = stub.requests.findLast((q) => q.text.includes("more notable synergies"))!.text;
+    assert.match(prompt, /different from the ones already found/);
+
     // Apply a suggested land swap (the Mana panel button): the doc sees the suggestions.
     const { config } = await import("../../server/config.ts");
     const file = path.join(config.decksDir, slug, "report.json");
