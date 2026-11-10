@@ -2,6 +2,7 @@ import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react"
 import type { DeckSummary } from "../../shared/types.ts";
 import { type AppConfig, IS_STATIC, type Recognition, type RecognitionJob, api } from "../api.ts";
 import { BracketBadge } from "./BracketPanel.tsx";
+import { CrownIcon } from "./Icons.tsx";
 import { ColorIdentity } from "./Mana.tsx";
 
 const isTouch = () => window.matchMedia("(pointer: coarse)").matches;
@@ -30,7 +31,8 @@ function Welcome({ decks }: { decks: DeckSummary[] | null }) {
     <section className="home-hero">
       <div className="home-hero-text">
         <span className="hero-role">
-          <span aria-hidden>♛</span> The mtg doc
+          <CrownIcon />
+          <span>The mtg doc</span>
         </span>
         <h1>The doc will see your deck now.</h1>
         <p>

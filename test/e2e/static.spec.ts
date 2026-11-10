@@ -41,6 +41,22 @@ test.describe("static site", () => {
     await expectNoHorizontalOverflow(page);
   });
 
+  test("crown labels line up with their capitals", async ({ page }) => {
+    const offset = (sel: string) =>
+      page
+        .locator(sel)
+        .first()
+        .evaluate((el) => {
+          const crown = el.querySelector("svg")!.getBoundingClientRect();
+          const caps = el.querySelector("span")!.getBoundingClientRect();
+          return Math.abs(crown.top + crown.height / 2 - (caps.top + caps.height / 2));
+        });
+    await page.goto(STATIC_URL);
+    expect(await offset(".home-hero .hero-role")).toBeLessThan(1);
+    await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
+    expect(await offset(".hero .hero-role")).toBeLessThan(1);
+  });
+
   test("published content is readable without JavaScript", async ({ page, request }) => {
     const page1 = await request.get(new URL(`decks/${OVERPOWERED}/`, STATIC_URL).href);
     expect(page1.ok()).toBe(true);

@@ -1449,10 +1449,16 @@ button.hero-card:active:not(:disabled) {
   text-transform: uppercase;
   color: var(--accent-hi);
 }
+/* Trim the label to its capitals so flex centering lines the crown up with them. */
 .hero-role > span {
-  font-size: 1.15em;
-  letter-spacing: 0;
-  text-shadow: 0 0 12px rgba(235, 200, 118, 0.6);
+  line-height: 1;
+  text-box: trim-both cap alphabetic;
+}
+.crown-icon {
+  flex: none;
+  width: 1.25em;
+  height: auto;
+  filter: drop-shadow(0 0 6px rgba(235, 200, 118, 0.55));
 }
 .hero-role + .bracket-link::before {
   content: "·";

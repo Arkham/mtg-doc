@@ -23,6 +23,7 @@ import { comboOutcome, groupByMissing } from "../combos.ts";
 import { type DeckView, asOriginal, deckHash, hasOriginal } from "../views.ts";
 import { navigate } from "../nav.ts";
 import { BracketBadge, BracketPanel } from "./BracketPanel.tsx";
+import { CrownIcon } from "./Icons.tsx";
 import { ChatPanel } from "./ChatPanel.tsx";
 import { CardIndex, CardList, CardName } from "./CardName.tsx";
 import { ManaCost, OracleText } from "./Mana.tsx";
@@ -1476,7 +1477,8 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
           <div className="hero-head">
             <div className="hero-kicker">
               <span className="hero-role">
-                <span aria-hidden>♛</span> Commander
+                <CrownIcon />
+                <span>Commander</span>
               </span>
               {r.bracket && (
                 <a
