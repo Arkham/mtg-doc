@@ -28,6 +28,10 @@ cp .env.example .env   # then fill in LLM_* values
 pnpm dev               # http://localhost:5173
 ```
 
+With Nix, `nix develop` (or `direnv allow` with the bundled `.envrc`) gives you the same Node 24 +
+pnpm 10 as CI; `nix-shell` works too and reads your `<nixpkgs>` instead of the pinned flake input.
+Run the commands above inside it.
+
 Any endpoint implementing the OpenAI **Responses API** (`POST /responses`) works; it's used for
 photo reading (image input), JSON planning, and web research via the built-in `web_search` tool.
 Scanned cards are verified with the **Decisions API** (`POST /decisions`, `LLM_DECISION_MODEL`). `.env` supports `${VAR}` references, so a
