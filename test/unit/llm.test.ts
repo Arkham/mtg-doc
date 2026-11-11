@@ -9,6 +9,7 @@ const llm = await import("../../server/llm.ts");
 type Handler = (
   body: Record<string, unknown>,
   call: number,
+  url: string,
 ) => { status?: number; json?: unknown; text?: string };
 const realFetch = globalThis.fetch;
 let calls: { url: string; body: Record<string, unknown>; auth: string | null }[] = [];
@@ -19,7 +20,7 @@ function stub(handler: Handler) {
     const url = String(input);
     const body = JSON.parse(String(init?.body ?? "{}"));
     calls.push({ url, body, auth: new Headers(init?.headers).get("authorization") });
-    const r = handler(body, calls.length);
+    const r = handler(body, calls.length, url);
     return new Response(r.text ?? JSON.stringify(r.json ?? {}), { status: r.status ?? 200 });
   }) as typeof fetch;
 }
@@ -178,6 +179,67 @@ describe("decide", () => {
     assert.equal(answers.size, 25);
     assert.equal(answers.get("q0"), 0.9);
     assert.equal(answers.get("q1"), 0.1);
+  });
+});
+
+describe("decide without the Decisions API", () => {
+  const predicates = [
+    { name: "in-deck", instructions: "Is Sol Ring in the list?" },
+    { name: "red", instructions: "Is the commander red?" },
+  ];
+  const modelAnswers = (url: string) =>
+    url.endsWith("/responses")
+      ? {
+          json: message(
+            JSON.stringify({
+              answers: [
+                { name: "in-deck", probability: 0.97 },
+                { name: "red", probability: "1.4" },
+                { name: "made-up", probability: 0.5 },
+              ],
+            }),
+          ),
+        }
+      : { status: 404, text: "no such endpoint" };
+
+  test("falls back to the regular model when the Decisions API fails", async () => {
+    stub((_body, _call, url) => modelAnswers(url));
+    const answers = await llm.decide("1 Sol Ring", [], predicates);
+    assert.deepEqual(
+      calls.map((c) => c.url.split("/").at(-1)),
+      ["decisions", "responses"],
+    );
+    assert.equal(calls[1].body.model, "gpt-6.1-sol", "the regular model, not the classifier");
+    const prompt = JSON.stringify(calls[1].body.input);
+    assert.match(prompt, /in-deck: Is Sol Ring in the list\?/);
+    assert.deepEqual(
+      [...answers],
+      [
+        ["in-deck", 0.97],
+        ["red", 1],
+      ],
+      "clamped, and only the questions asked",
+    );
+  });
+
+  test("goes straight to the model when decisions are turned off, with images on the vision model", async () => {
+    const { config } = await import("../../server/config.ts");
+    config.llm.decisions = false;
+    config.llm.visionModel = "vision-model";
+    try {
+      stub((_body, _call, url) => modelAnswers(url));
+      const answers = await llm.decide("a photo", ["data:image/jpeg;base64,x"], predicates);
+      assert.deepEqual(
+        calls.map((c) => c.url.split("/").at(-1)),
+        ["responses"],
+      );
+      assert.equal(calls[0].body.model, "vision-model");
+      assert.match(JSON.stringify(calls[0].body.input), /input_image/);
+      assert.equal(answers.get("in-deck"), 0.97);
+    } finally {
+      config.llm.decisions = true;
+      config.llm.visionModel = config.llm.model;
+    }
   });
 });
 

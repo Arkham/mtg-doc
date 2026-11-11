@@ -37,6 +37,8 @@ export const config = {
     webSearch: (env("LLM_WEB_SEARCH") ?? "true") !== "false",
     /** Classifier for yes/no checks via the Decisions API (POST /decisions). */
     decisionModel: env("LLM_DECISION_MODEL") ?? "gpt-6-luna",
+    /** Providers without a Decisions API set LLM_DECISIONS=false; `decide` then asks LLM_MODEL. */
+    decisions: (env("LLM_DECISIONS") ?? "true") !== "false",
     retryDelayMs: Number(env("LLM_RETRY_DELAY_MS") ?? 2000),
   },
   userAgent: "mtg-doc/0.1 (local)",

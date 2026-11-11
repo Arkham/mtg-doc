@@ -34,8 +34,11 @@ Run the commands above inside it.
 
 Any endpoint implementing the OpenAI **Responses API** (`POST /responses`) works; it's used for
 photo reading (image input), JSON planning, and web research via the built-in `web_search` tool.
-Scanned cards are verified with the **Decisions API** (`POST /decisions`, `LLM_DECISION_MODEL`). `.env` supports `${VAR}` references, so a
-key already exported in your shell can be used without copying it:
+Yes/no checks (verifying scanned cards and synergies, confirming replies, deciding when to offer a
+re-run) use the **Decisions API** (`POST /decisions`, `LLM_DECISION_MODEL`) for calibrated
+probabilities. If your endpoint doesn't have it, set `LLM_DECISIONS=false` and `LLM_MODEL` answers
+them instead (it also steps in whenever a Decisions API call fails). `.env` supports `${VAR}`
+references, so a key already exported in your shell can be used without copying it:
 
 ```bash
 LLM_BASE_URL=https://your-endpoint/v1

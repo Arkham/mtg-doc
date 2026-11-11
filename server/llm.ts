@@ -1,4 +1,4 @@
-import type { z } from "zod";
+import { z } from "zod";
 import { config } from "./config.ts";
 
 export type ContentPart =
@@ -159,9 +159,14 @@ export interface Predicate {
   instructions: string;
 }
 
+/** Keeps requests small so each stays well inside the Decisions API's latency budget. */
+const DECISION_BATCH = 20;
+
 /**
- * Yes/no questions about images via the Decisions API, answered with calibrated probabilities.
- * Returns the probability that each predicate is true, keyed by name.
+ * Yes/no questions about a context (and optional images), answered with the probability that
+ * each predicate is true, keyed by name. Uses the Decisions API for calibrated answers; when it's
+ * turned off (LLM_DECISIONS=false) or a call fails, the regular model answers instead, so callers
+ * never need to care which one did.
  */
 export async function decide(
   context: string,
@@ -169,34 +174,81 @@ export async function decide(
   predicates: Predicate[],
 ): Promise<Map<string, number>> {
   const out = new Map<string, number>();
-  // Keep requests small so each stays well inside the API's latency budget.
-  for (let i = 0; i < predicates.length; i += 20) {
-    const batch = predicates.slice(i, i + 20);
-    const res = await post<{ answers?: { name: string; type: string; probability?: number }[] }>(
-      "decisions",
-      {
-        model: config.llm.decisionModel,
-        input: [
-          {
-            role: "user",
-            content: [
-              { type: "input_text", text: context },
-              ...images.map((url) => ({ type: "input_image", image_url: url })),
-            ],
-          },
-        ],
-        questions: batch.map((p) => ({
-          type: "predicate",
-          name: p.name,
-          instructions: p.instructions,
-        })),
-      },
-      60_000,
-    );
-    for (const a of res.answers ?? []) {
-      if (a.type === "predicate" && typeof a.probability === "number")
-        out.set(a.name, a.probability);
+  for (let i = 0; i < predicates.length; i += DECISION_BATCH) {
+    const batch = predicates.slice(i, i + DECISION_BATCH);
+    let answers: Map<string, number> | null = null;
+    if (config.llm.decisions) {
+      answers = await decideWithDecisionsApi(context, images, batch).catch(() => null);
     }
+    answers ??= await decideWithModel(context, images, batch);
+    for (const [name, p] of answers) out.set(name, p);
   }
+  return out;
+}
+
+async function decideWithDecisionsApi(context: string, images: string[], batch: Predicate[]) {
+  const res = await post<{ answers?: { name: string; type: string; probability?: number }[] }>(
+    "decisions",
+    {
+      model: config.llm.decisionModel,
+      input: [
+        {
+          role: "user",
+          content: [
+            { type: "input_text", text: context },
+            ...images.map((url) => ({ type: "input_image", image_url: url })),
+          ],
+        },
+      ],
+      questions: batch.map((p) => ({
+        type: "predicate",
+        name: p.name,
+        instructions: p.instructions,
+      })),
+    },
+    60_000,
+  );
+  const out = new Map<string, number>();
+  for (const a of res.answers ?? []) {
+    if (a.type === "predicate" && typeof a.probability === "number") out.set(a.name, a.probability);
+  }
+  return out;
+}
+
+const ModelDecisionSchema = z.object({
+  answers: z.array(
+    z.object({ name: z.string(), probability: z.coerce.number().catch(Number.NaN) }),
+  ),
+});
+
+/** The same questions through the regular model, asked for a probability per predicate. */
+async function decideWithModel(context: string, images: string[], batch: Predicate[]) {
+  const questions = batch.map((p) => `- ${p.name}: ${p.instructions}`).join("\n");
+  const res = await chatJson(
+    ModelDecisionSchema,
+    [
+      {
+        role: "system",
+        content:
+          "You answer yes/no questions about the input. For each question, give the probability (0 to 1) that the answer is yes: near 1 or 0 only when the input makes it clear, around 0.5 when it doesn't. Reply with JSON only.",
+      },
+      {
+        role: "user",
+        content: [
+          {
+            type: "text",
+            text: `${context}\n\nQuestions:\n${questions}\n\nReply with {"answers": [{"name": string, "probability": number}]}, one per question, using the names above.`,
+          },
+          ...images.map((url) => ({ type: "image" as const, url })),
+        ],
+      },
+    ],
+    { model: images.length ? config.llm.visionModel : config.llm.model, reasoning: "low" },
+  );
+  const names = new Set(batch.map((p) => p.name));
+  const out = new Map<string, number>();
+  for (const a of res.answers)
+    if (names.has(a.name) && Number.isFinite(a.probability))
+      out.set(a.name, Math.min(1, Math.max(0, a.probability)));
   return out;
 }
