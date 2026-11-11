@@ -28,6 +28,14 @@ const take = (pool: string[], name: string) => {
   return true;
 };
 
+/** Swaps without "also consider" picks that are already in the deck (often another swap's add). */
+export function dropOwnedAlternatives(swaps: Swap[], deck: Deck): Swap[] {
+  const inDeck = new Set(deck.slots.map((s) => s.card.name));
+  return swaps.map((s) =>
+    s.alternatives ? { ...s, alternatives: s.alternatives.filter((a) => !inDeck.has(a.name)) } : s,
+  );
+}
+
 /**
  * Rebuilds the swap list after chat edits so its cuts and adds are exactly the net difference
  * between the submitted and current lists. Swaps that still hold are kept as they are. When an edit
@@ -44,19 +52,17 @@ export function reconcileSwaps(
 ): Swap[] {
   const cuts = minus(initial, current);
   const adds = minus(current, initial);
-  const inDeck = new Set(current.slots.map((s) => s.card.name));
   const cardOf = new Map<string, Card>(
     [...initial.slots, ...current.slots].map((s) => [s.card.name, s.card]),
   );
 
   const kept: Swap[] = [];
   const broken: Swap[] = [];
-  for (const s of swaps) {
+  for (const s of dropOwnedAlternatives(swaps, current)) {
     if (cuts.includes(s.out) && adds.includes(s.in)) {
       take(cuts, s.out);
       take(adds, s.in);
-      const alternatives = s.alternatives?.filter((a) => !inDeck.has(a.name));
-      kept.push(s.alternatives ? { ...s, alternatives } : s);
+      kept.push(s);
     } else broken.push(s);
   }
 

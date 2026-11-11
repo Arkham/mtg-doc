@@ -32,6 +32,7 @@ import {
   rebalanceBasics,
 } from "./analysis/optimizer.ts";
 import { planManaFixes } from "./analysis/manabase.ts";
+import { dropOwnedAlternatives } from "./analysis/reconcile.ts";
 import { buildSolverContext, solve, trimToBudget } from "./analysis/search.ts";
 import { simulate } from "./analysis/simulate.ts";
 import { config, llmEnabled } from "./config.ts";
@@ -448,7 +449,7 @@ async function run(job: Job) {
       );
     }
     s.detail = `${swaps.length} swaps · bracket ${assessAfter.bracket} verified`;
-    return { finalDeck, swaps, after, assessAfter };
+    return { finalDeck, swaps: dropOwnedAlternatives(swaps, finalDeck), after, assessAfter };
   });
 
   // Combos shown in the report must match the final deck, not the starting one.

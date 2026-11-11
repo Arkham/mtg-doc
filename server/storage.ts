@@ -7,8 +7,9 @@ import {
   type OptimizeOptions,
   type Report,
 } from "../shared/types.ts";
+import { checkReport } from "./analysis/consistency.ts";
 import { config } from "./config.ts";
-import { formatDecklist } from "./decklist.ts";
+import { formatDecklist, parseDecklist } from "./decklist.ts";
 import { slugify } from "./sources/edhrec.ts";
 import { renderMarkdown } from "./report.ts";
 
@@ -83,13 +84,19 @@ export async function readInitial(slug: string): Promise<string> {
 
 /**
  * Saves a report with its markdown and optimized list. The markdown is always rendered here from
- * the report being saved, so report.md can never fall behind report.json.
+ * the report being saved, so report.md can never fall behind report.json, and a report whose
+ * sections disagree with its deck list is never saved.
  */
 export async function writeResults(
   slug: string,
   report: Report,
   optimized: { commanders: string[]; entries: DeckEntry[] },
 ) {
+  const problems = checkReport(report, optimized);
+  if (problems.length)
+    throw new Error(
+      `Refusing to save an inconsistent report for ${slug}:\n- ${problems.join("\n- ")}`,
+    );
   const dir = deckDir(slug);
   await fs.writeFile(path.join(dir, "report.json"), JSON.stringify(report, null, 2));
   await fs.writeFile(path.join(dir, "report.md"), renderMarkdown(report));
@@ -140,4 +147,12 @@ export async function listDecks(): Promise<DeckSummary[]> {
     }
   }
   return out.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+/** Consistency problems in a deck folder's saved report and list (see `checkReport`). */
+export async function checkSavedDeck(dir: string): Promise<string[]> {
+  const report = await fs.readFile(path.join(dir, "report.json"), "utf8").catch(() => null);
+  if (!report) return [];
+  const list = await fs.readFile(path.join(dir, "optimized.txt"), "utf8").catch(() => null);
+  return checkReport(JSON.parse(report) as Report, list ? parseDecklist(list) : undefined);
 }

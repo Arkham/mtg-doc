@@ -16,6 +16,7 @@ pnpm format           # prettier --write
 pnpm lint             # oxlint
 pnpm typecheck        # tsc --noEmit (TypeScript 7)
 pnpm build:static     # read-only site into site/ (see README for --only/--out)
+pnpm check:decks      # every saved report agrees with its deck list in every section
 ```
 
 CI (`.github/workflows/ci.yml`) runs all of the above, including the e2e suite, on every push and PR.
@@ -83,7 +84,9 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   leaves, searched for when one arrives) and card previews. All edits go through
   `applyDeckChanges` (`server/chat.ts`); the pure reconciliation lives in
   `server/analysis/reconcile.ts`. When you add a report field that names deck cards, update it
-  there too.
+  there too, and teach `checkReport` (`server/analysis/consistency.ts`) to verify it.
+- `writeResults` refuses to save a report that `checkReport` finds inconsistent, and a unit test runs
+  it on every deck in `decks/`. After touching a report by hand or by script, run `pnpm check:decks`.
 
 ### Testing
 
