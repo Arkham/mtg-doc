@@ -3,6 +3,7 @@ import { describe, test } from "node:test";
 import type { BracketReport, DeckEdit, Swap } from "../../shared/types.ts";
 import { type Deck, cloneDeck } from "../../server/analysis/deck.ts";
 import {
+  fallbackCombos,
   rebaseSwaps,
   refreshBracketLists,
   reconcileSwaps,
@@ -173,6 +174,54 @@ describe("rebaseSwaps", () => {
     );
     assert.ok(deck.slots.some((s) => s.card.name === "Army of the Damned"));
     assert.equal(deck.slots.find((s) => s.card.name === "Arcane Signet")!.qty, 1);
+  });
+});
+
+describe("fallbackCombos", () => {
+  const combo = (cards: string[], missing: string[] = []) => ({
+    id: cards.join("+"),
+    cards,
+    missing,
+    produces: [],
+    description: "",
+    bracketTag: null,
+    url: "",
+  });
+
+  test("keeps only combos that still hold, and adds those the bracket estimate found", () => {
+    const current = swap(optimized, "Fog Bank", helm);
+    const { present, oneAway } = fallbackCombos(
+      {
+        present: [combo(["Helm of the Ghastlord", "Fevered Visions"]), combo(["Fog Bank", "Cmdr"])],
+        oneAway: [
+          combo(["Fog Bank", "Arcane Signet"], ["Fog Bank"]),
+          combo(["Helm of the Ghastlord", "Arcane Signet"], ["Helm of the Ghastlord"]),
+          combo(["Mind Stone", "Fog Bank"], ["Mind Stone"]),
+        ],
+      },
+      current,
+      [
+        {
+          cards: ["Cmdr", "Arcane Signet"],
+          produces: ["Infinite mana"],
+          twoCard: true,
+          tag: "S",
+          earlyPct: null,
+          url: "u",
+        },
+      ],
+    );
+    assert.deepEqual(
+      present.map((c) => c.cards),
+      [
+        ["Helm of the Ghastlord", "Fevered Visions"],
+        ["Cmdr", "Arcane Signet"],
+      ],
+    );
+    assert.deepEqual(
+      oneAway.map((c) => c.cards),
+      [["Fog Bank", "Arcane Signet"]],
+    );
   });
 });
 

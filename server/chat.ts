@@ -28,7 +28,12 @@ import {
   parseCommand,
   structuralProblem,
 } from "./analysis/edits.ts";
-import { rebaseSwaps, refreshBracketLists, reconcileSwaps } from "./analysis/reconcile.ts";
+import {
+  fallbackCombos,
+  rebaseSwaps,
+  refreshBracketLists,
+  reconcileSwaps,
+} from "./analysis/reconcile.ts";
 import { makeRerun } from "./analysis/rerun.ts";
 import { makeViolation } from "./analysis/search.ts";
 import { config, llmEnabled } from "./config.ts";
@@ -487,13 +492,22 @@ export async function applyDeckChanges(
       .filter((s) => s.card.colorIdentity.every((c) => identity.includes(c)))
       .map((s) => s.card.name);
   const isCommander = meta.format === "commander";
-  const [est, combos, before] = await Promise.all([
+  const [est, found, before] = await Promise.all([
     estimateBracket(commanders, legalMain(next)).catch(() => null),
     findCombos(commanders, legalMain(next), identity).catch(() => null),
     editsOriginal ? recomputeOriginal(report, initial, legalMain(initial), isCommander) : null,
   ]);
   const avgLands = report.edhrec?.avgLands ?? null;
   const after = snapshot(next, avgLands, isCommander, twoCardCombos(est));
+  const assessed = report.bracket && assessBracket(next, est, after.sim, report.bracket.target);
+  // Edits can complete or break combos; if the search fails, keep only those that still hold.
+  const combos =
+    found ??
+    fallbackCombos(
+      { present: report.combosPresent, oneAway: report.combosOneAway },
+      next,
+      assessed?.combos,
+    );
   const bracketTarget = report.bracket?.target ?? 4;
   const manaSuggestions = isCommander
     ? await suggestManaFixes({
@@ -516,23 +530,19 @@ export async function applyDeckChanges(
     .map((c) => c.name);
   const newSynergies =
     llmEnabled() && added.length && present
-      ? await findSynergies(next, combos?.present ?? report.combosPresent, present, added).catch(
-          () => [],
-        )
+      ? await findSynergies(next, combos.present, present, added).catch(() => [])
       : [];
   const bracket = report.bracket && {
     ...report.bracket,
     ...(before ? { before: before.bracket } : {}),
-    after: assessBracket(next, est, after.sim, report.bracket.target),
+    after: assessed!,
   };
   const updated: Report = {
     ...report,
     ...(before ? { before: before.snapshot, original: before.original } : {}),
     after,
-    // Edits can complete or break combos, so the lists are recomputed from the new deck.
-    ...(combos
-      ? { combosPresent: combos.present, combosOneAway: combos.oneAway.slice(0, 20) }
-      : {}),
+    combosPresent: combos.present,
+    combosOneAway: combos.oneAway.slice(0, 20),
     decklist: toDecklist(next, initial),
     bracket: bracket && refreshBracketLists(bracket, next),
     manaSuggestions,
@@ -563,20 +573,29 @@ async function recomputeOriginal(
 ) {
   const commanders = initial.commanders.map((c) => c.name);
   const identity = identityOf(initial.commanders);
-  const [est, combos] = await Promise.all([
+  const [est, found] = await Promise.all([
     estimateBracket(commanders, legalMain).catch(() => null),
     findCombos(commanders, legalMain, identity).catch(() => null),
   ]);
   const snap = snapshot(initial, null, isCommander, twoCardCombos(est));
+  const bracket = report.bracket
+    ? assessBracket(initial, est, snap.sim, report.bracket.target)
+    : undefined;
+  const o = report.original!;
+  const combos =
+    found ??
+    fallbackCombos(
+      { present: o.combosPresent, oneAway: o.combosOneAway },
+      initial,
+      bracket?.combos,
+    );
   return {
     snapshot: snap,
-    bracket: report.bracket
-      ? assessBracket(initial, est, snap.sim, report.bracket.target)
-      : undefined,
+    bracket,
     original: {
       decklist: toDecklist(initial, initial),
-      combosPresent: combos?.present ?? report.original!.combosPresent,
-      combosOneAway: combos?.oneAway.slice(0, 20) ?? report.original!.combosOneAway,
+      combosPresent: combos.present,
+      combosOneAway: combos.oneAway.slice(0, 20),
     },
   };
 }

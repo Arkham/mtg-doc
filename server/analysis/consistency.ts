@@ -83,9 +83,23 @@ export function checkReport(
           `Deck list: ${c.name} is marked ${c.isNew ? "new" : "not new"} with change ${c.delta}, but the submitted deck makes it ${isNew ? "new" : "not new"} with change ${delta}.`,
         );
     }
-    checkCombos(problems, "Combos in the deck as submitted", r.original.combosPresent, (n) =>
-      initial.has(n),
+    const inInitial = (n: string) => initial.has(n);
+    checkCombos(problems, "Combos in the deck as submitted", r.original.combosPresent, inInitial);
+    checkOneAway(
+      problems,
+      "Combos one card away from the deck as submitted",
+      r.original.combosOneAway,
+      inInitial,
     );
+    if (r.bracket) {
+      checkAssessment(problems, "Bracket (deck as submitted)", r.bracket.before, inInitial);
+      checkBracketCombosListed(
+        problems,
+        "Bracket (deck as submitted)",
+        r.bracket.before.combos,
+        r.original.combosPresent,
+      );
+    }
   }
 
   for (const s of r.swaps)
@@ -94,18 +108,7 @@ export function checkReport(
         problems.push(`Swaps: ${a.name} is suggested instead of ${s.in}, but it's in the deck.`);
 
   checkCombos(problems, "Combos", r.combosPresent, has);
-  for (const c of r.combosOneAway) {
-    const missing = c.missing.filter((n) => !has(n));
-    if (missing.length !== c.missing.length)
-      problems.push(
-        `Combos one card away: ${c.cards.join(" + ")} lists ${c.missing.join(", ")} as missing, but the deck has it.`,
-      );
-    const absent = c.cards.filter((n) => !c.missing.includes(n) && !has(n));
-    if (absent.length)
-      problems.push(
-        `Combos one card away: ${c.cards.join(" + ")} needs ${absent.join(", ")} besides the missing piece.`,
-      );
-  }
+  checkOneAway(problems, "Combos one card away", r.combosOneAway, has);
 
   for (const s of r.synergies ?? []) {
     const absent = s.cards.filter((n) => !has(n));
@@ -115,9 +118,8 @@ export function checkReport(
 
   const b = r.bracket;
   if (b) {
-    for (const name of [...b.after.gameChangers, ...b.after.massLandDenial, ...b.after.extraTurns])
-      if (!has(name)) problems.push(`Bracket: counts ${name}, which isn't in the deck.`);
-    checkCombos(problems, "Bracket combos", b.after.combos, has);
+    checkAssessment(problems, "Bracket", b.after, has);
+    checkBracketCombosListed(problems, "Bracket", b.after.combos, r.combosPresent);
     for (const e of b.excluded)
       if (has(e.name))
         problems.push(
@@ -155,6 +157,61 @@ function checkCombos(
         `${section}: ${c.cards.join(" + ")} needs ${absent.join(", ")}, which isn't in the deck.`,
       );
   }
+}
+
+function checkOneAway(
+  problems: string[],
+  section: string,
+  combos: { cards: string[]; missing: string[] }[],
+  has: (name: string) => boolean,
+) {
+  for (const c of combos) {
+    if (c.missing.some(has))
+      problems.push(
+        `${section}: ${c.cards.join(" + ")} lists ${c.missing.join(", ")} as missing, but the deck has it.`,
+      );
+    const absent = c.cards.filter((n) => !c.missing.includes(n) && !has(n));
+    if (absent.length)
+      problems.push(
+        `${section}: ${c.cards.join(" + ")} needs ${absent.join(", ")} besides the missing piece.`,
+      );
+  }
+}
+
+/** Game Changers, land denial, extra turns and combos a bracket assessment counts. */
+function checkAssessment(
+  problems: string[],
+  section: string,
+  a: {
+    gameChangers: string[];
+    massLandDenial: string[];
+    extraTurns: string[];
+    combos: { cards: string[] }[];
+  },
+  has: (name: string) => boolean,
+) {
+  for (const name of [...a.gameChangers, ...a.massLandDenial, ...a.extraTurns])
+    if (!has(name)) problems.push(`${section}: counts ${name}, which isn't in the deck.`);
+  checkCombos(problems, `${section} combos`, a.combos, has);
+}
+
+/**
+ * Every combo the bracket counts must also be in the Combos section. Not the other way round: the
+ * bracket estimate and the combo search are separate Spellbook queries, and the estimate can fail.
+ */
+function checkBracketCombosListed(
+  problems: string[],
+  section: string,
+  counted: { cards: string[] }[],
+  listed: { cards: string[] }[],
+) {
+  const key = (cards: string[]) => [...cards].sort().join("|");
+  const shown = new Set(listed.map((c) => key(c.cards)));
+  for (const c of counted)
+    if (!shown.has(key(c.cards)))
+      problems.push(
+        `${section}: counts the combo ${c.cards.join(" + ")}, but the Combos section doesn't list it.`,
+      );
 }
 
 function checkGroups(problems: string[], list: DecklistCard[]) {

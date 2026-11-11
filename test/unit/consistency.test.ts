@@ -98,6 +98,7 @@ describe("checkReport", () => {
           { title: "Walls", cards: ["Fog Bank", "Nekusar, the Mindrazer"], explanation: "" },
         ],
         bracket: {
+          before: { gameChangers: [], massLandDenial: [], extraTurns: [], combos: [] },
           after: { gameChangers: [], massLandDenial: [], extraTurns: [], combos: [] },
           excluded: [{ name: "Helm of the Ghastlord", reason: "combo" }],
           gameChangerOptions: [{ name: "Fevered Visions", score: 1, inDeck: false }],
@@ -128,6 +129,68 @@ describe("checkReport", () => {
         `${expected} in:\n${problems.join("\n")}`,
       );
     assert.equal(problems.length, 7, "adding a basic land is fine");
+  });
+
+  test("the deck as submitted has its own combos and bracket, checked against its own list", () => {
+    const problems = checkReport(
+      report({
+        original: {
+          decklist: submitted,
+          combosPresent: [{ cards: ["Fog Bank", "Fevered Visions"] }],
+          combosOneAway: [{ cards: ["Fog Bank", "Island"], missing: ["Fog Bank"] }],
+        },
+        bracket: {
+          before: {
+            gameChangers: ["Fevered Visions"],
+            massLandDenial: [],
+            extraTurns: [],
+            combos: [{ cards: ["Helm of the Ghastlord", "Island"] }],
+          },
+          after: { gameChangers: [], massLandDenial: [], extraTurns: [], combos: [] },
+          excluded: [],
+          gameChangerOptions: [],
+        },
+      } as unknown as Partial<Report>),
+    );
+    for (const expected of [
+      /Combos in the deck as submitted: Fog Bank \+ Fevered Visions needs Fevered Visions/,
+      /Combos one card away from the deck as submitted: .* lists Fog Bank as missing, but the deck has it/,
+      /Bracket \(deck as submitted\): counts Fevered Visions, which isn't in the deck/,
+      /Bracket \(deck as submitted\): counts the combo Helm of the Ghastlord \+ Island, but the Combos section doesn't list it/,
+    ])
+      assert.ok(
+        problems.some((p) => expected.test(p)),
+        `${expected} in:\n${problems.join("\n")}`,
+      );
+    assert.equal(problems.length, 4);
+  });
+
+  test("combos the bracket counts must be listed in the Combos section, in any order", () => {
+    const combo = { cards: ["Helm of the Ghastlord", "Fevered Visions"] };
+    const bracket = (combos: { cards: string[] }[]) => ({
+      before: { gameChangers: [], massLandDenial: [], extraTurns: [], combos: [] },
+      after: { gameChangers: [], massLandDenial: [], extraTurns: [], combos },
+      excluded: [],
+      gameChangerOptions: [],
+    });
+    const unlisted = checkReport(
+      report({ bracket: bracket([combo]) } as unknown as Partial<Report>),
+    );
+    assert.deepEqual(unlisted, [
+      "Bracket: counts the combo Helm of the Ghastlord + Fevered Visions, but the Combos section doesn't list it.",
+    ]);
+    const listed = checkReport(
+      report({
+        bracket: bracket([combo]),
+        combosPresent: [{ cards: ["Fevered Visions", "Helm of the Ghastlord"] }],
+      } as unknown as Partial<Report>),
+    );
+    assert.deepEqual(listed, []);
+    // The bracket estimate can miss (or fail on) a combo the search found; that's not an error.
+    const notCounted = checkReport(
+      report({ bracket: bracket([]), combosPresent: [combo] } as unknown as Partial<Report>),
+    );
+    assert.deepEqual(notCounted, []);
   });
 
   test("new and change marks must follow the submitted deck", () => {

@@ -2,7 +2,14 @@
  * Keeps the parts of a report that name cards consistent with the deck after chat edits: the swap
  * list must describe exactly how the current list differs from the submitted one.
  */
-import type { BracketReport, Card, DeckEdit, Swap } from "../../shared/types.ts";
+import type {
+  BracketCombo,
+  BracketReport,
+  Card,
+  Combo,
+  DeckEdit,
+  Swap,
+} from "../../shared/types.ts";
 import { isBasicLand } from "../sources/scryfall.ts";
 import { type Deck, cloneDeck } from "./deck.ts";
 
@@ -157,4 +164,39 @@ export function refreshBracketLists(bracket: BracketReport, current: Deck): Brac
     // A skipped card the user added anyway isn't skipped any more; the bracket check covers it.
     excluded: bracket.excluded.filter((e) => !names.has(e.name)),
   };
+}
+
+const comboKey = (cards: string[]) => [...cards].sort().join("|");
+
+/**
+ * Combo lists for a deck when Commander Spellbook's combo search failed: the previous lists, kept
+ * only where they still hold for this deck, plus any combo the bracket estimate found in it.
+ */
+export function fallbackCombos(
+  previous: { present: Combo[]; oneAway: Combo[] },
+  deck: Deck,
+  bracketCombos: BracketCombo[] = [],
+): { present: Combo[]; oneAway: Combo[] } {
+  const names = new Set([...deck.commanders, ...deck.slots.map((s) => s.card)].map((c) => c.name));
+  const present = previous.present.filter((c) => c.cards.every((n) => names.has(n)));
+  const seen = new Set(present.map((c) => comboKey(c.cards)));
+  for (const b of bracketCombos) {
+    if (seen.has(comboKey(b.cards)) || !b.cards.every((n) => names.has(n))) continue;
+    seen.add(comboKey(b.cards));
+    present.push({
+      id: b.url,
+      cards: b.cards,
+      missing: [],
+      produces: b.produces,
+      description: "",
+      bracketTag: b.tag,
+      url: b.url,
+    });
+  }
+  const oneAway = previous.oneAway.filter(
+    (c) =>
+      c.missing.every((n) => !names.has(n)) &&
+      c.cards.every((n) => c.missing.includes(n) || names.has(n)),
+  );
+  return { present, oneAway };
 }

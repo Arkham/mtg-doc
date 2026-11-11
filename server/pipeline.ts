@@ -32,7 +32,7 @@ import {
   rebalanceBasics,
 } from "./analysis/optimizer.ts";
 import { planManaFixes } from "./analysis/manabase.ts";
-import { dropOwnedAlternatives } from "./analysis/reconcile.ts";
+import { dropOwnedAlternatives, fallbackCombos } from "./analysis/reconcile.ts";
 import { buildSolverContext, solve, trimToBudget } from "./analysis/search.ts";
 import { simulate } from "./analysis/simulate.ts";
 import { config, llmEnabled } from "./config.ts";
@@ -454,7 +454,9 @@ async function run(job: Job) {
 
   // Combos shown in the report must match the final deck, not the starting one.
   const finalCombos = isCommander
-    ? await findCombos(commanderNames, legalMain(finalDeck), identity).catch(() => combos)
+    ? await findCombos(commanderNames, legalMain(finalDeck), identity).catch(() =>
+        fallbackCombos(combos, finalDeck, assessAfter.combos),
+      )
     : combos;
 
   const synergies = await step(job, 8, async (s) => {
