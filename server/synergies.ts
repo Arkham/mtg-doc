@@ -23,12 +23,14 @@ const keyOf = (cards: string[]) => [...cards].sort().join("|");
 /**
  * Asks the model for the deck's best non-infinite interactions, then keeps only those whose cards
  * are really in the deck (names normalized to the deck's spelling). With `known`, it looks for
- * new ones instead and skips any card group already listed.
+ * new ones instead and skips any card group already listed; with `focus`, only ones involving
+ * those cards (e.g. cards just added).
  */
 export async function findSynergies(
   deck: Deck,
   combos: Combo[],
   known: Synergy[] = [],
+  focus: string[] = [],
 ): Promise<Synergy[]> {
   const commander = deck.commanders
     .map((c) => `${c.name} (${c.manaCost}) — ${c.typeLine}\n${c.oracleText}`)
@@ -41,9 +43,11 @@ export async function findSynergies(
     )
     .join("\n");
   const comboList = combos.map((c) => c.cards.join(" + ")).join("; ") || "none";
-  const ask = known.length
-    ? `Find 4-8 more notable synergies in this Commander deck, different from the ones already found:\n${known.map((s) => `- ${s.title}: ${s.cards.join(" + ")}`).join("\n")}\nLook for other interactions between 2-4 cards in the list (the commander counts) that are stronger together than apart, such as engines, payoffs, protection packages or value loops.`
-    : "Find the 6-10 most notable synergies in this Commander deck: interactions between 2-4 cards in the list (the commander counts) that are stronger together than apart, such as engines, payoffs, protection packages or value loops.";
+  const ask = focus.length
+    ? `These cards were just added to this Commander deck: ${focus.join(", ")}. Find up to 4 notable synergies that each involve at least one of them: interactions between 2-4 cards in the list (the commander counts) that are stronger together than apart.${known.length ? ` Skip these, already listed:\n${known.map((s) => `- ${s.title}: ${s.cards.join(" + ")}`).join("\n")}` : ""}`
+    : known.length
+      ? `Find 4-8 more notable synergies in this Commander deck, different from the ones already found:\n${known.map((s) => `- ${s.title}: ${s.cards.join(" + ")}`).join("\n")}\nLook for other interactions between 2-4 cards in the list (the commander counts) that are stronger together than apart, such as engines, payoffs, protection packages or value loops.`
+      : "Find the 6-10 most notable synergies in this Commander deck: interactions between 2-4 cards in the list (the commander counts) that are stronger together than apart, such as engines, payoffs, protection packages or value loops.";
   const res = await chatJson(SynergySchema, [
     {
       role: "user",
@@ -71,6 +75,7 @@ Reply with JSON only: {"synergies": [{"title": "short punchy title", "cards": ["
       if (!cards.includes(resolved)) cards.push(resolved);
     }
     if (cards.length !== s.cards.length || cards.length < 2) continue;
+    if (focus.length && !cards.some((c) => focus.includes(c))) continue;
     const key = keyOf(cards);
     if (seen.has(key)) continue;
     seen.add(key);

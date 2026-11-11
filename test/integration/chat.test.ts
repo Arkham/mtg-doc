@@ -144,6 +144,54 @@ describe("deck chat without an LLM", () => {
     assert.equal(history[1].applied, true);
   });
 
+  test("putting a cut card back updates the swaps and everything built from them", async () => {
+    const { report: current } = (await (await fetch(`${base}/api/decks/${slug}`)).json()) as {
+      report: Report;
+    };
+    const swapped = new Set(current.swaps.flatMap((s) => [s.out, s.in]));
+    const undone = current.swaps.find(
+      (s) => !s.fromChat && !["bracket", "combo"].includes(s.category) && !s.outCard?.isLand,
+    )!;
+    const filler = current.decklist!.find(
+      (c) =>
+        !c.isNew &&
+        c.delta === 0 &&
+        !["Commander", "Land"].includes(c.group) &&
+        !swapped.has(c.name),
+    )!.name;
+
+    const reply = await say(`swap ${filler} for ${undone.out}`);
+    assert.ok(
+      reply.changes!.every((c) => c.ok),
+      JSON.stringify(reply.changes),
+    );
+    const { report } = (await (await apply(reply.id)).json()) as { report: Report };
+
+    assert.ok(
+      !report.swaps.some((s) => s.out === undone.out || s.in === undone.out),
+      `${undone.out} is back in the deck, so no swap cuts it`,
+    );
+    const repaired = report.swaps.find((s) => s.in === undone.in)!;
+    assert.deepEqual([repaired.out, repaired.fromChat], [filler, true]);
+    assert.equal(repaired.outCard?.name, filler, "the cut shows the card it cuts");
+    // The swaps are exactly the difference between the submitted and current lists.
+    const now = new Map(report.decklist!.map((c) => [c.name, c]));
+    const before = new Set(report.original!.decklist.map((c) => c.name));
+    for (const s of report.swaps) {
+      assert.ok(!now.has(s.out) || now.get(s.out)!.delta < 0, `${s.out} is cut`);
+      assert.ok(now.get(s.in)?.isNew || now.get(s.in)!.delta > 0, `${s.in} is new`);
+    }
+    const cut = report.original!.decklist.filter((c) => !now.has(c.name)).length;
+    const added = report.decklist!.filter((c) => c.isNew).length;
+    assert.equal(report.swaps.filter((s) => !now.has(s.out)).length, cut);
+    assert.equal(report.swaps.filter((s) => !before.has(s.in)).length, added);
+
+    const md = await readDeckFile(slug, "report.md");
+    const table = md.split("## Swaps")[1].split("\n## ")[0];
+    assert.match(table, new RegExp(`\\| ${filler} \\| ${undone.in} \\| chat edit \\|`));
+    assert.doesNotMatch(table, new RegExp(`\\| ${undone.out} \\|`));
+  });
+
   test("validation errors and missing decks", async () => {
     const empty = await fetch(`${base}/api/decks/${slug}/chat`, {
       method: "POST",

@@ -77,6 +77,13 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   judges as a yes. Cheap, non-destructive ones (like finding synergies again) can run directly.
 - Importing a deck (photo or list, the review screen) happens before the deck exists, so it's out
   of scope.
+- A chat edit updates every section that names the cards it touches, not just the list: stats,
+  bracket (including its skipped and Game Changer lists), combos, mana suggestions, swaps (which
+  must always equal the net difference from the submitted list), synergies (dropped when a card
+  leaves, searched for when one arrives) and card previews. All edits go through
+  `applyDeckChanges` (`server/chat.ts`); the pure reconciliation lives in
+  `server/analysis/reconcile.ts`. When you add a report field that names deck cards, update it
+  there too.
 
 ### Testing
 

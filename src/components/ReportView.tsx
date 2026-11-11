@@ -16,7 +16,7 @@ import { type DeckView, asOriginal, deckHash, hasOriginal } from "../views.ts";
 import { navigate } from "../nav.ts";
 import { BracketBadge, BracketPanel } from "./BracketPanel.tsx";
 import { ChatPanel } from "./ChatPanel.tsx";
-import { CardIndex, CardList, CardName } from "./CardName.tsx";
+import { CardGallery, CardIndex, CardList, CardName, useGallery } from "./CardName.tsx";
 import { tiltHandlers } from "./Foil.tsx";
 import { ManaCost, OracleText } from "./Mana.tsx";
 import { Markdown } from "./Markdown.tsx";
@@ -136,7 +136,9 @@ function SwapGroup({ title, swaps }: { title: string; swaps: Swap[] }) {
             </div>
             <div className="reason">
               <span className="badge">
-                {CATEGORY_EMOJI[s.category]} {s.category[0].toUpperCase() + s.category.slice(1)}
+                {s.fromChat
+                  ? "💬 Chat edit"
+                  : `${CATEGORY_EMOJI[s.category]} ${s.category[0].toUpperCase() + s.category.slice(1)}`}
               </span>
               <p>{s.reason}</p>
               {s.alternatives && s.alternatives.length > 0 && (
@@ -757,22 +759,16 @@ function DeckImages({
   cuts: Swap[];
   showNew: boolean;
 }) {
-  const [zoomed, setZoomed] = useState<{ name: string; image: string; scryfallUri: string } | null>(
-    null,
-  );
+  const open = useGallery();
   const tile = (
     key: string,
     name: string,
     image: string | null,
-    scryfallUri: string,
     badge: ReactNode,
-    cut = false,
+    state: "cut" | "new" | "" = "",
   ) => (
-    <li key={key} className={`deck-image ${cut ? "cut" : ""}`}>
-      <button
-        aria-label={`Show ${name} full size`}
-        onClick={() => image && setZoomed({ name, image, scryfallUri })}
-      >
+    <li key={key} className={`deck-image ${state}`}>
+      <button aria-label={`Show ${name} full size`} onClick={() => image && open?.(name)}>
         {image ? (
           <img src={image} alt={name} loading="lazy" />
         ) : (
@@ -795,17 +791,19 @@ function DeckImages({
                 c.name,
                 c.name,
                 c.image,
-                c.scryfallUri,
                 <>
                   {c.qty > 1 && <span className="deck-image-qty">×{c.qty}</span>}
                   {!showNew ? null : c.isNew ? (
-                    <span className="badge new deck-image-badge">new</span>
+                    <span className="deck-image-new">
+                      <span aria-hidden>✦</span> new
+                    </span>
                   ) : c.delta !== 0 ? (
-                    <span className="badge new deck-image-badge">
+                    <span className="deck-image-new">
                       {c.delta > 0 ? `+${c.delta}` : `−${-c.delta}`}
                     </span>
                   ) : null}
                 </>,
+                showNew && (c.isNew || c.delta > 0) ? "new" : "",
               ),
             )}
           </ul>
@@ -817,30 +815,9 @@ function DeckImages({
             Cut <span className="muted">({cuts.length})</span>
           </h3>
           <ul>
-            {cuts.map((s, i) =>
-              tile(
-                `cut-${i}`,
-                s.out,
-                s.outCard?.image ?? null,
-                s.outCard?.scryfallUri ?? "",
-                null,
-                true,
-              ),
-            )}
+            {cuts.map((s, i) => tile(`cut-${i}`, s.out, s.outCard?.image ?? null, null, "cut"))}
           </ul>
         </section>
-      )}
-      {zoomed && (
-        <Sheet
-          src={zoomed.image}
-          alt={zoomed.name}
-          onClose={() => setZoomed(null)}
-          actions={
-            <a className="button" href={zoomed.scryfallUri} target="_blank" rel="noreferrer">
-              Scryfall ↗
-            </a>
-          }
-        />
       )}
     </div>
   );
@@ -871,8 +848,13 @@ function Decklist({
       .filter((c) => c.group === g)
       .sort((a, b) => a.cmc - b.cmc || a.name.localeCompare(b.name)),
   })).filter((g) => g.cards.length);
+  const cuts = showCuts ? swaps : [];
+  const galleryCards = [
+    ...groups.flatMap((g) => g.cards.map((c) => ({ name: c.name, card: c }))),
+    ...cuts.map((s) => ({ name: s.out, card: s.outCard })),
+  ];
   return (
-    <>
+    <CardGallery cards={galleryCards}>
       <div className="list-toolbar">
         <div className="segmented" role="tablist" aria-label="Deck list view">
           <button role="tab" aria-selected={view === "list"} onClick={() => changeView("list")}>
@@ -898,7 +880,7 @@ function Decklist({
         )}
       </div>
       {view === "images" ? (
-        <DeckImages groups={groups} cuts={showCuts ? swaps : []} showNew={showNew} />
+        <DeckImages groups={groups} cuts={cuts} showNew={showNew} />
       ) : (
         <div className="decklist-groups">
           {groups.map(({ group, cards }) => (
@@ -942,7 +924,7 @@ function Decklist({
           )}
         </div>
       )}
-    </>
+    </CardGallery>
   );
 }
 

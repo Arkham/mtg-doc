@@ -1,8 +1,33 @@
 import sharp from "sharp";
+import type { Page } from "@playwright/test";
 import { STATIC_URL, expect, expectNoHorizontalOverflow, test } from "./fixtures.ts";
 
 const OVERPOWERED = "lathril-blade-of-the-elves";
 const OPTIMIZED = `${OVERPOWERED}/optimized`;
+
+/** Drags a finger across the open card sheet, then lifts it (which also fires a click). */
+const swipe = (page: Page, from: number, to: number) =>
+  page.evaluate(
+    ({ from, to }) => {
+      const el = document.querySelector(".card-sheet")!;
+      const at = (type: string, x: number) =>
+        el.dispatchEvent(
+          new PointerEvent(type, {
+            bubbles: true,
+            pointerId: 7,
+            pointerType: "touch",
+            isPrimary: true,
+            clientX: x,
+            clientY: 400,
+          }),
+        );
+      at("pointerdown", from);
+      for (let i = 1; i <= 6; i++) at("pointermove", from + ((to - from) * i) / 6);
+      at("pointerup", to);
+      el.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    },
+    { from, to },
+  );
 
 test.describe("static site", () => {
   test("gallery lists published decks with bracket badges", async ({ page }) => {
@@ -246,6 +271,10 @@ test.describe("static site", () => {
       await name.tap();
       const sheet = page.getByRole("dialog");
       await expect(sheet).toBeVisible();
+      // The deck list is a gallery: swipe on to the next card in the list.
+      const second = await page.locator(".deck-group li .card-name a").nth(1).textContent();
+      await swipe(page, 300, 80);
+      await expect(sheet).toHaveAttribute("aria-label", second!);
       await sheet.getByRole("button", { name: "Close" }).tap();
       await expect(sheet).toBeHidden();
     } else {
@@ -260,7 +289,7 @@ test.describe("static site", () => {
     page,
     isMobile,
   }) => {
-    await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
+    await page.goto(`${STATIC_URL}#/deck/${OPTIMIZED}`);
     const imagesTab = page.getByRole("tab", { name: "Images" });
     await (isMobile ? imagesTab.tap() : imagesTab.click());
     const tiles = page.locator(".deck-image");
@@ -269,10 +298,41 @@ test.describe("static site", () => {
     await expect(page.locator(".deck-image-qty").first()).toHaveText(/^×\d+$/);
     await expectNoHorizontalOverflow(page);
 
+    if (page.viewportSize()!.width <= 520) {
+      // Two across on phones, so card text stays legible.
+      const columns = await page
+        .locator(".deck-images ul")
+        .first()
+        .evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(" ").length);
+      expect(columns).toBe(2);
+    }
+    await expect(page.locator(".deck-image-new").first()).toContainText(/new|\+\d/);
+
+    const names = await tiles
+      .locator("img")
+      .evaluateAll((imgs) => imgs.map((i) => i.getAttribute("alt")));
     const first = tiles.first().getByRole("button");
     await (isMobile ? first.tap() : first.click());
-    await expect(page.getByRole("dialog")).toBeVisible();
-    await page.getByRole("dialog").getByRole("button", { name: "Close" }).click();
+    const sheet = page.getByRole("dialog");
+    await expect(sheet).toHaveAttribute("aria-label", names[0]!);
+    await expect(sheet.locator(".sheet-position")).toHaveText(/^1 \/ \d+$/);
+    if (isMobile) {
+      await swipe(page, 300, 80);
+      await expect(sheet).toHaveAttribute("aria-label", names[1]!);
+      await swipe(page, 80, 300);
+      await expect(sheet).toHaveAttribute("aria-label", names[0]!);
+      // A drag too short to swipe springs back instead of closing the sheet.
+      await swipe(page, 200, 180);
+      await expect(sheet).toHaveAttribute("aria-label", names[0]!);
+    } else {
+      await page.keyboard.press("ArrowRight");
+      await expect(sheet).toHaveAttribute("aria-label", names[1]!);
+      await sheet.getByRole("button", { name: "Previous card" }).click();
+      await expect(sheet).toHaveAttribute("aria-label", names[0]!);
+      await expect(sheet.getByRole("button", { name: "Previous card" })).toBeDisabled();
+    }
+    await sheet.getByRole("button", { name: "Close" }).click();
+    await expect(sheet).toBeHidden();
 
     await page.reload();
     await expect(page.getByRole("tab", { name: "Images" })).toHaveAttribute(
