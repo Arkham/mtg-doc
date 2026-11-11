@@ -262,6 +262,14 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     const chatCall = stub.requests.at(-1)!;
     assert.match(chatCall.text, /Lathril, Blade of the Elves/, "deck context is sent");
     assert.match(chatCall.text, /Give me a fairer mana rock/);
+    assert.match(chatCall.text, /looking at the doc's suggested \(optimized\) deck/);
+    assert.equal(proposal.target, "optimized");
+
+    // On "Your deck" the doc sees the list as submitted, without the bracket and budget limits.
+    await chatAboutDeck(slug, "What are this deck's weaknesses?", "original");
+    const original = stub.requests.at(-1)!.text;
+    assert.match(original, /looking at their deck as submitted/);
+    assert.match(original, /target bracket and budget don't limit changes to it/);
 
     const fallback = await chatAboutDeck(slug, "swap Sol Ring for Fellwar Stone");
     assert.deepEqual(

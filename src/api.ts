@@ -1,6 +1,7 @@
 import type {
   DeckChatMessage,
   DeckSummary,
+  EditTarget,
   Job,
   OptimizeOptions,
   RecognitionResult,
@@ -97,8 +98,8 @@ export const api = {
   refreshSynergies: (slug: string, mode: "again" | "more" = "again") =>
     request<Report>(`/api/decks/${slug}/synergies`, json({ mode })),
   chat: (slug: string) => request<DeckChatMessage[]>(`/api/decks/${slug}/chat`),
-  sendChat: (slug: string, message: string) =>
-    request<DeckChatMessage>(`/api/decks/${slug}/chat`, json({ message })),
+  sendChat: (slug: string, message: string, view: EditTarget) =>
+    request<DeckChatMessage>(`/api/decks/${slug}/chat`, json({ message, view })),
   rerunFromChat: (slug: string, messageId: string) =>
     request<{ slug: string; jobId: string }>(`/api/decks/${slug}/chat/${messageId}/rerun`, {
       method: "POST",

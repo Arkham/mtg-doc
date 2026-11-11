@@ -2,7 +2,14 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { z } from "zod";
-import type { Card, DeckChange, DeckChatMessage, Report } from "../shared/types.ts";
+import type {
+  Card,
+  DeckChange,
+  DeckChatMessage,
+  DeckEdit,
+  EditTarget,
+  Report,
+} from "../shared/types.ts";
 import { BRACKETS, assessBracket, flagsFor } from "./analysis/bracket.ts";
 import {
   type Deck,
@@ -21,7 +28,7 @@ import {
   parseCommand,
   structuralProblem,
 } from "./analysis/edits.ts";
-import { refreshBracketLists, reconcileSwaps } from "./analysis/reconcile.ts";
+import { rebaseSwaps, refreshBracketLists, reconcileSwaps } from "./analysis/reconcile.ts";
 import { makeRerun } from "./analysis/rerun.ts";
 import { makeViolation } from "./analysis/search.ts";
 import { config, llmEnabled } from "./config.ts";
@@ -32,7 +39,14 @@ import { suggestManaFixes } from "./mana-advice.ts";
 import { findSynergies, keepPresentSynergies } from "./synergies.ts";
 import { lookupExact, lookupFuzzy } from "./sources/scryfall.ts";
 import { estimateBracket, findCombos } from "./sources/spellbook.ts";
-import { HttpError, readMeta, readReport, writeMeta, writeResults } from "./storage.ts";
+import {
+  HttpError,
+  readMeta,
+  readReport,
+  writeInitial,
+  writeMeta,
+  writeResults,
+} from "./storage.ts";
 
 const HISTORY_FILE = "chat.json";
 const SIMPLE_COMMANDS_HELP =
@@ -82,7 +96,7 @@ const ReplySchema = z.object({
 /** A confirmed re-run needs a fairly clear yes; anything else is treated as a new message. */
 const CONFIRM_THRESHOLD = 0.7;
 
-function deckSummary(deck: Deck, report: Report | null) {
+function deckSummary(deck: Deck, report: Report | null, target: EditTarget = "optimized") {
   const lines = deck.slots
     .map(
       (s) =>
@@ -94,20 +108,30 @@ function deckSummary(deck: Deck, report: Report | null) {
     .map((r) => `${r.role} ${r.count}/${r.target}`)
     .join(", ");
   const b = report?.bracket;
+  const assessed = target === "original" ? b?.before : b?.after;
+  const swaps = report?.swaps.length
+    ? `The doc's suggested swaps (cut → add): ${report.swaps.map((x) => `${x.out} → ${x.in}`).join("; ")}`
+    : "";
   return [
+    !report?.original
+      ? ""
+      : target === "original"
+        ? "The user is looking at their deck as submitted, before the doc's suggestions. The list below is that deck, and changes edit it; the suggested deck is then rebuilt from it, keeping the swaps that still apply. It's their real deck, so the target bracket and budget don't limit changes to it; Commander's rules still do."
+        : "The user is looking at the doc's suggested (optimized) deck. The list below is that deck, and changes edit it; their deck as submitted stays as it is.",
     `Commander(s):\n${deck.commanders.map((c) => `${c.name} (${c.manaCost}) — ${c.typeLine}\n${c.oracleText}`).join("\n\n")}`,
     `Cards: ${totalCards(deck)} (Commander decks need exactly 100) · price $${totalPrice(deck)}`,
     `Roles (count/typical): ${roles}`,
     b
-      ? `Target bracket ${b.target} (${b.name}): Game Changers ${b.after.gameChangers.length}/${b.gameChangerLimit ?? "any"} (${b.after.gameChangers.join(", ") || "none"}); mass land denial ${BRACKETS[b.target].massLandDenial ? "allowed" : "not allowed"}; two-card combos ${BRACKETS[b.target].twoCardCombos}.`
+      ? `Target bracket ${b.target} (${b.name}); this list reads as bracket ${assessed!.bracket}. Game Changers ${assessed!.gameChangers.length}/${b.gameChangerLimit ?? "any"} (${assessed!.gameChangers.join(", ") || "none"}); mass land denial ${BRACKETS[b.target].massLandDenial ? "allowed" : "not allowed"}; two-card combos ${BRACKETS[b.target].twoCardCombos}.`
       : "",
     report
       ? `Optimizer settings: target bracket ${report.options.bracket ?? "keep current"}, deck budget ${report.options.budgetTotal ? `$${report.options.budgetTotal}` : "none"}, per-card budget ${report.options.budgetPerCard ? `$${report.options.budgetPerCard}` : "none"}, up to ${report.options.maxSwaps} swaps, tone ${report.options.tone}, web research ${report.options.webResearch ? "on" : "off"}`
       : "",
+    swaps,
     report?.synergies?.length
       ? `Synergies already listed: ${report.synergies.map((x) => x.title).join("; ")}`
       : "",
-    report?.manaSuggestions?.length
+    target === "optimized" && report?.manaSuggestions?.length
       ? `Suggested land swaps (the user can ask you to apply them):\n${report.manaSuggestions.map((m) => `- ${m.changes.map((c) => `${c.action} ${c.name}`).join(", ")}: ${m.reason}`).join("\n")}`
       : "",
     `Current list:\n${lines.join("\n")}`,
@@ -129,7 +153,12 @@ Rules:
 - If the user asks for synergies, set "synergies" to "more" to add new ones to those already found, or "again" to replace them with a fresh search. Either runs right away and doesn't change the list; otherwise set it to null.
 Reply with JSON only: {"reply": string, "changes": [{"action": "add"|"remove", "name": string, "qty": number, "reason": string}], "rerun": null | {"bracket"?: 1-5, "budgetTotal"?: number | null, "budgetPerCard"?: number | null, "maxSwaps"?: number, "tone"?: "max"|"balanced"|"casual", "webResearch"?: boolean}, "synergies": null | "again" | "more"}`;
 
-async function proposeWithLlm(deck: Deck, report: Report | null, history: DeckChatMessage[]) {
+async function proposeWithLlm(
+  deck: Deck,
+  report: Report | null,
+  history: DeckChatMessage[],
+  target: EditTarget,
+) {
   const recent = history.slice(-HISTORY_FOR_MODEL).map((m) => ({
     role: m.role,
     content:
@@ -140,17 +169,21 @@ async function proposeWithLlm(deck: Deck, report: Report | null, history: DeckCh
           : m.content,
   }));
   return chatJson(ReplySchema, [
-    { role: "system", content: `${SYSTEM}\n\n${deckSummary(deck, report)}` },
+    { role: "system", content: `${SYSTEM}\n\n${deckSummary(deck, report, target)}` },
     ...recent,
   ]);
 }
 
-/** Resolves and checks proposed changes against the deck, bracket and budget, in application order. */
+/**
+ * Resolves and checks proposed changes in application order. The suggested deck must also fit the
+ * bracket and budget; the deck as submitted is the user's own, so only Commander's rules apply.
+ */
 export async function validateChanges(
   deck: Deck,
   report: Report | null,
   proposed: ProposedChange[],
   budget: { total: number | null; perCard: number | null },
+  target: EditTarget = "optimized",
 ): Promise<DeckChange[]> {
   const identity = identityOf(deck.commanders);
   // Card names can contain commas; re-join pieces of a split name before resolving anything.
@@ -182,15 +215,15 @@ export async function validateChanges(
         adds.map((c) => c.name),
       ).catch(() => null)
     : null;
-  const target = report?.bracket?.target ?? 4;
+  const bracketTarget = report?.bracket?.target ?? 4;
   const flagCache = new Map<string, ReturnType<typeof flagsFor>>();
   const flagOf = (c: Card) => {
     if (!flagCache.has(c.name)) flagCache.set(c.name, flagsFor(c, est));
     return flagCache.get(c.name)!;
   };
   const violation = makeViolation({
-    rules: BRACKETS[target],
-    target,
+    rules: BRACKETS[bracketTarget],
+    target: bracketTarget,
     flagOf,
     budgetTotal: budget.total,
   });
@@ -222,10 +255,11 @@ export async function validateChanges(
     } else {
       problem =
         structuralProblem(card, working, identity) ??
-        (budget.perCard !== null && (card.priceUsd ?? 0) > budget.perCard
-          ? `over the $${budget.perCard} per-card budget`
-          : null) ??
-        violation(card, working);
+        (target === "original"
+          ? null
+          : ((budget.perCard !== null && (card.priceUsd ?? 0) > budget.perCard
+              ? `over the $${budget.perCard} per-card budget`
+              : null) ?? violation(card, working)));
     }
     const change: DeckChange = { ...base, ok: !problem, card, ...(problem ? { problem } : {}) };
     out.push(change);
@@ -234,10 +268,19 @@ export async function validateChanges(
   return out;
 }
 
-export async function chatAboutDeck(slug: string, message: string): Promise<DeckChatMessage> {
+export async function chatAboutDeck(
+  slug: string,
+  message: string,
+  view: EditTarget = "optimized",
+): Promise<DeckChatMessage> {
   const meta = await readMeta(slug);
   const report = await readReport(slug);
-  const { deck } = await loadDeck(slug, report ? "optimized.txt" : "initial.txt");
+  // Without a report or a stored original there's only one list to talk about.
+  const target: EditTarget = report?.original ? view : "optimized";
+  const { deck } = await loadDeck(
+    slug,
+    report && target === "optimized" ? "optimized.txt" : "initial.txt",
+  );
   const history = await readChat(slug);
   const user: DeckChatMessage = {
     id: randomUUID(),
@@ -268,7 +311,9 @@ export async function chatAboutDeck(slug: string, message: string): Promise<Deck
   let reportUpdated = false;
   const parsed = parseCommand(message);
   const llm = llmEnabled()
-    ? await proposeWithLlm(deck, report, history).catch((err: unknown) => ({ error: err }))
+    ? await proposeWithLlm(deck, report, history, target).catch((err: unknown) => ({
+        error: err,
+      }))
     : null;
   if (llm && !("error" in llm)) {
     reply = llm.reply;
@@ -298,17 +343,23 @@ export async function chatAboutDeck(slug: string, message: string): Promise<Deck
         : `I couldn't reach the AI model just now. ${SIMPLE_COMMANDS_HELP}`;
   }
   const changes = proposed.length
-    ? await validateChanges(deck, report, proposed, {
-        total: meta.options.budgetTotal ?? null,
-        perCard: meta.options.budgetPerCard ?? null,
-      })
+    ? await validateChanges(
+        deck,
+        report,
+        proposed,
+        {
+          total: meta.options.budgetTotal ?? null,
+          perCard: meta.options.budgetPerCard ?? null,
+        },
+        target,
+      )
     : [];
   const assistant: DeckChatMessage = {
     id: randomUUID(),
     role: "assistant",
     content: reply,
     at: new Date().toISOString(),
-    ...(changes.length ? { changes } : {}),
+    ...(changes.length ? { changes, target } : {}),
     ...(rerun ? { rerun } : {}),
     ...(reportUpdated ? { reportUpdated } : {}),
   };
@@ -365,59 +416,34 @@ export async function applyDeckChanges(
   slug: string,
   proposed: DeckChange[],
   request: string,
+  target: EditTarget = "optimized",
 ): Promise<{ report: Report; changes: DeckChange[] }> {
   const meta = await readMeta(slug);
   const report = await readReport(slug);
   if (!report) throw new HttpError(409, "Optimize the deck before editing it.");
+  const editsOriginal = target === "original" && Boolean(report.original);
   const budget = {
     total: meta.options.budgetTotal ?? null,
     perCard: meta.options.budgetPerCard ?? null,
   };
   const { deck } = await loadDeck(slug, "optimized.txt");
-  const { deck: initial } = await loadDeck(slug, "initial.txt");
+  const { deck: submitted } = await loadDeck(slug, "initial.txt");
   const changes = await validateChanges(
-    deck,
+    editsOriginal ? submitted : deck,
     report,
     proposed.filter((c) => c.ok),
     budget,
+    editsOriginal ? "original" : "optimized",
   );
   const valid = changes.filter((c) => c.ok);
   if (!valid.length) throw new HttpError(409, "None of those changes are valid any more.");
-  const next = applyChanges(deck, valid);
 
-  const commanders = next.commanders.map((c) => c.name);
-  const identity = identityOf(next.commanders);
-  const legalMain = next.slots
-    .filter((s) => s.card.colorIdentity.every((c) => identity.includes(c)))
-    .map((s) => s.card.name);
-  const [est, combos] = await Promise.all([
-    estimateBracket(commanders, legalMain).catch(() => null),
-    findCombos(commanders, legalMain, identity).catch(() => null),
-  ]);
-  const avgLands = report.edhrec?.avgLands ?? null;
-  const after = snapshot(next, avgLands, meta.format === "commander", twoCardCombos(est));
-  const target = report.bracket?.target ?? 4;
-  const manaSuggestions =
-    meta.format === "commander"
-      ? await suggestManaFixes({
-          deck: next,
-          identity,
-          avgLands,
-          budgetPerCard: budget.perCard,
-          violation: makeViolation({
-            rules: BRACKETS[target],
-            target,
-            flagOf: (c) => flagsFor(c, est),
-            budgetTotal: budget.total,
-          }),
-          locked: new Set([...meta.options.locked, ...commanders]),
-        }).catch(() => report.manaSuggestions ?? [])
-      : [];
-  const edits = [
+  const edits: DeckEdit[] = [
     ...(report.edits ?? []),
     {
       at: new Date().toISOString(),
       request,
+      ...(editsOriginal ? { target: "original" as const } : {}),
       changes: valid.map((c) => ({
         action: c.action,
         name: c.name,
@@ -426,6 +452,43 @@ export async function applyDeckChanges(
       })),
     },
   ];
+  // Editing the submitted list rebuilds the suggested deck from it, keeping the swaps that still apply.
+  const initial = editsOriginal ? applyChanges(submitted, valid) : submitted;
+  const rebased = editsOriginal
+    ? rebaseSwaps(initial, report.swaps, new Map(deck.slots.map((s) => [s.card.name, s.card])))
+    : { deck: applyChanges(deck, valid), swaps: report.swaps };
+  const next = rebased.deck;
+
+  const commanders = next.commanders.map((c) => c.name);
+  const identity = identityOf(next.commanders);
+  const legalMain = (d: Deck) =>
+    d.slots
+      .filter((s) => s.card.colorIdentity.every((c) => identity.includes(c)))
+      .map((s) => s.card.name);
+  const isCommander = meta.format === "commander";
+  const [est, combos, before] = await Promise.all([
+    estimateBracket(commanders, legalMain(next)).catch(() => null),
+    findCombos(commanders, legalMain(next), identity).catch(() => null),
+    editsOriginal ? recomputeOriginal(report, initial, legalMain(initial), isCommander) : null,
+  ]);
+  const avgLands = report.edhrec?.avgLands ?? null;
+  const after = snapshot(next, avgLands, isCommander, twoCardCombos(est));
+  const bracketTarget = report.bracket?.target ?? 4;
+  const manaSuggestions = isCommander
+    ? await suggestManaFixes({
+        deck: next,
+        identity,
+        avgLands,
+        budgetPerCard: budget.perCard,
+        violation: makeViolation({
+          rules: BRACKETS[bracketTarget],
+          target: bracketTarget,
+          flagOf: (c) => flagsFor(c, est),
+          budgetTotal: budget.total,
+        }),
+        locked: new Set([...meta.options.locked, ...commanders]),
+      }).catch(() => report.manaSuggestions ?? [])
+    : [];
   const present = keepPresentSynergies(report.synergies, next);
   const added = valid
     .filter((c) => c.action === "add" && next.slots.some((s) => s.card.name === c.name))
@@ -436,25 +499,28 @@ export async function applyDeckChanges(
           () => [],
         )
       : [];
+  const bracket = report.bracket && {
+    ...report.bracket,
+    ...(before ? { before: before.bracket } : {}),
+    after: assessBracket(next, est, after.sim, report.bracket.target),
+  };
   const updated: Report = {
     ...report,
+    ...(before ? { before: before.snapshot, original: before.original } : {}),
     after,
     // Edits can complete or break combos, so the lists are recomputed from the new deck.
     ...(combos
       ? { combosPresent: combos.present, combosOneAway: combos.oneAway.slice(0, 20) }
       : {}),
     decklist: toDecklist(next, initial),
-    bracket: report.bracket
-      ? refreshBracketLists(
-          {
-            ...report.bracket,
-            after: assessBracket(next, est, after.sim, report.bracket.target),
-          },
-          next,
-        )
-      : report.bracket,
+    bracket: bracket && refreshBracketLists(bracket, next),
     manaSuggestions,
-    swaps: reconcileSwaps(report.swaps, initial, next, edits),
+    swaps: reconcileSwaps(
+      rebased.swaps,
+      initial,
+      next,
+      edits.filter((e) => e.target !== "original"),
+    ),
     synergies: present && [...present, ...newSynergies],
     edits,
   };
@@ -463,7 +529,35 @@ export async function applyDeckChanges(
     valid.flatMap((c) => (c.card ? [c.card] : [])),
   );
   await writeResults(slug, updated, { commanders, entries: toEntries(next) });
+  if (editsOriginal) await writeInitial(slug, commanders, toEntries(initial));
   return { report: updated, changes };
+}
+
+/** Stats, bracket and combos of an edited submitted list, as the pipeline computes them. */
+async function recomputeOriginal(
+  report: Report,
+  initial: Deck,
+  legalMain: string[],
+  isCommander: boolean,
+) {
+  const commanders = initial.commanders.map((c) => c.name);
+  const identity = identityOf(initial.commanders);
+  const [est, combos] = await Promise.all([
+    estimateBracket(commanders, legalMain).catch(() => null),
+    findCombos(commanders, legalMain, identity).catch(() => null),
+  ]);
+  const snap = snapshot(initial, null, isCommander, twoCardCombos(est));
+  return {
+    snapshot: snap,
+    bracket: report.bracket
+      ? assessBracket(initial, est, snap.sim, report.bracket.target)
+      : undefined,
+    original: {
+      decklist: toDecklist(initial, initial),
+      combosPresent: combos?.present ?? report.original!.combosPresent,
+      combosOneAway: combos?.oneAway.slice(0, 20) ?? report.original!.combosOneAway,
+    },
+  };
 }
 
 export async function applyChatChanges(
@@ -480,7 +574,12 @@ export async function applyChatChanges(
       .slice(0, index)
       .reverse()
       .find((m) => m.role === "user")?.content ?? "";
-  const { report, changes } = await applyDeckChanges(slug, message.changes, request);
+  const { report, changes } = await applyDeckChanges(
+    slug,
+    message.changes,
+    request,
+    message.target,
+  );
   history[index] = { ...message, changes, applied: true };
   await writeChat(slug, history);
   return { report, message: history[index] };

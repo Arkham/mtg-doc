@@ -78,6 +78,11 @@ export async function writeMeta(meta: DeckMeta) {
   await fs.writeFile(path.join(deckDir(meta.slug), "deck.json"), JSON.stringify(meta, null, 2));
 }
 
+/** Replaces the deck as submitted, after the user edited it through chat. */
+export async function writeInitial(slug: string, commanders: string[], entries: DeckEntry[]) {
+  await fs.writeFile(path.join(deckDir(slug), "initial.txt"), formatDecklist(commanders, entries));
+}
+
 export async function readInitial(slug: string): Promise<string> {
   return fs.readFile(path.join(deckDir(slug), "initial.txt"), "utf8");
 }

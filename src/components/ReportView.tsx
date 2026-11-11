@@ -1699,7 +1699,10 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
                           </span>
                         ))}
                       </div>
-                      {e.request && <div className="muted small">“{e.request}”</div>}
+                      <div className="muted small">
+                        {e.target === "original" && <span className="badge">Your deck</span>}{" "}
+                        {e.request && `“${e.request}”`}
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -1747,10 +1750,11 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
           <ChatPanel
             slug={slug}
             commander={r.commanders.join(" + ")}
+            target={optimized ? "optimized" : "original"}
             onApplied={(report) => {
               setDetail((d) => (d ? { ...d, report } : d));
-              // Chat edits the optimized list, so show it.
-              if (!optimized) navigate(deckHash(slug, "optimized"));
+              // Edits to the deck as submitted rewrite its list too.
+              api.deck(slug).then(setDetail, () => {});
               fetch(fileUrl(slug, "optimized.txt"))
                 .then((res) => (res.ok ? res.text() : null))
                 .then(setOptimizedText, () => {});

@@ -3,7 +3,8 @@
  * list must describe exactly how the current list differs from the submitted one.
  */
 import type { BracketReport, Card, DeckEdit, Swap } from "../../shared/types.ts";
-import type { Deck } from "./deck.ts";
+import { isBasicLand } from "../sources/scryfall.ts";
+import { type Deck, cloneDeck } from "./deck.ts";
 
 const counts = (deck: Deck) => {
   const m = new Map<string, number>();
@@ -115,6 +116,31 @@ export function reconcileSwaps(
   }
   while (cuts.length && adds.length) pair(cuts[0], adds[0]);
   return [...kept, ...repaired];
+}
+
+/**
+ * The suggested deck for an edited submitted list: the list with every swap that still applies (its
+ * cut is still there and its add isn't yet). A card the user replaced themselves drops the swap that
+ * cut it, and a card they added drops the swap that would have added it.
+ */
+export function rebaseSwaps(
+  initial: Deck,
+  swaps: Swap[],
+  cards: Map<string, Card>,
+): { deck: Deck; swaps: Swap[] } {
+  const deck = cloneDeck(initial);
+  const kept: Swap[] = [];
+  for (const s of swaps) {
+    const out = deck.slots.find((x) => x.card.name === s.out);
+    const has = deck.slots.find((x) => x.card.name === s.in);
+    const card = s.inCard ?? cards.get(s.in);
+    if (!out || !card || (has && !isBasicLand(s.in))) continue;
+    if (--out.qty === 0) deck.slots.splice(deck.slots.indexOf(out), 1);
+    if (has) has.qty++;
+    else deck.slots.push({ card, qty: 1 });
+    kept.push(s);
+  }
+  return { deck, swaps: kept };
 }
 
 /** Bracket lists that say whether a card is in the deck, brought up to date with the list. */

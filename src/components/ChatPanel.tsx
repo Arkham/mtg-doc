@@ -1,5 +1,5 @@
 import { type FormEvent, type KeyboardEvent, useEffect, useRef, useState } from "react";
-import type { DeckChatMessage, Report } from "../../shared/types.ts";
+import type { DeckChatMessage, EditTarget, Report } from "../../shared/types.ts";
 import { api } from "../api.ts";
 import { navigate } from "../nav.ts";
 import { CardName, CardText } from "./CardName.tsx";
@@ -53,6 +53,7 @@ function Changes({
           <button className="primary" disabled={busy} onClick={onApply}>
             {busy ? <span className="spinner" aria-hidden /> : null}
             Apply {valid.length} change{valid.length > 1 ? "s" : ""}
+            {message.target === "original" ? " to your deck" : ""}
           </button>
         )
       )}
@@ -98,10 +99,13 @@ function Rerun({
 export function ChatPanel({
   slug,
   commander,
+  target,
   onApplied,
 }: {
   slug: string;
   commander: string;
+  /** The list on screen, which the doc talks about and edits. */
+  target: EditTarget;
   onApplied: (report: Report) => void;
 }) {
   const [open, setOpen] = useState(false);
@@ -143,7 +147,7 @@ export function ChatPanel({
     };
     setMessages((m) => [...(m ?? []), pending]);
     try {
-      const reply = await api.sendChat(slug, content);
+      const reply = await api.sendChat(slug, content, target);
       setMessages((m) => [...(m ?? []), reply]);
       // A "yes" to a proposed re-run starts it right away.
       if (reply.rerun?.jobId) navigate(`#/job/${slug}/${reply.rerun.jobId}`);
@@ -216,7 +220,9 @@ export function ChatPanel({
             <img className="doc-avatar lg" src="./icon-96.png" alt="" width={40} height={40} />
             <div className="grow">
               <strong>The mtg doc</strong>
-              <div className="muted small">{commander}</div>
+              <div className="muted small">
+                {commander} · {target === "original" ? "your deck" : "suggested deck"}
+              </div>
             </div>
             <button className="icon" aria-label="Close chat" onClick={() => setOpen(false)}>
               ✕

@@ -151,7 +151,7 @@ export function renderMarkdown(r: Report): string {
     lines.push("## Changes from chat", "");
     for (const e of r.edits) {
       lines.push(
-        `- ${e.at.slice(0, 10)}${e.request ? ` “${e.request.replace(/\n/g, " ")}”` : ""}: ${e.changes.map((c) => `${c.action === "add" ? "+" : "−"}${c.qty > 1 ? `${c.qty} ` : ""}${c.name}`).join(", ")}`,
+        `- ${e.at.slice(0, 10)}${e.target === "original" ? " (your deck)" : ""}${e.request ? ` “${e.request.replace(/\n/g, " ")}”` : ""}: ${e.changes.map((c) => `${c.action === "add" ? "+" : "−"}${c.qty > 1 ? `${c.qty} ` : ""}${c.name}`).join(", ")}`,
       );
     }
     lines.push("");

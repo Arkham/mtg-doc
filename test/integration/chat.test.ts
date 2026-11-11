@@ -5,7 +5,7 @@ import { after, before, describe, test } from "node:test";
 import { createApp } from "../../server/app.ts";
 import { parseDecklist } from "../../server/decklist.ts";
 import { readDeckFile } from "../../server/storage.ts";
-import type { DeckChatMessage, Report } from "../../shared/types.ts";
+import type { DeckChatMessage, EditTarget, Report } from "../../shared/types.ts";
 import { optimizeFixtureDeck } from "../support/sample.ts";
 
 let base = "";
@@ -26,11 +26,11 @@ before(async () => {
 });
 after(() => close());
 
-const say = async (message: string) => {
+const say = async (message: string, view: EditTarget = "optimized") => {
   const res = await fetch(`${base}/api/decks/${slug}/chat`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ message }),
+    body: JSON.stringify({ message, view }),
   });
   assert.equal(res.status, 200);
   return (await res.json()) as DeckChatMessage;
@@ -190,6 +190,53 @@ describe("deck chat without an LLM", () => {
     const table = md.split("## Swaps")[1].split("\n## ")[0];
     assert.match(table, new RegExp(`\\| ${filler} \\| ${undone.in} \\| chat edit \\|`));
     assert.doesNotMatch(table, new RegExp(`\\| ${undone.out} \\|`));
+  });
+
+  test("on the deck as submitted, chat edits that list and rebuilds the suggestions from it", async () => {
+    const { report: current } = (await (await fetch(`${base}/api/decks/${slug}`)).json()) as {
+      report: Report;
+    };
+    const swapped = new Set(current.swaps.flatMap((s) => [s.out, s.in]));
+    const inBoth = current.original!.decklist.find(
+      (c) =>
+        !["Commander", "Land"].includes(c.group) &&
+        !swapped.has(c.name) &&
+        current.decklist!.some((d) => d.name === c.name),
+    )!.name;
+    const cutByDoc = current.swaps.find((s) => !s.fromChat && !s.outCard?.isLand)!;
+
+    const reply = await say(
+      `swap ${inBoth} for Wayfarer's Bauble; swap ${cutByDoc.out} for Commander's Sphere`,
+      "original",
+    );
+    assert.equal(reply.target, "original");
+    assert.ok(
+      reply.changes!.every((c) => c.ok),
+      JSON.stringify(reply.changes),
+    );
+    const { report } = (await (await apply(reply.id)).json()) as { report: Report };
+
+    const submitted = parseDecklist(await readDeckFile(slug, "initial.txt")).entries.map(
+      (e) => e.name,
+    );
+    for (const name of ["Wayfarer's Bauble", "Commander's Sphere"]) {
+      assert.ok(submitted.includes(name), `${name} is in the submitted list`);
+      assert.ok(report.original!.decklist.some((c) => c.name === name));
+    }
+    assert.ok(!submitted.includes(inBoth) && !submitted.includes(cutByDoc.out));
+    assert.equal(report.before.totalCards, 100);
+
+    const suggested = new Map(report.decklist!.map((c) => [c.name, c]));
+    // A change to a card the doc kept carries through to the suggestions, and isn't "new" there.
+    assert.equal(suggested.get("Wayfarer's Bauble")?.isNew, false);
+    assert.ok(!suggested.has(inBoth));
+    // Replacing a card the doc cut drops that swap: the user's pick takes the slot.
+    assert.ok(suggested.has("Commander's Sphere"));
+    assert.ok(!suggested.has(cutByDoc.in), `${cutByDoc.in} no longer comes in`);
+    assert.ok(!report.swaps.some((s) => s.out === cutByDoc.out));
+    assert.equal(report.after.totalCards, 100);
+    assert.equal(report.edits!.at(-1)!.target, "original");
+    assert.match(await readDeckFile(slug, "report.md"), /\(your deck\) “swap /);
   });
 
   test("validation errors and missing decks", async () => {

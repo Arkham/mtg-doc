@@ -275,6 +275,8 @@ export interface DeckChatMessage {
   changes?: DeckChange[];
   applied?: boolean;
   rerun?: RerunProposal;
+  /** The list `changes` edit, from the view the user was on when asking. */
+  target?: EditTarget;
   /** The doc changed the report directly (e.g. found synergies again); the client reloads it. */
   reportUpdated?: boolean;
 }
@@ -299,9 +301,14 @@ export interface ManaSuggestion {
   changes: DeckChange[];
 }
 
+/** Which list a chat edit changes: the deck as submitted, or the doc's suggested version. */
+export type EditTarget = "original" | "optimized";
+
 export interface DeckEdit {
   at: string;
   request: string;
+  /** Set when the edit changed the deck as submitted; the suggestions were rebuilt from it. */
+  target?: "original";
   changes: { action: "add" | "remove"; name: string; qty: number; reason: string }[];
 }
 

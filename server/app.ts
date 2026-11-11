@@ -239,8 +239,13 @@ export function createApp() {
   app.post(
     "/api/decks/:slug/chat",
     wrap(async (req, res) => {
-      const { message } = z.object({ message: z.string().trim().min(1).max(2000) }).parse(req.body);
-      res.json(await chatAboutDeck(String(req.params.slug), message));
+      const { message, view } = z
+        .object({
+          message: z.string().trim().min(1).max(2000),
+          view: z.enum(["original", "optimized"]).default("optimized"),
+        })
+        .parse(req.body);
+      res.json(await chatAboutDeck(String(req.params.slug), message, view));
     }),
   );
 

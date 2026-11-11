@@ -2,7 +2,11 @@ import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 import type { BracketReport, DeckEdit, Swap } from "../../shared/types.ts";
 import { type Deck, cloneDeck } from "../../server/analysis/deck.ts";
-import { refreshBracketLists, reconcileSwaps } from "../../server/analysis/reconcile.ts";
+import {
+  rebaseSwaps,
+  refreshBracketLists,
+  reconcileSwaps,
+} from "../../server/analysis/reconcile.ts";
 import { spell, swamp, testDeck } from "../support/cards.ts";
 
 const helm = spell("Helm of the Ghastlord");
@@ -129,6 +133,46 @@ describe("reconcileSwaps", () => {
     ]);
     const land = swaps.at(-1)!;
     assert.deepEqual([land.out, land.in, land.category], ["Forest", "Swamp", "mana"]);
+  });
+});
+
+describe("rebaseSwaps", () => {
+  const cards = new Map([visions, signet].map((c) => [c.name, c]));
+  const names = (d: Deck) => d.slots.map((s) => `${s.qty} ${s.card.name}`).sort();
+
+  test("an unedited submitted list rebuilds the same suggested deck", () => {
+    const { deck, swaps } = rebaseSwaps(initial, optimizerSwaps, cards);
+    assert.deepEqual(names(deck), names(optimized));
+    assert.deepEqual(swaps, optimizerSwaps);
+  });
+
+  test("a card the user swapped in their own list carries through to the suggestions", () => {
+    const edited = swap(initial, "Fog Bank", spell("Wall of Omens"));
+    const { deck, swaps } = rebaseSwaps(edited, optimizerSwaps, cards);
+    assert.deepEqual(names(deck), names(swap(optimized, "Fog Bank", spell("Wall of Omens"))));
+    assert.equal(swaps.length, 2);
+  });
+
+  test("replacing a card the doc cut drops that swap: the user's pick wins the slot", () => {
+    const edited = swap(initial, "Helm of the Ghastlord", spell("Wall of Omens"));
+    const { deck, swaps } = rebaseSwaps(edited, optimizerSwaps, cards);
+    assert.deepEqual(
+      swaps.map((s) => s.in),
+      ["Arcane Signet"],
+    );
+    assert.ok(deck.slots.some((s) => s.card.name === "Wall of Omens"));
+    assert.ok(!deck.slots.some((s) => s.card.name === "Fevered Visions"));
+  });
+
+  test("adding a card the doc wanted to add drops that swap and keeps the card it would cut", () => {
+    const edited = swap(initial, "Filler 0", signet);
+    const { deck, swaps } = rebaseSwaps(edited, optimizerSwaps, cards);
+    assert.deepEqual(
+      swaps.map((s) => s.in),
+      ["Fevered Visions"],
+    );
+    assert.ok(deck.slots.some((s) => s.card.name === "Army of the Damned"));
+    assert.equal(deck.slots.find((s) => s.card.name === "Arcane Signet")!.qty, 1);
   });
 });
 
