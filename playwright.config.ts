@@ -2,7 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 const STATIC_PORT = 4174;
 const APP_PORT = 5199;
-const record = process.env.FIXTURES === "record";
+const record = process.env.FIXTURES === "record" || process.env.FIXTURES === "missing";
 
 export default defineConfig({
   testDir: "test/e2e",

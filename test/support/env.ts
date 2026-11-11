@@ -16,7 +16,7 @@ for (const key of ["LLM_MODEL", "LLM_VISION_MODEL", "LLM_SEARCH_MODEL", "LLM_DEC
   process.env[key] = "";
 }
 // Replayed responses need no rate limiting; recording uses the real limits.
-if (process.env.FIXTURES !== "record") {
+if (process.env.FIXTURES !== "record" && process.env.FIXTURES !== "missing") {
   process.env.SCRYFALL_MIN_INTERVAL_MS = "0";
   process.env.SCRYFALL_LIMITED_INTERVAL_MS = "0";
 }
