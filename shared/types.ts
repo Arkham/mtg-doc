@@ -342,6 +342,8 @@ export interface Report {
   cardIndex?: Record<string, CardPreview>;
   /** Optimized list with display data; absent in reports generated before it existed. */
   decklist?: DecklistCard[];
+  /** Published without the doc's suggestions: only the deck as submitted (see `withoutSuggestions`). */
+  suggestionsHidden?: boolean;
 }
 
 export interface DecklistCard {

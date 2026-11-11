@@ -43,6 +43,7 @@ import {
   HttpError,
   readMeta,
   readReport,
+  setHideSuggestions,
   writeInitial,
   writeMeta,
   writeResults,
@@ -91,12 +92,18 @@ const ReplySchema = z.object({
     .catch(null)
     .default(null),
   synergies: z.enum(["again", "more"]).nullable().catch(null).default(null),
+  publishSuggestions: z.boolean().nullable().catch(null).default(null),
 });
 
 /** A confirmed re-run needs a fairly clear yes; anything else is treated as a new message. */
 const CONFIRM_THRESHOLD = 0.7;
 
-function deckSummary(deck: Deck, report: Report | null, target: EditTarget = "optimized") {
+function deckSummary(
+  deck: Deck,
+  report: Report | null,
+  target: EditTarget = "optimized",
+  suggestionsHidden = false,
+) {
   const lines = deck.slots
     .map(
       (s) =>
@@ -128,6 +135,9 @@ function deckSummary(deck: Deck, report: Report | null, target: EditTarget = "op
       ? `Optimizer settings: target bracket ${report.options.bracket ?? "keep current"}, deck budget ${report.options.budgetTotal ? `$${report.options.budgetTotal}` : "none"}, per-card budget ${report.options.budgetPerCard ? `$${report.options.budgetPerCard}` : "none"}, up to ${report.options.maxSwaps} swaps, tone ${report.options.tone}, web research ${report.options.webResearch ? "on" : "off"}`
       : "",
     swaps,
+    report
+      ? `Published site: the doc's suggestions for this deck are ${suggestionsHidden ? "hidden (only the deck as submitted is published)" : "published"}.`
+      : "",
     report?.synergies?.length
       ? `Synergies already listed: ${report.synergies.map((x) => x.title).join("; ")}`
       : "",
@@ -150,14 +160,16 @@ Rules:
 - Only remove cards that are in the current list.
 - Keep "reply" short (2-5 sentences); mention the key trade-offs.
 - If the user wants different optimizer settings (another target bracket, a total or per-card budget, more or fewer swaps, a different tone), propose re-running the optimizer instead of card changes: set "rerun" to only the settings that change and leave "changes" empty. In "reply", say what will change and ask them to confirm; the re-run replaces the current suggestions and chat edits. To re-run with the same settings, set "rerun" to {}. Otherwise set "rerun" to null.
+- If the user asks to hide the doc's suggestions on the published site for this deck (publish only their deck as submitted), set "publishSuggestions" to false; to show them again, true. It applies right away and doesn't change the list; otherwise set it to null.
 - If the user asks for synergies, set "synergies" to "more" to add new ones to those already found, or "again" to replace them with a fresh search. Either runs right away and doesn't change the list; otherwise set it to null.
-Reply with JSON only: {"reply": string, "changes": [{"action": "add"|"remove", "name": string, "qty": number, "reason": string}], "rerun": null | {"bracket"?: 1-5, "budgetTotal"?: number | null, "budgetPerCard"?: number | null, "maxSwaps"?: number, "tone"?: "max"|"balanced"|"casual", "webResearch"?: boolean}, "synergies": null | "again" | "more"}`;
+Reply with JSON only: {"reply": string, "changes": [{"action": "add"|"remove", "name": string, "qty": number, "reason": string}], "rerun": null | {"bracket"?: 1-5, "budgetTotal"?: number | null, "budgetPerCard"?: number | null, "maxSwaps"?: number, "tone"?: "max"|"balanced"|"casual", "webResearch"?: boolean}, "synergies": null | "again" | "more", "publishSuggestions": null | boolean}`;
 
 async function proposeWithLlm(
   deck: Deck,
   report: Report | null,
   history: DeckChatMessage[],
   target: EditTarget,
+  suggestionsHidden: boolean,
 ) {
   const recent = history.slice(-HISTORY_FOR_MODEL).map((m) => ({
     role: m.role,
@@ -169,7 +181,10 @@ async function proposeWithLlm(
           : m.content,
   }));
   return chatJson(ReplySchema, [
-    { role: "system", content: `${SYSTEM}\n\n${deckSummary(deck, report, target)}` },
+    {
+      role: "system",
+      content: `${SYSTEM}\n\n${deckSummary(deck, report, target, suggestionsHidden)}`,
+    },
     ...recent,
   ]);
 }
@@ -311,14 +326,20 @@ export async function chatAboutDeck(
   let reportUpdated = false;
   const parsed = parseCommand(message);
   const llm = llmEnabled()
-    ? await proposeWithLlm(deck, report, history, target).catch((err: unknown) => ({
-        error: err,
-      }))
+    ? await proposeWithLlm(deck, report, history, target, Boolean(meta.hideSuggestions)).catch(
+        (err: unknown) => ({ error: err }),
+      )
     : null;
   if (llm && !("error" in llm)) {
     reply = llm.reply;
     rerun = makeRerun(llm.rerun, meta.options);
     proposed = rerun ? [] : llm.changes;
+    if (llm.publishSuggestions !== null && !rerun && report) {
+      // Cheap and reversible, so it applies right away like finding synergies.
+      await setHideSuggestions(slug, !llm.publishSuggestions);
+      reportUpdated = true;
+      reply = `${reply}\n\n(${llm.publishSuggestions ? "The doc's suggestions will be published again" : "The published site will show only your deck as submitted, without the doc's suggestions"} from the next publish.)`;
+    }
     if (llm.synergies && !rerun && report) {
       const before = report.synergies?.length ?? 0;
       const updated = await refreshSynergies(slug, llm.synergies).catch(() => null);

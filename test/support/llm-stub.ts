@@ -119,6 +119,14 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
       return message(JSON.stringify({ reply: "Looking again.", changes: [], synergies: "again" }));
     if (/more synergies/i.test(last))
       return message(JSON.stringify({ reply: "Digging deeper.", changes: [], synergies: "more" }));
+    if (/published/i.test(last))
+      return message(
+        JSON.stringify({
+          reply: "Done.",
+          changes: [],
+          publishSuggestions: /again/i.test(last),
+        }),
+      );
     if (/run it again/i.test(last))
       return message(
         JSON.stringify({ reply: "Same settings, fresh run?", changes: [], rerun: {} }),

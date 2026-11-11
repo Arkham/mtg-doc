@@ -84,6 +84,18 @@ describe("HTTP API", () => {
     assert.equal(optimized.headers.get("content-type")?.split(";")[0], "text/plain");
     assert.match(await optimized.text(), /^Commander\n/);
 
+    const publish = (suggestions: unknown) =>
+      fetch(`${base}/api/decks/${saved.body.slug}/publishing`, {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ suggestions }),
+      });
+    const hidden = await json<{ hideSuggestions?: boolean }>(await publish(false));
+    assert.equal(hidden.body.hideSuggestions, true);
+    const shown = await json<{ hideSuggestions?: boolean }>(await publish(true));
+    assert.equal(shown.body.hideSuggestions, undefined);
+    assert.equal((await publish("nope")).status, 400);
+
     const rerun = await json<{ jobId: string }>(
       await post(`/api/decks/${saved.body.slug}/optimize`, {
         options: { maxSwaps: 3, bracket: 2, tone: "casual", webResearch: false },

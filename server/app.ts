@@ -23,6 +23,7 @@ import {
   readDeckFile,
   readInitial,
   readMeta,
+  setHideSuggestions,
   readReport,
   writeDeck,
   writeMeta,
@@ -220,6 +221,14 @@ export function createApp() {
         await writeMeta(meta);
       }
       res.json({ slug, jobId: startOptimize(slug).id });
+    }),
+  );
+
+  app.put(
+    "/api/decks/:slug/publishing",
+    wrap(async (req, res) => {
+      const { suggestions } = z.object({ suggestions: z.boolean() }).parse(req.body);
+      res.json(await setHideSuggestions(String(req.params.slug), !suggestions));
     }),
   );
 

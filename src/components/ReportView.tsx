@@ -12,7 +12,7 @@ import type {
 } from "../../shared/types.ts";
 import { type DeckDetail, IS_STATIC, api, fileUrl } from "../api.ts";
 import { comboOutcome, groupByMissing } from "../combos.ts";
-import { type DeckView, asOriginal, deckHash, hasOriginal } from "../views.ts";
+import { type DeckView, asOriginal, deckHash, hasBothViews, viewOf } from "../views.ts";
 import { navigate } from "../nav.ts";
 import { BracketBadge, BracketPanel } from "./BracketPanel.tsx";
 import { ChatPanel } from "./ChatPanel.tsx";
@@ -1221,14 +1221,54 @@ function Combos({ report: r }: { report: Report }) {
   );
 }
 
+/** Whether the published site shows the doc's suggestions or only the deck as submitted. */
+function PublishToggle({
+  slug,
+  hidden,
+  onChange,
+}: {
+  slug: string;
+  hidden: boolean;
+  onChange: (meta: DeckDetail["meta"]) => void;
+}) {
+  const [busy, setBusy] = useState(false);
+  const published = !hidden;
+  const toggle = async () => {
+    setBusy(true);
+    try {
+      onChange(await api.setPublishing(slug, !published));
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <button
+      className={`toggle ${published ? "on" : ""}`}
+      aria-pressed={published}
+      disabled={busy}
+      onClick={toggle}
+      title={
+        hidden
+          ? "The published site shows only your deck as submitted"
+          : "The published site shows the doc's suggestions too"
+      }
+    >
+      Publish suggestions
+    </button>
+  );
+}
+
 function ExportMenu({
   slug,
   edhrecUrl,
   swaps,
+  optimized,
 }: {
   slug: string;
   edhrecUrl?: string;
   swaps: Swap[];
+  /** Whether the suggested list is available (it isn't when published without suggestions). */
+  optimized: boolean;
 }) {
   const ref = useRef<HTMLDetailsElement>(null);
   const [copied, setCopied] = useState(false);
@@ -1261,9 +1301,11 @@ function ExportMenu({
             <span className="muted small">{swaps.length}</span>
           </button>
         )}
-        <a href={fileUrl(slug, "optimized.txt")} download={`${slug}-optimized.txt`}>
-          Optimized list <span className="muted small">.txt</span>
-        </a>
+        {optimized && (
+          <a href={fileUrl(slug, "optimized.txt")} download={`${slug}-optimized.txt`}>
+            Optimized list <span className="muted small">.txt</span>
+          </a>
+        )}
         <a href={fileUrl(slug, "initial.txt")} download={`${slug}-initial.txt`}>
           Original list <span className="muted small">.txt</span>
         </a>
@@ -1360,7 +1402,7 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
     );
   }
 
-  const view: DeckView = hasOriginal(full) ? requested : "optimized";
+  const view = viewOf(full, requested);
   const optimized = view === "optimized";
   const r = optimized ? full : asOriginal(full);
   const listText = optimized ? optimizedText : detail.initial;
@@ -1390,7 +1432,7 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
 
   return (
     <CardIndex.Provider value={r.cardIndex ?? {}}>
-      {hasOriginal(full) && <ViewToggle slug={slug} view={view} swaps={full.swaps.length} />}
+      {hasBothViews(full) && <ViewToggle slug={slug} view={view} swaps={full.swaps.length} />}
       <div className="stack report">
         <section className="hero" style={auraStyle(r.commanderCards)}>
           {cmdr?.imageArt && (
@@ -1492,7 +1534,12 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
               <button className="primary" onClick={copyOptimized} disabled={!listText}>
                 {copied ? "✓ Copied" : "Copy deck list"}
               </button>
-              <ExportMenu slug={slug} edhrecUrl={r.edhrec?.url} swaps={full.swaps} />
+              <ExportMenu
+                slug={slug}
+                edhrecUrl={r.edhrec?.url}
+                swaps={full.swaps}
+                optimized={!full.suggestionsHidden}
+              />
             </div>
             <p className="hero-meta">
               Updated{" "}
@@ -1769,6 +1816,13 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
               <pre>{detail.initial}</pre>
             </details>
             {!IS_STATIC && <Rerun slug={slug} initial={r.options} />}
+            {!IS_STATIC && (
+              <PublishToggle
+                slug={slug}
+                hidden={Boolean(detail.meta.hideSuggestions)}
+                onChange={(meta) => setDetail((d) => (d ? { ...d, meta } : d))}
+              />
+            )}
           </div>
         </section>
       </div>

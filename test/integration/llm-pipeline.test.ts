@@ -219,6 +219,21 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     const prompt = stub.requests.findLast((q) => q.text.includes("more notable synergies"))!.text;
     assert.match(prompt, /different from the ones already found/);
 
+    // Hide or show the doc's suggestions on the published site (the "Publish suggestions" toggle).
+    const { readMeta } = await import("../../server/storage.ts");
+    const hide = await chatAboutDeck(
+      slug,
+      "don't show suggestions for this deck on the published report",
+    );
+    assert.match(stub.requests.at(-1)!.text, /suggestions for this deck are published\./);
+    assert.equal(hide.reportUpdated, true);
+    assert.match(hide.content, /only your deck as submitted/);
+    assert.equal((await readMeta(slug)).hideSuggestions, true);
+    assert.deepEqual((await readReport(slug))!.decklist, after.decklist, "the list doesn't change");
+    await chatAboutDeck(slug, "put the suggestions back on the published site again");
+    assert.match(stub.requests.at(-1)!.text, /suggestions for this deck are hidden/);
+    assert.equal((await readMeta(slug)).hideSuggestions, undefined);
+
     // Apply a suggested land swap (the Mana panel button): the doc sees the suggestions.
     const { config } = await import("../../server/config.ts");
     const file = path.join(config.decksDir, slug, "report.json");

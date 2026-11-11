@@ -9,13 +9,20 @@ import http from "node:http";
 import os from "node:os";
 import path from "node:path";
 import { config } from "../../server/config.ts";
+import { setHideSuggestions } from "../../server/storage.ts";
 import { optimizeFixtureDeck } from "./sample.ts";
 
 const PORT = Number(process.env.STATIC_PORT ?? 4174);
 const BASE = "/mtg-doc/";
 
 await optimizeFixtureDeck("lathril-overpowered.txt", { bracket: 3, tone: "max", budgetTotal: 300 });
-await optimizeFixtureDeck("lathril.txt", { bracket: 2, tone: "casual", maxSwaps: 8 });
+const casual = await optimizeFixtureDeck("lathril.txt", {
+  bracket: 2,
+  tone: "casual",
+  maxSwaps: 8,
+});
+// One deck is published without the doc's suggestions.
+await setHideSuggestions(casual.slug, true);
 
 const out = fs.mkdtempSync(path.join(os.tmpdir(), "mtg-doc-e2e-site-"));
 execFileSync(process.execPath, ["--import", "tsx", "scripts/build-static.ts", "--out", out], {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { type DeckDetail, api } from "../api.ts";
 import { BracketBadge } from "./BracketPanel.tsx";
 import { CardIndex, CardList } from "./CardName.tsx";
-import { type DeckView, asOriginal } from "../views.ts";
+import { type DeckView, asOriginal, viewOf } from "../views.ts";
 import { ManaCost } from "./Mana.tsx";
 
 const NAMES: Record<number, string> = {
@@ -23,7 +23,7 @@ export function Rule0({ slug, view }: { slug: string; view: DeckView }) {
 
   if (error) return <p className="error">{error}</p>;
   if (!detail?.report) return <div className="loading">Loading…</div>;
-  const r = view === "current" ? asOriginal(detail.report) : detail.report;
+  const r = viewOf(detail.report, view) === "current" ? asOriginal(detail.report) : detail.report;
   const b = r.bracket;
   const cmdr = r.commanderCards[0];
   if (!b)

@@ -30,6 +30,8 @@ export interface DeckMeta {
   createdAt: string;
   options: OptimizeOptions;
   image: string | null;
+  /** Publish only the deck as submitted, without the doc's suggestions. */
+  hideSuggestions?: boolean;
 }
 
 const deckDir = (slug: string) => {
@@ -81,6 +83,14 @@ export async function writeMeta(meta: DeckMeta) {
 /** Replaces the deck as submitted, after the user edited it through chat. */
 export async function writeInitial(slug: string, commanders: string[], entries: DeckEntry[]) {
   await fs.writeFile(path.join(deckDir(slug), "initial.txt"), formatDecklist(commanders, entries));
+}
+
+export async function setHideSuggestions(slug: string, hide: boolean): Promise<DeckMeta> {
+  const meta = await readMeta(slug);
+  if (hide) meta.hideSuggestions = true;
+  else delete meta.hideSuggestions;
+  await writeMeta(meta);
+  return meta;
 }
 
 export async function readInitial(slug: string): Promise<string> {

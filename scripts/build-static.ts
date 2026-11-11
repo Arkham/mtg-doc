@@ -8,7 +8,9 @@ import { parseArgs } from "node:util";
 import { build } from "vite";
 import { config } from "../server/config.ts";
 import { deckPage, indexFallback, llmsTxt } from "../server/agent-pages.ts";
+import { withoutSuggestionCounts, withoutSuggestions } from "../server/publish.ts";
 import { renderMarkdown } from "../server/report.ts";
+import type { DeckSummary } from "../shared/types.ts";
 import { listDecks, readDeckFile, readInitial, readMeta, readReport } from "../server/storage.ts";
 
 const { values } = parseArgs({
@@ -28,20 +30,28 @@ await build({
   build: { outDir, emptyOutDir: true },
 });
 
-const decks = (await listDecks()).filter((d) => !only || only.has(d.slug));
+const listed = (await listDecks()).filter((d) => !only || only.has(d.slug));
+const decks: DeckSummary[] = [];
 const dataDir = path.join(outDir, "data");
 await fs.mkdir(path.join(dataDir, "decks"), { recursive: true });
 
-for (const d of decks) {
-  const dir = path.join(dataDir, "decks", d.slug);
+for (const listedDeck of listed) {
+  const dir = path.join(dataDir, "decks", listedDeck.slug);
   await fs.mkdir(dir, { recursive: true });
-  const [meta, report, initial] = await Promise.all([
-    readMeta(d.slug),
-    readReport(d.slug),
-    readInitial(d.slug),
+  const [meta, saved, initial] = await Promise.all([
+    readMeta(listedDeck.slug),
+    readReport(listedDeck.slug),
+    readInitial(listedDeck.slug),
   ]);
+  // The owner can keep the doc's suggestions private: publish only the deck as submitted.
+  const hide = Boolean(meta.hideSuggestions);
+  const report = saved && hide ? withoutSuggestions(saved) : saved;
+  const d = hide ? withoutSuggestionCounts(listedDeck) : listedDeck;
+  decks.push(d);
   await fs.writeFile(path.join(dir, "detail.json"), JSON.stringify({ meta, report, initial }));
-  for (const file of ["initial.txt", "optimized.txt"] as const) {
+  for (const file of hide
+    ? (["initial.txt"] as const)
+    : (["initial.txt", "optimized.txt"] as const)) {
     const text = await readDeckFile(d.slug, file).catch(() => null);
     if (text !== null) await fs.writeFile(path.join(dir, file), text);
   }

@@ -73,6 +73,9 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   data. When you add a button or form that changes a deck or its report, extend `server/chat.ts`
   (reply schema, deck context and system prompt) in the same change, and add a case to the
   "everything the report UI can change, the chat can too" test in `test/integration/llm-pipeline.test.ts`.
+- The chat follows the view: on "Your deck" it talks about and edits the list as submitted
+  (`initial.txt`), and the suggested deck is rebuilt from it with the swaps that still apply
+  (`rebaseSwaps`); on the optimized view it edits the suggestions.
 - Destructive or slow chat actions (re-running the optimizer, anything that replaces the list) are
   proposed first and start only once the user confirms, by button or by a reply the Decisions API
   judges as a yes. Cheap, non-destructive ones (like finding synergies again) can run directly.
@@ -127,6 +130,10 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   report it saves, so any change to the deck (chat edits, applied suggestions, re-runs) updates the
   markdown too. Never write `report.json` on its own.
 - Render model-written text as escaped markdown in these pages, never as raw HTML.
+- An owner can publish a deck without the doc's suggestions (`hideSuggestions` in `deck.json`,
+  set from the report's toggle or chat). The static build then publishes `withoutSuggestions`
+  (`server/publish.ts`): only the deck as submitted. When you add a report field derived from the
+  suggestions, strip it there, and keep the static test that checks no suggested card leaks.
 
 ### Code style
 

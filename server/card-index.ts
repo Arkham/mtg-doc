@@ -2,7 +2,7 @@ import type { Card, CardPreview, Report } from "../shared/types.ts";
 import { lookupExact } from "./sources/scryfall.ts";
 
 /** Every card name a report mentions, wherever it's displayed. */
-function referencedNames(r: Report): string[] {
+export function referencedNames(r: Report): string[] {
   const names = new Set<string>(r.commanders);
   for (const s of r.swaps) {
     names.add(s.out);

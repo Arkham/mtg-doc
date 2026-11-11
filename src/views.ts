@@ -8,6 +8,13 @@ export const deckHash = (slug: string, view: DeckView, page?: "rule0") =>
 /** Reports made before the original deck was stored can only show the optimized view. */
 export const hasOriginal = (r: Report) => Boolean(r.original);
 
+/** Whether the report can switch between the deck as submitted and the doc's suggestions. */
+export const hasBothViews = (r: Report) => hasOriginal(r) && !r.suggestionsHidden;
+
+/** The view a report can show: published without suggestions, there's only the deck as submitted. */
+export const viewOf = (r: Report, requested: DeckView): DeckView =>
+  r.suggestionsHidden ? "current" : hasOriginal(r) ? requested : "optimized";
+
 /**
  * The report as it applies to the deck the user submitted: its own stats, list, bracket and combos,
  * with nothing about swaps. `after === before` tells components there's nothing to compare.

@@ -51,6 +51,7 @@ export interface DeckDetail {
     commanders: string[];
     options: OptimizeOptions;
     createdAt: string;
+    hideSuggestions?: boolean;
   };
   report: Report | null;
   initial: string;
@@ -103,6 +104,13 @@ export const api = {
   rerunFromChat: (slug: string, messageId: string) =>
     request<{ slug: string; jobId: string }>(`/api/decks/${slug}/chat/${messageId}/rerun`, {
       method: "POST",
+    }),
+  /** Whether the published site shows the doc's suggestions for this deck. */
+  setPublishing: (slug: string, suggestions: boolean) =>
+    request<DeckDetail["meta"]>(`/api/decks/${slug}/publishing`, {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ suggestions }),
     }),
   applyChat: (slug: string, messageId: string) =>
     request<{ report: Report; message: DeckChatMessage }>(

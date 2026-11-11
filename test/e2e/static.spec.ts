@@ -4,6 +4,8 @@ import { STATIC_URL, expect, expectNoHorizontalOverflow, test } from "./fixtures
 
 const OVERPOWERED = "lathril-blade-of-the-elves";
 const OPTIMIZED = `${OVERPOWERED}/optimized`;
+/** Published without the doc's suggestions (see serve-static.ts). */
+const PRIVATE = "lathril-blade-of-the-elves-2";
 
 /** Drags a finger across the open card sheet, then lifts it (which also fires a click). */
 const swipe = (page: Page, from: number, to: number) =>
@@ -340,6 +342,28 @@ test.describe("static site", () => {
       "true",
     );
     await expect(tiles.first()).toBeVisible();
+  });
+
+  test("a deck published without suggestions shows only the deck as submitted", async ({
+    page,
+  }) => {
+    await page.goto(STATIC_URL);
+    await expect(page.locator(".deck-card").nth(1).locator(".deck-suggest")).toHaveCount(0);
+
+    // Even a link to the optimized view lands on the deck as submitted.
+    await page.goto(`${STATIC_URL}#/deck/${PRIVATE}/optimized`);
+    await expect(
+      page.getByRole("heading", { level: 1, name: /Lathril, Blade of the Elves/ }),
+    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Deck list", exact: true })).toBeVisible();
+    await expect(page.getByRole("tab", { name: /Optimized/ })).toHaveCount(0);
+    await expect(page.getByRole("tab", { name: "Your deck" })).toHaveCount(0);
+    await expect(page.locator("#swaps")).toHaveCount(0);
+    await expect(page.getByText(/The doc prescribes/)).toHaveCount(0);
+    await page.locator(".menu summary").click();
+    await expect(page.getByRole("link", { name: /Original list/ })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Optimized list/ })).toHaveCount(0);
+    await expectNoHorizontalOverflow(page);
   });
 
   test("pre-game summary and back navigation", async ({ page }) => {
