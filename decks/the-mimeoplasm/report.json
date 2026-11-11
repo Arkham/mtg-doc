@@ -113,19 +113,9 @@
       },
       "alternatives": [
         {
-          "name": "Frantic Search",
-          "image": "https://cards.scryfall.io/normal/front/4/5/4547db5f-f031-4dc1-8a61-532c9be4533a.jpg?1793111872",
-          "scryfallUri": "https://scryfall.com/card/trc/438/frantic-search?utm_source=api"
-        },
-        {
           "name": "Yargle and Multani",
           "image": "https://cards.scryfall.io/normal/front/9/c/9c15e244-14cc-46a5-abd4-66a58d1c0dd0.jpg?1783916936",
           "scryfallUri": "https://scryfall.com/card/mom/256/yargle-and-multani?utm_source=api"
-        },
-        {
-          "name": "Consuming Aberration",
-          "image": "https://cards.scryfall.io/normal/front/4/9/497fba45-201d-4688-b420-d093beb4e8f4.jpg?1783907032",
-          "scryfallUri": "https://scryfall.com/card/tdc/283/consuming-aberration?utm_source=api"
         }
       ]
     },
@@ -199,16 +189,6 @@
           "name": "Yargle and Multani",
           "image": "https://cards.scryfall.io/normal/front/9/c/9c15e244-14cc-46a5-abd4-66a58d1c0dd0.jpg?1783916936",
           "scryfallUri": "https://scryfall.com/card/mom/256/yargle-and-multani?utm_source=api"
-        },
-        {
-          "name": "Consuming Aberration",
-          "image": "https://cards.scryfall.io/normal/front/4/9/497fba45-201d-4688-b420-d093beb4e8f4.jpg?1783907032",
-          "scryfallUri": "https://scryfall.com/card/tdc/283/consuming-aberration?utm_source=api"
-        },
-        {
-          "name": "Skull Prophet",
-          "image": "https://cards.scryfall.io/normal/front/e/a/ea53e2c9-0a3f-4fda-a6ab-9a558bb8f126.jpg?1783907020",
-          "scryfallUri": "https://scryfall.com/card/tdc/304/skull-prophet?utm_source=api"
         }
       ]
     },
@@ -282,16 +262,6 @@
           "name": "Yargle and Multani",
           "image": "https://cards.scryfall.io/normal/front/9/c/9c15e244-14cc-46a5-abd4-66a58d1c0dd0.jpg?1783916936",
           "scryfallUri": "https://scryfall.com/card/mom/256/yargle-and-multani?utm_source=api"
-        },
-        {
-          "name": "Consuming Aberration",
-          "image": "https://cards.scryfall.io/normal/front/4/9/497fba45-201d-4688-b420-d093beb4e8f4.jpg?1783907032",
-          "scryfallUri": "https://scryfall.com/card/tdc/283/consuming-aberration?utm_source=api"
-        },
-        {
-          "name": "Skull Prophet",
-          "image": "https://cards.scryfall.io/normal/front/e/a/ea53e2c9-0a3f-4fda-a6ab-9a558bb8f126.jpg?1783907020",
-          "scryfallUri": "https://scryfall.com/card/tdc/304/skull-prophet?utm_source=api"
         }
       ]
     },
@@ -365,23 +335,7 @@
           "ramp"
         ]
       },
-      "alternatives": [
-        {
-          "name": "Likeness Looter",
-          "image": "https://cards.scryfall.io/normal/front/2/9/2957472a-825e-4904-b7e8-62bef1cb432d.jpg?1783915070",
-          "scryfallUri": "https://scryfall.com/card/woe/208/likeness-looter?utm_source=api"
-        },
-        {
-          "name": "Fauna Shaman",
-          "image": "https://cards.scryfall.io/normal/front/b/8/b8b906eb-3223-474c-9b74-eda2c280f9c5.jpg?1783920047",
-          "scryfallUri": "https://scryfall.com/card/bro/179/fauna-shaman?utm_source=api"
-        },
-        {
-          "name": "Birds of Paradise",
-          "image": "https://cards.scryfall.io/normal/front/4/9/492c2f9a-51e7-4e0f-9899-23bf43ea988b.jpg?1783903230",
-          "scryfallUri": "https://scryfall.com/card/msc/170/birds-of-paradise?utm_source=api"
-        }
-      ]
+      "alternatives": []
     },
     {
       "out": "Duplicant",
@@ -447,16 +401,6 @@
         ]
       },
       "alternatives": [
-        {
-          "name": "Fauna Shaman",
-          "image": "https://cards.scryfall.io/normal/front/b/8/b8b906eb-3223-474c-9b74-eda2c280f9c5.jpg?1783920047",
-          "scryfallUri": "https://scryfall.com/card/bro/179/fauna-shaman?utm_source=api"
-        },
-        {
-          "name": "Birds of Paradise",
-          "image": "https://cards.scryfall.io/normal/front/4/9/492c2f9a-51e7-4e0f-9899-23bf43ea988b.jpg?1783903230",
-          "scryfallUri": "https://scryfall.com/card/msc/170/birds-of-paradise?utm_source=api"
-        },
         {
           "name": "Hermit Druid",
           "image": "https://cards.scryfall.io/normal/front/3/9/39c66895-9c2d-49db-8261-e300a69b6cd5.jpg?1783908097",
@@ -531,19 +475,9 @@
       },
       "alternatives": [
         {
-          "name": "Birds of Paradise",
-          "image": "https://cards.scryfall.io/normal/front/4/9/492c2f9a-51e7-4e0f-9899-23bf43ea988b.jpg?1783903230",
-          "scryfallUri": "https://scryfall.com/card/msc/170/birds-of-paradise?utm_source=api"
-        },
-        {
           "name": "Hermit Druid",
           "image": "https://cards.scryfall.io/normal/front/3/9/39c66895-9c2d-49db-8261-e300a69b6cd5.jpg?1783908097",
           "scryfallUri": "https://scryfall.com/card/inr/202/hermit-druid?utm_source=api"
-        },
-        {
-          "name": "Grisly Salvage",
-          "image": "https://cards.scryfall.io/normal/front/1/2/12a90f7a-28df-4017-b221-0e9234ff74a7.jpg?1783907026",
-          "scryfallUri": "https://scryfall.com/card/tdc/290/grisly-salvage?utm_source=api"
         }
       ]
     },
@@ -619,16 +553,6 @@
           "name": "Hermit Druid",
           "image": "https://cards.scryfall.io/normal/front/3/9/39c66895-9c2d-49db-8261-e300a69b6cd5.jpg?1783908097",
           "scryfallUri": "https://scryfall.com/card/inr/202/hermit-druid?utm_source=api"
-        },
-        {
-          "name": "Grisly Salvage",
-          "image": "https://cards.scryfall.io/normal/front/1/2/12a90f7a-28df-4017-b221-0e9234ff74a7.jpg?1783907026",
-          "scryfallUri": "https://scryfall.com/card/tdc/290/grisly-salvage?utm_source=api"
-        },
-        {
-          "name": "Arcane Signet",
-          "image": "https://cards.scryfall.io/normal/front/7/9/795df2ee-fbfc-4961-852c-e3ec50cc52da.jpg?1793021117",
-          "scryfallUri": "https://scryfall.com/card/trc/485/arcane-signet?utm_source=api"
         }
       ]
     },
@@ -696,16 +620,6 @@
           "name": "Hermit Druid",
           "image": "https://cards.scryfall.io/normal/front/3/9/39c66895-9c2d-49db-8261-e300a69b6cd5.jpg?1783908097",
           "scryfallUri": "https://scryfall.com/card/inr/202/hermit-druid?utm_source=api"
-        },
-        {
-          "name": "Grisly Salvage",
-          "image": "https://cards.scryfall.io/normal/front/1/2/12a90f7a-28df-4017-b221-0e9234ff74a7.jpg?1783907026",
-          "scryfallUri": "https://scryfall.com/card/tdc/290/grisly-salvage?utm_source=api"
-        },
-        {
-          "name": "Arcane Signet",
-          "image": "https://cards.scryfall.io/normal/front/7/9/795df2ee-fbfc-4961-852c-e3ec50cc52da.jpg?1793021117",
-          "scryfallUri": "https://scryfall.com/card/trc/485/arcane-signet?utm_source=api"
         }
       ]
     },
@@ -775,16 +689,6 @@
         ]
       },
       "alternatives": [
-        {
-          "name": "Arcane Signet",
-          "image": "https://cards.scryfall.io/normal/front/7/9/795df2ee-fbfc-4961-852c-e3ec50cc52da.jpg?1793021117",
-          "scryfallUri": "https://scryfall.com/card/trc/485/arcane-signet?utm_source=api"
-        },
-        {
-          "name": "Ripples of Undeath",
-          "image": "https://cards.scryfall.io/normal/front/a/2/a201d1bc-e3fe-4f59-bd48-3683996ac308.jpg?1783911276",
-          "scryfallUri": "https://scryfall.com/card/mh3/107/ripples-of-undeath?utm_source=api"
-        },
         {
           "name": "Brawn",
           "image": "https://cards.scryfall.io/normal/front/8/c/8c05568e-fa50-46e9-aec4-1ba5e814029e.jpg?1783917143",
@@ -859,19 +763,9 @@
       },
       "alternatives": [
         {
-          "name": "Ripples of Undeath",
-          "image": "https://cards.scryfall.io/normal/front/a/2/a201d1bc-e3fe-4f59-bd48-3683996ac308.jpg?1783911276",
-          "scryfallUri": "https://scryfall.com/card/mh3/107/ripples-of-undeath?utm_source=api"
-        },
-        {
           "name": "Brawn",
           "image": "https://cards.scryfall.io/normal/front/8/c/8c05568e-fa50-46e9-aec4-1ba5e814029e.jpg?1783917143",
           "scryfallUri": "https://scryfall.com/card/moc/292/brawn?utm_source=api"
-        },
-        {
-          "name": "Nature's Lore",
-          "image": "https://cards.scryfall.io/normal/front/6/a/6a55cafa-cb5c-482c-b3c9-1b1f4f0c698d.jpg?1793281413",
-          "scryfallUri": "https://scryfall.com/card/trc/467/natures-lore?utm_source=api"
         }
       ]
     },
@@ -943,16 +837,6 @@
           "name": "Brawn",
           "image": "https://cards.scryfall.io/normal/front/8/c/8c05568e-fa50-46e9-aec4-1ba5e814029e.jpg?1783917143",
           "scryfallUri": "https://scryfall.com/card/moc/292/brawn?utm_source=api"
-        },
-        {
-          "name": "Cyclonic Rift",
-          "image": "https://cards.scryfall.io/normal/front/d/f/dfb7c4b9-f2f4-4d4e-baf2-86551c8150fe.jpg?1783913339",
-          "scryfallUri": "https://scryfall.com/card/rvr/40/cyclonic-rift?utm_source=api"
-        },
-        {
-          "name": "Assassin's Trophy",
-          "image": "https://cards.scryfall.io/normal/front/a/a/aaf258fc-3ba4-4b83-bdbf-10a07e0b6c03.jpg?1783903757",
-          "scryfallUri": "https://scryfall.com/card/soc/294/assassins-trophy?utm_source=api"
         }
       ]
     },
@@ -1019,23 +903,7 @@
           "removal"
         ]
       },
-      "alternatives": [
-        {
-          "name": "Assassin's Trophy",
-          "image": "https://cards.scryfall.io/normal/front/a/a/aaf258fc-3ba4-4b83-bdbf-10a07e0b6c03.jpg?1783903757",
-          "scryfallUri": "https://scryfall.com/card/soc/294/assassins-trophy?utm_source=api"
-        },
-        {
-          "name": "Mesmeric Orb",
-          "image": "https://cards.scryfall.io/normal/front/e/2/e24fbdbb-f2ae-4823-9d2a-4c505332aa5b.jpg?1783930103",
-          "scryfallUri": "https://scryfall.com/card/2xm/272/mesmeric-orb?utm_source=api"
-        },
-        {
-          "name": "Survival of the Fittest",
-          "image": "https://cards.scryfall.io/normal/front/4/e/4ef0d7f9-ddb9-4e83-a9bf-09bec22fc80d.jpg?1783938453",
-          "scryfallUri": "https://scryfall.com/card/tpr/199/survival-of-the-fittest?utm_source=api"
-        }
-      ]
+      "alternatives": []
     },
     {
       "out": "Genesis",
@@ -1103,16 +971,6 @@
         ]
       },
       "alternatives": [
-        {
-          "name": "Mesmeric Orb",
-          "image": "https://cards.scryfall.io/normal/front/e/2/e24fbdbb-f2ae-4823-9d2a-4c505332aa5b.jpg?1783930103",
-          "scryfallUri": "https://scryfall.com/card/2xm/272/mesmeric-orb?utm_source=api"
-        },
-        {
-          "name": "Survival of the Fittest",
-          "image": "https://cards.scryfall.io/normal/front/4/e/4ef0d7f9-ddb9-4e83-a9bf-09bec22fc80d.jpg?1783938453",
-          "scryfallUri": "https://scryfall.com/card/tpr/199/survival-of-the-fittest?utm_source=api"
-        },
         {
           "name": "Necrotic Ooze",
           "image": "https://cards.scryfall.io/normal/front/a/c/acc3557d-49c6-49cd-a540-1b24897f4e86.jpg?1783921901",
@@ -1182,11 +1040,6 @@
           "name": "Necrotic Ooze",
           "image": "https://cards.scryfall.io/normal/front/a/c/acc3557d-49c6-49cd-a540-1b24897f4e86.jpg?1783921901",
           "scryfallUri": "https://scryfall.com/card/2x2/83/necrotic-ooze?utm_source=api"
-        },
-        {
-          "name": "Gifts Ungiven",
-          "image": "https://cards.scryfall.io/normal/front/c/c/cc950b6c-0346-4939-b36b-9f10a75f7a32.jpg?1783921916",
-          "scryfallUri": "https://scryfall.com/card/2x2/51/gifts-ungiven?utm_source=api"
         },
         {
           "name": "Death's Shadow",
@@ -1332,11 +1185,6 @@
           "scryfallUri": "https://scryfall.com/card/2x2/83/necrotic-ooze?utm_source=api"
         },
         {
-          "name": "Gifts Ungiven",
-          "image": "https://cards.scryfall.io/normal/front/c/c/cc950b6c-0346-4939-b36b-9f10a75f7a32.jpg?1783921916",
-          "scryfallUri": "https://scryfall.com/card/2x2/51/gifts-ungiven?utm_source=api"
-        },
-        {
           "name": "Death's Shadow",
           "image": "https://cards.scryfall.io/normal/front/5/5/5526ff6e-c079-4ad4-ac8d-5e26ecacf50d.jpg?1783930184",
           "scryfallUri": "https://scryfall.com/card/2xm/82/deaths-shadow?utm_source=api"
@@ -1410,19 +1258,9 @@
       },
       "alternatives": [
         {
-          "name": "Gifts Ungiven",
-          "image": "https://cards.scryfall.io/normal/front/c/c/cc950b6c-0346-4939-b36b-9f10a75f7a32.jpg?1783921916",
-          "scryfallUri": "https://scryfall.com/card/2x2/51/gifts-ungiven?utm_source=api"
-        },
-        {
           "name": "Death's Shadow",
           "image": "https://cards.scryfall.io/normal/front/5/5/5526ff6e-c079-4ad4-ac8d-5e26ecacf50d.jpg?1783930184",
           "scryfallUri": "https://scryfall.com/card/2xm/82/deaths-shadow?utm_source=api"
-        },
-        {
-          "name": "Golgari Grave-Troll",
-          "image": "https://cards.scryfall.io/normal/front/d/3/d332acbc-6224-43bc-a509-3a7edc877423.jpg?1783913302",
-          "scryfallUri": "https://scryfall.com/card/rvr/144/golgari-grave-troll?utm_source=api"
         }
       ]
     },
@@ -1495,11 +1333,6 @@
           "name": "Death's Shadow",
           "image": "https://cards.scryfall.io/normal/front/5/5/5526ff6e-c079-4ad4-ac8d-5e26ecacf50d.jpg?1783930184",
           "scryfallUri": "https://scryfall.com/card/2xm/82/deaths-shadow?utm_source=api"
-        },
-        {
-          "name": "Golgari Grave-Troll",
-          "image": "https://cards.scryfall.io/normal/front/d/3/d332acbc-6224-43bc-a509-3a7edc877423.jpg?1783913302",
-          "scryfallUri": "https://scryfall.com/card/rvr/144/golgari-grave-troll?utm_source=api"
         },
         {
           "name": "Cruel Somnophage // Can't Wake Up",
@@ -1576,11 +1409,6 @@
           "scryfallUri": "https://scryfall.com/card/ody/70/careful-study?utm_source=api"
         },
         {
-          "name": "Titanoth Rex",
-          "image": "https://cards.scryfall.io/normal/front/9/d/9d02e1e8-b85b-4e26-8ab8-ca2f49d05b88.jpg?1783931029",
-          "scryfallUri": "https://scryfall.com/card/iko/174/titanoth-rex?utm_source=api"
-        },
-        {
           "name": "Toxic Deluge",
           "image": "https://cards.scryfall.io/normal/front/1/d/1df2c2a6-94a9-4365-9bd5-dd5f2854c562.jpg?1793023039",
           "scryfallUri": "https://scryfall.com/card/trc/448/toxic-deluge?utm_source=api"
@@ -1653,11 +1481,6 @@
           "name": "Careful Study",
           "image": "https://cards.scryfall.io/normal/front/d/e/dea15b53-2940-40e7-8d48-8ec11341da83.jpg?1783945264",
           "scryfallUri": "https://scryfall.com/card/ody/70/careful-study?utm_source=api"
-        },
-        {
-          "name": "Titanoth Rex",
-          "image": "https://cards.scryfall.io/normal/front/9/d/9d02e1e8-b85b-4e26-8ab8-ca2f49d05b88.jpg?1783931029",
-          "scryfallUri": "https://scryfall.com/card/iko/174/titanoth-rex?utm_source=api"
         },
         {
           "name": "The Ancient One",
@@ -2048,11 +1871,6 @@
       },
       "alternatives": [
         {
-          "name": "Watery Grave",
-          "image": "https://cards.scryfall.io/normal/front/5/5/5525d6a6-e532-4047-9da4-bfae7927fecc.jpg?1784036860",
-          "scryfallUri": "https://scryfall.com/card/trk/306/watery-grave?utm_source=api"
-        },
-        {
           "name": "Hedge Maze",
           "image": "https://cards.scryfall.io/normal/front/5/2/5260f8ae-805b-4eae-badf-62de0f768867.jpg?1783912824",
           "scryfallUri": "https://scryfall.com/card/mkm/262/hedge-maze?utm_source=api"
@@ -2380,11 +2198,6 @@
           "name": "Undercity Sewers",
           "image": "https://cards.scryfall.io/normal/front/2/b/2b5801fb-2026-4f25-98bc-ebb2f99684b9.jpg?1786507741",
           "scryfallUri": "https://scryfall.com/card/mkm/270/undercity-sewers?utm_source=api"
-        },
-        {
-          "name": "Yavimaya Coast",
-          "image": "https://cards.scryfall.io/normal/front/f/4/f4c1500b-1f4c-4d33-810c-25e3bb0a4666.jpg?1783903712",
-          "scryfallUri": "https://scryfall.com/card/soc/425/yavimaya-coast?utm_source=api"
         }
       ]
     },

@@ -122,23 +122,7 @@
           "ramp"
         ]
       },
-      "alternatives": [
-        {
-          "name": "Rhystic Study",
-          "image": "https://cards.scryfall.io/normal/front/9/f/9f37c5b6-a59c-45cd-9a99-e9357fe9ea1b.jpg?1783919146",
-          "scryfallUri": "https://scryfall.com/card/j22/114/rhystic-study?utm_source=api"
-        },
-        {
-          "name": "Faeburrow Elder",
-          "image": "https://cards.scryfall.io/normal/front/1/4/145dcac4-2c53-4ae9-9ede-24dc07474b01.jpg?1783911522",
-          "scryfallUri": "https://scryfall.com/card/ecc/53/faeburrow-elder?utm_source=api"
-        },
-        {
-          "name": "Birds of Paradise",
-          "image": "https://cards.scryfall.io/normal/front/4/9/492c2f9a-51e7-4e0f-9899-23bf43ea988b.jpg?1783903230",
-          "scryfallUri": "https://scryfall.com/card/msc/170/birds-of-paradise?utm_source=api"
-        }
-      ]
+      "alternatives": []
     },
     {
       "out": "Kirtar's Wrath",
@@ -201,23 +185,7 @@
           "draw"
         ]
       },
-      "alternatives": [
-        {
-          "name": "Faeburrow Elder",
-          "image": "https://cards.scryfall.io/normal/front/1/4/145dcac4-2c53-4ae9-9ede-24dc07474b01.jpg?1783911522",
-          "scryfallUri": "https://scryfall.com/card/ecc/53/faeburrow-elder?utm_source=api"
-        },
-        {
-          "name": "Birds of Paradise",
-          "image": "https://cards.scryfall.io/normal/front/4/9/492c2f9a-51e7-4e0f-9899-23bf43ea988b.jpg?1783903230",
-          "scryfallUri": "https://scryfall.com/card/msc/170/birds-of-paradise?utm_source=api"
-        },
-        {
-          "name": "Cyclonic Rift",
-          "image": "https://cards.scryfall.io/normal/front/d/f/dfb7c4b9-f2f4-4d4e-baf2-86551c8150fe.jpg?1783913339",
-          "scryfallUri": "https://scryfall.com/card/rvr/40/cyclonic-rift?utm_source=api"
-        }
-      ]
+      "alternatives": []
     },
     {
       "out": "Skyward Eye Prophets",
@@ -296,23 +264,7 @@
           "ramp"
         ]
       },
-      "alternatives": [
-        {
-          "name": "Birds of Paradise",
-          "image": "https://cards.scryfall.io/normal/front/4/9/492c2f9a-51e7-4e0f-9899-23bf43ea988b.jpg?1783903230",
-          "scryfallUri": "https://scryfall.com/card/msc/170/birds-of-paradise?utm_source=api"
-        },
-        {
-          "name": "Cyclonic Rift",
-          "image": "https://cards.scryfall.io/normal/front/d/f/dfb7c4b9-f2f4-4d4e-baf2-86551c8150fe.jpg?1783913339",
-          "scryfallUri": "https://scryfall.com/card/rvr/40/cyclonic-rift?utm_source=api"
-        },
-        {
-          "name": "Emiel the Blessed",
-          "image": "https://cards.scryfall.io/normal/front/0/f/0f594562-7e9f-47e6-a033-fb70e3cf1e10.jpg?1783921937",
-          "scryfallUri": "https://scryfall.com/card/2x2/10/emiel-the-blessed?utm_source=api"
-        }
-      ]
+      "alternatives": []
     },
     {
       "out": "Sunblast Angel",
@@ -387,16 +339,6 @@
       },
       "alternatives": [
         {
-          "name": "Cyclonic Rift",
-          "image": "https://cards.scryfall.io/normal/front/d/f/dfb7c4b9-f2f4-4d4e-baf2-86551c8150fe.jpg?1783913339",
-          "scryfallUri": "https://scryfall.com/card/rvr/40/cyclonic-rift?utm_source=api"
-        },
-        {
-          "name": "Emiel the Blessed",
-          "image": "https://cards.scryfall.io/normal/front/0/f/0f594562-7e9f-47e6-a033-fb70e3cf1e10.jpg?1783921937",
-          "scryfallUri": "https://scryfall.com/card/2x2/10/emiel-the-blessed?utm_source=api"
-        },
-        {
           "name": "Smothering Tithe",
           "image": "https://cards.scryfall.io/normal/front/8/6/861b5889-0183-4bee-afeb-a4b2aa700a8e.jpg?1783915712",
           "scryfallUri": "https://scryfall.com/card/cmm/57/smothering-tithe?utm_source=api"
@@ -466,19 +408,9 @@
       },
       "alternatives": [
         {
-          "name": "Emiel the Blessed",
-          "image": "https://cards.scryfall.io/normal/front/0/f/0f594562-7e9f-47e6-a033-fb70e3cf1e10.jpg?1783921937",
-          "scryfallUri": "https://scryfall.com/card/2x2/10/emiel-the-blessed?utm_source=api"
-        },
-        {
           "name": "Smothering Tithe",
           "image": "https://cards.scryfall.io/normal/front/8/6/861b5889-0183-4bee-afeb-a4b2aa700a8e.jpg?1783915712",
           "scryfallUri": "https://scryfall.com/card/cmm/57/smothering-tithe?utm_source=api"
-        },
-        {
-          "name": "Kinnan, Bonder Prodigy",
-          "image": "https://cards.scryfall.io/normal/front/6/3/63cda4a0-0dff-4edb-ae67-a2b7e2971350.jpg?1783931023",
-          "scryfallUri": "https://scryfall.com/card/iko/192/kinnan-bonder-prodigy?utm_source=api"
         }
       ]
     },
@@ -538,19 +470,9 @@
       },
       "alternatives": [
         {
-          "name": "Emiel the Blessed",
-          "image": "https://cards.scryfall.io/normal/front/0/f/0f594562-7e9f-47e6-a033-fb70e3cf1e10.jpg?1783921937",
-          "scryfallUri": "https://scryfall.com/card/2x2/10/emiel-the-blessed?utm_source=api"
-        },
-        {
           "name": "Smothering Tithe",
           "image": "https://cards.scryfall.io/normal/front/8/6/861b5889-0183-4bee-afeb-a4b2aa700a8e.jpg?1783915712",
           "scryfallUri": "https://scryfall.com/card/cmm/57/smothering-tithe?utm_source=api"
-        },
-        {
-          "name": "Kinnan, Bonder Prodigy",
-          "image": "https://cards.scryfall.io/normal/front/6/3/63cda4a0-0dff-4edb-ae67-a2b7e2971350.jpg?1783931023",
-          "scryfallUri": "https://scryfall.com/card/iko/192/kinnan-bonder-prodigy?utm_source=api"
         }
       ]
     },
@@ -623,16 +545,6 @@
           "name": "Smothering Tithe",
           "image": "https://cards.scryfall.io/normal/front/8/6/861b5889-0183-4bee-afeb-a4b2aa700a8e.jpg?1783915712",
           "scryfallUri": "https://scryfall.com/card/cmm/57/smothering-tithe?utm_source=api"
-        },
-        {
-          "name": "Kinnan, Bonder Prodigy",
-          "image": "https://cards.scryfall.io/normal/front/6/3/63cda4a0-0dff-4edb-ae67-a2b7e2971350.jpg?1783931023",
-          "scryfallUri": "https://scryfall.com/card/iko/192/kinnan-bonder-prodigy?utm_source=api"
-        },
-        {
-          "name": "Mana Vault",
-          "image": "https://cards.scryfall.io/normal/front/c/1/c1a31d52-a407-4ded-bfca-cc812f11afa0.jpg?1783921790",
-          "scryfallUri": "https://scryfall.com/card/2x2/308/mana-vault?utm_source=api"
         }
       ]
     },
@@ -704,16 +616,6 @@
           "name": "Smothering Tithe",
           "image": "https://cards.scryfall.io/normal/front/8/6/861b5889-0183-4bee-afeb-a4b2aa700a8e.jpg?1783915712",
           "scryfallUri": "https://scryfall.com/card/cmm/57/smothering-tithe?utm_source=api"
-        },
-        {
-          "name": "Kinnan, Bonder Prodigy",
-          "image": "https://cards.scryfall.io/normal/front/6/3/63cda4a0-0dff-4edb-ae67-a2b7e2971350.jpg?1783931023",
-          "scryfallUri": "https://scryfall.com/card/iko/192/kinnan-bonder-prodigy?utm_source=api"
-        },
-        {
-          "name": "Mana Vault",
-          "image": "https://cards.scryfall.io/normal/front/c/1/c1a31d52-a407-4ded-bfca-cc812f11afa0.jpg?1783921790",
-          "scryfallUri": "https://scryfall.com/card/2x2/308/mana-vault?utm_source=api"
         }
       ]
     },
@@ -792,16 +694,6 @@
       },
       "alternatives": [
         {
-          "name": "Fierce Guardianship",
-          "image": "https://cards.scryfall.io/normal/front/f/7/f7f3dd95-bd14-4e0f-a388-444f9cf1b0dc.jpg?1783915698",
-          "scryfallUri": "https://scryfall.com/card/cmm/94/fierce-guardianship?utm_source=api"
-        },
-        {
-          "name": "Mana Vault",
-          "image": "https://cards.scryfall.io/normal/front/c/1/c1a31d52-a407-4ded-bfca-cc812f11afa0.jpg?1783921790",
-          "scryfallUri": "https://scryfall.com/card/2x2/308/mana-vault?utm_source=api"
-        },
-        {
           "name": "Noble Hierarch",
           "image": "https://cards.scryfall.io/normal/front/4/0/400382a4-aea2-4827-b06a-1b0b3745908b.jpg?1783930143",
           "scryfallUri": "https://scryfall.com/card/2xm/177/noble-hierarch?utm_source=api"
@@ -869,23 +761,7 @@
           "counter"
         ]
       },
-      "alternatives": [
-        {
-          "name": "Worldly Tutor",
-          "image": "https://cards.scryfall.io/normal/front/f/3/f39aa2e9-e294-4ce6-bf5e-e1f579101a7a.jpg?1783918434",
-          "scryfallUri": "https://scryfall.com/card/dmr/185/worldly-tutor?utm_source=api"
-        },
-        {
-          "name": "Seedborn Muse",
-          "image": "https://cards.scryfall.io/normal/front/7/6/76f58441-5674-4f1e-af9b-94e14ab7e619.jpg?1783907041",
-          "scryfallUri": "https://scryfall.com/card/tdc/268/seedborn-muse?utm_source=api"
-        },
-        {
-          "name": "Mystic Remora",
-          "image": "https://cards.scryfall.io/normal/front/4/0/40140991-cffa-4b52-9a25-37e9a8aa9ddd.jpg?1783918491",
-          "scryfallUri": "https://scryfall.com/card/dmr/59/mystic-remora?utm_source=api"
-        }
-      ]
+      "alternatives": []
     },
     {
       "out": "Energy Flux",
@@ -1011,16 +887,6 @@
       },
       "alternatives": [
         {
-          "name": "Seedborn Muse",
-          "image": "https://cards.scryfall.io/normal/front/7/6/76f58441-5674-4f1e-af9b-94e14ab7e619.jpg?1783907041",
-          "scryfallUri": "https://scryfall.com/card/tdc/268/seedborn-muse?utm_source=api"
-        },
-        {
-          "name": "Mystic Remora",
-          "image": "https://cards.scryfall.io/normal/front/4/0/40140991-cffa-4b52-9a25-37e9a8aa9ddd.jpg?1783918491",
-          "scryfallUri": "https://scryfall.com/card/dmr/59/mystic-remora?utm_source=api"
-        },
-        {
           "name": "Drannith Magistrate",
           "image": "https://cards.scryfall.io/normal/front/9/8/98b0a4a8-9319-451b-9b79-b0bca7a41e91.jpg?1783931091",
           "scryfallUri": "https://scryfall.com/card/iko/11/drannith-magistrate?utm_source=api"
@@ -1092,19 +958,9 @@
       },
       "alternatives": [
         {
-          "name": "Mystic Remora",
-          "image": "https://cards.scryfall.io/normal/front/4/0/40140991-cffa-4b52-9a25-37e9a8aa9ddd.jpg?1783918491",
-          "scryfallUri": "https://scryfall.com/card/dmr/59/mystic-remora?utm_source=api"
-        },
-        {
           "name": "Drannith Magistrate",
           "image": "https://cards.scryfall.io/normal/front/9/8/98b0a4a8-9319-451b-9b79-b0bca7a41e91.jpg?1783931091",
           "scryfallUri": "https://scryfall.com/card/iko/11/drannith-magistrate?utm_source=api"
-        },
-        {
-          "name": "Eladamri's Call",
-          "image": "https://cards.scryfall.io/normal/front/e/a/ea751fe2-b64a-4265-8885-a9016b29b5b3.jpg?1783933086",
-          "scryfallUri": "https://scryfall.com/card/mh1/197/eladamris-call?utm_source=api"
         }
       ]
     },
@@ -1241,11 +1097,6 @@
           "name": "Drannith Magistrate",
           "image": "https://cards.scryfall.io/normal/front/9/8/98b0a4a8-9319-451b-9b79-b0bca7a41e91.jpg?1783931091",
           "scryfallUri": "https://scryfall.com/card/iko/11/drannith-magistrate?utm_source=api"
-        },
-        {
-          "name": "Eladamri's Call",
-          "image": "https://cards.scryfall.io/normal/front/e/a/ea751fe2-b64a-4265-8885-a9016b29b5b3.jpg?1783933086",
-          "scryfallUri": "https://scryfall.com/card/mh1/197/eladamris-call?utm_source=api"
         },
         {
           "name": "Noble Hierarch",
