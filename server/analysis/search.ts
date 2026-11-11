@@ -218,6 +218,13 @@ export async function buildSolverContext(opts: {
     };
   });
   candidates.sort((a, b) => b.score - a.score);
+  const excluded = new Set(options.excluded ?? []);
+  if (excluded.size)
+    candidates.splice(
+      0,
+      candidates.length,
+      ...candidates.filter((c) => !excluded.has(c.card.name)),
+    );
 
   const flagByName = new Map<string, CardFlags>();
   for (const s of [...scored, ...candidates]) flagByName.set(s.card.name, s.flags);
@@ -229,6 +236,7 @@ export async function buildSolverContext(opts: {
     flagOf,
     budgetTotal: options.budgetTotal ?? null,
     blockedByCombo,
+    excluded,
   });
 
   return {
@@ -309,12 +317,15 @@ export function makeViolation(opts: {
   flagOf: (card: Card) => CardFlags;
   budgetTotal: number | null;
   blockedByCombo?: Map<string, string>;
+  /** Cards the user took out themselves. */
+  excluded?: Set<string>;
 }) {
   const { rules, target, flagOf, budgetTotal } = opts;
   const blocked = opts.blockedByCombo ?? new Map<string, string>();
   return (card: Card, d: Deck, out?: Card): string | null => {
     const f = flagOf(card);
     if (f.banned) return "banned in Commander";
+    if (opts.excluded?.has(card.name)) return "you took it out of the deck";
     if (blocked.has(card.name))
       return `${blocked.get(card.name)}, a two-card combo bracket ${target} doesn't allow`;
     if (f.massLandDenial && !rules.massLandDenial)

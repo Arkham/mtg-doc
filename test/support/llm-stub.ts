@@ -23,6 +23,9 @@ const DECISIONS: Record<string, number> = {
   Counterspell: 0.05,
 };
 
+/** Synergies the stub proposes but a second check rejects. */
+const FAKE_INTERACTION = "Stub: not a real interaction.";
+
 function decisions(body: Record<string, unknown>) {
   const questions = body.questions as { name: string; instructions: string }[];
   const context = JSON.stringify(body.input);
@@ -34,6 +37,14 @@ function decisions(body: Record<string, unknown>) {
           name: q.name,
           probability: /The user replied: \\"(yes|go ahead)/i.test(context) ? 0.95 : 0.1,
         };
+      if (q.name === "reoptimize")
+        return {
+          type: "predicate",
+          name: q.name,
+          probability: /remove 3 Forest/.test(context) ? 0.9 : 0.2,
+        };
+      if (q.instructions.includes(FAKE_INTERACTION))
+        return { type: "predicate", name: q.name, probability: 0.08 };
       const card = Object.keys(DECISIONS).find((c) => q.instructions.includes(`"${c}"`));
       return { type: "predicate", name: q.name, probability: card ? DECISIONS[card] : 0.5 };
     }),
@@ -106,6 +117,11 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
             title: "Lands matter",
             cards: ["Lathril, Blade of the Elves", "Forest"],
             explanation: "Stub synergy two.",
+          },
+          {
+            title: "Made up",
+            cards: ["Lathril, Blade of the Elves", "Sol Ring", "Forest"],
+            explanation: FAKE_INTERACTION,
           },
         ],
       }),

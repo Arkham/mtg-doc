@@ -79,7 +79,9 @@ function Rerun({
         <span aria-hidden>↻</span> Re-run the optimizer
       </div>
       <p className="small">
-        With {r.summary}. This replaces the current suggestions and any chat edits.
+        {r.keepEdits
+          ? "Keeps your edits and refreshes the doc's other suggestions around them."
+          : `With ${r.summary}. This replaces the current suggestions and any chat edits.`}
       </p>
       {r.jobId ? (
         <a className="small" href={`#/job/${slug}/${r.jobId}`}>
@@ -117,10 +119,12 @@ export function ChatPanel({
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  // Fetched on every open: applying a suggestion elsewhere on the page can add a proposal.
   useEffect(() => {
-    if (open && messages === null) api.chat(slug).then(setMessages, () => setMessages([]));
-    if (open) inputRef.current?.focus();
-  }, [open, messages, slug]);
+    if (!open) return;
+    api.chat(slug).then(setMessages, () => setMessages((m) => m ?? []));
+    inputRef.current?.focus();
+  }, [open, slug]);
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight });
@@ -154,6 +158,8 @@ export function ChatPanel({
       if (reply.reportUpdated) {
         const { report } = await api.deck(slug);
         if (report) onApplied(report);
+        // A reply can apply an earlier proposal, which the history now marks as applied.
+        api.chat(slug).then(setMessages, () => {});
       }
     } catch (e) {
       setError(String(e instanceof Error ? e.message : e));
@@ -169,8 +175,11 @@ export function ChatPanel({
     setApplying(id);
     setError(null);
     try {
-      const { report, message } = await api.applyChat(slug, id);
-      setMessages((m) => (m ?? []).map((x) => (x.id === id ? message : x)));
+      const { report, message, followUp } = await api.applyChat(slug, id);
+      setMessages((m) => [
+        ...(m ?? []).map((x) => (x.id === id ? message : x)),
+        ...(followUp ? [followUp] : []),
+      ]);
       onApplied(report);
     } catch (e) {
       setError(String(e instanceof Error ? e.message : e));

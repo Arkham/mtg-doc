@@ -4,11 +4,12 @@ import type { BracketReport, DeckEdit, Swap } from "../../shared/types.ts";
 import { type Deck, cloneDeck } from "../../server/analysis/deck.ts";
 import {
   fallbackCombos,
+  pinEdits,
   rebaseSwaps,
   refreshBracketLists,
   reconcileSwaps,
 } from "../../server/analysis/reconcile.ts";
-import { spell, swamp, testDeck } from "../support/cards.ts";
+import { forest, spell, swamp, testDeck } from "../support/cards.ts";
 
 const helm = spell("Helm of the Ghastlord");
 const fogBank = spell("Fog Bank");
@@ -61,6 +62,8 @@ const edit = (
   request: "",
   changes: changes.map(([action, name, reason]) => ({ action, name, qty: 1, reason })),
 });
+
+const swap0 = (out: string, add: string): Swap => ({ out, in: add, category: "mana", reason: "" });
 
 const pairs = (swaps: Swap[]) => swaps.map((s) => [s.out, s.in, Boolean(s.fromChat)]);
 
@@ -137,6 +140,37 @@ describe("reconcileSwaps", () => {
   });
 });
 
+test("reconcileSwaps: a request naming a basic more times than the deck still cuts pairs each copy once", () => {
+  const rocks = ["Fellwar Stone", "Thought Vessel", "Mind Stone"].map((n) => spell(n));
+  // Three Forests out for rocks, then the optimizer brought two Forests back for Swamps, listing
+  // only one of those swaps (its own list isn't trusted for copies of basics).
+  let current = rocks.reduce((d, rock) => swap(d, "Forest", rock), optimized);
+  current = swap(swap(current, "Swamp", forest), "Swamp", forest);
+  const swaps = reconcileSwaps([...optimizerSwaps, swap0("Swamp", "Forest")], initial, current, [
+    edit(
+      ...rocks.flatMap((r): [action: "add" | "remove", name: string, reason: string][] => [
+        ["remove", "Forest", ""],
+        ["add", r.name, ""],
+      ]),
+    ),
+  ]);
+  const outs = swaps.map((s) => s.out).sort();
+  assert.deepEqual(outs, [
+    "Army of the Damned",
+    "Forest",
+    "Helm of the Ghastlord",
+    "Swamp",
+    "Swamp",
+  ]);
+  assert.deepEqual(
+    swaps
+      .filter((s) => s.fromChat)
+      .map((s) => s.in)
+      .sort(),
+    ["Fellwar Stone", "Mind Stone", "Thought Vessel"],
+  );
+});
+
 describe("rebaseSwaps", () => {
   const cards = new Map([visions, signet].map((c) => [c.name, c]));
   const names = (d: Deck) => d.slots.map((s) => `${s.qty} ${s.card.name}`).sort();
@@ -174,6 +208,42 @@ describe("rebaseSwaps", () => {
     );
     assert.ok(deck.slots.some((s) => s.card.name === "Army of the Damned"));
     assert.equal(deck.slots.find((s) => s.card.name === "Arcane Signet")!.qty, 1);
+  });
+});
+
+describe("pinEdits", () => {
+  const names = (d: Deck) => d.slots.map((s) => `${s.qty} ${s.card.name}`).sort();
+  const mindStone = spell("Mind Stone");
+  const cards = new Map([visions, signet, mindStone, swamp].map((c) => [c.name, c]));
+
+  test("starts from the submitted list with only chat's swaps, so it stays at 100 cards", () => {
+    // Chat swapped the doc's Signet for Mind Stone, and a Forest for a Swamp.
+    const edits = [
+      edit(["remove", "Arcane Signet", ""], ["add", "Mind Stone", ""]),
+      edit(["remove", "Forest", ""], ["add", "Swamp", ""]),
+    ];
+    const current = swap(swap(optimized, "Arcane Signet", mindStone), "Forest", swamp);
+    const swaps = reconcileSwaps(optimizerSwaps, initial, current, edits);
+    const pinned = pinEdits(initial, swaps, cards, edits);
+    assert.deepEqual(
+      names(pinned.deck),
+      names(swap(swap(initial, "Army of the Damned", mindStone), "Forest", swamp)),
+      "Mind Stone keeps the slot the doc's Signet took; the doc's other swaps are left to the re-run",
+    );
+    assert.deepEqual(pinned.added, ["Mind Stone"], "locked in the re-run");
+    assert.deepEqual(pinned.removed, ["Arcane Signet"], "never re-added");
+  });
+
+  test("a card added then taken out again isn't kept, and doesn't come back", () => {
+    const edits = [
+      edit(["remove", "Fog Bank", ""], ["add", "Mind Stone", ""]),
+      edit(["remove", "Mind Stone", ""], ["add", "Fog Bank", ""]),
+    ];
+    const swaps = reconcileSwaps(optimizerSwaps, initial, optimized, edits);
+    const pinned = pinEdits(initial, swaps, cards, edits);
+    assert.deepEqual(names(pinned.deck), names(initial));
+    assert.deepEqual(pinned.added, []);
+    assert.deepEqual(pinned.removed, ["Mind Stone"]);
   });
 });
 

@@ -3,6 +3,7 @@ import type {
   BracketReport,
   ManaSuggestion,
   Card,
+  Combo,
   DeckSnapshot,
   Job,
   JobStep,
@@ -32,7 +33,12 @@ import {
   rebalanceBasics,
 } from "./analysis/optimizer.ts";
 import { planManaFixes } from "./analysis/manabase.ts";
-import { dropOwnedAlternatives, fallbackCombos } from "./analysis/reconcile.ts";
+import {
+  dropOwnedAlternatives,
+  fallbackCombos,
+  pinEdits,
+  reconcileSwaps,
+} from "./analysis/reconcile.ts";
 import { buildSolverContext, solve, trimToBudget } from "./analysis/search.ts";
 import { simulate } from "./analysis/simulate.ts";
 import { config, llmEnabled } from "./config.ts";
@@ -44,7 +50,7 @@ import { BRACKET_PAGE, getCommanderData } from "./sources/edhrec.ts";
 import { researchCommander } from "./sources/research.ts";
 import { lookupExact, lookupFuzzy } from "./sources/scryfall.ts";
 import { type BracketEstimate, estimateBracket, findCombos } from "./sources/spellbook.ts";
-import { readDeckFile, readInitial, readMeta, writeResults } from "./storage.ts";
+import { readDeckFile, readInitial, readMeta, readReport, writeResults } from "./storage.ts";
 
 const jobs = new Map<string, Job>();
 
@@ -52,6 +58,8 @@ export const getJob = (id: string) => jobs.get(id);
 
 /** Land swaps the optimizer applies on its own to fix the mana base, beyond the spell swaps. */
 const MANA_FIXES = 4;
+/** Land-count fixes a re-run that keeps the user's edits may make beyond the swap cap. */
+const LAND_REPAIRS = 4;
 
 const STEPS = [
   "Load card data",
@@ -66,7 +74,7 @@ const STEPS = [
   "Write report",
 ] as const;
 
-export function startOptimize(slug: string): Job {
+export function startOptimize(slug: string, opts: RunOptions = {}): Job {
   const job: Job = {
     id: randomUUID(),
     slug,
@@ -74,7 +82,7 @@ export function startOptimize(slug: string): Job {
     steps: STEPS.map((label) => ({ label, status: "pending" })),
   };
   jobs.set(job.id, job);
-  run(job).catch((err) => {
+  run(job, opts).catch((err) => {
     job.status = "error";
     job.error = err instanceof Error ? err.message : String(err);
     const running = job.steps.find((s) => s.status === "running");
@@ -141,22 +149,48 @@ export async function loadDeck(
   return { deck: { commanders, slots }, warnings };
 }
 
-async function run(job: Job) {
+interface RunOptions {
+  /** Optimize from the current suggestions with the user's chat edits kept, not from scratch. */
+  keepEdits?: boolean;
+}
+
+/** The submitted list with the user's chat edits on the suggestions applied, and those edits. */
+async function pinnedStart(slug: string, submitted: Deck) {
+  const previous = await readReport(slug);
+  if (!previous) return null;
+  const chatEdits = (previous.edits ?? []).filter((e) => e.target !== "original");
+  const { deck: current } = await loadDeck(slug, "optimized.txt");
+  const cards = new Map(current.slots.map((s) => [s.card.name, s.card]));
+  return {
+    ...pinEdits(submitted, previous.swaps, cards, chatEdits),
+    chatEdits,
+    edits: previous.edits ?? [],
+  };
+}
+
+async function run(job: Job, opts: RunOptions) {
   const meta = await readMeta(job.slug);
-  const options: OptimizeOptions = {
+  const settings: OptimizeOptions = {
     ...meta.options,
     tone: meta.options.tone ?? "max",
     budgetTotal: meta.options.budgetTotal ?? null,
   };
+  const options: OptimizeOptions = { ...settings };
   const isCommander = meta.format === "commander";
   const warnings: string[] = [];
 
-  const deck = await step(job, 0, async (s) => {
+  const submitted = await step(job, 0, async (s) => {
     const { deck, warnings: w } = await loadDeck(job.slug);
     warnings.push(...w);
     s.detail = `${totalCards(deck)} cards`;
     return deck;
   });
+  const pinned = opts.keepEdits ? await pinnedStart(job.slug, submitted) : null;
+  const deck = pinned?.deck ?? submitted;
+  if (pinned) {
+    options.locked = [...new Set([...options.locked, ...pinned.added])];
+    options.excluded = pinned.removed;
+  }
   const identity = identityOf(deck.commanders);
   const commanderNames = deck.commanders.map((c) => c.name);
   const legalMain = (d: Deck) =>
@@ -329,7 +363,8 @@ async function run(job: Job) {
           edhAll?.avgLands ?? null,
           locked,
           new Set(applied.swaps.map((x) => x.in)),
-          options.maxSwaps - applied.swaps.length,
+          // Lands the user's own edits cut are repairs, not suggestions, so the cap doesn't apply.
+          pinned ? LAND_REPAIRS : options.maxSwaps - applied.swaps.length,
           ctx.violation,
         )
       : { deck: applied.deck, swaps: [] };
@@ -489,6 +524,11 @@ async function run(job: Job) {
           excluded: solver.excluded,
         }
       : undefined;
+    // The report compares against the list as submitted, even when the run started from edits.
+    const baseline = pinned
+      ? await baselineOf(submitted, edhAll?.avgLands ?? null, finalCombos)
+      : null;
+    if (bracket && baseline) bracket.before = baseline.assessed;
     const report: Report = {
       slug: job.slug,
       commanders: commanderNames,
@@ -497,8 +537,8 @@ async function run(job: Job) {
       model,
       strategy: plan.strategy,
       themes: plan.themes,
-      swaps,
-      before,
+      swaps: pinned ? reconcileSwaps(swaps, submitted, finalDeck, pinned.chatEdits) : swaps,
+      before: baseline?.snapshot ?? before,
       after,
       combosPresent: finalCombos.present,
       combosOneAway: finalCombos.oneAway.slice(0, 20),
@@ -511,18 +551,20 @@ async function run(job: Job) {
           }
         : null,
       warnings,
-      options,
+      options: settings,
       bracket,
-      decklist: toDecklist(finalDeck, deck),
+      decklist: toDecklist(finalDeck, submitted),
       original: {
-        decklist: toDecklist(deck, deck),
-        combosPresent: combos.present,
-        combosOneAway: combos.oneAway.slice(0, 20),
+        decklist: toDecklist(submitted, submitted),
+        combosPresent: (baseline?.combos ?? combos).present,
+        combosOneAway: (baseline?.combos ?? combos).oneAway.slice(0, 20),
       },
       manaSuggestions,
       synergies,
+      ...(pinned?.edits.length ? { edits: pinned.edits } : {}),
     };
     report.cardIndex = await buildCardIndex(report, [
+      ...submitted.slots.map((x) => x.card),
       ...deck.slots.map((x) => x.card),
       ...finalDeck.slots.map((x) => x.card),
       ...ctx.candidates.map((c) => c.card),
@@ -533,4 +575,21 @@ async function run(job: Job) {
     });
   });
   job.status = "done";
+
+  async function baselineOf(
+    d: Deck,
+    avgLands: number | null,
+    fallback: { present: Combo[]; oneAway: Combo[] },
+  ) {
+    const [est, found] = await Promise.all([
+      isCommander ? estimate(d) : Promise.resolve(null),
+      findCombos(commanderNames, legalMain(d), identity).catch(() => null),
+    ]);
+    const snap = snapshot(d, avgLands, isCommander, twoCardCombos(est));
+    return {
+      snapshot: snap,
+      assessed: assessBracket(d, est, snap.sim, target),
+      combos: found ?? fallbackCombos(fallback, d, []),
+    };
+  }
 }

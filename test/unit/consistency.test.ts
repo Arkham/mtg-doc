@@ -68,13 +68,31 @@ describe("checkReport", () => {
       report({ swaps: [swap("Helm of the Ghastlord", "Fevered Visions")] }),
     );
     assert.equal(problems.length, 1);
-    assert.match(problems[0], /Swaps: cut Helm of the Ghastlord, but the list cut Fog Bank/);
+    assert.match(
+      problems[0],
+      /Swaps: cut Helm of the Ghastlord beyond what the list cuts .*\(it cut Fog Bank\)/,
+    );
   });
 
   test("changes missing from the swaps are caught", () => {
-    const [problem, ...rest] = checkReport(report({ swaps: [] }));
-    assert.match(problem, /cut nothing, but the list cut Fog Bank/);
-    assert.match(rest[0], /add nothing, but the list added Fevered Visions/);
+    assert.deepEqual(checkReport(report({ swaps: [] })), [
+      "Swaps: 0 listed, but the list's changes from the submitted deck make 1 (cut Fog Bank; added Fevered Visions).",
+    ]);
+  });
+
+  test("a change in deck size leaves the unpaired cards out of the swaps", () => {
+    // Fog Bank cut for Fevered Visions, and an Island cut with nothing in its place.
+    const smaller = current.map((c) => (c.name === "Island" ? { ...c, qty: 2, delta: -1 } : c));
+    const fewer = report({ decklist: smaller, after: { totalCards: 5 } } as Partial<Report>);
+    assert.deepEqual(checkReport(fewer), []);
+    const both = report({
+      decklist: smaller,
+      after: { totalCards: 5 },
+      swaps: [swap("Fog Bank", "Fevered Visions"), swap("Island", "Fevered Visions")],
+    } as Partial<Report>);
+    assert.deepEqual(checkReport(both), [
+      "Swaps: add Fevered Visions beyond what the list adds to the submitted deck (it added Fevered Visions).",
+    ]);
   });
 
   test("the saved list and the report's list must match", () => {

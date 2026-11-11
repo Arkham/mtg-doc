@@ -75,6 +75,19 @@ test.describe("local app", () => {
     await proposal.getByRole("button", { name: "Apply 2 changes" }).click();
     await expect(proposal).toContainText("Applied", { timeout: 30_000 });
     await expect(page.locator(".edit-log")).toContainText("Mind Stone");
+
+    // Cutting lands opens a gap the optimizer would fix: the doc offers a re-run that keeps edits.
+    await message.fill("remove 3 Forest");
+    await message.press("Enter");
+    const cut = page.locator(".chat-msg.assistant .chat-changes", { hasText: "3× Forest" });
+    await cut.getByRole("button", { name: "Apply 1 change" }).click();
+    await expect(cut).toContainText("Applied", { timeout: 30_000 });
+    const offer = page.locator(".chat-rerun").last();
+    await expect(offer).toContainText("Keeps your edits");
+    await expect(offer.getByRole("button", { name: "Re-run" })).toBeVisible();
+    await expect(page.locator(".chat-msg.assistant .chat-bubble").last()).toContainText(
+      /lands, under the recommended/,
+    );
     await page.getByRole("button", { name: "Close chat" }).click();
     await expect(page.locator(".deck-group li.new").filter({ hasText: "Mind Stone" })).toHaveCount(
       1,

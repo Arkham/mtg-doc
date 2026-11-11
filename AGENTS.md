@@ -12,6 +12,7 @@ pnpm check            # format:check + lint + typecheck + unit/integration tests
 pnpm test             # unit + integration tests (offline, ~seconds)
 pnpm test:e2e         # Playwright: local app flow + static site on desktop, iPhone and iPad (WebKit)
 pnpm test:record      # re-record HTTP fixtures against the live APIs (needs network)
+pnpm test:record:missing  # record only fixtures that don't exist yet (use this for new tests)
 pnpm format           # prettier --write
 pnpm lint             # oxlint
 pnpm typecheck        # tsc --noEmit (TypeScript 7)
@@ -58,6 +59,11 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
 - All LLM calls go through `server/llm.ts`: `chatJson` (Responses API, zod-validated structured
   output), `webSearch` (Responses API `web_search` tool, with citations) and `decide` (Decisions API:
   calibrated yes/no probabilities, e.g. "is this card in this crop?"). No other module calls the LLM.
+- Use `decide` for any yes/no judgement (is this real, does the user agree, is this worth doing)
+  rather than asking `chatJson` for a boolean. It falls back to the regular model when the
+  Decisions API is off (`LLM_DECISIONS=false`) or fails, so callers never handle that themselves.
+  Today it verifies scanned cards and model-proposed synergies, confirms replies to the doc's
+  proposals, and judges whether a change is worth a re-run.
 - Never trust a single model read: photo recognition votes across independent passes (whole photo +
   two tilings) and verifies anything only one pass saw. Keep that shape when changing the scanner, and
   measure changes with `node --import tsx scripts/ocr-bench.ts photo.jpg [--truth list.txt]`.
@@ -79,6 +85,12 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
 - Destructive or slow chat actions (re-running the optimizer, anything that replaces the list) are
   proposed first and start only once the user confirms, by button or by a reply the Decisions API
   judges as a yes. Cheap, non-destructive ones (like finding synergies again) can run directly.
+  A yes to proposed card changes applies them, like the Apply button.
+- After every change, the doc checks what it made worse in the optimizer's terms
+  (`worsenedGaps`: lands, color sources, roles, bracket checks, budget, dropped suggestions) and
+  `decide`s whether a re-run is worth it (without an LLM, any such gap is). If so it proposes a
+  re-run that keeps the user's edits (`keepEdits`: chat's swaps are pinned, their adds locked and
+  their cuts excluded), with a button to confirm.
 - Importing a deck (photo or list, the review screen) happens before the deck exists, so it's out
   of scope.
 - A chat edit updates every section that names the cards it touches, not just the list: stats,
@@ -95,7 +107,10 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
 
 - Tests are offline and deterministic. Outbound HTTP is recorded once into `test/fixtures/http`
   (gzipped) and replayed; an unrecorded request fails with a hint to run `pnpm test:record`.
-  Re-record when you add a request or an upstream API changes, and commit the fixtures.
+  Re-record when you add a request or an upstream API changes, and commit the fixtures. For new
+  tests, record only what's missing (`pnpm test:record:missing`, or `FIXTURES=missing` on one
+  file): a full re-record fetches live data, which can change the decks the optimizer builds and
+  so every request after it.
 - Import `test/support/env.ts` first in every Node test: it isolates tests from `.env`, disables the
   LLM and installs the fixture layer. Stub the LLM endpoint explicitly when testing LLM code.
 - Unit-test pure logic in `server/analysis` directly with the factories in `test/support/cards.ts`.

@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { Combo, Synergy } from "../shared/types.ts";
 import type { Deck } from "./analysis/deck.ts";
 import { matchInDeck } from "./analysis/edits.ts";
-import { chatJson } from "./llm.ts";
+import { chatJson, decide } from "./llm.ts";
 
 const SynergySchema = z.object({
   synergies: z
@@ -82,7 +82,35 @@ Reply with JSON only: {"synergies": [{"title": "short punchy title", "cards": ["
     out.push({ title: s.title, cards, explanation: s.explanation });
     if (out.length >= MAX_SYNERGIES) break;
   }
-  return out;
+  return verifySynergies(deck, out);
+}
+
+/** Below this, a second opinion thinks the interaction isn't real or doesn't work as described. */
+const SYNERGY_THRESHOLD = 0.5;
+
+/**
+ * Don't trust a single model read: a second, independent check confirms each interaction from the
+ * cards' rules text. If the check itself fails, the synergies are kept as found.
+ */
+async function verifySynergies(deck: Deck, synergies: Synergy[]): Promise<Synergy[]> {
+  if (!synergies.length) return synergies;
+  const cards = new Map(
+    [...deck.commanders, ...deck.slots.map((s) => s.card)].map((c) => [c.name, c]),
+  );
+  const named = [...new Set(synergies.flatMap((s) => s.cards))];
+  const context = `Cards in a Commander deck (commander: ${deck.commanders.map((c) => c.name).join(" + ")}), with their rules text:\n${named
+    .map((n) => `- ${n}: ${cards.get(n)?.oracleText.replace(/\n/g, " ") ?? ""}`)
+    .join("\n")}`;
+  const answers = await decide(
+    context,
+    [],
+    synergies.map((s, i) => ({
+      name: `synergy-${i}`,
+      instructions: `${s.cards.join(" + ")} work together as described, going by their rules text, and are stronger together than apart: “${s.title}: ${s.explanation}”`,
+    })),
+  ).catch(() => null);
+  if (!answers) return synergies;
+  return synergies.filter((_, i) => (answers.get(`synergy-${i}`) ?? 1) >= SYNERGY_THRESHOLD);
 }
 
 /** Synergies that still apply after cards were removed from the deck. */

@@ -34,6 +34,7 @@ import {
   refreshBracketLists,
   reconcileSwaps,
 } from "./analysis/reconcile.ts";
+import { worsenedGaps } from "./analysis/reoptimize.ts";
 import { makeRerun } from "./analysis/rerun.ts";
 import { makeViolation } from "./analysis/search.ts";
 import { config, llmEnabled } from "./config.ts";
@@ -310,8 +311,33 @@ export async function chatAboutDeck(
   };
   history.push(user);
 
-  const confirmed = await confirmsPendingRerun(history, message);
-  if (confirmed) {
+  const confirmed = await confirmsPendingProposal(history, message);
+  if (confirmed?.changes) {
+    // A yes to proposed card changes applies them, like the Apply button.
+    const assistant: DeckChatMessage = {
+      id: randomUUID(),
+      role: "assistant",
+      content: "",
+      at: new Date().toISOString(),
+    };
+    try {
+      const { reoptimize } = await applyProposal(slug, history, history.indexOf(confirmed));
+      const n = confirmed.changes.filter((c) => c.ok).length;
+      assistant.content = `Done: applied ${n} change${n === 1 ? "" : "s"}.`;
+      assistant.reportUpdated = true;
+      if (reoptimize) {
+        const offer = rerunProposal(reoptimize);
+        assistant.content = `${assistant.content} ${offer.content}`;
+        assistant.rerun = offer.rerun;
+      }
+    } catch (err) {
+      assistant.content = `I couldn't apply those changes: ${err instanceof Error ? err.message : String(err)}`;
+    }
+    history.push(assistant);
+    await writeChat(slug, history);
+    return assistant;
+  }
+  if (confirmed?.rerun) {
     const jobId = await startChatRerun(slug, confirmed.id, history);
     const assistant: DeckChatMessage = {
       id: randomUUID(),
@@ -395,20 +421,29 @@ export async function chatAboutDeck(
 }
 
 /**
- * When the doc's last message proposed a re-run that hasn't started, asks the decision model whether
- * this reply agrees to it. Returns the proposing message if so.
+ * When the doc's last message proposed something still waiting for the user (a re-run that hasn't
+ * started, or card changes not yet applied), asks the decision model whether this reply agrees to
+ * it. Returns the proposing message if so.
  */
-async function confirmsPendingRerun(history: DeckChatMessage[], message: string) {
+async function confirmsPendingProposal(history: DeckChatMessage[], message: string) {
   const last = history.slice(0, -1).findLast((m) => m.role === "assistant");
-  if (!last?.rerun || last.rerun.jobId || !llmEnabled()) return null;
+  if (!last || !llmEnabled()) return null;
+  const pendingRerun = last.rerun && !last.rerun.jobId;
+  const pendingChanges = !last.applied && last.changes?.some((c) => c.ok);
+  if (!pendingRerun && !pendingChanges) return null;
+  const proposal = pendingRerun
+    ? `re-running a deck optimizer with ${last.rerun!.summary}`
+    : `these deck changes: ${last
+        .changes!.filter((c) => c.ok)
+        .map((c) => `${c.action} ${c.name}`)
+        .join(", ")}`;
   const answers = await decide(
-    `The assistant proposed re-running a deck optimizer with new settings (${last.rerun.summary}) and asked: "${last.content}"\nThe user replied: "${message}"`,
+    `The assistant proposed ${proposal} and said: "${last.content}"\nThe user replied: "${message}"`,
     [],
     [
       {
         name: "confirms",
-        instructions:
-          "The user's reply agrees to go ahead with the proposed re-run now, without asking for anything different.",
+        instructions: `The user's reply agrees to go ahead with the proposed ${pendingRerun ? "re-run" : "changes"} now, without asking for anything different.`,
       },
     ],
   ).catch(() => new Map<string, number>());
@@ -428,7 +463,7 @@ export async function startChatRerun(
   const meta = await readMeta(slug);
   meta.options = { ...meta.options, ...message.rerun.options };
   await writeMeta(meta);
-  const jobId = startOptimize(slug).id;
+  const jobId = startOptimize(slug, { keepEdits: message.rerun.keepEdits }).id;
   message.rerun = { ...message.rerun, jobId };
   if (!history) await writeChat(slug, messages);
   return jobId;
@@ -443,7 +478,7 @@ export async function applyDeckChanges(
   proposed: DeckChange[],
   request: string,
   target: EditTarget = "optimized",
-): Promise<{ report: Report; changes: DeckChange[] }> {
+): Promise<{ report: Report; changes: DeckChange[]; reoptimize: string | null }> {
   const meta = await readMeta(slug);
   const report = await readReport(slug);
   if (!report) throw new HttpError(409, "Optimize the deck before editing it.");
@@ -561,7 +596,13 @@ export async function applyDeckChanges(
   );
   await writeResults(slug, updated, { commanders, entries: toEntries(next) });
   if (editsOriginal) await writeInitial(slug, commanders, toEntries(initial));
-  return { report: updated, changes };
+  const reoptimize = await reoptimizeReason(
+    report,
+    updated,
+    report.swaps.length - rebased.swaps.length,
+    valid,
+  );
+  return { report: updated, changes, reoptimize };
 }
 
 /** Stats, bracket and combos of an edited submitted list, as the pipeline computes them. */
@@ -603,9 +644,18 @@ async function recomputeOriginal(
 export async function applyChatChanges(
   slug: string,
   messageId: string,
-): Promise<{ report: Report; message: DeckChatMessage }> {
+): Promise<{ report: Report; message: DeckChatMessage; followUp?: DeckChatMessage }> {
   const history = await readChat(slug);
   const index = history.findIndex((m) => m.id === messageId);
+  const { report, reoptimize } = await applyProposal(slug, history, index);
+  const followUp = reoptimize ? rerunProposal(reoptimize) : undefined;
+  if (followUp) history.push(followUp);
+  await writeChat(slug, history);
+  return { report, message: history[index], ...(followUp ? { followUp } : {}) };
+}
+
+/** Applies the changes an assistant message proposed and marks it applied in `history`. */
+async function applyProposal(slug: string, history: DeckChatMessage[], index: number) {
   const message = history[index];
   if (!message?.changes?.length) throw new HttpError(404, "No changes to apply in that message.");
   if (message.applied) throw new HttpError(409, "Those changes were already applied.");
@@ -614,15 +664,9 @@ export async function applyChatChanges(
       .slice(0, index)
       .reverse()
       .find((m) => m.role === "user")?.content ?? "";
-  const { report, changes } = await applyDeckChanges(
-    slug,
-    message.changes,
-    request,
-    message.target,
-  );
-  history[index] = { ...message, changes, applied: true };
-  await writeChat(slug, history);
-  return { report, message: history[index] };
+  const result = await applyDeckChanges(slug, message.changes, request, message.target);
+  history[index] = { ...message, changes: result.changes, applied: true };
+  return result;
 }
 
 /**
@@ -653,6 +697,66 @@ export async function applyManaSuggestion(slug: string, id: string): Promise<Rep
   const report = await readReport(slug);
   const suggestion = report?.manaSuggestions?.find((m) => m.id === id);
   if (!suggestion) throw new HttpError(404, "That suggestion is no longer available.");
-  return (await applyDeckChanges(slug, suggestion.changes, `Mana base: ${suggestion.reason}`))
-    .report;
+  const { report: updated, reoptimize } = await applyDeckChanges(
+    slug,
+    suggestion.changes,
+    `Mana base: ${suggestion.reason}`,
+  );
+  if (reoptimize) await writeChat(slug, [...(await readChat(slug)), rerunProposal(reoptimize)]);
+  return updated;
+}
+
+/** A probability the change warrants a fresh run must clear before the doc offers one. */
+const REOPTIMIZE_THRESHOLD = 0.6;
+
+/**
+ * Why the doc should offer to re-optimize after a change, or null when it shouldn't. Only gaps the
+ * change opened count; the decision model then judges whether they matter enough to be worth a
+ * fresh run. Without an LLM, any such gap is enough.
+ */
+export async function reoptimizeReason(
+  before: Report,
+  after: Report,
+  droppedSwaps: number,
+  changes: DeckChange[],
+): Promise<string | null> {
+  const reasons = worsenedGaps(before, after).map((g) => g.text);
+  if (droppedSwaps > 0)
+    reasons.push(
+      `${droppedSwaps} of the doc's suggested ${droppedSwaps === 1 ? "swap no longer applies" : "swaps no longer apply"}`,
+    );
+  if (!reasons.length) return null;
+  if (llmEnabled()) {
+    const m = after.after.mana;
+    const context = [
+      `A Commander deck (${after.commanders.join(" + ")}) was just changed: ${changes.map((c) => `${c.action} ${c.qty > 1 ? `${c.qty} ` : ""}${c.name}`).join(", ")}.`,
+      `What the change made worse: ${reasons.join("; ")}.`,
+      `The deck now: ${m.landCount} lands (recommended ${m.recommendedLands}), average mana value ${m.avgCmc}, roles ${after.after.roles.map((r) => `${r.role} ${r.count}${r.target !== null ? `/${r.target}` : ""}`).join(", ")}${after.bracket ? `, target bracket ${after.bracket.target} (${after.bracket.after.checks.every((c) => c.ok) ? "all checks pass" : "some checks fail"})` : ""}.`,
+    ].join("\n");
+    const answers = await decide(
+      context,
+      [],
+      [
+        {
+          name: "reoptimize",
+          instructions:
+            "Re-running the deck optimizer now, keeping the user's changes, would clearly improve how this deck plays: what the change made worse matters in games, rather than being a small or deliberate trade-off.",
+        },
+      ],
+    ).catch(() => null);
+    const p = answers?.get("reoptimize");
+    if (p !== undefined && p < REOPTIMIZE_THRESHOLD) return null;
+  }
+  return reasons.join("; ");
+}
+
+/** The doc's offer to re-optimize, keeping the user's edits; it starts only once they confirm. */
+function rerunProposal(reason: string): DeckChatMessage {
+  return {
+    id: randomUUID(),
+    role: "assistant",
+    content: `That change left the deck with ${reason}. I can re-run the optimizer to rebalance the rest of the deck around your changes, keeping your edits. Want me to?`,
+    at: new Date().toISOString(),
+    rerun: { options: {}, summary: "the current settings, keeping your edits", keepEdits: true },
+  };
 }

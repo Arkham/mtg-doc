@@ -67,13 +67,22 @@ export function checkReport(
     const added = minus(current, initial);
     const swapOuts = countsOf(r.swaps.map((s) => ({ name: s.out, qty: 1 })));
     const swapIns = countsOf(r.swaps.map((s) => ({ name: s.in, qty: 1 })));
-    if (!sameCounts(swapOuts, cut))
+    const notCut = minus(swapOuts, cut);
+    const notAdded = minus(swapIns, added);
+    if (notCut.size)
       problems.push(
-        `Swaps: cut ${describe(swapOuts)}, but the list cut ${describe(cut)} from the submitted deck.`,
+        `Swaps: cut ${describe(notCut)} beyond what the list cuts from the submitted deck (it cut ${describe(cut)}).`,
       );
-    if (!sameCounts(swapIns, added))
+    if (notAdded.size)
       problems.push(
-        `Swaps: add ${describe(swapIns)}, but the list added ${describe(added)} to the submitted deck.`,
+        `Swaps: add ${describe(notAdded)} beyond what the list adds to the submitted deck (it added ${describe(added)}).`,
+      );
+    // Every change pairs up except those that changed the deck's size.
+    const total = (m: Counts) => [...m.values()].reduce((n, q) => n + q, 0);
+    const pairable = Math.min(total(cut), total(added));
+    if (!notCut.size && !notAdded.size && r.swaps.length !== pairable)
+      problems.push(
+        `Swaps: ${r.swaps.length} listed, but the list's changes from the submitted deck make ${pairable} (cut ${describe(cut)}; added ${describe(added)}).`,
       );
     for (const c of list) {
       const delta = c.qty - (initial.get(c.name) ?? 0);

@@ -6,7 +6,7 @@ import { createApp } from "../../server/app.ts";
 import { parseDecklist } from "../../server/decklist.ts";
 import { readDeckFile } from "../../server/storage.ts";
 import type { DeckChatMessage, EditTarget, Report } from "../../shared/types.ts";
-import { optimizeFixtureDeck } from "../support/sample.ts";
+import { optimizeFixtureDeck, waitForJob } from "../support/sample.ts";
 
 let base = "";
 let close: () => void;
@@ -140,8 +140,11 @@ describe("deck chat without an LLM", () => {
     const history = (await (
       await fetch(`${base}/api/decks/${slug}/chat`)
     ).json()) as DeckChatMessage[];
-    assert.equal(history.length, 8);
+    assert.equal(history.length, 9);
     assert.equal(history[1].applied, true);
+    // Swapping a Forest for a creature widened the land shortfall, so the doc offered a re-run.
+    assert.match(history[4].content, /lands, under the recommended/);
+    assert.equal(history[4].rerun?.keepEdits, true);
   });
 
   test("putting a cut card back updates the swaps and everything built from them", async () => {
@@ -248,5 +251,63 @@ describe("deck chat without an LLM", () => {
     assert.equal(empty.status, 400);
     assert.equal((await fetch(`${base}/api/decks/no-such-deck/chat`)).status, 404);
     assert.equal((await apply("nope")).status, 404);
+  });
+});
+
+describe("re-optimizing after a change", () => {
+  test("an edit that leaves gaps gets a re-run proposal, and the re-run keeps the edit", async () => {
+    const fresh = await optimizeFixtureDeck("lathril.txt", {
+      bracket: 3,
+      tone: "balanced",
+      maxSwaps: 6,
+    });
+    const at = (path: string, init?: RequestInit) =>
+      fetch(`${base}/api/decks/${fresh.slug}${path}`, init);
+    const post = (path: string, body: unknown) =>
+      at(path, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      });
+    // Three basics out for rocks: the land count falls well below the recommendation.
+    const reply = (await (
+      await post("/chat", {
+        message:
+          "swap Forest for Fellwar Stone; swap Forest for Thought Vessel; swap Forest for Mind Stone",
+      })
+    ).json()) as DeckChatMessage;
+    assert.ok(
+      reply.changes!.every((c) => c.ok),
+      JSON.stringify(reply.changes),
+    );
+    const applied = (await (await post(`/chat/${reply.id}/apply`, {})).json()) as {
+      report: Report;
+      followUp?: DeckChatMessage;
+    };
+    const offer = applied.followUp!;
+    assert.ok(offer, "the doc offers to re-optimize");
+    assert.match(offer.content, /lands, under the recommended/);
+    // No jobId yet: nothing runs until the user confirms.
+    assert.deepEqual(offer.rerun, {
+      options: {},
+      summary: "the current settings, keeping your edits",
+      keepEdits: true,
+    });
+
+    const { jobId } = (await (await post(`/chat/${offer.id}/rerun`, {})).json()) as {
+      jobId: string;
+    };
+    const job = await waitForJob(jobId);
+    assert.equal(job.status, "done", job.error ?? "");
+    const { report } = (await (await at("")).json()) as { report: Report };
+    const inDeck = new Set(report.decklist!.map((c) => c.name));
+    for (const rock of ["Fellwar Stone", "Thought Vessel", "Mind Stone"])
+      assert.ok(inDeck.has(rock), `${rock} survives the re-run`);
+    assert.equal(report.edits!.length, 1, "the edit history is kept");
+    assert.ok(report.swaps.some((s) => s.in === "Mind Stone" && s.fromChat));
+    assert.ok(
+      report.after.mana.landCount > applied.report.after.mana.landCount,
+      "the re-run rebalanced the lands around the edit",
+    );
   });
 });

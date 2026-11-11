@@ -113,7 +113,7 @@ export const api = {
       body: JSON.stringify({ suggestions }),
     }),
   applyChat: (slug: string, messageId: string) =>
-    request<{ report: Report; message: DeckChatMessage }>(
+    request<{ report: Report; message: DeckChatMessage; followUp?: DeckChatMessage }>(
       `/api/decks/${slug}/chat/${messageId}/apply`,
       { method: "POST" },
     ),

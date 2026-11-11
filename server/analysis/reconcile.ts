@@ -88,6 +88,7 @@ export function reconcileSwaps(
 
   const repaired: Swap[] = [];
   const pair = (out: string, add: string) => {
+    if (!cuts.includes(out) || !adds.includes(add)) return;
     take(cuts, out);
     take(adds, add);
     const outCard = cardOf.get(out);
@@ -117,9 +118,14 @@ export function reconcileSwaps(
     }
   }
   for (const e of edits) {
-    const outs = namesIn(e, "remove").filter((n) => cuts.includes(n));
-    const ins = namesIn(e, "add").filter((n) => adds.includes(n));
-    for (let i = 0; i < Math.min(outs.length, ins.length); i++) pair(outs[i], ins[i]);
+    // One request can name the same basic several times, more than the deck still has cut.
+    const outs = namesIn(e, "remove");
+    for (const add of namesIn(e, "add")) {
+      const out = outs.find((n) => cuts.includes(n));
+      if (!out || !adds.includes(add)) continue;
+      outs.splice(outs.indexOf(out), 1);
+      pair(out, add);
+    }
   }
   while (cuts.length && adds.length) pair(cuts[0], adds[0]);
   return [...kept, ...repaired];
@@ -148,6 +154,29 @@ export function rebaseSwaps(
     kept.push(s);
   }
   return { deck, swaps: kept };
+}
+
+/**
+ * Where a re-run that keeps the user's chat edits starts: the submitted list with only the swaps
+ * chat made (the swaps always equal the net difference, so this is exact). Cards those swaps add
+ * stay (`added`, to lock) and cards the user took out never come back (`removed`, to exclude).
+ */
+export function pinEdits(
+  submitted: Deck,
+  swaps: Swap[],
+  cards: Map<string, Card>,
+  edits: DeckEdit[],
+): { deck: Deck; added: string[]; removed: string[] } {
+  const chat = swaps.filter((s) => s.fromChat);
+  const { deck } = rebaseSwaps(submitted, chat, cards);
+  const inDeck = new Set(deck.slots.map((s) => s.card.name));
+  const added = [...new Set(chat.map((s) => s.in))].filter((n) => !isBasicLand(n));
+  const removed = [
+    ...new Set(
+      edits.flatMap((e) => e.changes.filter((c) => c.action === "remove").map((c) => c.name)),
+    ),
+  ].filter((n) => !isBasicLand(n) && !inDeck.has(n));
+  return { deck, added, removed };
 }
 
 /** Bracket lists that say whether a card is in the deck, brought up to date with the list. */

@@ -82,6 +82,8 @@ export interface OptimizeOptions {
   /** How hard to push within the bracket. */
   tone: Tone;
   locked: string[];
+  /** Cards never to add: ones the user removed in chat, kept out by a re-run that keeps edits. */
+  excluded?: string[];
   webResearch: boolean;
 }
 
@@ -263,6 +265,8 @@ export type RerunOptions = Partial<
 export interface RerunProposal {
   options: RerunOptions;
   summary: string;
+  /** Start from the current suggestions with the user's chat edits kept, rather than afresh. */
+  keepEdits?: boolean;
   /** Set once the user confirmed and the job started. */
   jobId?: string;
 }

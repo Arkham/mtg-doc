@@ -50,6 +50,16 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
       ],
       "names normalized to the deck, invented cards dropped",
     );
+    const check = stub.requests.find((r) => JSON.stringify(r.body).includes("synergy-0"))!;
+    assert.match(
+      check.text,
+      /Lathril, Blade of the Elves: /,
+      "verified from the cards' rules text",
+    );
+    assert.ok(
+      !report.synergies!.some((x) => x.title === "Made up"),
+      "a second check drops interactions that don't hold",
+    );
     assert.equal(job.steps.find((s) => s.label === "Find synergies")!.status, "done");
     assert.ok(report.after.totalPriceUsd <= 300);
 
@@ -255,6 +265,40 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     const context = stub.requests.at(-1)!.text;
     assert.match(context, /Suggested land swaps[^]*remove Forest, add Llanowar Wastes/);
     assert.match(context, /web research (on|off)/);
+  });
+
+  test("the decision model confirms replies and judges when a change is worth re-optimizing", async () => {
+    const { applyDeckChanges, chatAboutDeck, readChat } = await import("../../server/chat.ts");
+    const { readReport } = await import("../../server/storage.ts");
+    const { slug } = await optimizeFixtureDeck("lathril.txt", {
+      bracket: 3,
+      tone: "balanced",
+      maxSwaps: 4,
+    });
+
+    // A yes to proposed changes applies them, like the Apply button.
+    const proposal = await chatAboutDeck(slug, "Give me a fairer mana rock");
+    const yes = await chatAboutDeck(slug, "yes please");
+    assert.equal(yes.content, "Done: applied 2 changes.");
+    assert.equal(yes.reportUpdated, true);
+    assert.equal((await readChat(slug)).find((m) => m.id === proposal.id)!.applied, true);
+    assert.ok((await readReport(slug))!.decklist!.some((c) => c.name === "Mind Stone"));
+    assert.ok(
+      !stub.requests.some((r) => JSON.stringify(r.body).includes('"reoptimize"')),
+      "a like-for-like swap opens no gap, so there's nothing to ask",
+    );
+
+    // A change that opens a gap goes to the decision model, which judges whether it matters.
+    const forests = (qty: number) => [
+      { action: "remove" as const, name: "Forest", qty, reason: "", ok: true },
+    ];
+    const big = await applyDeckChanges(slug, forests(3), "cut three Forests");
+    assert.match(big.reoptimize!, /lands, under the recommended/);
+    const asked = stub.requests.findLast((r) => JSON.stringify(r.body).includes('"reoptimize"'))!;
+    assert.match(asked.text, /just changed: remove 3 Forest/);
+    assert.match(asked.text, /What the change made worse: .*lands/);
+    const small = await applyDeckChanges(slug, forests(2), "cut two more");
+    assert.equal(small.reoptimize, null, "the model judged this one not worth a re-run");
   });
 
   test("deck chat: model proposals, and a content-filter refusal falls back to simple commands", async () => {
