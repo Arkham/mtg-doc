@@ -764,6 +764,61 @@ textarea.decklist {
   letter-spacing: -0.025em;
 }
 
+/* ---------- home: card search ---------- */
+
+.card-search {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+.card-search input {
+  width: 100%;
+}
+.card-search p {
+  margin: 0;
+}
+.card-hits {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.card-hits li {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.card-hit-name {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-weight: 600;
+}
+.card-hit-decks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.deck-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  max-width: 100%;
+  padding: 4px 12px;
+  border: 1px solid color-mix(in srgb, var(--aura-1) 45%, var(--line));
+  border-radius: 999px;
+  background: var(--raised);
+  color: var(--text);
+  font-size: var(--fs-sm);
+  overflow-wrap: anywhere;
+}
+.deck-chip:hover {
+  border-color: var(--aura-1);
+  text-decoration: none;
+}
+
 /* ---------- home: deck gallery ---------- */
 
 .deck-grid {
@@ -3317,6 +3372,9 @@ pre {
     min-width: 44px;
   }
   .deck-group li {
+    min-height: 44px;
+  }
+  .deck-chip {
     min-height: 44px;
   }
   .deck-card:hover {

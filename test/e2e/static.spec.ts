@@ -51,6 +51,26 @@ test.describe("static site", () => {
     await expectNoHorizontalOverflow(page);
   });
 
+  test("card search on the home page shows which decks run a card", async ({ page }) => {
+    await page.goto(STATIC_URL);
+    const search = page.getByLabel("Card name");
+    await search.fill("sol rin");
+    const hit = page.locator(".card-hits li").first();
+    await expect(hit.locator(".card-hit-name")).toContainText("Sol Ring");
+    await expect(hit.locator(".card-hit-name")).toContainText("2 decks");
+    await expect(hit.locator(".deck-chip")).toHaveCount(2);
+    await expectNoHorizontalOverflow(page);
+    // The card previews like cards anywhere else.
+    await expect(hit.getByRole("link", { name: "Sol Ring" })).toBeVisible();
+    await search.fill("definitely not a card");
+    await expect(page.getByText("No deck runs a card matching")).toBeVisible();
+    await search.fill("sol ring");
+    await page.locator(".card-hits .deck-chip").first().click();
+    await expect(
+      page.getByRole("heading", { level: 1, name: /Lathril, Blade of the Elves/ }),
+    ).toBeVisible();
+  });
+
   test("report shows bracket, swaps, deck list and mana sections", async ({ page }) => {
     await page.goto(`${STATIC_URL}#/deck/${OPTIMIZED}`);
     await expect(

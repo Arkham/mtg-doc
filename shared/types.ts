@@ -110,6 +110,8 @@ export interface DeckSummary {
   swapCount?: number;
   /** Bracket the suggested swaps aim for. */
   targetBracket?: number;
+  /** Every card in the deck as submitted, commanders included, for the card search. */
+  cards: string[];
 }
 
 export interface Swap {

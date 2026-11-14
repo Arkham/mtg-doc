@@ -170,6 +170,11 @@ describe("storage", () => {
     assert.equal(await readReport(a), null);
     const listed = await listDecks();
     assert.ok(listed.some((d) => d.slug === a && !d.hasReport));
+    assert.deepEqual(
+      listed.find((d) => d.slug === a)!.cards,
+      ["Cmdr", "Sol Ring"],
+      "the card search sees the deck as submitted, commander included",
+    );
     assert.ok(!listed.some((d) => d.slug === b), "folders without deck.json are ignored");
   });
 
@@ -224,6 +229,7 @@ describe("agent pages", () => {
       bracket: 3,
       swapCount: 2,
       targetBracket: 2,
+      cards: [],
     };
     const page = deckPage(
       summary,

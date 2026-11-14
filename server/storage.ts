@@ -141,6 +141,7 @@ export async function listDecks(): Promise<DeckSummary[]> {
     try {
       const meta = await readMeta(d.name);
       const report = await readReport(d.name).catch(() => null);
+      const list = await readInitial(d.name).then(parseDecklist, () => null);
       out.push({
         slug: meta.slug,
         commanders: meta.commanders,
@@ -156,6 +157,9 @@ export async function listDecks(): Promise<DeckSummary[]> {
         priceUsd: report?.before.totalPriceUsd,
         swapCount: report?.swaps.length,
         targetBracket: report?.bracket?.target,
+        cards: list
+          ? [...new Set([...list.commanders, ...list.entries.map((e) => e.name)])].sort()
+          : [],
       });
     } catch {
       // Folders without deck.json aren't managed by the app.
