@@ -1305,7 +1305,7 @@
     "mana": {
       "landCount": 37,
       "mdfcLands": 0,
-      "recommendedLands": 42,
+      "recommendedLands": 38,
       "avgCmc": 3.47,
       "curve": {
         "1": 5,
@@ -1324,7 +1324,7 @@
           "landSources": 20,
           "rampSources": 1,
           "targetSources": 21,
-          "targetReason": "share",
+          "targetReason": "heaviest-card",
           "heaviestCard": {
             "name": "True Conviction",
             "manaCost": "{3}{W}{W}{W}"
@@ -1378,7 +1378,6 @@
       },
       "rampCount": 5,
       "issues": [
-        "Only 37 lands; about 42 recommended for an average mana value of 3.47.",
         "9 lands enter tapped unconditionally; aim for 4 or fewer.",
         "Only 5 ramp pieces; 10 or so is typical."
       ]

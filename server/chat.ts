@@ -658,7 +658,7 @@ async function recomputeOriginal(
     estimateBracket(commanders, legalMain).catch(() => null),
     findCombos(commanders, legalMain, identity).catch(() => null),
   ]);
-  const snap = snapshot(initial, null, isCommander, twoCardCombos(est));
+  const snap = snapshot(initial, report.edhrec?.avgLands ?? null, isCommander, twoCardCombos(est));
   const bracket = report.bracket
     ? assessBracket(initial, est, snap.sim, report.bracket.target)
     : undefined;

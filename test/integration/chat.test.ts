@@ -101,6 +101,7 @@ describe("deck chat without an LLM", () => {
     assert.ok(Array.isArray(suggestions), "recomputed by the previous edit");
     if (!suggestions.length) return;
     const [first] = suggestions;
+    const recommended = detail.report.before.mana.recommendedLands;
     const res = await fetch(`${base}/api/decks/${slug}/mana-suggestions/${first.id}/apply`, {
       method: "POST",
     });
@@ -116,6 +117,12 @@ describe("deck chat without an LLM", () => {
     assert.equal(report.edits!.at(-1)!.target, "original");
     assert.equal(report.before.totalCards, 100);
     assert.equal(report.after.totalCards, 100);
+    assert.ok(report.edhrec?.avgLands, "the fixture has an EDHREC land average to blend in");
+    assert.equal(
+      report.before.mana.recommendedLands,
+      recommended,
+      "a land swap keeps the land recommendation, EDHREC average included",
+    );
     assert.match(report.edits!.at(-1)!.request, /^Mana base:/);
     assert.ok(
       !report.manaSuggestions!.some((m) => m.id === first.id),

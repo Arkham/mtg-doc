@@ -1987,7 +1987,7 @@
     "mana": {
       "landCount": 36,
       "mdfcLands": 0,
-      "recommendedLands": 42,
+      "recommendedLands": 38,
       "avgCmc": 3.78,
       "curve": {
         "1": 5,
@@ -2018,7 +2018,7 @@
           "pipShare": 0.418,
           "landSources": 16,
           "rampSources": 0,
-          "targetSources": 21,
+          "targetSources": 19,
           "targetReason": "share",
           "heaviestCard": {
             "name": "Decree of Pain",
@@ -2031,7 +2031,7 @@
           "pipShare": 0.408,
           "landSources": 14,
           "rampSources": 0,
-          "targetSources": 21,
+          "targetSources": 19,
           "targetReason": "share",
           "heaviestCard": {
             "name": "Acidic Slime",
@@ -2058,10 +2058,10 @@
       },
       "rampCount": 7,
       "issues": [
-        "Only 36 lands; about 42 recommended for an average mana value of 3.78.",
+        "Only 36 lands; about 38 recommended for an average mana value of 3.78.",
         "Blue: 15 lands make it, about 17 wanted.",
-        "Black: 16 lands make it, about 21 wanted.",
-        "Green: 14 lands make it, about 21 wanted.",
+        "Black: 16 lands make it, about 19 wanted.",
+        "Green: 14 lands make it, about 19 wanted.",
         "7 lands enter tapped unconditionally; aim for 4 or fewer.",
         "Only 7 ramp pieces; 10 or so is typical."
       ]

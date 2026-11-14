@@ -1192,7 +1192,7 @@
     "mana": {
       "landCount": 37,
       "mdfcLands": 0,
-      "recommendedLands": 39,
+      "recommendedLands": 38,
       "avgCmc": 3.34,
       "curve": {
         "0": 1,
@@ -1211,7 +1211,7 @@
           "pipShare": 0.691,
           "landSources": 21,
           "rampSources": 2,
-          "targetSources": 26,
+          "targetSources": 25,
           "targetReason": "share",
           "heaviestCard": {
             "name": "Blatant Thievery",
@@ -1255,8 +1255,7 @@
       },
       "rampCount": 9,
       "issues": [
-        "Only 37 lands; about 39 recommended for an average mana value of 3.34.",
-        "Blue: 21 lands make it, about 26 wanted.",
+        "Blue: 21 lands make it, about 25 wanted.",
         "Black: 18 lands make it, about 21 wanted.",
         "7 lands enter tapped unconditionally; aim for 4 or fewer.",
         "6 colorless-only lands strain a 2-color mana base."
