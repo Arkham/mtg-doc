@@ -10,34 +10,36 @@ Build Wrexial as optimized Dimir control-combo: use efficient interaction and pr
 
 ## Bracket 4: Optimized
 
-Tone: max. Before: bracket 4 (power 57). After: bracket 4 (power 80, high Optimized). Expect at least 4 turns.
+Tone: max. Before: bracket 4 (power 56). After: bracket 4 (power 81, high Optimized). Expect at least 4 turns.
 
 - ✅ **Game Changers:** 14 (no limit)
 - ✅ **Mass land denial:** none
 - ✅ **Extra turns:** none
 - ✅ **Two-card combos:** allowed
-- Game Changers: Consecrated Sphinx, Cyclonic Rift, Demonic Tutor, Mana Vault, Mystical Tutor, Rhystic Study, Vampiric Tutor, Notion Thief, Force of Will, Opposition Agent, Imperial Seal, Necropotence, Narset, Parter of Veils, Bolas's Citadel
-- Combo: Bloodchief Ascension + Mindcrank (12.1% assembled before turn 4)
-- Combo: Duskmantle Guildmage + Mindcrank (11.6% assembled before turn 4)
+- Game Changers: Consecrated Sphinx, Cyclonic Rift, Demonic Tutor, Mana Vault, Mystical Tutor, Necropotence, Rhystic Study, Vampiric Tutor, Notion Thief, Force of Will, Opposition Agent, Imperial Seal, Narset, Parter of Veils, Bolas's Citadel
+- Combo: Bloodchief Ascension + Mindcrank (12.2% assembled before turn 4)
+- Combo: Duskmantle Guildmage + Mindcrank (11.7% assembled before turn 4)
 
 ## Mana base
 
 | | Before | After |
 |---|---|---|
 | Lands | 37 | 37 (recommended 37) |
-| Avg mana value | 3.42 | 2.85 |
+| Avg mana value | 3.34 | 2.85 |
 | Ramp | 9 | 9 |
 | Tapped lands | 7 | 5 |
-| U sources (target 23) | 20 | 23 |
-| B sources (target 21) | 17 | 19 |
+| U sources (target 23) | 21 | 23 |
+| B sources (target 21) | 18 | 19 |
 
 Mana base changes:
 
-- Temple of the False God → Command Tower: Temple of the False God only makes colorless mana; Command Tower makes black and blue untapped, helping blue and black, which are short.
 - Barren Moor → Exotic Orchard: Barren Moor always enters tapped; Exotic Orchard makes black and blue untapped, helping blue and black, which are short.
 - Lonely Sandbar → Sunken Hollow: Lonely Sandbar always enters tapped; Sunken Hollow makes black and blue untapped, helping blue and black, which are short.
 - Cabal Coffers → City of Brass: City of Brass makes black and blue untapped, helping blue and black, which are short.
 
+- Suggested: −Island, +Drowned Catacomb: You have plenty of blue sources; Drowned Catacomb makes black and blue untapped, helping black, which is short.
+- Suggested: −Island, +Cavern of Souls: You have plenty of blue sources; Cavern of Souls makes black and blue untapped, helping black, which is short.
+- Suggested: −Dimir Aqueduct, +Mana Confluence: Dimir Aqueduct always enters tapped; Mana Confluence makes black and blue untapped.
 - ⚠️ Black: 19 lands make it, about 21 wanted.
 - ⚠️ 5 lands enter tapped unconditionally; aim for 4 or fewer.
 - ⚠️ 6 colorless-only lands strain a 2-color mana base.
@@ -48,16 +50,16 @@ Mana base changes:
 
 | | Before | After |
 |---|---|---|
-| Mulligan rate | 19.6% | 18.8% |
+| Mulligan rate | 19.9% | 20% |
 | Land drop on turn 2 | 99.7% | 99.8% |
-| Land drop on turn 3 | 90.3% | 90.1% |
-| Land drop on turn 4 | 74.2% | 73.9% |
-| Land drop on turn 5 | 55.8% | 55.1% |
-| Commander on curve | 52.3% | 57.1% |
-| All colors by turn 3 | 85.1% | 90.4% |
-| Mana on turn 4 | 4.54 | 4.55 |
-| Screw (<3 lands T4) | 6.1% | 6% |
-| Flood (10+ lands seen by T7) | 0.5% | 0.4% |
+| Land drop on turn 3 | 89.9% | 90.6% |
+| Land drop on turn 4 | 74% | 74.6% |
+| Land drop on turn 5 | 55.5% | 56.1% |
+| Commander on curve | 54.3% | 57.5% |
+| All colors by turn 3 | 87.7% | 91.1% |
+| Mana on turn 4 | 4.55 | 4.56 |
+| Screw (<3 lands T4) | 6% | 6% |
+| Flood (10+ lands seen by T7) | 0.4% | 0.4% |
 
 ## Roles
 
@@ -65,11 +67,11 @@ Mana base changes:
 |---|---|---|---|
 | land | 37 | 37 |  |
 | ramp | 9 | 9 | 10 |
-| draw | 7 | 11 | 10 |
+| draw | 8 | 11 | 10 |
 | removal | 4 | 5 | 8 |
 | wipe | 3 | 3 | 2 |
 | counter | 3 | 5 | 0 |
-| tutor | 6 | 6 | 0 |
+| tutor | 5 | 6 | 0 |
 | protection | 2 | 3 | 3 |
 | recursion | 0 | 0 | 2 |
 | wincon | 0 | 1 |  |
@@ -107,6 +109,11 @@ Mana base changes:
 - **Recharge the Big Mana Rocks** (Tezzeret the Seeker + Mana Vault + Basalt Monolith): Tezzeret the Seeker's +1 untaps Mana Vault and Basalt Monolith without paying their normal untap costs. Untapping both after tapping them produces another six colorless mana, accelerating Wrexial, expensive interaction, or a large Exsanguinate.
 - **Multiply the Draw Engine** (Consecrated Sphinx + Rite of Replication): A kicked Rite of Replication targeting Consecrated Sphinx creates five additional Sphinxes. With the original still present, each card an opponent draws can yield twelve cards for you.
 - **Upkeep Mill Becomes Life Drain** (Bloodchief Ascension + Dreamborn Muse): Once Bloodchief Ascension has three quest counters, every card Dreamborn Muse mills from an opponent can make that opponent lose 2 life and you gain 2 life. This turns the deck's graveyard-filling engine into a substantial multiplayer finisher without requiring an infinite combo.
+- **Drain Life, Buy Cards** (Necropotence + Exsanguinate): Exsanguinate replenishes the life spent on Necropotence, gaining life from every opponent hit. Necropotence in turn helps find Exsanguinate and the mana sources needed to make it a substantial drain.
+- **Keep Everything You Paid For** (Necropotence + Reliquary Tower): Reliquary Tower lets you retain a large Necropotence refill through cleanup rather than discard down to seven. This preserves the cards you paid life for and avoids Necropotence exiling those excess discards.
+- **Clear the Citadel's Path** (Ponder + Bolas's Citadel): Ponder rearranges upcoming cards to keep Bolas's Citadel casting spells, draws away a blocking land, or shuffles away an unhelpful top three. Casting Ponder from the library costs just 1 life through the Citadel.
+- **Cantrip into Disruption** (Ponder + Hullbreaker Horror): Ponder becomes a one-mana bounce trigger that replaces itself while finding your next play. Hullbreaker Horror can clear a blocker for Wrexial, the Risen Deep or remove another troublesome nonland permanent before Ponder resolves.
+- **Reject a Stale Top Three** (Ponder + Sensei's Divining Top): Sensei's Divining Top identifies when your next three cards are unhelpful; Ponder then lets you shuffle them away and draw from a fresh library. If the cards are useful instead, their combined ordering effects help plan your upcoming draws.
 
 ## Swaps
 
@@ -119,20 +126,23 @@ Mana base changes:
 | Body Double | Windfall | draw | Windfall refreshes your hand while putting opposing instants and sorceries into Wrexial's reach. Its interactions with Notion Thief and Narset give it a much higher ceiling than a five-mana graveyard clone. |
 | Bribery | Imperial Seal | other | A one-mana unrestricted tutor finds the exact engine, interaction, or combo piece needed rather than depending on opponents' creature selections. Its topdeck placement is also manageable with Sensei's Divining Top. |
 | Clone | Duskmantle Guildmage | combo | Guildmage turns the existing Mindcrank into a finishing engine. Activate its first ability before an opponent loses life or mills a card; the resulting loop drains and mills that opponent, with a separate seed needed for each opponent. |
-| Future Sight | Necropotence | draw | Necropotence supplies a much larger hand for assembling and protecting a finish at a lower mana value. Its triple-black cost makes the planned mana-base correction important, and its delayed hand refill should be used proactively. |
 | Hinder | Mana Drain | interaction | Mana Drain is cheaper, unconditional interaction whose mana rebate helps cast Wrexial or Hullbreaker Horror. Unlike Hinder's library placement, countering into the graveyard can also leave a spell available for Wrexial. |
 | Ixidron | Drown in the Loch | interaction | Drown supplies flexible two-mana creature removal or countermagic as opposing graveyards grow through wheels and existing mill. It replaces a five-mana effect that can also turn your own important creatures face down. |
 | Mimic Vat | Bloodchief Ascension | combo | Once it has three quest counters, Ascension forms another lethal life-loss/mill engine with Mindcrank. It can accumulate counters across players' end steps and converts opposing discards into drain without repeatedly spending mana on temporary creatures. |
 | Duplicant | Narset, Parter of Veils | draw | Narset finds noncreature engines and interaction while restricting opposing draw. Pairing her with a wheel cripples opposing hands and stocks graveyards for Wrexial; treat that lock as a turn-four-or-later play. |
 | Quicksilver Elemental | Whispering Madness | synergy | Whispering Madness adds a second wheel for Notion Thief, Narset, and graveyard setup. Ciphering it onto Wrexial enables repeat wheels through his landwalk, although his shroud equipment must be removed before choosing him for cipher. |
-| Mystical Teachings | Ponder | curve | The deck already retains extensive tutoring, so cheap selection improves opening hands more than another four-mana tutor. Ponder helps locate colored lands, early acceleration, or protection before committing to the six-mana commander. |
 | Stormtide Leviathan | Bolas's Citadel | draw | Citadel replaces an eight-mana combat enabler with an engine that can assemble a protected finish immediately. With Sensei's Divining Top, repeatedly drawing Top and recasting it from the library converts life into cards, while Top also helps manage lands that stop Citadel. |
-| Temple of the False God | Command Tower | mana | Temple of the False God only makes colorless mana; Command Tower makes black and blue untapped, helping blue and black, which are short. |
 | Barren Moor | Exotic Orchard | mana | Barren Moor always enters tapped; Exotic Orchard makes black and blue untapped, helping blue and black, which are short. |
 | Lonely Sandbar | Sunken Hollow | mana | Lonely Sandbar always enters tapped; Sunken Hollow makes black and blue untapped, helping blue and black, which are short. |
 | Cabal Coffers | City of Brass | mana | City of Brass makes black and blue untapped, helping blue and black, which are short. |
 
-## Deck list as submitted (100 cards)
+## Changes from chat
+
+- 2026-11-14 (your deck) “Swap: Temple of the False God → Command Tower”: −Temple of the False God, +Command Tower
+- 2026-11-14 (your deck) “Swap: Future Sight → Necropotence”: −Future Sight, +Necropotence
+- 2026-11-14 (your deck) “Swap: Mystical Teachings → Ponder”: −Mystical Teachings, +Ponder
+
+## Decklist as submitted (100 cards)
 
 ### Commander (1)
 
@@ -162,7 +172,7 @@ Mana base changes:
 
 - 1 Tezzeret the Seeker {3}{U}{U}
 
-### Instant (13)
+### Instant (12)
 
 - 1 Mystical Tutor {U}
 - 1 Vampiric Tutor {B}
@@ -173,13 +183,13 @@ Mana base changes:
 - 1 Hinder {1}{U}{U}
 - 1 Spell Crumple {1}{U}{U}
 - 1 Sudden Death {1}{B}{B}
-- 1 Mystical Teachings {3}{U}
 - 1 Snuff Out {3}{B}
 - 1 Submerge {4}{U}
 - 1 Spinal Embrace {3}{U}{U}{B}
 
-### Sorcery (12)
+### Sorcery (13)
 
+- 1 Ponder {U}
 - 1 Black Sun's Zenith {X}{B}{B}
 - 1 Curse of the Swine {X}{U}{U}
 - 1 Demonic Tutor {1}{B}
@@ -215,14 +225,15 @@ Mana base changes:
 ### Enchantment (3)
 
 - 1 Animate Dead {1}{B}
+- 1 Necropotence {B}{B}{B}
 - 1 Rhystic Study {2}{U}
-- 1 Future Sight {2}{U}{U}{U}
 
 ### Land (37)
 
 - 1 Academy Ruins
 - 1 Barren Moor
 - 1 Cabal Coffers
+- 1 Command Tower
 - 1 Creeping Tar Pit
 - 1 Dimir Aqueduct
 - 1 Dimir Guildgate
@@ -234,7 +245,6 @@ Mana base changes:
 - 1 Salt Marsh
 - 1 Strip Mine
 - 7 Swamp
-- 1 Temple of the False God
 - 1 Terramorphic Expanse
 - 1 Thespian's Stage
 - 1 Tolaria West
@@ -242,7 +252,7 @@ Mana base changes:
 - 1 Urza's Factory
 - 1 Watery Grave
 
-## Suggested deck list (100 cards)
+## Suggested decklist (100 cards)
 
 ### Commander (1)
 
@@ -288,7 +298,7 @@ Mana base changes:
 ### Sorcery (14)
 
 - 1 Imperial Seal {B} _(new)_
-- 1 Ponder {U} _(new)_
+- 1 Ponder {U}
 - 1 Black Sun's Zenith {X}{B}{B}
 - 1 Curse of the Swine {X}{U}{U}
 - 1 Demonic Tutor {1}{B}
@@ -325,14 +335,14 @@ Mana base changes:
 
 - 1 Bloodchief Ascension {B} _(new)_
 - 1 Animate Dead {1}{B}
-- 1 Necropotence {B}{B}{B} _(new)_
+- 1 Necropotence {B}{B}{B}
 - 1 Rhystic Study {2}{U}
 
 ### Land (37)
 
 - 1 Academy Ruins
 - 1 City of Brass _(new)_
-- 1 Command Tower _(new)_
+- 1 Command Tower
 - 1 Creeping Tar Pit
 - 1 Dimir Aqueduct
 - 1 Dimir Guildgate
@@ -415,6 +425,6 @@ These appear on Wrexial’s EDHREC combo page; **none requires Wrexial himself**
 - [Linvala, Keeper of Silence + Kormus Bell + Urborg, Tomb of Yawgmoth ...](https://commanderspellbook.com/combo/209-233-714/)
 - [Harbinger of the Seas MTG - Modern Horizons 3 #63 (English) - Gatherer](https://gatherer.wizards.com/MH3/en-us/63/harbinger-of-the-seas)
 
-Totals: 100 → 100 cards, $793.3 → $1104.45
+Totals: 100 → 100 cards, $833.78 → $1104.31
 
 EDHREC: https://edhrec.com/commanders/wrexial-the-risen-deep/optimized

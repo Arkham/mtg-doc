@@ -17,6 +17,7 @@ Deck
 1 Cabal Coffers
 1 Capsize
 1 Clone
+1 Command Tower
 1 Consecrated Sphinx
 1 Counterspell
 1 Creeping Tar Pit
@@ -34,7 +35,6 @@ Deck
 1 Expedition Map
 1 Exsanguinate
 1 Fellwar Stone
-1 Future Sight
 1 Hinder
 11 Island
 1 Ixidron
@@ -46,10 +46,11 @@ Deck
 1 Mind Stone
 1 Mindcrank
 1 Miren, the Moaning Well
-1 Mystical Teachings
 1 Mystical Tutor
+1 Necropotence
 1 Oblivion Stone
 1 Phyrexian Metamorph
+1 Ponder
 1 Praetor's Grasp
 1 Quicksilver Elemental
 1 Reliquary Tower
@@ -70,7 +71,6 @@ Deck
 1 Submerge
 1 Sudden Death
 7 Swamp
-1 Temple of the False God
 1 Terramorphic Expanse
 1 Tezzeret the Seeker
 1 Thada Adel, Acquisitor

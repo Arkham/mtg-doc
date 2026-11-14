@@ -10,13 +10,13 @@ Build toward turn-six-or-later wins through graveyard-fueled combat, large Mimeo
 
 ## Bracket 3: Upgraded
 
-Tone: max. Before: bracket 2 (power 30). After: bracket 3 (power 52, mid Upgraded). Expect at least 6 turns.
+Tone: max. Before: bracket 2 (power 30). After: bracket 3 (power 47, mid Upgraded). Expect at least 6 turns.
 
-- ✅ **Game Changers:** 3 of 3 allowed
+- ✅ **Game Changers:** 2 of 3 allowed
 - ✅ **Mass land denial:** none
 - ✅ **Extra turns:** none
 - ✅ **Two-card combos:** only late-game ones
-- Game Changers: Cyclonic Rift, Survival of the Fittest, Gifts Ungiven
+- Game Changers: Survival of the Fittest, Gifts Ungiven
 
 Skipped to stay in the bracket:
 - Consecrated Sphinx: all 3 Game Changer slots are used
@@ -31,11 +31,11 @@ Skipped to stay in the bracket:
 | | Before | After |
 |---|---|---|
 | Lands | 36 | 36 (recommended 37) |
-| Avg mana value | 3.84 | 3.17 |
-| Ramp | 7 | 11 |
+| Avg mana value | 3.78 | 3.29 |
+| Ramp | 7 | 10 |
 | Tapped lands | 7 | 0 |
-| U sources (target 17) | 14 | 17 |
-| B sources (target 17) | 17 | 17 |
+| U sources (target 17) | 15 | 17 |
+| B sources (target 18) | 16 | 17 |
 | G sources (target 19) | 14 | 19 |
 
 Mana base changes:
@@ -45,12 +45,12 @@ Mana base changes:
 - Temple of the False God → Exotic Orchard: Temple can be unusable in early hands and does not fix colors. Exotic Orchard normally supplies useful colored mana immediately in multiplayer.
 - Lonely Sandbar → Rejuvenating Springs: In a normal four-player game, Springs enters untapped and fixes both blue and green. Keep Barren Moor as a cycling outlet for Life from the Loam rather than retaining every tapped cycling land.
 - Tranquil Thicket → Undergrowth Stadium: Stadium improves early black-green access and normally enters untapped in multiplayer. This prioritizes casting setup spells on curve over adding another tapped surveil land or colorless utility land.
-- Swamp → Island: U is short on sources (15/17) while B has 18/17.
 - Barren Moor → Reflecting Pool: Barren Moor always enters tapped; Reflecting Pool makes black and green and blue untapped, helping blue and green, which are short.
 - Dimir Aqueduct → Fabled Passage: Dimir Aqueduct always enters tapped; Fabled Passage makes blue and black and green untapped, helping green, which is short.
 - Golgari Rot Farm → Verdant Catacombs: Golgari Rot Farm always enters tapped; Verdant Catacombs makes black and green untapped.
 - Simic Growth Chamber → Yavimaya Coast: Simic Growth Chamber always enters tapped; Yavimaya Coast makes green and blue untapped.
 
+- Suggested: −Forest, +City of Brass: You have plenty of green sources; City of Brass makes black and green and blue untapped, helping black, which is short.
 
 ## Goldfish simulation
 
@@ -58,15 +58,15 @@ Mana base changes:
 
 | | Before | After |
 |---|---|---|
-| Mulligan rate | 21.2% | 21.7% |
-| Land drop on turn 2 | 99.6% | 99.7% |
-| Land drop on turn 3 | 89.1% | 89.6% |
-| Land drop on turn 4 | 72.6% | 72.1% |
-| Land drop on turn 5 | 53.6% | 53.2% |
-| Commander on curve | 52.9% | 73.9% |
-| All colors by turn 3 | 67.7% | 88.3% |
-| Mana on turn 4 | 4.17 | 4.49 |
-| Screw (<3 lands T4) | 6.4% | 6.3% |
+| Mulligan rate | 21.6% | 21.1% |
+| Land drop on turn 2 | 99.7% | 99.7% |
+| Land drop on turn 3 | 89.3% | 88.8% |
+| Land drop on turn 4 | 71.7% | 72.2% |
+| Land drop on turn 5 | 52.5% | 53.1% |
+| Commander on curve | 53.9% | 74.1% |
+| All colors by turn 3 | 70.3% | 87.8% |
+| Mana on turn 4 | 4.19 | 4.49 |
+| Screw (<3 lands T4) | 6.5% | 6.9% |
 | Flood (10+ lands seen by T7) | 0.4% | 0.3% |
 
 ## Roles
@@ -74,16 +74,16 @@ Mana base changes:
 | Role | Before | After | Target |
 |---|---|---|---|
 | land | 36 | 36 |  |
-| ramp | 7 | 11 | 10 |
-| draw | 7 | 13 | 10 |
-| removal | 11 | 9 | 8 |
-| wipe | 4 | 2 | 2 |
+| ramp | 7 | 10 | 10 |
+| draw | 9 | 12 | 10 |
+| removal | 9 | 8 | 8 |
+| wipe | 4 | 3 | 2 |
 | counter | 3 | 2 | 0 |
 | tutor | 5 | 5 | 0 |
 | protection | 6 | 5 | 3 |
 | recursion | 6 | 5 | 2 |
 | wincon | 0 | 0 |  |
-| other | 18 | 15 |  |
+| other | 19 | 17 |  |
 
 ## Combos one card away
 
@@ -95,8 +95,8 @@ Mana base changes:
 - add **Jumbo Cactuar** → [Jarad, Golgari Lich Lord + Jumbo Cactuar](https://commanderspellbook.com/combo/182-6323/): Near-infinite lifeloss, Each opponent loses the game
 - add **Wall of Blood** → [Jarad, Golgari Lich Lord + Wall of Blood](https://commanderspellbook.com/combo/182-2749/): Each opponent loses the game, Near-infinite lifeloss
 - add **Crackdown Construct** → [Crackdown Construct + Lightning Greaves](https://commanderspellbook.com/combo/876-4944/): Infinitely large creature until end of turn
+- add **Magistrate's Scepter** → [Vorel of the Hull Clade + Magistrate's Scepter](https://commanderspellbook.com/combo/3609-4312/): Infinite turns, Lock
 - add **Cephalid Illusionist** → [Cephalid Illusionist + Lightning Greaves](https://commanderspellbook.com/combo/876-2904/): Infinite self-mill
-- add **Kederekt Leviathan** → [Kederekt Leviathan + Animate Dead](https://commanderspellbook.com/combo/4413-4812/): Return all nonland permanents to owner's hand each turn, Lock
 
 ## Synergies
 
@@ -104,29 +104,32 @@ Mana base changes:
 - **Unblockable Commander Clock** (The Mimeoplasm + Whispersilk Cloak): Whispersilk Cloak makes a counter-loaded The Mimeoplasm unblockable while protecting it from targeted removal. This turns the commander's huge size into a reliable commander-damage threat rather than something opponents can repeatedly chump-block.
 - **Tutor Into Teamwide Flying** (Survival of the Fittest + Wonder + Breeding Pool + The Mimeoplasm): Survival of the Fittest can find Wonder, then discard it to another activation while tutoring a useful creature. With Breeding Pool providing the Island subtype, leaving Wonder in your graveyard gives The Mimeoplasm and your other creatures flying.
 - **Graveyard-Sized Table Drain** (Lord of Extinction + Jarad, Golgari Lich Lord): Lord of Extinction turns the deck's graveyard filling into enormous power, and Jarad, Golgari Lich Lord converts that power into life loss for every opponent. This provides a potentially lethal finish without needing to attack.
-- **Cash Out, Dig Deep** (The Mimeoplasm + Greater Good + Underrealm Lich): Greater Good sacrifices a huge The Mimeoplasm to generate cards equal to its power, then discard three cards. Underrealm Lich replaces each draw with selecting one of three cards and putting the other two into your graveyard, producing both exceptional selection and a massive refill of reanimation targets.
 - **Wipe, Then Recruit** (Life's Finale + Sepulchral Primordial): Life's Finale destroys the creature board and stocks one opponent's graveyard with up to three creatures chosen from their library. A subsequent Sepulchral Primordial can steal one of those curated targets and creatures from the other opponents' newly stocked graveyards.
 - **Turn One Body Into Two** (Victimize + Yavimaya Elder + Solemn Simulacrum): Sacrificing Yavimaya Elder to Victimize triggers its land-search ability while returning two creatures from your graveyard. Returning Solemn Simulacrum as one of them adds another land to the battlefield and leaves behind a creature that replaces itself when it dies.
 - **Renewable Shroud Fuel** (Sylvan Safekeeper + Life from the Loam + Verdant Catacombs): Sylvan Safekeeper turns lands into protection for The Mimeoplasm or another key creature, while Life from the Loam returns those sacrificed lands to your hand. Verdant Catacombs is another reusable land target, and dredging Life from the Loam also advances the graveyard plan.
-- **Windfall Feeds the Monsters** (Windfall + Vulturous Zombie + Consuming Aberration): Casting Windfall triggers Consuming Aberration's opponent-milling ability, then resolving it puts opponents' discarded hands into their graveyards. Those cards enlarge Consuming Aberration and give Vulturous Zombie a +1/+1 counter for each card entering an opponent's graveyard.
 - **Low-Cost Dredge Reload** (Frantic Search + Golgari Grave-Troll): With Golgari Grave-Troll in your graveyard, replace a Frantic Search draw with dredge 6, then discard the returned Troll during the spell's discard step to prepare another dredge. Untapping up to three lands keeps mana available while you load the graveyard for The Mimeoplasm and reanimation.
+- **One-Hit Poison Commander** (Buried Alive + The Mimeoplasm + Skithiryx, the Blight Dragon + Lord of Extinction): Buried Alive puts both creatures into your graveyard, letting The Mimeoplasm copy Skithiryx, the Blight Dragon and gain counters equal to Lord of Extinction's power. If that power is at least 6, the resulting flying infect commander can deliver lethal poison in one unblocked hit, with {B} granting haste.
+- **Loot Into an Infect Dragon** (Likeness Looter + Skithiryx, the Blight Dragon): Likeness Looter can discard Skithiryx, the Blight Dragon while filtering your hand, then pay {5} to become its copy without removing it from your graveyard. The copy gains infect and regeneration, and another {B} grants haste so it can attack immediately.
+- **Buried Dragon, Immediate Threat** (Entomb + Necromancy + Skithiryx, the Blight Dragon): Entomb finds Skithiryx, the Blight Dragon for Necromancy to reanimate, bypassing its normal casting cost. Reanimate it during your precombat main phase and pay {B} for haste to immediately threaten four poison counters through the air.
+- **Sacrifice, Dredge, Reload** (Golgari Grave-Troll + Greater Good): Sacrifice a large Golgari Grave-Troll to Greater Good, then replace one of the resulting draws with its dredge 6 to return it to your hand. The remaining draws and subsequent discards stock your hand and graveyard, while the milled creatures can make the next Grave-Troll larger.
+- **Salvage Into Cheap Reanimation** (Grisly Salvage + Stitch Together): Grisly Salvage can put a reanimation target into your graveyard while keeping a useful creature or land in hand. Its discarded cards, plus Grisly Salvage itself, help reach the seven-card threshold that turns Stitch Together into a two-mana battlefield reanimation spell.
+- **Fetch the Flying Switch** (Farseek + Watery Grave + Wonder): With Wonder in your graveyard, Farseek can find Watery Grave because it is an Island and a Swamp. Watery Grave enables Wonder's teamwide flying even while tapped, helping your oversized graveyard-powered creatures connect.
+- **Wipe, Draw, Reanimate Their Best** (Decree of Pain + Sepulchral Primordial): Decree of Pain clears creatures into graveyards while drawing you a fresh hand. Follow it with Sepulchral Primordial to reanimate up to one freshly destroyed creature from each opponent's graveyard and rebuild your board with their best threats.
+- **Turn the Wipe Into a Dredge Reload** (Decree of Pain + Golgari Grave-Troll + The Mimeoplasm): If Decree of Pain destroys Golgari Grave-Troll, the Troll is in your graveyard before the spell's draws happen, so you can replace one of those draws with dredge 6. The wipe and dredge together stock graveyards with creature choices and counter fuel for The Mimeoplasm while the remaining draws refill your hand.
+- **Basic Island, Airborne Ooze** (Island + Wonder + The Mimeoplasm): With Wonder in your graveyard, Island gives your creatures flying, helping a large The Mimeoplasm connect for commander damage. Leave Wonder in the graveyard rather than exiling it to The Mimeoplasm so the evasion stays active.
 
 ## Swaps
 
 | Out | In | Category | Why |
 |---|---|---|---|
-| Plague Wind | Windfall | draw | Nine-mana removal is too slow. Windfall replenishes your hand while depositing expensive creatures into graveyards for Mimeoplasm and your reanimation spells. |
 | Mindleech Mass | Frantic Search | draw | Frantic Search provides instant-speed filtering and a discard outlet while untapping three lands. It advances your actual graveyard plan much more reliably than an eight-mana combat-damage payoff. |
 | Gaea's Revenge | Titanoth Rex | synergy | Cycling Rex puts an eleven-power counter donor into your graveyard while replacing itself. Its native trample also makes it a useful Mimeoplasm copy target, without adding another haste-based early knockout package. |
 | Tornado Elemental | Skull Prophet | ramp | Skull Prophet accelerates into your commander and can switch to self-mill when mana is no longer the bottleneck. Both modes contribute more consistently than the expensive Elemental. |
 | Duplicant | Likeness Looter | draw | Repeatable looting puts creatures where Mimeoplasm wants them and improves your draws. Looter can later become a useful graveyard creature without exiling that card. |
 | Extractor Demon | Fauna Shaman | synergy | Fauna Shaman turns spare creatures into the specific copy target, counter donor, or utility creature you need. Discarding a creature is productive setup rather than merely a cost in this deck. |
 | Steel Hellkite | Birds of Paradise | ramp | One-mana acceleration and three-color fixing improve almost every opening hand. Birds also provides expendable material for Victimize or Skullclamp later. |
-| Triskelion | Nature's Lore | ramp | Triskelion lacks a dedicated payoff package here. Nature's Lore accelerates efficiently and can find either green shock land, including an untapped dual when you pay the life. |
-| Big Game Hunter | Grisly Salvage | synergy | Grisly Salvage finds a creature or land while stocking the graveyard at instant speed. It provides more predictable setup than Hermit Druid in a deck retaining many basics. |
 | Corpse Connoisseur | Arcane Signet | ramp | Your efficient graveyard tutors already cover Connoisseur's role. Two-mana fixing helps cast both Mimeoplasm and the interaction needed to protect your development. |
 | Dreamborn Muse | Ripples of Undeath | draw | Ripples supplies controlled self-mill and optional card recovery each turn. Unlike Dreamborn Muse, it does not depend on hand sizes or automatically fuel every opponent equally. |
-| Fleshbag Marauder | Cyclonic Rift | interaction | Rift is flexible early interaction and a late-game opening for your large attackers. Its overloaded mode avoids destroying your own developed board and earns a Game Changer slot. |
 | Genesis | Assassin's Trophy | interaction | Genesis is slow and overlaps with your remaining recursion. Trophy answers graveyard hate and other troublesome permanents for two mana. |
 | Mimic Vat | Survival of the Fittest | synergy | Survival is the premium repeatable creature-selection engine for this commander. It simultaneously loads the graveyard and finds threats or answers instead of competing with Mimeoplasm to exile useful creatures. |
 | Yawgmoth's Will | Gifts Ungiven | bracket | Remove Will rather than retaining it alongside the three designated Game Changers. Gifts offers instant-speed graveyard setup and resource selection without Will's exile replacement effect working against your persistent graveyard engines. |
@@ -135,37 +138,39 @@ Mana base changes:
 | Perplex | Counterspell | interaction | Perplex lets an opponent discard their hand instead of losing a critical spell. Counterspell reliably stops graveyard exile, sweepers, or opposing wins for less mana, while your creature tutors handle selection. |
 | Spell Crumple | Victimize | synergy | Victimize converts an expendable utility creature into two substantial reanimated threats. Counterspell and Dissipate remain available, so this does not remove the entire counterspell package. |
 | Momentous Fall | Greater Good | draw | Greater Good repeatedly converts your enormous creatures into cards and useful discards. It also lets you sacrifice a threatened Mimeoplasm before exile removal resolves. |
-| Skithiryx, the Blight Dragon | Underrealm Lich | bracket | Skithiryx plus a large counter donor and haste creates an easily tutored early poison elimination, conflicting with the requested pacing. Underrealm Lich instead improves every draw and feeds the graveyard for a resilient value-and-combat plan. |
 | Relic Crush | Necromancy | synergy | Your retained removal already covers artifacts and enchantments. Necromancy adds efficient independent reanimation, preserving key creatures that Mimeoplasm would otherwise permanently exile. |
-| Darksteel Ingot | Farseek | ramp | Farseek fixes colors a turn earlier and can find any of your three shock lands. Land-based acceleration also survives your own Bane of Progress. |
 | Mindcrank | Mesmeric Orb | synergy | Mindcrank depends on opponents losing life and does not mill you. Orb stocks your graveyard through ordinary untapping while also increasing the graveyard resources available to Mimeoplasm. |
-| Sword of Body and Mind | Golgari Grave-Troll | synergy | The Sword requires equipment mana and successful combat before contributing. Grave-Troll supplies repeatable dredge-six setup; its main purpose here is dredging, not donating printed power to Mimeoplasm. |
 | Dreadship Reef | Breeding Pool | mana | Immediate blue-green fixing is better than spending turns charging a storage land. Its Forest type also makes it searchable with Nature's Lore and Skyshroud Claim. |
 | Jwar Isle Refuge | Watery Grave | mana | Watery Grave provides the same colors with the option to enter untapped. Its basic land types make it searchable with Farseek. |
 | Temple of the False God | Exotic Orchard | mana | Temple can be unusable in early hands and does not fix colors. Exotic Orchard normally supplies useful colored mana immediately in multiplayer. |
 | Lonely Sandbar | Rejuvenating Springs | mana | In a normal four-player game, Springs enters untapped and fixes both blue and green. Keep Barren Moor as a cycling outlet for Life from the Loam rather than retaining every tapped cycling land. |
 | Tranquil Thicket | Undergrowth Stadium | mana | Stadium improves early black-green access and normally enters untapped in multiplayer. This prioritizes casting setup spells on curve over adding another tapped surveil land or colorless utility land. |
-| Swamp | Island | mana | U is short on sources (15/17) while B has 18/17. |
 | Barren Moor | Reflecting Pool | mana | Barren Moor always enters tapped; Reflecting Pool makes black and green and blue untapped, helping blue and green, which are short. |
 | Dimir Aqueduct | Fabled Passage | mana | Dimir Aqueduct always enters tapped; Fabled Passage makes blue and black and green untapped, helping green, which is short. |
 | Golgari Rot Farm | Verdant Catacombs | mana | Golgari Rot Farm always enters tapped; Verdant Catacombs makes black and green untapped. |
 | Simic Growth Chamber | Yavimaya Coast | mana | Simic Growth Chamber always enters tapped; Yavimaya Coast makes green and blue untapped. |
 
-## Deck list as submitted (100 cards)
+## Changes from chat
+
+- 2026-11-14 “no, don't add underrealm lich”: −Underrealm Lich, +Skithiryx, the Blight Dragon
+- 2026-11-14 (your deck) “in the original list, replace big game hunter with golgary grave troll, darksteel ingot with farseek, and triskelion with grisly savage”: −Big Game Hunter, −Darksteel Ingot, −Triskelion, +Golgari Grave-Troll, +Farseek, +Grisly Salvage
+- 2026-11-14 (your deck) “replace plague wind with decree of pain and fleshbag marauder with vorel Vorel of the Hull Clade, then reanalyze deck”: −Plague Wind, −Fleshbag Marauder, +Decree of Pain, +Vorel of the Hull Clade
+- 2026-11-14 (your deck) “Swap: Swamp → Island”: −Swamp, +Island
+
+## Decklist as submitted (100 cards)
 
 ### Commander (1)
 
 - 1 The Mimeoplasm {2}{B}{G}{U}
 
-### Creature (30)
+### Creature (29)
 
 - 1 Sylvan Safekeeper {G}
 - 1 Nezumi Graverobber // Nighteyes the Desecrator {1}{B}
 - 1 Sakura-Tribe Elder {1}{G}
-- 1 Big Game Hunter {1}{B}{B}
 - 1 Eternal Witness {1}{G}{G}
-- 1 Fleshbag Marauder {2}{B}
 - 1 Trygon Predator {1}{G}{U}
+- 1 Vorel of the Hull Clade {1}{G}{U}
 - 1 Yavimaya Elder {1}{G}{G}
 - 1 Disciple of Bolas {3}{B}
 - 1 Dreamborn Muse {2}{U}{U}
@@ -176,6 +181,7 @@ Mana base changes:
 - 1 Acidic Slime {3}{G}{G}
 - 1 Corpse Connoisseur {4}{B}
 - 1 Genesis {4}{G}
+- 1 Golgari Grave-Troll {4}{G}
 - 1 Lord of Extinction {3}{B}{G}
 - 1 Skithiryx, the Blight Dragon {3}{B}{B}
 - 1 Vulturous Zombie {3}{B}{G}
@@ -183,17 +189,17 @@ Mana base changes:
 - 1 Duplicant {6}
 - 1 Extractor Demon {4}{B}{B}
 - 1 Steel Hellkite {6}
-- 1 Triskelion {6}
 - 1 Gaea's Revenge {5}{G}{G}
 - 1 Sepulchral Primordial {5}{B}{B}
 - 1 Sheoldred, Whispering One {5}{B}{B}
 - 1 Tornado Elemental {5}{G}{G}
 - 1 Mindleech Mass {5}{U}{B}{B}
 
-### Instant (12)
+### Instant (13)
 
 - 1 Entomb {B}
 - 1 Abrupt Decay {B}{G}
+- 1 Grisly Salvage {B}{G}
 - 1 Beast Within {2}{G}
 - 1 Dissipate {1}{U}{U}
 - 1 Krosan Grip {2}{G}
@@ -205,8 +211,9 @@ Mana base changes:
 - 1 Momentous Fall {2}{G}{G}
 - 1 Relic Crush {4}{G}
 
-### Sorcery (11)
+### Sorcery (12)
 
+- 1 Farseek {1}{G}
 - 1 Life from the Loam {1}{G}
 - 1 Stitch Together {B}{B}
 - 1 Buried Alive {2}{B}
@@ -217,15 +224,14 @@ Mana base changes:
 - 1 Skyshroud Claim {3}{G}
 - 1 Living Death {3}{B}{B}
 - 1 Life's Finale {4}{B}{B}
-- 1 Plague Wind {7}{B}{B}
+- 1 Decree of Pain {6}{B}{B}
 
-### Artifact (8)
+### Artifact (7)
 
 - 1 Skullclamp {1}
 - 1 Sol Ring {1}
 - 1 Lightning Greaves {2}
 - 1 Mindcrank {2}
-- 1 Darksteel Ingot {3}
 - 1 Mimic Vat {3}
 - 1 Sword of Body and Mind {3}
 - 1 Whispersilk Cloak {3}
@@ -243,23 +249,23 @@ Mana base changes:
 - 1 Dreadship Reef
 - 8 Forest
 - 1 Golgari Rot Farm
-- 7 Island
+- 8 Island
 - 1 Jwar Isle Refuge
 - 1 Lonely Sandbar
 - 1 Overgrown Tomb
 - 1 Simic Growth Chamber
-- 9 Swamp
+- 8 Swamp
 - 1 Temple of the False God
 - 1 Terramorphic Expanse
 - 1 Tranquil Thicket
 
-## Suggested deck list (100 cards)
+## Suggested decklist (100 cards)
 
 ### Commander (1)
 
 - 1 The Mimeoplasm {2}{B}{G}{U}
 
-### Creature (24)
+### Creature (25)
 
 - 1 Birds of Paradise {G} _(new)_
 - 1 Sylvan Safekeeper {G}
@@ -270,6 +276,7 @@ Mana base changes:
 - 1 Skull Prophet {B}{G} _(new)_
 - 1 Eternal Witness {1}{G}{G}
 - 1 Trygon Predator {1}{G}{U}
+- 1 Vorel of the Hull Clade {1}{G}{U}
 - 1 Yavimaya Elder {1}{G}{G}
 - 1 Disciple of Bolas {3}{B}
 - 1 Jarad, Golgari Lich Lord {B}{B}{G}{G}
@@ -277,23 +284,22 @@ Mana base changes:
 - 1 Wonder {3}{U}
 - 1 Acidic Slime {3}{G}{G}
 - 1 Consuming Aberration {3}{U}{B} _(new)_
-- 1 Golgari Grave-Troll {4}{G} _(new)_
+- 1 Golgari Grave-Troll {4}{G}
 - 1 Lord of Extinction {3}{B}{G}
-- 1 Underrealm Lich {3}{B}{G} _(new)_
+- 1 Skithiryx, the Blight Dragon {3}{B}{B}
 - 1 Vulturous Zombie {3}{B}{G}
 - 1 Bane of Progress {4}{G}{G}
 - 1 Sepulchral Primordial {5}{B}{B}
 - 1 Sheoldred, Whispering One {5}{B}{B}
 - 1 Titanoth Rex {7}{G}{G} _(new)_
 
-### Instant (14)
+### Instant (13)
 
 - 1 Entomb {B}
 - 1 Abrupt Decay {B}{G}
 - 1 Assassin's Trophy {B}{G} _(new)_
 - 1 Counterspell {U}{U} _(new)_
-- 1 Cyclonic Rift {1}{U} _(new)_
-- 1 Grisly Salvage {B}{G} _(new)_
+- 1 Grisly Salvage {B}{G}
 - 1 Beast Within {2}{G}
 - 1 Dissipate {1}{U}{U}
 - 1 Frantic Search {2}{U} _(new)_
@@ -303,29 +309,29 @@ Mana base changes:
 - 1 Fact or Fiction {3}{U}
 - 1 Gifts Ungiven {3}{U} _(new)_
 
-### Sorcery (13)
+### Sorcery (12)
 
-- 1 Farseek {1}{G} _(new)_
+- 1 Farseek {1}{G}
 - 1 Life from the Loam {1}{G}
-- 1 Nature's Lore {1}{G} _(new)_
 - 1 Stitch Together {B}{B}
 - 1 Buried Alive {2}{B}
 - 1 Cultivate {2}{G}
 - 1 Kodama's Reach {2}{G}
 - 1 Victimize {2}{B} _(new)_
-- 1 Windfall {2}{U} _(new)_
 - 1 Jarad's Orders {2}{B}{G}
 - 1 Skyshroud Claim {3}{G}
 - 1 Living Death {3}{B}{B}
 - 1 Life's Finale {4}{B}{B}
+- 1 Decree of Pain {6}{B}{B}
 
-### Artifact (6)
+### Artifact (7)
 
 - 1 Skullclamp {1}
 - 1 Sol Ring {1}
 - 1 Arcane Signet {2} _(new)_
 - 1 Lightning Greaves {2}
 - 1 Mesmeric Orb {2} _(new)_
+- 1 Sword of Body and Mind {3}
 - 1 Whispersilk Cloak {3}
 
 ### Enchantment (6)
@@ -344,7 +350,7 @@ Mana base changes:
 - 1 Exotic Orchard _(new)_
 - 1 Fabled Passage _(new)_
 - 8 Forest
-- 8 Island _(new)_
+- 8 Island
 - 1 Overgrown Tomb
 - 1 Reflecting Pool _(new)_
 - 1 Rejuvenating Springs _(new)_
@@ -411,6 +417,6 @@ Commander Spellbook documents these sequences and their prerequisites. ([command
 - [From the Brim to the Trim - Melting opponents' faces with a Budget Reanimator Deck | EDHREC](https://edhrec.com/articles/from-the-brim-to-the-trim-melting-opponents-faces-with-a-budget-reanimator-deck)
 - [Slimer, Voracious Apparition Commander Deck Tech | EDHREC](https://cloudflare.edhrec.com/articles/slimer-voracious-apparition-commander-deck-tech)
 
-Totals: 100 → 100 cards, $229.53 → $390.74
+Totals: 100 → 100 cards, $228.12 → $366.57
 
 EDHREC: https://edhrec.com/commanders/the-mimeoplasm/upgraded

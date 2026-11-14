@@ -146,7 +146,7 @@ Mana base changes:
 | Seaside Citadel | Flooded Strand | mana | Seaside Citadel always enters tapped; Flooded Strand makes white and blue untapped. |
 | Secluded Steppe | Temple Garden | mana | Secluded Steppe always enters tapped; Temple Garden makes green and white untapped. |
 
-## Deck list as submitted (100 cards)
+## Decklist as submitted (100 cards)
 
 ### Commander (1)
 
@@ -252,7 +252,7 @@ Mana base changes:
 - 1 Terramorphic Expanse
 - 1 Transguild Promenade
 
-## Suggested deck list (100 cards)
+## Suggested decklist (100 cards)
 
 ### Commander (1)
 

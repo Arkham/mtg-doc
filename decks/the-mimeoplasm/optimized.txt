@@ -16,7 +16,7 @@ Deck
 1 Consuming Aberration
 1 Counterspell
 1 Cultivate
-1 Cyclonic Rift
+1 Decree of Pain
 1 Disciple of Bolas
 1 Dissipate
 1 Entomb
@@ -44,7 +44,6 @@ Deck
 1 Living Death
 1 Lord of Extinction
 1 Mesmeric Orb
-1 Nature's Lore
 1 Necromancy
 1 Overgrown Tomb
 1 Phyrexian Reclamation
@@ -56,6 +55,7 @@ Deck
 1 Scavenging Ooze
 1 Sepulchral Primordial
 1 Sheoldred, Whispering One
+1 Skithiryx, the Blight Dragon
 1 Skull Prophet
 1 Skullclamp
 1 Skyshroud Claim
@@ -64,19 +64,19 @@ Deck
 1 Stitch Together
 1 Survival of the Fittest
 8 Swamp
+1 Sword of Body and Mind
 1 Sylvan Safekeeper
 1 Terramorphic Expanse
 1 Thirst for Knowledge
 1 Titanoth Rex
 1 Trygon Predator
 1 Undergrowth Stadium
-1 Underrealm Lich
 1 Verdant Catacombs
 1 Victimize
+1 Vorel of the Hull Clade
 1 Vulturous Zombie
 1 Watery Grave
 1 Whispersilk Cloak
-1 Windfall
 1 Wonder
 1 Yavimaya Coast
 1 Yavimaya Elder

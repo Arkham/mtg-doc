@@ -136,7 +136,7 @@ Skipped to stay in the bracket:
 - 2026-11-09 “can we just add both?”: −Venser's Journal, −Viseling, +Ob Nixilis, the Hate-Twisted, +Ob Nixilis, Captive Kingpin
 - 2026-11-09 “please add back "Helm of the Ghastlord"”: −Fog Bank, +Helm of the Ghastlord
 
-## Deck list as submitted (100 cards)
+## Decklist as submitted (100 cards)
 
 ### Commander (1)
 
@@ -244,7 +244,7 @@ Skipped to stay in the bracket:
 - 1 Vivid Creek
 - 1 Vivid Marsh
 
-## Suggested deck list (100 cards)
+## Suggested decklist (100 cards)
 
 ### Commander (1)
 

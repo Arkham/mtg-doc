@@ -577,80 +577,6 @@
       ]
     },
     {
-      "out": "Future Sight",
-      "in": "Necropotence",
-      "category": "draw",
-      "reason": "Necropotence supplies a much larger hand for assembling and protecting a finish at a lower mana value. Its triple-black cost makes the planned mana-base correction important, and its delayed hand refill should be used proactively.",
-      "outCard": {
-        "name": "Future Sight",
-        "oracleId": "93a0e938-b916-47ec-9803-369e885e253c",
-        "manaCost": "{2}{U}{U}{U}",
-        "cmc": 5,
-        "typeLine": "Enchantment",
-        "oracleText": "Play with the top card of your library revealed.\nYou may play lands and cast spells from the top of your library.",
-        "colors": [
-          "U"
-        ],
-        "colorIdentity": [
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.34,
-        "image": "https://cards.scryfall.io/normal/front/6/3/639cb483-ffe2-4abc-a050-5cdc8aebd5a2.jpg?1783933144",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/6/3/639cb483-ffe2-4abc-a050-5cdc8aebd5a2.jpg?1783933144",
-        "scryfallUri": "https://scryfall.com/card/mh1/53/future-sight?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
-        "name": "Necropotence",
-        "oracleId": "94a844d2-0574-45a7-b347-e0e329767c42",
-        "manaCost": "{B}{B}{B}",
-        "cmc": 3,
-        "typeLine": "Enchantment",
-        "oracleText": "Skip your draw step.\nWhenever you discard a card, exile that card from your graveyard.\nPay 1 life: Exile the top card of your library face down. Put that card into your hand at the beginning of your next end step.",
-        "colors": [
-          "B"
-        ],
-        "colorIdentity": [
-          "B"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": true,
-        "canBeCommander": false,
-        "priceUsd": 38.32,
-        "image": "https://cards.scryfall.io/normal/front/c/8/c89c6895-b0f8-444a-9c89-c6b4fd027b3e.jpg?1783935537",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/c/8/c89c6895-b0f8-444a-9c89-c6b4fd027b3e.jpg?1783935537",
-        "scryfallUri": "https://scryfall.com/card/ima/98/necropotence?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Mind Funeral",
-          "image": "https://cards.scryfall.io/normal/front/5/c/5cbd667f-c330-474e-842b-49dfd3906375.jpg?1783939967",
-          "scryfallUri": "https://scryfall.com/card/mma/181/mind-funeral?utm_source=api"
-        },
-        {
-          "name": "Perplex",
-          "image": "https://cards.scryfall.io/normal/front/0/d/0db57459-29f0-4ef6-b256-56955036c0ef.jpg?1783943616",
-          "scryfallUri": "https://scryfall.com/card/rav/217/perplex?utm_source=api"
-        }
-      ]
-    },
-    {
       "out": "Hinder",
       "in": "Mana Drain",
       "category": "interaction",
@@ -1005,81 +931,6 @@
       "alternatives": []
     },
     {
-      "out": "Mystical Teachings",
-      "in": "Ponder",
-      "category": "curve",
-      "reason": "The deck already retains extensive tutoring, so cheap selection improves opening hands more than another four-mana tutor. Ponder helps locate colored lands, early acceleration, or protection before committing to the six-mana commander.",
-      "outCard": {
-        "name": "Mystical Teachings",
-        "oracleId": "81d72511-88b4-45ec-a5a9-e722caf55577",
-        "manaCost": "{3}{U}",
-        "cmc": 4,
-        "typeLine": "Instant",
-        "oracleText": "Search your library for an instant card or a card with flash, reveal it, put it into your hand, then shuffle.\nFlashback {5}{B} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
-        "colors": [
-          "U"
-        ],
-        "colorIdentity": [
-          "B",
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.12,
-        "image": "https://cards.scryfall.io/normal/front/3/f/3f88eacf-5c7b-4a35-86f0-af3b0516d4c2.jpg?1783908933",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/3/f/3f88eacf-5c7b-4a35-86f0-af3b0516d4c2.jpg?1783908933",
-        "scryfallUri": "https://scryfall.com/card/fdn/594/mystical-teachings?utm_source=api",
-        "roles": [
-          "tutor"
-        ]
-      },
-      "inCard": {
-        "name": "Ponder",
-        "oracleId": "02090581-61aa-4348-ad57-451be8ee91c2",
-        "manaCost": "{U}",
-        "cmc": 1,
-        "typeLine": "Sorcery",
-        "oracleText": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card.",
-        "colors": [
-          "U"
-        ],
-        "colorIdentity": [
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 1.71,
-        "image": "https://cards.scryfall.io/normal/front/0/c/0cb673af-dae0-478c-a5d3-b697338f6c0e.jpg?1793281344",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/0/c/0cb673af-dae0-478c-a5d3-b697338f6c0e.jpg?1793281344",
-        "scryfallUri": "https://scryfall.com/card/trc/440/ponder?utm_source=api",
-        "roles": [
-          "draw"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Memory Erosion",
-          "image": "https://cards.scryfall.io/normal/front/f/2/f2fedec9-d938-419b-91e1-b4d9ad970464.jpg?1783934764",
-          "scryfallUri": "https://scryfall.com/card/cm2/45/memory-erosion?utm_source=api"
-        },
-        {
-          "name": "Thassa's Oracle",
-          "image": "https://cards.scryfall.io/normal/front/7/2/726e8b29-13e9-4138-b6a9-d2a0d8188d1c.jpg?1783931575",
-          "scryfallUri": "https://scryfall.com/card/thb/73/thassas-oracle?utm_source=api"
-        }
-      ]
-    },
-    {
       "out": "Stormtide Leviathan",
       "in": "Bolas's Citadel",
       "category": "draw",
@@ -1143,68 +994,6 @@
         ]
       },
       "alternatives": []
-    },
-    {
-      "out": "Temple of the False God",
-      "in": "Command Tower",
-      "category": "mana",
-      "reason": "Temple of the False God only makes colorless mana; Command Tower makes black and blue untapped, helping blue and black, which are short.",
-      "outCard": {
-        "name": "Temple of the False God",
-        "oracleId": "cfdd5dc6-593e-495a-8cfe-3a56b3c4c7df",
-        "manaCost": "",
-        "cmc": 0,
-        "typeLine": "Land",
-        "oracleText": "{T}: Add {C}{C}. Activate only if you control five or more lands.",
-        "colors": [],
-        "colorIdentity": [],
-        "producedMana": [
-          "C"
-        ],
-        "isLand": true,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.4,
-        "image": "https://cards.scryfall.io/normal/front/c/d/cd5e9799-00e1-41a9-b5b9-5d5164c71561.jpg?1793281644",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/c/d/cd5e9799-00e1-41a9-b5b9-5d5164c71561.jpg?1793281644",
-        "scryfallUri": "https://scryfall.com/card/trc/570/temple-of-the-false-god?utm_source=api",
-        "roles": [
-          "land"
-        ]
-      },
-      "inCard": {
-        "name": "Command Tower",
-        "oracleId": "0895c9b7-ae7d-4bb3-af17-3b75deb50a25",
-        "manaCost": "",
-        "cmc": 0,
-        "typeLine": "Land",
-        "oracleText": "{T}: Add one mana of any color in your commander's color identity.",
-        "colors": [],
-        "colorIdentity": [],
-        "producedMana": [
-          "B",
-          "G",
-          "R",
-          "U",
-          "W"
-        ],
-        "isLand": true,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.38,
-        "image": "https://cards.scryfall.io/normal/front/a/7/a73297d2-580c-4174-a427-265f6916d09f.jpg?1793021256",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/a/7/a73297d2-580c-4174-a427-265f6916d09f.jpg?1793021256",
-        "scryfallUri": "https://scryfall.com/card/trc/521/command-tower?utm_source=api",
-        "roles": [
-          "land"
-        ]
-      }
     },
     {
       "out": "Barren Moor",
@@ -1403,24 +1192,24 @@
     "mana": {
       "landCount": 37,
       "mdfcLands": 0,
-      "recommendedLands": 38,
-      "avgCmc": 3.42,
+      "recommendedLands": 39,
+      "avgCmc": 3.34,
       "curve": {
         "0": 1,
-        "1": 6,
+        "1": 7,
         "2": 13,
-        "3": 17,
-        "4": 10,
-        "5": 8,
+        "3": 18,
+        "4": 9,
+        "5": 7,
         "6": 4,
         "7+": 3
       },
       "colors": [
         {
           "color": "U",
-          "pips": 63.5,
-          "pipShare": 0.726,
-          "landSources": 20,
+          "pips": 60.5,
+          "pipShare": 0.691,
+          "landSources": 21,
           "rampSources": 2,
           "targetSources": 26,
           "targetReason": "share",
@@ -1431,15 +1220,15 @@
         },
         {
           "color": "B",
-          "pips": 24,
-          "pipShare": 0.274,
-          "landSources": 17,
+          "pips": 27,
+          "pipShare": 0.309,
+          "landSources": 18,
           "rampSources": 2,
-          "targetSources": 17,
+          "targetSources": 21,
           "targetReason": "heaviest-card",
           "heaviestCard": {
-            "name": "Beacon of Unrest",
-            "manaCost": "{3}{B}{B}"
+            "name": "Necropotence",
+            "manaCost": "{B}{B}{B}"
           }
         }
       ],
@@ -1457,7 +1246,6 @@
         "Miren, the Moaning Well",
         "Reliquary Tower",
         "Strip Mine",
-        "Temple of the False God",
         "Thespian's Stage",
         "Urza's Factory"
       ],
@@ -1467,39 +1255,41 @@
       },
       "rampCount": 9,
       "issues": [
-        "Blue: 20 lands make it, about 26 wanted.",
+        "Only 37 lands; about 39 recommended for an average mana value of 3.34.",
+        "Blue: 21 lands make it, about 26 wanted.",
+        "Black: 18 lands make it, about 21 wanted.",
         "7 lands enter tapped unconditionally; aim for 4 or fewer.",
-        "7 colorless-only lands strain a 2-color mana base."
+        "6 colorless-only lands strain a 2-color mana base."
       ]
     },
     "sim": {
       "games": 10000,
-      "mulliganRate": 19.6,
+      "mulliganRate": 19.9,
       "landDropByTurn": {
-        "1": 99.9,
+        "1": 100,
         "2": 99.7,
-        "3": 90.3,
-        "4": 74.2,
-        "5": 55.8,
-        "6": 38.4,
-        "7": 24.5,
-        "8": 14.9
+        "3": 89.9,
+        "4": 74,
+        "5": 55.5,
+        "6": 38,
+        "7": 24.7,
+        "8": 15.1
       },
-      "commanderOnCurve": 52.3,
+      "commanderOnCurve": 54.3,
       "commanderByTurn": {
         "1": 0,
         "2": 0,
-        "3": 0.3,
-        "4": 7.2,
-        "5": 27.9,
-        "6": 52.3,
-        "7": 67.5,
-        "8": 76.3
+        "3": 0.4,
+        "4": 7.7,
+        "5": 29.4,
+        "6": 54.3,
+        "7": 68.9,
+        "8": 78
       },
-      "allColorsByTurn3": 85.1,
-      "avgManaTurn4": 4.54,
-      "screwRate": 6.1,
-      "floodRate": 0.5,
+      "allColorsByTurn3": 87.7,
+      "avgManaTurn4": 4.55,
+      "screwRate": 6,
+      "floodRate": 0.4,
       "combos": []
     },
     "roles": [
@@ -1515,7 +1305,7 @@
       },
       {
         "role": "draw",
-        "count": 7,
+        "count": 8,
         "target": 10
       },
       {
@@ -1535,7 +1325,7 @@
       },
       {
         "role": "tutor",
-        "count": 6,
+        "count": 5,
         "target": 0
       },
       {
@@ -1560,7 +1350,7 @@
       }
     ],
     "totalCards": 100,
-    "totalPriceUsd": 793.3
+    "totalPriceUsd": 833.78
   },
   "after": {
     "mana": {
@@ -1634,30 +1424,30 @@
     },
     "sim": {
       "games": 10000,
-      "mulliganRate": 18.8,
+      "mulliganRate": 20,
       "landDropByTurn": {
-        "1": 99.9,
+        "1": 100,
         "2": 99.8,
-        "3": 90.1,
-        "4": 73.9,
-        "5": 55.1,
-        "6": 37.5,
-        "7": 24.8,
-        "8": 14.8
+        "3": 90.6,
+        "4": 74.6,
+        "5": 56.1,
+        "6": 38.6,
+        "7": 24.7,
+        "8": 14.7
       },
-      "commanderOnCurve": 57.1,
+      "commanderOnCurve": 57.5,
       "commanderByTurn": {
         "1": 0,
         "2": 0,
-        "3": 0.7,
-        "4": 8.7,
-        "5": 32.3,
-        "6": 57.1,
-        "7": 71,
-        "8": 79.5
+        "3": 0.5,
+        "4": 8.9,
+        "5": 32.8,
+        "6": 57.5,
+        "7": 71.5,
+        "8": 79.8
       },
-      "allColorsByTurn3": 90.4,
-      "avgManaTurn4": 4.55,
+      "allColorsByTurn3": 91.1,
+      "avgManaTurn4": 4.56,
       "screwRate": 6,
       "floodRate": 0.4,
       "combos": [
@@ -1668,13 +1458,13 @@
           ],
           "byTurn": {
             "1": 0,
-            "2": 7.2,
-            "3": 12.1,
-            "4": 16,
+            "2": 7.1,
+            "3": 12.2,
+            "4": 15.9,
             "5": 20.4,
-            "6": 24.5,
-            "7": 28.1,
-            "8": 31.6
+            "6": 24.6,
+            "7": 27.9,
+            "8": 31.9
           }
         },
         {
@@ -1685,12 +1475,12 @@
           "byTurn": {
             "1": 0,
             "2": 1.3,
-            "3": 11.6,
-            "4": 15.8,
-            "5": 20.2,
-            "6": 24.1,
-            "7": 27.9,
-            "8": 31.6
+            "3": 11.7,
+            "4": 15.7,
+            "5": 20.1,
+            "6": 24.3,
+            "7": 27.6,
+            "8": 31.3
           }
         }
       ]
@@ -1753,7 +1543,7 @@
       }
     ],
     "totalCards": 100,
-    "totalPriceUsd": 1104.45
+    "totalPriceUsd": 1104.31
   },
   "combosPresent": [
     {
@@ -1839,7 +1629,7 @@
       "description": "Activate Mox Amber by tapping it, adding {1}.\nCast the permanent by paying at most one colored mana.\nHullbreaker Horror triggers, returning Sol Ring from the battlefield to your hand.\nCast Mox Amber by paying {0}\nHullbreaker Horror triggers, returning the permanent cast in step 2 from the battlefield to your hand.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/513-3682/",
-      "popularity": 67683
+      "popularity": 67930
     },
     {
       "id": "4131-4547",
@@ -1856,7 +1646,7 @@
       "description": "Activate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {3}, untapping it.\nRepeat.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/4131-4547/",
-      "popularity": 67092
+      "popularity": 67359
     },
     {
       "id": "4131-4235",
@@ -1873,7 +1663,7 @@
       "description": "Activate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {3}.\nRings of Brighthearth triggers, causing you to pay {2} to copy Basalt Monolith's last ability.\nResolve the copy of Basalt Monolith's last ability, untapping it.\nActivate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}.\nResolve the Basalt Monolith ability from step 2, untapping it.\nRepeat.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/4131-4235/",
-      "popularity": 54385
+      "popularity": 54481
     },
     {
       "id": "2173-4740-5078",
@@ -1896,7 +1686,7 @@
       "description": "Activate Sensei's Divining Top by tapping it, drawing a card and then putting Sensei's Divining Top on top of your library.\nCast Sensei's Divining Top from the top of your library by paying 1 life.\nAetherflux Reservoir triggers, gaining you 1 life for each spell you have cast this turn.\nRepeat until your life total is 52 or greater.\nActivate Aetherflux Reservoir by paying 50 life, dealing 50 damage to any target.\nRepeat.",
       "bracketTag": "P",
       "url": "https://commanderspellbook.com/combo/2173-4740-5078/",
-      "popularity": 52398
+      "popularity": 52542
     },
     {
       "id": "542-5034",
@@ -1914,7 +1704,7 @@
       "description": "Cast Sol Ring by paying its mana cost.\nTidespout Tyrant triggers, returning a nontoken permanent that can be cast using {C} from the battlefield to your hand.\nActivate Sol Ring by tapping it, adding {C}{C}.\nCast the nontoken permanent returned in step 2 by paying its mana cost.\nTidespout Tyrant triggers, returning Sol Ring from the battlefield to your hand.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/542-5034/",
-      "popularity": 38067
+      "popularity": 38117
     },
     {
       "id": "4131-5390",
@@ -1931,7 +1721,7 @@
       "description": "Activate Basalt Monolith's first activated ability by tapping it, adding {C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {2}, untapping it.\nRepeat.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/4131-5390/",
-      "popularity": 26613
+      "popularity": 26668
     },
     {
       "id": "2173-2498-5078",
@@ -1953,7 +1743,7 @@
       "description": "Activate Sense's Divining Top's second ability by tapping it, causing you to draw a card and put Sensei's Divining Top on top of your library from the battlefield.\nSheoldred triggers, causing you to gain 2 life\nCast Sensei's Divining Top from the top of your library by paying 1 life.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/2173-2498-5078/",
-      "popularity": 26413
+      "popularity": 26526
     },
     {
       "id": "5069-5080",
@@ -1972,7 +1762,7 @@
       "description": "Activate Duskmantle Guildmage's first ability by paying {1}{U}{B}.\nCast Maddening Cacophony with kicker by paying {4}{U}{U}, causing each opponent to mill half their library, rounded up.\nDuskmantle Guildmage triggers for each card milled this way.\nResolve the first Duskmantle Guildmage trigger, causing the opponent to lose 1 life.\nRepeat step 4 until the opponent loses the game due to having zero or less life.\nRepeat from step 4 for each remaining trigger.",
       "bracketTag": "E",
       "url": "https://commanderspellbook.com/combo/5069-5080/",
-      "popularity": 16033
+      "popularity": 16051
     },
     {
       "id": "542-2364",
@@ -1990,7 +1780,7 @@
       "description": "Cast Mana Vault by paying its mana cost.\nTidespout Tyrant triggers, returning a nontoken permanent that can be cast using {C}{C} from the battlefield to your hand.\nActivate Mana Vault by tapping it, adding {C}{C}{C}\nCast the nontoken permanent returned in step 2 by paying its mana cost.\nTidespout Tyrant triggers, returning Mana Vault from the battlefield to your hand.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/542-2364/",
-      "popularity": 14009
+      "popularity": 14014
     },
     {
       "id": "513-1636",
@@ -2011,7 +1801,7 @@
       "description": "Activate any number of creatures you control by tapping them, adding an amount of mana.\nCast the creature from your hand by paying its mana cost.\nHullbreaker Horror triggers, returning another creature from the battlefield to your hand.\nResolve the creature spell. When it enters, Intruder Alarm triggers, untapping all creatures.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/513-1636/",
-      "popularity": 12691
+      "popularity": 12752
     },
     {
       "id": "4131-5149",
@@ -2028,7 +1818,7 @@
       "description": "Activate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {1}, untapping it.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/4131-5149/",
-      "popularity": 11071
+      "popularity": 11110
     },
     {
       "id": "4131-4684",
@@ -2045,7 +1835,7 @@
       "description": "Activate Basalt Monolith's first ability by tapping it, adding {3}.\nActivate Basalt Monolith's last ability by paying {3}, untapping it.\nMesmeric Orb triggers, causing you to mill a card.\nRepeat.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/4131-4684/",
-      "popularity": 10115
+      "popularity": 10123
     },
     {
       "id": "1177-2286",
@@ -2064,7 +1854,7 @@
       "description": "During your opponent's draw step, they draw a card, and Teferi's Puzzle Box triggers.\nResolve the Teferi's Puzzle Box trigger, causing the opponent to put the cards in their hand onto the bottom of their library and draw no cards due to Narset.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/1177-2286/",
-      "popularity": 8434
+      "popularity": 8463
     },
     {
       "id": "1211-4603",
@@ -2083,7 +1873,7 @@
       "description": "At the beginning of your draw step, Maralen triggers, causing you to lose three life, then search your library for a card and put it into your hand.\nDuring each opponent's draw step, Maralen triggers, causing them to lose three life, then causing you to search their library for a card and exile it.\nYou may play cards exiled this way due to Opposition Agent.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/1211-4603/",
-      "popularity": 8100
+      "popularity": 8125
     },
     {
       "id": "5078-5849",
@@ -2102,7 +1892,7 @@
       "description": "Activate Sensei's Divining Top's second ability by tapping it, causing you to draw a card and put Sensei's Divining Top from the battlefield on top of your library.\nCast Sensei's Divining Top from the top of your library by paying {0} due to Fortune Teller's Talent.\nRepeat.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/5078-5849/",
-      "popularity": 7810
+      "popularity": 7819
     },
     {
       "id": "1167-1384",
@@ -2120,7 +1910,7 @@
       "description": "Use Mindslaver's ability targeting an opponent.\nActivate Academy Ruins's ability targeting Mindslaver in graveyard.\nPass to opponent's turn.\nPass to your turn and draw Mindslaver.\nPlay Mindslaver, use it, and target it with Academy Ruins.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/1167-1384/",
-      "popularity": 7431
+      "popularity": 7454
     },
     {
       "id": "2286-3221",
@@ -2138,7 +1928,7 @@
       "description": "At the beginning of your opponent's draw step, after they draw their card, Teferi's Puzzle Box triggers, causing them to put the cards in their hand on the bottom of their library, then attempt to draw that many cards.\nNotion Thief's replacement effect causes you to draw that many cards instead.\nRepeat on each opponent's draw step.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/2286-3221/",
-      "popularity": 6060
+      "popularity": 6068
     },
     {
       "id": "1290-7848",
@@ -2158,7 +1948,7 @@
       "description": "Cause one or more opponents to lose life.\nThe Master of Lake-town triggers once for each life loss event, causing that player to mill cards equal to the amount of life lost.\nBloodchief Ascension triggers once for each card milled, causing that player to lose 2 life and you to gain 2 life for each trigger.\nRepeat from step 2.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/1290-7848/",
-      "popularity": 5258
+      "popularity": 5394
     },
     {
       "id": "1211-7271",
@@ -2178,25 +1968,24 @@
       "description": "At the beginning of your draw step, Maralen triggers, causing you to lose three life, then search your library for a card and put it into your hand.\nDuring each opponent's draw step, Maralen triggers, causing them to lose three life, then causing you to search their library for a card and exile it.\nYou may play cards exiled this way due to Opposition Agent.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/1211-7271/",
-      "popularity": 4890
+      "popularity": 4928
     },
     {
-      "id": "328-1744",
+      "id": "876-4944",
       "cards": [
-        "Gray Merchant of Asphodel",
-        "Rite of Replication"
+        "Crackdown Construct",
+        "Lightning Greaves"
       ],
       "missing": [
-        "Gray Merchant of Asphodel"
+        "Crackdown Construct"
       ],
       "produces": [
-        "Near-infinite lifegain",
-        "Near-infinite lifeloss"
+        "Infinitely large creature until end of turn"
       ],
-      "description": "Cast Rite of Replication with kicker by paying {7}{U}{U}, creating five token copies of Gray Merchant of Asphodel.\nEach Gray Merchant of Asphodel enters the battlefield, triggering their abilities.\nResolve the first trigger, causing each opponent to lose life equal to your devotion to black, and causing you to gain that much life.\nRepeat step 3 for each remaining trigger.",
-      "bracketTag": "C",
-      "url": "https://commanderspellbook.com/combo/328-1744/",
-      "popularity": 3975
+      "description": "Activate Lightning Greaves's equip ability by paying {0}, targeting any creature you control except the creature that has Lightning Greaves attached.\nCrackdown Construct triggers, giving it +1/+1 until end of turn.\nResolve Lightning Greaves's equip ability.\nRepeat.",
+      "bracketTag": "O",
+      "url": "https://commanderspellbook.com/combo/876-4944/",
+      "popularity": 3996
     }
   ],
   "research": {
@@ -2345,19 +2134,20 @@
         "Demonic Tutor",
         "Mana Vault",
         "Mystical Tutor",
+        "Necropotence",
         "Rhystic Study",
         "Vampiric Tutor"
       ],
       "massLandDenial": [],
       "extraTurns": [],
       "combos": [],
-      "power": 57,
+      "power": 56,
       "position": "low",
       "checks": [
         {
           "label": "Game Changers",
           "ok": true,
-          "detail": "7 (no limit)"
+          "detail": "8 (no limit)"
         },
         {
           "label": "Mass land denial",
@@ -2385,13 +2175,13 @@
         "Demonic Tutor",
         "Mana Vault",
         "Mystical Tutor",
+        "Necropotence",
         "Rhystic Study",
         "Vampiric Tutor",
         "Notion Thief",
         "Force of Will",
         "Opposition Agent",
         "Imperial Seal",
-        "Necropotence",
         "Narset, Parter of Veils",
         "Bolas's Citadel"
       ],
@@ -2439,7 +2229,7 @@
           ],
           "twoCard": true,
           "tag": "S",
-          "earlyPct": 12.1,
+          "earlyPct": 12.2,
           "url": "https://commanderspellbook.com/combo/936-1290/"
         },
         {
@@ -2454,11 +2244,11 @@
           ],
           "twoCard": true,
           "tag": "S",
-          "earlyPct": 11.6,
+          "earlyPct": 11.7,
           "url": "https://commanderspellbook.com/combo/936-5069/"
         }
       ],
-      "power": 80,
+      "power": 81,
       "position": "high",
       "checks": [
         {
@@ -2537,7 +2327,7 @@
       "cmc": 6,
       "image": "https://cards.scryfall.io/normal/front/c/9/c96b11ad-67fd-4a2b-89ea-e9df9c50731e.jpg?1783923218",
       "scryfallUri": "https://scryfall.com/card/ncc/359/wrexial-the-risen-deep?utm_source=api",
-      "priceUsd": 2.13,
+      "priceUsd": 2.17,
       "isNew": false,
       "delta": 0
     },
@@ -2549,7 +2339,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/d/0/d0e3ff04-aa5b-4d6d-b06e-b4679f7938b8.jpg?1793021243",
       "scryfallUri": "https://scryfall.com/card/trc/512/academy-ruins?utm_source=api",
-      "priceUsd": 2.94,
+      "priceUsd": 1.66,
       "isNew": false,
       "delta": 0
     },
@@ -2561,7 +2351,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/c/c/cc0c2bab-4392-4e7b-9d14-2901f4ffbae8.jpg?1783903787",
       "scryfallUri": "https://scryfall.com/card/soc/207/animate-dead?utm_source=api",
-      "priceUsd": 7.11,
+      "priceUsd": 7.42,
       "isNew": false,
       "delta": 0
     },
@@ -2573,7 +2363,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/b/e/be8439e6-f779-49f0-806a-b04995697a6a.jpg?1783911902",
       "scryfallUri": "https://scryfall.com/card/otc/215/baleful-strix?utm_source=api",
-      "priceUsd": 7.54,
+      "priceUsd": 7.34,
       "isNew": false,
       "delta": 0
     },
@@ -2585,7 +2375,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/f/7/f79de5e7-1545-420c-bfe1-ee2444fca85b.jpg?1783930120",
       "scryfallUri": "https://scryfall.com/card/2xm/232/basalt-monolith?utm_source=api",
-      "priceUsd": 5.25,
+      "priceUsd": 5.49,
       "isNew": false,
       "delta": 0
     },
@@ -2609,7 +2399,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/e/d/eda98f51-a918-4ef7-a123-7d4200c79620.jpg?1783904562",
       "scryfallUri": "https://scryfall.com/card/ecc/71/black-suns-zenith?utm_source=api",
-      "priceUsd": 0.39,
+      "priceUsd": 0.38,
       "isNew": false,
       "delta": 0
     },
@@ -2621,7 +2411,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/5/0/500a2aa4-712f-41be-920e-f2f448ff83d0.jpg?1783935183",
       "scryfallUri": "https://scryfall.com/card/a25/44/blue-suns-zenith?utm_source=api",
-      "priceUsd": 3.18,
+      "priceUsd": 3.13,
       "isNew": false,
       "delta": 0
     },
@@ -2633,7 +2423,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/6/5/65ebbff0-fbe6-4310-a33f-e00bb2534979.jpg?1783909049",
       "scryfallUri": "https://scryfall.com/card/fdn/250/burnished-hart?utm_source=api",
-      "priceUsd": 0.33,
+      "priceUsd": 0.31,
       "isNew": false,
       "delta": 0
     },
@@ -2645,7 +2435,19 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/f/3/f36f6545-e4e0-4dc8-acea-e527e43f3e14.jpg?1783938500",
       "scryfallUri": "https://scryfall.com/card/tpr/42/capsize?utm_source=api",
-      "priceUsd": 0.8,
+      "priceUsd": 0.81,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Command Tower",
+      "manaCost": "",
+      "qty": 1,
+      "group": "Land",
+      "cmc": 0,
+      "image": "https://cards.scryfall.io/normal/front/a/7/a73297d2-580c-4174-a427-265f6916d09f.jpg?1793021256",
+      "scryfallUri": "https://scryfall.com/card/trc/521/command-tower?utm_source=api",
+      "priceUsd": 0.28,
       "isNew": false,
       "delta": 0
     },
@@ -2657,7 +2459,7 @@
       "cmc": 6,
       "image": "https://cards.scryfall.io/normal/front/c/9/c9bd60fc-2777-44bc-b314-a792e8e48360.jpg?1783921921",
       "scryfallUri": "https://scryfall.com/card/2x2/43/consecrated-sphinx?utm_source=api",
-      "priceUsd": 33.07,
+      "priceUsd": 32.95,
       "isNew": false,
       "delta": 0
     },
@@ -2669,7 +2471,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/4/f/4f616706-ec97-4923-bb1e-11a69fbaa1f8.jpg?1783909630",
       "scryfallUri": "https://scryfall.com/card/dsc/114/counterspell?utm_source=api",
-      "priceUsd": 4.14,
+      "priceUsd": 3.99,
       "isNew": false,
       "delta": 0
     },
@@ -2693,7 +2495,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/9/1/91eb9067-0bc7-4497-ba9c-c1ea41e5a379.jpg?1783903795",
       "scryfallUri": "https://scryfall.com/card/soc/192/curse-of-the-swine?utm_source=api",
-      "priceUsd": 0.26,
+      "priceUsd": 0.31,
       "isNew": false,
       "delta": 0
     },
@@ -2717,7 +2519,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/d/3/d3c0aac5-b9f1-4446-bfea-3e1dd1cf1f2f.jpg?1783921909",
       "scryfallUri": "https://scryfall.com/card/2x2/73/damnation?utm_source=api",
-      "priceUsd": 21.29,
+      "priceUsd": 21.05,
       "isNew": false,
       "delta": 0
     },
@@ -2729,7 +2531,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/a/2/a24b4cb6-cebb-428b-8654-74347a6a8d63.jpg?1783915679",
       "scryfallUri": "https://scryfall.com/card/cmm/150/demonic-tutor?utm_source=api",
-      "priceUsd": 65.47,
+      "priceUsd": 66.53,
       "isNew": false,
       "delta": 0
     },
@@ -2765,7 +2567,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/0/8/0862060d-3198-4eeb-af8c-efeb27f42a99.jpg?1789599833",
       "scryfallUri": "https://scryfall.com/card/frc/56/dimir-signet?utm_source=api",
-      "priceUsd": 0.37,
+      "priceUsd": 0.43,
       "isNew": false,
       "delta": 0
     },
@@ -2801,7 +2603,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/f/a/fa293bcc-39aa-4642-8e34-6e4fbb30f962.jpg?1793021160",
       "scryfallUri": "https://scryfall.com/card/trc/490/everflowing-chalice?utm_source=api",
-      "priceUsd": 0.5,
+      "priceUsd": 0.33,
       "isNew": false,
       "delta": 0
     },
@@ -2813,7 +2615,7 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/0/8/08e66835-c228-48fa-bcaa-eb96edbd4f5a.jpg?1783908888",
       "scryfallUri": "https://scryfall.com/card/fdn/724/expedition-map?utm_source=api",
-      "priceUsd": 1.98,
+      "priceUsd": 1.96,
       "isNew": false,
       "delta": 0
     },
@@ -2825,7 +2627,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/f/1/f11d7311-4066-4a5d-ba28-9857fa707a0b.jpg?1783909073",
       "scryfallUri": "https://scryfall.com/card/fdn/173/exsanguinate?utm_source=api",
-      "priceUsd": 0.46,
+      "priceUsd": 0.5,
       "isNew": false,
       "delta": 0
     },
@@ -2837,7 +2639,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/3/e/3ef87948-0ad9-4757-a692-2262c8e24367.jpg?1785759354",
       "scryfallUri": "https://scryfall.com/card/mbc/74/fellwar-stone?utm_source=api",
-      "priceUsd": 2.68,
+      "priceUsd": 2.72,
       "isNew": false,
       "delta": 0
     },
@@ -2861,7 +2663,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/6/5/659ef698-96ea-4fa9-b63c-0da93a2d1e78.jpg?1793197566",
       "scryfallUri": "https://scryfall.com/card/trc/496/lightning-greaves?utm_source=api",
-      "priceUsd": 2.84,
+      "priceUsd": 2.58,
       "isNew": false,
       "delta": 0
     },
@@ -2873,7 +2675,7 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/c/1/c1a31d52-a407-4ded-bfca-cc812f11afa0.jpg?1783921790",
       "scryfallUri": "https://scryfall.com/card/2x2/308/mana-vault?utm_source=api",
-      "priceUsd": 111.47,
+      "priceUsd": 111.31,
       "isNew": false,
       "delta": 0
     },
@@ -2885,7 +2687,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/0/9/091600ae-6578-4353-8e0f-d170f555bcd0.jpg?1793965409",
       "scryfallUri": "https://scryfall.com/card/trc/497/mind-stone?utm_source=api",
-      "priceUsd": 0.44,
+      "priceUsd": 0.25,
       "isNew": false,
       "delta": 0
     },
@@ -2897,7 +2699,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/8/8/8858a941-8175-476d-8177-2db4ffdcb3ad.jpg?1783922388",
       "scryfallUri": "https://scryfall.com/card/clb/866/mindcrank?utm_source=api",
-      "priceUsd": 12.89,
+      "priceUsd": 12.9,
       "isNew": false,
       "delta": 0
     },
@@ -2921,7 +2723,19 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/3/6/36fa9a0b-b0c9-43ea-ba11-99d7982f974e.jpg?1783918491",
       "scryfallUri": "https://scryfall.com/card/dmr/60/mystical-tutor?utm_source=api",
-      "priceUsd": 17.6,
+      "priceUsd": 17.15,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Necropotence",
+      "manaCost": "{B}{B}{B}",
+      "qty": 1,
+      "group": "Enchantment",
+      "cmc": 3,
+      "image": "https://cards.scryfall.io/normal/front/c/8/c89c6895-b0f8-444a-9c89-c6b4fd027b3e.jpg?1783935537",
+      "scryfallUri": "https://scryfall.com/card/ima/98/necropotence?utm_source=api",
+      "priceUsd": 36.23,
       "isNew": false,
       "delta": 0
     },
@@ -2945,7 +2759,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/a/5/a564c2e8-f49f-4ed7-850f-7c8bc92e4926.jpg?1783906041",
       "scryfallUri": "https://scryfall.com/card/eoc/75/phyrexian-metamorph?utm_source=api",
-      "priceUsd": 2.85,
+      "priceUsd": 2.39,
       "isNew": false,
       "delta": 0
     },
@@ -2957,7 +2771,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/9/5/9588be49-d9b5-4491-a5a0-10bcadc9f8b3.jpg?1783941311",
       "scryfallUri": "https://scryfall.com/card/nph/71/praetors-grasp?utm_source=api",
-      "priceUsd": 10.47,
+      "priceUsd": 11.03,
       "isNew": false,
       "delta": 0
     },
@@ -2969,7 +2783,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/1/3/13caa07e-3b72-4ee2-92c6-f119d02341f9.jpg?1793112056",
       "scryfallUri": "https://scryfall.com/card/trc/551/reliquary-tower?utm_source=api",
-      "priceUsd": 2.41,
+      "priceUsd": 1.64,
       "isNew": false,
       "delta": 0
     },
@@ -2981,7 +2795,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/9/f/9f37c5b6-a59c-45cd-9a99-e9357fe9ea1b.jpg?1783919146",
       "scryfallUri": "https://scryfall.com/card/j22/114/rhystic-study?utm_source=api",
-      "priceUsd": 67.49,
+      "priceUsd": 68.08,
       "isNew": false,
       "delta": 0
     },
@@ -3029,7 +2843,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/d/1/d1958f01-77e9-4976-b7f8-f9b62aa78edc.jpg?1783917109",
       "scryfallUri": "https://scryfall.com/card/moc/374/sculpting-steel?utm_source=api",
-      "priceUsd": 3.58,
+      "priceUsd": 3.61,
       "isNew": false,
       "delta": 0
     },
@@ -3041,7 +2855,7 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/e/5/e5142b7a-e580-4737-a4aa-2590f6610ceb.jpg?1783921788",
       "scryfallUri": "https://scryfall.com/card/2x2/314/senseis-divining-top?utm_source=api",
-      "priceUsd": 38.67,
+      "priceUsd": 38.52,
       "isNew": false,
       "delta": 0
     },
@@ -3077,7 +2891,7 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/f/c/fc817e07-c1f3-469f-9cf7-0945dea7400f.jpg?1793021181",
       "scryfallUri": "https://scryfall.com/card/trc/499/sol-ring?utm_source=api",
-      "priceUsd": 1.14,
+      "priceUsd": 0.91,
       "isNew": false,
       "delta": 0
     },
@@ -3089,7 +2903,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/5/2/522d6195-7660-42c0-848b-cc46e19fc4eb.jpg?1783934762",
       "scryfallUri": "https://scryfall.com/card/cm2/50/spell-crumple?utm_source=api",
-      "priceUsd": 0.68,
+      "priceUsd": 0.66,
       "isNew": false,
       "delta": 0
     },
@@ -3149,7 +2963,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/5/8/58ebd718-982d-4370-b4af-ef49b978d97d.jpg?1793021389",
       "scryfallUri": "https://scryfall.com/card/trc/571/terramorphic-expanse?utm_source=api",
-      "priceUsd": 0.68,
+      "priceUsd": 0.5,
       "isNew": false,
       "delta": 0
     },
@@ -3161,7 +2975,7 @@
       "cmc": 5,
       "image": "https://cards.scryfall.io/normal/front/c/f/cf339735-eb1a-46f0-8c3e-eae06f278eca.jpg?1783938417",
       "scryfallUri": "https://scryfall.com/card/mm2/62/tezzeret-the-seeker?utm_source=api",
-      "priceUsd": 26.06,
+      "priceUsd": 26.11,
       "isNew": false,
       "delta": 0
     },
@@ -3173,7 +2987,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/3/b/3bfcbeab-7a1e-4dcf-99bf-98f42c2b6a6f.jpg?1783942061",
       "scryfallUri": "https://scryfall.com/card/wwk/40/thada-adel-acquisitor?utm_source=api",
-      "priceUsd": 10.04,
+      "priceUsd": 9.99,
       "isNew": false,
       "delta": 0
     },
@@ -3185,7 +2999,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/2/6/269a926d-7788-4668-8bd8-7572dbf5f5eb.jpg?1783930080",
       "scryfallUri": "https://scryfall.com/card/2xm/327/thespians-stage?utm_source=api",
-      "priceUsd": 0.46,
+      "priceUsd": 0.45,
       "isNew": false,
       "delta": 0
     },
@@ -3197,7 +3011,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/7/c/7ce5f12e-fc02-42f8-a5ca-b523050d4650.jpg?1783915588",
       "scryfallUri": "https://scryfall.com/card/cmm/415/thran-dynamo?utm_source=api",
-      "priceUsd": 4.26,
+      "priceUsd": 4.18,
       "isNew": false,
       "delta": 0
     },
@@ -3209,7 +3023,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/b/0/b005eef6-75f3-454f-a42b-d851bc84ac4e.jpg?1783927747",
       "scryfallUri": "https://scryfall.com/card/tsr/286/tolaria-west?utm_source=api",
-      "priceUsd": 1.95,
+      "priceUsd": 2.02,
       "isNew": false,
       "delta": 0
     },
@@ -3221,7 +3035,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/1/d/1df2c2a6-94a9-4365-9bd5-dd5f2854c562.jpg?1793023039",
       "scryfallUri": "https://scryfall.com/card/trc/448/toxic-deluge?utm_source=api",
-      "priceUsd": 2.97,
+      "priceUsd": 2.26,
       "isNew": false,
       "delta": 0
     },
@@ -3233,7 +3047,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/9/a/9a7800f7-95cd-4f5c-b054-4afad8924367.jpg?1783935075",
       "scryfallUri": "https://scryfall.com/card/ddu/41/trinket-mage?utm_source=api",
-      "priceUsd": 0.64,
+      "priceUsd": 0.58,
       "isNew": false,
       "delta": 0
     },
@@ -3245,7 +3059,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/9/e/9e1a9e38-6ffc-490f-b0be-23ba4e8204c6.jpg?1783927747",
       "scryfallUri": "https://scryfall.com/card/tsr/287/urborg-tomb-of-yawgmoth?utm_source=api",
-      "priceUsd": 53.46,
+      "priceUsd": 55.93,
       "isNew": false,
       "delta": 0
     },
@@ -3257,7 +3071,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/d/0/d03f17f1-b0fd-4b84-82ea-085c2f87eeda.jpg?1783927747",
       "scryfallUri": "https://scryfall.com/card/tsr/288/urzas-factory?utm_source=api",
-      "priceUsd": 0.3,
+      "priceUsd": 0.29,
       "isNew": false,
       "delta": 0
     },
@@ -3269,7 +3083,7 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/3/4/34a0203f-9cce-43a4-9cb7-8ce6647895cd.jpg?1783918468",
       "scryfallUri": "https://scryfall.com/card/dmr/108/vampiric-tutor?utm_source=api",
-      "priceUsd": 49.85,
+      "priceUsd": 52.35,
       "isNew": false,
       "delta": 0
     },
@@ -3281,7 +3095,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/d/c/dc468f97-08f7-4103-898f-b14fa61b99bc.jpg?1783921909",
       "scryfallUri": "https://scryfall.com/card/2x2/67/wash-out?utm_source=api",
-      "priceUsd": 0.4,
+      "priceUsd": 0.43,
       "isNew": false,
       "delta": 0
     },
@@ -3293,7 +3107,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/5/5/5525d6a6-e532-4047-9da4-bfae7927fecc.jpg?1784036860",
       "scryfallUri": "https://scryfall.com/card/trk/306/watery-grave?utm_source=api",
-      "priceUsd": 6.11,
+      "priceUsd": 7.34,
       "isNew": false,
       "delta": 0
     },
@@ -3305,7 +3119,19 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/a/3/a3f31ac4-09ca-4712-a311-50d28824bfad.jpg?1783903208",
       "scryfallUri": "https://scryfall.com/card/msc/225/whispersilk-cloak?utm_source=api",
-      "priceUsd": 2.1,
+      "priceUsd": 1.92,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Ponder",
+      "manaCost": "{U}",
+      "qty": 1,
+      "group": "Sorcery",
+      "cmc": 1,
+      "image": "https://cards.scryfall.io/normal/front/0/c/0cb673af-dae0-478c-a5d3-b697338f6c0e.jpg?1793281344",
+      "scryfallUri": "https://scryfall.com/card/trc/440/ponder?utm_source=api",
+      "priceUsd": 0.6,
       "isNew": false,
       "delta": 0
     },
@@ -3394,18 +3220,6 @@
       "delta": 1
     },
     {
-      "name": "Necropotence",
-      "manaCost": "{B}{B}{B}",
-      "qty": 1,
-      "group": "Enchantment",
-      "cmc": 3,
-      "image": "https://cards.scryfall.io/normal/front/c/8/c89c6895-b0f8-444a-9c89-c6b4fd027b3e.jpg?1783935537",
-      "scryfallUri": "https://scryfall.com/card/ima/98/necropotence?utm_source=api",
-      "priceUsd": 38.32,
-      "isNew": true,
-      "delta": 1
-    },
-    {
       "name": "Mana Drain",
       "manaCost": "{U}{U}",
       "qty": 1,
@@ -3466,18 +3280,6 @@
       "delta": 1
     },
     {
-      "name": "Ponder",
-      "manaCost": "{U}",
-      "qty": 1,
-      "group": "Sorcery",
-      "cmc": 1,
-      "image": "https://cards.scryfall.io/normal/front/0/c/0cb673af-dae0-478c-a5d3-b697338f6c0e.jpg?1793281344",
-      "scryfallUri": "https://scryfall.com/card/trc/440/ponder?utm_source=api",
-      "priceUsd": 1.71,
-      "isNew": true,
-      "delta": 1
-    },
-    {
       "name": "Bolas's Citadel",
       "manaCost": "{3}{B}{B}{B}",
       "qty": 1,
@@ -3486,18 +3288,6 @@
       "image": "https://cards.scryfall.io/normal/front/d/2/d2124603-d20e-40eb-97f0-a66323397ac2.jpg?1783933451",
       "scryfallUri": "https://scryfall.com/card/war/79/bolass-citadel?utm_source=api",
       "priceUsd": 14.73,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Command Tower",
-      "manaCost": "",
-      "qty": 1,
-      "group": "Land",
-      "cmc": 0,
-      "image": "https://cards.scryfall.io/normal/front/a/7/a73297d2-580c-4174-a427-265f6916d09f.jpg?1793021256",
-      "scryfallUri": "https://scryfall.com/card/trc/521/command-tower?utm_source=api",
-      "priceUsd": 0.38,
       "isNew": true,
       "delta": 1
     },
@@ -3538,7 +3328,245 @@
       "delta": 1
     }
   ],
-  "manaSuggestions": [],
+  "manaSuggestions": [
+    {
+      "id": "fb9c3774-46c2-4f96-964f-a237ef680cef",
+      "reason": "You have plenty of blue sources; Drowned Catacomb makes black and blue untapped, helping black, which is short.",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Island",
+          "qty": 1,
+          "reason": "You have plenty of blue sources; Drowned Catacomb makes black and blue untapped, helping black, which is short.",
+          "ok": true,
+          "card": {
+            "name": "Island",
+            "oracleId": "b2c6aa39-2d2a-459c-a555-fb48ba993373",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Basic Land — Island",
+            "oracleText": "({T}: Add {U}.)",
+            "colors": [],
+            "colorIdentity": [
+              "U"
+            ],
+            "producedMana": [
+              "U"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": null,
+            "image": "https://cards.scryfall.io/normal/front/1/3/1335d293-3dd2-4f13-bd2c-22181f4528ee.jpg?1791578424",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/1/3/1335d293-3dd2-4f13-bd2c-22181f4528ee.jpg?1791578424",
+            "scryfallUri": "https://scryfall.com/card/mdd/294/island?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        },
+        {
+          "action": "add",
+          "name": "Drowned Catacomb",
+          "qty": 1,
+          "reason": "You have plenty of blue sources; Drowned Catacomb makes black and blue untapped, helping black, which is short.",
+          "ok": true,
+          "card": {
+            "name": "Drowned Catacomb",
+            "oracleId": "819fc966-434e-470f-91e9-a38df974ad17",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Land",
+            "oracleText": "This land enters tapped unless you control an Island or a Swamp.\n{T}: Add {U} or {B}.",
+            "colors": [],
+            "colorIdentity": [
+              "B",
+              "U"
+            ],
+            "producedMana": [
+              "B",
+              "U"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": 0.35,
+            "image": "https://cards.scryfall.io/normal/front/7/f/7f6615d6-4307-43fe-a9a1-d2ef956246d0.jpg?1793021277",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/7/f/7f6615d6-4307-43fe-a9a1-d2ef956246d0.jpg?1793021277",
+            "scryfallUri": "https://scryfall.com/card/trc/525/drowned-catacomb?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "1c9713d3-bc6d-4cdf-8e56-559260461503",
+      "reason": "You have plenty of blue sources; Cavern of Souls makes black and blue untapped, helping black, which is short.",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Island",
+          "qty": 1,
+          "reason": "You have plenty of blue sources; Cavern of Souls makes black and blue untapped, helping black, which is short.",
+          "ok": true,
+          "card": {
+            "name": "Island",
+            "oracleId": "b2c6aa39-2d2a-459c-a555-fb48ba993373",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Basic Land — Island",
+            "oracleText": "({T}: Add {U}.)",
+            "colors": [],
+            "colorIdentity": [
+              "U"
+            ],
+            "producedMana": [
+              "U"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": null,
+            "image": "https://cards.scryfall.io/normal/front/1/3/1335d293-3dd2-4f13-bd2c-22181f4528ee.jpg?1791578424",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/1/3/1335d293-3dd2-4f13-bd2c-22181f4528ee.jpg?1791578424",
+            "scryfallUri": "https://scryfall.com/card/mdd/294/island?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        },
+        {
+          "action": "add",
+          "name": "Cavern of Souls",
+          "qty": 1,
+          "reason": "You have plenty of blue sources; Cavern of Souls makes black and blue untapped, helping black, which is short.",
+          "ok": true,
+          "card": {
+            "name": "Cavern of Souls",
+            "oracleId": "89ca686a-7c72-4d8f-9290-e89635624a83",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Land",
+            "oracleText": "As this land enters, choose a creature type.\n{T}: Add {C}.\n{T}: Add one mana of any color. Spend this mana only to cast a creature spell of the chosen type, and that spell can't be countered.",
+            "colors": [],
+            "colorIdentity": [],
+            "producedMana": [
+              "B",
+              "C",
+              "G",
+              "R",
+              "U",
+              "W"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": 48.99,
+            "image": "https://cards.scryfall.io/normal/front/3/a/3aad15a2-8a1b-4460-9b06-e85863081878.jpg?1783913719",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/3/a/3aad15a2-8a1b-4460-9b06-e85863081878.jpg?1783913719",
+            "scryfallUri": "https://scryfall.com/card/lci/269/cavern-of-souls?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "ca685a26-1388-4ff2-8e2a-b99adf05347f",
+      "reason": "Dimir Aqueduct always enters tapped; Mana Confluence makes black and blue untapped.",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Dimir Aqueduct",
+          "qty": 1,
+          "reason": "Dimir Aqueduct always enters tapped; Mana Confluence makes black and blue untapped.",
+          "ok": true,
+          "card": {
+            "name": "Dimir Aqueduct",
+            "oracleId": "378a1d57-e2f1-4b84-9692-1564602e9e99",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Land",
+            "oracleText": "This land enters tapped.\nWhen this land enters, return a land you control to its owner's hand.\n{T}: Add {U}{B}.",
+            "colors": [],
+            "colorIdentity": [
+              "B",
+              "U"
+            ],
+            "producedMana": [
+              "B",
+              "U"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": true,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": 0.36,
+            "image": "https://cards.scryfall.io/normal/front/8/4/84bf9d60-64b8-4209-acfe-e07eefc6bf1f.jpg?1783909578",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/8/4/84bf9d60-64b8-4209-acfe-e07eefc6bf1f.jpg?1783909578",
+            "scryfallUri": "https://scryfall.com/card/dsc/270/dimir-aqueduct?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        },
+        {
+          "action": "add",
+          "name": "Mana Confluence",
+          "qty": 1,
+          "reason": "Dimir Aqueduct always enters tapped; Mana Confluence makes black and blue untapped.",
+          "ok": true,
+          "card": {
+            "name": "Mana Confluence",
+            "oracleId": "d0ee5bdc-2b69-4b73-9a20-ffcc18783b29",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Land",
+            "oracleText": "{T}, Pay 1 life: Add one mana of any color.",
+            "colors": [],
+            "colorIdentity": [],
+            "producedMana": [
+              "B",
+              "G",
+              "R",
+              "U",
+              "W"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": 34.63,
+            "image": "https://cards.scryfall.io/normal/front/5/0/504a69eb-3c2d-4bb1-b117-252b15acf0c2.jpg?1783939402",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/5/0/504a69eb-3c2d-4bb1-b117-252b15acf0c2.jpg?1783939402",
+            "scryfallUri": "https://scryfall.com/card/jou/163/mana-confluence?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        }
+      ]
+    }
+  ],
   "synergies": [
     {
       "title": "Unblockable, Immediate Wrexial",
@@ -3625,6 +3653,46 @@
         "Dreamborn Muse"
       ],
       "explanation": "Once Bloodchief Ascension has three quest counters, every card Dreamborn Muse mills from an opponent can make that opponent lose 2 life and you gain 2 life. This turns the deck's graveyard-filling engine into a substantial multiplayer finisher without requiring an infinite combo."
+    },
+    {
+      "title": "Drain Life, Buy Cards",
+      "cards": [
+        "Necropotence",
+        "Exsanguinate"
+      ],
+      "explanation": "Exsanguinate replenishes the life spent on Necropotence, gaining life from every opponent hit. Necropotence in turn helps find Exsanguinate and the mana sources needed to make it a substantial drain."
+    },
+    {
+      "title": "Keep Everything You Paid For",
+      "cards": [
+        "Necropotence",
+        "Reliquary Tower"
+      ],
+      "explanation": "Reliquary Tower lets you retain a large Necropotence refill through cleanup rather than discard down to seven. This preserves the cards you paid life for and avoids Necropotence exiling those excess discards."
+    },
+    {
+      "title": "Clear the Citadel's Path",
+      "cards": [
+        "Ponder",
+        "Bolas's Citadel"
+      ],
+      "explanation": "Ponder rearranges upcoming cards to keep Bolas's Citadel casting spells, draws away a blocking land, or shuffles away an unhelpful top three. Casting Ponder from the library costs just 1 life through the Citadel."
+    },
+    {
+      "title": "Cantrip into Disruption",
+      "cards": [
+        "Ponder",
+        "Hullbreaker Horror"
+      ],
+      "explanation": "Ponder becomes a one-mana bounce trigger that replaces itself while finding your next play. Hullbreaker Horror can clear a blocker for Wrexial, the Risen Deep or remove another troublesome nonland permanent before Ponder resolves."
+    },
+    {
+      "title": "Reject a Stale Top Three",
+      "cards": [
+        "Ponder",
+        "Sensei's Divining Top"
+      ],
+      "explanation": "Sensei's Divining Top identifies when your next three cards are unhelpful; Ponder then lets you shuffle them away and draw from a fresh library. If the cards are useful instead, their combined ordering effects help plan your upcoming draws."
     }
   ],
   "cardIndex": {
@@ -5527,6 +5595,16 @@
       "image": "https://cards.scryfall.io/normal/front/9/a/9add2479-11f6-4f13-8a38-df0426a80ba1.jpg?1793021260",
       "scryfallUri": "https://scryfall.com/card/trc/517/choked-estuary?utm_source=api",
       "priceUsd": 0.46
+    },
+    "Cavern of Souls": {
+      "image": "https://cards.scryfall.io/normal/front/3/a/3aad15a2-8a1b-4460-9b06-e85863081878.jpg?1783913719",
+      "scryfallUri": "https://scryfall.com/card/lci/269/cavern-of-souls?utm_source=api",
+      "priceUsd": 48.99
+    },
+    "Mana Confluence": {
+      "image": "https://cards.scryfall.io/normal/front/5/0/504a69eb-3c2d-4bb1-b117-252b15acf0c2.jpg?1783939402",
+      "scryfallUri": "https://scryfall.com/card/jou/163/mana-confluence?utm_source=api",
+      "priceUsd": 34.63
     }
   },
   "original": {
@@ -5539,7 +5617,7 @@
         "cmc": 6,
         "image": "https://cards.scryfall.io/normal/front/c/9/c96b11ad-67fd-4a2b-89ea-e9df9c50731e.jpg?1783923218",
         "scryfallUri": "https://scryfall.com/card/ncc/359/wrexial-the-risen-deep?utm_source=api",
-        "priceUsd": 2.13,
+        "priceUsd": 2.17,
         "isNew": false,
         "delta": 0
       },
@@ -5551,7 +5629,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/d/0/d0e3ff04-aa5b-4d6d-b06e-b4679f7938b8.jpg?1793021243",
         "scryfallUri": "https://scryfall.com/card/trc/512/academy-ruins?utm_source=api",
-        "priceUsd": 2.94,
+        "priceUsd": 1.66,
         "isNew": false,
         "delta": 0
       },
@@ -5563,7 +5641,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/c/c/cc0c2bab-4392-4e7b-9d14-2901f4ffbae8.jpg?1783903787",
         "scryfallUri": "https://scryfall.com/card/soc/207/animate-dead?utm_source=api",
-        "priceUsd": 7.11,
+        "priceUsd": 7.42,
         "isNew": false,
         "delta": 0
       },
@@ -5575,7 +5653,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/b/e/be8439e6-f779-49f0-806a-b04995697a6a.jpg?1783911902",
         "scryfallUri": "https://scryfall.com/card/otc/215/baleful-strix?utm_source=api",
-        "priceUsd": 7.54,
+        "priceUsd": 7.34,
         "isNew": false,
         "delta": 0
       },
@@ -5587,7 +5665,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/3/8/380eb7fd-bc79-4cad-9c2b-9b2b10761a72.jpg?1783909580",
         "scryfallUri": "https://scryfall.com/card/dsc/262/barren-moor?utm_source=api",
-        "priceUsd": 0.32,
+        "priceUsd": 0.31,
         "isNew": false,
         "delta": 0
       },
@@ -5599,7 +5677,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/f/7/f79de5e7-1545-420c-bfe1-ee2444fca85b.jpg?1783930120",
         "scryfallUri": "https://scryfall.com/card/2xm/232/basalt-monolith?utm_source=api",
-        "priceUsd": 5.25,
+        "priceUsd": 5.49,
         "isNew": false,
         "delta": 0
       },
@@ -5623,7 +5701,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/e/d/eda98f51-a918-4ef7-a123-7d4200c79620.jpg?1783904562",
         "scryfallUri": "https://scryfall.com/card/ecc/71/black-suns-zenith?utm_source=api",
-        "priceUsd": 0.39,
+        "priceUsd": 0.38,
         "isNew": false,
         "delta": 0
       },
@@ -5635,7 +5713,7 @@
         "cmc": 7,
         "image": "https://cards.scryfall.io/normal/front/0/2/0210b3b4-d253-464f-b533-b79bf67d47a4.jpg?1783938095",
         "scryfallUri": "https://scryfall.com/card/c15/87/blatant-thievery?utm_source=api",
-        "priceUsd": 5.81,
+        "priceUsd": 6.01,
         "isNew": false,
         "delta": 0
       },
@@ -5647,7 +5725,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/5/0/500a2aa4-712f-41be-920e-f2f448ff83d0.jpg?1783935183",
         "scryfallUri": "https://scryfall.com/card/a25/44/blue-suns-zenith?utm_source=api",
-        "priceUsd": 3.18,
+        "priceUsd": 3.13,
         "isNew": false,
         "delta": 0
       },
@@ -5659,7 +5737,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/6/d/6d434b49-c3e8-4b4d-b573-c144ba78e98b.jpg?1783915705",
         "scryfallUri": "https://scryfall.com/card/cmm/75/body-double?utm_source=api",
-        "priceUsd": 0.26,
+        "priceUsd": 0.27,
         "isNew": false,
         "delta": 0
       },
@@ -5671,7 +5749,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/4/9/49fd737a-d7da-421b-a741-d6d0d213299f.jpg?1783915705",
         "scryfallUri": "https://scryfall.com/card/cmm/77/bribery?utm_source=api",
-        "priceUsd": 5.84,
+        "priceUsd": 5.74,
         "isNew": false,
         "delta": 0
       },
@@ -5683,7 +5761,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/6/5/65ebbff0-fbe6-4310-a33f-e00bb2534979.jpg?1783909049",
         "scryfallUri": "https://scryfall.com/card/fdn/250/burnished-hart?utm_source=api",
-        "priceUsd": 0.33,
+        "priceUsd": 0.31,
         "isNew": false,
         "delta": 0
       },
@@ -5695,7 +5773,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/e/1/e1efb0d3-2c72-46ff-bdc1-1069967365a0.jpg?1783926775",
         "scryfallUri": "https://scryfall.com/card/mh2/301/cabal-coffers?utm_source=api",
-        "priceUsd": 30.92,
+        "priceUsd": 31.61,
         "isNew": false,
         "delta": 0
       },
@@ -5707,7 +5785,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/f/3/f36f6545-e4e0-4dc8-acea-e527e43f3e14.jpg?1783938500",
         "scryfallUri": "https://scryfall.com/card/tpr/42/capsize?utm_source=api",
-        "priceUsd": 0.8,
+        "priceUsd": 0.81,
         "isNew": false,
         "delta": 0
       },
@@ -5719,7 +5797,19 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/5/e/5e648262-3b9b-4c58-8e29-48356e3cb064.jpg?1783939937",
         "scryfallUri": "https://scryfall.com/card/m14/47/clone?utm_source=api",
-        "priceUsd": 0.67,
+        "priceUsd": 0.68,
+        "isNew": false,
+        "delta": 0
+      },
+      {
+        "name": "Command Tower",
+        "manaCost": "",
+        "qty": 1,
+        "group": "Land",
+        "cmc": 0,
+        "image": "https://cards.scryfall.io/normal/front/a/7/a73297d2-580c-4174-a427-265f6916d09f.jpg?1793021256",
+        "scryfallUri": "https://scryfall.com/card/trc/521/command-tower?utm_source=api",
+        "priceUsd": 0.28,
         "isNew": false,
         "delta": 0
       },
@@ -5731,7 +5821,7 @@
         "cmc": 6,
         "image": "https://cards.scryfall.io/normal/front/c/9/c9bd60fc-2777-44bc-b314-a792e8e48360.jpg?1783921921",
         "scryfallUri": "https://scryfall.com/card/2x2/43/consecrated-sphinx?utm_source=api",
-        "priceUsd": 33.07,
+        "priceUsd": 32.95,
         "isNew": false,
         "delta": 0
       },
@@ -5743,7 +5833,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/4/f/4f616706-ec97-4923-bb1e-11a69fbaa1f8.jpg?1783909630",
         "scryfallUri": "https://scryfall.com/card/dsc/114/counterspell?utm_source=api",
-        "priceUsd": 4.14,
+        "priceUsd": 3.99,
         "isNew": false,
         "delta": 0
       },
@@ -5767,7 +5857,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/9/1/91eb9067-0bc7-4497-ba9c-c1ea41e5a379.jpg?1783903795",
         "scryfallUri": "https://scryfall.com/card/soc/192/curse-of-the-swine?utm_source=api",
-        "priceUsd": 0.26,
+        "priceUsd": 0.31,
         "isNew": false,
         "delta": 0
       },
@@ -5791,7 +5881,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/d/3/d3c0aac5-b9f1-4446-bfea-3e1dd1cf1f2f.jpg?1783921909",
         "scryfallUri": "https://scryfall.com/card/2x2/73/damnation?utm_source=api",
-        "priceUsd": 21.29,
+        "priceUsd": 21.05,
         "isNew": false,
         "delta": 0
       },
@@ -5803,7 +5893,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/a/2/a24b4cb6-cebb-428b-8654-74347a6a8d63.jpg?1783915679",
         "scryfallUri": "https://scryfall.com/card/cmm/150/demonic-tutor?utm_source=api",
-        "priceUsd": 65.47,
+        "priceUsd": 66.53,
         "isNew": false,
         "delta": 0
       },
@@ -5839,7 +5929,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/0/8/0862060d-3198-4eeb-af8c-efeb27f42a99.jpg?1789599833",
         "scryfallUri": "https://scryfall.com/card/frc/56/dimir-signet?utm_source=api",
-        "priceUsd": 0.37,
+        "priceUsd": 0.43,
         "isNew": false,
         "delta": 0
       },
@@ -5875,7 +5965,7 @@
         "cmc": 6,
         "image": "https://cards.scryfall.io/normal/front/9/e/9ecb184f-c282-42f3-9576-09781a116352.jpg?1783915408",
         "scryfallUri": "https://scryfall.com/card/cmm/946/duplicant?utm_source=api",
-        "priceUsd": 0.31,
+        "priceUsd": 0.32,
         "isNew": false,
         "delta": 0
       },
@@ -5887,7 +5977,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/f/a/fa293bcc-39aa-4642-8e34-6e4fbb30f962.jpg?1793021160",
         "scryfallUri": "https://scryfall.com/card/trc/490/everflowing-chalice?utm_source=api",
-        "priceUsd": 0.5,
+        "priceUsd": 0.33,
         "isNew": false,
         "delta": 0
       },
@@ -5899,7 +5989,7 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/0/8/08e66835-c228-48fa-bcaa-eb96edbd4f5a.jpg?1783908888",
         "scryfallUri": "https://scryfall.com/card/fdn/724/expedition-map?utm_source=api",
-        "priceUsd": 1.98,
+        "priceUsd": 1.96,
         "isNew": false,
         "delta": 0
       },
@@ -5911,7 +6001,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/f/1/f11d7311-4066-4a5d-ba28-9857fa707a0b.jpg?1783909073",
         "scryfallUri": "https://scryfall.com/card/fdn/173/exsanguinate?utm_source=api",
-        "priceUsd": 0.46,
+        "priceUsd": 0.5,
         "isNew": false,
         "delta": 0
       },
@@ -5923,19 +6013,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/3/e/3ef87948-0ad9-4757-a692-2262c8e24367.jpg?1785759354",
         "scryfallUri": "https://scryfall.com/card/mbc/74/fellwar-stone?utm_source=api",
-        "priceUsd": 2.68,
-        "isNew": false,
-        "delta": 0
-      },
-      {
-        "name": "Future Sight",
-        "manaCost": "{2}{U}{U}{U}",
-        "qty": 1,
-        "group": "Enchantment",
-        "cmc": 5,
-        "image": "https://cards.scryfall.io/normal/front/6/3/639cb483-ffe2-4abc-a050-5cdc8aebd5a2.jpg?1783933144",
-        "scryfallUri": "https://scryfall.com/card/mh1/53/future-sight?utm_source=api",
-        "priceUsd": 0.34,
+        "priceUsd": 2.72,
         "isNew": false,
         "delta": 0
       },
@@ -5947,7 +6025,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/6/e/6ebaedfd-3f65-4867-bb59-df548a6eb113.jpg?1783930198",
         "scryfallUri": "https://scryfall.com/card/2xm/54/hinder?utm_source=api",
-        "priceUsd": 0.3,
+        "priceUsd": 0.31,
         "isNew": false,
         "delta": 0
       },
@@ -5971,7 +6049,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/c/3/c30ec372-5cf7-471c-b3fd-411095fc249a.jpg?1783932779",
         "scryfallUri": "https://scryfall.com/card/c19/87/ixidron?utm_source=api",
-        "priceUsd": 0.82,
+        "priceUsd": 0.81,
         "isNew": false,
         "delta": 0
       },
@@ -5983,7 +6061,7 @@
         "cmc": 10,
         "image": "https://cards.scryfall.io/normal/front/1/4/14a360b6-c7b4-4b25-8288-b3bb8d527bda.jpg?1783935545",
         "scryfallUri": "https://scryfall.com/card/ima/62/jin-gitaxias-core-augur?utm_source=api",
-        "priceUsd": 13.45,
+        "priceUsd": 13.53,
         "isNew": false,
         "delta": 0
       },
@@ -5995,7 +6073,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/6/5/659ef698-96ea-4fa9-b63c-0da93a2d1e78.jpg?1793197566",
         "scryfallUri": "https://scryfall.com/card/trc/496/lightning-greaves?utm_source=api",
-        "priceUsd": 2.84,
+        "priceUsd": 2.58,
         "isNew": false,
         "delta": 0
       },
@@ -6007,7 +6085,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/4/2/42f8591e-df30-49ec-962c-a75d32e6d9f5.jpg?1783906010",
         "scryfallUri": "https://scryfall.com/card/eoc/166/lonely-sandbar?utm_source=api",
-        "priceUsd": 0.24,
+        "priceUsd": 0.26,
         "isNew": false,
         "delta": 0
       },
@@ -6019,7 +6097,7 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/c/1/c1a31d52-a407-4ded-bfca-cc812f11afa0.jpg?1783921790",
         "scryfallUri": "https://scryfall.com/card/2x2/308/mana-vault?utm_source=api",
-        "priceUsd": 111.47,
+        "priceUsd": 111.31,
         "isNew": false,
         "delta": 0
       },
@@ -6031,7 +6109,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/d/f/dfa8757b-ef7d-44b8-ae80-45c436e85c1e.jpg?1783923213",
         "scryfallUri": "https://scryfall.com/card/ncc/372/mimic-vat?utm_source=api",
-        "priceUsd": 0.69,
+        "priceUsd": 0.66,
         "isNew": false,
         "delta": 0
       },
@@ -6043,7 +6121,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/0/9/091600ae-6578-4353-8e0f-d170f555bcd0.jpg?1793965409",
         "scryfallUri": "https://scryfall.com/card/trc/497/mind-stone?utm_source=api",
-        "priceUsd": 0.44,
+        "priceUsd": 0.25,
         "isNew": false,
         "delta": 0
       },
@@ -6055,7 +6133,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/8/8/8858a941-8175-476d-8177-2db4ffdcb3ad.jpg?1783922388",
         "scryfallUri": "https://scryfall.com/card/clb/866/mindcrank?utm_source=api",
-        "priceUsd": 12.89,
+        "priceUsd": 12.9,
         "isNew": false,
         "delta": 0
       },
@@ -6072,18 +6150,6 @@
         "delta": 0
       },
       {
-        "name": "Mystical Teachings",
-        "manaCost": "{3}{U}",
-        "qty": 1,
-        "group": "Instant",
-        "cmc": 4,
-        "image": "https://cards.scryfall.io/normal/front/3/f/3f88eacf-5c7b-4a35-86f0-af3b0516d4c2.jpg?1783908933",
-        "scryfallUri": "https://scryfall.com/card/fdn/594/mystical-teachings?utm_source=api",
-        "priceUsd": 0.12,
-        "isNew": false,
-        "delta": 0
-      },
-      {
         "name": "Mystical Tutor",
         "manaCost": "{U}",
         "qty": 1,
@@ -6091,7 +6157,19 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/3/6/36fa9a0b-b0c9-43ea-ba11-99d7982f974e.jpg?1783918491",
         "scryfallUri": "https://scryfall.com/card/dmr/60/mystical-tutor?utm_source=api",
-        "priceUsd": 17.6,
+        "priceUsd": 17.15,
+        "isNew": false,
+        "delta": 0
+      },
+      {
+        "name": "Necropotence",
+        "manaCost": "{B}{B}{B}",
+        "qty": 1,
+        "group": "Enchantment",
+        "cmc": 3,
+        "image": "https://cards.scryfall.io/normal/front/c/8/c89c6895-b0f8-444a-9c89-c6b4fd027b3e.jpg?1783935537",
+        "scryfallUri": "https://scryfall.com/card/ima/98/necropotence?utm_source=api",
+        "priceUsd": 36.23,
         "isNew": false,
         "delta": 0
       },
@@ -6115,7 +6193,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/a/5/a564c2e8-f49f-4ed7-850f-7c8bc92e4926.jpg?1783906041",
         "scryfallUri": "https://scryfall.com/card/eoc/75/phyrexian-metamorph?utm_source=api",
-        "priceUsd": 2.85,
+        "priceUsd": 2.39,
         "isNew": false,
         "delta": 0
       },
@@ -6127,7 +6205,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/9/5/9588be49-d9b5-4491-a5a0-10bcadc9f8b3.jpg?1783941311",
         "scryfallUri": "https://scryfall.com/card/nph/71/praetors-grasp?utm_source=api",
-        "priceUsd": 10.47,
+        "priceUsd": 11.03,
         "isNew": false,
         "delta": 0
       },
@@ -6139,7 +6217,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/2/9/2905f6ac-d054-454b-8e1a-9c32db13a581.jpg?1783944552",
         "scryfallUri": "https://scryfall.com/card/mrd/47/quicksilver-elemental?utm_source=api",
-        "priceUsd": 20.35,
+        "priceUsd": 20.39,
         "isNew": false,
         "delta": 0
       },
@@ -6151,7 +6229,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/1/3/13caa07e-3b72-4ee2-92c6-f119d02341f9.jpg?1793112056",
         "scryfallUri": "https://scryfall.com/card/trc/551/reliquary-tower?utm_source=api",
-        "priceUsd": 2.41,
+        "priceUsd": 1.64,
         "isNew": false,
         "delta": 0
       },
@@ -6163,7 +6241,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/9/f/9f37c5b6-a59c-45cd-9a99-e9357fe9ea1b.jpg?1783919146",
         "scryfallUri": "https://scryfall.com/card/j22/114/rhystic-study?utm_source=api",
-        "priceUsd": 67.49,
+        "priceUsd": 68.08,
         "isNew": false,
         "delta": 0
       },
@@ -6211,7 +6289,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/d/1/d1958f01-77e9-4976-b7f8-f9b62aa78edc.jpg?1783917109",
         "scryfallUri": "https://scryfall.com/card/moc/374/sculpting-steel?utm_source=api",
-        "priceUsd": 3.58,
+        "priceUsd": 3.61,
         "isNew": false,
         "delta": 0
       },
@@ -6223,7 +6301,7 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/e/5/e5142b7a-e580-4737-a4aa-2590f6610ceb.jpg?1783921788",
         "scryfallUri": "https://scryfall.com/card/2x2/314/senseis-divining-top?utm_source=api",
-        "priceUsd": 38.67,
+        "priceUsd": 38.52,
         "isNew": false,
         "delta": 0
       },
@@ -6259,7 +6337,7 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/f/c/fc817e07-c1f3-469f-9cf7-0945dea7400f.jpg?1793021181",
         "scryfallUri": "https://scryfall.com/card/trc/499/sol-ring?utm_source=api",
-        "priceUsd": 1.14,
+        "priceUsd": 0.91,
         "isNew": false,
         "delta": 0
       },
@@ -6271,7 +6349,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/5/2/522d6195-7660-42c0-848b-cc46e19fc4eb.jpg?1783934762",
         "scryfallUri": "https://scryfall.com/card/cm2/50/spell-crumple?utm_source=api",
-        "priceUsd": 0.68,
+        "priceUsd": 0.66,
         "isNew": false,
         "delta": 0
       },
@@ -6307,7 +6385,7 @@
         "cmc": 8,
         "image": "https://cards.scryfall.io/normal/front/9/9/996bb4c0-dc72-4233-9f44-2e25aef71ad7.jpg?1783928715",
         "scryfallUri": "https://scryfall.com/card/cmr/407/stormtide-leviathan?utm_source=api",
-        "priceUsd": 1.8,
+        "priceUsd": 1.95,
         "isNew": false,
         "delta": 0
       },
@@ -6360,18 +6438,6 @@
         "delta": 0
       },
       {
-        "name": "Temple of the False God",
-        "manaCost": "",
-        "qty": 1,
-        "group": "Land",
-        "cmc": 0,
-        "image": "https://cards.scryfall.io/normal/front/c/d/cd5e9799-00e1-41a9-b5b9-5d5164c71561.jpg?1793281644",
-        "scryfallUri": "https://scryfall.com/card/trc/570/temple-of-the-false-god?utm_source=api",
-        "priceUsd": 0.4,
-        "isNew": false,
-        "delta": 0
-      },
-      {
         "name": "Terramorphic Expanse",
         "manaCost": "",
         "qty": 1,
@@ -6379,7 +6445,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/5/8/58ebd718-982d-4370-b4af-ef49b978d97d.jpg?1793021389",
         "scryfallUri": "https://scryfall.com/card/trc/571/terramorphic-expanse?utm_source=api",
-        "priceUsd": 0.68,
+        "priceUsd": 0.5,
         "isNew": false,
         "delta": 0
       },
@@ -6391,7 +6457,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/c/f/cf339735-eb1a-46f0-8c3e-eae06f278eca.jpg?1783938417",
         "scryfallUri": "https://scryfall.com/card/mm2/62/tezzeret-the-seeker?utm_source=api",
-        "priceUsd": 26.06,
+        "priceUsd": 26.11,
         "isNew": false,
         "delta": 0
       },
@@ -6403,7 +6469,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/3/b/3bfcbeab-7a1e-4dcf-99bf-98f42c2b6a6f.jpg?1783942061",
         "scryfallUri": "https://scryfall.com/card/wwk/40/thada-adel-acquisitor?utm_source=api",
-        "priceUsd": 10.04,
+        "priceUsd": 9.99,
         "isNew": false,
         "delta": 0
       },
@@ -6415,7 +6481,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/2/6/269a926d-7788-4668-8bd8-7572dbf5f5eb.jpg?1783930080",
         "scryfallUri": "https://scryfall.com/card/2xm/327/thespians-stage?utm_source=api",
-        "priceUsd": 0.46,
+        "priceUsd": 0.45,
         "isNew": false,
         "delta": 0
       },
@@ -6427,7 +6493,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/7/c/7ce5f12e-fc02-42f8-a5ca-b523050d4650.jpg?1783915588",
         "scryfallUri": "https://scryfall.com/card/cmm/415/thran-dynamo?utm_source=api",
-        "priceUsd": 4.26,
+        "priceUsd": 4.18,
         "isNew": false,
         "delta": 0
       },
@@ -6439,7 +6505,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/b/0/b005eef6-75f3-454f-a42b-d851bc84ac4e.jpg?1783927747",
         "scryfallUri": "https://scryfall.com/card/tsr/286/tolaria-west?utm_source=api",
-        "priceUsd": 1.95,
+        "priceUsd": 2.02,
         "isNew": false,
         "delta": 0
       },
@@ -6451,7 +6517,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/1/d/1df2c2a6-94a9-4365-9bd5-dd5f2854c562.jpg?1793023039",
         "scryfallUri": "https://scryfall.com/card/trc/448/toxic-deluge?utm_source=api",
-        "priceUsd": 2.97,
+        "priceUsd": 2.26,
         "isNew": false,
         "delta": 0
       },
@@ -6463,7 +6529,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/9/a/9a7800f7-95cd-4f5c-b054-4afad8924367.jpg?1783935075",
         "scryfallUri": "https://scryfall.com/card/ddu/41/trinket-mage?utm_source=api",
-        "priceUsd": 0.64,
+        "priceUsd": 0.58,
         "isNew": false,
         "delta": 0
       },
@@ -6475,7 +6541,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/9/e/9e1a9e38-6ffc-490f-b0be-23ba4e8204c6.jpg?1783927747",
         "scryfallUri": "https://scryfall.com/card/tsr/287/urborg-tomb-of-yawgmoth?utm_source=api",
-        "priceUsd": 53.46,
+        "priceUsd": 55.93,
         "isNew": false,
         "delta": 0
       },
@@ -6487,7 +6553,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/d/0/d03f17f1-b0fd-4b84-82ea-085c2f87eeda.jpg?1783927747",
         "scryfallUri": "https://scryfall.com/card/tsr/288/urzas-factory?utm_source=api",
-        "priceUsd": 0.3,
+        "priceUsd": 0.29,
         "isNew": false,
         "delta": 0
       },
@@ -6499,7 +6565,7 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/3/4/34a0203f-9cce-43a4-9cb7-8ce6647895cd.jpg?1783918468",
         "scryfallUri": "https://scryfall.com/card/dmr/108/vampiric-tutor?utm_source=api",
-        "priceUsd": 49.85,
+        "priceUsd": 52.35,
         "isNew": false,
         "delta": 0
       },
@@ -6511,7 +6577,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/d/c/dc468f97-08f7-4103-898f-b14fa61b99bc.jpg?1783921909",
         "scryfallUri": "https://scryfall.com/card/2x2/67/wash-out?utm_source=api",
-        "priceUsd": 0.4,
+        "priceUsd": 0.43,
         "isNew": false,
         "delta": 0
       },
@@ -6523,7 +6589,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/5/5/5525d6a6-e532-4047-9da4-bfae7927fecc.jpg?1784036860",
         "scryfallUri": "https://scryfall.com/card/trk/306/watery-grave?utm_source=api",
-        "priceUsd": 6.11,
+        "priceUsd": 7.34,
         "isNew": false,
         "delta": 0
       },
@@ -6535,7 +6601,19 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/a/3/a3f31ac4-09ca-4712-a311-50d28824bfad.jpg?1783903208",
         "scryfallUri": "https://scryfall.com/card/msc/225/whispersilk-cloak?utm_source=api",
-        "priceUsd": 2.1,
+        "priceUsd": 1.92,
+        "isNew": false,
+        "delta": 0
+      },
+      {
+        "name": "Ponder",
+        "manaCost": "{U}",
+        "qty": 1,
+        "group": "Sorcery",
+        "cmc": 1,
+        "image": "https://cards.scryfall.io/normal/front/0/c/0cb673af-dae0-478c-a5d3-b697338f6c0e.jpg?1793281344",
+        "scryfallUri": "https://scryfall.com/card/trc/440/ponder?utm_source=api",
+        "priceUsd": 0.6,
         "isNew": false,
         "delta": 0
       }
@@ -6558,7 +6636,7 @@
         "description": "Activate Sol Ring by tapping it, adding {C} {C}.\nCast the permanent that can be cast using {C} by paying its mana cost.\nHullbreaker Horror triggers, returning Sol Ring from the battlefield to your hand.\nCast Sol Ring by paying {1}. \nHullbreaker Horror triggers, returning the permanent cast in step 2 from the battlefield to your hand.\nRepeat.\nIf the permanent can be cast by paying {0}, this combo nets infinite colorless mana.",
         "bracketTag": "E",
         "url": "https://commanderspellbook.com/combo/513-5034--46/",
-        "popularity": 367460
+        "popularity": 368508
       },
       {
         "id": "513-2364--47",
@@ -6576,7 +6654,7 @@
         "description": "Activate Mana Vault by tapping it, adding {C}{C}{C}.\nCast the permanent that can be cast using {C}{C} from your hand by paying its mana cost.\nHullbreaker Horror triggers, returning Mana Vault from the battlefield to your hand.\nCast Mana Vault by paying {1}.\nHullbreaker Horror triggers, returning the permanent cast in step 2 from the battlefield to your hand.\nRepeat.\nIf the permanent can be cast using {C} or less, this combo nets infinite colorless mana.",
         "bracketTag": "P",
         "url": "https://commanderspellbook.com/combo/513-2364--47/",
-        "popularity": 78624
+        "popularity": 78873
       },
       {
         "id": "4131-4547",
@@ -6593,7 +6671,7 @@
         "description": "Activate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {3}, untapping it.\nRepeat.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/4131-4547/",
-        "popularity": 67092
+        "popularity": 67359
       },
       {
         "id": "936-1290",
@@ -6613,7 +6691,7 @@
         "description": "Cause one or more opponents to lose life.\nMindcrank triggers once for each life loss event, causing that player to mill cards equal to the amount of life lost.\nBloodchief Ascension triggers once for each card milled, causing that player to lose 2 life and you to gain 2 life for each trigger.\nRepeat from step 2.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/936-1290/",
-        "popularity": 64345
+        "popularity": 64476
       },
       {
         "id": "4131-4235",
@@ -6630,7 +6708,7 @@
         "description": "Activate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {3}.\nRings of Brighthearth triggers, causing you to pay {2} to copy Basalt Monolith's last ability.\nResolve the copy of Basalt Monolith's last ability, untapping it.\nActivate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}.\nResolve the Basalt Monolith ability from step 2, untapping it.\nRepeat.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/4131-4235/",
-        "popularity": 54385
+        "popularity": 54481
       },
       {
         "id": "542-5034",
@@ -6648,7 +6726,7 @@
         "description": "Cast Sol Ring by paying its mana cost.\nTidespout Tyrant triggers, returning a nontoken permanent that can be cast using {C} from the battlefield to your hand.\nActivate Sol Ring by tapping it, adding {C}{C}.\nCast the nontoken permanent returned in step 2 by paying its mana cost.\nTidespout Tyrant triggers, returning Sol Ring from the battlefield to your hand.\nRepeat.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/542-5034/",
-        "popularity": 38067
+        "popularity": 38117
       },
       {
         "id": "4131-5390",
@@ -6665,7 +6743,7 @@
         "description": "Activate Basalt Monolith's first activated ability by tapping it, adding {C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {2}, untapping it.\nRepeat.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/4131-5390/",
-        "popularity": 26613
+        "popularity": 26668
       },
       {
         "id": "936-5069",
@@ -6684,7 +6762,7 @@
         "description": "Activate Duskmantle Guildmage's first ability by paying {1}{U}{B}, causing your opponent to lose life whenever a card is put into their graveyard this turn.\nActivate Duskmantle Guildmage's second ability by paying {2}{U}{B}, causing an opponent to mill two cards.\nDuskmantle Guildmage triggers twice.\nResolve the first trigger, causing the opponent to lose 1 life.\nMindcrank triggers, causing the opponent to mill a card.\nDuskmantle Guildmage triggers, causing the opponent to lose 1 life.\nRepeat from step 5 until the opponent has a life total of zero, causing them to lose the game.\nRepeat from step 2 for each other opponent.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/936-5069/",
-        "popularity": 19887
+        "popularity": 19911
       },
       {
         "id": "2702-4992",
@@ -6702,7 +6780,7 @@
         "description": "All creatures your opponents control lose flying.\nStormtide prevents creatures without flying or islandwalk from attacking.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/2702-4992/",
-        "popularity": 14396
+        "popularity": 14441
       },
       {
         "id": "542-2364",
@@ -6720,7 +6798,7 @@
         "description": "Cast Mana Vault by paying its mana cost.\nTidespout Tyrant triggers, returning a nontoken permanent that can be cast using {C}{C} from the battlefield to your hand.\nActivate Mana Vault by tapping it, adding {C}{C}{C}\nCast the nontoken permanent returned in step 2 by paying its mana cost.\nTidespout Tyrant triggers, returning Mana Vault from the battlefield to your hand.\nRepeat.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/542-2364/",
-        "popularity": 14009
+        "popularity": 14014
       },
       {
         "id": "4131-5149",
@@ -6737,7 +6815,7 @@
         "description": "Activate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {1}, untapping it.\nRepeat.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/4131-5149/",
-        "popularity": 11071
+        "popularity": 11110
       },
       {
         "id": "4131-4684",
@@ -6754,7 +6832,7 @@
         "description": "Activate Basalt Monolith's first ability by tapping it, adding {3}.\nActivate Basalt Monolith's last ability by paying {3}, untapping it.\nMesmeric Orb triggers, causing you to mill a card.\nRepeat.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/4131-4684/",
-        "popularity": 10115
+        "popularity": 10123
       },
       {
         "id": "5078-5849",
@@ -6773,7 +6851,7 @@
         "description": "Activate Sensei's Divining Top's second ability by tapping it, causing you to draw a card and put Sensei's Divining Top from the battlefield on top of your library.\nCast Sensei's Divining Top from the top of your library by paying {0} due to Fortune Teller's Talent.\nRepeat.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/5078-5849/",
-        "popularity": 7810
+        "popularity": 7819
       },
       {
         "id": "1167-1384",
@@ -6791,7 +6869,24 @@
         "description": "Use Mindslaver's ability targeting an opponent.\nActivate Academy Ruins's ability targeting Mindslaver in graveyard.\nPass to opponent's turn.\nPass to your turn and draw Mindslaver.\nPlay Mindslaver, use it, and target it with Academy Ruins.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/1167-1384/",
-        "popularity": 7431
+        "popularity": 7454
+      },
+      {
+        "id": "876-4944",
+        "cards": [
+          "Crackdown Construct",
+          "Lightning Greaves"
+        ],
+        "missing": [
+          "Crackdown Construct"
+        ],
+        "produces": [
+          "Infinitely large creature until end of turn"
+        ],
+        "description": "Activate Lightning Greaves's equip ability by paying {0}, targeting any creature you control except the creature that has Lightning Greaves attached.\nCrackdown Construct triggers, giving it +1/+1 until end of turn.\nResolve Lightning Greaves's equip ability.\nRepeat.",
+        "bracketTag": "O",
+        "url": "https://commanderspellbook.com/combo/876-4944/",
+        "popularity": 3996
       },
       {
         "id": "328-1744",
@@ -6809,24 +6904,7 @@
         "description": "Cast Rite of Replication with kicker by paying {7}{U}{U}, creating five token copies of Gray Merchant of Asphodel.\nEach Gray Merchant of Asphodel enters the battlefield, triggering their abilities.\nResolve the first trigger, causing each opponent to lose life equal to your devotion to black, and causing you to gain that much life.\nRepeat step 3 for each remaining trigger.",
         "bracketTag": "C",
         "url": "https://commanderspellbook.com/combo/328-1744/",
-        "popularity": 3975
-      },
-      {
-        "id": "876-4944",
-        "cards": [
-          "Crackdown Construct",
-          "Lightning Greaves"
-        ],
-        "missing": [
-          "Crackdown Construct"
-        ],
-        "produces": [
-          "Infinitely large creature until end of turn"
-        ],
-        "description": "Activate Lightning Greaves's equip ability by paying {0}, targeting any creature you control except the creature that has Lightning Greaves attached.\nCrackdown Construct triggers, giving it +1/+1 until end of turn.\nResolve Lightning Greaves's equip ability.\nRepeat.",
-        "bracketTag": "O",
-        "url": "https://commanderspellbook.com/combo/876-4944/",
-        "popularity": 3972
+        "popularity": 3981
       },
       {
         "id": "74-4131",
@@ -6843,7 +6921,7 @@
         "description": "Activate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}\r\nActivate Basalt Monolith's second ability by paying {3}\r\nLocus of Enlightenment triggers, untapping Basalt Monolith\r\nHolding priority, activate Basalt Monolith by tapping it, adding {C}{C}{C}\r\nResolve Basalt Monolith's ability from step 2, untapping it.\r\nRepeat",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/74-4131/",
-        "popularity": 2604
+        "popularity": 2611
       },
       {
         "id": "141-1744",
@@ -6863,7 +6941,7 @@
         "description": "Cast Rite of Replication by paying its mana cost, targeting a creature you control.\nHolding priority, cast Naru Meha either from your hand or from the command zone by paying {2}{U}{U} plus commander tax, if applicable.\nWhen Naru Meha enters the battlefield, it triggers, copying Rite of Replication, targeting Naru Meha.\nResolve the copy of Rite of Replication, creating a token copy of Naru Meha.\nPut either Naru Meha into your graveyard due to the legend rule.\nRepeat from step 3.",
         "bracketTag": "E",
         "url": "https://commanderspellbook.com/combo/141-1744/",
-        "popularity": 2480
+        "popularity": 2489
       },
       {
         "id": "876-2904",
@@ -6880,7 +6958,7 @@
         "description": "Activate Lightning Greaves's equip ability by paying {0}, targeting Cephalid Illusionist.\nCephalid Illusionist triggers, causing you to mill three cards.\nResolve the Lightning Greaves ability, attaching it to Cephalid Illusionist.\nRepeat.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/876-2904/",
-        "popularity": 2267
+        "popularity": 2271
       },
       {
         "id": "4413-4812",
@@ -6898,8 +6976,67 @@
         "description": "Cast Animate Dead by paying {1}{B}.\nAnimate Dead enters the battlefield, returning Kederekt Leviathan from your graveyard to the battlefield attached with Animate Dead.\nKederekt Leviathan triggers, returning all nonland permanents to their owner's hands.\nAnimate Dead triggers, causing you to sacrifice Kederekt Leviathan.\nRepeat each turn.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/4413-4812/",
-        "popularity": 2017
+        "popularity": 2021
       }
     ]
-  }
+  },
+  "edits": [
+    {
+      "at": "2026-11-14T17:55:00.033Z",
+      "request": "Swap: Temple of the False God → Command Tower",
+      "target": "original",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Temple of the False God",
+          "qty": 1,
+          "reason": "Temple of the False God only makes colorless mana; Command Tower makes black and blue untapped, helping blue and black, which are short."
+        },
+        {
+          "action": "add",
+          "name": "Command Tower",
+          "qty": 1,
+          "reason": "Temple of the False God only makes colorless mana; Command Tower makes black and blue untapped, helping blue and black, which are short."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-14T17:55:29.783Z",
+      "request": "Swap: Future Sight → Necropotence",
+      "target": "original",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Future Sight",
+          "qty": 1,
+          "reason": "Necropotence supplies a much larger hand for assembling and protecting a finish at a lower mana value. Its triple-black cost makes the planned mana-base correction important, and its delayed hand refill should be used proactively."
+        },
+        {
+          "action": "add",
+          "name": "Necropotence",
+          "qty": 1,
+          "reason": "Necropotence supplies a much larger hand for assembling and protecting a finish at a lower mana value. Its triple-black cost makes the planned mana-base correction important, and its delayed hand refill should be used proactively."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-14T17:56:45.567Z",
+      "request": "Swap: Mystical Teachings → Ponder",
+      "target": "original",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Mystical Teachings",
+          "qty": 1,
+          "reason": "The deck already retains extensive tutoring, so cheap selection improves opening hands more than another four-mana tutor. Ponder helps locate colored lands, early acceleration, or protection before committing to the six-mana commander."
+        },
+        {
+          "action": "add",
+          "name": "Ponder",
+          "qty": 1,
+          "reason": "The deck already retains extensive tutoring, so cheap selection improves opening hands more than another four-mana tutor. Ponder helps locate colored lands, early acceleration, or protection before committing to the six-mana commander."
+        }
+      ]
+    }
+  ]
 }

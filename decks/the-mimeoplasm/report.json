@@ -51,75 +51,6 @@
   ],
   "swaps": [
     {
-      "out": "Plague Wind",
-      "in": "Windfall",
-      "category": "draw",
-      "reason": "Nine-mana removal is too slow. Windfall replenishes your hand while depositing expensive creatures into graveyards for Mimeoplasm and your reanimation spells.",
-      "outCard": {
-        "name": "Plague Wind",
-        "oracleId": "18ec721f-c1ac-4581-a61d-2f0b09d6bf92",
-        "manaCost": "{7}{B}{B}",
-        "cmc": 9,
-        "typeLine": "Sorcery",
-        "oracleText": "Destroy all creatures you don't control. They can't be regenerated.",
-        "colors": [
-          "B"
-        ],
-        "colorIdentity": [
-          "B"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 4.74,
-        "image": "https://cards.scryfall.io/normal/front/7/2/72d21d0d-7de7-4f03-8663-002c9290512f.jpg?1783935158",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/7/2/72d21d0d-7de7-4f03-8663-002c9290512f.jpg?1783935158",
-        "scryfallUri": "https://scryfall.com/card/a25/102/plague-wind?utm_source=api",
-        "roles": [
-          "wipe"
-        ]
-      },
-      "inCard": {
-        "name": "Windfall",
-        "oracleId": "08becc07-28bc-4a2f-a6b0-28a2998d2f50",
-        "manaCost": "{2}{U}",
-        "cmc": 3,
-        "typeLine": "Sorcery",
-        "oracleText": "Each player discards their hand, then draws cards equal to the greatest number of cards a player discarded this way.",
-        "colors": [
-          "U"
-        ],
-        "colorIdentity": [
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 5.44,
-        "image": "https://cards.scryfall.io/normal/front/9/c/9ce7113b-08f7-4584-b65f-a7b5caa90c2f.jpg?1783911933",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/9/c/9ce7113b-08f7-4584-b65f-a7b5caa90c2f.jpg?1783911933",
-        "scryfallUri": "https://scryfall.com/card/otc/123/windfall?utm_source=api",
-        "roles": [
-          "draw"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Yargle and Multani",
-          "image": "https://cards.scryfall.io/normal/front/9/c/9c15e244-14cc-46a5-abd4-66a58d1c0dd0.jpg?1783916936",
-          "scryfallUri": "https://scryfall.com/card/mom/256/yargle-and-multani?utm_source=api"
-        }
-      ]
-    },
-    {
       "out": "Mindleech Mass",
       "in": "Frantic Search",
       "category": "draw",
@@ -557,146 +488,6 @@
       ]
     },
     {
-      "out": "Triskelion",
-      "in": "Nature's Lore",
-      "category": "ramp",
-      "reason": "Triskelion lacks a dedicated payoff package here. Nature's Lore accelerates efficiently and can find either green shock land, including an untapped dual when you pay the life.",
-      "outCard": {
-        "name": "Triskelion",
-        "oracleId": "74f67dcf-5afb-45aa-8d4b-3cdb23f6f2a1",
-        "manaCost": "{6}",
-        "cmc": 6,
-        "typeLine": "Artifact Creature — Construct",
-        "oracleText": "This creature enters with three +1/+1 counters on it.\nRemove a +1/+1 counter from this creature: It deals 1 damage to any target.",
-        "colors": [],
-        "colorIdentity": [],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.38,
-        "power": "1",
-        "toughness": "1",
-        "image": "https://cards.scryfall.io/normal/front/6/3/63349fa3-4462-413c-bd96-bbc1049165a0.jpg?1783917104",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/6/3/63349fa3-4462-413c-bd96-bbc1049165a0.jpg?1783917104",
-        "scryfallUri": "https://scryfall.com/card/moc/387/triskelion?utm_source=api",
-        "roles": [
-          "removal"
-        ]
-      },
-      "inCard": {
-        "name": "Nature's Lore",
-        "oracleId": "78826359-fe63-44ad-adc4-a17ffcd710e4",
-        "manaCost": "{1}{G}",
-        "cmc": 2,
-        "typeLine": "Sorcery",
-        "oracleText": "Search your library for a Forest card, put that card onto the battlefield, then shuffle.",
-        "colors": [
-          "G"
-        ],
-        "colorIdentity": [
-          "G"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 3.37,
-        "image": "https://cards.scryfall.io/normal/front/6/a/6a55cafa-cb5c-482c-b3c9-1b1f4f0c698d.jpg?1793281413",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/6/a/6a55cafa-cb5c-482c-b3c9-1b1f4f0c698d.jpg?1793281413",
-        "scryfallUri": "https://scryfall.com/card/trc/467/natures-lore?utm_source=api",
-        "roles": [
-          "ramp"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Hermit Druid",
-          "image": "https://cards.scryfall.io/normal/front/3/9/39c66895-9c2d-49db-8261-e300a69b6cd5.jpg?1783908097",
-          "scryfallUri": "https://scryfall.com/card/inr/202/hermit-druid?utm_source=api"
-        }
-      ]
-    },
-    {
-      "out": "Big Game Hunter",
-      "in": "Grisly Salvage",
-      "category": "synergy",
-      "reason": "Grisly Salvage finds a creature or land while stocking the graveyard at instant speed. It provides more predictable setup than Hermit Druid in a deck retaining many basics.",
-      "outCard": {
-        "name": "Big Game Hunter",
-        "oracleId": "ab55834f-c935-4773-89c6-bec9712284eb",
-        "manaCost": "{1}{B}{B}",
-        "cmc": 3,
-        "typeLine": "Creature — Human Rebel Assassin",
-        "oracleText": "When this creature enters, destroy target creature with power 4 or greater. It can't be regenerated.\nMadness {B} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)",
-        "colors": [
-          "B"
-        ],
-        "colorIdentity": [
-          "B"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.37,
-        "power": "1",
-        "toughness": "1",
-        "image": "https://cards.scryfall.io/normal/front/2/c/2cec1014-375c-4877-95e3-093d24c02bc8.jpg?1783927825",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/2/c/2cec1014-375c-4877-95e3-093d24c02bc8.jpg?1783927825",
-        "scryfallUri": "https://scryfall.com/card/tsr/102/big-game-hunter?utm_source=api",
-        "roles": [
-          "removal"
-        ]
-      },
-      "inCard": {
-        "name": "Grisly Salvage",
-        "oracleId": "a89ebf63-63c9-42cd-98b4-ec852cd9b0a8",
-        "manaCost": "{B}{G}",
-        "cmc": 2,
-        "typeLine": "Instant",
-        "oracleText": "Reveal the top five cards of your library. You may put a creature or land card from among them into your hand. Put the rest into your graveyard.",
-        "colors": [
-          "B",
-          "G"
-        ],
-        "colorIdentity": [
-          "B",
-          "G"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.37,
-        "image": "https://cards.scryfall.io/normal/front/1/2/12a90f7a-28df-4017-b221-0e9234ff74a7.jpg?1783907026",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/1/2/12a90f7a-28df-4017-b221-0e9234ff74a7.jpg?1783907026",
-        "scryfallUri": "https://scryfall.com/card/tdc/290/grisly-salvage?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Brawn",
-          "image": "https://cards.scryfall.io/normal/front/8/c/8c05568e-fa50-46e9-aec4-1ba5e814029e.jpg?1783917143",
-          "scryfallUri": "https://scryfall.com/card/moc/292/brawn?utm_source=api"
-        }
-      ]
-    },
-    {
       "out": "Corpse Connoisseur",
       "in": "Arcane Signet",
       "category": "ramp",
@@ -839,71 +630,6 @@
           "scryfallUri": "https://scryfall.com/card/moc/292/brawn?utm_source=api"
         }
       ]
-    },
-    {
-      "out": "Fleshbag Marauder",
-      "in": "Cyclonic Rift",
-      "category": "interaction",
-      "reason": "Rift is flexible early interaction and a late-game opening for your large attackers. Its overloaded mode avoids destroying your own developed board and earns a Game Changer slot.",
-      "outCard": {
-        "name": "Fleshbag Marauder",
-        "oracleId": "4b1bf05e-753e-4350-a913-894cf3cecc0c",
-        "manaCost": "{2}{B}",
-        "cmc": 3,
-        "typeLine": "Creature — Zombie Warrior",
-        "oracleText": "When this creature enters, each player sacrifices a creature of their choice.",
-        "colors": [
-          "B"
-        ],
-        "colorIdentity": [
-          "B"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.27,
-        "power": "3",
-        "toughness": "1",
-        "image": "https://cards.scryfall.io/normal/front/f/c/fce2baa4-2976-4bbd-b6c5-a5a3c6a901be.jpg?1783912547",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/f/c/fce2baa4-2976-4bbd-b6c5-a5a3c6a901be.jpg?1783912547",
-        "scryfallUri": "https://scryfall.com/card/clu/111/fleshbag-marauder?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
-        "name": "Cyclonic Rift",
-        "oracleId": "d75b9c82-1b49-4c3e-a1b5-aeef57d6644b",
-        "manaCost": "{1}{U}",
-        "cmc": 2,
-        "typeLine": "Instant",
-        "oracleText": "Return target nonland permanent you don't control to its owner's hand.\nOverload {6}{U} (You may cast this spell for its overload cost. If you do, change \"target\" in its text to \"each.\")",
-        "colors": [
-          "U"
-        ],
-        "colorIdentity": [
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": true,
-        "canBeCommander": false,
-        "priceUsd": 38.41,
-        "image": "https://cards.scryfall.io/normal/front/d/f/dfb7c4b9-f2f4-4d4e-baf2-86551c8150fe.jpg?1783913339",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/d/f/dfb7c4b9-f2f4-4d4e-baf2-86551c8150fe.jpg?1783913339",
-        "scryfallUri": "https://scryfall.com/card/rvr/40/cyclonic-rift?utm_source=api",
-        "roles": [
-          "removal"
-        ]
-      },
-      "alternatives": []
     },
     {
       "out": "Genesis",
@@ -1490,76 +1216,6 @@
       ]
     },
     {
-      "out": "Skithiryx, the Blight Dragon",
-      "in": "Underrealm Lich",
-      "category": "bracket",
-      "reason": "Skithiryx plus a large counter donor and haste creates an easily tutored early poison elimination, conflicting with the requested pacing. Underrealm Lich instead improves every draw and feeds the graveyard for a resilient value-and-combat plan.",
-      "outCard": {
-        "name": "Skithiryx, the Blight Dragon",
-        "oracleId": "daf6c421-e7f7-4fc6-967c-65f4ab96fcfd",
-        "manaCost": "{3}{B}{B}",
-        "cmc": 5,
-        "typeLine": "Legendary Creature — Phyrexian Dragon Skeleton",
-        "oracleText": "Flying\nInfect (This creature deals damage to creatures in the form of -1/-1 counters and to players in the form of poison counters.)\n{B}: Skithiryx gains haste until end of turn.\n{B}{B}: Regenerate Skithiryx.",
-        "colors": [
-          "B"
-        ],
-        "colorIdentity": [
-          "B"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": true,
-        "priceUsd": 13.46,
-        "power": "4",
-        "toughness": "4",
-        "image": "https://cards.scryfall.io/normal/front/c/a/cab61c7e-e00a-413b-a0b5-7718b479582f.jpg?1783930175",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/c/a/cab61c7e-e00a-413b-a0b5-7718b479582f.jpg?1783930175",
-        "scryfallUri": "https://scryfall.com/card/2xm/107/skithiryx-the-blight-dragon?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
-        "name": "Underrealm Lich",
-        "oracleId": "e1bce9c3-300c-4a9d-abe0-a1f02d3a1105",
-        "manaCost": "{3}{B}{G}",
-        "cmc": 5,
-        "typeLine": "Creature — Zombie Elf Shaman",
-        "oracleText": "If you would draw a card, instead look at the top three cards of your library, then put one into your hand and the rest into your graveyard.\nPay 4 life: This creature gains indestructible until end of turn. Tap it.",
-        "colors": [
-          "B",
-          "G"
-        ],
-        "colorIdentity": [
-          "B",
-          "G"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 9.94,
-        "power": "4",
-        "toughness": "3",
-        "image": "https://cards.scryfall.io/normal/front/3/0/30c94b1b-35be-4c98-b279-80d95b28201e.jpg?1783912513",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/3/0/30c94b1b-35be-4c98-b279-80d95b28201e.jpg?1783912513",
-        "scryfallUri": "https://scryfall.com/card/clu/215/underrealm-lich?utm_source=api",
-        "roles": [
-          "draw",
-          "protection"
-        ]
-      },
-      "alternatives": []
-    },
-    {
       "out": "Relic Crush",
       "in": "Necromancy",
       "category": "synergy",
@@ -1623,71 +1279,6 @@
       "alternatives": []
     },
     {
-      "out": "Darksteel Ingot",
-      "in": "Farseek",
-      "category": "ramp",
-      "reason": "Farseek fixes colors a turn earlier and can find any of your three shock lands. Land-based acceleration also survives your own Bane of Progress.",
-      "outCard": {
-        "name": "Darksteel Ingot",
-        "oracleId": "a2529491-7389-4cfa-92d2-145eda779603",
-        "manaCost": "{3}",
-        "cmc": 3,
-        "typeLine": "Artifact",
-        "oracleText": "Indestructible (Effects that say \"destroy\" don't destroy this artifact.)\n{T}: Add one mana of any color.",
-        "colors": [],
-        "colorIdentity": [],
-        "producedMana": [
-          "B",
-          "G",
-          "R",
-          "U",
-          "W"
-        ],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.39,
-        "image": "https://cards.scryfall.io/normal/front/f/2/f279fcf1-e4f5-4873-9d73-8d62e0343b81.jpg?1783911890",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/f/2/f279fcf1-e4f5-4873-9d73-8d62e0343b81.jpg?1783911890",
-        "scryfallUri": "https://scryfall.com/card/otc/256/darksteel-ingot?utm_source=api",
-        "roles": [
-          "ramp"
-        ]
-      },
-      "inCard": {
-        "name": "Farseek",
-        "oracleId": "495e52e6-4c2b-4574-9474-eadbdcc8b4ac",
-        "manaCost": "{1}{G}",
-        "cmc": 2,
-        "typeLine": "Sorcery",
-        "oracleText": "Search your library for a Plains, Island, Swamp, or Mountain card, put it onto the battlefield tapped, then shuffle.",
-        "colors": [
-          "G"
-        ],
-        "colorIdentity": [
-          "G"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.46,
-        "image": "https://cards.scryfall.io/normal/front/d/d/dde15e36-ad2d-4438-9b51-78a04bc80779.jpg?1793281387",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/d/d/dde15e36-ad2d-4438-9b51-78a04bc80779.jpg?1793281387",
-        "scryfallUri": "https://scryfall.com/card/trc/462/farseek?utm_source=api",
-        "roles": [
-          "ramp"
-        ]
-      },
-      "alternatives": []
-    },
-    {
       "out": "Mindcrank",
       "in": "Mesmeric Orb",
       "category": "synergy",
@@ -1738,67 +1329,6 @@
         "scryfallUri": "https://scryfall.com/card/2xm/272/mesmeric-orb?utm_source=api",
         "roles": [
           "other"
-        ]
-      },
-      "alternatives": []
-    },
-    {
-      "out": "Sword of Body and Mind",
-      "in": "Golgari Grave-Troll",
-      "category": "synergy",
-      "reason": "The Sword requires equipment mana and successful combat before contributing. Grave-Troll supplies repeatable dredge-six setup; its main purpose here is dredging, not donating printed power to Mimeoplasm.",
-      "outCard": {
-        "name": "Sword of Body and Mind",
-        "oracleId": "fac42229-4f5f-4d04-85dd-5031d4e435aa",
-        "manaCost": "{3}",
-        "cmc": 3,
-        "typeLine": "Artifact — Equipment",
-        "oracleText": "Equipped creature gets +2/+2 and has protection from green and from blue.\nWhenever equipped creature deals combat damage to a player, you create a 2/2 green Wolf creature token and that player mills ten cards.\nEquip {2}",
-        "colors": [],
-        "colorIdentity": [],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 18.27,
-        "image": "https://cards.scryfall.io/normal/front/1/f/1ffe5f80-a2ac-41b8-8fce-fd3485643557.jpg?1783930094",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/1/f/1ffe5f80-a2ac-41b8-8fce-fd3485643557.jpg?1783930094",
-        "scryfallUri": "https://scryfall.com/card/2xm/295/sword-of-body-and-mind?utm_source=api",
-        "roles": [
-          "protection"
-        ]
-      },
-      "inCard": {
-        "name": "Golgari Grave-Troll",
-        "oracleId": "686f4a37-b5e4-46d4-9e0e-11794b2d12cd",
-        "manaCost": "{4}{G}",
-        "cmc": 5,
-        "typeLine": "Creature — Troll Skeleton",
-        "oracleText": "This creature enters with a +1/+1 counter on it for each creature card in your graveyard.\n{1}, Remove a +1/+1 counter from this creature: Regenerate this creature.\nDredge 6 (If you would draw a card, you may mill six cards instead. If you do, return this card from your graveyard to your hand.)",
-        "colors": [
-          "G"
-        ],
-        "colorIdentity": [
-          "G"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 2.37,
-        "power": "0",
-        "toughness": "0",
-        "image": "https://cards.scryfall.io/normal/front/d/3/d332acbc-6224-43bc-a509-3a7edc877423.jpg?1783913302",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/d/3/d332acbc-6224-43bc-a509-3a7edc877423.jpg?1783913302",
-        "scryfallUri": "https://scryfall.com/card/rvr/144/golgari-grave-troll?utm_source=api",
-        "roles": [
-          "draw"
         ]
       },
       "alternatives": []
@@ -2202,68 +1732,6 @@
       ]
     },
     {
-      "out": "Swamp",
-      "in": "Island",
-      "category": "mana",
-      "reason": "U is short on sources (15/17) while B has 18/17.",
-      "outCard": {
-        "name": "Swamp",
-        "oracleId": "56719f6a-1a6c-4c0a-8d21-18f7d7350b68",
-        "manaCost": "",
-        "cmc": 0,
-        "typeLine": "Basic Land — Swamp",
-        "oracleText": "({T}: Add {B}.)",
-        "colors": [],
-        "colorIdentity": [
-          "B"
-        ],
-        "producedMana": [
-          "B"
-        ],
-        "isLand": true,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": null,
-        "image": "https://cards.scryfall.io/normal/front/b/2/b233b117-9369-45c1-80c5-cc857386b6be.jpg?1791578437",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/b/2/b233b117-9369-45c1-80c5-cc857386b6be.jpg?1791578437",
-        "scryfallUri": "https://scryfall.com/card/mdd/296/swamp?utm_source=api",
-        "roles": [
-          "land"
-        ]
-      },
-      "inCard": {
-        "name": "Island",
-        "oracleId": "b2c6aa39-2d2a-459c-a555-fb48ba993373",
-        "manaCost": "",
-        "cmc": 0,
-        "typeLine": "Basic Land — Island",
-        "oracleText": "({T}: Add {U}.)",
-        "colors": [],
-        "colorIdentity": [
-          "U"
-        ],
-        "producedMana": [
-          "U"
-        ],
-        "isLand": true,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": null,
-        "image": "https://cards.scryfall.io/normal/front/1/3/1335d293-3dd2-4f13-bd2c-22181f4528ee.jpg?1791578424",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/1/3/1335d293-3dd2-4f13-bd2c-22181f4528ee.jpg?1791578424",
-        "scryfallUri": "https://scryfall.com/card/mdd/294/island?utm_source=api",
-        "roles": [
-          "land"
-        ]
-      }
-    },
-    {
       "out": "Barren Moor",
       "in": "Reflecting Pool",
       "category": "mana",
@@ -2519,24 +1987,24 @@
     "mana": {
       "landCount": 36,
       "mdfcLands": 0,
-      "recommendedLands": 39,
-      "avgCmc": 3.84,
+      "recommendedLands": 42,
+      "avgCmc": 3.78,
       "curve": {
         "1": 5,
-        "2": 8,
-        "3": 20,
+        "2": 10,
+        "3": 18,
         "4": 10,
-        "5": 8,
-        "6": 6,
+        "5": 9,
+        "6": 5,
         "7+": 6
       },
       "colors": [
         {
           "color": "U",
-          "pips": 16,
-          "pipShare": 0.168,
-          "landSources": 14,
-          "rampSources": 1,
+          "pips": 17,
+          "pipShare": 0.173,
+          "landSources": 15,
+          "rampSources": 0,
           "targetSources": 17,
           "targetReason": "heaviest-card",
           "heaviestCard": {
@@ -2546,24 +2014,24 @@
         },
         {
           "color": "B",
-          "pips": 43,
-          "pipShare": 0.453,
-          "landSources": 17,
-          "rampSources": 1,
-          "targetSources": 20,
+          "pips": 41,
+          "pipShare": 0.418,
+          "landSources": 16,
+          "rampSources": 0,
+          "targetSources": 21,
           "targetReason": "share",
           "heaviestCard": {
-            "name": "Big Game Hunter",
-            "manaCost": "{1}{B}{B}"
+            "name": "Decree of Pain",
+            "manaCost": "{6}{B}{B}"
           }
         },
         {
           "color": "G",
-          "pips": 36,
-          "pipShare": 0.379,
+          "pips": 40,
+          "pipShare": 0.408,
           "landSources": 14,
-          "rampSources": 1,
-          "targetSources": 19,
+          "rampSources": 0,
+          "targetSources": 21,
           "targetReason": "share",
           "heaviestCard": {
             "name": "Acidic Slime",
@@ -2585,46 +2053,46 @@
       ],
       "basics": {
         "Forest": 8,
-        "Island": 7,
-        "Swamp": 9
+        "Island": 8,
+        "Swamp": 8
       },
       "rampCount": 7,
       "issues": [
-        "Only 36 lands; about 39 recommended for an average mana value of 3.84.",
-        "Blue: 14 lands make it, about 17 wanted.",
-        "Black: 17 lands make it, about 20 wanted.",
-        "Green: 14 lands make it, about 19 wanted.",
+        "Only 36 lands; about 42 recommended for an average mana value of 3.78.",
+        "Blue: 15 lands make it, about 17 wanted.",
+        "Black: 16 lands make it, about 21 wanted.",
+        "Green: 14 lands make it, about 21 wanted.",
         "7 lands enter tapped unconditionally; aim for 4 or fewer.",
         "Only 7 ramp pieces; 10 or so is typical."
       ]
     },
     "sim": {
       "games": 10000,
-      "mulliganRate": 21.2,
+      "mulliganRate": 21.6,
       "landDropByTurn": {
         "1": 100,
-        "2": 99.6,
-        "3": 89.1,
-        "4": 72.6,
-        "5": 53.6,
-        "6": 36.3,
-        "7": 22.6,
+        "2": 99.7,
+        "3": 89.3,
+        "4": 71.7,
+        "5": 52.5,
+        "6": 36.2,
+        "7": 22.7,
         "8": 13.2
       },
-      "commanderOnCurve": 52.9,
+      "commanderOnCurve": 53.9,
       "commanderByTurn": {
         "1": 0,
         "2": 0,
         "3": 1.2,
-        "4": 19.2,
-        "5": 52.9,
-        "6": 71.5,
-        "7": 79.2,
-        "8": 85.3
+        "4": 20.1,
+        "5": 53.9,
+        "6": 71.4,
+        "7": 79.5,
+        "8": 85.4
       },
-      "allColorsByTurn3": 67.7,
-      "avgManaTurn4": 4.17,
-      "screwRate": 6.4,
+      "allColorsByTurn3": 70.3,
+      "avgManaTurn4": 4.19,
+      "screwRate": 6.5,
       "floodRate": 0.4,
       "combos": []
     },
@@ -2641,12 +2109,12 @@
       },
       {
         "role": "draw",
-        "count": 7,
+        "count": 9,
         "target": 10
       },
       {
         "role": "removal",
-        "count": 11,
+        "count": 9,
         "target": 8
       },
       {
@@ -2681,33 +2149,33 @@
       },
       {
         "role": "other",
-        "count": 18,
+        "count": 19,
         "target": null
       }
     ],
     "totalCards": 100,
-    "totalPriceUsd": 229.53
+    "totalPriceUsd": 228.12
   },
   "after": {
     "mana": {
       "landCount": 36,
       "mdfcLands": 0,
       "recommendedLands": 37,
-      "avgCmc": 3.17,
+      "avgCmc": 3.29,
       "curve": {
         "1": 6,
-        "2": 20,
-        "3": 16,
+        "2": 18,
+        "3": 17,
         "4": 9,
         "5": 7,
         "6": 2,
-        "7+": 3
+        "7+": 4
       },
       "colors": [
         {
           "color": "U",
-          "pips": 18,
-          "pipShare": 0.188,
+          "pips": 17,
+          "pipShare": 0.175,
           "landSources": 17,
           "rampSources": 2,
           "targetSources": 17,
@@ -2719,21 +2187,21 @@
         },
         {
           "color": "B",
-          "pips": 35,
-          "pipShare": 0.365,
+          "pips": 38,
+          "pipShare": 0.392,
           "landSources": 17,
           "rampSources": 3,
-          "targetSources": 17,
+          "targetSources": 18,
           "targetReason": "share",
           "heaviestCard": {
-            "name": "Jarad, Golgari Lich Lord",
-            "manaCost": "{B}{B}{G}{G}"
+            "name": "Decree of Pain",
+            "manaCost": "{6}{B}{B}"
           }
         },
         {
           "color": "G",
-          "pips": 43,
-          "pipShare": 0.448,
+          "pips": 42,
+          "pipShare": 0.433,
           "landSources": 19,
           "rampSources": 3,
           "targetSources": 19,
@@ -2751,36 +2219,36 @@
         "Island": 8,
         "Swamp": 8
       },
-      "rampCount": 11,
+      "rampCount": 10,
       "issues": []
     },
     "sim": {
       "games": 10000,
-      "mulliganRate": 21.7,
+      "mulliganRate": 21.1,
       "landDropByTurn": {
         "1": 99.9,
         "2": 99.7,
-        "3": 89.6,
-        "4": 72.1,
-        "5": 53.2,
-        "6": 35.9,
-        "7": 22.6,
-        "8": 13.2
+        "3": 88.8,
+        "4": 72.2,
+        "5": 53.1,
+        "6": 35.6,
+        "7": 22.7,
+        "8": 13.3
       },
-      "commanderOnCurve": 73.9,
+      "commanderOnCurve": 74.1,
       "commanderByTurn": {
         "1": 0,
         "2": 0,
-        "3": 4.9,
-        "4": 41.8,
-        "5": 73.9,
-        "6": 82.1,
-        "7": 88.1,
-        "8": 92.3
+        "3": 4.6,
+        "4": 42,
+        "5": 74.1,
+        "6": 81.9,
+        "7": 87.5,
+        "8": 91.9
       },
-      "allColorsByTurn3": 88.3,
+      "allColorsByTurn3": 87.8,
       "avgManaTurn4": 4.49,
-      "screwRate": 6.3,
+      "screwRate": 6.9,
       "floodRate": 0.3,
       "combos": []
     },
@@ -2792,22 +2260,22 @@
       },
       {
         "role": "ramp",
-        "count": 11,
+        "count": 10,
         "target": 10
       },
       {
         "role": "draw",
-        "count": 13,
+        "count": 12,
         "target": 10
       },
       {
         "role": "removal",
-        "count": 9,
+        "count": 8,
         "target": 8
       },
       {
         "role": "wipe",
-        "count": 2,
+        "count": 3,
         "target": 2
       },
       {
@@ -2837,12 +2305,12 @@
       },
       {
         "role": "other",
-        "count": 15,
+        "count": 17,
         "target": null
       }
     ],
     "totalCards": 100,
-    "totalPriceUsd": 390.74
+    "totalPriceUsd": 366.57
   },
   "combosPresent": [],
   "combosOneAway": [
@@ -2862,7 +2330,7 @@
       "description": "Activate Sol Ring by tapping it, adding {C} {C}.\nCast the permanent that can be cast using {C} by paying its mana cost.\nHullbreaker Horror triggers, returning Sol Ring from the battlefield to your hand.\nCast Sol Ring by paying {1}. \nHullbreaker Horror triggers, returning the permanent cast in step 2 from the battlefield to your hand.\nRepeat.\nIf the permanent can be cast by paying {0}, this combo nets infinite colorless mana.",
       "bracketTag": "E",
       "url": "https://commanderspellbook.com/combo/513-5034--46/",
-      "popularity": 367460
+      "popularity": 368508
     },
     {
       "id": "542-5034",
@@ -2880,7 +2348,7 @@
       "description": "Cast Sol Ring by paying its mana cost.\nTidespout Tyrant triggers, returning a nontoken permanent that can be cast using {C} from the battlefield to your hand.\nActivate Sol Ring by tapping it, adding {C}{C}.\nCast the nontoken permanent returned in step 2 by paying its mana cost.\nTidespout Tyrant triggers, returning Sol Ring from the battlefield to your hand.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/542-5034/",
-      "popularity": 38067
+      "popularity": 38117
     },
     {
       "id": "864-5352",
@@ -2928,7 +2396,7 @@
       "description": "Activate Phyrexian Altar by sacrificing Eternal Witness and all other creatures you control, adding {B} for each creature sacrificed.\nCast Living Death by paying {3}{B}{B}, causing each player to exile all creatures from their graveyard, sacrifice all creatures they control, then return the exiled cards to the battlefield.\nWhen Eternal Witness enters the battlefield, it triggers, returning Living Death from your graveyard to your hand.\nRepeat any number of times.",
       "bracketTag": "E",
       "url": "https://commanderspellbook.com/combo/864-2596-4050/",
-      "popularity": 10228
+      "popularity": 10278
     },
     {
       "id": "4131-4684",
@@ -2945,7 +2413,7 @@
       "description": "Activate Basalt Monolith's first ability by tapping it, adding {3}.\nActivate Basalt Monolith's last ability by paying {3}, untapping it.\nMesmeric Orb triggers, causing you to mill a card.\nRepeat.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/4131-4684/",
-      "popularity": 10115
+      "popularity": 10123
     },
     {
       "id": "182-6323",
@@ -2963,7 +2431,7 @@
       "description": "Declare Jumbo Cactuar as an attacker, triggering its ability, giving it +9999/+0 until end of turn.\nActivate Jarad by paying {1}{B}{G} and sacrificing Jumbo Cactuar, causing each opponent to lose 10,000 life.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/182-6323/",
-      "popularity": 5187
+      "popularity": 5240
     },
     {
       "id": "182-2749",
@@ -2981,7 +2449,7 @@
       "description": "Activate Wall of Blood by paying 1 life, causing it to get +1/+1 until end of turn.\nRepeat step 1 until Wall of Blood's power is equal to the highest life total among your opponent.\nActivate Jarad by paying {1}{B}{G} and sacrificing Wall of Blood, causing each opponent to lose life equal to Wall of Blood's power.\nEach opponent loses the game due to having zero or less life.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/182-2749/",
-      "popularity": 4041
+      "popularity": 4058
     },
     {
       "id": "876-4944",
@@ -2998,7 +2466,25 @@
       "description": "Activate Lightning Greaves's equip ability by paying {0}, targeting any creature you control except the creature that has Lightning Greaves attached.\nCrackdown Construct triggers, giving it +1/+1 until end of turn.\nResolve Lightning Greaves's equip ability.\nRepeat.",
       "bracketTag": "O",
       "url": "https://commanderspellbook.com/combo/876-4944/",
-      "popularity": 3972
+      "popularity": 3996
+    },
+    {
+      "id": "3609-4312",
+      "cards": [
+        "Vorel of the Hull Clade",
+        "Magistrate's Scepter"
+      ],
+      "missing": [
+        "Magistrate's Scepter"
+      ],
+      "produces": [
+        "Infinite turns",
+        "Lock"
+      ],
+      "description": "Pay {U}{G} and tap Vorel to double the number of counters on Magistrate's Scepter, leaving it with 6 counters.\nTap Magistrate's Scepter to gain an extra turn.\nMove to that extra turn.\nRepeat.",
+      "bracketTag": "R",
+      "url": "https://commanderspellbook.com/combo/3609-4312/",
+      "popularity": 2465
     },
     {
       "id": "876-2904",
@@ -3015,7 +2501,7 @@
       "description": "Activate Lightning Greaves's equip ability by paying {0}, targeting Cephalid Illusionist.\nCephalid Illusionist triggers, causing you to mill three cards.\nResolve the Lightning Greaves ability, attaching it to Cephalid Illusionist.\nRepeat.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/876-2904/",
-      "popularity": 2267
+      "popularity": 2271
     },
     {
       "id": "4413-4812",
@@ -3033,7 +2519,7 @@
       "description": "Cast Animate Dead by paying {1}{B}.\nAnimate Dead enters the battlefield, returning Kederekt Leviathan from your graveyard to the battlefield attached with Animate Dead.\nKederekt Leviathan triggers, returning all nonland permanents to their owner's hands.\nAnimate Dead triggers, causing you to sacrifice Kederekt Leviathan.\nRepeat each turn.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/4413-4812/",
-      "popularity": 2017
+      "popularity": 2021
     },
     {
       "id": "4091-4684",
@@ -3050,7 +2536,7 @@
       "description": "Activate Aphetto Alchemist by tapping it, untapping itself.\nWhen Aphetto Alchemist becomes untapped, Mesmeric Orb triggers, causing you to mill a card.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/4091-4684/",
-      "popularity": 1918
+      "popularity": 1921
     },
     {
       "id": "2896-4413",
@@ -3068,7 +2554,7 @@
       "description": "Cast Necromancy by paying {2}{B}.\nNecromancy enters the battlefield, returning Kederekt Leviathan from your graveyard to the battlefield attached with Necromancy.\nKederekt Leviathan triggers, returning all nonland permanents to their owner's hands.\nNecromancy triggers, causing you to sacrifice Kederekt Leviathan.\nRepeat each turn.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/2896-4413/",
-      "popularity": 1104
+      "popularity": 1107
     },
     {
       "id": "445-3304",
@@ -3105,7 +2591,7 @@
       "description": "Tap Seeker, and respond to its ability by untapping itself.\nOrb triggers milling you for one.\nRepeat until you've milled yourself out.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/3457-4684/",
-      "popularity": 757
+      "popularity": 756
     },
     {
       "id": "182-4899",
@@ -3122,7 +2608,7 @@
       "description": "Activate Phyrexian Devourer's second ability by exiling the top card of your library, causing you to put a number of +1/+1 counters on Phyrexian Devourer equal to that card's mana value.\nRepeat step 1 until Phyrexian Devourer's power is greater than each opponent's life total.\nPhyrexian Devourer's first ability triggers.\nHolding priority, activate Jarad by paying {1}{B}{G} and sacrificing Phyrexian Devourer, causing each opponent to lose life equal to Phyrexian Devourer's power.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/182-4899/",
-      "popularity": 633
+      "popularity": 631
     },
     {
       "id": "182-1877",
@@ -3140,7 +2626,7 @@
       "description": "Cast Hatred by paying {3}{B}{B} and by paying life equal to the highest life total among your opponent, causing any other creature you control to get +X/+0 until end of turn, where X is the life paid this way.\nActivate Jarad by paying {1}{B}{G} and sacrificing the creature, causing each opponent to lose life equal to the creature's power.\nEach opponent loses the game due to having zero or less life.",
       "bracketTag": "O",
       "url": "https://commanderspellbook.com/combo/182-1877/",
-      "popularity": 421
+      "popularity": 423
     },
     {
       "id": "648-3304",
@@ -3158,7 +2644,24 @@
       "description": "Cast Body of Research by paying {G}{G}{G}{U}{U}{U}, creating a 0/0 Fractal creature token and putting a number of +1/+1 counters on it equal to the number of cards in your library.\nActivate Greater Good by sacrificing the Fractal, causing you to draw cards equal to the Fractal's power, then discard three cards.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/648-3304/",
-      "popularity": 369
+      "popularity": 370
+    },
+    {
+      "id": "876-2796",
+      "cards": [
+        "Cephalid Aristocrat",
+        "Lightning Greaves"
+      ],
+      "missing": [
+        "Cephalid Aristocrat"
+      ],
+      "produces": [
+        "Infinite self-mill"
+      ],
+      "description": "Activate Lightning Greaves's equip ability by paying {0}, targeting Cephalid Aristocrat.\nCephalid Aristocrat triggers, causing you to mill two cards.\nResolve Lightning Greaves's ability, attaching it to Cephalid Aristrocrat.\nActivate Lightning Greaves's equip ability by paying {0}, attaching it to another creature you control.\nRepeat.",
+      "bracketTag": "R",
+      "url": "https://commanderspellbook.com/combo/876-2796/",
+      "popularity": 204
     },
     {
       "id": "2351-3304",
@@ -3181,48 +2684,7 @@
       "description": "During an opponent's turn, activate Greater Good by sacrificing another creature with power one or greater.\nIf the creature was a Tentacle, The Watcher triggers, untapping up to one Kraken you control and putting a stun counter on up to one nonland permanent.\nResolve the Greater Good ability, causing you to draw cards equal to the sacrificed creature's power and then discard three cards.\nFor each card drawn this way, The Watcher's first ability triggers, creating that many 1/1 Tentacle creature tokens.\nRepeat.",
       "bracketTag": "O",
       "url": "https://commanderspellbook.com/combo/2351-3304/",
-      "popularity": 204
-    },
-    {
-      "id": "876-2796",
-      "cards": [
-        "Cephalid Aristocrat",
-        "Lightning Greaves"
-      ],
-      "missing": [
-        "Cephalid Aristocrat"
-      ],
-      "produces": [
-        "Infinite self-mill"
-      ],
-      "description": "Activate Lightning Greaves's equip ability by paying {0}, targeting Cephalid Aristocrat.\nCephalid Aristocrat triggers, causing you to mill two cards.\nResolve Lightning Greaves's ability, attaching it to Cephalid Aristrocrat.\nActivate Lightning Greaves's equip ability by paying {0}, attaching it to another creature you control.\nRepeat.",
-      "bracketTag": "R",
-      "url": "https://commanderspellbook.com/combo/876-2796/",
       "popularity": 203
-    },
-    {
-      "id": "3304-6264",
-      "cards": [
-        "Cryptcaller Chariot",
-        "Greater Good"
-      ],
-      "missing": [
-        "Cryptcaller Chariot"
-      ],
-      "produces": [
-        "Infinite self-discard triggers",
-        "Near-infinite creature ETB",
-        "Infinite draw triggers",
-        "Infinite looting",
-        "Near-infinite creature LTB",
-        "Near-infinite death triggers",
-        "Near-infinite creature sacrifice triggers",
-        "Near-infinite tapped creature tokens"
-      ],
-      "description": "Activate Greater Good by sacrificing a creature with power 1 or greater, causing you to to draw cards equal to the creature's power and then discard three cards.\nCryptcaller Chariot triggers, causing you to create a tapped 2/2 Zombie creature token for each card discarded.\nRepeat.",
-      "bracketTag": "S",
-      "url": "https://commanderspellbook.com/combo/3304-6264/",
-      "popularity": 157
     }
   ],
   "research": {
@@ -3363,20 +2825,19 @@
       "bracket": 3,
       "spellbookTag": "P",
       "gameChangers": [
-        "Cyclonic Rift",
         "Survival of the Fittest",
         "Gifts Ungiven"
       ],
       "massLandDenial": [],
       "extraTurns": [],
       "combos": [],
-      "power": 52,
+      "power": 47,
       "position": "mid",
       "checks": [
         {
           "label": "Game Changers",
           "ok": true,
-          "detail": "3 of 3 allowed"
+          "detail": "2 of 3 allowed"
         },
         {
           "label": "Mass land denial",
@@ -3400,7 +2861,7 @@
       {
         "name": "Cyclonic Rift",
         "score": 0.42,
-        "inDeck": true
+        "inDeck": false
       },
       {
         "name": "Survival of the Fittest",
@@ -3474,7 +2935,7 @@
       "cmc": 5,
       "image": "https://cards.scryfall.io/normal/front/9/9/998b86f3-e53f-4ebb-b111-6f14577fded1.jpg?1783911897",
       "scryfallUri": "https://scryfall.com/card/otc/234/the-mimeoplasm?utm_source=api",
-      "priceUsd": 0.29,
+      "priceUsd": 0.34,
       "isNew": false,
       "delta": 0
     },
@@ -3510,7 +2971,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/c/c/cc0c2bab-4392-4e7b-9d14-2901f4ffbae8.jpg?1783903787",
       "scryfallUri": "https://scryfall.com/card/soc/207/animate-dead?utm_source=api",
-      "priceUsd": 7.11,
+      "priceUsd": 7.42,
       "isNew": false,
       "delta": 0
     },
@@ -3522,7 +2983,7 @@
       "cmc": 6,
       "image": "https://cards.scryfall.io/normal/front/5/4/54c98a43-d358-4bb5-ba65-dff25c2f12ea.jpg?1783904550",
       "scryfallUri": "https://scryfall.com/card/ecc/99/bane-of-progress?utm_source=api",
-      "priceUsd": 0.36,
+      "priceUsd": 0.35,
       "isNew": false,
       "delta": 0
     },
@@ -3534,7 +2995,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/1/9/1929cf4b-0d18-4f7d-a631-621a378ff015.jpg?1793281367",
       "scryfallUri": "https://scryfall.com/card/trc/459/beast-within?utm_source=api",
-      "priceUsd": 0.47,
+      "priceUsd": 0.25,
       "isNew": false,
       "delta": 0
     },
@@ -3546,7 +3007,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/7/6/76878b19-2916-4f3f-bee5-20846bc9e2db.jpg?1783911216",
       "scryfallUri": "https://scryfall.com/card/mh3/273/buried-alive?utm_source=api",
-      "priceUsd": 3.05,
+      "priceUsd": 2.58,
       "isNew": false,
       "delta": 0
     },
@@ -3558,7 +3019,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/a/7/a73297d2-580c-4174-a427-265f6916d09f.jpg?1793021256",
       "scryfallUri": "https://scryfall.com/card/trc/521/command-tower?utm_source=api",
-      "priceUsd": 0.38,
+      "priceUsd": 0.28,
       "isNew": false,
       "delta": 0
     },
@@ -3570,7 +3031,19 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/a/7/a78f5d3f-74d6-4ec1-89c4-e24639d3f4ba.jpg?1793281380",
       "scryfallUri": "https://scryfall.com/card/trc/460/cultivate?utm_source=api",
-      "priceUsd": 0.32,
+      "priceUsd": 0.29,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Decree of Pain",
+      "manaCost": "{6}{B}{B}",
+      "qty": 1,
+      "group": "Sorcery",
+      "cmc": 8,
+      "image": "https://cards.scryfall.io/normal/front/b/d/bd594aeb-f5cc-4435-8ea8-c35c5824b58c.jpg?1783909622",
+      "scryfallUri": "https://scryfall.com/card/dsc/136/decree-of-pain?utm_source=api",
+      "priceUsd": 0.34,
       "isNew": false,
       "delta": 0
     },
@@ -3582,7 +3055,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/0/1/01ea8333-38a8-4b7b-9f03-c5534df28353.jpg?1783907090",
       "scryfallUri": "https://scryfall.com/card/tdc/178/disciple-of-bolas?utm_source=api",
-      "priceUsd": 0.38,
+      "priceUsd": 0.39,
       "isNew": false,
       "delta": 0
     },
@@ -3594,7 +3067,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/4/6/4689b3f2-e4b7-448e-b3d4-ab33194aafb2.jpg?1783925644",
       "scryfallUri": "https://scryfall.com/card/mid/49/dissipate?utm_source=api",
-      "priceUsd": 0.22,
+      "priceUsd": 0.21,
       "isNew": false,
       "delta": 0
     },
@@ -3606,7 +3079,7 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/3/c/3caa9c55-5e3b-436b-84a9-b7ccebf63799.jpg?1783918480",
       "scryfallUri": "https://scryfall.com/card/dmr/82/entomb?utm_source=api",
-      "priceUsd": 18.46,
+      "priceUsd": 18.73,
       "isNew": false,
       "delta": 0
     },
@@ -3618,7 +3091,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/3/9/39704000-65d3-4d39-849e-a3b617376bbc.jpg?1783915632",
       "scryfallUri": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
-      "priceUsd": 1.56,
+      "priceUsd": 1.93,
       "isNew": false,
       "delta": 0
     },
@@ -3630,7 +3103,19 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/e/b/eb1a25c5-1918-40f3-b54f-5d31cf6b4eb2.jpg?1789599811",
       "scryfallUri": "https://scryfall.com/card/frc/41/fact-or-fiction?utm_source=api",
-      "priceUsd": 0.23,
+      "priceUsd": 1.07,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Farseek",
+      "manaCost": "{1}{G}",
+      "qty": 1,
+      "group": "Sorcery",
+      "cmc": 2,
+      "image": "https://cards.scryfall.io/normal/front/d/d/dde15e36-ad2d-4438-9b51-78a04bc80779.jpg?1793281387",
+      "scryfallUri": "https://scryfall.com/card/trc/462/farseek?utm_source=api",
+      "priceUsd": 0.26,
       "isNew": false,
       "delta": 0
     },
@@ -3647,6 +3132,30 @@
       "delta": 0
     },
     {
+      "name": "Golgari Grave-Troll",
+      "manaCost": "{4}{G}",
+      "qty": 1,
+      "group": "Creature",
+      "cmc": 5,
+      "image": "https://cards.scryfall.io/normal/front/d/3/d332acbc-6224-43bc-a509-3a7edc877423.jpg?1783913302",
+      "scryfallUri": "https://scryfall.com/card/rvr/144/golgari-grave-troll?utm_source=api",
+      "priceUsd": 2.43,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Grisly Salvage",
+      "manaCost": "{B}{G}",
+      "qty": 1,
+      "group": "Instant",
+      "cmc": 2,
+      "image": "https://cards.scryfall.io/normal/front/1/2/12a90f7a-28df-4017-b221-0e9234ff74a7.jpg?1783907026",
+      "scryfallUri": "https://scryfall.com/card/tdc/290/grisly-salvage?utm_source=api",
+      "priceUsd": 0.38,
+      "isNew": false,
+      "delta": 0
+    },
+    {
       "name": "Island",
       "manaCost": "",
       "qty": 8,
@@ -3656,7 +3165,7 @@
       "scryfallUri": "https://scryfall.com/card/mdd/294/island?utm_source=api",
       "priceUsd": null,
       "isNew": false,
-      "delta": 1
+      "delta": 0
     },
     {
       "name": "Jarad, Golgari Lich Lord",
@@ -3666,7 +3175,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/6/8/6870b355-e53d-4fa2-887b-0f0445bcd9c5.jpg?1783907026",
       "scryfallUri": "https://scryfall.com/card/tdc/293/jarad-golgari-lich-lord?utm_source=api",
-      "priceUsd": 4.25,
+      "priceUsd": 3.81,
       "isNew": false,
       "delta": 0
     },
@@ -3678,7 +3187,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/c/5/c59171ce-7dc6-4dd9-a124-3c2c3028d93d.jpg?1783940337",
       "scryfallUri": "https://scryfall.com/card/rtr/175/jarads-orders?utm_source=api",
-      "priceUsd": 0.71,
+      "priceUsd": 0.75,
       "isNew": false,
       "delta": 0
     },
@@ -3690,7 +3199,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/9/0/90c423cc-1264-4067-9c50-e7c88c68ef2d.jpg?1783904544",
       "scryfallUri": "https://scryfall.com/card/ecc/113/kodamas-reach?utm_source=api",
-      "priceUsd": 1.94,
+      "priceUsd": 2.13,
       "isNew": false,
       "delta": 0
     },
@@ -3702,7 +3211,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/d/3/d3571dee-7b90-4c0c-abc7-59b515ffa129.jpg?1783927533",
       "scryfallUri": "https://scryfall.com/card/c21/198/krosan-grip?utm_source=api",
-      "priceUsd": 1.65,
+      "priceUsd": 1.57,
       "isNew": false,
       "delta": 0
     },
@@ -3714,7 +3223,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/c/d/cdb6432f-3f56-4c92-b09a-2a5b64620c04.jpg?1783907137",
       "scryfallUri": "https://scryfall.com/card/tdc/96/life-from-the-loam?utm_source=api",
-      "priceUsd": 5.05,
+      "priceUsd": 5.43,
       "isNew": false,
       "delta": 0
     },
@@ -3726,7 +3235,7 @@
       "cmc": 6,
       "image": "https://cards.scryfall.io/normal/front/f/f/ffd3fbd2-87c7-4f08-baaa-91d61c1114da.jpg?1783941312",
       "scryfallUri": "https://scryfall.com/card/nph/65/lifes-finale?utm_source=api",
-      "priceUsd": 2.51,
+      "priceUsd": 2.34,
       "isNew": false,
       "delta": 0
     },
@@ -3738,7 +3247,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/6/5/659ef698-96ea-4fa9-b63c-0da93a2d1e78.jpg?1793197566",
       "scryfallUri": "https://scryfall.com/card/trc/496/lightning-greaves?utm_source=api",
-      "priceUsd": 2.84,
+      "priceUsd": 2.58,
       "isNew": false,
       "delta": 0
     },
@@ -3750,7 +3259,7 @@
       "cmc": 5,
       "image": "https://cards.scryfall.io/normal/front/4/a/4ac29c46-f8ee-42ba-a98c-d785ba65485e.jpg?1783907088",
       "scryfallUri": "https://scryfall.com/card/tdc/185/living-death?utm_source=api",
-      "priceUsd": 5.82,
+      "priceUsd": 6.31,
       "isNew": false,
       "delta": 0
     },
@@ -3762,7 +3271,7 @@
       "cmc": 5,
       "image": "https://cards.scryfall.io/normal/front/4/a/4aaf4d64-b5ef-44ae-b25a-7a5ea8f72170.jpg?1783907025",
       "scryfallUri": "https://scryfall.com/card/tdc/295/lord-of-extinction?utm_source=api",
-      "priceUsd": 0.85,
+      "priceUsd": 0.82,
       "isNew": false,
       "delta": 0
     },
@@ -3774,7 +3283,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/a/d/ad7e18e2-c033-4b6c-86e8-d0e5cc824cfd.jpg?1793894789",
       "scryfallUri": "https://scryfall.com/card/trk/289/overgrown-tomb?utm_source=api",
-      "priceUsd": 5.08,
+      "priceUsd": 5.42,
       "isNew": false,
       "delta": 0
     },
@@ -3786,7 +3295,7 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/1/0/10c09b68-1d92-42da-8d4d-0d60453a6aa7.jpg?1783907081",
       "scryfallUri": "https://scryfall.com/card/tdc/194/phyrexian-reclamation?utm_source=api",
-      "priceUsd": 3.19,
+      "priceUsd": 2.86,
       "isNew": false,
       "delta": 0
     },
@@ -3834,7 +3343,19 @@
       "cmc": 7,
       "image": "https://cards.scryfall.io/normal/front/8/b/8b207a4a-47d1-4905-81d3-455c59bfd7da.jpg?1783930409",
       "scryfallUri": "https://scryfall.com/card/jmp/278/sheoldred-whispering-one?utm_source=api",
-      "priceUsd": 22.48,
+      "priceUsd": 23.03,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Skithiryx, the Blight Dragon",
+      "manaCost": "{3}{B}{B}",
+      "qty": 1,
+      "group": "Creature",
+      "cmc": 5,
+      "image": "https://cards.scryfall.io/normal/front/c/a/cab61c7e-e00a-413b-a0b5-7718b479582f.jpg?1783930175",
+      "scryfallUri": "https://scryfall.com/card/2xm/107/skithiryx-the-blight-dragon?utm_source=api",
+      "priceUsd": 13.44,
       "isNew": false,
       "delta": 0
     },
@@ -3846,7 +3367,7 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/e/1/e1da8b79-249b-439a-a0ad-c8784bd716df.jpg?1793021175",
       "scryfallUri": "https://scryfall.com/card/trc/498/skullclamp?utm_source=api",
-      "priceUsd": 3.49,
+      "priceUsd": 3.16,
       "isNew": false,
       "delta": 0
     },
@@ -3858,7 +3379,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/8/6/860c0808-3ec1-4182-bf83-783720a02780.jpg?1783906031",
       "scryfallUri": "https://scryfall.com/card/eoc/107/skyshroud-claim?utm_source=api",
-      "priceUsd": 1.15,
+      "priceUsd": 1.13,
       "isNew": false,
       "delta": 0
     },
@@ -3870,7 +3391,7 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/f/c/fc817e07-c1f3-469f-9cf7-0945dea7400f.jpg?1793021181",
       "scryfallUri": "https://scryfall.com/card/trc/499/sol-ring?utm_source=api",
-      "priceUsd": 1.14,
+      "priceUsd": 0.91,
       "isNew": false,
       "delta": 0
     },
@@ -3882,7 +3403,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/d/a/daafd816-f7c1-4630-9e5c-a1e5db570a35.jpg?1783903212",
       "scryfallUri": "https://scryfall.com/card/msc/215/solemn-simulacrum?utm_source=api",
-      "priceUsd": 0.48,
+      "priceUsd": 0.5,
       "isNew": false,
       "delta": 0
     },
@@ -3894,7 +3415,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/8/4/8423c98d-4cb6-4a70-8bf2-3ac24c025c4e.jpg?1783934297",
       "scryfallUri": "https://scryfall.com/card/c18/119/stitch-together?utm_source=api",
-      "priceUsd": 1.47,
+      "priceUsd": 1.42,
       "isNew": false,
       "delta": 0
     },
@@ -3908,7 +3429,19 @@
       "scryfallUri": "https://scryfall.com/card/mdd/296/swamp?utm_source=api",
       "priceUsd": null,
       "isNew": false,
-      "delta": -1
+      "delta": 0
+    },
+    {
+      "name": "Sword of Body and Mind",
+      "manaCost": "{3}",
+      "qty": 1,
+      "group": "Artifact",
+      "cmc": 3,
+      "image": "https://cards.scryfall.io/normal/front/1/f/1ffe5f80-a2ac-41b8-8fce-fd3485643557.jpg?1783930094",
+      "scryfallUri": "https://scryfall.com/card/2xm/295/sword-of-body-and-mind?utm_source=api",
+      "priceUsd": 18.27,
+      "isNew": false,
+      "delta": 0
     },
     {
       "name": "Sylvan Safekeeper",
@@ -3918,7 +3451,7 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/8/3/83036e21-21ea-4324-aa07-11757f80c417.jpg?1783911211",
       "scryfallUri": "https://scryfall.com/card/mh3/287/sylvan-safekeeper?utm_source=api",
-      "priceUsd": 6.02,
+      "priceUsd": 6.23,
       "isNew": false,
       "delta": 0
     },
@@ -3930,7 +3463,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/5/8/58ebd718-982d-4370-b4af-ef49b978d97d.jpg?1793021389",
       "scryfallUri": "https://scryfall.com/card/trc/571/terramorphic-expanse?utm_source=api",
-      "priceUsd": 0.68,
+      "priceUsd": 0.5,
       "isNew": false,
       "delta": 0
     },
@@ -3942,7 +3475,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/3/4/34577b57-06d6-4182-b29f-12c00bf22de1.jpg?1793021082",
       "scryfallUri": "https://scryfall.com/card/trc/443/thirst-for-knowledge?utm_source=api",
-      "priceUsd": 0.18,
+      "priceUsd": 0.28,
       "isNew": false,
       "delta": 0
     },
@@ -3954,7 +3487,19 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/c/d/cdb88a22-8086-4bf7-89e8-cce929440dd8.jpg?1783908909",
       "scryfallUri": "https://scryfall.com/card/fdn/667/trygon-predator?utm_source=api",
-      "priceUsd": 0.11,
+      "priceUsd": 0.1,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Vorel of the Hull Clade",
+      "manaCost": "{1}{G}{U}",
+      "qty": 1,
+      "group": "Creature",
+      "cmc": 3,
+      "image": "https://cards.scryfall.io/normal/front/8/2/82c8cac8-29ce-43cc-bdb4-428c614d8545.jpg?1783913841",
+      "scryfallUri": "https://scryfall.com/card/lcc/294/vorel-of-the-hull-clade?utm_source=api",
+      "priceUsd": 0.32,
       "isNew": false,
       "delta": 0
     },
@@ -3966,7 +3511,7 @@
       "cmc": 5,
       "image": "https://cards.scryfall.io/normal/front/7/f/7f562c38-3c53-4dc6-9816-6e4be3355e2e.jpg?1783934716",
       "scryfallUri": "https://scryfall.com/card/cm2/170/vulturous-zombie?utm_source=api",
-      "priceUsd": 0.35,
+      "priceUsd": 0.33,
       "isNew": false,
       "delta": 0
     },
@@ -3978,7 +3523,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/a/3/a3f31ac4-09ca-4712-a311-50d28824bfad.jpg?1783903208",
       "scryfallUri": "https://scryfall.com/card/msc/225/whispersilk-cloak?utm_source=api",
-      "priceUsd": 2.1,
+      "priceUsd": 1.92,
       "isNew": false,
       "delta": 0
     },
@@ -3990,7 +3535,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/5/6/567abd78-d4a3-4a33-9b5b-b5ca361059cc.jpg?1783907096",
       "scryfallUri": "https://scryfall.com/card/tdc/170/wonder?utm_source=api",
-      "priceUsd": 3.95,
+      "priceUsd": 3.71,
       "isNew": false,
       "delta": 0
     },
@@ -4002,21 +3547,9 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/2/7/27dacbde-a646-418c-b569-4a4f11c9faae.jpg?1783909598",
       "scryfallUri": "https://scryfall.com/card/dsc/208/yavimaya-elder?utm_source=api",
-      "priceUsd": 0.18,
+      "priceUsd": 0.17,
       "isNew": false,
       "delta": 0
-    },
-    {
-      "name": "Windfall",
-      "manaCost": "{2}{U}",
-      "qty": 1,
-      "group": "Sorcery",
-      "cmc": 3,
-      "image": "https://cards.scryfall.io/normal/front/9/c/9ce7113b-08f7-4584-b65f-a7b5caa90c2f.jpg?1783911933",
-      "scryfallUri": "https://scryfall.com/card/otc/123/windfall?utm_source=api",
-      "priceUsd": 5.44,
-      "isNew": true,
-      "delta": 1
     },
     {
       "name": "Frantic Search",
@@ -4091,30 +3624,6 @@
       "delta": 1
     },
     {
-      "name": "Nature's Lore",
-      "manaCost": "{1}{G}",
-      "qty": 1,
-      "group": "Sorcery",
-      "cmc": 2,
-      "image": "https://cards.scryfall.io/normal/front/6/a/6a55cafa-cb5c-482c-b3c9-1b1f4f0c698d.jpg?1793281413",
-      "scryfallUri": "https://scryfall.com/card/trc/467/natures-lore?utm_source=api",
-      "priceUsd": 3.37,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Grisly Salvage",
-      "manaCost": "{B}{G}",
-      "qty": 1,
-      "group": "Instant",
-      "cmc": 2,
-      "image": "https://cards.scryfall.io/normal/front/1/2/12a90f7a-28df-4017-b221-0e9234ff74a7.jpg?1783907026",
-      "scryfallUri": "https://scryfall.com/card/tdc/290/grisly-salvage?utm_source=api",
-      "priceUsd": 0.37,
-      "isNew": true,
-      "delta": 1
-    },
-    {
       "name": "Arcane Signet",
       "manaCost": "{2}",
       "qty": 1,
@@ -4135,18 +3644,6 @@
       "image": "https://cards.scryfall.io/normal/front/a/2/a201d1bc-e3fe-4f59-bd48-3683996ac308.jpg?1783911276",
       "scryfallUri": "https://scryfall.com/card/mh3/107/ripples-of-undeath?utm_source=api",
       "priceUsd": 9.28,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Cyclonic Rift",
-      "manaCost": "{1}{U}",
-      "qty": 1,
-      "group": "Instant",
-      "cmc": 2,
-      "image": "https://cards.scryfall.io/normal/front/d/f/dfb7c4b9-f2f4-4d4e-baf2-86551c8150fe.jpg?1783913339",
-      "scryfallUri": "https://scryfall.com/card/rvr/40/cyclonic-rift?utm_source=api",
-      "priceUsd": 38.41,
       "isNew": true,
       "delta": 1
     },
@@ -4247,18 +3744,6 @@
       "delta": 1
     },
     {
-      "name": "Underrealm Lich",
-      "manaCost": "{3}{B}{G}",
-      "qty": 1,
-      "group": "Creature",
-      "cmc": 5,
-      "image": "https://cards.scryfall.io/normal/front/3/0/30c94b1b-35be-4c98-b279-80d95b28201e.jpg?1783912513",
-      "scryfallUri": "https://scryfall.com/card/clu/215/underrealm-lich?utm_source=api",
-      "priceUsd": 9.94,
-      "isNew": true,
-      "delta": 1
-    },
-    {
       "name": "Necromancy",
       "manaCost": "{2}{B}",
       "qty": 1,
@@ -4271,18 +3756,6 @@
       "delta": 1
     },
     {
-      "name": "Farseek",
-      "manaCost": "{1}{G}",
-      "qty": 1,
-      "group": "Sorcery",
-      "cmc": 2,
-      "image": "https://cards.scryfall.io/normal/front/d/d/dde15e36-ad2d-4438-9b51-78a04bc80779.jpg?1793281387",
-      "scryfallUri": "https://scryfall.com/card/trc/462/farseek?utm_source=api",
-      "priceUsd": 0.46,
-      "isNew": true,
-      "delta": 1
-    },
-    {
       "name": "Mesmeric Orb",
       "manaCost": "{2}",
       "qty": 1,
@@ -4291,18 +3764,6 @@
       "image": "https://cards.scryfall.io/normal/front/e/2/e24fbdbb-f2ae-4823-9d2a-4c505332aa5b.jpg?1783930103",
       "scryfallUri": "https://scryfall.com/card/2xm/272/mesmeric-orb?utm_source=api",
       "priceUsd": 17.27,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Golgari Grave-Troll",
-      "manaCost": "{4}{G}",
-      "qty": 1,
-      "group": "Creature",
-      "cmc": 5,
-      "image": "https://cards.scryfall.io/normal/front/d/3/d332acbc-6224-43bc-a509-3a7edc877423.jpg?1783913302",
-      "scryfallUri": "https://scryfall.com/card/rvr/144/golgari-grave-troll?utm_source=api",
-      "priceUsd": 2.37,
       "isNew": true,
       "delta": 1
     },
@@ -4425,7 +3886,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/9/9/998b86f3-e53f-4ebb-b111-6f14577fded1.jpg?1783911897",
         "scryfallUri": "https://scryfall.com/card/otc/234/the-mimeoplasm?utm_source=api",
-        "priceUsd": 0.29,
+        "priceUsd": 0.34,
         "isNew": false,
         "delta": 0
       },
@@ -4461,7 +3922,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/c/c/cc0c2bab-4392-4e7b-9d14-2901f4ffbae8.jpg?1783903787",
         "scryfallUri": "https://scryfall.com/card/soc/207/animate-dead?utm_source=api",
-        "priceUsd": 7.11,
+        "priceUsd": 7.42,
         "isNew": false,
         "delta": 0
       },
@@ -4473,7 +3934,7 @@
         "cmc": 6,
         "image": "https://cards.scryfall.io/normal/front/5/4/54c98a43-d358-4bb5-ba65-dff25c2f12ea.jpg?1783904550",
         "scryfallUri": "https://scryfall.com/card/ecc/99/bane-of-progress?utm_source=api",
-        "priceUsd": 0.36,
+        "priceUsd": 0.35,
         "isNew": false,
         "delta": 0
       },
@@ -4485,7 +3946,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/3/8/380eb7fd-bc79-4cad-9c2b-9b2b10761a72.jpg?1783909580",
         "scryfallUri": "https://scryfall.com/card/dsc/262/barren-moor?utm_source=api",
-        "priceUsd": 0.32,
+        "priceUsd": 0.31,
         "isNew": false,
         "delta": 0
       },
@@ -4497,19 +3958,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/1/9/1929cf4b-0d18-4f7d-a631-621a378ff015.jpg?1793281367",
         "scryfallUri": "https://scryfall.com/card/trc/459/beast-within?utm_source=api",
-        "priceUsd": 0.47,
-        "isNew": false,
-        "delta": 0
-      },
-      {
-        "name": "Big Game Hunter",
-        "manaCost": "{1}{B}{B}",
-        "qty": 1,
-        "group": "Creature",
-        "cmc": 3,
-        "image": "https://cards.scryfall.io/normal/front/2/c/2cec1014-375c-4877-95e3-093d24c02bc8.jpg?1783927825",
-        "scryfallUri": "https://scryfall.com/card/tsr/102/big-game-hunter?utm_source=api",
-        "priceUsd": 0.37,
+        "priceUsd": 0.25,
         "isNew": false,
         "delta": 0
       },
@@ -4521,7 +3970,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/7/6/76878b19-2916-4f3f-bee5-20846bc9e2db.jpg?1783911216",
         "scryfallUri": "https://scryfall.com/card/mh3/273/buried-alive?utm_source=api",
-        "priceUsd": 3.05,
+        "priceUsd": 2.58,
         "isNew": false,
         "delta": 0
       },
@@ -4533,7 +3982,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/a/7/a73297d2-580c-4174-a427-265f6916d09f.jpg?1793021256",
         "scryfallUri": "https://scryfall.com/card/trc/521/command-tower?utm_source=api",
-        "priceUsd": 0.38,
+        "priceUsd": 0.28,
         "isNew": false,
         "delta": 0
       },
@@ -4545,7 +3994,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/3/f/3f4ef04b-5434-480e-82a1-118ed1ff551f.jpg?1783936660",
         "scryfallUri": "https://scryfall.com/card/mm3/61/corpse-connoisseur?utm_source=api",
-        "priceUsd": 0.28,
+        "priceUsd": 0.29,
         "isNew": false,
         "delta": 0
       },
@@ -4557,19 +4006,19 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/a/7/a78f5d3f-74d6-4ec1-89c4-e24639d3f4ba.jpg?1793281380",
         "scryfallUri": "https://scryfall.com/card/trc/460/cultivate?utm_source=api",
-        "priceUsd": 0.32,
+        "priceUsd": 0.29,
         "isNew": false,
         "delta": 0
       },
       {
-        "name": "Darksteel Ingot",
-        "manaCost": "{3}",
+        "name": "Decree of Pain",
+        "manaCost": "{6}{B}{B}",
         "qty": 1,
-        "group": "Artifact",
-        "cmc": 3,
-        "image": "https://cards.scryfall.io/normal/front/f/2/f279fcf1-e4f5-4873-9d73-8d62e0343b81.jpg?1783911890",
-        "scryfallUri": "https://scryfall.com/card/otc/256/darksteel-ingot?utm_source=api",
-        "priceUsd": 0.39,
+        "group": "Sorcery",
+        "cmc": 8,
+        "image": "https://cards.scryfall.io/normal/front/b/d/bd594aeb-f5cc-4435-8ea8-c35c5824b58c.jpg?1783909622",
+        "scryfallUri": "https://scryfall.com/card/dsc/136/decree-of-pain?utm_source=api",
+        "priceUsd": 0.34,
         "isNew": false,
         "delta": 0
       },
@@ -4593,7 +4042,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/0/1/01ea8333-38a8-4b7b-9f03-c5534df28353.jpg?1783907090",
         "scryfallUri": "https://scryfall.com/card/tdc/178/disciple-of-bolas?utm_source=api",
-        "priceUsd": 0.38,
+        "priceUsd": 0.39,
         "isNew": false,
         "delta": 0
       },
@@ -4605,7 +4054,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/4/6/4689b3f2-e4b7-448e-b3d4-ab33194aafb2.jpg?1783925644",
         "scryfallUri": "https://scryfall.com/card/mid/49/dissipate?utm_source=api",
-        "priceUsd": 0.22,
+        "priceUsd": 0.21,
         "isNew": false,
         "delta": 0
       },
@@ -4641,7 +4090,7 @@
         "cmc": 6,
         "image": "https://cards.scryfall.io/normal/front/9/e/9ecb184f-c282-42f3-9576-09781a116352.jpg?1783915408",
         "scryfallUri": "https://scryfall.com/card/cmm/946/duplicant?utm_source=api",
-        "priceUsd": 0.31,
+        "priceUsd": 0.32,
         "isNew": false,
         "delta": 0
       },
@@ -4653,7 +4102,7 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/3/c/3caa9c55-5e3b-436b-84a9-b7ccebf63799.jpg?1783918480",
         "scryfallUri": "https://scryfall.com/card/dmr/82/entomb?utm_source=api",
-        "priceUsd": 18.46,
+        "priceUsd": 18.73,
         "isNew": false,
         "delta": 0
       },
@@ -4665,7 +4114,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/3/9/39704000-65d3-4d39-849e-a3b617376bbc.jpg?1783915632",
         "scryfallUri": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
-        "priceUsd": 1.56,
+        "priceUsd": 1.93,
         "isNew": false,
         "delta": 0
       },
@@ -4689,19 +4138,19 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/e/b/eb1a25c5-1918-40f3-b54f-5d31cf6b4eb2.jpg?1789599811",
         "scryfallUri": "https://scryfall.com/card/frc/41/fact-or-fiction?utm_source=api",
-        "priceUsd": 0.23,
+        "priceUsd": 1.07,
         "isNew": false,
         "delta": 0
       },
       {
-        "name": "Fleshbag Marauder",
-        "manaCost": "{2}{B}",
+        "name": "Farseek",
+        "manaCost": "{1}{G}",
         "qty": 1,
-        "group": "Creature",
-        "cmc": 3,
-        "image": "https://cards.scryfall.io/normal/front/f/c/fce2baa4-2976-4bbd-b6c5-a5a3c6a901be.jpg?1783912547",
-        "scryfallUri": "https://scryfall.com/card/clu/111/fleshbag-marauder?utm_source=api",
-        "priceUsd": 0.27,
+        "group": "Sorcery",
+        "cmc": 2,
+        "image": "https://cards.scryfall.io/normal/front/d/d/dde15e36-ad2d-4438-9b51-78a04bc80779.jpg?1793281387",
+        "scryfallUri": "https://scryfall.com/card/trc/462/farseek?utm_source=api",
+        "priceUsd": 0.26,
         "isNew": false,
         "delta": 0
       },
@@ -4725,7 +4174,7 @@
         "cmc": 7,
         "image": "https://cards.scryfall.io/normal/front/5/0/50fad73f-c6eb-46d7-8971-9be4d7d7b75f.jpg?1783938322",
         "scryfallUri": "https://scryfall.com/card/ori/177/gaeas-revenge?utm_source=api",
-        "priceUsd": 0.29,
+        "priceUsd": 0.3,
         "isNew": false,
         "delta": 0
       },
@@ -4737,7 +4186,19 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/9/b/9b741d88-513a-4f47-a4fd-af42c5e44b6d.jpg?1783933098",
         "scryfallUri": "https://scryfall.com/card/mh1/166/genesis?utm_source=api",
-        "priceUsd": 0.58,
+        "priceUsd": 0.57,
+        "isNew": false,
+        "delta": 0
+      },
+      {
+        "name": "Golgari Grave-Troll",
+        "manaCost": "{4}{G}",
+        "qty": 1,
+        "group": "Creature",
+        "cmc": 5,
+        "image": "https://cards.scryfall.io/normal/front/d/3/d332acbc-6224-43bc-a509-3a7edc877423.jpg?1783913302",
+        "scryfallUri": "https://scryfall.com/card/rvr/144/golgari-grave-troll?utm_source=api",
+        "priceUsd": 2.43,
         "isNew": false,
         "delta": 0
       },
@@ -4749,14 +4210,26 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/4/2/42486edd-24b7-4299-84fa-50559917b2a8.jpg?1783904527",
         "scryfallUri": "https://scryfall.com/card/ecc/151/golgari-rot-farm?utm_source=api",
-        "priceUsd": 0.3,
+        "priceUsd": 0.34,
+        "isNew": false,
+        "delta": 0
+      },
+      {
+        "name": "Grisly Salvage",
+        "manaCost": "{B}{G}",
+        "qty": 1,
+        "group": "Instant",
+        "cmc": 2,
+        "image": "https://cards.scryfall.io/normal/front/1/2/12a90f7a-28df-4017-b221-0e9234ff74a7.jpg?1783907026",
+        "scryfallUri": "https://scryfall.com/card/tdc/290/grisly-salvage?utm_source=api",
+        "priceUsd": 0.38,
         "isNew": false,
         "delta": 0
       },
       {
         "name": "Island",
         "manaCost": "",
-        "qty": 7,
+        "qty": 8,
         "group": "Land",
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/1/3/1335d293-3dd2-4f13-bd2c-22181f4528ee.jpg?1791578424",
@@ -4773,7 +4246,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/6/8/6870b355-e53d-4fa2-887b-0f0445bcd9c5.jpg?1783907026",
         "scryfallUri": "https://scryfall.com/card/tdc/293/jarad-golgari-lich-lord?utm_source=api",
-        "priceUsd": 4.25,
+        "priceUsd": 3.81,
         "isNew": false,
         "delta": 0
       },
@@ -4785,7 +4258,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/c/5/c59171ce-7dc6-4dd9-a124-3c2c3028d93d.jpg?1783940337",
         "scryfallUri": "https://scryfall.com/card/rtr/175/jarads-orders?utm_source=api",
-        "priceUsd": 0.71,
+        "priceUsd": 0.75,
         "isNew": false,
         "delta": 0
       },
@@ -4809,7 +4282,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/9/0/90c423cc-1264-4067-9c50-e7c88c68ef2d.jpg?1783904544",
         "scryfallUri": "https://scryfall.com/card/ecc/113/kodamas-reach?utm_source=api",
-        "priceUsd": 1.94,
+        "priceUsd": 2.13,
         "isNew": false,
         "delta": 0
       },
@@ -4821,7 +4294,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/d/3/d3571dee-7b90-4c0c-abc7-59b515ffa129.jpg?1783927533",
         "scryfallUri": "https://scryfall.com/card/c21/198/krosan-grip?utm_source=api",
-        "priceUsd": 1.65,
+        "priceUsd": 1.57,
         "isNew": false,
         "delta": 0
       },
@@ -4833,7 +4306,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/c/d/cdb6432f-3f56-4c92-b09a-2a5b64620c04.jpg?1783907137",
         "scryfallUri": "https://scryfall.com/card/tdc/96/life-from-the-loam?utm_source=api",
-        "priceUsd": 5.05,
+        "priceUsd": 5.43,
         "isNew": false,
         "delta": 0
       },
@@ -4845,7 +4318,7 @@
         "cmc": 6,
         "image": "https://cards.scryfall.io/normal/front/f/f/ffd3fbd2-87c7-4f08-baaa-91d61c1114da.jpg?1783941312",
         "scryfallUri": "https://scryfall.com/card/nph/65/lifes-finale?utm_source=api",
-        "priceUsd": 2.51,
+        "priceUsd": 2.34,
         "isNew": false,
         "delta": 0
       },
@@ -4857,7 +4330,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/6/5/659ef698-96ea-4fa9-b63c-0da93a2d1e78.jpg?1793197566",
         "scryfallUri": "https://scryfall.com/card/trc/496/lightning-greaves?utm_source=api",
-        "priceUsd": 2.84,
+        "priceUsd": 2.58,
         "isNew": false,
         "delta": 0
       },
@@ -4869,7 +4342,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/4/a/4ac29c46-f8ee-42ba-a98c-d785ba65485e.jpg?1783907088",
         "scryfallUri": "https://scryfall.com/card/tdc/185/living-death?utm_source=api",
-        "priceUsd": 5.82,
+        "priceUsd": 6.31,
         "isNew": false,
         "delta": 0
       },
@@ -4881,7 +4354,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/4/2/42f8591e-df30-49ec-962c-a75d32e6d9f5.jpg?1783906010",
         "scryfallUri": "https://scryfall.com/card/eoc/166/lonely-sandbar?utm_source=api",
-        "priceUsd": 0.24,
+        "priceUsd": 0.26,
         "isNew": false,
         "delta": 0
       },
@@ -4893,7 +4366,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/4/a/4aaf4d64-b5ef-44ae-b25a-7a5ea8f72170.jpg?1783907025",
         "scryfallUri": "https://scryfall.com/card/tdc/295/lord-of-extinction?utm_source=api",
-        "priceUsd": 0.85,
+        "priceUsd": 0.82,
         "isNew": false,
         "delta": 0
       },
@@ -4905,7 +4378,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/d/f/dfa8757b-ef7d-44b8-ae80-45c436e85c1e.jpg?1783923213",
         "scryfallUri": "https://scryfall.com/card/ncc/372/mimic-vat?utm_source=api",
-        "priceUsd": 0.69,
+        "priceUsd": 0.66,
         "isNew": false,
         "delta": 0
       },
@@ -4917,7 +4390,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/8/8/8858a941-8175-476d-8177-2db4ffdcb3ad.jpg?1783922388",
         "scryfallUri": "https://scryfall.com/card/clb/866/mindcrank?utm_source=api",
-        "priceUsd": 12.89,
+        "priceUsd": 12.9,
         "isNew": false,
         "delta": 0
       },
@@ -4941,7 +4414,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/9/1/91a6f558-a754-4437-8328-00a6ca47f9b5.jpg?1783930359",
         "scryfallUri": "https://scryfall.com/card/jmp/411/momentous-fall?utm_source=api",
-        "priceUsd": 3.74,
+        "priceUsd": 3.76,
         "isNew": false,
         "delta": 0
       },
@@ -4977,7 +4450,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/a/d/ad7e18e2-c033-4b6c-86e8-d0e5cc824cfd.jpg?1793894789",
         "scryfallUri": "https://scryfall.com/card/trk/289/overgrown-tomb?utm_source=api",
-        "priceUsd": 5.08,
+        "priceUsd": 5.42,
         "isNew": false,
         "delta": 0
       },
@@ -4989,7 +4462,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/0/d/0db57459-29f0-4ef6-b256-56955036c0ef.jpg?1783943616",
         "scryfallUri": "https://scryfall.com/card/rav/217/perplex?utm_source=api",
-        "priceUsd": 1.58,
+        "priceUsd": 1.55,
         "isNew": false,
         "delta": 0
       },
@@ -5001,19 +4474,7 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/1/0/10c09b68-1d92-42da-8d4d-0d60453a6aa7.jpg?1783907081",
         "scryfallUri": "https://scryfall.com/card/tdc/194/phyrexian-reclamation?utm_source=api",
-        "priceUsd": 3.19,
-        "isNew": false,
-        "delta": 0
-      },
-      {
-        "name": "Plague Wind",
-        "manaCost": "{7}{B}{B}",
-        "qty": 1,
-        "group": "Sorcery",
-        "cmc": 9,
-        "image": "https://cards.scryfall.io/normal/front/7/2/72d21d0d-7de7-4f03-8663-002c9290512f.jpg?1783935158",
-        "scryfallUri": "https://scryfall.com/card/a25/102/plague-wind?utm_source=api",
-        "priceUsd": 4.74,
+        "priceUsd": 2.86,
         "isNew": false,
         "delta": 0
       },
@@ -5073,7 +4534,7 @@
         "cmc": 7,
         "image": "https://cards.scryfall.io/normal/front/8/b/8b207a4a-47d1-4905-81d3-455c59bfd7da.jpg?1783930409",
         "scryfallUri": "https://scryfall.com/card/jmp/278/sheoldred-whispering-one?utm_source=api",
-        "priceUsd": 22.48,
+        "priceUsd": 23.03,
         "isNew": false,
         "delta": 0
       },
@@ -5085,7 +4546,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/2/1/212d97c5-c144-483b-b42e-00623477e928.jpg?1783909568",
         "scryfallUri": "https://scryfall.com/card/dsc/298/simic-growth-chamber?utm_source=api",
-        "priceUsd": 0.31,
+        "priceUsd": 0.63,
         "isNew": false,
         "delta": 0
       },
@@ -5097,7 +4558,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/c/a/cab61c7e-e00a-413b-a0b5-7718b479582f.jpg?1783930175",
         "scryfallUri": "https://scryfall.com/card/2xm/107/skithiryx-the-blight-dragon?utm_source=api",
-        "priceUsd": 13.46,
+        "priceUsd": 13.44,
         "isNew": false,
         "delta": 0
       },
@@ -5109,7 +4570,7 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/e/1/e1da8b79-249b-439a-a0ad-c8784bd716df.jpg?1793021175",
         "scryfallUri": "https://scryfall.com/card/trc/498/skullclamp?utm_source=api",
-        "priceUsd": 3.49,
+        "priceUsd": 3.16,
         "isNew": false,
         "delta": 0
       },
@@ -5121,7 +4582,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/8/6/860c0808-3ec1-4182-bf83-783720a02780.jpg?1783906031",
         "scryfallUri": "https://scryfall.com/card/eoc/107/skyshroud-claim?utm_source=api",
-        "priceUsd": 1.15,
+        "priceUsd": 1.13,
         "isNew": false,
         "delta": 0
       },
@@ -5133,7 +4594,7 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/f/c/fc817e07-c1f3-469f-9cf7-0945dea7400f.jpg?1793021181",
         "scryfallUri": "https://scryfall.com/card/trc/499/sol-ring?utm_source=api",
-        "priceUsd": 1.14,
+        "priceUsd": 0.91,
         "isNew": false,
         "delta": 0
       },
@@ -5145,7 +4606,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/d/a/daafd816-f7c1-4630-9e5c-a1e5db570a35.jpg?1783903212",
         "scryfallUri": "https://scryfall.com/card/msc/215/solemn-simulacrum?utm_source=api",
-        "priceUsd": 0.48,
+        "priceUsd": 0.5,
         "isNew": false,
         "delta": 0
       },
@@ -5157,7 +4618,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/5/2/522d6195-7660-42c0-848b-cc46e19fc4eb.jpg?1783934762",
         "scryfallUri": "https://scryfall.com/card/cm2/50/spell-crumple?utm_source=api",
-        "priceUsd": 0.68,
+        "priceUsd": 0.66,
         "isNew": false,
         "delta": 0
       },
@@ -5181,14 +4642,14 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/8/4/8423c98d-4cb6-4a70-8bf2-3ac24c025c4e.jpg?1783934297",
         "scryfallUri": "https://scryfall.com/card/c18/119/stitch-together?utm_source=api",
-        "priceUsd": 1.47,
+        "priceUsd": 1.42,
         "isNew": false,
         "delta": 0
       },
       {
         "name": "Swamp",
         "manaCost": "",
-        "qty": 9,
+        "qty": 8,
         "group": "Land",
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/b/2/b233b117-9369-45c1-80c5-cc857386b6be.jpg?1791578437",
@@ -5217,7 +4678,7 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/8/3/83036e21-21ea-4324-aa07-11757f80c417.jpg?1783911211",
         "scryfallUri": "https://scryfall.com/card/mh3/287/sylvan-safekeeper?utm_source=api",
-        "priceUsd": 6.02,
+        "priceUsd": 6.23,
         "isNew": false,
         "delta": 0
       },
@@ -5229,7 +4690,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/c/d/cd5e9799-00e1-41a9-b5b9-5d5164c71561.jpg?1793281644",
         "scryfallUri": "https://scryfall.com/card/trc/570/temple-of-the-false-god?utm_source=api",
-        "priceUsd": 0.4,
+        "priceUsd": 0.36,
         "isNew": false,
         "delta": 0
       },
@@ -5241,7 +4702,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/5/8/58ebd718-982d-4370-b4af-ef49b978d97d.jpg?1793021389",
         "scryfallUri": "https://scryfall.com/card/trc/571/terramorphic-expanse?utm_source=api",
-        "priceUsd": 0.68,
+        "priceUsd": 0.5,
         "isNew": false,
         "delta": 0
       },
@@ -5253,7 +4714,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/3/4/34577b57-06d6-4182-b29f-12c00bf22de1.jpg?1793021082",
         "scryfallUri": "https://scryfall.com/card/trc/443/thirst-for-knowledge?utm_source=api",
-        "priceUsd": 0.18,
+        "priceUsd": 0.28,
         "isNew": false,
         "delta": 0
       },
@@ -5277,19 +4738,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/7/a/7aed7d9d-d796-493e-98fd-c5b1a26621ed.jpg?1783909558",
         "scryfallUri": "https://scryfall.com/card/dsc/318/tranquil-thicket?utm_source=api",
-        "priceUsd": 0.19,
-        "isNew": false,
-        "delta": 0
-      },
-      {
-        "name": "Triskelion",
-        "manaCost": "{6}",
-        "qty": 1,
-        "group": "Creature",
-        "cmc": 6,
-        "image": "https://cards.scryfall.io/normal/front/6/3/63349fa3-4462-413c-bd96-bbc1049165a0.jpg?1783917104",
-        "scryfallUri": "https://scryfall.com/card/moc/387/triskelion?utm_source=api",
-        "priceUsd": 0.38,
+        "priceUsd": 0.17,
         "isNew": false,
         "delta": 0
       },
@@ -5301,7 +4750,19 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/c/d/cdb88a22-8086-4bf7-89e8-cce929440dd8.jpg?1783908909",
         "scryfallUri": "https://scryfall.com/card/fdn/667/trygon-predator?utm_source=api",
-        "priceUsd": 0.11,
+        "priceUsd": 0.1,
+        "isNew": false,
+        "delta": 0
+      },
+      {
+        "name": "Vorel of the Hull Clade",
+        "manaCost": "{1}{G}{U}",
+        "qty": 1,
+        "group": "Creature",
+        "cmc": 3,
+        "image": "https://cards.scryfall.io/normal/front/8/2/82c8cac8-29ce-43cc-bdb4-428c614d8545.jpg?1783913841",
+        "scryfallUri": "https://scryfall.com/card/lcc/294/vorel-of-the-hull-clade?utm_source=api",
+        "priceUsd": 0.32,
         "isNew": false,
         "delta": 0
       },
@@ -5313,7 +4774,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/7/f/7f562c38-3c53-4dc6-9816-6e4be3355e2e.jpg?1783934716",
         "scryfallUri": "https://scryfall.com/card/cm2/170/vulturous-zombie?utm_source=api",
-        "priceUsd": 0.35,
+        "priceUsd": 0.33,
         "isNew": false,
         "delta": 0
       },
@@ -5325,7 +4786,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/a/3/a3f31ac4-09ca-4712-a311-50d28824bfad.jpg?1783903208",
         "scryfallUri": "https://scryfall.com/card/msc/225/whispersilk-cloak?utm_source=api",
-        "priceUsd": 2.1,
+        "priceUsd": 1.92,
         "isNew": false,
         "delta": 0
       },
@@ -5337,7 +4798,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/5/6/567abd78-d4a3-4a33-9b5b-b5ca361059cc.jpg?1783907096",
         "scryfallUri": "https://scryfall.com/card/tdc/170/wonder?utm_source=api",
-        "priceUsd": 3.95,
+        "priceUsd": 3.71,
         "isNew": false,
         "delta": 0
       },
@@ -5349,7 +4810,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/2/7/27dacbde-a646-418c-b569-4a4f11c9faae.jpg?1783909598",
         "scryfallUri": "https://scryfall.com/card/dsc/208/yavimaya-elder?utm_source=api",
-        "priceUsd": 0.18,
+        "priceUsd": 0.17,
         "isNew": false,
         "delta": 0
       },
@@ -5384,7 +4845,7 @@
         "description": "Activate Sol Ring by tapping it, adding {C} {C}.\nCast the permanent that can be cast using {C} by paying its mana cost.\nHullbreaker Horror triggers, returning Sol Ring from the battlefield to your hand.\nCast Sol Ring by paying {1}. \nHullbreaker Horror triggers, returning the permanent cast in step 2 from the battlefield to your hand.\nRepeat.\nIf the permanent can be cast by paying {0}, this combo nets infinite colorless mana.",
         "bracketTag": "E",
         "url": "https://commanderspellbook.com/combo/513-5034--46/",
-        "popularity": 367460
+        "popularity": 368508
       },
       {
         "id": "936-1290",
@@ -5404,7 +4865,7 @@
         "description": "Cause one or more opponents to lose life.\nMindcrank triggers once for each life loss event, causing that player to mill cards equal to the amount of life lost.\nBloodchief Ascension triggers once for each card milled, causing that player to lose 2 life and you to gain 2 life for each trigger.\nRepeat from step 2.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/936-1290/",
-        "popularity": 64345
+        "popularity": 64476
       },
       {
         "id": "542-5034",
@@ -5422,7 +4883,7 @@
         "description": "Cast Sol Ring by paying its mana cost.\nTidespout Tyrant triggers, returning a nontoken permanent that can be cast using {C} from the battlefield to your hand.\nActivate Sol Ring by tapping it, adding {C}{C}.\nCast the nontoken permanent returned in step 2 by paying its mana cost.\nTidespout Tyrant triggers, returning Sol Ring from the battlefield to your hand.\nRepeat.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/542-5034/",
-        "popularity": 38067
+        "popularity": 38117
       },
       {
         "id": "936-5069",
@@ -5441,7 +4902,7 @@
         "description": "Activate Duskmantle Guildmage's first ability by paying {1}{U}{B}, causing your opponent to lose life whenever a card is put into their graveyard this turn.\nActivate Duskmantle Guildmage's second ability by paying {2}{U}{B}, causing an opponent to mill two cards.\nDuskmantle Guildmage triggers twice.\nResolve the first trigger, causing the opponent to lose 1 life.\nMindcrank triggers, causing the opponent to mill a card.\nDuskmantle Guildmage triggers, causing the opponent to lose 1 life.\nRepeat from step 5 until the opponent has a life total of zero, causing them to lose the game.\nRepeat from step 2 for each other opponent.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/936-5069/",
-        "popularity": 19887
+        "popularity": 19911
       },
       {
         "id": "864-5352",
@@ -5489,27 +4950,7 @@
         "description": "Activate Phyrexian Altar by sacrificing Eternal Witness and all other creatures you control, adding {B} for each creature sacrificed.\nCast Living Death by paying {3}{B}{B}, causing each player to exile all creatures from their graveyard, sacrifice all creatures they control, then return the exiled cards to the battlefield.\nWhen Eternal Witness enters the battlefield, it triggers, returning Living Death from your graveyard to your hand.\nRepeat any number of times.",
         "bracketTag": "E",
         "url": "https://commanderspellbook.com/combo/864-2596-4050/",
-        "popularity": 10228
-      },
-      {
-        "id": "628-1495",
-        "cards": [
-          "Mikaeus, the Unhallowed",
-          "Triskelion"
-        ],
-        "missing": [
-          "Mikaeus, the Unhallowed"
-        ],
-        "produces": [
-          "Infinite damage",
-          "Infinite death triggers",
-          "Infinite creature ETB",
-          "Infinite creature LTB"
-        ],
-        "description": "If Triskelion has at least three +1/+1 counters on it, activate Triskelion by removing a +1/+1 counter from it, dealing 1 damage to any target.\nRepeat step 1 until there are two +1/+1 counters remaining on Triskelion.\nActivate Triskelion by removing a +1/+1 counter from Triskelion, dealing 1 damage to itself.\nRepeat step 3 an additional time.\nTriskelion dies.\nTriskelion's undying ability triggers, returning it to the battlefield with an additional +1/+1 counter on it.\nRepeat.",
-        "bracketTag": "S",
-        "url": "https://commanderspellbook.com/combo/628-1495/",
-        "popularity": 8551
+        "popularity": 10278
       },
       {
         "id": "182-6323",
@@ -5527,7 +4968,7 @@
         "description": "Declare Jumbo Cactuar as an attacker, triggering its ability, giving it +9999/+0 until end of turn.\nActivate Jarad by paying {1}{B}{G} and sacrificing Jumbo Cactuar, causing each opponent to lose 10,000 life.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/182-6323/",
-        "popularity": 5187
+        "popularity": 5240
       },
       {
         "id": "182-2749",
@@ -5545,7 +4986,7 @@
         "description": "Activate Wall of Blood by paying 1 life, causing it to get +1/+1 until end of turn.\nRepeat step 1 until Wall of Blood's power is equal to the highest life total among your opponent.\nActivate Jarad by paying {1}{B}{G} and sacrificing Wall of Blood, causing each opponent to lose life equal to Wall of Blood's power.\nEach opponent loses the game due to having zero or less life.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/182-2749/",
-        "popularity": 4041
+        "popularity": 4058
       },
       {
         "id": "876-4944",
@@ -5562,7 +5003,25 @@
         "description": "Activate Lightning Greaves's equip ability by paying {0}, targeting any creature you control except the creature that has Lightning Greaves attached.\nCrackdown Construct triggers, giving it +1/+1 until end of turn.\nResolve Lightning Greaves's equip ability.\nRepeat.",
         "bracketTag": "O",
         "url": "https://commanderspellbook.com/combo/876-4944/",
-        "popularity": 3972
+        "popularity": 3996
+      },
+      {
+        "id": "3609-4312",
+        "cards": [
+          "Vorel of the Hull Clade",
+          "Magistrate's Scepter"
+        ],
+        "missing": [
+          "Magistrate's Scepter"
+        ],
+        "produces": [
+          "Infinite turns",
+          "Lock"
+        ],
+        "description": "Pay {U}{G} and tap Vorel to double the number of counters on Magistrate's Scepter, leaving it with 6 counters.\nTap Magistrate's Scepter to gain an extra turn.\nMove to that extra turn.\nRepeat.",
+        "bracketTag": "R",
+        "url": "https://commanderspellbook.com/combo/3609-4312/",
+        "popularity": 2465
       },
       {
         "id": "876-2904",
@@ -5579,7 +5038,7 @@
         "description": "Activate Lightning Greaves's equip ability by paying {0}, targeting Cephalid Illusionist.\nCephalid Illusionist triggers, causing you to mill three cards.\nResolve the Lightning Greaves ability, attaching it to Cephalid Illusionist.\nRepeat.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/876-2904/",
-        "popularity": 2267
+        "popularity": 2271
       },
       {
         "id": "4413-4812",
@@ -5597,7 +5056,7 @@
         "description": "Cast Animate Dead by paying {1}{B}.\nAnimate Dead enters the battlefield, returning Kederekt Leviathan from your graveyard to the battlefield attached with Animate Dead.\nKederekt Leviathan triggers, returning all nonland permanents to their owner's hands.\nAnimate Dead triggers, causing you to sacrifice Kederekt Leviathan.\nRepeat each turn.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/4413-4812/",
-        "popularity": 2017
+        "popularity": 2021
       },
       {
         "id": "182-4899",
@@ -5614,7 +5073,7 @@
         "description": "Activate Phyrexian Devourer's second ability by exiling the top card of your library, causing you to put a number of +1/+1 counters on Phyrexian Devourer equal to that card's mana value.\nRepeat step 1 until Phyrexian Devourer's power is greater than each opponent's life total.\nPhyrexian Devourer's first ability triggers.\nHolding priority, activate Jarad by paying {1}{B}{G} and sacrificing Phyrexian Devourer, causing each opponent to lose life equal to Phyrexian Devourer's power.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/182-4899/",
-        "popularity": 633
+        "popularity": 631
       },
       {
         "id": "182-1877",
@@ -5632,45 +5091,7 @@
         "description": "Cast Hatred by paying {3}{B}{B} and by paying life equal to the highest life total among your opponent, causing any other creature you control to get +X/+0 until end of turn, where X is the life paid this way.\nActivate Jarad by paying {1}{B}{G} and sacrificing the creature, causing each opponent to lose life equal to the creature's power.\nEach opponent loses the game due to having zero or less life.",
         "bracketTag": "O",
         "url": "https://commanderspellbook.com/combo/182-1877/",
-        "popularity": 421
-      },
-      {
-        "id": "1495-5017",
-        "cards": [
-          "Urban Daggertooth",
-          "Triskelion"
-        ],
-        "missing": [
-          "Urban Daggertooth"
-        ],
-        "produces": [
-          "Infinite +1/+1 counters on a creature",
-          "Infinite proliferate"
-        ],
-        "description": "Activate Triskelion by removing a +1/+1 counter from it, dealing 1 damage to Urban Daggertooth.\nUrban Daggertooth triggers, putting a +1/+1 counter on itself and Triskelion.\nRepeat.",
-        "bracketTag": "O",
-        "url": "https://commanderspellbook.com/combo/1495-5017/",
-        "popularity": 385
-      },
-      {
-        "id": "1495-3005",
-        "cards": [
-          "Mephidross Vampire",
-          "Triskelion"
-        ],
-        "missing": [
-          "Mephidross Vampire"
-        ],
-        "produces": [
-          "Destroy each creature that enters the battlefield under an opponent's control",
-          "Destroy any number of creatures opponents control",
-          "Infinite damage to creatures",
-          "Lock"
-        ],
-        "description": "Activate Triskelion by removing a +1/+1 counter from it, dealing 1 damage to any creature an opponent controls.\nTriskelion triggers, putting a +1/+1 counter on itself.\nRepeat as desired.\nYou may also repeat this loop whenever a creature enters the battlefield under an opponent's control.",
-        "bracketTag": "S",
-        "url": "https://commanderspellbook.com/combo/1495-3005/",
-        "popularity": 209
+        "popularity": 423
       },
       {
         "id": "876-2796",
@@ -5687,66 +5108,109 @@
         "description": "Activate Lightning Greaves's equip ability by paying {0}, targeting Cephalid Aristocrat.\nCephalid Aristocrat triggers, causing you to mill two cards.\nResolve Lightning Greaves's ability, attaching it to Cephalid Aristrocrat.\nActivate Lightning Greaves's equip ability by paying {0}, attaching it to another creature you control.\nRepeat.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/876-2796/",
-        "popularity": 203
+        "popularity": 204
       },
       {
-        "id": "1331-1495",
+        "id": "329-648",
         "cards": [
-          "Triskelion",
-          "Scythe of the Wretched"
+          "Disciple of Bolas",
+          "Body of Research"
         ],
         "missing": [
-          "Scythe of the Wretched"
+          "Body of Research"
         ],
         "produces": [
-          "Infinite death triggers",
-          "Infinite creature ETB",
-          "Infinite creature LTB"
+          "Infinite card draw",
+          "Infinite draw triggers",
+          "Near-infinite lifegain"
         ],
-        "description": "Activate Triskelion's ability by removing a +1/+1 counter from it to deal 1 damage to itself.\nRepeat step 1 an additional 2 times, killing Triskelion.\nScythe of the Wretched triggers, returning Triskelion to the battlefield with Scythe of the Wretched attached to it.\nRepeat.",
-        "bracketTag": "E",
-        "url": "https://commanderspellbook.com/combo/1331-1495/",
-        "popularity": 125
-      },
-      {
-        "id": "1495-7743",
-        "cards": [
-          "Triskelion",
-          "Heroic Feast"
-        ],
-        "missing": [
-          "Heroic Feast"
-        ],
-        "produces": [
-          "Infinite damage",
-          "Infinite lifegain",
-          "Infinite lifegain triggers"
-        ],
-        "description": "Give Triskelion lifelink.\nActivate Triskelion by removing a +1/+1 counter from it, dealing 1 damage to any target and causing you to gain 1 life.\nHeroic Feast triggers, putting a +1/+1 counter on Triskelion.\nRepeat.",
-        "bracketTag": "S",
-        "url": "https://commanderspellbook.com/combo/1495-7743/",
-        "popularity": 71
-      },
-      {
-        "id": "1495-2190",
-        "cards": [
-          "Vraska, Swarm's Eminence",
-          "Triskelion"
-        ],
-        "missing": [
-          "Vraska, Swarm's Eminence"
-        ],
-        "produces": [
-          "Infinite damage"
-        ],
-        "description": "Give Triskelion deathtouch.\nActivate Triskelion by removing a +1/+1 counter from it, dealing 1 damage to an opponent.\nVraska triggers, putting a +1/+1 counter on Triskelion.\nRepeat from step 2.",
-        "bracketTag": "S",
-        "url": "https://commanderspellbook.com/combo/1495-2190/",
-        "popularity": 62
+        "description": "Cast Body of Research by paying {G}{G}{G}{U}{U}{U}, creating a 0/0 Fractal creature token and putting a number of +1/+1 counters on it equal to the number of cards in your library.\nCast Disciple of Bolas by paying {3}{B}.\nDisciple of Bolas enters the battlefield, sacrificing the Fractal and causing you to gain life and draw cards equal to the Fractal's power.",
+        "bracketTag": "C",
+        "url": "https://commanderspellbook.com/combo/329-648/",
+        "popularity": 9
       }
     ]
   },
-  "manaSuggestions": [],
+  "manaSuggestions": [
+    {
+      "id": "676cda2f-2be3-49c9-b195-971cd48be51b",
+      "reason": "You have plenty of green sources; City of Brass makes black and green and blue untapped, helping black, which is short.",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Forest",
+          "qty": 1,
+          "reason": "You have plenty of green sources; City of Brass makes black and green and blue untapped, helping black, which is short.",
+          "ok": true,
+          "card": {
+            "name": "Forest",
+            "oracleId": "b34bb2dc-c1af-4d77-b0b3-a0fb342a5fc6",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Basic Land — Forest",
+            "oracleText": "({T}: Add {G}.)",
+            "colors": [],
+            "colorIdentity": [
+              "G"
+            ],
+            "producedMana": [
+              "G"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": null,
+            "image": "https://cards.scryfall.io/normal/front/2/e/2e781bfd-f8cb-4d20-b977-4359f3a21311.jpg?1791578317",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/2/e/2e781bfd-f8cb-4d20-b977-4359f3a21311.jpg?1791578317",
+            "scryfallUri": "https://scryfall.com/card/mdd/301/forest?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        },
+        {
+          "action": "add",
+          "name": "City of Brass",
+          "qty": 1,
+          "reason": "You have plenty of green sources; City of Brass makes black and green and blue untapped, helping black, which is short.",
+          "ok": true,
+          "card": {
+            "name": "City of Brass",
+            "oracleId": "f25351e3-539b-4bbc-b92d-6480acf4d722",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Land",
+            "oracleText": "Whenever this land becomes tapped, it deals 1 damage to you.\n{T}: Add one mana of any color.",
+            "colors": [],
+            "colorIdentity": [],
+            "producedMana": [
+              "B",
+              "G",
+              "R",
+              "U",
+              "W"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": 9.52,
+            "image": "https://cards.scryfall.io/normal/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
+            "scryfallUri": "https://scryfall.com/card/tmc/62/city-of-brass?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        }
+      ]
+    }
+  ],
   "synergies": [
     {
       "title": "Build Your Own Giant",
@@ -5785,15 +5249,6 @@
       "explanation": "Lord of Extinction turns the deck's graveyard filling into enormous power, and Jarad, Golgari Lich Lord converts that power into life loss for every opponent. This provides a potentially lethal finish without needing to attack."
     },
     {
-      "title": "Cash Out, Dig Deep",
-      "cards": [
-        "The Mimeoplasm",
-        "Greater Good",
-        "Underrealm Lich"
-      ],
-      "explanation": "Greater Good sacrifices a huge The Mimeoplasm to generate cards equal to its power, then discard three cards. Underrealm Lich replaces each draw with selecting one of three cards and putting the other two into your graveyard, producing both exceptional selection and a massive refill of reanimation targets."
-    },
-    {
       "title": "Wipe, Then Recruit",
       "cards": [
         "Life's Finale",
@@ -5820,21 +5275,90 @@
       "explanation": "Sylvan Safekeeper turns lands into protection for The Mimeoplasm or another key creature, while Life from the Loam returns those sacrificed lands to your hand. Verdant Catacombs is another reusable land target, and dredging Life from the Loam also advances the graveyard plan."
     },
     {
-      "title": "Windfall Feeds the Monsters",
-      "cards": [
-        "Windfall",
-        "Vulturous Zombie",
-        "Consuming Aberration"
-      ],
-      "explanation": "Casting Windfall triggers Consuming Aberration's opponent-milling ability, then resolving it puts opponents' discarded hands into their graveyards. Those cards enlarge Consuming Aberration and give Vulturous Zombie a +1/+1 counter for each card entering an opponent's graveyard."
-    },
-    {
       "title": "Low-Cost Dredge Reload",
       "cards": [
         "Frantic Search",
         "Golgari Grave-Troll"
       ],
       "explanation": "With Golgari Grave-Troll in your graveyard, replace a Frantic Search draw with dredge 6, then discard the returned Troll during the spell's discard step to prepare another dredge. Untapping up to three lands keeps mana available while you load the graveyard for The Mimeoplasm and reanimation."
+    },
+    {
+      "title": "One-Hit Poison Commander",
+      "cards": [
+        "Buried Alive",
+        "The Mimeoplasm",
+        "Skithiryx, the Blight Dragon",
+        "Lord of Extinction"
+      ],
+      "explanation": "Buried Alive puts both creatures into your graveyard, letting The Mimeoplasm copy Skithiryx, the Blight Dragon and gain counters equal to Lord of Extinction's power. If that power is at least 6, the resulting flying infect commander can deliver lethal poison in one unblocked hit, with {B} granting haste."
+    },
+    {
+      "title": "Loot Into an Infect Dragon",
+      "cards": [
+        "Likeness Looter",
+        "Skithiryx, the Blight Dragon"
+      ],
+      "explanation": "Likeness Looter can discard Skithiryx, the Blight Dragon while filtering your hand, then pay {5} to become its copy without removing it from your graveyard. The copy gains infect and regeneration, and another {B} grants haste so it can attack immediately."
+    },
+    {
+      "title": "Buried Dragon, Immediate Threat",
+      "cards": [
+        "Entomb",
+        "Necromancy",
+        "Skithiryx, the Blight Dragon"
+      ],
+      "explanation": "Entomb finds Skithiryx, the Blight Dragon for Necromancy to reanimate, bypassing its normal casting cost. Reanimate it during your precombat main phase and pay {B} for haste to immediately threaten four poison counters through the air."
+    },
+    {
+      "title": "Sacrifice, Dredge, Reload",
+      "cards": [
+        "Golgari Grave-Troll",
+        "Greater Good"
+      ],
+      "explanation": "Sacrifice a large Golgari Grave-Troll to Greater Good, then replace one of the resulting draws with its dredge 6 to return it to your hand. The remaining draws and subsequent discards stock your hand and graveyard, while the milled creatures can make the next Grave-Troll larger."
+    },
+    {
+      "title": "Salvage Into Cheap Reanimation",
+      "cards": [
+        "Grisly Salvage",
+        "Stitch Together"
+      ],
+      "explanation": "Grisly Salvage can put a reanimation target into your graveyard while keeping a useful creature or land in hand. Its discarded cards, plus Grisly Salvage itself, help reach the seven-card threshold that turns Stitch Together into a two-mana battlefield reanimation spell."
+    },
+    {
+      "title": "Fetch the Flying Switch",
+      "cards": [
+        "Farseek",
+        "Watery Grave",
+        "Wonder"
+      ],
+      "explanation": "With Wonder in your graveyard, Farseek can find Watery Grave because it is an Island and a Swamp. Watery Grave enables Wonder's teamwide flying even while tapped, helping your oversized graveyard-powered creatures connect."
+    },
+    {
+      "title": "Wipe, Draw, Reanimate Their Best",
+      "cards": [
+        "Decree of Pain",
+        "Sepulchral Primordial"
+      ],
+      "explanation": "Decree of Pain clears creatures into graveyards while drawing you a fresh hand. Follow it with Sepulchral Primordial to reanimate up to one freshly destroyed creature from each opponent's graveyard and rebuild your board with their best threats."
+    },
+    {
+      "title": "Turn the Wipe Into a Dredge Reload",
+      "cards": [
+        "Decree of Pain",
+        "Golgari Grave-Troll",
+        "The Mimeoplasm"
+      ],
+      "explanation": "If Decree of Pain destroys Golgari Grave-Troll, the Troll is in your graveyard before the spell's draws happen, so you can replace one of those draws with dredge 6. The wipe and dredge together stock graveyards with creature choices and counter fuel for The Mimeoplasm while the remaining draws refill your hand."
+    },
+    {
+      "title": "Basic Island, Airborne Ooze",
+      "cards": [
+        "Island",
+        "Wonder",
+        "The Mimeoplasm"
+      ],
+      "explanation": "With Wonder in your graveyard, Island gives your creatures flying, helping a large The Mimeoplasm connect for commander damage. Leave Wonder in the graveyard rather than exiling it to The Mimeoplasm so the evasion stays active."
     }
   ],
   "cardIndex": {
@@ -7702,6 +7226,139 @@
       "image": "https://cards.scryfall.io/normal/front/f/5/f5a4970b-2ba6-4c91-a301-369369cdf360.jpg?1783915673",
       "scryfallUri": "https://scryfall.com/card/cmm/165/grave-pact?utm_source=api",
       "priceUsd": 30.03
+    },
+    "City of Brass": {
+      "image": "https://cards.scryfall.io/normal/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
+      "scryfallUri": "https://scryfall.com/card/tmc/62/city-of-brass?utm_source=api",
+      "priceUsd": 9.52
+    },
+    "Decree of Pain": {
+      "image": "https://cards.scryfall.io/normal/front/b/d/bd594aeb-f5cc-4435-8ea8-c35c5824b58c.jpg?1783909622",
+      "scryfallUri": "https://scryfall.com/card/dsc/136/decree-of-pain?utm_source=api",
+      "priceUsd": 0.34
+    },
+    "Vorel of the Hull Clade": {
+      "image": "https://cards.scryfall.io/normal/front/8/2/82c8cac8-29ce-43cc-bdb4-428c614d8545.jpg?1783913841",
+      "scryfallUri": "https://scryfall.com/card/lcc/294/vorel-of-the-hull-clade?utm_source=api",
+      "priceUsd": 0.32
+    },
+    "Magistrate's Scepter": {
+      "image": "https://cards.scryfall.io/normal/front/e/c/ecf1f24f-d910-4ec6-95d2-0ecaf9f051aa.jpg?1783934512",
+      "scryfallUri": "https://scryfall.com/card/m19/238/magistrates-scepter?utm_source=api",
+      "priceUsd": 3.23
     }
-  }
+  },
+  "edits": [
+    {
+      "at": "2026-11-14T16:44:13.202Z",
+      "request": "no, don't add underrealm lich",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Underrealm Lich",
+          "qty": 1,
+          "reason": "Undo the suggested replacement for Skithiryx."
+        },
+        {
+          "action": "add",
+          "name": "Skithiryx, the Blight Dragon",
+          "qty": 1,
+          "reason": "Keep your original infect finisher and Mimeoplasm copy target."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-14T16:49:48.739Z",
+      "request": "in the original list, replace big game hunter with golgary grave troll, darksteel ingot with farseek, and triskelion with grisly savage",
+      "target": "original",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Big Game Hunter",
+          "qty": 1,
+          "reason": "Trade conditional creature removal for self-mill."
+        },
+        {
+          "action": "remove",
+          "name": "Darksteel Ingot",
+          "qty": 1,
+          "reason": "Replace three-mana ramp with a cheaper option."
+        },
+        {
+          "action": "remove",
+          "name": "Triskelion",
+          "qty": 1,
+          "reason": "Cut an expensive damage source for efficient graveyard setup."
+        },
+        {
+          "action": "add",
+          "name": "Golgari Grave-Troll",
+          "qty": 1,
+          "reason": "Dredge 6 rapidly stocks your graveyard for The Mimeoplasm."
+        },
+        {
+          "action": "add",
+          "name": "Farseek",
+          "qty": 1,
+          "reason": "Two-mana ramp that can find Overgrown Tomb or a basic Island or Swamp."
+        },
+        {
+          "action": "add",
+          "name": "Grisly Salvage",
+          "qty": 1,
+          "reason": "Find a creature or land while putting the remaining cards into your graveyard."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-14T17:22:13.722Z",
+      "request": "replace plague wind with decree of pain and fleshbag marauder with vorel Vorel of the Hull Clade, then reanalyze deck",
+      "target": "original",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Plague Wind",
+          "qty": 1,
+          "reason": "Replace the nine-mana wipe with a cheaper wipe that draws cards."
+        },
+        {
+          "action": "remove",
+          "name": "Fleshbag Marauder",
+          "qty": 1,
+          "reason": "Trade an immediate sacrifice effect for counter synergy."
+        },
+        {
+          "action": "add",
+          "name": "Decree of Pain",
+          "qty": 1,
+          "reason": "Combines a board wipe with card draw and offers a cycling mode."
+        },
+        {
+          "action": "add",
+          "name": "Vorel of the Hull Clade",
+          "qty": 1,
+          "reason": "Doubles +1/+1 counters on The Mimeoplasm to increase its combat threat."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-14T17:45:07.112Z",
+      "request": "Swap: Swamp → Island",
+      "target": "original",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Swamp",
+          "qty": 1,
+          "reason": "U is short on sources (15/17) while B has 18/17."
+        },
+        {
+          "action": "add",
+          "name": "Island",
+          "qty": 1,
+          "reason": "U is short on sources (15/17) while B has 18/17."
+        }
+      ]
+    }
+  ]
 }
