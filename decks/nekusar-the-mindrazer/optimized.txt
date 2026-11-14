@@ -44,6 +44,7 @@ Deck
 1 Molten Psyche
 1 Molten Slagheap
 4 Mountain
+1 Nightscape Familiar
 1 Niv-Mizzet, the Firemind
 1 Nivix Guildmage
 1 Ob Nixilis, Captive Kingpin
@@ -61,7 +62,6 @@ Deck
 1 Reforge the Soul
 1 Reliquary Tower
 1 Rhystic Study
-1 Scrawling Crawler
 1 Seizan, Perverter of Truth
 1 Sigil of Sleep
 1 Skyscribing

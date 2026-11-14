@@ -31,11 +31,10 @@ Deck
 1 Glare of Subdual
 1 Hokori, Dust Drinker
 1 Intrepid Hero
-7 Island
+8 Island
 1 Karmic Guide
 1 Kataki, War's Wage
 1 Kazandu Tuskcaller
-1 Kirtar's Wrath
 1 Kodama's Reach
 1 Krosan Grip
 1 Land Equilibrium
@@ -48,9 +47,10 @@ Deck
 1 Opal Palace
 1 Opposition
 1 Path to Exile
-7 Plains
+6 Plains
 1 Ray of Command
 1 Reveillark
+1 Rhystic Study
 1 Rising Waters
 1 Roon of the Hidden Realm
 1 Rout

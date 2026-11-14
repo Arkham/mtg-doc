@@ -32,7 +32,7 @@ Deck
 1 Hallowed Fountain
 1 Hokori, Dust Drinker
 1 Intrepid Hero
-9 Island
+8 Island
 1 Karmic Guide
 1 Kazandu Tuskcaller
 1 Kinnan, Bonder Prodigy
@@ -49,7 +49,7 @@ Deck
 1 Opal Palace
 1 Opposition
 1 Path to Exile
-5 Plains
+6 Plains
 1 Ray of Command
 1 Reveillark
 1 Rhystic Study

@@ -3,8 +3,6 @@ Commander
 
 Deck
 1 Akoum Refuge
-1 Army of the Damned
-1 Aura Thief
 1 Blue Sun's Zenith
 1 Bojuka Bog
 1 Burnished Hart
@@ -40,6 +38,7 @@ Deck
 1 Journeyer's Kite
 1 Kami of the Crescent Moon
 1 Leyline of Punishment
+1 Lightning Greaves
 1 Manabarbs
 1 Mikokoro, Center of the Sea
 1 Minds Aglow
@@ -48,6 +47,7 @@ Deck
 1 Molten Psyche
 1 Molten Slagheap
 4 Mountain
+1 Nightscape Familiar
 1 Niv-Mizzet, the Firemind
 1 Nivix Guildmage
 1 Opal Palace

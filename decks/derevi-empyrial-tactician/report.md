@@ -10,7 +10,7 @@ Build toward Derevi stax-combo: develop efficient mana creatures, connect in com
 
 ## Bracket 4: Optimized
 
-Tone: max. Before: bracket 4 (power 29). After: bracket 4 (power 76, mid Optimized). Expect at least 4 turns.
+Tone: max. Before: bracket 4 (power 33). After: bracket 4 (power 76, mid Optimized). Expect at least 4 turns.
 
 - ✅ **Game Changers:** 9 (no limit)
 - ✅ **Mass land denial:** Hokori, Dust Drinker, Land Equilibrium, Rising Waters, Winter Orb
@@ -20,33 +20,31 @@ Tone: max. Before: bracket 4 (power 29). After: bracket 4 (power 76, mid Optimiz
 - Combo: Derevi, Empyrial Tactician + Emiel the Blessed + Faeburrow Elder (0% assembled before turn 4)
 - Combo: Derevi, Empyrial Tactician + Emiel the Blessed + Bloom Tender (0% assembled before turn 4)
 - Combo: Sword of the Paruns + Faeburrow Elder (0.6% assembled before turn 4)
-- Combo: Sword of the Paruns + Bloom Tender (2.5% assembled before turn 4)
-- Combo: Kinnan, Bonder Prodigy + Basalt Monolith (5.2% assembled before turn 4)
+- Combo: Sword of the Paruns + Bloom Tender (2.2% assembled before turn 4)
+- Combo: Kinnan, Bonder Prodigy + Basalt Monolith (5.1% assembled before turn 4)
 
 ## Mana base
 
 | | Before | After |
 |---|---|---|
 | Lands | 37 | 37 (recommended 37) |
-| Avg mana value | 3.52 | 3.08 |
+| Avg mana value | 3.47 | 3.08 |
 | Ramp | 5 | 10 |
 | Tapped lands | 9 | 5 |
-| W sources (target 17) | 21 | 18 |
-| U sources (target 21) | 19 | 21 |
+| W sources (target 17) | 20 | 19 |
+| U sources (target 21) | 20 | 20 |
 | G sources (target 17) | 17 | 18 |
 
 Mana base changes:
 
-- Plains → Island: U is short on sources (19/21) while W has 21/17.
-- Plains → Island: U is short on sources (20/21) while W has 20/17.
 - Azorius Chancery → Hallowed Fountain: Azorius Chancery always enters tapped; Hallowed Fountain makes blue and white untapped.
 - Azorius Guildgate → Breeding Pool: Azorius Guildgate always enters tapped; Breeding Pool makes green and blue untapped.
 - Seaside Citadel → Flooded Strand: Seaside Citadel always enters tapped; Flooded Strand makes white and blue untapped.
 - Secluded Steppe → Temple Garden: Secluded Steppe always enters tapped; Temple Garden makes green and white untapped.
 
-- Suggested: −Sejiri Refuge, +Misty Rainforest: Sejiri Refuge always enters tapped; Misty Rainforest makes blue and green untapped.
-- Suggested: −Selesnya Guildgate, +Windswept Heath: Selesnya Guildgate always enters tapped; Windswept Heath makes white and green untapped.
-- Suggested: −Selesnya Sanctuary, +Bountiful Promenade: Selesnya Sanctuary always enters tapped; Bountiful Promenade makes green and white untapped.
+- Suggested: −Selesnya Guildgate, +Exotic Orchard: Selesnya Guildgate always enters tapped; Exotic Orchard makes green and blue and white untapped, helping blue, which is short.
+- Suggested: −Sejiri Refuge, +Glacial Fortress: Sejiri Refuge always enters tapped; Glacial Fortress makes blue and white untapped.
+- Suggested: −Selesnya Sanctuary, +City of Brass: Selesnya Sanctuary always enters tapped; City of Brass makes green and blue and white untapped.
 - ⚠️ 5 lands enter tapped unconditionally; aim for 4 or fewer.
 
 ## Goldfish simulation
@@ -55,16 +53,16 @@ Mana base changes:
 
 | | Before | After |
 |---|---|---|
-| Mulligan rate | 19.8% | 20.5% |
+| Mulligan rate | 19.8% | 20.1% |
 | Land drop on turn 2 | 99.8% | 99.8% |
-| Land drop on turn 3 | 89.9% | 90.2% |
-| Land drop on turn 4 | 73.3% | 74.1% |
-| Land drop on turn 5 | 54.6% | 55.2% |
-| Commander on curve | 42.7% | 65.4% |
-| All colors by turn 3 | 78.7% | 88% |
-| Mana on turn 4 | 4.04 | 4.57 |
-| Screw (<3 lands T4) | 6% | 6% |
-| Flood (10+ lands seen by T7) | 0.3% | 0.5% |
+| Land drop on turn 3 | 89.9% | 90.6% |
+| Land drop on turn 4 | 73.3% | 73.2% |
+| Land drop on turn 5 | 54.9% | 54.6% |
+| Commander on curve | 42.3% | 65.6% |
+| All colors by turn 3 | 78.7% | 87.7% |
+| Mana on turn 4 | 4.04 | 4.56 |
+| Screw (<3 lands T4) | 6% | 5.7% |
+| Flood (10+ lands seen by T7) | 0.3% | 0.4% |
 
 ## Roles
 
@@ -72,9 +70,9 @@ Mana base changes:
 |---|---|---|---|
 | land | 37 | 37 |  |
 | ramp | 5 | 10 | 10 |
-| draw | 6 | 9 | 10 |
+| draw | 7 | 9 | 10 |
 | removal | 11 | 9 | 8 |
-| wipe | 5 | 2 | 2 |
+| wipe | 4 | 2 | 2 |
 | counter | 4 | 4 | 0 |
 | tutor | 1 | 3 | 0 |
 | protection | 3 | 3 | 3 |
@@ -119,13 +117,18 @@ Mana base changes:
 - **Blink Into Removal and Recursion** (Emiel the Blessed + Aura Shards + Eternal Witness): Each activation of Emiel the Blessed blinking Eternal Witness returns a card from your graveyard and triggers Aura Shards to destroy an artifact or enchantment. This converts spare mana into repeatable recursion and board control without requiring an infinite loop.
 - **Renewable Counterspell Fodder** (Derevi, Empyrial Tactician + Voidmage Prodigy): Derevi is a Wizard, so Voidmage Prodigy can sacrifice it to counter any spell. Returning Derevi to the command zone lets you deploy it again for {1}{G}{W}{U}, bypassing commander tax and gaining another enters-the-battlefield tap or untap trigger.
 - **Squirrels Become a Win Condition** (Squirrel Nest + Mirror Entity + Derevi, Empyrial Tactician): Derevi can untap the enchanted land to generate additional Squirrels, building a board without committing more creature cards. Mirror Entity turns those small tokens into large attackers, and each creature that connects generates another Derevi trigger.
+- **Draw or Stay Locked** (Rhystic Study + Hokori, Dust Drinker + Derevi, Empyrial Tactician): Hokori, Dust Drinker restricts opponents' land untaps, making Rhystic Study's extra payment much harder to afford. Derevi, Empyrial Tactician untaps your mana sources through combat triggers, helping you deploy the cards you draw while opponents remain constrained.
+- **Stacked Draw Demands** (Rhystic Study + Mystic Remora): An opponent's noncreature spell triggers both enchantments, requiring separate payments totaling five mana to deny you both draws. That demand is especially punishing alongside this deck's mana-denial effects.
+- **Tax the Rebuild** (Rhystic Study + Cyclonic Rift): An overloaded Cyclonic Rift forces opponents to rebuild their nonland boards by casting their cards again. Rhystic Study turns that rebuilding into additional draws or extra mana payments, slowing their recovery.
+- **Blue Mana Through the Lock** (Island + Derevi, Empyrial Tactician + Rising Waters): Rising Waters restricts normal land untaps, but Derevi's enters and combat-damage triggers can untap Island outside the untap step. This keeps blue mana available for interaction while opponents remain constrained.
+- **Combat-Fueled Squirrel Production** (Island + Squirrel Nest + Derevi, Empyrial Tactician): Enchant Island with Squirrel Nest, then use Derevi's enters or combat-damage triggers to untap it for additional Squirrel activations. Each untap can become another token instead of blue mana, building a wider board that can generate more Derevi triggers on later attacks.
+- **Recurring Island Fetch** (Island + Flooded Strand + Sun Titan): Sun Titan can return Flooded Strand from your graveyard whenever it enters or attacks, letting you sacrifice the fetch land again to find Island. This turns Sun Titan's triggers into repeatable land ramp while suitable lands remain in your library.
 
 ## Swaps
 
 | Out | In | Category | Why |
 |---|---|---|---|
 | Luminate Primordial | Bloom Tender | ramp | Keep the proposal. Derevi supplies all three Bant colors, making Tender a three-mana producer that turns each relevant Derevi untap into substantial acceleration and supports Emiel loops. |
-| Kirtar's Wrath | Rhystic Study | draw | Keep the proposal. A six-mana symmetrical sweeper undermines your creature engines; Study supplies sustained cards while opponents struggle to develop through your mana restrictions. |
 | Skyward Eye Prophets | Faeburrow Elder | ramp | Keep the proposal. Elder produces three mana with Derevi present, costs half as much as Prophets, and has vigilance to attack for a Derevi trigger while remaining available to produce mana. |
 | Sunblast Angel | Birds of Paradise | ramp | Keep the proposal. One-mana fixing accelerates Derevi and your engines, while flying lets Birds generate combat triggers when attacking is more valuable than tapping for mana. |
 | True Conviction | Cyclonic Rift | interaction | Keep the proposal. Rift provides early interaction or an asymmetric late-game reset that preserves your creatures and lock pieces while clearing the way for combat connections. |
@@ -139,12 +142,17 @@ Mana base changes:
 | Deglamer | Seedborn Muse | synergy | Keep the proposal. Muse restores your resources during opponents' untap steps, helping break parity under land-untap restrictions and enabling repeated Ring, creature, and instant-speed activations; Aura Shards and retained removal cover the lost interaction slot. |
 | Kataki, War's Wage | Eladamri's Call | combo | Replace the proposed land swap with removal of the second self-taxing artifact hate piece. Call puts the required engine or combo creature directly into hand, improving assembly and recovery without risking your own artifact infrastructure. |
 | Dissipate | Mystic Remora | draw | Keep the proposal. Remora establishes card advantage for one mana, letting you develop creatures and hold interaction instead of reserving three mana for Dissipate; Fierce Guardianship replaces the lost counterspell slot. |
-| Plains | Island | mana | U is short on sources (19/21) while W has 21/17. |
-| Plains | Island | mana | U is short on sources (20/21) while W has 20/17. |
 | Azorius Chancery | Hallowed Fountain | mana | Azorius Chancery always enters tapped; Hallowed Fountain makes blue and white untapped. |
 | Azorius Guildgate | Breeding Pool | mana | Azorius Guildgate always enters tapped; Breeding Pool makes green and blue untapped. |
 | Seaside Citadel | Flooded Strand | mana | Seaside Citadel always enters tapped; Flooded Strand makes white and blue untapped. |
 | Secluded Steppe | Temple Garden | mana | Secluded Steppe always enters tapped; Temple Garden makes green and white untapped. |
+
+## Changes from chat
+
+- 2026-11-14 (your deck) “Swap: Kirtar's Wrath → Rhystic Study”: −Kirtar's Wrath, +Rhystic Study
+- 2026-11-14 (your deck) “Swap: Plains → Island”: −Plains, +Island
+- 2026-11-14 (your deck) “Swap: Plains → Island”: −Plains, +Island
+- 2026-11-14 (your deck) “in the original deck swap an island for a plain”: −Island, +Plains
 
 ## Decklist as submitted (100 cards)
 
@@ -196,14 +204,13 @@ Mana base changes:
 - 1 Stroke of Genius {X}{2}{U}
 - 1 Ray of Command {3}{U}
 
-### Sorcery (6)
+### Sorcery (5)
 
 - 1 Cultivate {2}{G}
 - 1 Kodama's Reach {2}{G}
 - 1 Wash Out {3}{U}
 - 1 Rout {3}{W}{W}
 - 1 Austere Command {4}{W}{W}
-- 1 Kirtar's Wrath {4}{W}{W}
 
 ### Artifact (8)
 
@@ -216,11 +223,12 @@ Mana base changes:
 - 1 Bident of Thassa {2}{U}{U}
 - 1 Sword of the Paruns {4}
 
-### Enchantment (10)
+### Enchantment (11)
 
 - 1 Darksteel Mutation {1}{W}
 - 1 Aura Shards {1}{G}{W}
 - 1 Energy Flux {2}{U}
+- 1 Rhystic Study {2}{U}
 - 1 Squirrel Nest {1}{G}{G}
 - 1 Control Magic {2}{U}{U}
 - 1 Glare of Subdual {2}{G}{W}
@@ -238,9 +246,9 @@ Mana base changes:
 - 1 Evolving Wilds
 - 1 Faerie Conclave
 - 6 Forest
-- 7 Island
+- 8 Island
 - 1 Opal Palace
-- 7 Plains
+- 6 Plains
 - 1 Saltcrusted Steppe
 - 1 Seaside Citadel
 - 1 Secluded Steppe
@@ -328,7 +336,7 @@ Mana base changes:
 - 1 Mystic Remora {U} _(new)_
 - 1 Darksteel Mutation {1}{W}
 - 1 Aura Shards {1}{G}{W}
-- 1 Rhystic Study {2}{U} _(new)_
+- 1 Rhystic Study {2}{U}
 - 1 Squirrel Nest {1}{G}{G}
 - 1 Glare of Subdual {2}{G}{W}
 - 1 Land Equilibrium {2}{U}{U}
@@ -345,9 +353,9 @@ Mana base changes:
 - 1 Flooded Strand _(new)_
 - 6 Forest
 - 1 Hallowed Fountain _(new)_
-- 9 Island _(new)_
+- 8 Island
 - 1 Opal Palace
-- 5 Plains
+- 6 Plains
 - 1 Saltcrusted Steppe
 - 1 Sejiri Refuge
 - 1 Selesnya Guildgate
@@ -414,6 +422,6 @@ Current EDHREC tags show several overlapping builds—not just stax: **Birthing 
 - [Banned & Restricted | Magic: The Gathering](https://magic.wizards.com/en/banned-restricted-list)
 - [Derevi, Empyrial Tactician Combos | Commander Spellbook](https://commanderspellbook.com/card/2608/)
 
-Totals: 100 → 100 cards, $288.35 → $850.58
+Totals: 100 → 100 cards, $351.01 → $846.62
 
 EDHREC: https://edhrec.com/commanders/derevi-empyrial-tactician/optimized
