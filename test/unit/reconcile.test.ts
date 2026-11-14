@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
-import type { BracketReport, DeckEdit, Swap } from "../../shared/types.ts";
+import type { BracketReport, DeckChange, DeckEdit, Swap } from "../../shared/types.ts";
 import { type Deck, cloneDeck } from "../../server/analysis/deck.ts";
 import {
   fallbackCombos,
+  onSubmittedList,
   pinEdits,
+  realizedSwaps,
   rebaseSwaps,
   refreshBracketLists,
   reconcileSwaps,
@@ -208,6 +210,73 @@ describe("rebaseSwaps", () => {
     );
     assert.ok(deck.slots.some((s) => s.card.name === "Army of the Damned"));
     assert.equal(deck.slots.find((s) => s.card.name === "Arcane Signet")!.qty, 1);
+  });
+});
+
+describe("applying the doc's swaps to the submitted list", () => {
+  const names = (d: Deck) => d.slots.map((s) => `${s.qty} ${s.card.name}`).sort();
+  const change = (action: "add" | "remove", name: string, qty = 1): DeckChange => ({
+    action,
+    name,
+    qty,
+    reason: "",
+    ok: true,
+  });
+  const forestToSignet = swap0("Forest", "Arcane Signet");
+  const forests = [forestToSignet, swap0("Forest", "Fevered Visions")];
+
+  test("a swap made in the submitted list is realized, so it isn't made again on top", () => {
+    const changes = [change("remove", "Forest"), change("add", "Arcane Signet")];
+    assert.deepEqual(realizedSwaps(forests, changes), [forestToSignet]);
+    // Without settling it, a basic with copies to spare would be swapped out a second time.
+    const edited = swap(initial, "Forest", signet);
+    const cards = new Map([visions, signet].map((c) => [c.name, c]));
+    const rest = forests.filter((s) => !realizedSwaps(forests, changes).includes(s));
+    assert.deepEqual(
+      names(rebaseSwaps(edited, rest, cards).deck),
+      names(swap(swap(initial, "Forest", signet), "Forest", visions)),
+    );
+  });
+
+  test("changes that only half match a swap, or match it once, realize it at most once", () => {
+    assert.deepEqual(realizedSwaps(forests, [change("remove", "Forest", 2)]), []);
+    const twice = [swap0("Forest", "Swamp"), swap0("Forest", "Swamp")];
+    assert.equal(
+      realizedSwaps(twice, [change("remove", "Forest"), change("add", "Swamp")]).length,
+      1,
+    );
+  });
+
+  test("cutting a card only a swap brought in cuts what that swap cut instead", () => {
+    // The suggested deck has Fevered Visions in place of Helm; a land swap there cuts the Visions.
+    const fromSuggested = [change("remove", "Fevered Visions"), change("add", "Swamp")];
+    const { changes, spent } = onSubmittedList(fromSuggested, initial, optimizerSwaps);
+    assert.deepEqual(
+      changes.map((c) => [c.action, c.name, c.qty]),
+      [
+        ["remove", "Helm of the Ghastlord", 1],
+        ["add", "Swamp", 1],
+      ],
+    );
+    assert.deepEqual(spent, [optimizerSwaps[0]]);
+  });
+
+  test("cards the submitted list has are cut directly, copies beyond them through swaps", () => {
+    const fogSwap = swap0("Fog Bank", "Forest");
+    const { changes, spent } = onSubmittedList(
+      [change("remove", "Forest", 20), change("add", "Swamp")],
+      initial,
+      [fogSwap],
+    );
+    assert.deepEqual(
+      changes.map((c) => [c.action, c.name, c.qty]),
+      [
+        ["remove", "Forest", 19],
+        ["remove", "Fog Bank", 1],
+        ["add", "Swamp", 1],
+      ],
+    );
+    assert.deepEqual(spent, [fogSwap]);
   });
 });
 

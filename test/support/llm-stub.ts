@@ -143,6 +143,19 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
           publishSuggestions: /again/i.test(last),
         }),
       );
+    if (/to my deck/i.test(last)) {
+      const [, out, add] = /suggested swaps \(cut → add\): (.+?) → (.+?)(?:;|\n)/.exec(text)!;
+      return message(
+        JSON.stringify({
+          reply: `Making ${out} → ${add} in your deck.`,
+          changes: [
+            { action: "remove", name: out, qty: 1, reason: "stub" },
+            { action: "add", name: add, qty: 1, reason: "stub" },
+          ],
+          target: "original",
+        }),
+      );
+    }
     if (/run it again/i.test(last))
       return message(
         JSON.stringify({ reply: "Same settings, fresh run?", changes: [], rerun: {} }),

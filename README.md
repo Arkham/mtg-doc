@@ -68,7 +68,7 @@ host and under any sub-path (GitHub Pages, Netlify, Cloudflare Pages, S3) with n
 Uploaded photos, warnings and local paths are not published.
 
 It's built for iPhone and iPad: tap any card name to see the card, sticky section navigation,
-"Copy deck list" for Moxfield/Archidekt import, and "Copy cards to add" as a pull list. Use Safari's
+"Copy decklist" for Moxfield/Archidekt import, and "Copy cards to add" as a pull list. Use Safari's
 **Share → Add to Home Screen** to get an app icon that opens full screen.
 
 ## Files per deck

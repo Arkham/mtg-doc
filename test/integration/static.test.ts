@@ -51,8 +51,8 @@ describe("static site export", () => {
     const page = fs.readFileSync(path.join(out, `decks/${slug}/index.html`), "utf8");
     assert.doesNotMatch(page, /<script/);
     assert.match(page, /<h1>Lathril, Blade of the Elves<\/h1>/);
-    assert.match(page, /Deck list as submitted \(100 cards\)/);
-    assert.match(page, /Suggested deck list/);
+    assert.match(page, /Decklist as submitted \(100 cards\)/);
+    assert.match(page, /Suggested decklist/);
     assert.match(page, new RegExp(`href="../../#/deck/${slug}"`));
 
     const decks = JSON.parse(fs.readFileSync(path.join(out, "data/decks.json"), "utf8"));
@@ -120,9 +120,9 @@ describe("static site export", () => {
     assert.ok(!fs.existsSync(path.join(dir, "optimized.txt")));
     assert.ok(fs.existsSync(path.join(dir, "initial.txt")));
 
-    assert.match(markdown, /^## Deck list \(100 cards\)$/m);
+    assert.match(markdown, /^## Decklist \(100 cards\)$/m);
     assert.match(markdown, /^\| \| Value \|$/m);
-    assert.doesNotMatch(markdown, /## Swaps|Suggested deck list|Before|## Strategy/);
+    assert.doesNotMatch(markdown, /## Swaps|Suggested decklist|Before|## Strategy/);
     const [summary] = JSON.parse(fs.readFileSync(path.join(out, "data/decks.json"), "utf8"));
     assert.equal(summary.swapCount, undefined);
     assert.doesNotMatch(fs.readFileSync(path.join(out, "llms.txt"), "utf8"), /suggested swaps/);

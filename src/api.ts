@@ -96,6 +96,9 @@ export const api = {
   job: (id: string) => request<Job>(`/api/jobs/${id}`),
   applyManaSuggestion: (slug: string, id: string) =>
     request<Report>(`/api/decks/${slug}/mana-suggestions/${id}/apply`, { method: "POST" }),
+  /** Makes one of the doc's swaps in the deck as submitted. */
+  applySwap: (slug: string, swap: { out: string; in: string }) =>
+    request<Report>(`/api/decks/${slug}/swaps/apply`, json({ out: swap.out, in: swap.in })),
   refreshSynergies: (slug: string, mode: "again" | "more" = "again") =>
     request<Report>(`/api/decks/${slug}/synergies`, json({ mode })),
   chat: (slug: string) => request<DeckChatMessage[]>(`/api/decks/${slug}/chat`),

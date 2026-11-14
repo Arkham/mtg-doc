@@ -15,10 +15,13 @@ const SUGGESTIONS = [
 
 function Changes({
   message,
+  view,
   busy,
   onApply,
 }: {
   message: DeckChatMessage;
+  /** The list on screen; changes to the other one say which they edit. */
+  view: EditTarget;
   busy: boolean;
   onApply: () => void;
 }) {
@@ -53,7 +56,11 @@ function Changes({
           <button className="primary" disabled={busy} onClick={onApply}>
             {busy ? <span className="spinner" aria-hidden /> : null}
             Apply {valid.length} change{valid.length > 1 ? "s" : ""}
-            {message.target === "original" ? " to your deck" : ""}
+            {message.target === "original"
+              ? " to your deck"
+              : view === "original"
+                ? " to the suggestions"
+                : ""}
           </button>
         )
       )}
@@ -259,7 +266,12 @@ export function ChatPanel({
                   <CardText text={m.content} />
                 </div>
                 {m.role === "assistant" && m.changes?.length ? (
-                  <Changes message={m} busy={applying === m.id} onApply={() => apply(m.id)} />
+                  <Changes
+                    message={m}
+                    view={target}
+                    busy={applying === m.id}
+                    onApply={() => apply(m.id)}
+                  />
                 ) : null}
                 {m.role === "assistant" && m.rerun ? (
                   <Rerun

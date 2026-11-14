@@ -7,6 +7,7 @@ import type {
   BracketReport,
   Card,
   Combo,
+  DeckChange,
   DeckEdit,
   Swap,
 } from "../../shared/types.ts";
@@ -154,6 +155,60 @@ export function rebaseSwaps(
     kept.push(s);
   }
   return { deck, swaps: kept };
+}
+
+type Change = Pick<DeckChange, "action" | "name" | "qty">;
+
+/**
+ * The swaps that changes to the submitted list carry out: each cuts a swap's cut and adds its add.
+ * They leave the suggestions rather than being applied again on top, which a basic with copies to
+ * spare would otherwise allow.
+ */
+export function realizedSwaps(swaps: Swap[], changes: Change[]): Swap[] {
+  const copies = (action: Change["action"]) =>
+    changes.filter((c) => c.action === action).flatMap((c) => Array<string>(c.qty).fill(c.name));
+  const cuts = copies("remove");
+  const adds = copies("add");
+  return swaps.filter((s) => {
+    if (!cuts.includes(s.out) || !adds.includes(s.in)) return false;
+    take(cuts, s.out);
+    take(adds, s.in);
+    return true;
+  });
+}
+
+/**
+ * Changes written against the suggested deck, as changes to the submitted list. Cutting a card only
+ * a swap brought in cuts what that swap cut instead, and the swap is `spent`: the submitted list
+ * then ends up where the suggested deck would.
+ */
+export function onSubmittedList(
+  changes: DeckChange[],
+  initial: Deck,
+  swaps: Swap[],
+): { changes: DeckChange[]; spent: Swap[] } {
+  const have = counts(initial);
+  const spent: Swap[] = [];
+  const out: DeckChange[] = [];
+  for (const c of changes) {
+    if (c.action === "add") {
+      out.push(c);
+      continue;
+    }
+    const direct = Math.min(c.qty, have.get(c.name) ?? 0);
+    have.set(c.name, (have.get(c.name) ?? 0) - direct);
+    if (direct) out.push({ ...c, qty: direct });
+    for (let i = direct; i < c.qty; i++) {
+      const s = swaps.find((x) => x.in === c.name && !spent.includes(x));
+      if (!s) {
+        out.push({ ...c, qty: c.qty - i });
+        break;
+      }
+      spent.push(s);
+      out.push({ ...c, name: s.out, qty: 1, card: s.outCard });
+    }
+  }
+  return { changes: out, spent };
 }
 
 /**

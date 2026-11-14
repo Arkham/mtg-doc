@@ -81,7 +81,12 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   "everything the report UI can change, the chat can too" test in `test/integration/llm-pipeline.test.ts`.
 - The chat follows the view: on "Your deck" it talks about and edits the list as submitted
   (`initial.txt`), and the suggested deck is rebuilt from it with the swaps that still apply
-  (`rebaseSwaps`); on the optimized view it edits the suggestions.
+  (`rebaseSwaps`); on the optimized view it edits the suggestions. When the user asks to change
+  the other list ("in my deck"), the reply's `target` says so and the changes edit that one.
+- Every swap the doc suggests (its swaps, and suggested land swaps) has an Apply button that makes
+  it in the deck as submitted (`applySwap`, `applyManaSuggestion`), leaving the suggested deck as
+  it was. Swaps the edit carries out are settled (`realizedSwaps`, `onSubmittedList`), not
+  dropped, so they're neither made twice nor counted as broken.
 - Destructive or slow chat actions (re-running the optimizer, anything that replaces the list) are
   proposed first and start only once the user confirms, by button or by a reply the Decisions API
   judges as a yes. Cheap, non-destructive ones (like finding synergies again) can run directly.

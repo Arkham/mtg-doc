@@ -65,10 +65,10 @@ describe("deck chat without an LLM", () => {
     // report.md (and the published plain page built from it) follows the edited list.
     const md = await readDeckFile(slug, "report.md");
     assert.match(md, /## Changes from chat[\s\S]*Mind Stone/);
-    const suggested = md.split("## Suggested deck list")[1].split("\n## ")[0];
+    const suggested = md.split("## Suggested decklist")[1].split("\n## ")[0];
     assert.match(suggested, /- 1 Mind Stone .*_\(new\)_/);
     assert.doesNotMatch(suggested, /Sol Ring/);
-    assert.match(md.split("## Deck list as submitted")[1].split("\n## ")[0], /- 1 Sol Ring/);
+    assert.match(md.split("## Decklist as submitted")[1].split("\n## ")[0], /- 1 Sol Ring/);
 
     assert.equal((await apply(reply.id)).status, 409, "can't apply twice");
   });
@@ -108,6 +108,14 @@ describe("deck chat without an LLM", () => {
     const report = (await res.json()) as Report;
     const added = first.changes.find((c) => c.action === "add")!.name;
     assert.ok(report.decklist!.some((c) => c.name === added));
+    const submitted = parseDecklist(await readDeckFile(slug, "initial.txt")).entries;
+    assert.ok(
+      submitted.some((e) => e.name === added),
+      "made in the deck as submitted",
+    );
+    assert.equal(report.edits!.at(-1)!.target, "original");
+    assert.equal(report.before.totalCards, 100);
+    assert.equal(report.after.totalCards, 100);
     assert.match(report.edits!.at(-1)!.request, /^Mana base:/);
     assert.ok(
       !report.manaSuggestions!.some((m) => m.id === first.id),
@@ -240,6 +248,37 @@ describe("deck chat without an LLM", () => {
     assert.equal(report.after.totalCards, 100);
     assert.equal(report.edits!.at(-1)!.target, "original");
     assert.match(await readDeckFile(slug, "report.md"), /\(your deck\) “swap /);
+  });
+
+  test("a swap's Apply button makes it in the deck as submitted, and the suggestions stay", async () => {
+    const { report: current } = (await (await fetch(`${base}/api/decks/${slug}`)).json()) as {
+      report: Report;
+    };
+    const swap = current.swaps.find((s) => !s.fromChat && !s.outCard?.isLand)!;
+    const applySwap = (body: unknown) =>
+      fetch(`${base}/api/decks/${slug}/swaps/apply`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      });
+    const res = await applySwap({ out: swap.out, in: swap.in });
+    assert.equal(res.status, 200);
+    const report = (await res.json()) as Report;
+
+    const submitted = parseDecklist(await readDeckFile(slug, "initial.txt")).entries.map(
+      (e) => e.name,
+    );
+    assert.ok(submitted.includes(swap.in) && !submitted.includes(swap.out));
+    assert.ok(report.original!.decklist.some((c) => c.name === swap.in));
+    const list = (r: Report) => r.decklist!.map((c) => `${c.qty} ${c.name}`).sort();
+    assert.deepEqual(list(report), list(current), "the suggested deck doesn't change");
+    assert.equal(report.decklist!.find((c) => c.name === swap.in)!.isNew, false);
+    assert.ok(!report.swaps.some((s) => s.out === swap.out && s.in === swap.in));
+    assert.equal(report.swaps.length, current.swaps.length - 1, "no other swap is dropped");
+    assert.equal(report.edits!.at(-1)!.target, "original");
+    assert.equal(report.edits!.at(-1)!.request, `Swap: ${swap.out} → ${swap.in}`);
+    assert.equal((await applySwap({ out: swap.out, in: swap.in })).status, 404);
+    assert.equal((await applySwap({ out: swap.out })).status, 400);
   });
 
   test("validation errors and missing decks", async () => {

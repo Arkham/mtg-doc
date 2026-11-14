@@ -8,6 +8,7 @@ import { config, llmEnabled } from "./config.ts";
 import {
   applyChatChanges,
   applyManaSuggestion,
+  applySwap,
   chatAboutDeck,
   readChat,
   refreshSynergies,
@@ -278,6 +279,14 @@ export function createApp() {
     wrap(async (req, res) =>
       res.json(await applyManaSuggestion(String(req.params.slug), String(req.params.id))),
     ),
+  );
+
+  app.post(
+    "/api/decks/:slug/swaps/apply",
+    wrap(async (req, res) => {
+      const swap = z.object({ out: z.string().min(1), in: z.string().min(1) }).parse(req.body);
+      res.json(await applySwap(String(req.params.slug), swap.out, swap.in));
+    }),
   );
 
   app.post(

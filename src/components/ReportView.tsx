@@ -117,7 +117,51 @@ function PanelHead({
 const isManaSwap = (s: Swap) =>
   s.category === "mana" || (Boolean(s.inCard?.isLand) && Boolean(s.outCard?.isLand));
 
-function SwapGroup({ title, swaps }: { title: string; swaps: Swap[] }) {
+type SwapApplier = ReturnType<typeof useApplySwap>;
+
+/** Makes one of the doc's swaps in the deck as submitted, from any list that shows swaps. */
+function useApplySwap(slug: string, onApplied: (report: Report) => void) {
+  const [busy, setBusy] = useState<Swap | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const apply = async (swap: Swap) => {
+    setBusy(swap);
+    setError(null);
+    try {
+      onApplied(await api.applySwap(slug, swap));
+    } catch (e) {
+      setError(String(e instanceof Error ? e.message : e));
+    } finally {
+      setBusy(null);
+    }
+  };
+  return { busy, error, apply };
+}
+
+function ApplySwap({ swap, applier }: { swap: Swap; applier: SwapApplier }) {
+  if (IS_STATIC) return null;
+  const busy = applier.busy?.out === swap.out && applier.busy.in === swap.in;
+  return (
+    <button
+      className="small-btn"
+      disabled={applier.busy !== null}
+      onClick={() => applier.apply(swap)}
+      aria-label={`Apply ${swap.out} → ${swap.in} to your deck`}
+      title="Make this swap in your deck as submitted"
+    >
+      {busy ? <span className="spinner" aria-hidden /> : "Apply"}
+    </button>
+  );
+}
+
+function SwapGroup({
+  title,
+  swaps,
+  applier,
+}: {
+  title: string;
+  swaps: Swap[];
+  applier: SwapApplier;
+}) {
   if (!swaps.length) return null;
   return (
     <div className="swap-group">
@@ -127,6 +171,14 @@ function SwapGroup({ title, swaps }: { title: string; swaps: Swap[] }) {
       <div className="swaps">
         {swaps.map((s, i) => (
           <article key={i} className="swap">
+            <div className="swap-head">
+              <span className="badge">
+                {s.fromChat
+                  ? "💬 Chat edit"
+                  : `${CATEGORY_EMOJI[s.category]} ${s.category[0].toUpperCase() + s.category.slice(1)}`}
+              </span>
+              <ApplySwap swap={s} applier={applier} />
+            </div>
             <div className="swap-cards">
               <MiniCard card={s.outCard} name={s.out} side="out" />
               <div className="arrow" aria-hidden>
@@ -135,11 +187,6 @@ function SwapGroup({ title, swaps }: { title: string; swaps: Swap[] }) {
               <MiniCard card={s.inCard} name={s.in} side="in" />
             </div>
             <div className="reason">
-              <span className="badge">
-                {s.fromChat
-                  ? "💬 Chat edit"
-                  : `${CATEGORY_EMOJI[s.category]} ${s.category[0].toUpperCase() + s.category.slice(1)}`}
-              </span>
               <p>{s.reason}</p>
               {s.alternatives && s.alternatives.length > 0 && (
                 <p className="alternatives small">
@@ -160,13 +207,23 @@ function SwapGroup({ title, swaps }: { title: string; swaps: Swap[] }) {
   );
 }
 
-function SwapList({ swaps }: { swaps: Swap[] }) {
+function SwapList({
+  swaps,
+  slug,
+  onApplied,
+}: {
+  swaps: Swap[];
+  slug: string;
+  onApplied: (report: Report) => void;
+}) {
+  const applier = useApplySwap(slug, onApplied);
   if (!swaps.length)
     return <p className="muted">No swaps suggested. The deck already looks tight.</p>;
   return (
     <>
-      <SwapGroup title="Spells" swaps={swaps.filter((s) => !isManaSwap(s))} />
-      <SwapGroup title="Mana base" swaps={swaps.filter(isManaSwap)} />
+      <SwapGroup title="Spells" swaps={swaps.filter((s) => !isManaSwap(s))} applier={applier} />
+      <SwapGroup title="Mana base" swaps={swaps.filter(isManaSwap)} applier={applier} />
+      {applier.error && <p className="error small">{applier.error}</p>}
     </>
   );
 }
@@ -352,6 +409,7 @@ function ManaAdvice({
 }) {
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const applier = useApplySwap(slug, onApplied);
   const changed = r.swaps.filter(
     (s) => s.category === "mana" && s.inCard?.isLand && s.outCard?.isLand,
   );
@@ -376,18 +434,22 @@ function ManaAdvice({
             {changed.map((s, i) => (
               <li key={i}>
                 <div className="mana-swap">
-                  <span className="edit-chip remove">
-                    − <CardName name={s.out} card={s.outCard} />
+                  <span className="mana-swap-chips">
+                    <span className="edit-chip remove">
+                      − <CardName name={s.out} card={s.outCard} />
+                    </span>
+                    <span className="muted">→</span>
+                    <span className="edit-chip add">
+                      + <CardName name={s.in} card={s.inCard} />
+                    </span>
                   </span>
-                  <span className="muted">→</span>
-                  <span className="edit-chip add">
-                    + <CardName name={s.in} card={s.inCard} />
-                  </span>
+                  <ApplySwap swap={s} applier={applier} />
                 </div>
                 <div className="muted small">{s.reason}</div>
               </li>
             ))}
           </ul>
+          {applier.error && <p className="error small">{applier.error}</p>}
         </>
       )}
       {suggestions.length > 0 && (
@@ -412,6 +474,7 @@ function ManaAdvice({
                       className="small-btn"
                       disabled={busy !== null}
                       onClick={() => apply(m.id)}
+                      title="Make this swap in your deck as submitted"
                     >
                       {busy === m.id ? <span className="spinner" aria-hidden /> : "Apply"}
                     </button>
@@ -856,7 +919,7 @@ function Decklist({
   return (
     <CardGallery cards={galleryCards}>
       <div className="list-toolbar">
-        <div className="segmented" role="tablist" aria-label="Deck list view">
+        <div className="segmented" role="tablist" aria-label="Decklist view">
           <button role="tab" aria-selected={view === "list"} onClick={() => changeView("list")}>
             List
           </button>
@@ -1406,6 +1469,14 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
   const optimized = view === "optimized";
   const r = optimized ? full : asOriginal(full);
   const listText = optimized ? optimizedText : detail.initial;
+  const onApplied = (report: Report) => {
+    setDetail((d) => (d ? { ...d, report } : d));
+    // Edits to the deck as submitted rewrite its list too.
+    api.deck(slug).then(setDetail, () => {});
+    fetch(fileUrl(slug, "optimized.txt"))
+      .then((res) => (res.ok ? res.text() : null))
+      .then(setOptimizedText, () => {});
+  };
   const copyOptimized = () => {
     if (!listText) return;
     navigator.clipboard.writeText(listText).then(() => {
@@ -1419,7 +1490,7 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
   const hasCombos = r.combosPresent.length > 0 || r.combosOneAway.length > 0;
   const sections: [string, string][] = [
     ...(r.bracket ? [["bracket", "Bracket"] as [string, string]] : []),
-    ...(r.decklist ? [["decklist", "Deck list"] as [string, string]] : []),
+    ...(r.decklist ? [["decklist", "Decklist"] as [string, string]] : []),
     ["mana", "Mana"],
     ["sim", "Goldfish"],
     ...(hasCombos ? [["combos", "Combos"] as [string, string]] : []),
@@ -1532,7 +1603,7 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
             )}
             <div className="hero-actions">
               <button className="primary" onClick={copyOptimized} disabled={!listText}>
-                {copied ? "✓ Copied" : "Copy deck list"}
+                {copied ? "✓ Copied" : "Copy decklist"}
               </button>
               <ExportMenu
                 slug={slug}
@@ -1629,7 +1700,7 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
 
         {r.decklist && (
           <section className="panel" id="decklist">
-            <PanelHead title="Deck list" />
+            <PanelHead title="Decklist" />
             <Decklist cards={r.decklist} swaps={r.swaps} compare={optimized} />
           </section>
         )}
@@ -1647,16 +1718,7 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
               <Curve before={r.before} after={r.after} />
             </div>
             <div>
-              <ManaAdvice
-                report={r}
-                slug={slug}
-                onApplied={(report) => {
-                  setDetail((d) => (d ? { ...d, report } : d));
-                  fetch(fileUrl(slug, "optimized.txt"))
-                    .then((res) => (res.ok ? res.text() : null))
-                    .then(setOptimizedText, () => {});
-                }}
-              />
+              <ManaAdvice report={r} slug={slug} onApplied={onApplied} />
               {(r.after.mana.tappedLands.length > 0 || r.after.mana.colorlessLands.length > 0) && (
                 <dl className="land-notes">
                   {r.after.mana.tappedLands.length > 0 && (
@@ -1729,7 +1791,7 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
                   : undefined
               }
             />
-            <SwapList swaps={r.swaps} />
+            <SwapList swaps={r.swaps} slug={slug} onApplied={onApplied} />
             {r.edits && r.edits.length > 0 && (
               <div className="swap-group edits">
                 <h3>
@@ -1798,14 +1860,7 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
             slug={slug}
             commander={r.commanders.join(" + ")}
             target={optimized ? "optimized" : "original"}
-            onApplied={(report) => {
-              setDetail((d) => (d ? { ...d, report } : d));
-              // Edits to the deck as submitted rewrite its list too.
-              api.deck(slug).then(setDetail, () => {});
-              fetch(fileUrl(slug, "optimized.txt"))
-                .then((res) => (res.ok ? res.text() : null))
-                .then(setOptimizedText, () => {});
-            }}
+            onApplied={onApplied}
           />
         )}
 

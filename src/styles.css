@@ -1763,6 +1763,10 @@ button.hero-card:active:not(:disabled) {
   object-fit: cover;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
+/* The image's link wrapper is the flex item; a long name would otherwise squeeze it under the text. */
+.mini-card-img {
+  flex-shrink: 0;
+}
 .mini-card.out .mini-card-img img {
   filter: saturate(0.4) brightness(0.75);
 }
@@ -1806,9 +1810,18 @@ button.hero-card:active:not(:disabled) {
   padding-top: 10px;
 }
 .reason p {
-  margin: 6px 0 0;
+  margin: 0;
   font-size: var(--fs-sm);
   color: var(--text-2);
+}
+.swap-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.swap-head .small-btn {
+  margin: 0 0 0 auto;
 }
 
 .decklist-groups {
@@ -3288,6 +3301,7 @@ pre {
     font-size: 16px;
   }
   button,
+  button.small-btn,
   .button,
   input,
   select {

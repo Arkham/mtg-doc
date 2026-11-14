@@ -60,7 +60,7 @@ test.describe("static site", () => {
     await expect(page.locator(".checks li.bad")).toHaveCount(0);
     await expect(page.locator(".swap").first()).toBeVisible();
     await expect(page.locator(".side-label", { hasText: "Cut" }).first()).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Deck list", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Decklist", exact: true })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Mana base", exact: true })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Goldfish simulation" })).toBeVisible();
     await expect(page.locator(".mana-advice h3").first()).toBeVisible();
@@ -252,7 +252,7 @@ test.describe("static site", () => {
 
   test("export menu offers lists and the pull list", async ({ page }) => {
     await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
-    await expect(page.getByRole("button", { name: "Copy deck list" })).toBeEnabled();
+    await expect(page.getByRole("button", { name: "Copy decklist" })).toBeEnabled();
     await page.locator(".menu > summary").click();
     await expect(page.getByRole("button", { name: /Copy cards to add/ })).toBeVisible();
     const optimized = page.getByRole("link", { name: /Optimized list/ });
@@ -355,7 +355,7 @@ test.describe("static site", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: /Lathril, Blade of the Elves/ }),
     ).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Deck list", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Decklist", exact: true })).toBeVisible();
     await expect(page.getByRole("tab", { name: /Optimized/ })).toHaveCount(0);
     await expect(page.getByRole("tab", { name: "Your deck" })).toHaveCount(0);
     await expect(page.locator("#swaps")).toHaveCount(0);

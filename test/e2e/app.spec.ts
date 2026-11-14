@@ -93,6 +93,17 @@ test.describe("local app", () => {
       1,
     );
 
+    // Any swap the doc suggests can be made in the deck as submitted.
+    const swaps = page.locator("#swaps .swap");
+    const before = await swaps.count();
+    const first = swaps.first();
+    const added = await first.locator(".mini-card.in .mini-card-name").innerText();
+    await first.getByRole("button", { name: /^Apply .* to your deck$/ }).click();
+    await expect(swaps).toHaveCount(before - 1, { timeout: 30_000 });
+    await page.getByRole("tab", { name: "Your deck" }).click();
+    await expect(page.locator(".deck-group li").filter({ hasText: added })).not.toHaveCount(0);
+    await page.getByRole("tab", { name: /Optimized/ }).click();
+
     await page.getByRole("button", { name: "Back" }).click();
     await expect(page.locator(".deck-card")).toContainText(["Lathril, Blade of the Elves"]);
   });

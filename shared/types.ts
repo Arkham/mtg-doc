@@ -279,7 +279,7 @@ export interface DeckChatMessage {
   changes?: DeckChange[];
   applied?: boolean;
   rerun?: RerunProposal;
-  /** The list `changes` edit, from the view the user was on when asking. */
+  /** The list `changes` edit: the one on screen, unless the user asked to change the other. */
   target?: EditTarget;
   /** The doc changed the report directly (e.g. found synergies again); the client reloads it. */
   reportUpdated?: boolean;
@@ -298,7 +298,7 @@ export interface Synergy {
   explanation: string;
 }
 
-/** A land swap proposed to improve the mana base, which the user can apply. */
+/** A land swap proposed to improve the mana base, which the user can apply to their deck. */
 export interface ManaSuggestion {
   id: string;
   reason: string;

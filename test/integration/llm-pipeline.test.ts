@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { after, describe, test } from "node:test";
 import sharp from "sharp";
-import type { RecognitionResult } from "../../shared/types.ts";
+import type { RecognitionResult, Report } from "../../shared/types.ts";
 import { startLlmStub } from "../support/llm-stub.ts";
 
 // Point the app at the stub before any server module reads its config.
@@ -265,6 +265,28 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     const context = stub.requests.at(-1)!.text;
     assert.match(context, /Suggested land swaps[^]*remove Forest, add Llanowar Wastes/);
     assert.match(context, /web research (on|off)/);
+
+    // Apply one of the doc's swaps (the Apply button on a swap), asked from the suggested deck:
+    // it edits the deck as submitted, not the list on screen.
+    const { applyChatChanges } = await import("../../server/chat.ts");
+    const { readDeckFile } = await import("../../server/storage.ts");
+    const { parseDecklist } = await import("../../server/decklist.ts");
+    const current = (await readReport(slug))!;
+    const [swap] = current.swaps;
+    const made = await chatAboutDeck(slug, "apply the first swap to my deck", "optimized");
+    assert.match(stub.requests.at(-1)!.text, /Their deck as submitted is this list with the swaps/);
+    assert.equal(made.target, "original");
+    assert.ok(
+      made.changes!.every((c) => c.ok),
+      JSON.stringify(made.changes),
+    );
+    const { report: applied } = await applyChatChanges(slug, made.id);
+    const submitted = parseDecklist(await readDeckFile(slug, "initial.txt")).entries;
+    assert.ok(submitted.some((e) => e.name === swap.in));
+    assert.ok(!applied.swaps.some((s) => s.out === swap.out && s.in === swap.in));
+    assert.equal(applied.swaps.length, current.swaps.length - 1);
+    const list = (r: Report) => r.decklist!.map((c) => `${c.qty} ${c.name}`).sort();
+    assert.deepEqual(list(applied), list(current), "the suggested deck stays as it was");
   });
 
   test("the decision model confirms replies and judges when a change is worth re-optimizing", async () => {

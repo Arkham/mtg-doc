@@ -9,6 +9,7 @@ import type {
   DeckEdit,
   EditTarget,
   Report,
+  Swap,
 } from "../shared/types.ts";
 import { BRACKETS, assessBracket, flagsFor } from "./analysis/bracket.ts";
 import {
@@ -30,6 +31,8 @@ import {
 } from "./analysis/edits.ts";
 import {
   fallbackCombos,
+  onSubmittedList,
+  realizedSwaps,
   rebaseSwaps,
   refreshBracketLists,
   reconcileSwaps,
@@ -99,6 +102,7 @@ const ReplySchema = z.object({
     .default(null),
   synergies: z.enum(["again", "more"]).nullable().catch(null).default(null),
   publishSuggestions: z.boolean().nullable().catch(null).default(null),
+  target: z.enum(["original", "optimized"]).nullable().catch(null).default(null),
 });
 
 /** A confirmed re-run needs a fairly clear yes; anything else is treated as a new message. */
@@ -129,8 +133,8 @@ function deckSummary(
     !report?.original
       ? ""
       : target === "original"
-        ? "The user is looking at their deck as submitted, before the doc's suggestions. The list below is that deck, and changes edit it; the suggested deck is then rebuilt from it, keeping the swaps that still apply. It's their real deck, so the target bracket and budget don't limit changes to it; Commander's rules still do."
-        : "The user is looking at the doc's suggested (optimized) deck. The list below is that deck, and changes edit it; their deck as submitted stays as it is.",
+        ? `The user is looking at their deck as submitted, before the doc's suggestions. The list below is that deck, and changes edit it; the suggested deck is then rebuilt from it, keeping the swaps that still apply. ${REAL_DECK} The doc's suggested deck is this list with the swaps below made; if the user asks to change the suggested deck instead, set "target" to "optimized" and write the changes against it.`
+        : `The user is looking at the doc's suggested (optimized) deck. The list below is that deck, and changes edit it; their deck as submitted stays as it is. Their deck as submitted is this list with the swaps below undone (each swap's cut in place of its add). If the user asks to change their own deck as submitted ("my deck", "my original list", "the real deck"), or to apply the doc's swaps or suggested land swaps to it, set "target" to "original" and write the changes against that list: to apply a swap, remove its cut and add its add. ${REAL_DECK}`,
     `Commander(s):\n${deck.commanders.map((c) => `${c.name} (${c.manaCost}) — ${c.typeLine}\n${c.oracleText}`).join("\n\n")}`,
     `Cards: ${totalCards(deck)} (Commander decks need exactly 100) · price $${totalPrice(deck)}`,
     `Roles (count/typical): ${roles}`,
@@ -156,6 +160,9 @@ function deckSummary(
     .join("\n\n");
 }
 
+const REAL_DECK =
+  "Their deck as submitted is their real deck, so the target bracket and budget don't limit changes to it; Commander's rules still do.";
+
 const SYSTEM = `You are the mtg doc, an expert Commander (EDH) deckbuilding assistant chatting with the deck's owner.
 Answer questions about the deck concisely and concretely. When the user asks for changes, propose them as
 "changes": exact official English card names, "add" or "remove", quantities, and a short reason each.
@@ -168,7 +175,8 @@ Rules:
 - If the user wants different optimizer settings (another target bracket, a total or per-card budget, more or fewer swaps, a different tone), propose re-running the optimizer instead of card changes: set "rerun" to only the settings that change and leave "changes" empty. In "reply", say what will change and ask them to confirm; the re-run replaces the current suggestions and chat edits. To re-run with the same settings, set "rerun" to {}. Otherwise set "rerun" to null.
 - If the user asks to hide the doc's suggestions on the published site for this deck (publish only their deck as submitted), set "publishSuggestions" to false; to show them again, true. It applies right away and doesn't change the list; otherwise set it to null.
 - If the user asks for synergies, set "synergies" to "more" to add new ones to those already found, or "again" to replace them with a fresh search. Either runs right away and doesn't change the list; otherwise set it to null.
-Reply with JSON only: {"reply": string, "changes": [{"action": "add"|"remove", "name": string, "qty": number, "reason": string}], "rerun": null | {"bracket"?: 1-5, "budgetTotal"?: number | null, "budgetPerCard"?: number | null, "maxSwaps"?: number, "tone"?: "max"|"balanced"|"casual", "webResearch"?: boolean}, "synergies": null | "again" | "more", "publishSuggestions": null | boolean}`;
+- "changes" edit the list the user is looking at, unless they ask to change the other one (see below); then set "target" to that list. Otherwise set "target" to null.
+Reply with JSON only: {"reply": string, "changes": [{"action": "add"|"remove", "name": string, "qty": number, "reason": string}], "target": null | "original" | "optimized", "rerun": null | {"bracket"?: 1-5, "budgetTotal"?: number | null, "budgetPerCard"?: number | null, "maxSwaps"?: number, "tone"?: "max"|"balanced"|"casual", "webResearch"?: boolean}, "synergies": null | "again" | "more", "publishSuggestions": null | boolean}`;
 
 async function proposeWithLlm(
   deck: Deck,
@@ -355,6 +363,7 @@ export async function chatAboutDeck(
   let proposed: ProposedChange[];
   let rerun: DeckChatMessage["rerun"];
   let reportUpdated = false;
+  let editTarget = target;
   const parsed = parseCommand(message);
   const llm = llmEnabled()
     ? await proposeWithLlm(deck, report, history, target, Boolean(meta.hideSuggestions)).catch(
@@ -365,6 +374,8 @@ export async function chatAboutDeck(
     reply = llm.reply;
     rerun = makeRerun(llm.rerun, meta.options);
     proposed = rerun ? [] : llm.changes;
+    // The user can ask to change the list they aren't looking at.
+    if (llm.target && report?.original) editTarget = llm.target;
     if (llm.publishSuggestions !== null && !rerun && report) {
       // Cheap and reversible, so it applies right away like finding synergies.
       await setHideSuggestions(slug, !llm.publishSuggestions);
@@ -394,16 +405,20 @@ export async function chatAboutDeck(
         ? `The AI provider's content filter blocked that request (Magic card names sometimes trip it). Try rephrasing, or use a simple edit. ${SIMPLE_COMMANDS_HELP}`
         : `I couldn't reach the AI model just now. ${SIMPLE_COMMANDS_HELP}`;
   }
+  const editDeck =
+    editTarget === target
+      ? deck
+      : (await loadDeck(slug, editTarget === "optimized" ? "optimized.txt" : "initial.txt")).deck;
   const changes = proposed.length
     ? await validateChanges(
-        deck,
+        editDeck,
         report,
         proposed,
         {
           total: meta.options.budgetTotal ?? null,
           perCard: meta.options.budgetPerCard ?? null,
         },
-        target,
+        editTarget,
       )
     : [];
   const assistant: DeckChatMessage = {
@@ -411,7 +426,7 @@ export async function chatAboutDeck(
     role: "assistant",
     content: reply,
     at: new Date().toISOString(),
-    ...(changes.length ? { changes, target } : {}),
+    ...(changes.length ? { changes, target: editTarget } : {}),
     ...(rerun ? { rerun } : {}),
     ...(reportUpdated ? { reportUpdated } : {}),
   };
@@ -472,12 +487,15 @@ export async function startChatRerun(
 /**
  * Validates and applies changes to the current list, then brings every section that names cards up
  * to date: stats, simulation, bracket, combos, mana suggestions, swaps, synergies and card previews.
+ * With `fromSuggested`, changes to the submitted list are written against the suggested deck (like
+ * a mana suggestion) and carried over to it.
  */
 export async function applyDeckChanges(
   slug: string,
   proposed: DeckChange[],
   request: string,
   target: EditTarget = "optimized",
+  { fromSuggested = false }: { fromSuggested?: boolean } = {},
 ): Promise<{ report: Report; changes: DeckChange[]; reoptimize: string | null }> {
   const meta = await readMeta(slug);
   const report = await readReport(slug);
@@ -489,15 +507,33 @@ export async function applyDeckChanges(
   };
   const { deck } = await loadDeck(slug, "optimized.txt");
   const { deck: submitted } = await loadDeck(slug, "initial.txt");
+  const carried =
+    editsOriginal && fromSuggested
+      ? onSubmittedList(
+          proposed.filter((c) => c.ok),
+          submitted,
+          report.swaps,
+        )
+      : { changes: proposed.filter((c) => c.ok), spent: [] as Swap[] };
   const changes = await validateChanges(
     editsOriginal ? submitted : deck,
     report,
-    proposed.filter((c) => c.ok),
+    carried.changes,
     budget,
     editsOriginal ? "original" : "optimized",
   );
   const valid = changes.filter((c) => c.ok);
   if (!valid.length) throw new HttpError(409, "None of those changes are valid any more.");
+  // Swaps the edit made in the submitted list are done, not dropped.
+  const settled = editsOriginal
+    ? [
+        ...carried.spent,
+        ...realizedSwaps(
+          report.swaps.filter((s) => !carried.spent.includes(s)),
+          valid,
+        ),
+      ]
+    : [];
 
   const edits: DeckEdit[] = [
     ...(report.edits ?? []),
@@ -516,7 +552,11 @@ export async function applyDeckChanges(
   // Editing the submitted list rebuilds the suggested deck from it, keeping the swaps that still apply.
   const initial = editsOriginal ? applyChanges(submitted, valid) : submitted;
   const rebased = editsOriginal
-    ? rebaseSwaps(initial, report.swaps, new Map(deck.slots.map((s) => [s.card.name, s.card])))
+    ? rebaseSwaps(
+        initial,
+        report.swaps.filter((s) => !settled.includes(s)),
+        new Map(deck.slots.map((s) => [s.card.name, s.card])),
+      )
     : { deck: applyChanges(deck, valid), swaps: report.swaps };
   const next = rebased.deck;
 
@@ -599,7 +639,7 @@ export async function applyDeckChanges(
   const reoptimize = await reoptimizeReason(
     report,
     updated,
-    report.swaps.length - rebased.swaps.length,
+    report.swaps.length - settled.length - rebased.swaps.length,
     valid,
   );
   return { report: updated, changes, reoptimize };
@@ -693,6 +733,7 @@ export async function refreshSynergies(
   return updated;
 }
 
+/** Applies a suggested land swap to the deck as submitted (the suggested deck, for older reports). */
 export async function applyManaSuggestion(slug: string, id: string): Promise<Report> {
   const report = await readReport(slug);
   const suggestion = report?.manaSuggestions?.find((m) => m.id === id);
@@ -701,10 +742,40 @@ export async function applyManaSuggestion(slug: string, id: string): Promise<Rep
     slug,
     suggestion.changes,
     `Mana base: ${suggestion.reason}`,
+    report!.original ? "original" : "optimized",
+    { fromSuggested: true },
   );
-  if (reoptimize) await writeChat(slug, [...(await readChat(slug)), rerunProposal(reoptimize)]);
+  if (reoptimize) await offerRerun(slug, reoptimize);
   return updated;
 }
+
+/** Makes one of the doc's swaps in the deck as submitted; the suggested deck stays as it is. */
+export async function applySwap(slug: string, out: string, add: string): Promise<Report> {
+  const report = await readReport(slug);
+  const swap = report?.swaps.find((s) => s.out === out && s.in === add);
+  if (!swap) throw new HttpError(404, "That swap is no longer suggested.");
+  if (!report!.original)
+    throw new HttpError(409, "Re-run the optimizer to apply swaps to your deck.");
+  const change = (action: DeckChange["action"], name: string, card?: Card): DeckChange => ({
+    action,
+    name,
+    qty: 1,
+    reason: swap.reason,
+    ok: true,
+    ...(card ? { card } : {}),
+  });
+  const { report: updated, reoptimize } = await applyDeckChanges(
+    slug,
+    [change("remove", swap.out, swap.outCard), change("add", swap.in, swap.inCard)],
+    `Swap: ${swap.out} → ${swap.in}`,
+    "original",
+  );
+  if (reoptimize) await offerRerun(slug, reoptimize);
+  return updated;
+}
+
+const offerRerun = async (slug: string, reason: string) =>
+  writeChat(slug, [...(await readChat(slug)), rerunProposal(reason)]);
 
 /** A probability the change warrants a fresh run must clear before the doc offers one. */
 const REOPTIMIZE_THRESHOLD = 0.6;

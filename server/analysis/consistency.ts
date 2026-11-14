@@ -54,7 +54,7 @@ export function checkReport(
     ]);
     if (!sameCounts(saved, current))
       problems.push(
-        `Deck list: differs from the saved list (only in the report: ${describe(minus(current, saved))}; only in the list: ${describe(minus(saved, current))}).`,
+        `Decklist: differs from the saved list (only in the report: ${describe(minus(current, saved))}; only in the list: ${describe(minus(saved, current))}).`,
       );
   }
   const total = list.reduce((n, c) => n + c.qty, 0);
@@ -89,7 +89,7 @@ export function checkReport(
       const isNew = !initial.has(c.name);
       if (c.delta !== delta || c.isNew !== isNew)
         problems.push(
-          `Deck list: ${c.name} is marked ${c.isNew ? "new" : "not new"} with change ${c.delta}, but the submitted deck makes it ${isNew ? "new" : "not new"} with change ${delta}.`,
+          `Decklist: ${c.name} is marked ${c.isNew ? "new" : "not new"} with change ${c.delta}, but the submitted deck makes it ${isNew ? "new" : "not new"} with change ${delta}.`,
         );
     }
     const inInitial = (n: string) => initial.has(n);
@@ -226,9 +226,9 @@ function checkBracketCombosListed(
 function checkGroups(problems: string[], list: DecklistCard[]) {
   const seen = new Set<string>();
   for (const c of list) {
-    if (seen.has(c.name)) problems.push(`Deck list: ${c.name} appears twice.`);
+    if (seen.has(c.name)) problems.push(`Decklist: ${c.name} appears twice.`);
     seen.add(c.name);
     if (c.qty > 1 && !isBasicLand(c.name))
-      problems.push(`Deck list: ${c.qty} copies of ${c.name} in a singleton deck.`);
+      problems.push(`Decklist: ${c.qty} copies of ${c.name} in a singleton deck.`);
   }
 }

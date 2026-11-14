@@ -175,10 +175,10 @@ export function renderMarkdown(r: Report): string {
     lines.push("");
   }
 
-  if (!compare && r.original) lines.push(...decklistSection("Deck list", r.original.decklist));
+  if (!compare && r.original) lines.push(...decklistSection("Decklist", r.original.decklist));
   else {
-    if (r.original) lines.push(...decklistSection("Deck list as submitted", r.original.decklist));
-    if (r.decklist) lines.push(...decklistSection("Suggested deck list", r.decklist, true));
+    if (r.original) lines.push(...decklistSection("Decklist as submitted", r.original.decklist));
+    if (r.decklist) lines.push(...decklistSection("Suggested decklist", r.decklist, true));
   }
 
   if (r.research) {
