@@ -38,6 +38,8 @@ import {
   reconcileSwaps,
 } from "./analysis/reconcile.ts";
 import { worsenedGaps } from "./analysis/reoptimize.ts";
+import { CARD_REFS_RULE, indexResolver } from "./analysis/prose.ts";
+import { refsIn, resolveRefs } from "../shared/card-refs.ts";
 import { makeRerun } from "./analysis/rerun.ts";
 import { makeViolation } from "./analysis/search.ts";
 import { config, llmEnabled } from "./config.ts";
@@ -63,7 +65,7 @@ import {
 
 const HISTORY_FILE = "chat.json";
 const SIMPLE_COMMANDS_HELP =
-  "Simple edits always work: “add Arcane Signet”, “remove Sol Ring” or “swap Sol Ring for Mind Stone”.";
+  "Simple edits always work: “add [[Arcane Signet]]”, “remove [[Sol Ring]]” or “swap [[Sol Ring]] for [[Mind Stone]]”.";
 const HISTORY_FOR_MODEL = 12;
 
 const chatPath = (slug: string) => path.join(config.decksDir, slug, HISTORY_FILE);
@@ -205,6 +207,7 @@ Rules:
 - Respect the commander's color identity, singleton (basics excepted), the target bracket and the budget. Every change is validated; invalid ones are rejected.
 - Only remove cards that are in the current list.
 - Keep "reply" short (2-5 sentences); mention the key trade-offs.
+- In "reply" and each change's "reason": ${CARD_REFS_RULE} A change's "name" is the plain card name.
 - If the user wants different optimizer settings (another target bracket, a total or per-card budget, more or fewer swaps, a different tone), propose re-running the optimizer instead of card changes: set "rerun" to only the settings that change and leave "changes" empty. In "reply", say what will change and ask them to confirm; the re-run replaces the current suggestions and chat edits. To re-run with the same settings, set "rerun" to {}. Otherwise set "rerun" to null.
 - If the user asks to hide the doc's suggestions on the published site for this deck (publish only their deck as submitted), set "publishSuggestions" to false; to show them again, true. It applies right away and doesn't change the list; otherwise set it to null.
 - If the user asks for synergies, set "synergies" to "more" to add new ones to those already found, or "again" to replace them with a fresh search. Either runs right away and doesn't change the list; otherwise set it to null.
@@ -447,17 +450,46 @@ export async function chatAboutDeck(
         editTarget,
       )
     : [];
+  const settle = await (
+    await refSettler(report, editDeck, changes)
+  )([reply, ...changes.map((c) => c.reason)]);
   const assistant: DeckChatMessage = {
     id: randomUUID(),
     role: "assistant",
-    content: reply,
+    content: settle(reply),
     at: new Date().toISOString(),
-    ...(changes.length ? { changes, target: editTarget } : {}),
+    ...(changes.length
+      ? { changes: changes.map((c) => ({ ...c, reason: settle(c.reason) })), target: editTarget }
+      : {}),
     ...(rerun ? { rerun } : {}),
     ...(reportUpdated ? { reportUpdated } : {}),
   };
   await updateChat(slug, (ms) => [...ms, user, assistant]);
   return assistant;
+}
+
+/**
+ * Settles a reply's card references: a card the report, the deck or the changes know, or one
+ * Scryfall confirms is real; anything else goes back to being plain words.
+ */
+async function refSettler(report: Report | null, deck: Deck, changes: DeckChange[]) {
+  const known = indexResolver({
+    ...report?.cardIndex,
+    ...Object.fromEntries(
+      [
+        ...deck.commanders,
+        ...deck.slots.map((s) => s.card),
+        ...changes.flatMap((c) => c.card ?? []),
+      ].map((c) => [c.name, true]),
+    ),
+  });
+  return async (texts: string[]) => {
+    const unknown = [...new Set(texts.flatMap(refsIn))].filter((n) => !known(n));
+    const real = unknown.length
+      ? await lookupExact(unknown).catch(() => new Map<string, Card>())
+      : new Map<string, Card>();
+    return (text: string) => resolveRefs(text, (n) => known(n) ?? real.get(n)?.name ?? null);
+  };
 }
 
 /**

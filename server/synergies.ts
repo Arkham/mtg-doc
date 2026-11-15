@@ -2,6 +2,7 @@ import { z } from "zod";
 import type { Combo, Synergy } from "../shared/types.ts";
 import type { Deck } from "./analysis/deck.ts";
 import { matchInDeck } from "./analysis/edits.ts";
+import { CARD_REFS_RULE } from "./analysis/prose.ts";
 import { chatJson, decide } from "./llm.ts";
 
 const SynergySchema = z.object({
@@ -52,7 +53,7 @@ export async function findSynergies(
     {
       role: "user",
       content: `${ask}
-Exclude infinite combos (already covered: ${comboList}). Prefer interactions involving the commander and the deck's main plan. Use exact card names from the list.
+Exclude infinite combos (already covered: ${comboList}). Prefer interactions involving the commander and the deck's main plan. Use exact card names from the list. In "explanation": ${CARD_REFS_RULE} "cards" lists plain names.
 
 Commander:
 ${commander}

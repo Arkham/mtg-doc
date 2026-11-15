@@ -24,7 +24,7 @@ import { type DeckView, asOriginal, hasBothViews, viewOf } from "../views.ts";
 import { deckHref, go, navigate } from "../nav.ts";
 import { BracketBadge, BracketPanel } from "./BracketPanel.tsx";
 import { ChatPanel } from "./ChatPanel.tsx";
-import { CardGallery, CardIndex, CardList, CardName, CardText, useGallery } from "./CardName.tsx";
+import { CardGallery, CardIndex, CardList, CardName, Prose, useGallery } from "./CardName.tsx";
 import { HowToPlay } from "./HowToPlay.tsx";
 import { tiltHandlers } from "./Foil.tsx";
 import { ManaCost, OracleText } from "./Mana.tsx";
@@ -205,7 +205,9 @@ function SwapGroup({
               <MiniCard card={s.inCard} name={s.in} side="in" />
             </div>
             <div className="reason">
-              <p>{s.reason}</p>
+              <p>
+                <Prose text={s.reason} />
+              </p>
               {s.alternatives && s.alternatives.length > 0 && (
                 <p className="alternatives small">
                   <span className="muted">Also consider: </span>
@@ -406,7 +408,9 @@ function Synergies({
                 <div className="small synergy-names">
                   <CardList names={syn.cards} />
                 </div>
-                <p className="small">{syn.explanation}</p>
+                <p className="small">
+                  <Prose text={syn.explanation} />
+                </p>
               </div>
             </li>
           ))}
@@ -466,7 +470,9 @@ function ManaAdvice({
                   </span>
                   <ApplySwap swap={s} applier={applier} />
                 </div>
-                <div className="muted small">{s.reason}</div>
+                <div className="muted small">
+                  <Prose text={s.reason} />
+                </div>
               </li>
             ))}
           </ul>
@@ -501,7 +507,9 @@ function ManaAdvice({
                     </button>
                   )}
                 </div>
-                <div className="muted small">{m.reason}</div>
+                <div className="muted small">
+                  <Prose text={m.reason} />
+                </div>
               </li>
             ))}
           </ul>
@@ -1676,7 +1684,7 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
               <details className="disclosure plan-why">
                 <summary>Why these swaps</summary>
                 <p>
-                  <CardText text={r.strategy} />
+                  <Prose text={r.strategy} />
                 </p>
               </details>
             )}

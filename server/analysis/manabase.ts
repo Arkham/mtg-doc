@@ -1,5 +1,6 @@
 /** Finds land swaps that fix color shortfalls and replace tapped or colorless lands. */
 import type { Card, Color } from "../../shared/types.ts";
+import { ref } from "../../shared/card-refs.ts";
 import { isBasicLand } from "../sources/scryfall.ts";
 import { type Deck, cloneDeck } from "./deck.ts";
 import { analyzeMana, landColors } from "./mana.ts";
@@ -87,9 +88,9 @@ function explain(
     (c) => c.landSources < c.targetSources && inColors.includes(c.color),
   );
   const why: string[] = [];
-  if (out.entersTapped) why.push(`${out.name} always enters tapped`);
+  if (out.entersTapped) why.push(`${ref(out.name)} always enters tapped`);
   else if (landColors(out, identity).length === 0)
-    why.push(`${out.name} only makes colorless mana`);
+    why.push(`${ref(out.name)} only makes colorless mana`);
   else if (isBasicLand(out.name))
     why.push(
       `you have plenty of ${landColors(out, identity)
@@ -100,7 +101,7 @@ function explain(
   const gain = short.length
     ? `, helping ${short.map((c) => COLOR_WORD[c.color]).join(" and ")}, which ${short.length > 1 ? "are" : "is"} short`
     : "";
-  const text = `${why.length ? `${why[0]}; ` : ""}${inCard.name} makes ${makes}${inCard.entersTapped ? "" : " untapped"}${gain}.`;
+  const text = `${why.length ? `${why[0]}; ` : ""}${ref(inCard.name)} makes ${makes}${inCard.entersTapped ? "" : " untapped"}${gain}.`;
   return text[0].toUpperCase() + text.slice(1);
 }
 

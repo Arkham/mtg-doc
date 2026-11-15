@@ -90,7 +90,19 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     const planRequest = stub.requests.find((r) =>
       r.text.includes("constraint solver has proposed"),
     )!;
-    assert.match(planRequest.text, /## Writing for the owner\n.*never sees the solver/);
+    assert.match(planRequest.text, /## Writing for the owner\n[^]*never sees the solver/);
+    // Every prompt that writes copy marks the cards it names, so none are guessed from words.
+    for (const marker of [
+      "constraint solver has proposed",
+      "most notable synergies",
+      "friendly guide to playing",
+      "Search the web",
+    ])
+      assert.match(
+        stub.requests.find((r) => r.text.includes(marker))!.text,
+        /Write every Magic card you name as \[\[Exact Card Name\]\]/,
+        marker,
+      );
     assert.match(planRequest.text, /no "Keep the proposal"/);
     assert.ok(report.bracket!.after.bracket <= 3);
     assert.deepEqual(

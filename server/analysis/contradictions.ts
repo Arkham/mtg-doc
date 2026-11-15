@@ -1,4 +1,5 @@
 import type { Report } from "../../shared/types.ts";
+import { refsIn } from "../../shared/card-refs.ts";
 import { guideTexts, withGuideText } from "./play-guide.ts";
 
 const GUIDE_DECK = { original: "the deck as submitted", optimized: "the suggested deck" } as const;
@@ -92,6 +93,8 @@ export function plausibleFix(
   const t = fixed.trim();
   if (!t || t === original.trim()) return false;
   if (t.length < original.length * 0.4 || t.length > original.length * 2 + 80) return false;
+  const had = new Set(refsIn(original).map((n) => n.toLowerCase()));
+  if (refsIn(t).some((n) => !had.has(n.toLowerCase()))) return false;
   return !cards.some((c) => t.includes(c) && !original.includes(c));
 }
 

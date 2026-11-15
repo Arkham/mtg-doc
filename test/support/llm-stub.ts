@@ -76,7 +76,7 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
         summary: "Go wide with elves, then drain the table with Lathril.",
         early: [
           "Play a mana elf on turn one.",
-          "Cast Lathril on turn three.",
+          "Cast [[Lathril, Blade of the Elves]] on turn three.",
           "Hold up a removal spell.",
           "A fourth bullet to cut.",
         ],
@@ -238,13 +238,16 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
     Array.isArray(body.tools) &&
     body.tools.some((t: { type: string }) => t.type === "web_search")
   ) {
-    return message("Lathril decks lean on Elvish Archdruid and Priest of Titania for mana.", [
-      {
-        type: "url_citation",
-        url: "https://edhrec.com/commanders/lathril-blade-of-the-elves?utm_source=x",
-        title: "EDHREC",
-      },
-    ]);
+    return message(
+      "Lathril decks lean on [[Elvish Archdruid]] and [[Priest of Titania]] for mana.",
+      [
+        {
+          type: "url_citation",
+          url: "https://edhrec.com/commanders/lathril-blade-of-the-elves?utm_source=x",
+          title: "EDHREC",
+        },
+      ],
+    );
   }
   if (hasImage && text.includes("This is a crop of a photo")) {
     return message(
@@ -278,9 +281,6 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
         notes: ["Read from a test photo."],
       }),
     );
-  }
-  if (text.includes("List every Magic: The Gathering card name")) {
-    return message(JSON.stringify({ cards: ["Elvish Archdruid", "Priest of Titania"] }));
   }
   if (text.includes("constraint solver has proposed swaps")) {
     const swaps = [...text.matchAll(/OUT (.+?) \(\$[^)]*\) → IN (.+?) \(\$/g)].map(

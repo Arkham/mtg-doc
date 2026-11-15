@@ -20,6 +20,7 @@ pnpm build:static     # read-only site into site/ (see README for --only/--out)
 pnpm check:decks      # every saved report agrees with its deck list in every section
 pnpm fix:contradictions   # fix what saved reports' model-written texts say that the facts contradict (needs an LLM; --dry-run, --only)
 pnpm write:guides     # (re)write saved decks' how-to-play guides (needs an LLM; --only); run fix:contradictions after
+pnpm mark:cards       # mark card references ([[Name]]) in saved reports written before copy had them (needs an LLM)
 ```
 
 CI (`.github/workflows/ci.yml`) runs all of the above, including the e2e suite, on every push and PR.
@@ -137,11 +138,24 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
 ### UI
 
 - **Every card shown on a page MUST have a preview** (hover on desktop, tap on touch). Render card
-  names with `CardName` (or `CardList` for several), never as plain text, and with `CardText` for
-  card names inside model-written prose (chat replies) so they preview too. Reports carry a
+  names with `CardName` (or `CardList` for several), never as plain text. Reports carry a
   `cardIndex` with image data for every card they mention (`server/card-index.ts`): when you add a
   new list of cards to a report, make sure `referencedNames` covers it. `CardName` falls back to
   Scryfall's by-name image as a last resort, but the index is the source of truth.
+- **Cards in copy are explicit references, never guessed from words.** Any text that names cards
+  (strategy, swap and land-swap reasons, synergies, how-to-play guides, chat replies and change
+  reasons, web research) writes each as `[[Card Name]]` (`shared/card-refs.ts`); render it with
+  `Prose` (or `Markdown`), which links only those. Never match card names against plain text:
+  short names like Six, Bayou or Brawn are also words. Concretely:
+  - Every prompt that writes copy includes `CARD_REFS_RULE`; code that writes copy wraps names
+    with `ref()`.
+  - A reference survives only if it resolves to the report's card index (`settleRefs`, run by
+    `writeResults`), and `checkReport` rejects one that doesn't. A card outside the report's own
+    lists only gets into the index if it's a Commander-legal card named in full (`isNamedCard`):
+    nicknames like "Rift" must not resolve to some other card.
+  - A new copy field goes in `mapProse` (`server/analysis/prose.ts`), so it's settled, indexed,
+    checked and shown as plain words in `report.md`.
+  - Chat replies are settled when written (`refSettler` in `server/chat.ts`).
 - Mobile first: the static site is mainly read on iPhone and iPad. Touch targets ≥ 44px, inputs ≥ 16px
   (no iOS zoom), respect safe areas, card previews must work on tap (no hover dependency).
 - The static build is read-only: relative asset paths and a real page for every route, so it works

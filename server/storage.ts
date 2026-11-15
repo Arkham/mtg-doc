@@ -13,6 +13,7 @@ import { config } from "./config.ts";
 import { formatDecklist, parseDecklist } from "./decklist.ts";
 import { slugify } from "./sources/edhrec.ts";
 import { renderMarkdown } from "./report.ts";
+import { settleRefs } from "./analysis/prose.ts";
 
 export class HttpError extends Error {
   constructor(
@@ -109,15 +110,17 @@ export async function readInitial(slug: string): Promise<string> {
 }
 
 /**
- * Saves a report with its markdown and optimized list. The markdown is always rendered here from
+ * Saves a report with its markdown and optimized list, and returns it as saved: every card its
+ * copy references is settled against its card index first (see settleRefs). The markdown is always rendered here from
  * the report being saved, so report.md can never fall behind report.json, and a report whose
  * sections disagree with its deck list is never saved.
  */
 export async function writeResults(
   slug: string,
-  report: Report,
+  draft: Report,
   optimized: { commanders: string[]; entries: DeckEntry[] },
-) {
+): Promise<Report> {
+  const report = settleRefs(draft);
   const problems = checkReport(report, optimized);
   if (problems.length)
     throw new Error(
@@ -130,6 +133,7 @@ export async function writeResults(
     path.join(dir, "optimized.txt"),
     formatDecklist(optimized.commanders, optimized.entries),
   );
+  return report;
 }
 
 export async function readReport(slug: string): Promise<Report | null> {

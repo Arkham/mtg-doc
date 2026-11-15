@@ -25,7 +25,7 @@ const overpowered = await optimizeFixtureDeck("lathril-overpowered.txt", {
 // Optimized without an LLM, so give it the how-to-play guides one would write.
 const guide = (summary: string): PlayGuide => ({
   summary,
-  early: ["Play Llanowar Elves on turn one.", "Cast Lathril on turn three."],
+  early: ["Play [[Llanowar Elves]] on turn one.", "Cast Lathril on turn three."],
   mid: ["Attack with Lathril to make Elf Warriors."],
   late: ["Tap ten elves to drain the table."],
   winConditions: ["Lathril's drain, once you have ten elves."],

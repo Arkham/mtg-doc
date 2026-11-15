@@ -16,6 +16,8 @@ import type { ScoredCard } from "./candidates.ts";
 import { type Deck, cloneDeck, countRoles, totalPrice } from "./deck.ts";
 import { BASIC_FOR, analyzeMana, landColors } from "./mana.ts";
 import type { ProposedSwap, SolverCard, SolverResult } from "./search.ts";
+import { CARD_REFS_RULE } from "./prose.ts";
+import { ref } from "../../shared/card-refs.ts";
 
 const CATEGORIES = [
   "bracket",
@@ -181,6 +183,7 @@ ${input.research?.summary.slice(0, 4000) ?? "n/a"}
 ${candLines.join("\n")}
 
 ## Writing for the owner
+${CARD_REFS_RULE}
 The strategy and every reason are shown to the deck's owner, each reason next to its swap. The owner never sees the solver, its proposals or this review, so write as if you picked every swap yourself: say what the new card does for this deck and why it beats the card it replaces. Never describe your review or refer to proposals: no "Keep the proposal", "Change the proposed cut from X to Y", "Replace the proposed land swap", "instead of the proposed…" or "as suggested". When you replace a proposal's card, explain the card you chose, not the change you made.
 
 Reply with JSON only:
@@ -206,8 +209,8 @@ export function planHeuristic(input: PlanInput): Plan {
               ? "interaction"
               : "synergy",
       reason: p.forced
-        ? `${p.out.name} is ${p.forced}; ${p.in.name} is the best legal replacement.`
-        : `${p.in.name} scores ${p.gain.toFixed(2)} higher for this commander at bracket ${input.target}.`,
+        ? `${ref(p.out.name)} is ${p.forced}; ${ref(p.in.name)} is the best legal replacement.`
+        : `${ref(p.in.name)} scores ${p.gain.toFixed(2)} higher for this commander at bracket ${input.target}.`,
     })),
   };
 }
@@ -414,7 +417,7 @@ export async function fixLandCount(
         out: cut.card.name,
         in: land.name,
         category: "mana",
-        reason: `Brings the land count from ${mana.landCount} toward the recommended ${mana.recommendedLands} (avg mana value ${mana.avgCmc}); ${cut.card.name} was the lowest-scoring spell.`,
+        reason: `Brings the land count from ${mana.landCount} toward the recommended ${mana.recommendedLands} (avg mana value ${mana.avgCmc}); ${ref(cut.card.name)} was the lowest-scoring spell.`,
         outCard: cut.card,
         inCard: land,
       });
@@ -444,7 +447,7 @@ export async function fixLandCount(
         out: cut.card.name,
         in: spell.name,
         category: "mana",
-        reason: `${mana.landCount} lands is more than the ~${mana.recommendedLands} this curve needs; ${spell.name} is the best-rated addition.`,
+        reason: `${mana.landCount} lands is more than the ~${mana.recommendedLands} this curve needs; ${ref(spell.name)} is the best-rated addition.`,
         outCard: cut.card,
         inCard: spell,
       });

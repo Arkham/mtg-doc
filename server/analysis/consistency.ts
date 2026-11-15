@@ -4,6 +4,7 @@
  * publishing a report that contradicts itself.
  */
 import type { DecklistCard, Report } from "../../shared/types.ts";
+import { indexResolver, proseRefs } from "./prose.ts";
 import { isBasicLand } from "../sources/scryfall.ts";
 
 type Counts = Map<string, number>;
@@ -42,6 +43,14 @@ export function checkReport(
   optimized?: { commanders: string[]; entries: { name: string; qty: number }[] },
 ): string[] {
   const problems: string[] = [];
+  if (r.cardIndex) {
+    const known = indexResolver(r.cardIndex);
+    const unknown = [...new Set(proseRefs(r).filter((n) => known(n) !== n))];
+    if (unknown.length)
+      problems.push(
+        `Copy: references ${unknown.join(", ")}, which ${unknown.length === 1 ? "isn't a card" : "aren't cards"} in the card index.`,
+      );
+  }
   const list = r.decklist;
   if (!list) return problems;
   const current = countsOf(list);

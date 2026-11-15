@@ -55,7 +55,7 @@ Ignore opinions, advice and anything the facts can neither confirm nor refute. R
 
 Also report, separately, every text that talks about how it was written instead of about the deck, such as "Keep the proposal.", "Change the proposed cut from X to Y" or "Replace the proposed land swap with…". The reader never saw any proposals or drafts, so for each such text the fix removes or rewords that part. Check every text for this, even if many share it.
 
-For each, give the text's id, the quote, the problem in one sentence, and "fixed": the whole text rewritten with the smallest change that removes the contradiction, keeping everything else word for word and reading naturally. Remove or correct the false claim; never bring in a card the text didn't already name. For a synergy that can't be true at all, set "fixed" to null.
+For each, give the text's id, the quote, the problem in one sentence, and "fixed": the whole text rewritten with the smallest change that removes the contradiction, keeping everything else word for word and reading naturally. Remove or correct the false claim; never bring in a card the text didn't already name. The texts mark cards as [[Card Name]]: keep those markers exactly as they are. For a synergy that can't be true at all, set "fixed" to null.
 
 FACTS
 ${facts}

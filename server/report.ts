@@ -7,6 +7,8 @@ import type {
   Report,
 } from "../shared/types.ts";
 import { BRACKETS } from "./analysis/bracket.ts";
+import { mapProse } from "./analysis/prose.ts";
+import { plainText } from "../shared/card-refs.ts";
 
 const GROUPS = [
   "Commander",
@@ -137,7 +139,9 @@ function bracketLines(a: BracketAssessment, target: number | null, minTurns: num
  * (Part 1) apart from everything the doc suggests (Part 2), so nothing suggested is mistaken for
  * a card the deck already plays.
  */
-export function renderMarkdown(r: Report): string {
+export function renderMarkdown(withRefs: Report): string {
+  // Readers of the markdown see the words, not the reference markers.
+  const r = mapProse(withRefs, plainText);
   const lines: string[] = [];
   const b = r.before;
   const a = r.after;

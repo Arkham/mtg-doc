@@ -4,6 +4,7 @@ import { BRACKETS } from "./analysis/bracket.ts";
 import type { Deck } from "./analysis/deck.ts";
 import { matchInDeck } from "./analysis/edits.ts";
 import { fitGuide } from "./analysis/play-guide.ts";
+import { CARD_REFS_RULE } from "./analysis/prose.ts";
 import { chatJson } from "./llm.ts";
 
 const GuideSchema = z.object({
@@ -40,7 +41,7 @@ export async function writePlayGuide(
   const res = await chatJson(GuideSchema, [
     {
       role: "user",
-      content: `Write a short, friendly guide to playing this Commander deck, for a player picking it up for the first time. Keep every bullet to one plain sentence of at most 15 words, name real cards from the list, and skip anything generic that would be true of any deck.
+      content: `Write a short, friendly guide to playing this Commander deck, for a player picking it up for the first time. Keep every bullet to one plain sentence of at most 15 words, name real cards from the list, and skip anything generic that would be true of any deck. ${CARD_REFS_RULE} In "keyCards", "name" is the plain card name.
 
 Commander:
 ${commander}

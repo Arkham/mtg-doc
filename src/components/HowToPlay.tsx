@@ -2,7 +2,7 @@ import { type ReactNode, useEffect, useId, useRef } from "react";
 import { createPortal } from "react-dom";
 import type { PlayGuide, Report } from "../../shared/types.ts";
 import { BracketBadge } from "./BracketPanel.tsx";
-import { CardList, CardName, CardText } from "./CardName.tsx";
+import { CardList, CardName, Prose } from "./CardName.tsx";
 import { ManaCost } from "./Mana.tsx";
 
 const NAMES: Record<number, string> = {
@@ -61,7 +61,7 @@ const Bullets = ({ items }: { items: string[] }) => (
   <ul className="play-bullets">
     {items.map((x) => (
       <li key={x}>
-        <CardText text={x} />
+        <Prose text={x} />
       </li>
     ))}
   </ul>
@@ -78,7 +78,7 @@ function Guide({ g }: { g: PlayGuide }) {
   return (
     <>
       <p className="play-summary">
-        <CardText text={g.summary} />
+        <Prose text={g.summary} />
       </p>
       {phases.length > 0 && (
         <ol className="play-phases">
@@ -106,7 +106,7 @@ function Guide({ g }: { g: PlayGuide }) {
               <li key={k.name}>
                 <CardName name={k.name} />
                 <span>
-                  <CardText text={k.why} />
+                  <Prose text={k.why} />
                 </span>
               </li>
             ))}
@@ -115,7 +115,7 @@ function Guide({ g }: { g: PlayGuide }) {
       )}
       {g.mulligan && (
         <p className="play-mulligan">
-          <strong>Keep or mulligan?</strong> <CardText text={g.mulligan} />
+          <strong>Keep or mulligan?</strong> <Prose text={g.mulligan} />
         </p>
       )}
       {g.watchOut.length > 0 && (

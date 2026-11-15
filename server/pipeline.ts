@@ -47,6 +47,7 @@ import { buildCardIndex } from "./card-index.ts";
 import { landCandidates, toSuggestion } from "./mana-advice.ts";
 import { checkContradictions } from "./contradictions.ts";
 import { writeGuides } from "./play-guide.ts";
+import { ref } from "../shared/card-refs.ts";
 import { enqueueEdit } from "./edit-queue.ts";
 import { findSynergies } from "./synergies.ts";
 import { BRACKET_PAGE, getCommanderData } from "./sources/edhrec.ts";
@@ -440,7 +441,7 @@ async function run(job: Job, opts: RunOptions) {
           out: t.out.name,
           in: t.in.name,
           category: "other" as const,
-          reason: `${t.out.name} is ${t.forced}; ${t.in.name} is the best cheaper replacement.`,
+          reason: `${ref(t.out.name)} is ${t.forced}; ${ref(t.in.name)} is the best cheaper replacement.`,
           outCard: t.out,
           inCard: t.in,
         })),

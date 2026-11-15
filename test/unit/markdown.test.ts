@@ -56,23 +56,18 @@ describe("Markdown", () => {
 });
 
 describe("Markdown card previews", () => {
-  test("bold card names from the report become previews, other bold text stays bold", () => {
+  test("card references become previews, bold text stays bold even when it's a card's name", () => {
     const html = renderWithIndex(
-      "**Windfall** refills. **windfall:** too. **Hermit Druid + Thassa’s Oracle** wins. **Kefka, Court Mage** combos. **Fixing:** matters. **Not A Card** either.",
+      "[[Windfall]] refills. **Windfall** is just bold. **[[Hermit Druid]] + [[Thassa’s Oracle]]** wins. [[Kefka, Court Mage]] combos. **Fixing:** matters.",
     );
     assert.match(
       html,
-      /<strong><span><span class="card-name[^"]*"><a href="https:\/\/scryfall.test\/windfall"[^>]*>Windfall<\/a>/,
+      /^<div class="markdown"><p><span class="card-name[^"]*"><a href="https:\/\/scryfall.test\/windfall"[^>]*>Windfall<\/a><\/span> refills\. <strong>Windfall<\/strong> is just bold\./,
     );
     assert.match(
       html,
-      /<a href="https:\/\/scryfall.test\/windfall"[^>]*>windfall<\/a><\/span><\/span>:<\/strong>/,
-      "case and trailing colon",
-    );
-    assert.match(
-      html,
-      /scryfall.test\/hermit[^]*> \+ <[^]*scryfall.test\/oracle/,
-      "a combo links both cards",
+      /<strong><span class="card-name[^"]*"><a href="https:\/\/scryfall.test\/hermit"[^]*> \+ <[^]*scryfall.test\/oracle[^]*<\/strong> wins/,
+      "a combo in bold links both cards",
     );
     assert.match(
       html,
@@ -80,14 +75,13 @@ describe("Markdown card previews", () => {
       "front face of a double-faced card",
     );
     assert.match(html, /<strong>Fixing:<\/strong>/);
-    assert.match(html, /<strong>Not A Card<\/strong>/);
   });
 
-  test("table cells link cards too", () => {
-    const html = renderWithIndex("| Role | Cards |\n|---|---|\n| Wheels | **Windfall** |");
+  test("table cells link card references too", () => {
+    const html = renderWithIndex("| Role | Cards |\n|---|---|\n| Wheels | [[Windfall]] |");
     assert.match(
       html,
-      /<td><strong><span><span class="card-name[^"]*"><a href="https:\/\/scryfall.test\/windfall"/,
+      /<td><span class="card-name[^"]*"><a href="https:\/\/scryfall.test\/windfall"/,
     );
   });
 });

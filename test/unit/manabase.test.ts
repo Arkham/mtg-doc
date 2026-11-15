@@ -92,7 +92,7 @@ describe("planManaFixes", () => {
     assert.equal(fixes.length, 1, "only one candidate land not already in the deck");
     assert.equal(fixes[0].in.name, "Overgrown Tomb");
     assert.notEqual(fixes[0].out.name, "Reliquary Tower", "utility lands are kept");
-    assert.match(fixes[0].reason, /Overgrown Tomb makes black and green untapped/);
+    assert.match(fixes[0].reason, /\[\[Overgrown Tomb\]\] makes black and green untapped/);
     assert.ok(manaDeficit(fixed, ["B", "G"], null) < before);
   });
 
