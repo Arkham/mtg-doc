@@ -180,8 +180,11 @@ ${input.research?.summary.slice(0, 4000) ?? "n/a"}
 ## Candidate additions (validated for legality, identity and budget; best first)
 ${candLines.join("\n")}
 
+## Writing for the owner
+The strategy and every reason are shown to the deck's owner, each reason next to its swap. The owner never sees the solver, its proposals or this review, so write as if you picked every swap yourself: say what the new card does for this deck and why it beats the card it replaces. Never describe your review or refer to proposals: no "Keep the proposal", "Change the proposed cut from X to Y", "Replace the proposed land swap", "instead of the proposed…" or "as suggested". When you replace a proposal's card, explain the card you chose, not the change you made.
+
 Reply with JSON only:
-{"strategy": "2-4 sentences: the game plan, what these changes improve, and where the deck sits in bracket ${target}", "themes": string[], "swaps": [{"out": string, "in": string, "category": "bracket|synergy|combo|mana|ramp|draw|interaction|curve|other", "reason": "one or two sentences, specific to this commander"}]}`;
+{"strategy": "2-4 sentences: the game plan, what these changes improve, and where the deck sits in bracket ${target}", "themes": string[], "swaps": [{"out": string, "in": string, "category": "bracket|synergy|combo|mana|ramp|draw|interaction|curve|other", "reason": "one or two sentences, specific to this commander: why the new card beats the one it replaces (see Writing for the owner)"}]}`;
   return chatJson(PlanSchema, [{ role: "user", content: prompt }]);
 }
 

@@ -45,6 +45,7 @@ import { config, llmEnabled } from "./config.ts";
 import { parseDecklist } from "./decklist.ts";
 import { buildCardIndex } from "./card-index.ts";
 import { landCandidates, toSuggestion } from "./mana-advice.ts";
+import { checkContradictions } from "./contradictions.ts";
 import { findSynergies } from "./synergies.ts";
 import { BRACKET_PAGE, getCommanderData } from "./sources/edhrec.ts";
 import { researchCommander } from "./sources/research.ts";
@@ -71,6 +72,7 @@ const STEPS = [
   "Review swaps",
   "Fix mana base & verify bracket",
   "Find synergies",
+  "Check for contradictions",
   "Write report",
 ] as const;
 
@@ -507,7 +509,7 @@ async function run(job: Job, opts: RunOptions) {
     return found;
   });
 
-  await step(job, 9, async () => {
+  const report = await step(job, 9, async (s) => {
     const bracket: BracketReport | undefined = isCommander
       ? {
           target,
@@ -563,6 +565,23 @@ async function run(job: Job, opts: RunOptions) {
       synergies,
       ...(pinned?.edits.length ? { edits: pinned.edits } : {}),
     };
+    if (!llmEnabled()) {
+      s.status = "skipped";
+      return report;
+    }
+    const checked = await checkContradictions(report).catch((e) => {
+      warnings.push(`Contradiction check failed: ${e}`);
+      return null;
+    });
+    s.detail = checked
+      ? checked.fixes.length
+        ? `${checked.fixes.length} fixed`
+        : "none found"
+      : "failed";
+    return checked?.report ?? report;
+  });
+
+  await step(job, 10, async () => {
     report.cardIndex = await buildCardIndex(report, [
       ...submitted.slots.map((x) => x.card),
       ...deck.slots.map((x) => x.card),

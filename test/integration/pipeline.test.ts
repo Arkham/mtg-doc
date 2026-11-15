@@ -110,12 +110,17 @@ describe("full optimizer pipeline (recorded APIs, no LLM)", () => {
   });
 
   test("bracket 2, casual: no Game Changers or combos, sound mana base", async () => {
-    const { slug, report } = await optimizeFixtureDeck("lathril.txt", {
+    const { slug, report, job } = await optimizeFixtureDeck("lathril.txt", {
       bracket: 2,
       tone: "casual",
       maxSwaps: 8,
     });
     assertLegalDeck(report, await readDeckFile(slug, "optimized.txt"));
+    assert.equal(
+      job.steps.find((s) => s.label === "Check for contradictions")!.status,
+      "skipped",
+      "needs an LLM",
+    );
     const b = report.bracket!;
     assert.equal(b.after.bracket, 2);
     assert.equal(b.after.gameChangers.length, 0);

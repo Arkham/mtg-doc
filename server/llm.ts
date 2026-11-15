@@ -181,6 +181,10 @@ export async function decide(
       answers = await decideWithDecisionsApi(context, images, batch).catch(() => null);
     }
     answers ??= await decideWithModel(context, images, batch);
+    // The Decisions API can leave a question out; the regular model answers those.
+    const missing = batch.filter((p) => !answers.has(p.name));
+    if (missing.length && config.llm.decisions)
+      for (const [name, p] of await decideWithModel(context, images, missing)) answers.set(name, p);
     for (const [name, p] of answers) out.set(name, p);
   }
   return out;

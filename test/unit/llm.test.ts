@@ -222,6 +222,23 @@ describe("decide without the Decisions API", () => {
     );
   });
 
+  test("the model answers what the Decisions API left out", async () => {
+    stub((body, _call, url) =>
+      url.endsWith("/decisions")
+        ? { json: { answers: [{ type: "predicate", name: "red", probability: 0.2 }] } }
+        : modelAnswers(url),
+    );
+    const answers = await llm.decide("1 Sol Ring", [], predicates);
+    assert.deepEqual(
+      calls.map((c) => c.url.split("/").at(-1)),
+      ["decisions", "responses"],
+    );
+    const asked = JSON.stringify(calls[1].body.input);
+    assert.match(asked, /in-deck: /);
+    assert.doesNotMatch(asked, /red: /, "only the missing question");
+    assert.deepEqual([answers.get("in-deck"), answers.get("red")], [0.97, 0.2]);
+  });
+
   test("goes straight to the model when decisions are turned off, with images on the vision model", async () => {
     const { config } = await import("../../server/config.ts");
     config.llm.decisions = false;

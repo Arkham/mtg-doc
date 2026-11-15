@@ -35,12 +35,36 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
       assert.ok(report.cardIndex![name]?.image, `${name} from the research has a preview`);
 
     assert.equal(report.model, "gpt-6.1-sol");
+    // Contradictions between the model's texts and the facts are fixed, once a second check
+    // agrees; the invented one (on the strategy) and one about a text that doesn't exist aren't.
+    const contradictions = job.steps.find((s) => s.label === "Check for contradictions")!;
+    assert.deepEqual([contradictions.status, contradictions.detail], ["done", "1 fixed"]);
+    assert.equal(
+      report.synergies!.find((x) => x.title === "Lands matter")!.explanation,
+      "Stub synergy two, corrected.",
+    );
     assert.equal(report.strategy, "Stub strategy: go wide with elves.");
+    const reads = stub.requests.filter((r) => r.text.includes("for contradictions"));
+    for (const id of ["strategy", ...report.swaps.map((_, i) => `swap-${i}`)])
+      assert.equal(
+        reads.filter((r) => r.text.includes(`[${id}] `)).length,
+        2,
+        `${id} gets two independent reads`,
+      );
+    const [factCheck] = reads;
+    assert.match(factCheck.text, /Deck as submitted \(what the owner plays today\): /);
+    assert.match(factCheck.text, /\[swap-0\] \(reason for the swap cut /);
     assert.ok(
       report.warnings.some((w) => w.includes("Card Not In Deck")),
       "invalid LLM swap was rejected",
     );
-    assert.ok(report.swaps.some((s) => s.reason.startsWith("Stub review keeps")));
+    assert.ok(report.swaps.some((s) => s.reason.startsWith("Stub reason: ")));
+    // Reasons are written for the owner, who never sees the solver's proposals.
+    const planRequest = stub.requests.find((r) =>
+      r.text.includes("constraint solver has proposed"),
+    )!;
+    assert.match(planRequest.text, /## Writing for the owner\n.*never sees the solver/);
+    assert.match(planRequest.text, /no "Keep the proposal"/);
     assert.ok(report.bracket!.after.bracket <= 3);
     assert.deepEqual(
       report.synergies!.map((x) => x.cards),

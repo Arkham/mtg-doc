@@ -25,6 +25,9 @@ const DECISIONS: Record<string, number> = {
 
 /** Synergies the stub proposes but a second check rejects. */
 const FAKE_INTERACTION = "Stub: not a real interaction.";
+/** Contradictions the stub reports: one a second check confirms, one it rejects. */
+const REAL_CONTRADICTION = "Stub: says Forest is cut, but the deck keeps it.";
+const FAKE_CONTRADICTION = "Stub: an invented contradiction.";
 
 function decisions(body: Record<string, unknown>) {
   const questions = body.questions as { name: string; instructions: string }[];
@@ -43,6 +46,10 @@ function decisions(body: Record<string, unknown>) {
           name: q.name,
           probability: /remove 3 Forest/.test(context) ? 0.9 : 0.2,
         };
+      if (q.instructions.includes(REAL_CONTRADICTION) || q.instructions.includes("corrected."))
+        return { type: "predicate", name: q.name, probability: 0.9 };
+      if (q.instructions.includes(FAKE_CONTRADICTION) || q.instructions.includes("Stub rewrite"))
+        return { type: "predicate", name: q.name, probability: 0.08 };
       if (q.instructions.includes(FAKE_INTERACTION))
         return { type: "predicate", name: q.name, probability: 0.08 };
       const card = Object.keys(DECISIONS).find((c) => q.instructions.includes(`"${c}"`));
@@ -63,6 +70,32 @@ const CONTENT_FILTER = {
 };
 
 function answer(body: Record<string, unknown>, text: string, hasImage: boolean): unknown {
+  if (text.includes("You check a Commander deck report for contradictions")) {
+    const synergy = /\[(synergy-\d+)\] \(synergy "Lands matter"/.exec(text)?.[1];
+    return message(
+      JSON.stringify({
+        issues: [
+          ...(synergy
+            ? [
+                {
+                  id: synergy,
+                  quote: "Stub synergy two.",
+                  problem: REAL_CONTRADICTION,
+                  fixed: "Stub synergy two, corrected.",
+                },
+              ]
+            : []),
+          {
+            id: "strategy",
+            quote: "go wide",
+            problem: FAKE_CONTRADICTION,
+            fixed: "Stub rewrite of the strategy: go wide with elves.",
+          },
+          { id: "swap-999", quote: "x", problem: "No such text.", fixed: "Ignored." },
+        ],
+      }),
+    );
+  }
   if (text.includes("were just added to this Commander deck")) {
     return message(
       JSON.stringify({
@@ -232,7 +265,7 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
         out,
         in: inName,
         category: "synergy",
-        reason: `Stub review keeps ${inName}.`,
+        reason: `Stub reason: ${inName} fits the elves plan.`,
       }),
     );
     swaps.unshift({

@@ -18,6 +18,7 @@ pnpm lint             # oxlint
 pnpm typecheck        # tsc --noEmit (TypeScript 7)
 pnpm build:static     # read-only site into site/ (see README for --only/--out)
 pnpm check:decks      # every saved report agrees with its deck list in every section
+pnpm fix:contradictions   # fix what saved reports' model-written texts say that the facts contradict (needs an LLM; --dry-run, --only)
 ```
 
 CI (`.github/workflows/ci.yml`) runs all of the above, including the e2e suite, on every push and PR.
@@ -49,6 +50,11 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   official Commander Brackets. Game Changers come from Scryfall's live data; never hard-code the list.
 - The final deck is always re-verified (Commander Spellbook + simulator). Don't trust the LLM's claims:
   it proposes and explains; deterministic code decides and enforces.
+- Before a report is written, the pipeline checks its model-written texts (strategy, swap reasons,
+  synergies) against the facts deterministic code established (`server/contradictions.ts`): two
+  reads per few texts find contradictions and drafting leftovers ("keep the proposal"), `decide`
+  confirms each and its fix, and a fix may never bring in a card the text didn't name. Run
+  `pnpm fix:contradictions` after changing how texts are written.
 - Prices use Scryfall, falling back to the cheapest printing with a USD price. A card must never look
   free because its default printing lacks a price.
 - Respect Scryfall's rate limits (2/s for search, named and collection; 10/s otherwise; a 429 means
