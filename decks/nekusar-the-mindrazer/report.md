@@ -119,6 +119,49 @@
 - 1 Vivid Creek
 - 1 Vivid Marsh
 
+### How to play
+
+Nekusar, the Mindrazer turns opponents’ extra cards into damage, making generous draws surprisingly unfriendly. Stack draw punishers, then use Windfall and Prosperity to burn down the table.
+
+**Early game**
+
+- Use Sol Ring, Dimir Signet, or Wayfarer's Bauble to prepare for Nekusar, the Mindrazer.
+- Nightscape Familiar discounts Nekusar, the Mindrazer and your blue or red draw spells.
+- Establish Propaganda before your extra draws give opponents more creatures to attack with.
+
+**Mid game**
+
+- Cast Nekusar, the Mindrazer before activating Temple Bell or casting Windfall.
+- Add Fate Unraveler or Underworld Dreams to make every opposing draw hurt more.
+- Enchant Nekusar, the Mindrazer with Sigil of Sleep to bounce creatures whenever opponents draw.
+
+**Late game**
+
+- From turn six onward, chain Windfall into Molten Psyche for a burst finish.
+- Cast Prosperity with Psychosis Crawler and Nekusar, the Mindrazer to punish both sides drawing.
+
+**How it wins**
+
+- Nekusar, the Mindrazer and Spiteful Visions deal six damage during each opponent’s normal draw step.
+- Enchant Niv-Mizzet, the Firemind with Helm of the Ghastlord, then draw to loop damage.
+- Insurrection can finish opponents whose creatures survived your draw damage.
+
+**Key cards**
+
+- Windfall: It converts the largest hand into fresh cards and damage.
+- Jace's Archivist: It repeatedly turns everyone’s hands into damaging draws.
+- Lightning Greaves: It protects Nekusar or lets Jace's Archivist activate immediately.
+- Frozen Aether: It makes creatures bounced by Sigil of Sleep return tapped.
+- Psychosis Crawler: It makes your own draws drain every opponent.
+
+**Mulligan:** Keep three lands covering your colors, Dimir Signet or Wayfarer's Bauble, and an affordable setup card like Propaganda.
+
+**Watch out for**
+
+- Move Lightning Greaves away before targeting its wearer with Sigil of Sleep.
+- Spiteful Visions and Manabarbs hurt you too, so track your life carefully.
+- Avoid feeding opponents with Kami of the Crescent Moon before establishing draw punishment.
+
 ### Stats
 
 | | Value |
@@ -215,6 +258,51 @@ These are optional changes to the deck in Part 1, aiming for bracket 3 (Upgraded
 ### Strategy
 
 Build a resilient draw-punishment board, then turn symmetrical draw effects and wheels into damage rather than racing toward an infinite combo. These changes lower the curve, bring ramp to roughly ten pieces, and improve protection and interaction while preserving the deck’s group-slug personality. The final configuration uses exactly three Game Changers under the supplied classification—Rhystic Study, Orcish Bowmasters, and Cyclonic Rift—and removes the existing two-card infinite combo, aiming for interactive games that reach turn six or later.
+
+### How to play the suggested deck
+
+Nekusar, the Mindrazer turns opponents’ extra cards into damage, while wheels refill hands and multiply the pain. Win through repeated forced draws or Niv-Mizzet, the Firemind enchanted with Helm of the Ghastlord.
+
+**Early game**
+
+- Use Arcane Signet and Dimir Signet to assemble Nekusar, the Mindrazer’s three colors.
+- Play tapped lands like Crumbling Necropolis before you need mana for Nekusar, the Mindrazer.
+- Deploy Underworld Dreams or Razorkin Needlehead before giving opponents extra cards.
+
+**Mid game**
+
+- Cast Nekusar, the Mindrazer, then use Swiftfoot Boots to protect your damage engine.
+- Follow Nekusar, the Mindrazer with Reforge the Soul, ideally alongside Orcish Bowmasters.
+- Equip Jace's Archivist with Lightning Greaves for immediate, repeatable hand resets.
+
+**Late game**
+
+- Follow Windfall with Molten Psyche, checking that three artifacts enable its extra damage.
+- Save Niv-Mizzet, the Firemind plus Helm of the Ghastlord for turn six onward.
+- Cast Prosperity with Psychosis Crawler to punish opponents for your draws too.
+
+**How it wins**
+
+- Combine Nekusar, the Mindrazer, Underworld Dreams, and repeated wheels to burn down opponents.
+- Pair Teferi's Puzzle Box with Fate Unraveler to repeatedly punish large hands.
+- Enchant Niv-Mizzet, the Firemind with Helm of the Ghastlord to chain lethal draw-triggered damage.
+
+**Key cards**
+
+- Nekusar, the Mindrazer: Supplies extra draws and damages opponents for every card drawn.
+- Windfall: Refills everyone’s hands, triggering your draw punishers repeatedly.
+- Orcish Bowmasters: Turns opponents’ extra draws into targeted damage and Army growth.
+- Sigil of Sleep: Lets Nekusar bounce opposing creatures whenever his draw damage connects.
+- Psychosis Crawler: Makes your own draws drain every opponent.
+- Propaganda: Taxes attackers while your draw engines attract attention.
+
+**Mulligan:** Keep three lands covering your colors, Arcane Signet or Nightscape Familiar, and a draw punisher.
+
+**Watch out for**
+
+- Spiteful Visions and Manabarbs hurt you too, so watch your life before casting Prosperity.
+- Move Lightning Greaves away before targeting Nekusar, the Mindrazer with Helm of the Ghastlord.
+- Niv-Mizzet, the Firemind and Helm of the Ghastlord can exhaust your library before killing everyone.
 
 ### Suggested swaps (15)
 

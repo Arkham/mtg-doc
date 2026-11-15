@@ -7309,5 +7309,101 @@
         }
       ]
     }
-  ]
+  ],
+  "howToPlay": {
+    "original": {
+      "summary": "Derevi turns evasive attacks into extra mana while Winter Orb and similar effects slow opponents. Win through enlarged creature armies or a recursion loop that powers lethal Stroke of Genius casts.",
+      "early": [
+        "Keep green access for Cultivate or Kodama's Reach before deploying your land locks.",
+        "Deploy Derevi, Empyrial Tactician and Trygon Predator to start earning combat untaps.",
+        "Use Derevi’s triggers to untap Sol Ring or lands for additional development."
+      ],
+      "mid": [
+        "Tap Winter Orb with Opposition during the preceding end step for unrestricted land untaps.",
+        "Pair Lu Xun, Scholar General with Bident of Thassa for extra combat draws.",
+        "Tap Stonybrook Schoolmaster through Azami, Lady of Scrolls to draw and create another Wizard."
+      ],
+      "late": [
+        "Untap Squirrel Nest’s enchanted land with Derevi to grow your army.",
+        "Stack Mirror Entity’s zero activations to loop Reveillark, Karmic Guide, and Derevi."
+      ],
+      "winConditions": [
+        "Use Mirror Entity and True Conviction to turn Squirrel Nest tokens into lethal attackers.",
+        "Loop Derevi with Reveillark and Karmic Guide, funding lethal Stroke of Genius casts."
+      ],
+      "keyCards": [
+        {
+          "name": "Derevi, Empyrial Tactician",
+          "why": "Converts combat damage into untaps and bypasses commander tax."
+        },
+        {
+          "name": "Opposition",
+          "why": "Taps opposing resources and switches off Winter Orb."
+        },
+        {
+          "name": "Murkfiend Liege",
+          "why": "Refreshes blue and green creatures despite Stoic Angel."
+        },
+        {
+          "name": "Aura Shards",
+          "why": "Turns creature arrivals into repeated artifact and enchantment removal."
+        }
+      ],
+      "mulligan": "Keep two or three lands, green access, and Sol Ring, Cultivate, or Kodama's Reach.",
+      "watchOut": [
+        "Delay Hokori, Dust Drinker until Derevi can untap your lands reliably.",
+        "Lightning Greaves prevents Derevi from targeting the equipped creature with untap triggers.",
+        "Murkfiend Liege can prevent Mirror Entity’s zero activations from killing your combo creatures."
+      ]
+    },
+    "optimized": {
+      "summary": "Derevi turns combat hits into extra mana while Winter Orb and similar effects slow opponents. Win with a Mirror Entity army or infinite mana powering Stroke of Genius.",
+      "early": [
+        "Prioritize green mana for Birds of Paradise or Bloom Tender.",
+        "Land Mystic Remora early to draw while opponents develop.",
+        "Deploy Derevi, Empyrial Tactician to unlock Bloom Tender’s three colors."
+      ],
+      "mid": [
+        "Attack with Lu Xun, Scholar General for cards and Derevi untaps.",
+        "Untap mana creatures with Derevi to operate through Hokori, Dust Drinker.",
+        "Use Opposition and Squirrel Nest tokens to tap opposing lands during upkeep."
+      ],
+      "late": [
+        "Pair Kinnan, Bonder Prodigy with Basalt Monolith for infinite colorless mana.",
+        "Find Mirror Entity with Eladamri's Call when your army can attack."
+      ],
+      "winConditions": [
+        "Spend infinite mana on Mirror Entity, then attack with your enlarged army.",
+        "Use infinite mana with Stroke of Genius to deck an opponent."
+      ],
+      "keyCards": [
+        {
+          "name": "Derevi, Empyrial Tactician",
+          "why": "Converts combat hits into mana, utility activations, or tapped blockers."
+        },
+        {
+          "name": "Bident of Thassa",
+          "why": "Adds card draw to your combat damage triggers."
+        },
+        {
+          "name": "Seedborn Muse",
+          "why": "Refreshes Opposition fodder and mana during opponents’ untap steps."
+        },
+        {
+          "name": "The One Ring",
+          "why": "Derevi untaps it for increasingly large draws."
+        },
+        {
+          "name": "Aura Shards",
+          "why": "Turns creatures and Squirrel tokens into artifact or enchantment removal."
+        }
+      ],
+      "mulligan": "Keep two or three lands, green access, and Birds of Paradise, Bloom Tender, or Mystic Remora.",
+      "watchOut": [
+        "Tap Winter Orb with Opposition before your turn so your lands untap normally.",
+        "Lightning Greaves prevents your Derevi triggers and Emiel the Blessed from targeting its wearer.",
+        "Kinnan, Bonder Prodigy makes infinite colorless mana, so reserve blue for Stroke of Genius."
+      ]
+    }
+  }
 }

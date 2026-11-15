@@ -113,6 +113,50 @@
 - 1 Terramorphic Expanse
 - 1 Tranquil Thicket
 
+### How to play
+
+Fill graveyards, then let The Mimeoplasm borrow the best creature abilities and biggest power. Build toward late-game commander damage, poison, or a table-wide drain from Jarad, Golgari Lich Lord.
+
+**Early game**
+
+- Use Sakura-Tribe Elder to develop mana while stocking your graveyard with a creature.
+- Cast Grisly Salvage to find lands while loading creatures into your graveyard.
+- Use Entomb to bury Wonder for flying or Genesis for recurring creatures.
+
+**Mid game**
+
+- With seven graveyard cards, Stitch Together returns a creature directly to the battlefield.
+- Follow Life's Finale with Sepulchral Primordial to recruit creatures you selected from an opponent's library.
+- The Mimeoplasm can copy opponents' dead creatures, so inspect every graveyard before choosing.
+
+**Late game**
+
+- Copy Skithiryx, the Blight Dragon with The Mimeoplasm, using Lord of Extinction for counters.
+- Equip Whispersilk Cloak to make The Mimeoplasm unblockable and protect it from targeted removal.
+- Sacrifice Lord of Extinction to Jarad, Golgari Lich Lord when its power threatens everyone's life.
+
+**How it wins**
+
+- The Mimeoplasm wearing Whispersilk Cloak can eliminate players through 21 commander combat damage.
+- The Mimeoplasm copying Skithiryx, the Blight Dragon can deliver ten poison counters in one hit.
+- Jarad, Golgari Lich Lord turns enormous creatures into life loss for every opponent.
+
+**Key cards**
+
+- Buried Alive: Finds a copy target, power donor, and graveyard utility creature.
+- Lord of Extinction: Supplies enormous power for commander counters or Jarad sacrifices.
+- Wonder: Grants your creatures flying from the graveyard with an Island.
+- Life from the Loam: Recovers milled lands while dredging more cards into your graveyard.
+- Momentous Fall: Converts a threatened giant into cards and life.
+
+**Mulligan:** Keep three lands with green access, Sakura-Tribe Elder or Cultivate, and Grisly Salvage or Buried Alive.
+
+**Watch out for**
+
+- The Mimeoplasm permanently exiles its chosen creatures, removing them from your future reanimation options.
+- Living Death also rebuilds opposing boards, so compare graveyards before casting it.
+- Whispersilk Cloak's shroud also prevents your own targeted spells and equip abilities.
+
 ### Stats
 
 | | Value |
@@ -207,6 +251,50 @@ These are optional changes to the deck in Part 1, aiming for bracket 3 (Upgraded
 ### Strategy
 
 Build toward turn-six-or-later wins through graveyard-fueled combat, large Mimeoplasm copies, and Living Death rather than an early infect knockout or compact combo. These changes improve early ramp, graveyard setup, repeatable card advantage, and colored mana while preserving meaningful interaction and independent reanimation. Survival of the Fittest and Gifts Ungiven occupy two of the three designated Game Changer slots; Yawgmoth's Will is removed rather than retained alongside them. This is an upper-end Bracket 3 build, with no extra turns, mass land denial, or added infinite combos; its powerful tutor openings should not be used to pursue pre-turn-six eliminations.
+
+### How to play the suggested deck
+
+This deck fills graveyards, then turns The Mimeoplasm into a huge, threatening creature. It wins through commander damage, infect attacks, or sacrificing Lord of Extinction to drain everyone.
+
+**Early game**
+
+- Use Sakura-Tribe Elder to find an Island while adding a creature to your graveyard.
+- Cast Grisly Salvage to find lands or creatures while stocking your graveyard.
+- Cycle Titanoth Rex early to draw and prepare eleven extra counters for The Mimeoplasm.
+
+**Mid game**
+
+- Buried Alive puts Titanoth Rex, Lord of Extinction, and Wonder into your graveyard.
+- Copy Titanoth Rex with The Mimeoplasm, using Lord of Extinction for extra counters.
+- Discard Wonder through Survival of the Fittest; Breeding Pool enables its teamwide flying.
+
+**Late game**
+
+- From turn six onward, equip The Mimeoplasm with Whispersilk Cloak to bypass blockers.
+- Sacrifice Lord of Extinction to Jarad, Golgari Lich Lord to drain every opponent.
+- Follow Life's Finale with Sepulchral Primordial to recruit creatures from opponents' freshly stocked graveyards.
+
+**How it wins**
+
+- The Mimeoplasm copying Titanoth Rex can deliver lethal commander damage with enough added counters.
+- The Mimeoplasm copying Skithiryx, the Blight Dragon can deliver ten poison in one attack.
+- Jarad, Golgari Lich Lord converts Lord of Extinction's enormous power into tablewide life loss.
+
+**Key cards**
+
+- Buried Alive: Finds the copy target, counter source, and graveyard support.
+- Lord of Extinction: Supplies enormous power for counters or Jarad's sacrifice ability.
+- Wonder: Grants teamwide flying from your graveyard with an Island.
+- Greater Good: Turns giant creatures into cards and fresh graveyard fuel.
+- Life from the Loam: Recovers lands sacrificed to Sylvan Safekeeper while fueling graveyards.
+
+**Mulligan:** Keep three lands, green mana, Sakura-Tribe Elder or Farseek, and Grisly Salvage or Frantic Search.
+
+**Watch out for**
+
+- The Mimeoplasm exiles both chosen creatures, so those cards cannot support later reanimation.
+- Lightning Greaves and Whispersilk Cloak grant shroud, blocking your own targeted abilities and equipment.
+- Living Death also returns opponents' creatures, so compare graveyards before casting it.
 
 ### Suggested swaps (27)
 

@@ -7360,5 +7360,109 @@
         }
       ]
     }
-  ]
+  ],
+  "howToPlay": {
+    "original": {
+      "summary": "Fill graveyards, then let The Mimeoplasm borrow the best creature abilities and biggest power. Build toward late-game commander damage, poison, or a table-wide drain from Jarad, Golgari Lich Lord.",
+      "early": [
+        "Use Sakura-Tribe Elder to develop mana while stocking your graveyard with a creature.",
+        "Cast Grisly Salvage to find lands while loading creatures into your graveyard.",
+        "Use Entomb to bury Wonder for flying or Genesis for recurring creatures."
+      ],
+      "mid": [
+        "With seven graveyard cards, Stitch Together returns a creature directly to the battlefield.",
+        "Follow Life's Finale with Sepulchral Primordial to recruit creatures you selected from an opponent's library.",
+        "The Mimeoplasm can copy opponents' dead creatures, so inspect every graveyard before choosing."
+      ],
+      "late": [
+        "Copy Skithiryx, the Blight Dragon with The Mimeoplasm, using Lord of Extinction for counters.",
+        "Equip Whispersilk Cloak to make The Mimeoplasm unblockable and protect it from targeted removal.",
+        "Sacrifice Lord of Extinction to Jarad, Golgari Lich Lord when its power threatens everyone's life."
+      ],
+      "winConditions": [
+        "The Mimeoplasm wearing Whispersilk Cloak can eliminate players through 21 commander combat damage.",
+        "The Mimeoplasm copying Skithiryx, the Blight Dragon can deliver ten poison counters in one hit.",
+        "Jarad, Golgari Lich Lord turns enormous creatures into life loss for every opponent."
+      ],
+      "keyCards": [
+        {
+          "name": "Buried Alive",
+          "why": "Finds a copy target, power donor, and graveyard utility creature."
+        },
+        {
+          "name": "Lord of Extinction",
+          "why": "Supplies enormous power for commander counters or Jarad sacrifices."
+        },
+        {
+          "name": "Wonder",
+          "why": "Grants your creatures flying from the graveyard with an Island."
+        },
+        {
+          "name": "Life from the Loam",
+          "why": "Recovers milled lands while dredging more cards into your graveyard."
+        },
+        {
+          "name": "Momentous Fall",
+          "why": "Converts a threatened giant into cards and life."
+        }
+      ],
+      "mulligan": "Keep three lands with green access, Sakura-Tribe Elder or Cultivate, and Grisly Salvage or Buried Alive.",
+      "watchOut": [
+        "The Mimeoplasm permanently exiles its chosen creatures, removing them from your future reanimation options.",
+        "Living Death also rebuilds opposing boards, so compare graveyards before casting it.",
+        "Whispersilk Cloak's shroud also prevents your own targeted spells and equip abilities."
+      ]
+    },
+    "optimized": {
+      "summary": "This deck fills graveyards, then turns The Mimeoplasm into a huge, threatening creature. It wins through commander damage, infect attacks, or sacrificing Lord of Extinction to drain everyone.",
+      "early": [
+        "Use Sakura-Tribe Elder to find an Island while adding a creature to your graveyard.",
+        "Cast Grisly Salvage to find lands or creatures while stocking your graveyard.",
+        "Cycle Titanoth Rex early to draw and prepare eleven extra counters for The Mimeoplasm."
+      ],
+      "mid": [
+        "Buried Alive puts Titanoth Rex, Lord of Extinction, and Wonder into your graveyard.",
+        "Copy Titanoth Rex with The Mimeoplasm, using Lord of Extinction for extra counters.",
+        "Discard Wonder through Survival of the Fittest; Breeding Pool enables its teamwide flying."
+      ],
+      "late": [
+        "From turn six onward, equip The Mimeoplasm with Whispersilk Cloak to bypass blockers.",
+        "Sacrifice Lord of Extinction to Jarad, Golgari Lich Lord to drain every opponent.",
+        "Follow Life's Finale with Sepulchral Primordial to recruit creatures from opponents' freshly stocked graveyards."
+      ],
+      "winConditions": [
+        "The Mimeoplasm copying Titanoth Rex can deliver lethal commander damage with enough added counters.",
+        "The Mimeoplasm copying Skithiryx, the Blight Dragon can deliver ten poison in one attack.",
+        "Jarad, Golgari Lich Lord converts Lord of Extinction's enormous power into tablewide life loss."
+      ],
+      "keyCards": [
+        {
+          "name": "Buried Alive",
+          "why": "Finds the copy target, counter source, and graveyard support."
+        },
+        {
+          "name": "Lord of Extinction",
+          "why": "Supplies enormous power for counters or Jarad's sacrifice ability."
+        },
+        {
+          "name": "Wonder",
+          "why": "Grants teamwide flying from your graveyard with an Island."
+        },
+        {
+          "name": "Greater Good",
+          "why": "Turns giant creatures into cards and fresh graveyard fuel."
+        },
+        {
+          "name": "Life from the Loam",
+          "why": "Recovers lands sacrificed to Sylvan Safekeeper while fueling graveyards."
+        }
+      ],
+      "mulligan": "Keep three lands, green mana, Sakura-Tribe Elder or Farseek, and Grisly Salvage or Frantic Search.",
+      "watchOut": [
+        "The Mimeoplasm exiles both chosen creatures, so those cards cannot support later reanimation.",
+        "Lightning Greaves and Whispersilk Cloak grant shroud, blocking your own targeted abilities and equipment.",
+        "Living Death also returns opponents' creatures, so compare graveyards before casting it."
+      ]
+    }
+  }
 }

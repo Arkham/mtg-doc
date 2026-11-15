@@ -7037,5 +7037,113 @@
         }
       ]
     }
-  ]
+  ],
+  "howToPlay": {
+    "original": {
+      "summary": "Wrexial, the Risen Deep steals opponents’ graveyard spells while your artifacts build big mana. Win through evasive attacks, copied threats, or a huge Exsanguinate.",
+      "early": [
+        "Use Sol Ring and Dimir Signet to accelerate toward Wrexial, the Risen Deep.",
+        "Deploy Rhystic Study or Sensei's Divining Top to improve your access to cards.",
+        "Find Urborg, Tomb of Yawgmoth with Expedition Map to enable swampwalk and Cabal Coffers."
+      ],
+      "mid": [
+        "Equip Wrexial, the Risen Deep with Lightning Greaves for immediate attacks.",
+        "Attack opponents holding useful graveyard spells; Dreamborn Muse and Mindcrank help stock them.",
+        "Copy Wrexial, the Risen Deep with Sakashima the Impostor for two spell-stealing attackers."
+      ],
+      "late": [
+        "Overload Cyclonic Rift to clear blockers while preserving your threats.",
+        "Kick Rite of Replication on Consecrated Sphinx to create an enormous draw engine.",
+        "Fuel Exsanguinate with Cabal Coffers and Urborg, Tomb of Yawgmoth to drain everyone."
+      ],
+      "winConditions": [
+        "Wrexial, the Risen Deep threatens commander damage; Sakashima the Impostor threatens regular combat damage.",
+        "Exsanguinate converts your huge mana production into a table-wide lethal drain.",
+        "Bribery and Rite of Replication turn powerful creatures into your attacking finishers."
+      ],
+      "keyCards": [
+        {
+          "name": "Wrexial, the Risen Deep",
+          "why": "Turns combat hits into stolen instants and sorceries."
+        },
+        {
+          "name": "Urborg, Tomb of Yawgmoth",
+          "why": "Enables Wrexial’s swampwalk and supercharges Cabal Coffers."
+        },
+        {
+          "name": "Lightning Greaves",
+          "why": "Gives Wrexial haste and protection from targeted interaction."
+        },
+        {
+          "name": "Tezzeret the Seeker",
+          "why": "Untaps Mana Vault and Basalt Monolith for repeated mana bursts."
+        },
+        {
+          "name": "Academy Ruins",
+          "why": "Returns Oblivion Stone to your library for repeated board resets."
+        },
+        {
+          "name": "Necropotence",
+          "why": "Trades life for cards; Exsanguinate replenishes that life."
+        }
+      ],
+      "mulligan": "Keep three lands, access to blue and black, and acceleration like Dimir Signet or Sol Ring.",
+      "watchOut": [
+        "Stormtide Leviathan does not prevent Wrexial, the Risen Deep from attacking, because Wrexial has islandwalk.",
+        "Lightning Greaves and Whispersilk Cloak prevent your own Rite of Replication from targeting equipped creatures.",
+        "Necropotence delivers cards at your end step; Reliquary Tower prevents forced discards."
+      ]
+    },
+    "optimized": {
+      "summary": "This deck fills opposing graveyards, then uses Wrexial, the Risen Deep to steal their best spells. It wins through Mindcrank loops, big Exsanguinate drains, or repeated unblockable Kraken attacks.",
+      "early": [
+        "Start with Sol Ring or Dimir Signet to accelerate toward your six-mana commander.",
+        "Use Trinket Mage to find Sol Ring, Mana Vault, or Sensei's Divining Top.",
+        "Deploy Bloodchief Ascension early so opponents losing life can build its three quest counters."
+      ],
+      "mid": [
+        "Equip Wrexial, the Risen Deep with Lightning Greaves for immediate attacks and protection.",
+        "Find Urborg, Tomb of Yawgmoth with Expedition Map to make Wrexial, the Risen Deep unblockable.",
+        "Use Dreamborn Muse to stock opposing graveyards for Wrexial, the Risen Deep."
+      ],
+      "late": [
+        "Pair Notion Thief with Windfall to steal opponents' draws after everyone discards.",
+        "Overload Cyclonic Rift to clear blockers and opposing defenses before your finishing turn.",
+        "Use Tezzeret the Seeker to untap Mana Vault and Basalt Monolith for bigger Exsanguinate drains."
+      ],
+      "winConditions": [
+        "Combine three-counter Bloodchief Ascension with Mindcrank, then trigger opposing life loss or graveyard filling.",
+        "Activate Duskmantle Guildmage's first ability with Mindcrank out, then mill opponents to start lethal loops.",
+        "Finish depleted opponents with Exsanguinate or repeated attacks from Wrexial, the Risen Deep."
+      ],
+      "keyCards": [
+        {
+          "name": "Wrexial, the Risen Deep",
+          "why": "Turns combat damage into free opposing instants and sorceries."
+        },
+        {
+          "name": "Mindcrank",
+          "why": "Converts life loss into mill and enables lethal loops."
+        },
+        {
+          "name": "Narset, Parter of Veils",
+          "why": "Makes Windfall and Whispering Madness devastate opposing hands."
+        },
+        {
+          "name": "Animate Dead",
+          "why": "Recruits the best creature from any stocked graveyard."
+        },
+        {
+          "name": "Academy Ruins",
+          "why": "Recovers destroyed combo artifacts or repeatedly retrieves Oblivion Stone."
+        }
+      ],
+      "mulligan": "Keep two or three lands, blue and black access, and Sol Ring or Dimir Signet, ideally with Ponder.",
+      "watchOut": [
+        "Hullbreaker Horror pairs with Sol Ring or Mana Vault for loops.",
+        "Lightning Greaves prevents your Rite of Replication from targeting the equipped creature.",
+        "Graveyard exile shuts down Wrexial, the Risen Deep's theft and disrupts Mindcrank loops."
+      ]
+    }
+  }
 }
