@@ -6,6 +6,7 @@ import { parseDecklist } from "../../server/decklist.ts";
 import { readDeckFile } from "../../server/storage.ts";
 import type { Report } from "../../shared/types.ts";
 import { optimizeFixtureDeck } from "../support/sample.ts";
+import { listedCards, mdSection } from "../support/markdown.ts";
 
 function assertLegalDeck(report: Report, optimized: string) {
   const list = parseDecklist(optimized);
@@ -126,13 +127,45 @@ describe("full optimizer pipeline (recorded APIs, no LLM)", () => {
     );
     assert.ok(report.after.mana.tappedLands.length <= report.before.mana.tappedLands.length);
     const md = await readDeckFile(slug, "report.md");
-    for (const heading of [
-      "## Bracket 2: Core",
-      "## Swaps",
-      "## Mana base",
-      "## Goldfish simulation",
-    ]) {
-      assert.ok(md.includes(heading), `report.md has ${heading}`);
+    // The deck as submitted and the doc's suggestions are separate parts, so an agent can't take
+    // a suggested card for one the deck plays.
+    const part1 = mdSection(md, /^Part 1: The deck as submitted$/);
+    const part2 = mdSection(md, /^Part 2: The doc's suggestions/);
+    const names = (cards: { name: string; qty: number }[]) =>
+      cards.map((c) => c.name).sort((a, b) => a.localeCompare(b));
+    assert.deepEqual(
+      listedCards(mdSection(part1, /^Decklist \(100 cards\)$/)).sort((a, b) => a.localeCompare(b)),
+      names(report.original!.decklist),
+    );
+    assert.deepEqual(
+      listedCards(mdSection(part2, /^Suggested decklist/)).sort((a, b) => a.localeCompare(b)),
+      names(report.decklist!),
+    );
+    const submitted = new Set(report.original!.decklist.map((c) => c.name));
+    const added = report.swaps.map((s) => s.in).filter((n) => !submitted.has(n));
+    assert.ok(added.length > 0);
+    // Part 1 can name a suggested card only as the piece a combo is missing, saying so.
+    const oneAway = /^### Combos one card away$/m.test(part1)
+      ? mdSection(part1, /^Combos one card away$/)
+      : "";
+    for (const name of added) {
+      assert.ok(
+        !part1.replace(oneAway, "").includes(name),
+        `${name} only comes in with the swaps, not in Part 1`,
+      );
+      for (const line of oneAway.split("\n").filter((l) => l.includes(`**${name}**`)))
+        assert.match(line, /one of the suggested swaps in Part 2 adds it/);
+      assert.ok(part2.includes(name), `${name} is in Part 2`);
     }
+    for (const heading of [
+      /^Stats$/,
+      /^Bracket \d: /,
+      /^Combos in the deck$/,
+      /^Suggested swaps \(\d+\)$/,
+      /^What the swaps change$/,
+      /^Bracket after the swaps: 2$/,
+    ])
+      mdSection(md, heading);
+    assert.match(md, /^> \*\*How to read this report\.\*\* Part 1 is the deck exactly as/m);
   });
 });

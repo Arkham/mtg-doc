@@ -150,6 +150,11 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   page to `deckPaths`.
 - The local app keeps hash routes. Build links with `hrefOf`/`deckHref` and move with `navigate`/`go`
   (`src/nav.ts`), never with hand-written `#/` strings.
+- `report.md` keeps the deck as submitted and the doc's suggestions apart: Part 1 is only the
+  deck as its owner submitted it (its list, stats, bracket, combos and synergies), Part 2 is
+  everything suggested (swaps, what they change, combos and synergies they add or break, the
+  suggested list). A card the swaps add must never appear in Part 1. Agents read it to answer
+  "what does this deck play?", so put new data in the part it describes.
 - When you add a section or data to a report, add it to `renderMarkdown` (`server/report.ts`) in
   the same change, so the plain page and markdown carry it too; the static build regenerates both
   from `report.json`. Extend the static tests that check these pages.

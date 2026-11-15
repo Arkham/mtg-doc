@@ -1,4 +1,10 @@
-import type { DecklistCard, Report } from "../shared/types.ts";
+import type {
+  BracketAssessment,
+  Combo,
+  DeckSnapshot,
+  DecklistCard,
+  Report,
+} from "../shared/types.ts";
 import { BRACKETS } from "./analysis/bracket.ts";
 
 const GROUPS = [
@@ -14,16 +20,32 @@ const GROUPS = [
   "Other",
 ];
 
+const cell = (s: unknown) => String(s).replace(/\|/g, "/").replace(/\n/g, " ");
+const pct = (n: number) => `${n}%`;
+/** Model-written markdown sits under a ### heading, so its own headings start at ####. */
+const nested = (text: string) =>
+  text.replace(/^(#{1,6})(?=\s)/gm, (h) => "#".repeat(Math.min(6, Math.max(4, h.length + 2))));
+const money = (n: number) => `$${Math.round(n)}`;
+
+function table(cols: string[], rows: unknown[][]): string[] {
+  return [
+    `|${cols.map((c) => (c ? ` ${c} ` : " ")).join("|")}|`,
+    `|${cols.map(() => "---").join("|")}|`,
+    ...rows.map((r) => `| ${r.map(cell).join(" | ")} |`),
+    "",
+  ];
+}
+
 /** A full list grouped by type, cheapest first, so readers (and agents) get every card. */
-function decklistSection(title: string, cards: DecklistCard[], markNew = false): string[] {
+function decklist(title: string, cards: DecklistCard[], markNew = false): string[] {
   const total = cards.reduce((n, c) => n + c.qty, 0);
-  const out = [`## ${title} (${total} cards)`, ""];
+  const out = [`### ${title} (${total} cards)`, ""];
   for (const g of GROUPS) {
     const group = cards
       .filter((c) => c.group === g)
       .sort((a, b) => a.cmc - b.cmc || a.name.localeCompare(b.name));
     if (!group.length) continue;
-    out.push(`### ${g} (${group.reduce((n, c) => n + c.qty, 0)})`, "");
+    out.push(`#### ${g} (${group.reduce((n, c) => n + c.qty, 0)})`, "");
     for (const c of group)
       out.push(
         `- ${c.qty} ${c.name}${c.manaCost ? ` ${c.manaCost}` : ""}${markNew && (c.isNew || c.delta > 0) ? " _(new)_" : ""}`,
@@ -33,169 +55,282 @@ function decklistSection(title: string, cards: DecklistCard[], markNew = false):
   return out;
 }
 
+const comboLine = (c: Combo) => `- [${c.cards.join(" + ")}](${c.url}): ${c.produces.join(", ")}`;
+const oneAwayLine = (c: Combo, suggested?: Set<string>) =>
+  `- Add **${c.missing[0]}** to complete [${c.cards.join(" + ")}](${c.url}): ${c.produces.join(", ")}${suggested?.has(c.missing[0]) ? " (one of the suggested swaps in Part 2 adds it)" : ""}`;
+
+function list(title: string, items: string[], empty?: string): string[] {
+  if (!items.length) return empty ? [`### ${title}`, "", empty, ""] : [];
+  return [`### ${title}`, "", ...items, ""];
+}
+
+/** Numbers for one deck: mana, goldfish and roles, as label/value rows. */
+function statRows(s: DeckSnapshot): [string, string | number][] {
+  return [
+    ["Cards", s.totalCards],
+    ["Price", money(s.totalPriceUsd)],
+    ["Lands", `${s.mana.landCount} (recommended ${s.mana.recommendedLands})`],
+    ["Average mana value of spells", s.mana.avgCmc],
+    ["Ramp pieces", s.mana.rampCount],
+    ["Lands that enter tapped", s.mana.tappedLands.length],
+    ...s.mana.colors.map((c): [string, string] => [
+      `Lands making ${c.color}`,
+      `${c.landSources} (target ${c.targetSources})`,
+    ]),
+    ["Mulligan rate", pct(s.sim.mulliganRate)],
+    ...[2, 3, 4, 5].map((t): [string, string] => [
+      `Land drop on turn ${t}`,
+      pct(s.sim.landDropByTurn[t]),
+    ]),
+    ["Commander cast on curve", pct(s.sim.commanderOnCurve)],
+    ["All colors by turn 3", pct(s.sim.allColorsByTurn3)],
+    ["Mana available on turn 4", s.sim.avgManaTurn4],
+    ["Mana screw (under 3 lands on turn 4)", pct(s.sim.screwRate)],
+    ["Flood (10+ lands seen by turn 7)", pct(s.sim.floodRate)],
+    ...s.roles.map((r): [string, string | number] => [
+      `Role: ${r.role}`,
+      r.target !== null ? `${r.count} (target ${r.target})` : r.count,
+    ]),
+  ];
+}
+
+function bracketLines(a: BracketAssessment, target: number | null, minTurns: number): string[] {
+  const out: string[] = [];
+  if (target !== null) out.push(`Checked against the rules of bracket ${target}:`, "");
+  for (const c of a.checks) out.push(`- ${c.ok ? "✅" : "❌"} **${c.label}:** ${c.detail}`);
+  if (a.gameChangers.length) out.push(`- Game Changers: ${a.gameChangers.join(", ")}`);
+  if (a.massLandDenial.length) out.push(`- Mass land denial: ${a.massLandDenial.join(", ")}`);
+  if (a.extraTurns.length) out.push(`- Extra turns: ${a.extraTurns.join(", ")}`);
+  for (const c of a.combos.filter((x) => x.twoCard))
+    out.push(
+      `- Two-card combo: ${c.cards.join(" + ")}${c.earlyPct !== null ? ` (${c.earlyPct}% of games assembled before turn ${minTurns})` : ""}`,
+    );
+  out.push("");
+  return out;
+}
+
+/**
+ * The report for agents and other plain readers. It keeps the deck as its owner submitted it
+ * (Part 1) apart from everything the doc suggests (Part 2), so nothing suggested is mistaken for
+ * a card the deck already plays.
+ */
 export function renderMarkdown(r: Report): string {
   const lines: string[] = [];
   const b = r.before;
   const a = r.after;
-  // Without the doc's suggestions there's one deck, so tables get one column instead of two.
-  const compare = !r.suggestionsHidden;
-  const head = (label: string, ...extra: string[]) => {
-    const cols = [label, ...(compare ? ["Before", "After"] : ["Value"]), ...extra];
-    return [
-      `|${cols.map((c) => (c ? ` ${c} ` : " ")).join("|")}|`,
-      `|${cols.map(() => "---").join("|")}|`,
-    ];
-  };
-  const row = (label: string, before: unknown, after: unknown, ...extra: unknown[]) =>
-    `| ${label} |${compare ? ` ${before} |` : ""} ${after} |${extra.map((e) => ` ${e} |`).join("")}`;
-  lines.push(`# ${r.commanders.join(" + ") || r.slug}`, "");
-  lines.push(`_Generated ${r.generatedAt}${r.model ? ` with ${r.model}` : ""}_`, "");
-  if (r.strategy) lines.push("## Strategy", "", r.strategy, "");
-  if (r.themes.length) lines.push(`**Themes:** ${r.themes.join(", ")}`, "");
+  const o = r.original;
+  const suggestions = !r.suggestionsHidden;
+  const name = r.commanders.join(" + ") || r.slug;
+  const ownBracket = r.bracket ? BRACKETS[r.bracket.before.bracket] : null;
 
-  if (r.bracket) {
-    const b = r.bracket;
-    if (compare) {
-      lines.push(`## Bracket ${b.target}: ${b.name}`, "");
+  lines.push(`# ${name}: Commander deck report`, "");
+  lines.push(
+    suggestions
+      ? `> **How to read this report.** Part 1 is the deck exactly as its owner submitted it: the cards they play today, with its stats, bracket, combos and synergies. Part 2 is what the mtg doc suggests changing: ${r.swaps.length} optional ${r.swaps.length === 1 ? "swap" : "swaps"}, what they would change, and the deck they would make. Nothing in Part 2 is in the deck yet: when asked what the deck plays, use Part 1.`
+      : "> **How to read this report.** It describes the deck exactly as its owner submitted it: the cards they play today, with its stats, bracket, combos and synergies.",
+    "",
+  );
+  lines.push(`- Commander: ${name}`);
+  lines.push(`- Deck as submitted: ${b.totalCards} cards, about ${money(b.totalPriceUsd)}`);
+  if (r.bracket && ownBracket)
+    lines.push(`- Bracket as submitted: ${r.bracket.before.bracket} (${ownBracket.name})`);
+  if (r.themes.length) lines.push(`- Themes: ${r.themes.join(", ")}`);
+  lines.push(`- Generated: ${r.generatedAt}${r.model ? ` with ${r.model}` : ""}`);
+  if (r.edhrec)
+    lines.push(
+      `- EDHREC: ${r.edhrec.url}${r.edhrec.numDecks ? ` (${r.edhrec.numDecks.toLocaleString("en-US")} decks)` : ""}`,
+    );
+  lines.push("");
+
+  // ---- Part 1: the deck as submitted ----
+  lines.push("## Part 1: The deck as submitted", "");
+  if (o) lines.push(...decklist("Decklist", o.decklist));
+  lines.push("### Stats", "", ...table(["", "Value"], statRows(b)));
+  for (const i of b.mana.issues) lines.push(`- ⚠️ ${i}`);
+  if (b.mana.issues.length) lines.push("");
+  if (b.mana.tappedLands.length)
+    lines.push(`Lands that enter tapped: ${b.mana.tappedLands.join(", ")}`, "");
+  if (b.mana.colorlessLands.length)
+    lines.push(`Lands that only make colorless: ${b.mana.colorlessLands.join(", ")}`, "");
+  lines.push(
+    `Goldfish numbers come from ${b.sim.games.toLocaleString("en-US")} solo games with a free mulligan and greedy land and ramp plays.`,
+    "",
+  );
+
+  if (r.bracket && ownBracket) {
+    const rb = r.bracket;
+    lines.push(`### Bracket ${rb.before.bracket}: ${ownBracket.name}`, "");
+    lines.push(
+      `Power ${rb.before.power} of 100. Bracket ${rb.before.bracket} games are expected to last at least ${ownBracket.minTurns} turns.`,
+      "",
+    );
+    lines.push(...bracketLines(rb.before, rb.target, rb.minTurns));
+  }
+
+  const present = o?.combosPresent ?? (suggestions ? [] : r.combosPresent);
+  const oneAway = o?.combosOneAway ?? (suggestions ? [] : r.combosOneAway);
+  lines.push(...list("Combos in the deck", present.map(comboLine), "None found."));
+  const submitted = new Set(o?.decklist.map((c) => c.name));
+  const incoming = new Set(
+    suggestions ? r.swaps.map((s) => s.in).filter((n) => !submitted.has(n)) : [],
+  );
+  lines.push(
+    ...list(
+      "Combos one card away",
+      oneAway.slice(0, 10).map((c) => oneAwayLine(c, incoming)),
+    ),
+  );
+  const inDeck = (cards: string[]) => !o || cards.every((n) => submitted.has(n));
+  const synergies = r.synergies ?? [];
+  lines.push(
+    ...list(
+      "Synergies",
+      synergies
+        .filter((s) => inDeck(s.cards))
+        .map((s) => `- **${s.title}** (${s.cards.join(" + ")}): ${s.explanation}`),
+    ),
+  );
+
+  // ---- Part 2: the doc's suggestions ----
+  if (suggestions) {
+    const rb = r.bracket;
+    const opts = [
+      rb && `bracket ${rb.target} (${rb.name})`,
+      rb && `${rb.tone} tone`,
+      r.options.budgetTotal && `a total budget of $${r.options.budgetTotal}`,
+      r.options.budgetPerCard && `at most $${r.options.budgetPerCard} per card`,
+    ].filter(Boolean);
+    lines.push("## Part 2: The doc's suggestions (not in the deck yet)", "");
+    lines.push(
+      `These are optional changes to the deck in Part 1${opts.length ? `, aiming for ${opts.join(", ")}` : ""}. Making all of them gives the suggested decklist at the end of this part.`,
+      "",
+    );
+    if (r.strategy) lines.push("### Strategy", "", nested(r.strategy), "");
+
+    lines.push(
+      `### Suggested swaps (${r.swaps.length})`,
+      "",
+      ...table(
+        ["#", "Cut", "Add", "Category", "Why"],
+        r.swaps.map((s, i) => [
+          i + 1,
+          s.out,
+          s.in,
+          s.fromChat ? "chat edit" : s.category,
+          s.reason,
+        ]),
+      ),
+    );
+    const alternatives = r.swaps.filter((s) => s.alternatives?.length);
+    if (alternatives.length) {
+      lines.push("Other cards that could take the same slot:", "");
+      for (const s of alternatives)
+        lines.push(`- Instead of ${s.in}: ${s.alternatives!.map((x) => x.name).join(", ")}`);
+      lines.push("");
+    }
+    lines.push(
+      ...list(
+        "More land swaps to consider",
+        (r.manaSuggestions ?? []).map(
+          (m) =>
+            `- ${m.changes.map((c) => `${c.action === "add" ? "Add" : "Cut"} ${c.name}`).join(", ")}: ${m.reason}`,
+        ),
+      ),
+    );
+
+    const now = statRows(b);
+    const next = new Map(statRows(a));
+    lines.push(
+      "### What the swaps change",
+      "",
+      ...table(
+        ["", "Deck as submitted", "With the swaps"],
+        [
+          ...(rb
+            ? [
+                ["Bracket", rb.before.bracket, rb.after.bracket],
+                ["Power (0-100)", rb.before.power, rb.after.power],
+              ]
+            : []),
+          ...now.map(([label, value]) => [label, value, next.get(label) ?? "-"]),
+        ],
+      ),
+    );
+    for (const i of a.mana.issues) lines.push(`- ⚠️ After the swaps: ${i}`);
+    if (a.mana.issues.length) lines.push("");
+
+    if (rb) {
+      lines.push(`### Bracket after the swaps: ${rb.after.bracket}`, "");
       lines.push(
-        `Tone: ${b.tone}. Before: bracket ${b.before.bracket} (power ${b.before.power}). After: bracket ${b.after.bracket} (power ${b.after.power}, ${b.after.position} ${b.name}). Expect at least ${b.minTurns} turns.`,
+        `Power ${rb.after.power} of 100, ${rb.after.position} in bracket ${rb.target} (${rb.name}).`,
         "",
       );
-    } else {
-      const own = BRACKETS[b.before.bracket];
-      lines.push(`## Bracket ${b.before.bracket}: ${own.name}`, "");
-      lines.push(`Power ${b.before.power}. Expect at least ${own.minTurns} turns.`, "");
-    }
-    for (const c of b.after.checks)
-      lines.push(`- ${c.ok ? "✅" : "❌"} **${c.label}:** ${c.detail}`);
-    if (b.after.gameChangers.length)
-      lines.push(`- Game Changers: ${b.after.gameChangers.join(", ")}`);
-    for (const c of b.after.combos.filter((x) => x.twoCard))
+      lines.push(...bracketLines(rb.after, rb.target, rb.minTurns));
       lines.push(
-        `- Combo: ${c.cards.join(" + ")}${c.earlyPct !== null ? ` (${c.earlyPct}% assembled before turn ${b.minTurns})` : ""}`,
-      );
-    if (b.excluded.length) {
-      lines.push("", "Skipped to stay in the bracket:");
-      for (const e of b.excluded) lines.push(`- ${e.name}: ${e.reason}`);
-    }
-    lines.push("");
-  }
-
-  lines.push("## Mana base", "", ...head(""));
-  lines.push(
-    row("Lands", b.mana.landCount, `${a.mana.landCount} (recommended ${a.mana.recommendedLands})`),
-  );
-  lines.push(row("Avg mana value", b.mana.avgCmc, a.mana.avgCmc));
-  lines.push(row("Ramp", b.mana.rampCount, a.mana.rampCount));
-  lines.push(row("Tapped lands", b.mana.tappedLands.length, a.mana.tappedLands.length));
-  for (const c of a.mana.colors) {
-    const bc = b.mana.colors.find((x) => x.color === c.color);
-    lines.push(
-      row(`${c.color} sources (target ${c.targetSources})`, bc?.landSources ?? "-", c.landSources),
-    );
-  }
-  lines.push("");
-  const manaChanges = r.swaps.filter(
-    (s) => s.category === "mana" && s.inCard?.isLand && s.outCard?.isLand,
-  );
-  if (manaChanges.length) {
-    lines.push("Mana base changes:", "");
-    for (const s of manaChanges) lines.push(`- ${s.out} → ${s.in}: ${s.reason}`);
-    lines.push("");
-  }
-  for (const m of r.manaSuggestions ?? []) {
-    lines.push(
-      `- Suggested: ${m.changes.map((c) => `${c.action === "add" ? "+" : "−"}${c.name}`).join(", ")}: ${m.reason}`,
-    );
-  }
-  for (const i of a.mana.issues) lines.push(`- ⚠️ ${i}`);
-  lines.push("");
-
-  lines.push(
-    "## Goldfish simulation",
-    "",
-    `${a.sim.games.toLocaleString()} games${compare ? " each" : ""}.`,
-    "",
-    ...head(""),
-  );
-  const pct = (n: number) => `${n}%`;
-  lines.push(row("Mulligan rate", pct(b.sim.mulliganRate), pct(a.sim.mulliganRate)));
-  for (const t of [2, 3, 4, 5])
-    lines.push(
-      row(`Land drop on turn ${t}`, pct(b.sim.landDropByTurn[t]), pct(a.sim.landDropByTurn[t])),
-    );
-  lines.push(row("Commander on curve", pct(b.sim.commanderOnCurve), pct(a.sim.commanderOnCurve)));
-  lines.push(row("All colors by turn 3", pct(b.sim.allColorsByTurn3), pct(a.sim.allColorsByTurn3)));
-  lines.push(row("Mana on turn 4", b.sim.avgManaTurn4, a.sim.avgManaTurn4));
-  lines.push(row("Screw (<3 lands T4)", pct(b.sim.screwRate), pct(a.sim.screwRate)));
-  lines.push(row("Flood (10+ lands seen by T7)", pct(b.sim.floodRate), pct(a.sim.floodRate)), "");
-
-  lines.push("## Roles", "", ...head("Role", "Target"));
-  for (const role of a.roles) {
-    const br = b.roles.find((x) => x.role === role.role);
-    lines.push(row(role.role, br?.count ?? 0, role.count, role.target ?? ""));
-  }
-  lines.push("");
-
-  if (r.combosPresent.length) {
-    lines.push("## Combos in the deck", "");
-    for (const c of r.combosPresent)
-      lines.push(`- [${c.cards.join(" + ")}](${c.url}): ${c.produces.join(", ")}`);
-    lines.push("");
-  }
-  if (r.combosOneAway.length) {
-    lines.push("## Combos one card away", "");
-    for (const c of r.combosOneAway.slice(0, 10))
-      lines.push(
-        `- add **${c.missing[0]}** → [${c.cards.join(" + ")}](${c.url}): ${c.produces.join(", ")}`,
-      );
-    lines.push("");
-  }
-  if (r.synergies?.length) {
-    lines.push("## Synergies", "");
-    for (const syn of r.synergies)
-      lines.push(`- **${syn.title}** (${syn.cards.join(" + ")}): ${syn.explanation}`);
-    lines.push("");
-  }
-
-  if (compare) lines.push("## Swaps", "", "| Out | In | Category | Why |", "|---|---|---|---|");
-  for (const s of r.swaps)
-    lines.push(
-      `| ${s.out} | ${s.in} | ${s.fromChat ? "chat edit" : s.category} | ${s.reason.replace(/\|/g, "/")} |`,
-    );
-  if (compare) lines.push("");
-
-  if (r.edits?.length) {
-    lines.push("## Changes from chat", "");
-    for (const e of r.edits) {
-      lines.push(
-        `- ${e.at.slice(0, 10)}${e.target === "original" ? " (your deck)" : ""}${e.request ? ` “${e.request.replace(/\n/g, " ")}”` : ""}: ${e.changes.map((c) => `${c.action === "add" ? "+" : "−"}${c.qty > 1 ? `${c.qty} ` : ""}${c.name}`).join(", ")}`,
+        ...list(
+          "Strong cards skipped to stay in the bracket",
+          rb.excluded.map((e) => `- ${e.name}: ${e.reason}`),
+        ),
       );
     }
-    lines.push("");
+
+    const had = new Set((o?.combosPresent ?? []).map((c) => c.id));
+    const has = new Set(r.combosPresent.map((c) => c.id));
+    const near = new Set((o?.combosOneAway ?? []).map((c) => c.id));
+    lines.push(
+      ...list("Combos the swaps add", r.combosPresent.filter((c) => !had.has(c.id)).map(comboLine)),
+      ...list(
+        "Combos the swaps break",
+        (o?.combosPresent ?? []).filter((c) => !has.has(c.id)).map(comboLine),
+      ),
+      ...list(
+        "New combos one card away",
+        r.combosOneAway
+          .filter((c) => !near.has(c.id))
+          .slice(0, 10)
+          .map((c) => oneAwayLine(c)),
+      ),
+      ...list(
+        "Synergies the swaps add",
+        synergies
+          .filter((s) => !inDeck(s.cards))
+          .map((s) => `- **${s.title}** (${s.cards.join(" + ")}): ${s.explanation}`),
+      ),
+    );
+
+    if (r.decklist) {
+      lines.push(...decklist("Suggested decklist", r.decklist, true));
+      lines.push("Cards marked _(new)_ are the ones the swaps add.", "");
+    }
+
+    if (r.edits?.length) {
+      lines.push("### Changes from chat", "");
+      for (const e of r.edits)
+        lines.push(
+          `- ${e.at.slice(0, 10)}${e.target === "original" ? " (made in the deck as submitted)" : ""}${e.request ? ` “${cell(e.request)}”` : ""}: ${e.changes.map((c) => `${c.action === "add" ? "+" : "−"}${c.qty > 1 ? `${c.qty} ` : ""}${c.name}`).join(", ")}`,
+        );
+      lines.push("");
+    }
   }
 
-  if (!compare && r.original) lines.push(...decklistSection("Decklist", r.original.decklist));
-  else {
-    if (r.original) lines.push(...decklistSection("Decklist as submitted", r.original.decklist));
-    if (r.decklist) lines.push(...decklistSection("Suggested decklist", r.decklist, true));
+  if (r.research || r.warnings.length) {
+    lines.push("## Background", "");
+    if (r.research) {
+      lines.push("### Web research about the commander", "", nested(r.research.summary), "");
+      for (const s of r.research.sources) lines.push(`- [${s.title}](${s.url})`);
+      lines.push("");
+    }
+    lines.push(
+      ...list(
+        "Warnings",
+        r.warnings.map((w) => `- ${w}`),
+      ),
+    );
   }
-
-  if (r.research) {
-    lines.push("## Web research", "", r.research.summary, "");
-    for (const s of r.research.sources) lines.push(`- [${s.title}](${s.url})`);
-    lines.push("");
-  }
-  if (r.warnings.length) {
-    lines.push("## Warnings", "");
-    for (const w of r.warnings) lines.push(`- ${w}`);
-    lines.push("");
-  }
-  lines.push(
-    compare
-      ? `Totals: ${b.totalCards} → ${a.totalCards} cards, $${b.totalPriceUsd} → $${a.totalPriceUsd}`
-      : `Totals: ${a.totalCards} cards, $${a.totalPriceUsd}`,
+  return (
+    lines
+      .join("\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .trimEnd() + "\n"
   );
-  if (r.edhrec) lines.push("", `EDHREC: ${r.edhrec.url}`);
-  return lines.join("\n") + "\n";
 }

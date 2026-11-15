@@ -1,148 +1,23 @@
-# Nekusar, the Mindrazer
+# Nekusar, the Mindrazer: Commander deck report
 
-_Generated 2026-11-09T14:43:26.632Z with gpt-6.1-sol_
+> **How to read this report.** Part 1 is the deck exactly as its owner submitted it: the cards they play today, with its stats, bracket, combos and synergies. Part 2 is what the mtg doc suggests changing: 15 optional swaps, what they would change, and the deck they would make. Nothing in Part 2 is in the deck yet: when asked what the deck plays, use Part 1.
 
-## Strategy
+- Commander: Nekusar, the Mindrazer
+- Deck as submitted: 100 cards, about $235
+- Bracket as submitted: 3 (Upgraded)
+- Themes: Wheels, Draw punishment, Group slug, Symmetrical card draw, Protected value engines
+- Generated: 2026-11-09T14:43:26.632Z with gpt-6.1-sol
+- EDHREC: https://edhrec.com/commanders/nekusar-the-mindrazer/upgraded (32,874 decks)
 
-Build a resilient draw-punishment board, then turn symmetrical draw effects and wheels into damage rather than racing toward an infinite combo. These changes lower the curve, bring ramp to roughly ten pieces, and improve protection and interaction while preserving the deck’s group-slug personality. The final configuration uses exactly three Game Changers under the supplied classification—Rhystic Study, Orcish Bowmasters, and Cyclonic Rift—and removes the existing two-card infinite combo, aiming for interactive games that reach turn six or later.
+## Part 1: The deck as submitted
 
-**Themes:** Wheels, Draw punishment, Group slug, Symmetrical card draw, Protected value engines
+### Decklist (100 cards)
 
-## Bracket 3: Upgraded
-
-Tone: balanced. Before: bracket 3 (power 32). After: bracket 3 (power 48, mid Upgraded). Expect at least 6 turns.
-
-- ✅ **Game Changers:** 3 of 3 allowed
-- ✅ **Mass land denial:** none
-- ✅ **Extra turns:** none
-- ✅ **Two-card combos:** only late-game ones
-- Game Changers: Rhystic Study, Orcish Bowmasters, Cyclonic Rift
-- Combo: Niv-Mizzet, the Firemind + Helm of the Ghastlord (0.2% assembled before turn 6)
-
-Skipped to stay in the bracket:
-- Kefka, Court Mage // Kefka, Ruler of Ruin: completes Kefka, Court Mage // Kefka, Ruler of Ruin + Psychosis Crawler, a two-card combo bracket 3 doesn't allow
-
-## Mana base
-
-| | Before | After |
-|---|---|---|
-| Lands | 36 | 36 (recommended 36) |
-| Avg mana value | 3.49 | 3 |
-| Ramp | 8 | 11 |
-| Tapped lands | 10 | 10 |
-| U sources (target 21) | 18 | 18 |
-| B sources (target 21) | 19 | 19 |
-| R sources (target 17) | 17 | 17 |
-
-- Suggested: −Temple of the False God, +Exotic Orchard: Temple of the False God only makes colorless mana; Exotic Orchard makes black and red and blue untapped, helping blue and black, which are short.
-- Suggested: −Mountain, +Watery Grave: You have plenty of red sources; Watery Grave makes black and blue untapped, helping blue and black, which are short.
-- Suggested: −Akoum Refuge, +City of Brass: Akoum Refuge always enters tapped; City of Brass makes black and red and blue untapped, helping blue, which is short.
-- ⚠️ Blue: 18 lands make it, about 21 wanted.
-- ⚠️ Black: 19 lands make it, about 21 wanted.
-- ⚠️ 10 lands enter tapped unconditionally; aim for 4 or fewer.
-- ⚠️ 3 colorless-only lands strain a 3-color mana base.
-
-## Goldfish simulation
-
-10,000 games each.
-
-| | Before | After |
-|---|---|---|
-| Mulligan rate | 20.9% | 20.7% |
-| Land drop on turn 2 | 99.7% | 99.8% |
-| Land drop on turn 3 | 89.3% | 89.5% |
-| Land drop on turn 4 | 72.5% | 72.7% |
-| Land drop on turn 5 | 54% | 53.5% |
-| Commander on curve | 55.1% | 64.6% |
-| All colors by turn 3 | 80% | 83.4% |
-| Mana on turn 4 | 4.29 | 4.58 |
-| Screw (<3 lands T4) | 6.8% | 6.6% |
-| Flood (10+ lands seen by T7) | 0.4% | 0.3% |
-
-## Roles
-
-| Role | Before | After | Target |
-|---|---|---|---|
-| land | 36 | 36 |  |
-| ramp | 8 | 11 | 10 |
-| draw | 28 | 32 | 10 |
-| removal | 6 | 9 | 8 |
-| wipe | 2 | 2 | 2 |
-| counter | 1 | 1 | 0 |
-| tutor | 0 | 0 | 0 |
-| protection | 2 | 2 | 3 |
-| recursion | 1 | 1 | 2 |
-| wincon | 1 | 1 |  |
-| other | 21 | 13 |  |
-
-## Combos in the deck
-
-- [Niv-Mizzet, the Firemind + Helm of the Ghastlord](https://commanderspellbook.com/combo/384-4971/): Infinite card draw, Infinite draw triggers, Near-infinite damage
-
-## Combos one card away
-
-- add **Hullbreaker Horror** → [Hullbreaker Horror + Sol Ring](https://commanderspellbook.com/combo/513-5034--46/): Infinite colorless mana, Infinite storm count
-- add **Peer into the Abyss** → [Orcish Bowmasters + Peer into the Abyss](https://commanderspellbook.com/combo/1561-3862/): Infinite +1/+1 counters on a creature, Near-infinite card draw for target opponent, Near-infinite damage, Near-infinite draw triggers for target opponent, Target opponent loses the game
-- add **Tidespout Tyrant** → [Tidespout Tyrant + Sol Ring](https://commanderspellbook.com/combo/542-5034/): Infinite colorless mana, Infinite storm count
-- add **Peer into the Abyss** → [Peer into the Abyss + Underworld Dreams](https://commanderspellbook.com/combo/1561-2720/): Target opponent loses the game
-- add **Peer into the Abyss** → [Psychosis Crawler + Peer into the Abyss](https://commanderspellbook.com/combo/1561-2384/): Near-infinite lifeloss, Near-infinite card draw, Near-infinite draw triggers
-- add **Curiosity** → [Niv-Mizzet, the Firemind + Curiosity](https://commanderspellbook.com/combo/1089-4971/): Infinite card draw, Infinite draw triggers, Near-infinite damage
-- add **Niv-Mizzet, Visionary** → [Niv-Mizzet, the Firemind + Niv-Mizzet, Visionary](https://commanderspellbook.com/combo/4971-6092/): Near-infinite damage, Infinite card draw, Infinite draw triggers
-- add **Peer into the Abyss** → [Razorkin Needlehead + Peer into the Abyss](https://commanderspellbook.com/combo/1561-5919/): Near-infinite damage to one opponent, Near-infinite draw triggers for target opponent, Near-infinite card draw for target opponent, Near-infinite lifeloss for target opponent
-- add **Peer into the Abyss** → [Nekusar, the Mindrazer + Peer into the Abyss](https://commanderspellbook.com/combo/1561-1972/): Near-infinite card draw for target opponent, Near-infinite damage to one opponent, Near-infinite draw triggers for target opponent, Target opponent loses the game
-- add **Peer into the Abyss** → [Ob Nixilis, the Hate-Twisted + Peer into the Abyss](https://commanderspellbook.com/combo/1561-5165/): Target player loses the game
-
-## Synergies
-
-- **Seven-Card Punishment** (Nekusar, the Mindrazer + Reforge the Soul + Orcish Bowmasters): Reforge the Soul makes each opponent draw seven cards, triggering Nekusar and Orcish Bowmasters seven times per opponent. This combines table-wide damage with a rapidly growing Orc Army and flexible Bowmasters damage.
-- **The Painful Puzzle Box** (Nekusar, the Mindrazer + Teferi's Puzzle Box + Underworld Dreams): Teferi's Puzzle Box forces opponents to redraw their hands every draw step, with Nekusar and Underworld Dreams dealing a combined 2 damage per card drawn. The normal draw and Nekusar's additional draw also trigger both punishers.
-- **Draw, Bounce, Delay** (Nekusar, the Mindrazer + Sigil of Sleep + Frozen Aether): With Sigil of Sleep enchanting Nekusar, every opposing draw lets you return a creature that opponent controls to their hand. Frozen Aether makes replayed creatures enter tapped, helping keep attackers and utility creatures under control.
-- **Wheel into Empty Hands** (Nekusar, the Mindrazer + Helm of the Ghastlord + Windfall): Helm of the Ghastlord gives Nekusar both damage-triggered abilities, so every opponent's Windfall draw also generates a card for you and a discard for that opponent. Those triggers resolve after Windfall finishes, potentially stripping opponents of their freshly drawn hands without forming an infinite loop.
-- **Double-Sided Draw Damage** (Nekusar, the Mindrazer + Prosperity + Psychosis Crawler): Prosperity for X causes Nekusar to deal X damage to each opponent while your own X draws make Psychosis Crawler drain each opponent for another X life. You refill your hand while each opponent loses a total of 2X life, assuming the damage is not prevented.
-- **Back-to-Back Wheel Burn** (Nekusar, the Mindrazer + Windfall + Molten Psyche): Windfall refills hands for Molten Psyche to shuffle away and redraw, generating another wave of Nekusar triggers. With metalcraft active, Molten Psyche also damages each opponent for all cards they have drawn that turn, including both spells' draws.
-- **Protected Repeatable Wheels** (Nekusar, the Mindrazer + Jace's Archivist + Lightning Greaves): Lightning Greaves lets Jace's Archivist activate immediately and protects it from targeted removal while equipped. Its repeatable wheel reloads your hand and turns every opposing redraw into Nekusar damage.
-- **Six-Damage Draw Steps** (Nekusar, the Mindrazer + Spiteful Visions): Together they make opponents draw three cards during an ordinary draw step, with each card triggering both damage abilities for 6 total damage. Spiteful Visions also damages you for your own draws, making this a powerful but symmetrical accelerator.
-- **Pay to Attack, Bleed to Pay** (Nekusar, the Mindrazer + Propaganda + Manabarbs + Sol Ring): Propaganda taxes attacks against you, and Manabarbs punishes opponents who tap lands to pay that tax while Nekusar keeps draining them through draws. Sol Ring supplies mana without triggering Manabarbs, helping you operate under your own pressure package.
-- **Removal with a Four-Damage Sting** (Nekusar, the Mindrazer + Ob Nixilis, the Hate-Twisted): Ob Nixilis's −2 destroys an opponent's creature, then their two replacement draws trigger both punishers for 4 total damage. Together, they also make every other opposing draw deal 2 damage.
-- **Prosperity into Power** (Ob Nixilis, Captive Kingpin + Psychosis Crawler + Prosperity): Your X draws from Prosperity produce X separate Psychosis Crawler triggers, each making every opponent lose exactly 1 life. Each resolution triggers Ob Nixilis once, generating X +1/+1 counters and X exiled cards you may play until your next end step.
-- **Their Mana Fuels Your Kingpin** (Ob Nixilis, Captive Kingpin + Manabarbs): Each Manabarbs trigger that deals 1 damage to an opponent triggers Ob Nixilis, turning their land-based mana production into counters and temporary card access for you. This pressures opponents for spending mana as well as drawing cards.
-- **Draw Pain Becomes Table Pain** (Nekusar, the Mindrazer + Helm of the Ghastlord + Psychosis Crawler): Enchant Nekusar with Helm of the Ghastlord: each time his draw-triggered damage hits an opponent, that opponent discards a card and you draw a card. Each resulting draw triggers Psychosis Crawler, spreading another 1 life loss to every opponent without creating an infinite loop.
-- **One More Card, One More Damage** (Nightscape Familiar + Nekusar, the Mindrazer + Prosperity): Nightscape Familiar reduces Prosperity's generic cost, letting you choose X one higher for the same mana investment. Every additional card drawn gives you another resource and makes Nekusar deal another damage to each opponent.
-
-## Swaps
-
-| Out | In | Category | Why |
-|---|---|---|---|
-| Insurrection | Razorkin Needlehead | synergy | Needlehead makes every opposing draw more dangerous and keeps wheels productive when Nekusar is unavailable. Its double-red cost deserves attention, but it is substantially easier to deploy than Insurrection. |
-| Thraximundar | Arcane Signet | ramp | Replace an expensive combat threat with early colored acceleration. Casting Nekusar while retaining mana for protection is more important than adding another seven-mana attacker. |
-| Charmbreaker Devils | Teferi's Puzzle Box | synergy | Puzzle Box repeatedly converts opponents’ hands into fresh draw triggers without needing additional wheel spells. It puts cards on the bottom rather than discarding them, so this build does not add Waste Not expecting those cards to interact. |
-| Opportunity | Reforge the Soul | draw | A seven-card wheel refreshes your resources while triggering all opposing-draw punishers. It offers a more relevant payoff than spending six mana to draw four cards yourself. |
-| Uyo, Silent Prophet | Magus of the Wheel | synergy | Magus provides a visible, interactable wheel that can be deployed before Nekusar. Without haste it must survive a turn before activating, which suits the intended bracket pacing. |
-| Cruel Ultimatum | Rakdos Signet | ramp | The Signet improves both acceleration and access to red and black mana. Cruel Ultimatum’s demanding seven-mana cost is poorly matched to a deck that wants to establish several smaller engines. |
-| Price of Knowledge | Orcish Bowmasters | interaction | Bowmasters turns wheels and additional draws into flexible damage and a growing blocker at a much lower cost. It does not punish the first card drawn in each opponent’s draw step, but Nekusar’s additional draw still qualifies. |
-| Collective Restraint | Thought Vessel | ramp | Keep Propaganda as the efficient defensive tax and use this slot for a third additional ramp piece. Thought Vessel’s hand-size benefit is useful, although its colorless mana does not solve the deck’s demanding colored costs. |
-| Dismiss | Arcane Denial | interaction | Two-mana interaction is easier to hold up while developing Nekusar and other engines. The countered spell’s controller can draw additional cards later, creating potential punishment triggers without making the counter dependent on Nekusar. |
-| Diviner's Wand | Baleful Mastery | interaction | Reliable creature or planeswalker exile is more valuable than an expensive equipment-based draw outlet. The discounted mode gives an opponent a card, which can also trigger your draw-punishment permanents. |
-| Dominate | Cyclonic Rift | bracket | Rift fills the third Game Changer slot and supplies flexible interaction, with an overloaded reset available later. Preserve Decree of Pain as a true creature wipe rather than removing it for another draw engine. |
-| Drana, Kalastria Bloodchief | Whispering Madness | synergy | Replace a mana-hungry creature with another wheel that directly rewards Nekusar’s damage engines. Cipher offers optional reuse through evasive creatures such as Vampire Nighthawk, but the initial wheel is useful without connecting in combat. |
-| Fog Bank | Fevered Visions | chat edit | Low-synergy blocker; makes room for a stronger Nekusar payoff. |
-| Venser's Journal | Ob Nixilis, the Hate-Twisted | chat edit | Punishes every opposing draw and offers creature removal that forces additional draws. |
-| Viseling | Ob Nixilis, Captive Kingpin | chat edit | Nekusar's individual 1-damage triggers grow him and exile cards you can play until your next end step. |
-
-## Changes from chat
-
-- 2026-11-09 “can we just add both?”: −Venser's Journal, −Viseling, +Ob Nixilis, the Hate-Twisted, +Ob Nixilis, Captive Kingpin
-- 2026-11-09 “please add back "Helm of the Ghastlord"”: −Fog Bank, +Helm of the Ghastlord
-- 2026-11-14 (your deck) “Swap: Aura Thief → Lightning Greaves”: −Aura Thief, +Lightning Greaves
-- 2026-11-14 (your deck) “replace army of the damned with nightscape familiar”: −Army of the Damned, +Nightscape Familiar
-
-## Decklist as submitted (100 cards)
-
-### Commander (1)
+#### Commander (1)
 
 - 1 Nekusar, the Mindrazer {2}{U}{B}{R}
 
-### Creature (18)
+#### Creature (18)
 
 - 1 Fog Bank {1}{U}
 - 1 Kami of the Crescent Moon {U}{U}
@@ -163,7 +38,7 @@ Skipped to stay in the bracket:
 - 1 Uyo, Silent Prophet {4}{U}{U}
 - 1 Thraximundar {4}{U}{B}{R}
 
-### Instant (10)
+#### Instant (10)
 
 - 1 Starstorm {X}{R}{R}
 - 1 Terminate {B}{R}
@@ -176,7 +51,7 @@ Skipped to stay in the bracket:
 - 1 Wild Ricochet {2}{R}{R}
 - 1 Opportunity {4}{U}{U}
 
-### Sorcery (12)
+#### Sorcery (12)
 
 - 1 Earthquake {X}{R}
 - 1 Minds Aglow {U}
@@ -191,7 +66,7 @@ Skipped to stay in the bracket:
 - 1 Decree of Pain {6}{B}{B}
 - 1 Insurrection {5}{R}{R}{R}
 
-### Artifact (12)
+#### Artifact (12)
 
 - 1 Sol Ring {1}
 - 1 Wayfarer's Bauble {1}
@@ -206,7 +81,7 @@ Skipped to stay in the bracket:
 - 1 Otherworld Atlas {4}
 - 1 Venser's Journal {5}
 
-### Enchantment (11)
+#### Enchantment (11)
 
 - 1 Sigil of Sleep {U}
 - 1 Propaganda {2}{U}
@@ -220,7 +95,7 @@ Skipped to stay in the bracket:
 - 1 Spiteful Visions {2}{B/R}{B/R}
 - 1 Price of Knowledge {6}{B}
 
-### Land (36)
+#### Land (36)
 
 - 1 Akoum Refuge
 - 1 Bojuka Bog
@@ -244,13 +119,225 @@ Skipped to stay in the bracket:
 - 1 Vivid Creek
 - 1 Vivid Marsh
 
-## Suggested decklist (100 cards)
+### Stats
 
-### Commander (1)
+| | Value |
+|---|---|
+| Cards | 100 |
+| Price | $235 |
+| Lands | 36 (recommended 37) |
+| Average mana value of spells | 3.49 |
+| Ramp pieces | 8 |
+| Lands that enter tapped | 10 |
+| Lands making U | 18 (target 21) |
+| Lands making B | 19 (target 21) |
+| Lands making R | 17 (target 21) |
+| Mulligan rate | 20.9% |
+| Land drop on turn 2 | 99.7% |
+| Land drop on turn 3 | 89.3% |
+| Land drop on turn 4 | 72.5% |
+| Land drop on turn 5 | 54% |
+| Commander cast on curve | 55.1% |
+| All colors by turn 3 | 80% |
+| Mana available on turn 4 | 4.29 |
+| Mana screw (under 3 lands on turn 4) | 6.8% |
+| Flood (10+ lands seen by turn 7) | 0.4% |
+| Role: land | 36 |
+| Role: ramp | 8 (target 10) |
+| Role: draw | 28 (target 10) |
+| Role: removal | 6 (target 8) |
+| Role: wipe | 2 (target 2) |
+| Role: counter | 1 (target 0) |
+| Role: tutor | 0 (target 0) |
+| Role: protection | 2 (target 3) |
+| Role: recursion | 1 (target 2) |
+| Role: wincon | 1 |
+| Role: other | 21 |
+
+- ⚠️ Blue: 18 lands make it, about 21 wanted.
+- ⚠️ Black: 19 lands make it, about 21 wanted.
+- ⚠️ Red: 17 lands make it, about 21 wanted.
+- ⚠️ 10 lands enter tapped unconditionally; aim for 4 or fewer.
+- ⚠️ 3 colorless-only lands strain a 3-color mana base.
+
+Lands that enter tapped: Akoum Refuge, Bojuka Bog, Crumbling Necropolis, Dimir Guildgate, Izzet Boilerworks, Izzet Guildgate, Rakdos Carnarium, Rakdos Guildgate, Vivid Creek, Vivid Marsh
+
+Lands that only make colorless: Mikokoro, Center of the Sea, Reliquary Tower, Temple of the False God
+
+Goldfish numbers come from 10,000 solo games with a free mulligan and greedy land and ramp plays.
+
+### Bracket 3: Upgraded
+
+Power 32 of 100. Bracket 3 games are expected to last at least 6 turns.
+
+Checked against the rules of bracket 3:
+
+- ✅ **Game Changers:** 1 of 3 allowed
+- ✅ **Mass land denial:** none
+- ✅ **Extra turns:** none
+- ✅ **Two-card combos:** only late-game ones
+- Game Changers: Rhystic Study
+- Two-card combo: Niv-Mizzet, the Firemind + Helm of the Ghastlord (0.2% of games assembled before turn 6)
+
+### Combos in the deck
+
+- [Niv-Mizzet, the Firemind + Helm of the Ghastlord](https://commanderspellbook.com/combo/384-4971/): Infinite card draw, Infinite draw triggers, Near-infinite damage
+
+### Combos one card away
+
+- Add **Hullbreaker Horror** to complete [Hullbreaker Horror + Sol Ring](https://commanderspellbook.com/combo/513-5034--46/): Infinite colorless mana, Infinite storm count
+- Add **Tidespout Tyrant** to complete [Tidespout Tyrant + Sol Ring](https://commanderspellbook.com/combo/542-5034/): Infinite colorless mana, Infinite storm count
+- Add **Peer into the Abyss** to complete [Peer into the Abyss + Underworld Dreams](https://commanderspellbook.com/combo/1561-2720/): Target opponent loses the game
+- Add **Peer into the Abyss** to complete [Psychosis Crawler + Peer into the Abyss](https://commanderspellbook.com/combo/1561-2384/): Near-infinite lifeloss, Near-infinite card draw, Near-infinite draw triggers
+- Add **Curiosity** to complete [Niv-Mizzet, the Firemind + Curiosity](https://commanderspellbook.com/combo/1089-4971/): Infinite card draw, Infinite draw triggers, Near-infinite damage
+- Add **Niv-Mizzet, Visionary** to complete [Niv-Mizzet, the Firemind + Niv-Mizzet, Visionary](https://commanderspellbook.com/combo/4971-6092/): Near-infinite damage, Infinite card draw, Infinite draw triggers
+- Add **Peer into the Abyss** to complete [Nekusar, the Mindrazer + Peer into the Abyss](https://commanderspellbook.com/combo/1561-1972/): Near-infinite card draw for target opponent, Near-infinite damage to one opponent, Near-infinite draw triggers for target opponent, Target opponent loses the game
+- Add **Kefka, Court Mage // Kefka, Ruler of Ruin** to complete [Kefka, Court Mage // Kefka, Ruler of Ruin + Psychosis Crawler](https://commanderspellbook.com/combo/2384-6574/): Infinite card draw, Near-infinite lifeloss, Infinite draw triggers
+- Add **Ophidian Eye** to complete [Niv-Mizzet, the Firemind + Ophidian Eye](https://commanderspellbook.com/combo/2396-4971/): Infinite card draw, Infinite draw triggers, Near-infinite damage
+- Add **Tandem Lookout** to complete [Niv-Mizzet, the Firemind + Tandem Lookout](https://commanderspellbook.com/combo/406-4971/): Infinite card draw, Infinite draw triggers, Near-infinite damage
+
+### Synergies
+
+- **Draw, Bounce, Delay** (Nekusar, the Mindrazer + Sigil of Sleep + Frozen Aether): With Sigil of Sleep enchanting Nekusar, every opposing draw lets you return a creature that opponent controls to their hand. Frozen Aether makes replayed creatures enter tapped, helping keep attackers and utility creatures under control.
+- **Wheel into Empty Hands** (Nekusar, the Mindrazer + Helm of the Ghastlord + Windfall): Helm of the Ghastlord gives Nekusar both damage-triggered abilities, so every opponent's Windfall draw also generates a card for you and a discard for that opponent. Those triggers resolve after Windfall finishes, potentially stripping opponents of their freshly drawn hands without forming an infinite loop.
+- **Double-Sided Draw Damage** (Nekusar, the Mindrazer + Prosperity + Psychosis Crawler): Prosperity for X causes Nekusar to deal X damage to each opponent while your own X draws make Psychosis Crawler drain each opponent for another X life. You refill your hand while each opponent loses a total of 2X life, assuming the damage is not prevented.
+- **Back-to-Back Wheel Burn** (Nekusar, the Mindrazer + Windfall + Molten Psyche): Windfall refills hands for Molten Psyche to shuffle away and redraw, generating another wave of Nekusar triggers. With metalcraft active, Molten Psyche also damages each opponent for all cards they have drawn that turn, including both spells' draws.
+- **Protected Repeatable Wheels** (Nekusar, the Mindrazer + Jace's Archivist + Lightning Greaves): Lightning Greaves lets Jace's Archivist activate immediately and protects it from targeted removal while equipped. Its repeatable wheel reloads your hand and turns every opposing redraw into Nekusar damage.
+- **Six-Damage Draw Steps** (Nekusar, the Mindrazer + Spiteful Visions): Together they make opponents draw three cards during an ordinary draw step, with each card triggering both damage abilities for 6 total damage. Spiteful Visions also damages you for your own draws, making this a powerful but symmetrical accelerator.
+- **Pay to Attack, Bleed to Pay** (Nekusar, the Mindrazer + Propaganda + Manabarbs + Sol Ring): Propaganda taxes attacks against you, and Manabarbs punishes opponents who tap lands to pay that tax while Nekusar keeps draining them through draws. Sol Ring supplies mana without triggering Manabarbs, helping you operate under your own pressure package.
+- **Draw Pain Becomes Table Pain** (Nekusar, the Mindrazer + Helm of the Ghastlord + Psychosis Crawler): Enchant Nekusar with Helm of the Ghastlord: each time his draw-triggered damage hits an opponent, that opponent discards a card and you draw a card. Each resulting draw triggers Psychosis Crawler, spreading another 1 life loss to every opponent without creating an infinite loop.
+- **One More Card, One More Damage** (Nightscape Familiar + Nekusar, the Mindrazer + Prosperity): Nightscape Familiar reduces Prosperity's generic cost, letting you choose X one higher for the same mana investment. Every additional card drawn gives you another resource and makes Nekusar deal another damage to each opponent.
+
+## Part 2: The doc's suggestions (not in the deck yet)
+
+These are optional changes to the deck in Part 1, aiming for bracket 3 (Upgraded), balanced tone. Making all of them gives the suggested decklist at the end of this part.
+
+### Strategy
+
+Build a resilient draw-punishment board, then turn symmetrical draw effects and wheels into damage rather than racing toward an infinite combo. These changes lower the curve, bring ramp to roughly ten pieces, and improve protection and interaction while preserving the deck’s group-slug personality. The final configuration uses exactly three Game Changers under the supplied classification—Rhystic Study, Orcish Bowmasters, and Cyclonic Rift—and removes the existing two-card infinite combo, aiming for interactive games that reach turn six or later.
+
+### Suggested swaps (15)
+
+| # | Cut | Add | Category | Why |
+|---|---|---|---|---|
+| 1 | Insurrection | Razorkin Needlehead | synergy | Needlehead makes every opposing draw more dangerous and keeps wheels productive when Nekusar is unavailable. Its double-red cost deserves attention, but it is substantially easier to deploy than Insurrection. |
+| 2 | Thraximundar | Arcane Signet | ramp | Replace an expensive combat threat with early colored acceleration. Casting Nekusar while retaining mana for protection is more important than adding another seven-mana attacker. |
+| 3 | Charmbreaker Devils | Teferi's Puzzle Box | synergy | Puzzle Box repeatedly converts opponents’ hands into fresh draw triggers without needing additional wheel spells. It puts cards on the bottom rather than discarding them, so this build does not add Waste Not expecting those cards to interact. |
+| 4 | Opportunity | Reforge the Soul | draw | A seven-card wheel refreshes your resources while triggering all opposing-draw punishers. It offers a more relevant payoff than spending six mana to draw four cards yourself. |
+| 5 | Uyo, Silent Prophet | Magus of the Wheel | synergy | Magus provides a visible, interactable wheel that can be deployed before Nekusar. Without haste it must survive a turn before activating, which suits the intended bracket pacing. |
+| 6 | Cruel Ultimatum | Rakdos Signet | ramp | The Signet improves both acceleration and access to red and black mana. Cruel Ultimatum’s demanding seven-mana cost is poorly matched to a deck that wants to establish several smaller engines. |
+| 7 | Price of Knowledge | Orcish Bowmasters | interaction | Bowmasters turns wheels and additional draws into flexible damage and a growing blocker at a much lower cost. It does not punish the first card drawn in each opponent’s draw step, but Nekusar’s additional draw still qualifies. |
+| 8 | Collective Restraint | Thought Vessel | ramp | Keep Propaganda as the efficient defensive tax and use this slot for a third additional ramp piece. Thought Vessel’s hand-size benefit is useful, although its colorless mana does not solve the deck’s demanding colored costs. |
+| 9 | Dismiss | Arcane Denial | interaction | Two-mana interaction is easier to hold up while developing Nekusar and other engines. The countered spell’s controller can draw additional cards later, creating potential punishment triggers without making the counter dependent on Nekusar. |
+| 10 | Diviner's Wand | Baleful Mastery | interaction | Reliable creature or planeswalker exile is more valuable than an expensive equipment-based draw outlet. The discounted mode gives an opponent a card, which can also trigger your draw-punishment permanents. |
+| 11 | Dominate | Cyclonic Rift | bracket | Rift fills the third Game Changer slot and supplies flexible interaction, with an overloaded reset available later. Preserve Decree of Pain as a true creature wipe rather than removing it for another draw engine. |
+| 12 | Drana, Kalastria Bloodchief | Whispering Madness | synergy | Replace a mana-hungry creature with another wheel that directly rewards Nekusar’s damage engines. Cipher offers optional reuse through evasive creatures such as Vampire Nighthawk, but the initial wheel is useful without connecting in combat. |
+| 13 | Fog Bank | Fevered Visions | chat edit | Low-synergy blocker; makes room for a stronger Nekusar payoff. |
+| 14 | Venser's Journal | Ob Nixilis, the Hate-Twisted | chat edit | Punishes every opposing draw and offers creature removal that forces additional draws. |
+| 15 | Viseling | Ob Nixilis, Captive Kingpin | chat edit | Nekusar's individual 1-damage triggers grow him and exile cards you can play until your next end step. |
+
+Other cards that could take the same slot:
+
+- Instead of Razorkin Needlehead: Howling Mine
+- Instead of Arcane Signet: Howling Mine
+- Instead of Teferi's Puzzle Box: Dark Deal, Kederekt Parasite
+- Instead of Reforge the Soul: Dark Deal, Kederekt Parasite
+- Instead of Magus of the Wheel: Dark Deal, Kederekt Parasite
+- Instead of Rakdos Signet: Kederekt Parasite, Peer into the Abyss
+- Instead of Orcish Bowmasters: Peer into the Abyss, Waste Not
+- Instead of Thought Vessel: Waste Not, Sheoldred, the Apocalypse
+- Instead of Arcane Denial: Waste Not, Sheoldred, the Apocalypse
+- Instead of Baleful Mastery: Sheoldred, the Apocalypse
+
+### More land swaps to consider
+
+- Cut Temple of the False God, Add Exotic Orchard: Temple of the False God only makes colorless mana; Exotic Orchard makes black and red and blue untapped, helping blue and black, which are short.
+- Cut Mountain, Add Watery Grave: You have plenty of red sources; Watery Grave makes black and blue untapped, helping blue and black, which are short.
+- Cut Akoum Refuge, Add City of Brass: Akoum Refuge always enters tapped; City of Brass makes black and red and blue untapped, helping blue, which is short.
+
+### What the swaps change
+
+| | Deck as submitted | With the swaps |
+|---|---|---|
+| Bracket | 3 | 3 |
+| Power (0-100) | 32 | 48 |
+| Cards | 100 | 100 |
+| Price | $235 | $327 |
+| Lands | 36 (recommended 37) | 36 (recommended 36) |
+| Average mana value of spells | 3.49 | 3 |
+| Ramp pieces | 8 | 11 |
+| Lands that enter tapped | 10 | 10 |
+| Lands making U | 18 (target 21) | 18 (target 21) |
+| Lands making B | 19 (target 21) | 19 (target 21) |
+| Lands making R | 17 (target 21) | 17 (target 17) |
+| Mulligan rate | 20.9% | 20.7% |
+| Land drop on turn 2 | 99.7% | 99.8% |
+| Land drop on turn 3 | 89.3% | 89.5% |
+| Land drop on turn 4 | 72.5% | 72.7% |
+| Land drop on turn 5 | 54% | 53.5% |
+| Commander cast on curve | 55.1% | 64.6% |
+| All colors by turn 3 | 80% | 83.4% |
+| Mana available on turn 4 | 4.29 | 4.58 |
+| Mana screw (under 3 lands on turn 4) | 6.8% | 6.6% |
+| Flood (10+ lands seen by turn 7) | 0.4% | 0.3% |
+| Role: land | 36 | 36 |
+| Role: ramp | 8 (target 10) | 11 (target 10) |
+| Role: draw | 28 (target 10) | 32 (target 10) |
+| Role: removal | 6 (target 8) | 9 (target 8) |
+| Role: wipe | 2 (target 2) | 2 (target 2) |
+| Role: counter | 1 (target 0) | 1 (target 0) |
+| Role: tutor | 0 (target 0) | 0 (target 0) |
+| Role: protection | 2 (target 3) | 2 (target 3) |
+| Role: recursion | 1 (target 2) | 1 (target 2) |
+| Role: wincon | 1 | 1 |
+| Role: other | 21 | 13 |
+
+- ⚠️ After the swaps: Blue: 18 lands make it, about 21 wanted.
+- ⚠️ After the swaps: Black: 19 lands make it, about 21 wanted.
+- ⚠️ After the swaps: 10 lands enter tapped unconditionally; aim for 4 or fewer.
+- ⚠️ After the swaps: 3 colorless-only lands strain a 3-color mana base.
+
+### Bracket after the swaps: 3
+
+Power 48 of 100, mid in bracket 3 (Upgraded).
+
+Checked against the rules of bracket 3:
+
+- ✅ **Game Changers:** 3 of 3 allowed
+- ✅ **Mass land denial:** none
+- ✅ **Extra turns:** none
+- ✅ **Two-card combos:** only late-game ones
+- Game Changers: Rhystic Study, Orcish Bowmasters, Cyclonic Rift
+- Two-card combo: Niv-Mizzet, the Firemind + Helm of the Ghastlord (0.2% of games assembled before turn 6)
+
+### Strong cards skipped to stay in the bracket
+
+- Kefka, Court Mage // Kefka, Ruler of Ruin: completes Kefka, Court Mage // Kefka, Ruler of Ruin + Psychosis Crawler, a two-card combo bracket 3 doesn't allow
+
+### New combos one card away
+
+- Add **Peer into the Abyss** to complete [Orcish Bowmasters + Peer into the Abyss](https://commanderspellbook.com/combo/1561-3862/): Infinite +1/+1 counters on a creature, Near-infinite card draw for target opponent, Near-infinite damage, Near-infinite draw triggers for target opponent, Target opponent loses the game
+- Add **Peer into the Abyss** to complete [Razorkin Needlehead + Peer into the Abyss](https://commanderspellbook.com/combo/1561-5919/): Near-infinite damage to one opponent, Near-infinite draw triggers for target opponent, Near-infinite card draw for target opponent, Near-infinite lifeloss for target opponent
+- Add **Peer into the Abyss** to complete [Ob Nixilis, the Hate-Twisted + Peer into the Abyss](https://commanderspellbook.com/combo/1561-5165/): Target player loses the game
+- Add **All Will Be One** to complete [Ob Nixilis, Captive Kingpin + All Will Be One](https://commanderspellbook.com/combo/2390-4166/): Exile your library, Infinite +1/+1 counters on a creature, Infinite damage
+- Add **Narset, Parter of Veils** to complete [Narset, Parter of Veils + Teferi's Puzzle Box](https://commanderspellbook.com/combo/1177-2286/): Each opponent shuffles their hand into their library during their draw step, Opponents can't draw cards during their turn, Lock
+- Add **Notion Thief** to complete [Notion Thief + Teferi's Puzzle Box](https://commanderspellbook.com/combo/2286-3221/): Opponents put all cards in hand on the bottom of their library on each of their draw steps, Lock
+
+### Synergies the swaps add
+
+- **Seven-Card Punishment** (Nekusar, the Mindrazer + Reforge the Soul + Orcish Bowmasters): Reforge the Soul makes each opponent draw seven cards, triggering Nekusar and Orcish Bowmasters seven times per opponent. This combines table-wide damage with a rapidly growing Orc Army and flexible Bowmasters damage.
+- **The Painful Puzzle Box** (Nekusar, the Mindrazer + Teferi's Puzzle Box + Underworld Dreams): Teferi's Puzzle Box forces opponents to redraw their hands every draw step, with Nekusar and Underworld Dreams dealing a combined 2 damage per card drawn. The normal draw and Nekusar's additional draw also trigger both punishers.
+- **Removal with a Four-Damage Sting** (Nekusar, the Mindrazer + Ob Nixilis, the Hate-Twisted): Ob Nixilis's −2 destroys an opponent's creature, then their two replacement draws trigger both punishers for 4 total damage. Together, they also make every other opposing draw deal 2 damage.
+- **Prosperity into Power** (Ob Nixilis, Captive Kingpin + Psychosis Crawler + Prosperity): Your X draws from Prosperity produce X separate Psychosis Crawler triggers, each making every opponent lose exactly 1 life. Each resolution triggers Ob Nixilis once, generating X +1/+1 counters and X exiled cards you may play until your next end step.
+- **Their Mana Fuels Your Kingpin** (Ob Nixilis, Captive Kingpin + Manabarbs): Each Manabarbs trigger that deals 1 damage to an opponent triggers Ob Nixilis, turning their land-based mana production into counters and temporary card access for you. This pressures opponents for spending mana as well as drawing cards.
+
+### Suggested decklist (100 cards)
+
+#### Commander (1)
 
 - 1 Nekusar, the Mindrazer {2}{U}{B}{R}
 
-### Creature (16)
+#### Creature (16)
 
 - 1 Kami of the Crescent Moon {U}{U}
 - 1 Nightscape Familiar {1}{B}
@@ -269,11 +356,11 @@ Skipped to stay in the bracket:
 - 1 Seizan, Perverter of Truth {3}{B}{B}
 - 1 Niv-Mizzet, the Firemind {2}{U}{U}{R}{R}
 
-### Planeswalker (1)
+#### Planeswalker (1)
 
 - 1 Ob Nixilis, the Hate-Twisted {3}{B}{B} _(new)_
 
-### Instant (10)
+#### Instant (10)
 
 - 1 Arcane Denial {1}{U} _(new)_
 - 1 Cyclonic Rift {1}{U} _(new)_
@@ -286,7 +373,7 @@ Skipped to stay in the bracket:
 - 1 Baleful Mastery {3}{B} _(new)_
 - 1 Wild Ricochet {2}{R}{R}
 
-### Sorcery (12)
+#### Sorcery (12)
 
 - 1 Earthquake {X}{R}
 - 1 Minds Aglow {U}
@@ -301,7 +388,7 @@ Skipped to stay in the bracket:
 - 1 Reforge the Soul {3}{R}{R} _(new)_
 - 1 Decree of Pain {6}{B}{B}
 
-### Artifact (14)
+#### Artifact (14)
 
 - 1 Sol Ring {1}
 - 1 Wayfarer's Bauble {1}
@@ -318,7 +405,7 @@ Skipped to stay in the bracket:
 - 1 Otherworld Atlas {4}
 - 1 Teferi's Puzzle Box {4} _(new)_
 
-### Enchantment (10)
+#### Enchantment (10)
 
 - 1 Sigil of Sleep {U}
 - 1 Fevered Visions {1}{U}{R} _(new)_
@@ -331,7 +418,7 @@ Skipped to stay in the bracket:
 - 1 Manabarbs {3}{R}
 - 1 Spiteful Visions {2}{B/R}{B/R}
 
-### Land (36)
+#### Land (36)
 
 - 1 Akoum Refuge
 - 1 Bojuka Bog
@@ -355,16 +442,27 @@ Skipped to stay in the bracket:
 - 1 Vivid Creek
 - 1 Vivid Marsh
 
-## Web research
+Cards marked _(new)_ are the ones the swaps add.
 
-## 1. Main strategies/archetypes
+### Changes from chat
+
+- 2026-11-09 “can we just add both?”: −Venser's Journal, −Viseling, +Ob Nixilis, the Hate-Twisted, +Ob Nixilis, Captive Kingpin
+- 2026-11-09 “please add back "Helm of the Ghastlord"”: −Fog Bank, +Helm of the Ghastlord
+- 2026-11-14 (made in the deck as submitted) “Swap: Aura Thief → Lightning Greaves”: −Aura Thief, +Lightning Greaves
+- 2026-11-14 (made in the deck as submitted) “replace army of the damned with nightscape familiar”: −Army of the Damned, +Nightscape Familiar
+
+## Background
+
+### Web research about the commander
+
+#### 1. Main strategies/archetypes
 
 - **Wheels / draw-punishment:** The main build—establish effects that punish opponents for drawing, then chain **Windfall**, **Wheel of Fortune**, and similar spells to kill the table.
 - **Group slug:** A slower version using repeatable extra draws and multiple punishment permanents rather than one explosive turn.
 - **Wheel-storm / combo:** Emphasizes rituals, mana-producing discard engines, recursion, and consecutive wheels. **Infect** is a compact finishing package.
 - **Discard-control:** Adds discard payoffs or hand-denial effects. These overlap with wheels, but preventing opponents from drawing can conflict with Nekusar’s damage plan. EDHREC’s leading tags remain Wheels, Group Slug, Burn, and Card Draw. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer?utm_source=openai))
 
-## 2. Key synergy cards and engines
+#### 2. Key synergy cards and engines
 
 | Role | Specific cards and purpose |
 |---|---|
@@ -377,7 +475,7 @@ These are established selections on current EDHREC pages, not necessarily automa
 - **Discard engines:** **Waste Not** converts opponents’ discarded cards into mana, creatures, or cards; **Geth's Grimoire** supplies cards; **Liliana's Caress** and **Megrim** add life-total pressure. Crucially, these need *discarding* wheels, not merely hand-shuffling effects. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer/optimized?utm_source=openai))
 - **Trigger/damage amplification:** **Harmonic Prodigy** doubles Nekusar’s triggered abilities; **Ghyrson Starn, Kelermorph** adds damage after his one-damage hits. Recent EDHREC coverage also highlights **Niv-Mizzet, Visionary** as a draw engine fueled by Nekusar’s damage. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer/wheels?utm_source=openai))
 
-## 3. Popular combos and their outputs
+#### 3. Popular combos and their outputs
 
 | Exact cards | Result and important conditions |
 |---|---|
@@ -389,7 +487,7 @@ Commander Spellbook documents these Nekusar-specific lines and their prerequisit
 
 **Higher-power engine:** **Underworld Breach + Lion's Eye Diamond + Wheel of Fortune** repeatedly escapes the Diamond and wheel, producing repeated seven-card draws and increasing storm count. With **Nekusar, the Mindrazer** present, those draws become table-wide damage. Spellbook’s starting setup requires at least six other cards across your hand/graveyard; actual repetitions are limited by available library/fuel. ([commanderspellbook.com](https://commanderspellbook.com/combo/1368-2706-3518/))
 
-## 4. Common mistakes and underperformers
+#### 4. Common mistakes and underperformers
 
 - **Giving away cards without sufficient punishment.** **Howling Mine**, **Kami of the Crescent Moon**, and especially **Font of Mythos** can help three opponents more than you. They suit slower slug builds better than streamlined wheel-storm lists. ([reddit.com](https://www.reddit.com/r/EDH/comments/1j4mlst?utm_source=openai))
 - **Casting Nekusar immediately, unprotected.** Have alternative payoffs and enough mana/protection to exploit him before opponents untap; do not make every game depend on repeatedly resolving a five-mana commander. ([reddit.com](https://www.reddit.com/r/EDH/comments/1uveq2m/the_way_of_the_wheel_how_to_build_a_wheels_deck/?utm_source=openai))
@@ -397,7 +495,7 @@ Commander Spellbook documents these Nekusar-specific lines and their prerequisit
 - **Confusing damage with life loss.** **Scrawling Crawler** causes life loss: damage amplifiers, infect, and **Niv-Mizzet, Visionary** do not enhance that loss. ([edhrec.com](https://edhrec.com/articles/nekusar-the-mindrazer-commander-makeover))
 - **Current explicit warning:** EDHREC’s September 11, 2026 makeover advises against **Naktamun Lorespinner**: Nekusar’s extra draws make preparing it again unreliable. ([edhrec.com](https://edhrec.com/articles/nekusar-the-mindrazer-commander-makeover))
 
-## 5. Mana base advice specific to Nekusar
+#### 5. Mana base advice specific to Nekusar
 
 **My practical starting point:** approximately **36–37 lands and 10–12 ramp pieces**, adjusted after testing. Prioritize early colored mana and the ability to cast a payoff **plus a wheel/protection**, rather than merely reaching five mana. The published guide emphasizes land/ramp-heavy opening hands and the full Grixis Signet/Talisman suite. ([edh.wiki](https://edh.wiki/commanders/nekusar-the-mindrazer/?utm_source=openai))
 
@@ -416,7 +514,3 @@ Commander Spellbook documents these Nekusar-specific lines and their prerequisit
 - [Nekusar, the Mindrazer Commander Deck Guide - Draftsim](https://draftsim.com/nekusar-edh-deck/)
 - [Nekusar, the Mindrazer | Commander Makeover | EDHREC](https://edhrec.com/articles/nekusar-the-mindrazer-commander-makeover)
 - [Nekusar, the Mindrazer (Commander) on EDH.Wiki](https://edh.wiki/commanders/nekusar-the-mindrazer/)
-
-Totals: 100 → 100 cards, $235.04 → $327.22
-
-EDHREC: https://edhrec.com/commanders/nekusar-the-mindrazer/upgraded

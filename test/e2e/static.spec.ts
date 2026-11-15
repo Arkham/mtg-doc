@@ -206,7 +206,7 @@ test.describe("static site", () => {
     const shown = page.url();
     expect(shown).toBe(`${STATIC_URL}decks/${OVERPOWERED}/optimized/rule0/`);
     const text = await (await request.get(shown)).text();
-    expect(text).toContain("<h1>Lathril, Blade of the Elves</h1>");
+    expect(text).toContain("<h1>Lathril, Blade of the Elves: Commander deck report</h1>");
     expect(text).toContain("Suggested decklist");
     const shell = await (await request.get(STATIC_URL)).text();
     expect(shell).toContain(`href="decks/${OVERPOWERED}/"`);

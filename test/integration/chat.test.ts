@@ -7,6 +7,7 @@ import { parseDecklist } from "../../server/decklist.ts";
 import { readDeckFile } from "../../server/storage.ts";
 import type { DeckChatMessage, EditTarget, Report } from "../../shared/types.ts";
 import { optimizeFixtureDeck, waitForJob } from "../support/sample.ts";
+import { mdSection } from "../support/markdown.ts";
 
 let base = "";
 let close: () => void;
@@ -64,11 +65,13 @@ describe("deck chat without an LLM", () => {
     assert.ok(!list.entries.some((e) => e.name === "Sol Ring"));
     // report.md (and the published plain page built from it) follows the edited list.
     const md = await readDeckFile(slug, "report.md");
-    assert.match(md, /## Changes from chat[\s\S]*Mind Stone/);
-    const suggested = md.split("## Suggested decklist")[1].split("\n## ")[0];
+    assert.match(mdSection(md, /^Changes from chat$/), /Mind Stone/);
+    const suggested = mdSection(md, /^Suggested decklist/);
     assert.match(suggested, /- 1 Mind Stone .*_\(new\)_/);
     assert.doesNotMatch(suggested, /Sol Ring/);
-    assert.match(md.split("## Decklist as submitted")[1].split("\n## ")[0], /- 1 Sol Ring/);
+    const submitted = mdSection(mdSection(md, /^Part 1: /), /^Decklist /);
+    assert.match(submitted, /- 1 Sol Ring/);
+    assert.doesNotMatch(submitted, /Mind Stone/, "the suggestion isn't in the deck as submitted");
 
     assert.equal((await apply(reply.id)).status, 409, "can't apply twice");
   });
@@ -205,7 +208,7 @@ describe("deck chat without an LLM", () => {
     assert.equal(report.swaps.filter((s) => !before.has(s.in)).length, added);
 
     const md = await readDeckFile(slug, "report.md");
-    const table = md.split("## Swaps")[1].split("\n## ")[0];
+    const table = mdSection(md, /^Suggested swaps/);
     assert.match(table, new RegExp(`\\| ${filler} \\| ${undone.in} \\| chat edit \\|`));
     assert.doesNotMatch(table, new RegExp(`\\| ${undone.out} \\|`));
   });
@@ -254,7 +257,7 @@ describe("deck chat without an LLM", () => {
     assert.ok(!report.swaps.some((s) => s.out === cutByDoc.out));
     assert.equal(report.after.totalCards, 100);
     assert.equal(report.edits!.at(-1)!.target, "original");
-    assert.match(await readDeckFile(slug, "report.md"), /\(your deck\) “swap /);
+    assert.match(await readDeckFile(slug, "report.md"), /\(made in the deck as submitted\) “swap /);
   });
 
   test("a swap's Apply button makes it in the deck as submitted, and the suggestions stay", async () => {
