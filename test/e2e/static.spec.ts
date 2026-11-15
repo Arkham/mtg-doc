@@ -254,6 +254,33 @@ test.describe("static site", () => {
     await expect(page.locator("#decklist .deck-group li").first()).toBeVisible();
   });
 
+  test("switching between the two views stays on the section being read", async ({ page }) => {
+    await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/`);
+    const nav = page.locator(".section-nav");
+    // Read partway into the section, as if scrolled there by hand.
+    await page.locator("#sim").evaluate((el) => {
+      const margin = parseFloat(getComputedStyle(el).scrollMarginTop);
+      window.scrollTo({
+        top: el.getBoundingClientRect().top + scrollY - margin + 40,
+        behavior: "instant",
+      });
+      window.dispatchEvent(new Event("wheel"));
+    });
+    await expect(nav.locator("button.active")).toHaveText("Goldfish");
+    const toggle = page.getByRole("tablist", { name: "Which deck" });
+    await toggle.getByRole("tab", { name: /Optimized/ }).click();
+    await expect(page.getByRole("heading", { name: "The plan" })).toBeAttached();
+    await expect(page.locator("#sim")).toBeInViewport();
+    await expect(nav.locator("button.active")).toHaveText("Goldfish");
+    await toggle.getByRole("tab", { name: "Your deck" }).click();
+    await expect(page.getByRole("heading", { name: "Your deck", level: 2 })).toBeAttached();
+    await expect(page.locator("#sim")).toBeInViewport();
+    // Going to another page still starts at the top.
+    await page.getByRole("button", { name: "Back" }).click();
+    await expect(page.locator(".deck-card").first()).toBeVisible();
+    expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  });
+
   test("combos list shows those in the deck and one card away together", async ({ page }) => {
     await page.goto(`${STATIC_URL}#/deck/${OPTIMIZED}`);
     const combos = page.locator("#combos");

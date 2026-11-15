@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { type AppConfig, type Recognition, api } from "./api.ts";
 import { CardSearchButton } from "./components/CardSearch.tsx";
 import { Home } from "./components/Home.tsx";
@@ -6,6 +6,7 @@ import { Progress } from "./components/Progress.tsx";
 import { ReportView } from "./components/ReportView.tsx";
 import { Review } from "./components/Review.tsx";
 import { Rule0 } from "./components/Rule0.tsx";
+import { type ScrollAnchor, captureAnchor, restoreAnchor } from "./scroll-anchor.ts";
 import {
   ROUTE_CHANGE,
   type Route,
@@ -23,11 +24,26 @@ export function App() {
     null,
   );
   const [config, setConfig] = useState<AppConfig | null>(null);
+  const routeRef = useRef(route);
+  // How to scroll once the next route renders: to the top, or back to the section being read.
+  const pendingScroll = useRef<{ anchor: ScrollAnchor | null } | "top" | null>(null);
+
+  useLayoutEffect(() => {
+    routeRef.current = route;
+    const pending = pendingScroll.current;
+    pendingScroll.current = null;
+    if (pending === "top") window.scrollTo(0, 0);
+    else if (pending?.anchor) restoreAnchor(pending.anchor);
+  }, [route]);
 
   useEffect(() => {
     const onRoute = () => {
-      setRoute(currentRoute());
-      window.scrollTo(0, 0);
+      const prev = routeRef.current;
+      const next = currentRoute();
+      // Switching between a deck's two views keeps the reader on the same section.
+      const sameDeck = prev.page === "deck" && next.page === "deck" && prev.slug === next.slug;
+      pendingScroll.current = sameDeck ? { anchor: captureAnchor() } : "top";
+      setRoute(next);
     };
     // Links between the static site's pages switch views in place instead of reloading.
     const onClick = (e: MouseEvent) => {
