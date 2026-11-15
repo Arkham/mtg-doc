@@ -74,7 +74,6 @@ test.describe("local app", () => {
     await expect(page.locator("body > .card-preview")).toHaveAttribute("src", /^https:/);
     await proposal.getByRole("button", { name: "Apply 2 changes" }).click();
     await expect(proposal).toContainText("Applied", { timeout: 30_000 });
-    await expect(page.locator(".edit-log")).toContainText("Mind Stone");
 
     // Cutting lands opens a gap the optimizer would fix: the doc offers a re-run that keeps edits.
     await message.fill("remove 3 Forest");
@@ -90,13 +89,15 @@ test.describe("local app", () => {
     );
     await page.getByRole("button", { name: "Close chat" }).click();
     const decklist = page.locator("#decklist");
-    await decklist.getByRole("tab", { name: "List" }).click();
+    await decklist.getByRole("button", { name: /^Show swaps/ }).click();
+    await expect(page.locator(".edit-log")).toContainText("Mind Stone");
+    await decklist.getByRole("button", { name: "Show decklist" }).click();
     await expect(page.locator(".deck-group li.new").filter({ hasText: "Mind Stone" })).toHaveCount(
       1,
     );
 
     // Any swap the doc suggests can be made in the deck as submitted.
-    await decklist.getByRole("tab", { name: /^Swaps/ }).click();
+    await decklist.getByRole("button", { name: /^Show swaps/ }).click();
     const swaps = decklist.locator(".swap");
     const before = await swaps.count();
     const first = swaps.first();

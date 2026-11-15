@@ -261,6 +261,18 @@ button.back span {
   line-height: 1.5;
   max-width: 68ch;
 }
+.panel-head.compact {
+  flex-wrap: nowrap;
+  align-items: center;
+}
+.panel-head.compact .panel-head-text {
+  flex-basis: auto;
+}
+.panel-head .count {
+  font-size: 0.8em;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
 .panel-actions {
   display: flex;
   gap: var(--sp-2);

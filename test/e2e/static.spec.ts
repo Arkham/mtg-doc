@@ -105,18 +105,19 @@ test.describe("static site", () => {
     ).toBeVisible();
     await expect(page.getByRole("heading", { name: "Bracket 3: Upgraded" })).toBeVisible();
     await expect(page.locator(".checks li.bad")).toHaveCount(0);
-    // The optimized view opens the decklist on the swaps, with the cards a tap away.
+    // The decklist section shows the swaps that made it at the tap of a button.
     const decklist = page.locator("#decklist");
-    await expect(page.getByRole("heading", { name: "Decklist", exact: true })).toBeVisible();
-    await expect(decklist.getByRole("tab", { name: /^Swaps \d+$/ })).toHaveAttribute(
-      "aria-selected",
-      "true",
-    );
-    await expect(decklist.locator(".swap").first()).toBeVisible();
-    await expect(decklist.locator(".side-label", { hasText: "Cut" }).first()).toBeVisible();
+    await expect(decklist.getByRole("heading", { name: "Decklist", exact: true })).toBeVisible();
+    await expect(decklist.locator(".deck-group li.new").first()).toBeVisible();
     await expect(page.locator("#swaps")).toHaveCount(0);
     await expect(page.getByRole("button", { name: "Cut cards" })).toHaveCount(0);
-    await decklist.getByRole("tab", { name: "List" }).click();
+    await decklist.getByRole("button", { name: /^Show swaps \d+$/ }).click();
+    await expect(decklist.getByRole("heading", { name: "Swaps", exact: true })).toBeVisible();
+    await expect(decklist.locator(".swap").first()).toBeVisible();
+    await expect(decklist.locator(".side-label", { hasText: "Cut" }).first()).toBeVisible();
+    await expect(decklist.locator(".deck-group")).toHaveCount(0);
+    await expectNoHorizontalOverflow(page);
+    await decklist.getByRole("button", { name: "Show decklist" }).click();
     await expect(decklist.locator(".deck-group li.new").first()).toBeVisible();
     await expect(decklist.locator(".swap")).toHaveCount(0);
     await expect(page.getByRole("heading", { name: "Mana base", exact: true })).toBeVisible();
@@ -232,7 +233,7 @@ test.describe("static site", () => {
       "true",
     );
     await expect(page.getByRole("heading", { name: "Your deck", level: 2 })).toBeVisible();
-    await expect(page.getByRole("tab", { name: /^Swaps/ })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: /^Show swaps/ })).toHaveCount(0);
     await expect(page.locator(".section-nav").getByRole("button", { name: "Swaps" })).toHaveCount(
       0,
     );
@@ -248,6 +249,7 @@ test.describe("static site", () => {
       "true",
     );
     await expect(page.getByRole("heading", { name: "The plan" })).toBeVisible();
+    await page.getByRole("button", { name: /^Show swaps/ }).click();
     await expect(page.locator("#decklist .swap").first()).toBeVisible();
     await toggle.getByRole("tab", { name: "Your deck" }).click();
     await expect(page.locator("#decklist .swap")).toHaveCount(0);
@@ -477,7 +479,7 @@ test.describe("static site", () => {
     await expect(page.getByRole("heading", { name: "Decklist", exact: true })).toBeVisible();
     await expect(page.getByRole("tab", { name: /Optimized/ })).toHaveCount(0);
     await expect(page.getByRole("tab", { name: "Your deck" })).toHaveCount(0);
-    await expect(page.getByRole("tab", { name: /^Swaps/ })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: /^Show swaps/ })).toHaveCount(0);
     await expect(page.locator(".swap")).toHaveCount(0);
     await expect(page.getByText(/The doc prescribes/)).toHaveCount(0);
     await page.locator(".menu summary").click();

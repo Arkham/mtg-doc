@@ -98,13 +98,16 @@ function PanelHead({
   title,
   desc,
   actions,
+  compact,
 }: {
   title: ReactNode;
   desc?: ReactNode;
   actions?: ReactNode;
+  /** Keep the actions beside a short title, even on phones. */
+  compact?: boolean;
 }) {
   return (
-    <header className="panel-head">
+    <header className={`panel-head${compact ? " compact" : ""}`}>
       <div className="panel-head-text">
         <h2>{title}</h2>
         {desc && <p className="panel-desc">{desc}</p>}
@@ -874,8 +877,6 @@ function DeckImages({
   );
 }
 
-type DecklistMode = "swaps" | "list" | "images";
-
 /** The deck's cards as a list or images and, on the optimized view, the swaps that made it. */
 function Decklist({
   cards,
@@ -885,19 +886,19 @@ function Decklist({
   cards: DecklistCard[];
   /** Mark new cards; off for the deck as submitted. */
   compare: boolean;
-  /** The swaps tab, on the optimized view. */
+  /** What "Show swaps" shows, on the optimized view. */
   swaps?: { count: number; content: ReactNode };
 }) {
   const showNew = compare;
-  const [stored, setStored] = useState<DecklistMode | null>(() => {
-    const v = localStorage.getItem(VIEW_KEY);
-    return v === "swaps" || v === "list" || v === "images" ? v : null;
-  });
-  const view: DecklistMode = swaps ? (stored ?? "swaps") : stored === "images" ? "images" : "list";
-  const changeView = (v: DecklistMode) => {
-    setStored(v);
+  const [showSwaps, setShowSwaps] = useState(false);
+  const [view, setView] = useState<"list" | "images">(() =>
+    localStorage.getItem(VIEW_KEY) === "images" ? "images" : "list",
+  );
+  const changeView = (v: "list" | "images") => {
+    setView(v);
     localStorage.setItem(VIEW_KEY, v);
   };
+  const swapsShown = Boolean(swaps) && showSwaps;
   const groups = GROUP_ORDER.map((g) => ({
     group: g,
     cards: cards
@@ -905,34 +906,49 @@ function Decklist({
       .sort((a, b) => a.cmc - b.cmc || a.name.localeCompare(b.name)),
   })).filter((g) => g.cards.length);
   const galleryCards = groups.flatMap((g) => g.cards.map((c) => ({ name: c.name, card: c })));
-  const tab = (v: DecklistMode, label: ReactNode) => (
-    <button role="tab" aria-selected={view === v} onClick={() => changeView(v)}>
-      {label}
-    </button>
+  const head = (
+    <PanelHead
+      compact
+      title={swapsShown ? "Swaps" : "Decklist"}
+      actions={
+        swaps && (
+          <button onClick={() => setShowSwaps(!swapsShown)}>
+            {swapsShown ? (
+              "Show decklist"
+            ) : (
+              <>
+                Show swaps <span className="count">{swaps.count}</span>
+              </>
+            )}
+          </button>
+        )
+      }
+    />
   );
+  if (swapsShown && swaps)
+    return (
+      <>
+        {head}
+        {swaps.content}
+      </>
+    );
   return (
     <CardGallery cards={galleryCards}>
+      {head}
       <div className="list-toolbar">
         <div className="segmented" role="tablist" aria-label="Decklist view">
-          {swaps &&
-            tab(
-              "swaps",
-              <>
-                Swaps <span className="count">{swaps.count}</span>
-              </>,
-            )}
-          {tab("list", "List")}
-          {tab("images", "Images")}
+          <button role="tab" aria-selected={view === "list"} onClick={() => changeView("list")}>
+            List
+          </button>
+          <button role="tab" aria-selected={view === "images"} onClick={() => changeView("images")}>
+            Images
+          </button>
         </div>
         <span className="muted small grow nowrap">
-          {view === "swaps" && swaps
-            ? `${swaps.count} ${swaps.count === 1 ? "change" : "changes"}, and why`
-            : `${cards.reduce((n, c) => n + c.qty, 0)} cards`}
+          {cards.reduce((n, c) => n + c.qty, 0)} cards
         </span>
       </div>
-      {view === "swaps" && swaps ? (
-        swaps.content
-      ) : view === "images" ? (
+      {view === "images" ? (
         <DeckImages groups={groups} showNew={showNew} />
       ) : (
         <div className="decklist-groups">
@@ -1673,12 +1689,11 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
 
         {r.decklist && (
           <section className="panel" id="decklist">
-            <PanelHead title="Decklist" />
             <Decklist
               cards={r.decklist}
               compare={optimized}
               swaps={
-                optimized
+                optimized && (r.swaps.length > 0 || Boolean(r.edits?.length))
                   ? {
                       count: r.swaps.length,
                       content: (
