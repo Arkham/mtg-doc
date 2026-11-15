@@ -88,7 +88,10 @@ export async function buildCardIndex(
   // Copy can name cards beyond the report's own lists. Those must be real Commander cards named in
   // full: a nickname ("Rift" for Cyclonic Rift) would otherwise find an unrelated card by that name.
   const inIndex = indexResolver(index);
-  const extra = [...new Set(proseRefs(report))].filter((n) => !inIndex(n));
+  const around = [...names, ...proseRefs(report)];
+  const extra = [...new Set(proseRefs(report))].filter(
+    (n) => !inIndex(n) && !looksLikeNickname(n, around),
+  );
   const accepted = new Set<string>();
   if (extra.length) {
     const found = await lookupExact(extra).catch(() => new Map<string, Card>());
@@ -115,3 +118,22 @@ export async function buildCardIndex(
 export const isNamedCard = (card: Card, name: string) =>
   card.legalCommander &&
   [card.name, card.name.split(" // ")[0]].some((n) => n.toLowerCase() === name.toLowerCase());
+
+const wordsOf = (s: string) => s.toLowerCase().match(/[\p{L}\p{N}']+/gu) ?? [];
+
+/**
+ * Whether a name is most likely a nickname for one of `others`, the cards around it: its words
+ * appear, in order, inside a longer one's ("Lich" in Underrealm Lich, "Rift" in Cyclonic Rift).
+ * Such a reference isn't trusted to mean the card that happens to have that short name.
+ */
+export function looksLikeNickname(name: string, others: Iterable<string>): boolean {
+  const short = wordsOf(name);
+  if (!short.length) return false;
+  for (const other of others) {
+    const long = wordsOf(other);
+    if (long.length <= short.length) continue;
+    for (let i = 0; i + short.length <= long.length; i++)
+      if (short.every((w, j) => long[i + j] === w)) return true;
+  }
+  return false;
+}

@@ -46,7 +46,7 @@ import { config, llmEnabled } from "./config.ts";
 import { enqueueEdit, pendingEdits } from "./edit-queue.ts";
 import { chatJson, decide } from "./llm.ts";
 import { loadDeck, snapshot, startOptimize, twoCardCombos } from "./pipeline.ts";
-import { buildCardIndex } from "./card-index.ts";
+import { buildCardIndex, isNamedCard, looksLikeNickname } from "./card-index.ts";
 import { suggestManaFixes } from "./mana-advice.ts";
 import { findSynergies, keepPresentSynergies } from "./synergies.ts";
 import { keepGuidesTo, writeGuides } from "./play-guide.ts";
@@ -93,7 +93,7 @@ const chatLocks = new Map<string, Promise<unknown>>();
  * Read-modify-write of a deck's chat, one at a time: a reply and a background apply can finish at
  * the same moment, and neither may drop the other's messages.
  */
-function updateChat(
+export function updateChat(
   slug: string,
   fn: (messages: DeckChatMessage[]) => DeckChatMessage[],
 ): Promise<DeckChatMessage[]> {
@@ -469,10 +469,10 @@ export async function chatAboutDeck(
 }
 
 /**
- * Settles a reply's card references: a card the report, the deck or the changes know, or one
- * Scryfall confirms is real; anything else goes back to being plain words.
+ * Settles a reply's card references: a card the report, the deck or the changes know, or a real
+ * Commander card named in full (`isNamedCard`); anything else goes back to being plain words.
  */
-async function refSettler(report: Report | null, deck: Deck, changes: DeckChange[]) {
+export async function refSettler(report: Report | null, deck: Deck, changes: DeckChange[]) {
   const known = indexResolver({
     ...report?.cardIndex,
     ...Object.fromEntries(
@@ -483,12 +483,24 @@ async function refSettler(report: Report | null, deck: Deck, changes: DeckChange
       ].map((c) => [c.name, true]),
     ),
   });
+  const names = [
+    ...Object.keys(report?.cardIndex ?? {}),
+    ...deck.slots.map((s) => s.card.name),
+    ...deck.commanders.map((c) => c.name),
+  ];
   return async (texts: string[]) => {
-    const unknown = [...new Set(texts.flatMap(refsIn))].filter((n) => !known(n));
+    const around = [...names, ...texts.flatMap(refsIn)];
+    const unknown = [...new Set(texts.flatMap(refsIn))].filter(
+      (n) => !known(n) && !looksLikeNickname(n, around),
+    );
     const real = unknown.length
       ? await lookupExact(unknown).catch(() => new Map<string, Card>())
       : new Map<string, Card>();
-    return (text: string) => resolveRefs(text, (n) => known(n) ?? real.get(n)?.name ?? null);
+    return (text: string) =>
+      resolveRefs(text, (n) => {
+        const card = real.get(n);
+        return known(n) ?? (card && isNamedCard(card, n) ? card.name : null);
+      });
   };
 }
 

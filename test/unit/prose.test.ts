@@ -6,7 +6,7 @@ import { CardIndex, Prose } from "../../src/components/CardName.tsx";
 import { plainText, proseParts, refsIn, resolveRefs } from "../../shared/card-refs.ts";
 import { settleRefs } from "../../server/analysis/prose.ts";
 import type { Report } from "../../shared/types.ts";
-import { isNamedCard } from "../../server/card-index.ts";
+import { isNamedCard, looksLikeNickname } from "../../server/card-index.ts";
 import { card } from "../support/cards.ts";
 
 const preview = (slug: string) => ({
@@ -101,5 +101,15 @@ describe("references to cards outside the report", () => {
       "a playtest card",
     );
     assert.ok(!isNamedCard(card({ name: "Lotus", legalCommander: false }), "Lotus"), "a token");
+  });
+
+  test("a short name inside a longer card nearby is a nickname, even when it's a real card", () => {
+    // From a real chat: "gives up the [[Lich]]'s graveyard setup", meaning Underrealm Lich.
+    assert.ok(looksLikeNickname("Lich", ["Skithiryx, the Blight Dragon", "Underrealm Lich"]));
+    assert.ok(looksLikeNickname("rift", ["Cyclonic Rift"]));
+    assert.ok(looksLikeNickname("Lotus", ["Jeweled Lotus"]));
+    assert.ok(!looksLikeNickname("Stasis", ["Static Orb", "Winter Orb"]));
+    assert.ok(!looksLikeNickname("Lich", ["Lich"]), "the card itself isn't a nickname for itself");
+    assert.ok(!looksLikeNickname("Orb", ["Orbs of Warding"]), "whole words only");
   });
 });
