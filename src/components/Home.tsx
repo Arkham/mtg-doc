@@ -1,31 +1,12 @@
-import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { DeckSummary } from "../../shared/types.ts";
 import { type AppConfig, IS_STATIC, type Recognition, type RecognitionJob, api } from "../api.ts";
-import { MIN_QUERY, searchCards } from "../card-search.ts";
 import { deckHref } from "../nav.ts";
 import { BracketBadge } from "./BracketPanel.tsx";
-import { CardName } from "./CardName.tsx";
+import { auraOf } from "./CardSearch.tsx";
 import { ColorIdentity } from "./Mana.tsx";
 
 const isTouch = () => window.matchMedia("(pointer: coarse)").matches;
-
-const AURA: Record<string, string> = {
-  W: "#f4e7b8",
-  U: "#3d9be9",
-  B: "#8f5bd8",
-  R: "#ec5a3a",
-  G: "#3dbb6c",
-};
-
-/** Glow colors for a deck card, from the commander's color identity. */
-function auraOf(colors: string[] | undefined): CSSProperties {
-  const c = colors?.length ? colors.map((x) => AURA[x]) : ["#b9bfd0"];
-  return {
-    "--aura-1": c[0],
-    "--aura-2": c[1] ?? c[0],
-    "--aura-3": c[2] ?? c[1] ?? c[0],
-  } as CSSProperties;
-}
 
 function Welcome({ decks }: { decks: DeckSummary[] | null }) {
   const examined = decks?.filter((d) => d.hasReport).length ?? 0;
@@ -50,64 +31,6 @@ function Welcome({ decks }: { decks: DeckSummary[] | null }) {
       <div className="home-hero-doc" aria-hidden>
         <img src="./doc.webp" alt="" width={360} height={360} />
       </div>
-    </section>
-  );
-}
-
-/** Which decks run a card, by name, across every deck as submitted. */
-function CardSearch({ decks }: { decks: DeckSummary[] }) {
-  const [query, setQuery] = useState("");
-  const { hits, total } = useMemo(() => searchCards(decks, query), [decks, query]);
-  const typed = query.trim().length >= MIN_QUERY;
-  return (
-    <section className="panel card-search">
-      <h2 className="home-section-title">Find a card</h2>
-      <input
-        type="search"
-        aria-label="Card name"
-        placeholder="Which decks run… e.g. Sol Ring"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      {typed &&
-        (hits.length === 0 ? (
-          <p className="muted">No deck runs a card matching “{query.trim()}”.</p>
-        ) : (
-          <>
-            <ul className="card-hits">
-              {hits.map((h) => (
-                <li key={h.name}>
-                  <div className="card-hit-name">
-                    <CardName name={h.name} />
-                    <span className="muted small">
-                      {h.decks.length} {h.decks.length === 1 ? "deck" : "decks"}
-                    </span>
-                  </div>
-                  <div className="card-hit-decks">
-                    {h.decks.map((d) => (
-                      <a
-                        key={d.slug}
-                        className="deck-chip"
-                        href={deckHref(d.slug, "current")}
-                        style={auraOf(d.colorIdentity)}
-                      >
-                        <ColorIdentity colors={d.colorIdentity} size={14} />
-                        {d.commanders.join(" + ") || d.slug}
-                      </a>
-                    ))}
-                  </div>
-                </li>
-              ))}
-            </ul>
-            {total > hits.length && (
-              <p className="muted small">
-                {total - hits.length} more{" "}
-                {total - hits.length === 1 ? "card matches" : "cards match"}; keep typing to narrow
-                it down.
-              </p>
-            )}
-          </>
-        ))}
     </section>
   );
 }
@@ -392,10 +315,7 @@ export function Home({
           <span className="spinner" aria-hidden /> Loading decks…
         </div>
       ) : (
-        <>
-          {decks.length > 0 && <CardSearch decks={decks} />}
-          {(decks.length > 0 || IS_STATIC) && <DeckGallery decks={decks} />}
-        </>
+        <>{(decks.length > 0 || IS_STATIC) && <DeckGallery decks={decks} />}</>
       )}
     </div>
   );

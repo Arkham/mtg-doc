@@ -51,24 +51,51 @@ test.describe("static site", () => {
     await expectNoHorizontalOverflow(page);
   });
 
-  test("card search on the home page shows which decks run a card", async ({ page }) => {
+  test("the top bar's search shows which decks run a card, from any page", async ({
+    page,
+    isMobile,
+  }) => {
     await page.goto(STATIC_URL);
-    const search = page.getByLabel("Card name");
+    await expect(page.getByLabel("Card name")).toHaveCount(0);
+    await page.getByRole("button", { name: "Find a card" }).click();
+    const overlay = page.getByRole("dialog", { name: "Find a card" });
+    const search = overlay.getByLabel("Card name");
+    await expect(search).toBeFocused();
+    await expect(overlay).toContainText("Type a card name to see which of the 2 decks run it.");
     await search.fill("sol rin");
-    const hit = page.locator(".card-hits li").first();
+    const hit = overlay.locator(".card-hits li").first();
     await expect(hit.locator(".card-hit-name")).toContainText("Sol Ring");
     await expect(hit.locator(".card-hit-name")).toContainText("2 decks");
     await expect(hit.locator(".deck-chip")).toHaveCount(2);
     await expectNoHorizontalOverflow(page);
+    if (page.viewportSize()!.width <= 520) {
+      // Full screen on phones.
+      const box = (await overlay.boundingBox())!;
+      expect(box.width).toBe(page.viewportSize()!.width);
+    }
     // The card previews like cards anywhere else.
     await expect(hit.getByRole("link", { name: "Sol Ring" })).toBeVisible();
     await search.fill("definitely not a card");
-    await expect(page.getByText("No deck runs a card matching")).toBeVisible();
+    await expect(overlay.getByText("No deck runs a card matching")).toBeVisible();
     await search.fill("sol ring");
-    await page.locator(".card-hits .deck-chip").first().click();
+    await overlay.locator(".deck-chip").first().click();
+    await expect(overlay).toHaveCount(0);
     await expect(
       page.getByRole("heading", { level: 1, name: /Lathril, Blade of the Elves/ }),
     ).toBeVisible();
+    await expect(page).toHaveURL(/\/decks\/lathril-blade-of-the-elves(-2)?\/$/);
+
+    // From a deck page too, and Escape or Cancel closes it.
+    await page.getByRole("button", { name: "Find a card" }).click();
+    await expect(overlay.getByLabel("Card name")).toBeFocused();
+    await expectNoHorizontalOverflow(page);
+    if (isMobile) await overlay.getByRole("button", { name: "Cancel" }).click();
+    else await page.keyboard.press("Escape");
+    await expect(overlay).toHaveCount(0);
+    if (!isMobile) {
+      await page.keyboard.press("/");
+      await expect(overlay.getByLabel("Card name")).toBeFocused();
+    }
   });
 
   test("report shows bracket, swaps, deck list and mana sections", async ({ page }) => {

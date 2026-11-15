@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { type AppConfig, type Recognition, api } from "./api.ts";
+import { CardSearchButton } from "./components/CardSearch.tsx";
 import { Home } from "./components/Home.tsx";
 import { Progress } from "./components/Progress.tsx";
 import { ReportView } from "./components/ReportView.tsx";
@@ -106,6 +107,7 @@ export function App() {
               : "AI disabled (set LLM_API_KEY)"}
           </span>
         )}
+        <CardSearchButton />
       </header>
       <main>{body}</main>
     </div>

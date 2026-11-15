@@ -22,3 +22,10 @@ export const TrashIcon = () => (
     <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" />
   </svg>
 );
+
+export const SearchIcon = () => (
+  <svg {...base}>
+    <circle cx="11" cy="11" r="7" />
+    <path d="m20 20-3.5-3.5" />
+  </svg>
+);
