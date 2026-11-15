@@ -97,6 +97,10 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   proposed first and start only once the user confirms, by button or by a reply the Decisions API
   judges as a yes. Cheap, non-destructive ones (like finding synergies again) can run directly.
   A yes to proposed card changes applies them, like the Apply button.
+- Every change to a deck's report (chat edits, Apply buttons, re-runs, synergy searches) runs in
+  the deck's edit queue (`server/edit-queue.ts`): the API answers at once with an edit id, the
+  queue runs a deck's edits one at a time in order, and the UI polls until they're in. New code
+  that writes a report must go through it too, and write files with `writeAtomic`.
 - After every change, the doc checks what it made worse in the optimizer's terms
   (`worsenedGaps`: lands, color sources, roles, bracket checks, budget, dropped suggestions) and
   `decide`s whether a re-run is worth it (without an LLM, any such gap is). If so it proposes a

@@ -13,6 +13,7 @@ process.env.LLM_BASE_URL = stub.url;
 process.env.LLM_API_KEY = "stub-key";
 process.env.LLM_WEB_SEARCH = "true";
 const { recognizeImages } = await import("../../server/ocr.ts");
+const { whenIdle } = await import("../../server/edit-queue.ts");
 const { optimizeFixtureDeck } = await import("../support/sample.ts");
 
 after(() => stub.close());
@@ -304,7 +305,9 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
       made.changes!.every((c) => c.ok),
       JSON.stringify(made.changes),
     );
-    const { report: applied } = await applyChatChanges(slug, made.id);
+    await applyChatChanges(slug, made.id);
+    await whenIdle(slug);
+    const applied = (await readReport(slug))!;
     const submitted = parseDecklist(await readDeckFile(slug, "initial.txt")).entries;
     assert.ok(submitted.some((e) => e.name === swap.in));
     assert.ok(!applied.swaps.some((s) => s.out === swap.out && s.in === swap.in));
@@ -325,8 +328,9 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     // A yes to proposed changes applies them, like the Apply button.
     const proposal = await chatAboutDeck(slug, "Give me a fairer mana rock");
     const yes = await chatAboutDeck(slug, "yes please");
-    assert.equal(yes.content, "Done: applied 2 changes.");
+    assert.match(yes.content, /^On it: applying 2 changes\./);
     assert.equal(yes.reportUpdated, true);
+    await whenIdle(slug);
     assert.equal((await readChat(slug)).find((m) => m.id === proposal.id)!.applied, true);
     assert.ok((await readReport(slug))!.decklist!.some((c) => c.name === "Mind Stone"));
     assert.ok(
@@ -391,7 +395,10 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
 
     // Applying the proposal looks for synergies with the card that came in, and lists the swap.
     const { applyChatChanges } = await import("../../server/chat.ts");
-    const { report } = await applyChatChanges(slug, proposal.id);
+    const { readReport } = await import("../../server/storage.ts");
+    await applyChatChanges(slug, proposal.id);
+    await whenIdle(slug);
+    const report = (await readReport(slug))!;
     const found = report.synergies!.filter((x) => x.cards.includes("Mind Stone"));
     assert.deepEqual(
       found.map((x) => x.title),

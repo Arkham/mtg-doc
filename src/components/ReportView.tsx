@@ -1,4 +1,12 @@
-import { type CSSProperties, type ReactNode, useContext, useEffect, useRef, useState } from "react";
+import {
+  type CSSProperties,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import type {
   Card,
@@ -10,7 +18,7 @@ import type {
   Report,
   Swap,
 } from "../../shared/types.ts";
-import { type DeckDetail, IS_STATIC, api, fileUrl } from "../api.ts";
+import { type DeckDetail, IS_STATIC, POLL_MS, api, fileUrl, waitForEdit } from "../api.ts";
 import { comboOutcome, groupByMissing } from "../combos.ts";
 import { type DeckView, asOriginal, hasBothViews, viewOf } from "../views.ts";
 import { deckHref, go, navigate } from "../nav.ts";
@@ -122,15 +130,21 @@ const isManaSwap = (s: Swap) =>
 
 type SwapApplier = ReturnType<typeof useApplySwap>;
 
-/** Makes one of the doc's swaps in the deck as submitted, from any list that shows swaps. */
-function useApplySwap(slug: string, onApplied: (report: Report) => void) {
+/**
+ * Makes one of the doc's swaps in the deck as submitted, from any list that shows swaps. The server
+ * makes it in the background; the button spins until it's in.
+ */
+function useApplySwap(slug: string, onApplied: (report?: Report) => void) {
   const [busy, setBusy] = useState<Swap | null>(null);
   const [error, setError] = useState<string | null>(null);
   const apply = async (swap: Swap) => {
     setBusy(swap);
     setError(null);
     try {
-      onApplied(await api.applySwap(slug, swap));
+      const { editId } = await api.applySwap(slug, swap);
+      onApplied();
+      await waitForEdit(editId);
+      onApplied();
     } catch (e) {
       setError(String(e instanceof Error ? e.message : e));
     } finally {
@@ -217,7 +231,7 @@ function SwapList({
 }: {
   swaps: Swap[];
   slug: string;
-  onApplied: (report: Report) => void;
+  onApplied: (report?: Report) => void;
 }) {
   const applier = useApplySwap(slug, onApplied);
   if (!swaps.length)
@@ -408,7 +422,7 @@ function ManaAdvice({
 }: {
   report: Report;
   slug: string;
-  onApplied: (report: Report) => void;
+  onApplied: (report?: Report) => void;
 }) {
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -421,7 +435,10 @@ function ManaAdvice({
     setBusy(id);
     setError(null);
     try {
-      onApplied(await api.applyManaSuggestion(slug, id));
+      const { editId } = await api.applyManaSuggestion(slug, id);
+      onApplied();
+      await waitForEdit(editId);
+      onApplied();
     } catch (e) {
       setError(String(e instanceof Error ? e.message : e));
     } finally {
@@ -1429,13 +1446,31 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
   const [optimizedText, setOptimizedText] = useState<string | null>(null);
   const [zoomed, setZoomed] = useState<Card | null>(null);
 
-  useEffect(() => {
-    api.deck(slug).then(setDetail, (e) => setError(String(e.message ?? e)));
-    // Prefetched so the clipboard write happens synchronously in the tap; iOS Safari rejects it otherwise.
+  // Prefetched so the clipboard write happens synchronously in the tap; iOS Safari rejects it otherwise.
+  const loadList = useCallback(() => {
     fetch(fileUrl(slug, "optimized.txt"))
       .then((r) => (r.ok ? r.text() : null))
       .then(setOptimizedText, () => {});
   }, [slug]);
+  useEffect(() => {
+    api.deck(slug).then(setDetail, (e) => setError(String(e.message ?? e)));
+    loadList();
+  }, [slug, loadList]);
+  // Edits are made in the background: keep checking until they're in, then show the result.
+  const updating = Boolean(detail?.updating);
+  useEffect(() => {
+    if (!updating) return;
+    const t = setTimeout(() => {
+      api.deck(slug).then(
+        (d) => {
+          setDetail(d);
+          if (!d.updating) loadList();
+        },
+        () => {},
+      );
+    }, POLL_MS);
+    return () => clearTimeout(t);
+  }, [detail, updating, slug, loadList]);
 
   if (error) return <p className="error">{error}</p>;
   if (!detail)
@@ -1459,13 +1494,11 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
   const optimized = view === "optimized";
   const r = optimized ? full : asOriginal(full);
   const listText = optimized ? optimizedText : detail.initial;
-  const onApplied = (report: Report) => {
-    setDetail((d) => (d ? { ...d, report } : d));
-    // Edits to the deck as submitted rewrite its list too.
+  /** After a change: shows its report if there is one, and reloads (edits rewrite the lists). */
+  const onApplied = (report?: Report) => {
+    if (report) setDetail((d) => (d ? { ...d, report } : d));
     api.deck(slug).then(setDetail, () => {});
-    fetch(fileUrl(slug, "optimized.txt"))
-      .then((res) => (res.ok ? res.text() : null))
-      .then(setOptimizedText, () => {});
+    loadList();
   };
   const copyOptimized = () => {
     if (!listText) return;
@@ -1493,6 +1526,11 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
   return (
     <CardIndex.Provider value={r.cardIndex ?? {}}>
       {hasBothViews(full) && <ViewToggle slug={slug} view={view} swaps={full.swaps.length} />}
+      {updating && (
+        <p className="updating-note" role="status">
+          <span className="spinner" aria-hidden /> Updating the report with your changes…
+        </p>
+      )}
       <div className="stack report">
         <section className="hero" style={auraStyle(r.commanderCards)}>
           {cmdr?.imageArt && (

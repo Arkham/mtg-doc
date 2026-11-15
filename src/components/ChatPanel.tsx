@@ -1,6 +1,6 @@
 import { type FormEvent, type KeyboardEvent, useEffect, useRef, useState } from "react";
 import type { DeckChatMessage, EditTarget, Report } from "../../shared/types.ts";
-import { api } from "../api.ts";
+import { POLL_MS, api } from "../api.ts";
 import { go, hrefOf } from "../nav.ts";
 import { CardName, CardText } from "./CardName.tsx";
 import { ManaCost } from "./Mana.tsx";
@@ -49,8 +49,13 @@ function Changes({
           </li>
         ))}
       </ul>
+      {message.applyError && <p className="error small">Couldn't apply: {message.applyError}</p>}
       {message.applied ? (
         <div className="chat-applied small">✓ Applied</div>
+      ) : message.applying ? (
+        <div className="chat-applied small" role="status">
+          <span className="spinner" aria-hidden /> Applying…
+        </div>
       ) : (
         valid.length > 0 && (
           <button className="primary" disabled={busy} onClick={onApply}>
@@ -115,7 +120,7 @@ export function ChatPanel({
   commander: string;
   /** The list on screen, which the doc talks about and edits. */
   target: EditTarget;
-  onApplied: (report: Report) => void;
+  onApplied: (report?: Report) => void;
 }) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<DeckChatMessage[] | null>(null);
@@ -136,6 +141,32 @@ export function ChatPanel({
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight });
   }, [messages, sending]);
+
+  // Changes are applied in the background: check until they're in, then refresh the report
+  // (a follow-up offer to re-run may arrive with them).
+  // In a ref: the report re-renders while it polls, which would reset this timer every time.
+  const onAppliedRef = useRef(onApplied);
+  useEffect(() => {
+    onAppliedRef.current = onApplied;
+  });
+  const waiting = (messages ?? [])
+    .filter((m) => m.applying)
+    .map((m) => m.id)
+    .join(",");
+  useEffect(() => {
+    if (!waiting) return;
+    const t = setTimeout(() => {
+      api.chat(slug).then(
+        (ms) => {
+          setMessages(ms);
+          if (waiting.split(",").some((id) => !ms.find((m) => m.id === id)?.applying))
+            onAppliedRef.current();
+        },
+        () => {},
+      );
+    }, POLL_MS);
+    return () => clearTimeout(t);
+  }, [messages, waiting, slug]);
 
   useEffect(() => {
     if (!open) return;
@@ -182,12 +213,9 @@ export function ChatPanel({
     setApplying(id);
     setError(null);
     try {
-      const { report, message, followUp } = await api.applyChat(slug, id);
-      setMessages((m) => [
-        ...(m ?? []).map((x) => (x.id === id ? message : x)),
-        ...(followUp ? [followUp] : []),
-      ]);
-      onApplied(report);
+      const { message } = await api.applyChat(slug, id);
+      setMessages((m) => (m ?? []).map((x) => (x.id === id ? message : x)));
+      onApplied();
     } catch (e) {
       setError(String(e instanceof Error ? e.message : e));
     } finally {

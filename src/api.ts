@@ -1,6 +1,7 @@
 import type {
   DeckChatMessage,
   DeckSummary,
+  EditStatus,
   EditTarget,
   Job,
   OptimizeOptions,
@@ -55,6 +56,8 @@ export interface DeckDetail {
   };
   report: Report | null;
   initial: string;
+  /** Edits are still being made in the background; the report updates when they're in. */
+  updating?: boolean;
 }
 
 export type DeckFile = "initial.txt" | "optimized.txt" | "report.md";
@@ -95,10 +98,16 @@ export const api = {
     request<{ slug: string; jobId: string }>(`/api/decks/${slug}/optimize`, json({ options })),
   job: (id: string) => request<Job>(`/api/jobs/${id}`),
   applyManaSuggestion: (slug: string, id: string) =>
-    request<Report>(`/api/decks/${slug}/mana-suggestions/${id}/apply`, { method: "POST" }),
+    request<{ editId: string }>(`/api/decks/${slug}/mana-suggestions/${id}/apply`, {
+      method: "POST",
+    }),
   /** Makes one of the doc's swaps in the deck as submitted. */
   applySwap: (slug: string, swap: { out: string; in: string }) =>
-    request<Report>(`/api/decks/${slug}/swaps/apply`, json({ out: swap.out, in: swap.in })),
+    request<{ editId: string }>(
+      `/api/decks/${slug}/swaps/apply`,
+      json({ out: swap.out, in: swap.in }),
+    ),
+  edit: (id: string) => request<EditStatus>(`/api/edits/${id}`),
   refreshSynergies: (slug: string, mode: "again" | "more" = "again") =>
     request<Report>(`/api/decks/${slug}/synergies`, json({ mode })),
   chat: (slug: string) => request<DeckChatMessage[]>(`/api/decks/${slug}/chat`),
@@ -116,8 +125,21 @@ export const api = {
       body: JSON.stringify({ suggestions }),
     }),
   applyChat: (slug: string, messageId: string) =>
-    request<{ report: Report; message: DeckChatMessage; followUp?: DeckChatMessage }>(
+    request<{ message: DeckChatMessage; editId: string }>(
       `/api/decks/${slug}/chat/${messageId}/apply`,
       { method: "POST" },
     ),
 };
+
+/** How often to check on work the server does in the background. */
+export const POLL_MS = 1000;
+
+/** Resolves once a background edit is in; rejects with its error if it failed. */
+export async function waitForEdit(id: string): Promise<void> {
+  for (;;) {
+    const edit = await api.edit(id);
+    if (edit.state === "done") return;
+    if (edit.state === "failed") throw new Error(edit.error ?? "That change failed.");
+    await new Promise((r) => setTimeout(r, POLL_MS));
+  }
+}

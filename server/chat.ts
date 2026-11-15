@@ -41,6 +41,7 @@ import { worsenedGaps } from "./analysis/reoptimize.ts";
 import { makeRerun } from "./analysis/rerun.ts";
 import { makeViolation } from "./analysis/search.ts";
 import { config, llmEnabled } from "./config.ts";
+import { enqueueEdit, pendingEdits } from "./edit-queue.ts";
 import { chatJson, decide } from "./llm.ts";
 import { loadDeck, snapshot, startOptimize, twoCardCombos } from "./pipeline.ts";
 import { buildCardIndex } from "./card-index.ts";
@@ -56,6 +57,7 @@ import {
   writeInitial,
   writeMeta,
   writeResults,
+  writeAtomic,
 } from "./storage.ts";
 
 const HISTORY_FILE = "chat.json";
@@ -67,14 +69,44 @@ const chatPath = (slug: string) => path.join(config.decksDir, slug, HISTORY_FILE
 
 export async function readChat(slug: string): Promise<DeckChatMessage[]> {
   await readMeta(slug);
-  return fs.readFile(chatPath(slug), "utf8").then(
+  const messages = await fs.readFile(chatPath(slug), "utf8").then(
     (t) => JSON.parse(t) as DeckChatMessage[],
     () => [],
   );
+  // Applies run in this process's queue: one still marked as applying with nothing queued was
+  // cut short by a restart.
+  if (!pendingEdits(slug).length)
+    for (const m of messages)
+      if (m.applying) {
+        delete m.applying;
+        m.applyError = "Interrupted before it finished; apply it again.";
+      }
+  return messages;
 }
 
-const writeChat = (slug: string, messages: DeckChatMessage[]) =>
-  fs.writeFile(chatPath(slug), JSON.stringify(messages, null, 2));
+const chatLocks = new Map<string, Promise<unknown>>();
+
+/**
+ * Read-modify-write of a deck's chat, one at a time: a reply and a background apply can finish at
+ * the same moment, and neither may drop the other's messages.
+ */
+function updateChat(
+  slug: string,
+  fn: (messages: DeckChatMessage[]) => DeckChatMessage[],
+): Promise<DeckChatMessage[]> {
+  const next = (chatLocks.get(slug) ?? Promise.resolve())
+    .catch(() => {})
+    .then(async () => {
+      const messages = fn(await readChat(slug));
+      await writeAtomic(chatPath(slug), JSON.stringify(messages, null, 2));
+      return messages;
+    });
+  chatLocks.set(slug, next);
+  return next;
+}
+
+const patchMessage = (slug: string, id: string, patch: (m: DeckChatMessage) => DeckChatMessage) =>
+  updateChat(slug, (ms) => ms.map((m) => (m.id === id ? patch(m) : m)));
 
 const ReplySchema = z.object({
   reply: z.string(),
@@ -322,31 +354,25 @@ export async function chatAboutDeck(
   const confirmed = await confirmsPendingProposal(history, message);
   if (confirmed?.changes) {
     // A yes to proposed card changes applies them, like the Apply button.
+    const n = confirmed.changes.filter((c) => c.ok).length;
     const assistant: DeckChatMessage = {
       id: randomUUID(),
       role: "assistant",
-      content: "",
+      content: `On it: applying ${n} change${n === 1 ? "" : "s"}. The report updates as soon as they're in.`,
       at: new Date().toISOString(),
+      reportUpdated: true,
     };
+    await updateChat(slug, (ms) => [...ms, user, assistant]);
     try {
-      const { reoptimize } = await applyProposal(slug, history, history.indexOf(confirmed));
-      const n = confirmed.changes.filter((c) => c.ok).length;
-      assistant.content = `Done: applied ${n} change${n === 1 ? "" : "s"}.`;
-      assistant.reportUpdated = true;
-      if (reoptimize) {
-        const offer = rerunProposal(reoptimize);
-        assistant.content = `${assistant.content} ${offer.content}`;
-        assistant.rerun = offer.rerun;
-      }
+      await queueProposal(slug, confirmed.id);
     } catch (err) {
       assistant.content = `I couldn't apply those changes: ${err instanceof Error ? err.message : String(err)}`;
+      await patchMessage(slug, assistant.id, () => assistant);
     }
-    history.push(assistant);
-    await writeChat(slug, history);
     return assistant;
   }
   if (confirmed?.rerun) {
-    const jobId = await startChatRerun(slug, confirmed.id, history);
+    const jobId = await startChatRerun(slug, confirmed.id);
     const assistant: DeckChatMessage = {
       id: randomUUID(),
       role: "assistant",
@@ -354,8 +380,7 @@ export async function chatAboutDeck(
       at: new Date().toISOString(),
       rerun: { ...confirmed.rerun!, jobId },
     };
-    history.push(assistant);
-    await writeChat(slug, history);
+    await updateChat(slug, (ms) => [...ms, user, assistant]);
     return assistant;
   }
 
@@ -430,8 +455,7 @@ export async function chatAboutDeck(
     ...(rerun ? { rerun } : {}),
     ...(reportUpdated ? { reportUpdated } : {}),
   };
-  history.push(assistant);
-  await writeChat(slug, history);
+  await updateChat(slug, (ms) => [...ms, user, assistant]);
   return assistant;
 }
 
@@ -444,7 +468,7 @@ async function confirmsPendingProposal(history: DeckChatMessage[], message: stri
   const last = history.slice(0, -1).findLast((m) => m.role === "assistant");
   if (!last || !llmEnabled()) return null;
   const pendingRerun = last.rerun && !last.rerun.jobId;
-  const pendingChanges = !last.applied && last.changes?.some((c) => c.ok);
+  const pendingChanges = !last.applied && !last.applying && last.changes?.some((c) => c.ok);
   if (!pendingRerun && !pendingChanges) return null;
   const proposal = pendingRerun
     ? `re-running a deck optimizer with ${last.rerun!.summary}`
@@ -466,21 +490,15 @@ async function confirmsPendingProposal(history: DeckChatMessage[], message: stri
 }
 
 /** Saves the proposed settings and starts the optimizer; the proposal remembers the job. */
-export async function startChatRerun(
-  slug: string,
-  messageId: string,
-  history?: DeckChatMessage[],
-): Promise<string> {
-  const messages = history ?? (await readChat(slug));
-  const message = messages.find((m) => m.id === messageId);
+export async function startChatRerun(slug: string, messageId: string): Promise<string> {
+  const message = (await readChat(slug)).find((m) => m.id === messageId);
   if (!message?.rerun) throw new HttpError(404, "No re-run proposed in that message.");
   if (message.rerun.jobId) throw new HttpError(409, "That re-run already started.");
   const meta = await readMeta(slug);
   meta.options = { ...meta.options, ...message.rerun.options };
   await writeMeta(meta);
   const jobId = startOptimize(slug, { keepEdits: message.rerun.keepEdits }).id;
-  message.rerun = { ...message.rerun, jobId };
-  if (!history) await writeChat(slug, messages);
+  await patchMessage(slug, messageId, (m) => ({ ...m, rerun: { ...m.rerun!, jobId } }));
   return jobId;
 }
 
@@ -681,42 +699,70 @@ async function recomputeOriginal(
   };
 }
 
+/** Starts applying the changes a chat message proposed; the message says when they're in. */
 export async function applyChatChanges(
   slug: string,
   messageId: string,
-): Promise<{ report: Report; message: DeckChatMessage; followUp?: DeckChatMessage }> {
-  const history = await readChat(slug);
-  const index = history.findIndex((m) => m.id === messageId);
-  const { report, reoptimize } = await applyProposal(slug, history, index);
-  const followUp = reoptimize ? rerunProposal(reoptimize) : undefined;
-  if (followUp) history.push(followUp);
-  await writeChat(slug, history);
-  return { report, message: history[index], ...(followUp ? { followUp } : {}) };
+): Promise<{ message: DeckChatMessage; editId: string }> {
+  const editId = await queueProposal(slug, messageId);
+  const message = (await readChat(slug)).find((m) => m.id === messageId)!;
+  return { message, editId };
 }
 
-/** Applies the changes an assistant message proposed and marks it applied in `history`. */
-async function applyProposal(slug: string, history: DeckChatMessage[], index: number) {
+/**
+ * Queues applying an assistant message's proposed changes, marking it as applying. When they're
+ * in, it's marked applied, with an offer to re-run if the changes opened gaps.
+ */
+async function queueProposal(slug: string, messageId: string): Promise<string> {
+  const history = await readChat(slug);
+  const index = history.findIndex((m) => m.id === messageId);
   const message = history[index];
   if (!message?.changes?.length) throw new HttpError(404, "No changes to apply in that message.");
   if (message.applied) throw new HttpError(409, "Those changes were already applied.");
+  if (message.applying) throw new HttpError(409, "Those changes are already being applied.");
+  if (!message.changes.some((c) => c.ok))
+    throw new HttpError(409, "None of those changes are valid any more.");
   const request =
     history
       .slice(0, index)
       .reverse()
       .find((m) => m.role === "user")?.content ?? "";
-  const result = await applyDeckChanges(slug, message.changes, request, message.target);
-  history[index] = { ...message, changes: result.changes, applied: true };
-  return result;
+  const { status } = enqueueEdit(slug, "Apply chat changes", async () => {
+    try {
+      const result = await applyDeckChanges(slug, message.changes!, request, message.target);
+      const offer = result.reoptimize ? [rerunProposal(result.reoptimize)] : [];
+      await updateChat(slug, (ms) => [
+        ...ms.map((m) => {
+          if (m.id !== messageId) return m;
+          const { applying: _, applyError: __, ...rest } = m;
+          return { ...rest, changes: result.changes, applied: true };
+        }),
+        ...offer,
+      ]);
+    } catch (err) {
+      await patchMessage(slug, messageId, (m) => {
+        const { applying: _, ...rest } = m;
+        return { ...rest, applyError: err instanceof Error ? err.message : String(err) };
+      });
+      throw err;
+    }
+  });
+  await patchMessage(slug, messageId, (m) => {
+    const { applyError: _, ...rest } = m;
+    return { ...rest, applying: true };
+  });
+  return status.id;
 }
 
 /**
  * Re-runs the synergy search for the current list (e.g. after edits added new cards), or with
  * "more" keeps the current synergies and adds new ones.
  */
-export async function refreshSynergies(
-  slug: string,
-  mode: "again" | "more" = "again",
-): Promise<Report> {
+export function refreshSynergies(slug: string, mode: "again" | "more" = "again"): Promise<Report> {
+  return enqueueEdit(slug, "Find synergies", () => findSynergiesAgain(slug, mode)).done;
+}
+
+async function findSynergiesAgain(slug: string, mode: "again" | "more"): Promise<Report> {
   const report = await readReport(slug);
   if (!report) throw new HttpError(409, "Optimize the deck first.");
   if (!llmEnabled()) throw new HttpError(409, "Finding synergies needs an LLM configured.");
@@ -733,24 +779,31 @@ export async function refreshSynergies(
   return updated;
 }
 
-/** Applies a suggested land swap to the deck as submitted (the suggested deck, for older reports). */
-export async function applyManaSuggestion(slug: string, id: string): Promise<Report> {
+/**
+ * Queues a suggested land swap for the deck as submitted (the suggested deck, for older reports);
+ * returns the edit's id to poll.
+ */
+export async function applyManaSuggestion(slug: string, id: string): Promise<string> {
   const report = await readReport(slug);
   const suggestion = report?.manaSuggestions?.find((m) => m.id === id);
   if (!suggestion) throw new HttpError(404, "That suggestion is no longer available.");
-  const { report: updated, reoptimize } = await applyDeckChanges(
-    slug,
-    suggestion.changes,
-    `Mana base: ${suggestion.reason}`,
-    report!.original ? "original" : "optimized",
-    { fromSuggested: true },
-  );
-  if (reoptimize) await offerRerun(slug, reoptimize);
-  return updated;
+  return enqueueEdit(slug, "Apply a land swap", async () => {
+    const { reoptimize } = await applyDeckChanges(
+      slug,
+      suggestion.changes,
+      `Mana base: ${suggestion.reason}`,
+      report!.original ? "original" : "optimized",
+      { fromSuggested: true },
+    );
+    if (reoptimize) await offerRerun(slug, reoptimize);
+  }).status.id;
 }
 
-/** Makes one of the doc's swaps in the deck as submitted; the suggested deck stays as it is. */
-export async function applySwap(slug: string, out: string, add: string): Promise<Report> {
+/**
+ * Queues one of the doc's swaps for the deck as submitted (the suggested deck stays as it is);
+ * returns the edit's id to poll.
+ */
+export async function applySwap(slug: string, out: string, add: string): Promise<string> {
   const report = await readReport(slug);
   const swap = report?.swaps.find((s) => s.out === out && s.in === add);
   if (!swap) throw new HttpError(404, "That swap is no longer suggested.");
@@ -764,18 +817,19 @@ export async function applySwap(slug: string, out: string, add: string): Promise
     ok: true,
     ...(card ? { card } : {}),
   });
-  const { report: updated, reoptimize } = await applyDeckChanges(
-    slug,
-    [change("remove", swap.out, swap.outCard), change("add", swap.in, swap.inCard)],
-    `Swap: ${swap.out} → ${swap.in}`,
-    "original",
-  );
-  if (reoptimize) await offerRerun(slug, reoptimize);
-  return updated;
+  return enqueueEdit(slug, "Apply a swap", async () => {
+    const { reoptimize } = await applyDeckChanges(
+      slug,
+      [change("remove", swap.out, swap.outCard), change("add", swap.in, swap.inCard)],
+      `Swap: ${swap.out} → ${swap.in}`,
+      "original",
+    );
+    if (reoptimize) await offerRerun(slug, reoptimize);
+  }).status.id;
 }
 
-const offerRerun = async (slug: string, reason: string) =>
-  writeChat(slug, [...(await readChat(slug)), rerunProposal(reason)]);
+const offerRerun = (slug: string, reason: string) =>
+  updateChat(slug, (ms) => [...ms, rerunProposal(reason)]);
 
 /** A probability the change warrants a fresh run must clear before the doc offers one. */
 const REOPTIMIZE_THRESHOLD = 0.6;

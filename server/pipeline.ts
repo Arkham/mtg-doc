@@ -46,6 +46,7 @@ import { parseDecklist } from "./decklist.ts";
 import { buildCardIndex } from "./card-index.ts";
 import { landCandidates, toSuggestion } from "./mana-advice.ts";
 import { checkContradictions } from "./contradictions.ts";
+import { enqueueEdit } from "./edit-queue.ts";
 import { findSynergies } from "./synergies.ts";
 import { BRACKET_PAGE, getCommanderData } from "./sources/edhrec.ts";
 import { researchCommander } from "./sources/research.ts";
@@ -84,7 +85,8 @@ export function startOptimize(slug: string, opts: RunOptions = {}): Job {
     steps: STEPS.map((label) => ({ label, status: "pending" })),
   };
   jobs.set(job.id, job);
-  run(job, opts).catch((err) => {
+  // In the deck's edit queue, so a run never writes the report while an edit does.
+  enqueueEdit(slug, "Optimize", () => run(job, opts)).done.catch((err) => {
     job.status = "error";
     job.error = err instanceof Error ? err.message : String(err);
     const running = job.steps.find((s) => s.status === "running");

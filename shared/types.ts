@@ -273,6 +273,15 @@ export interface RerunProposal {
   jobId?: string;
 }
 
+/** A change to a deck running in the background (see server/edit-queue.ts). */
+export interface EditStatus {
+  id: string;
+  slug: string;
+  label: string;
+  state: "queued" | "running" | "done" | "failed";
+  error?: string;
+}
+
 export interface DeckChatMessage {
   id: string;
   role: "user" | "assistant";
@@ -280,6 +289,10 @@ export interface DeckChatMessage {
   at: string;
   changes?: DeckChange[];
   applied?: boolean;
+  /** The changes are being made in the background; `applied` or `applyError` follows. */
+  applying?: boolean;
+  /** Why applying the changes failed, when it did. */
+  applyError?: string;
   rerun?: RerunProposal;
   /** The list `changes` edit: the one on screen, unless the user asked to change the other. */
   target?: EditTarget;

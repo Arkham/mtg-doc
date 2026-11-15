@@ -5,7 +5,11 @@ import { after, before, describe, test } from "node:test";
 import { createApp } from "../../server/app.ts";
 import { parseDecklist } from "../../server/decklist.ts";
 import { readDeckFile } from "../../server/storage.ts";
-import type { DeckChatMessage, EditTarget, Report } from "../../shared/types.ts";
+import type { DeckChatMessage, EditStatus, EditTarget, Report } from "../../shared/types.ts";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { config } from "../../server/config.ts";
+import { whenIdle } from "../../server/edit-queue.ts";
 import { optimizeFixtureDeck, waitForJob } from "../support/sample.ts";
 import { mdSection } from "../support/markdown.ts";
 
@@ -39,6 +43,20 @@ const say = async (message: string, view: EditTarget = "optimized") => {
 const apply = (id: string) =>
   fetch(`${base}/api/decks/${slug}/chat/${id}/apply`, { method: "POST" });
 
+/** Edits run in the background: checks one was queued, waits for it, and reads back the deck. */
+async function applied(res: globalThis.Response, deck = slug) {
+  assert.equal(res.status, 202, "queued, not made while the request waits");
+  const { editId } = (await res.json()) as { editId: string };
+  await whenIdle(deck);
+  const edit = (await (await fetch(`${base}/api/edits/${editId}`)).json()) as EditStatus;
+  assert.equal(edit.state, "done", edit.error ?? "");
+  const { report } = (await (await fetch(`${base}/api/decks/${deck}`)).json()) as {
+    report: Report;
+  };
+  const chat = (await (await fetch(`${base}/api/decks/${deck}/chat`)).json()) as DeckChatMessage[];
+  return { report, chat };
+}
+
 describe("deck chat without an LLM", () => {
   test("a swap is proposed, validated and applied to the deck and report", async () => {
     const reply = await say("swap Sol Ring for Mind Stone");
@@ -51,9 +69,10 @@ describe("deck chat without an LLM", () => {
     );
 
     const res = await apply(reply.id);
-    assert.equal(res.status, 200);
-    const { report, message } = (await res.json()) as { report: Report; message: DeckChatMessage };
+    const { report, chat } = await applied(res);
+    const message = chat.find((m) => m.id === reply.id)!;
     assert.equal(message.applied, true);
+    assert.equal(message.applying, undefined);
     assert.equal(report.after.totalCards, 100);
     assert.ok(report.decklist!.some((c) => c.name === "Mind Stone" && c.isNew));
     assert.ok(!report.decklist!.some((c) => c.name === "Sol Ring"));
@@ -76,6 +95,52 @@ describe("deck chat without an LLM", () => {
     assert.equal((await apply(reply.id)).status, 409, "can't apply twice");
   });
 
+  test("the chat keeps going while an edit is applied, and neither loses the other's messages", async () => {
+    const reply = await say("swap Forest for Arcane Signet");
+    const res = await apply(reply.id);
+    assert.equal(res.status, 202);
+    const { message } = (await res.json()) as { message: DeckChatMessage };
+    assert.equal(message.applying, true, "shows as applying right away");
+    const detail = (await (await fetch(`${base}/api/decks/${slug}`)).json()) as {
+      updating: boolean;
+    };
+    assert.equal(detail.updating, true, "the report says it's updating");
+    // Sent while the edit runs: its reply and the edit both land in the history.
+    const meanwhile = await say("what are this deck's weaknesses?");
+    await whenIdle(slug);
+    const chat = (await (
+      await fetch(`${base}/api/decks/${slug}/chat`)
+    ).json()) as DeckChatMessage[];
+    assert.equal(chat.find((m) => m.id === reply.id)!.applied, true);
+    assert.ok(chat.some((m) => m.id === meanwhile.id));
+    assert.ok(chat.some((m) => m.content === "what are this deck's weaknesses?"));
+    const after = (await (await fetch(`${base}/api/decks/${slug}`)).json()) as {
+      report: Report;
+      updating: boolean;
+    };
+    assert.equal(after.updating, false);
+    assert.ok(after.report.decklist!.some((c) => c.name === "Arcane Signet"));
+  });
+
+  test("an edit cut short by a restart says so instead of spinning forever", async () => {
+    const file = path.join(config.decksDir, slug, "chat.json");
+    const chat = JSON.parse(await fs.readFile(file, "utf8")) as DeckChatMessage[];
+    const stuck = {
+      ...chat.findLast((m) => m.changes)!,
+      id: "stuck",
+      applied: false,
+      applying: true,
+    };
+    await fs.writeFile(file, JSON.stringify([...chat, stuck]));
+    const read = (await (
+      await fetch(`${base}/api/decks/${slug}/chat`)
+    ).json()) as DeckChatMessage[];
+    const message = read.find((m) => m.id === "stuck")!;
+    assert.equal(message.applying, undefined);
+    assert.match(message.applyError!, /Interrupted/);
+    await fs.writeFile(file, JSON.stringify(chat, null, 2));
+  });
+
   test("applying edits recomputes combos", async () => {
     // Add the missing piece of a combo the deck is one card away from.
     const piece = optimized.combosOneAway[0].missing[0];
@@ -87,9 +152,7 @@ describe("deck chat without an LLM", () => {
         ["add", piece, true],
       ],
     );
-    const res = await apply(reply.id);
-    assert.equal(res.status, 200);
-    const { report } = (await res.json()) as { report: Report };
+    const { report } = await applied(await apply(reply.id));
     assert.ok(
       report.combosPresent.some((c) => c.cards.includes(piece)),
       `${piece} now completes a combo in the deck`,
@@ -105,11 +168,11 @@ describe("deck chat without an LLM", () => {
     if (!suggestions.length) return;
     const [first] = suggestions;
     const recommended = detail.report.before.mana.recommendedLands;
-    const res = await fetch(`${base}/api/decks/${slug}/mana-suggestions/${first.id}/apply`, {
-      method: "POST",
-    });
-    assert.equal(res.status, 200);
-    const report = (await res.json()) as Report;
+    const { report } = await applied(
+      await fetch(`${base}/api/decks/${slug}/mana-suggestions/${first.id}/apply`, {
+        method: "POST",
+      }),
+    );
     const added = first.changes.find((c) => c.action === "add")!.name;
     assert.ok(report.decklist!.some((c) => c.name === added));
     const submitted = parseDecklist(await readDeckFile(slug, "initial.txt")).entries;
@@ -158,11 +221,14 @@ describe("deck chat without an LLM", () => {
     const history = (await (
       await fetch(`${base}/api/decks/${slug}/chat`)
     ).json()) as DeckChatMessage[];
-    assert.equal(history.length, 9);
-    assert.equal(history[1].applied, true);
+    assert.deepEqual(history.at(-1), reply);
+    assert.equal(history.at(-2)!.content, "make it better please");
+    const swap = history.find((m) => m.changes?.some((c) => c.name === "Mind Stone"))!;
+    assert.equal(swap.applied, true);
     // Swapping a Forest for a creature widened the land shortfall, so the doc offered a re-run.
-    assert.match(history[4].content, /lands, under the recommended/);
-    assert.equal(history[4].rerun?.keepEdits, true);
+    const offer = history.find((m) => m.rerun)!;
+    assert.match(offer.content, /lands, under the recommended/);
+    assert.equal(offer.rerun!.keepEdits, true);
   });
 
   test("putting a cut card back updates the swaps and everything built from them", async () => {
@@ -186,7 +252,7 @@ describe("deck chat without an LLM", () => {
       reply.changes!.every((c) => c.ok),
       JSON.stringify(reply.changes),
     );
-    const { report } = (await (await apply(reply.id)).json()) as { report: Report };
+    const { report } = await applied(await apply(reply.id));
 
     assert.ok(
       !report.swaps.some((s) => s.out === undone.out || s.in === undone.out),
@@ -235,7 +301,7 @@ describe("deck chat without an LLM", () => {
       reply.changes!.every((c) => c.ok),
       JSON.stringify(reply.changes),
     );
-    const { report } = (await (await apply(reply.id)).json()) as { report: Report };
+    const { report } = await applied(await apply(reply.id));
 
     const submitted = parseDecklist(await readDeckFile(slug, "initial.txt")).entries.map(
       (e) => e.name,
@@ -271,9 +337,7 @@ describe("deck chat without an LLM", () => {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(body),
       });
-    const res = await applySwap({ out: swap.out, in: swap.in });
-    assert.equal(res.status, 200);
-    const report = (await res.json()) as Report;
+    const { report } = await applied(await applySwap({ out: swap.out, in: swap.in }));
 
     const submitted = parseDecklist(await readDeckFile(slug, "initial.txt")).entries.map(
       (e) => e.name,
@@ -329,11 +393,8 @@ describe("re-optimizing after a change", () => {
       reply.changes!.every((c) => c.ok),
       JSON.stringify(reply.changes),
     );
-    const applied = (await (await post(`/chat/${reply.id}/apply`, {})).json()) as {
-      report: Report;
-      followUp?: DeckChatMessage;
-    };
-    const offer = applied.followUp!;
+    const made = await applied(await post(`/chat/${reply.id}/apply`, {}), fresh.slug);
+    const offer = made.chat.at(-1)!;
     assert.ok(offer, "the doc offers to re-optimize");
     assert.match(offer.content, /lands, under the recommended/);
     // No jobId yet: nothing runs until the user confirms.
@@ -355,7 +416,7 @@ describe("re-optimizing after a change", () => {
     assert.equal(report.edits!.length, 1, "the edit history is kept");
     assert.ok(report.swaps.some((s) => s.in === "Mind Stone" && s.fromChat));
     assert.ok(
-      report.after.mana.landCount > applied.report.after.mana.landCount,
+      report.after.mana.landCount > made.report.after.mana.landCount,
       "the re-run rebalanced the lands around the edit",
     );
   });

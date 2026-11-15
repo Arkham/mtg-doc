@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import {
@@ -46,6 +47,16 @@ async function exists(p: string) {
   );
 }
 
+/**
+ * Writes a file so readers see the old or the new version, never half of one: the UI polls a deck
+ * while background edits rewrite it.
+ */
+export async function writeAtomic(file: string, data: string) {
+  const tmp = `${file}.${process.pid}.${randomUUID()}.tmp`;
+  await fs.writeFile(tmp, data);
+  await fs.rename(tmp, file);
+}
+
 export async function createDeckFolder(base: string): Promise<string> {
   await fs.mkdir(config.decksDir, { recursive: true });
   const root = slugify(base) || "deck";
@@ -64,8 +75,8 @@ export async function writeDeck(
   uploads: { name: string; data: Buffer }[],
 ) {
   const dir = deckDir(meta.slug);
-  await fs.writeFile(path.join(dir, "initial.txt"), formatDecklist(meta.commanders, entries));
-  await fs.writeFile(path.join(dir, "deck.json"), JSON.stringify(meta, null, 2));
+  await writeAtomic(path.join(dir, "initial.txt"), formatDecklist(meta.commanders, entries));
+  await writeAtomic(path.join(dir, "deck.json"), JSON.stringify(meta, null, 2));
   if (uploads.length) {
     await fs.mkdir(path.join(dir, "uploads"), { recursive: true });
     for (const u of uploads) await fs.writeFile(path.join(dir, "uploads", u.name), u.data);
@@ -77,12 +88,12 @@ export async function readMeta(slug: string): Promise<DeckMeta> {
 }
 
 export async function writeMeta(meta: DeckMeta) {
-  await fs.writeFile(path.join(deckDir(meta.slug), "deck.json"), JSON.stringify(meta, null, 2));
+  await writeAtomic(path.join(deckDir(meta.slug), "deck.json"), JSON.stringify(meta, null, 2));
 }
 
 /** Replaces the deck as submitted, after the user edited it through chat. */
 export async function writeInitial(slug: string, commanders: string[], entries: DeckEntry[]) {
-  await fs.writeFile(path.join(deckDir(slug), "initial.txt"), formatDecklist(commanders, entries));
+  await writeAtomic(path.join(deckDir(slug), "initial.txt"), formatDecklist(commanders, entries));
 }
 
 export async function setHideSuggestions(slug: string, hide: boolean): Promise<DeckMeta> {
@@ -113,9 +124,9 @@ export async function writeResults(
       `Refusing to save an inconsistent report for ${slug}:\n- ${problems.join("\n- ")}`,
     );
   const dir = deckDir(slug);
-  await fs.writeFile(path.join(dir, "report.json"), JSON.stringify(report, null, 2));
-  await fs.writeFile(path.join(dir, "report.md"), renderMarkdown(report));
-  await fs.writeFile(
+  await writeAtomic(path.join(dir, "report.json"), JSON.stringify(report, null, 2));
+  await writeAtomic(path.join(dir, "report.md"), renderMarkdown(report));
+  await writeAtomic(
     path.join(dir, "optimized.txt"),
     formatDecklist(optimized.commanders, optimized.entries),
   );

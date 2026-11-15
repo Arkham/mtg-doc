@@ -14,6 +14,7 @@ import {
   refreshSynergies,
   startChatRerun,
 } from "./chat.ts";
+import { editStatus, pendingEdits } from "./edit-queue.ts";
 import { recognizeImages, recognizeText } from "./ocr.ts";
 import { getJob, startOptimize } from "./pipeline.ts";
 import { autocomplete, lookupExact, resolveNames } from "./sources/scryfall.ts";
@@ -208,7 +209,7 @@ export function createApp() {
         readReport(slug),
         readInitial(slug),
       ]);
-      res.json({ meta, report, initial });
+      res.json({ meta, report, initial, updating: pendingEdits(slug).length > 0 });
     }),
   );
 
@@ -262,7 +263,9 @@ export function createApp() {
   app.post(
     "/api/decks/:slug/chat/:messageId/apply",
     wrap(async (req, res) =>
-      res.json(await applyChatChanges(String(req.params.slug), String(req.params.messageId))),
+      res
+        .status(202)
+        .json(await applyChatChanges(String(req.params.slug), String(req.params.messageId))),
     ),
   );
 
@@ -277,7 +280,9 @@ export function createApp() {
   app.post(
     "/api/decks/:slug/mana-suggestions/:id/apply",
     wrap(async (req, res) =>
-      res.json(await applyManaSuggestion(String(req.params.slug), String(req.params.id))),
+      res.status(202).json({
+        editId: await applyManaSuggestion(String(req.params.slug), String(req.params.id)),
+      }),
     ),
   );
 
@@ -285,7 +290,7 @@ export function createApp() {
     "/api/decks/:slug/swaps/apply",
     wrap(async (req, res) => {
       const swap = z.object({ out: z.string().min(1), in: z.string().min(1) }).parse(req.body);
-      res.json(await applySwap(String(req.params.slug), swap.out, swap.in));
+      res.status(202).json({ editId: await applySwap(String(req.params.slug), swap.out, swap.in) });
     }),
   );
 
@@ -300,6 +305,12 @@ export function createApp() {
       ),
     ),
   );
+
+  app.get("/api/edits/:id", (req, res) => {
+    const edit = editStatus(req.params.id);
+    if (!edit) return res.status(404).json({ error: "Edit not found" });
+    res.json(edit);
+  });
 
   app.get("/api/jobs/:id", (req, res) => {
     const job = getJob(req.params.id);

@@ -779,6 +779,28 @@ textarea.decklist {
   letter-spacing: -0.025em;
 }
 
+/* ---------- background edits ---------- */
+
+.updating-note {
+  position: fixed;
+  z-index: 35;
+  top: calc(var(--topbar-h) + var(--safe-top) + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100vw - 32px);
+  margin: 0;
+  padding: 8px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--raised);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}
+
 /* ---------- card search overlay ---------- */
 
 .topbar-search {

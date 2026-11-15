@@ -72,8 +72,12 @@ test.describe("local app", () => {
     await expect(mentioned).toBeVisible();
     await mentioned.hover();
     await expect(page.locator("body > .card-preview")).toHaveAttribute("src", /^https:/);
+    // The change is made in the background: the request returns at once, the UI shows progress.
+    const queued = page.waitForResponse((r) => /\/chat\/[^/]+\/apply$/.test(r.url()));
     await proposal.getByRole("button", { name: "Apply 2 changes" }).click();
+    expect((await queued).status()).toBe(202);
     await expect(proposal).toContainText("Applied", { timeout: 30_000 });
+    await expect(page.locator(".updating-note")).toHaveCount(0, { timeout: 30_000 });
 
     // Cutting lands opens a gap the optimizer would fix: the doc offers a re-run that keeps edits.
     await message.fill("remove 3 Forest");
