@@ -151,18 +151,39 @@ test.describe("static site", () => {
     await expect(sheet).toBeHidden();
   });
 
-  test("published content is readable without JavaScript", async ({ page, request }) => {
-    const page1 = await request.get(new URL(`decks/${OVERPOWERED}/`, STATIC_URL).href);
-    expect(page1.ok()).toBe(true);
-    const text = await page1.text();
-    expect(text).toContain("Lathril, Blade of the Elves");
-    expect(text).not.toContain("<script");
-    const shell = await (await request.get(STATIC_URL)).text();
-    expect(shell).toContain(`href="decks/${OVERPOWERED}/"`);
-    // In a browser the app takes over from the fallback.
+  test("the link in the address bar is readable without JavaScript", async ({ page, request }) => {
+    // Old hash links move onto the deck's real URL.
     await page.goto(`${STATIC_URL}#/deck/${OVERPOWERED}`);
     await expect(page.locator(".hero")).toBeVisible();
+    await expect(page).toHaveURL(`${STATIC_URL}decks/${OVERPOWERED}/`);
     await expect(page.locator(".agent-fallback")).toHaveCount(0);
+    await page.getByRole("link", { name: "See the optimized deck" }).click();
+    await expect(page).toHaveURL(`${STATIC_URL}decks/${OVERPOWERED}/optimized/`);
+    await page.getByRole("link", { name: "Pre-game summary" }).click();
+    await expect(page.locator(".rule0-name")).toBeVisible();
+
+    // Whatever URL the app shows is a page with the full report, for readers that don't run
+    // JavaScript (AI agents get a link copied from the address bar).
+    const shown = page.url();
+    expect(shown).toBe(`${STATIC_URL}decks/${OVERPOWERED}/optimized/rule0/`);
+    const text = await (await request.get(shown)).text();
+    expect(text).toContain("<h1>Lathril, Blade of the Elves</h1>");
+    expect(text).toContain("Suggested decklist");
+    const shell = await (await request.get(STATIC_URL)).text();
+    expect(shell).toContain(`href="decks/${OVERPOWERED}/"`);
+
+    // Each of those pages boots the app at its route, and back goes where it came from.
+    await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/optimized/`);
+    await expect(page.getByRole("heading", { name: "The plan" })).toBeVisible();
+    await expect(page.locator(".agent-fallback")).toHaveCount(0);
+    await page.getByRole("tab", { name: "Your deck" }).click();
+    await expect(page).toHaveURL(`${STATIC_URL}decks/${OVERPOWERED}/`);
+    await page.goBack();
+    await expect(page.getByRole("heading", { name: "The plan" })).toBeVisible();
+    await page.getByRole("button", { name: "Back" }).click();
+    await expect(page).toHaveURL(STATIC_URL);
+    await expect(page.locator(".deck-card")).toHaveCount(2);
+    await expectNoHorizontalOverflow(page);
   });
 
   test("opens on the deck as submitted, with a toggle to the optimized view", async ({ page }) => {
@@ -183,7 +204,7 @@ test.describe("static site", () => {
     await expectNoHorizontalOverflow(page);
 
     await page.getByRole("link", { name: "See the optimized deck" }).click();
-    await expect(page).toHaveURL(/\/optimized$/);
+    await expect(page).toHaveURL(/\/optimized\/$/);
     await expect(toggle.getByRole("tab", { name: /Optimized/ })).toHaveAttribute(
       "aria-selected",
       "true",

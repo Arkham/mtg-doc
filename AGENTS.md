@@ -133,16 +133,23 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   Scryfall's by-name image as a last resort, but the index is the source of truth.
 - Mobile first: the static site is mainly read on iPhone and iPad. Touch targets ≥ 44px, inputs ≥ 16px
   (no iOS zoom), respect safe areas, card previews must work on tap (no hover dependency).
-- The static build is read-only: relative asset paths and hash routing so it works on any host and
-  sub-path; no server-only features (upload, re-run) and never publish uploaded photos or local paths.
+- The static build is read-only: relative asset paths and a real page for every route, so it works
+  on any host and sub-path with no rewrites; no server-only features (upload, re-run) and never
+  publish uploaded photos or local paths.
 - For visual changes, check screenshots at iPhone (390×844), iPad (820×1180) and desktop widths.
 
 ### Published content must be readable by agents
 
 - Everything we publish must be accessible to AI agents and other readers that don't run
-  JavaScript. The app's hash routes (`#/deck/<slug>`) never reach the server, so the static build
-  also writes an `llms.txt` index, a plain fallback inside the app shell's `#root`, and a
-  script-free page per deck at `decks/<slug>/` (all in `server/agent-pages.ts`), plus `report.md`.
+  JavaScript, starting from whatever link a user copies out of the address bar. On the static site
+  every route is a real path (`decks/<slug>/`, `.../optimized/`, `.../rule0/`, see `src/routes.ts`),
+  and the build writes each one as the app shell with the deck's full report as plain HTML inside
+  `#root`, under a `<base>` that points at the site root. Hash links (`#/deck/<slug>`) never reach
+  the server, so the app only reads them to move old links onto real paths. There's also an
+  `llms.txt` index and `report.md` (all in `server/agent-pages.ts`). When you add a route, add its
+  page to `deckPaths`.
+- The local app keeps hash routes. Build links with `hrefOf`/`deckHref` and move with `navigate`/`go`
+  (`src/nav.ts`), never with hand-written `#/` strings.
 - When you add a section or data to a report, add it to `renderMarkdown` (`server/report.ts`) in
   the same change, so the plain page and markdown carry it too; the static build regenerates both
   from `report.json`. Extend the static tests that check these pages.

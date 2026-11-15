@@ -63,8 +63,10 @@ pnpm build:static --out ../my-pages-repo/decks
 pnpm preview:static               # serve site/ locally (also on your LAN)
 ```
 
-The output is plain HTML/JS/JSON with relative paths and hash routing, so it works on any static
-host and under any sub-path (GitHub Pages, Netlify, Cloudflare Pages, S3) with no rewrite rules.
+The output is plain HTML/JS/JSON with relative paths and a real page for every route (e.g.
+`decks/<slug>/`, which carries the full report as plain HTML for readers without JavaScript), so it
+works on any static host and under any sub-path (GitHub Pages, Netlify, Cloudflare Pages, S3) with
+no rewrite rules.
 Uploaded photos, warnings and local paths are not published.
 
 It's built for iPhone and iPad: tap any card name to see the card, sticky section navigation,

@@ -73,6 +73,11 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Plain content for readers without JavaScript; the app replaces it as soon as it starts. */
+.agent-fallback {
+  display: none;
+}
+
 a {
   color: var(--accent-hi);
   text-decoration: none;

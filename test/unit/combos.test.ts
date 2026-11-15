@@ -3,7 +3,8 @@ import { describe, test } from "node:test";
 import type { Combo } from "../../shared/types.ts";
 import { byManaValue } from "../../src/cards.ts";
 import { symbolUrl } from "../../src/mana-symbols.ts";
-import { asOriginal, deckHash } from "../../src/views.ts";
+import { asOriginal } from "../../src/views.ts";
+import { deckPaths, hashRoute, isAppPath, pathRoute, routeHref } from "../../src/routes.ts";
 import type { Report } from "../../shared/types.ts";
 import { comboOutcome, groupByMissing } from "../../src/combos.ts";
 
@@ -146,9 +147,24 @@ describe("asOriginal", () => {
     assert.equal(asOriginal(old), old);
   });
 
-  test("routes for each view", () => {
-    assert.equal(deckHash("x", "current"), "#/deck/x");
-    assert.equal(deckHash("x", "optimized"), "#/deck/x/optimized");
-    assert.equal(deckHash("x", "optimized", "rule0"), "#/deck/x/optimized/rule0");
+  test("routes for each view: hashes locally, real paths on the published site", () => {
+    const optimized = { page: "rule0", slug: "x", view: "optimized" } as const;
+    assert.equal(routeHref({ page: "deck", slug: "x", view: "current" }, false), "#/deck/x");
+    assert.equal(routeHref(optimized, false), "#/deck/x/optimized/rule0");
+    assert.equal(routeHref(optimized, true), "decks/x/optimized/rule0/");
+    assert.equal(routeHref({ page: "home" }, true), "./");
+    assert.deepEqual(pathRoute("decks/x/optimized/rule0/"), optimized);
+    assert.deepEqual(pathRoute("decks/x/"), { page: "deck", slug: "x", view: "current" });
+    assert.deepEqual(pathRoute(""), { page: "home" });
+    // Links shared before the published site had real paths still find the deck.
+    assert.deepEqual(hashRoute("#/deck/x/optimized/rule0"), optimized);
+    assert.equal(hashRoute("#bracket"), null);
+    // Every route the app can reach on the published site has a page to land on.
+    for (const path of deckPaths("x")) {
+      assert.ok(isAppPath(path));
+      assert.equal(routeHref(pathRoute(path), true), path);
+    }
+    assert.equal(deckPaths("x").length, 4);
+    assert.ok(!isAppPath("data/decks/x/report.md"));
   });
 });

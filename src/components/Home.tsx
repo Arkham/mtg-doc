@@ -2,6 +2,7 @@ import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react"
 import type { DeckSummary } from "../../shared/types.ts";
 import { type AppConfig, IS_STATIC, type Recognition, type RecognitionJob, api } from "../api.ts";
 import { MIN_QUERY, searchCards } from "../card-search.ts";
+import { deckHref } from "../nav.ts";
 import { BracketBadge } from "./BracketPanel.tsx";
 import { CardName } from "./CardName.tsx";
 import { ColorIdentity } from "./Mana.tsx";
@@ -87,7 +88,7 @@ function CardSearch({ decks }: { decks: DeckSummary[] }) {
                       <a
                         key={d.slug}
                         className="deck-chip"
-                        href={`#/deck/${d.slug}`}
+                        href={deckHref(d.slug, "current")}
                         style={auraOf(d.colorIdentity)}
                       >
                         <ColorIdentity colors={d.colorIdentity} size={14} />
@@ -143,7 +144,7 @@ function DeckGallery({ decks }: { decks: DeckSummary[] }) {
           <a
             key={d.slug}
             className="deck-card"
-            href={`#/deck/${d.slug}`}
+            href={deckHref(d.slug, "current")}
             style={auraOf(d.colorIdentity)}
           >
             <div className="deck-art">

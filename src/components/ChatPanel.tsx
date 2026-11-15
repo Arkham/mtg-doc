@@ -1,7 +1,7 @@
 import { type FormEvent, type KeyboardEvent, useEffect, useRef, useState } from "react";
 import type { DeckChatMessage, EditTarget, Report } from "../../shared/types.ts";
 import { api } from "../api.ts";
-import { navigate } from "../nav.ts";
+import { go, hrefOf } from "../nav.ts";
 import { CardName, CardText } from "./CardName.tsx";
 import { ManaCost } from "./Mana.tsx";
 
@@ -91,7 +91,7 @@ function Rerun({
           : `With ${r.summary}. This replaces the current suggestions and any chat edits.`}
       </p>
       {r.jobId ? (
-        <a className="small" href={`#/job/${slug}/${r.jobId}`}>
+        <a className="small" href={hrefOf({ page: "job", slug, jobId: r.jobId })}>
           ✓ Started · see progress
         </a>
       ) : (
@@ -161,7 +161,7 @@ export function ChatPanel({
       const reply = await api.sendChat(slug, content, target);
       setMessages((m) => [...(m ?? []), reply]);
       // A "yes" to a proposed re-run starts it right away.
-      if (reply.rerun?.jobId) navigate(`#/job/${slug}/${reply.rerun.jobId}`);
+      if (reply.rerun?.jobId) go({ page: "job", slug, jobId: reply.rerun.jobId });
       if (reply.reportUpdated) {
         const { report } = await api.deck(slug);
         if (report) onApplied(report);
@@ -200,7 +200,7 @@ export function ChatPanel({
     setError(null);
     try {
       const { jobId } = await api.rerunFromChat(slug, id);
-      navigate(`#/job/${slug}/${jobId}`);
+      go({ page: "job", slug, jobId });
     } catch (e) {
       setError(String(e instanceof Error ? e.message : e));
       setApplying(null);

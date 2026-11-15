@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Job, JobStep } from "../../shared/types.ts";
 import { api } from "../api.ts";
+import { deckHref } from "../nav.ts";
 
 function StepIcon({ status }: { status: JobStep["status"] }) {
   if (status === "running") return <span className="spinner step-icon" aria-label="running" />;
@@ -70,7 +71,7 @@ export function Progress({ jobId, onDone }: { jobId: string; onDone: () => void 
         ))}
       </ul>
       {(job?.error || error) && <p className="error">{job?.error ?? error}</p>}
-      {job?.status === "error" && <a href={`#/deck/${job.slug}`}>Open deck anyway →</a>}
+      {job?.status === "error" && <a href={deckHref(job.slug, "current")}>Open deck anyway →</a>}
     </section>
   );
 }

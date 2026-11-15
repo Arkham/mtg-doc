@@ -231,15 +231,23 @@ describe("agent pages", () => {
       targetBracket: 2,
       cards: [],
     };
+    const shell =
+      '<html><head><title>mtg doc</title><script type="module" src="./assets/app.js"></script></head><body><div id="root"></div></body></html>';
     const page = deckPage(
+      shell,
+      "../../",
       summary,
       { themes: ["Tokens"] } as never,
       "# Title\n\nA plan <script>alert(1)</script> with **bold**.\n\n<img src=x onerror=alert(1)>\n",
     );
-    assert.doesNotMatch(page, /<script|<img/);
-    assert.match(page, /&lt;script&gt;/);
-    assert.match(page, /<strong>bold<\/strong>/);
+    const root = page.split('<div id="root">')[1];
+    assert.doesNotMatch(root, /<script|<img/);
+    assert.match(root, /&lt;script&gt;/);
+    assert.match(root, /<strong>bold<\/strong>/);
     assert.match(page, /<title>Some &lt;Commander&gt; · mtg doc<\/title>/);
+    // The app shell boots from the page, with relative URLs pinned to the site root.
+    assert.match(page, /<head>\s*<base href="..\/..\/" \/>/);
+    assert.equal(page.match(/<script/g)!.length, 1);
     assert.match(llmsTxt([summary]), /bracket 3, 2 suggested swaps for bracket 2/);
   });
 });

@@ -1,13 +1,15 @@
 /**
  * Builds a read-only static site from decks/ into site/ (or --out <dir>).
- * Host it anywhere: GitHub Pages, Netlify, Cloudflare Pages, S3. Routing is hash-based, so no rewrites needed.
+ * Host it anywhere: GitHub Pages, Netlify, Cloudflare Pages, S3. Every route is a real page, so no
+ * rewrites needed.
  */
 import fs from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import { build } from "vite";
 import { config } from "../server/config.ts";
-import { deckPage, indexFallback, llmsTxt } from "../server/agent-pages.ts";
+import { appPage, deckPage, indexFallback, llmsTxt } from "../server/agent-pages.ts";
+import { deckPaths } from "../src/routes.ts";
 import { withoutSuggestionCounts, withoutSuggestions } from "../server/publish.ts";
 import { renderMarkdown } from "../server/report.ts";
 import type { DeckSummary } from "../shared/types.ts";
@@ -29,6 +31,9 @@ await build({
   logLevel: "warn",
   build: { outDir, emptyOutDir: true },
 });
+
+const indexPath = path.join(outDir, "index.html");
+const shell = await fs.readFile(indexPath, "utf8");
 
 const listed = (await listDecks()).filter((d) => !only || only.has(d.slug));
 const decks: DeckSummary[] = [];
@@ -59,24 +64,24 @@ for (const listedDeck of listed) {
     // Rendered fresh so published text always matches the report data.
     const markdown = renderMarkdown(report);
     await fs.writeFile(path.join(dir, "report.md"), markdown);
-    const page = path.join(outDir, "decks", d.slug);
-    await fs.mkdir(page, { recursive: true });
-    await fs.writeFile(path.join(page, "index.html"), deckPage(d, report, markdown));
+    for (const route of deckPaths(d.slug)) {
+      const page = path.join(outDir, route);
+      await fs.mkdir(page, { recursive: true });
+      const base = "../".repeat(route.split("/").filter(Boolean).length);
+      await fs.writeFile(path.join(page, "index.html"), deckPage(shell, base, d, report, markdown));
+    }
   }
 }
 
 // Everything published must be readable without JavaScript (see AGENTS.md).
 await fs.writeFile(path.join(outDir, "llms.txt"), llmsTxt(decks));
-const indexPath = path.join(outDir, "index.html");
-const index = await fs.readFile(indexPath, "utf8");
 await fs.writeFile(
   indexPath,
-  index
-    .replace('<div id="root"></div>', `<div id="root">${indexFallback(decks)}</div>`)
-    .replace(
-      "</head>",
-      '<link rel="alternate" type="text/plain" href="llms.txt" title="Plain-text index" />\n  </head>',
-    ),
+  appPage(shell, {
+    base: "./",
+    body: indexFallback(decks),
+    head: '<link rel="alternate" type="text/plain" href="llms.txt" title="Plain-text index" />',
+  }),
 );
 
 await fs.writeFile(path.join(dataDir, "decks.json"), JSON.stringify(decks));

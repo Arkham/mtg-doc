@@ -1,55 +1,65 @@
 import { useEffect, useState } from "react";
-import { type AppConfig, IS_STATIC, type Recognition, api } from "./api.ts";
+import { type AppConfig, type Recognition, api } from "./api.ts";
 import { Home } from "./components/Home.tsx";
 import { Progress } from "./components/Progress.tsx";
 import { ReportView } from "./components/ReportView.tsx";
 import { Review } from "./components/Review.tsx";
 import { Rule0 } from "./components/Rule0.tsx";
-import { navigate } from "./nav.ts";
-import { type DeckView, deckHash } from "./views.ts";
-
-type Route =
-  | { page: "home" }
-  | { page: "deck"; slug: string; view: DeckView }
-  | { page: "rule0"; slug: string; view: DeckView }
-  | { page: "job"; slug: string; jobId: string };
-
-function parseHash(): Route {
-  const [, page, a, b, c] = window.location.hash.split("/");
-  if (page === "deck" && a) {
-    const view: DeckView = b === "optimized" ? "optimized" : "current";
-    const rest = view === "optimized" ? c : b;
-    return rest === "rule0" ? { page: "rule0", slug: a, view } : { page: "deck", slug: a, view };
-  }
-  if (page === "job" && a && b && !IS_STATIC) return { page: "job", slug: a, jobId: b };
-  return { page: "home" };
-}
+import {
+  ROUTE_CHANGE,
+  type Route,
+  currentRoute,
+  deckHref,
+  go,
+  isAppLink,
+  navigate,
+  hrefOf,
+} from "./nav.ts";
 
 export function App() {
-  const [route, setRoute] = useState<Route>(parseHash);
+  const [route, setRoute] = useState<Route>(currentRoute);
   const [recognition, setRecognition] = useState<{ result: Recognition; photos: string[] } | null>(
     null,
   );
   const [config, setConfig] = useState<AppConfig | null>(null);
 
   useEffect(() => {
-    const onHash = () => {
-      setRoute(parseHash());
+    const onRoute = () => {
+      setRoute(currentRoute());
       window.scrollTo(0, 0);
     };
-    window.addEventListener("hashchange", onHash);
+    // Links between the static site's pages switch views in place instead of reloading.
+    const onClick = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)
+        return;
+      const a = (e.target as Element | null)?.closest?.("a");
+      if (!a || !isAppLink(a)) return;
+      e.preventDefault();
+      navigate(a.getAttribute("href")!);
+    };
+    const events = ["hashchange", "popstate", ROUTE_CHANGE];
+    for (const ev of events) window.addEventListener(ev, onRoute);
+    document.addEventListener("click", onClick);
     api.config().then(setConfig, () => setConfig(null));
-    return () => window.removeEventListener("hashchange", onHash);
+    return () => {
+      for (const ev of events) window.removeEventListener(ev, onRoute);
+      document.removeEventListener("click", onClick);
+    };
   }, []);
 
   const goBack = () => {
     setRecognition(null);
-    navigate(route.page === "rule0" ? deckHash(route.slug, route.view) : "#/");
+    navigate(route.page === "rule0" ? deckHref(route.slug, route.view) : hrefOf({ page: "home" }));
   };
 
   let body;
   if (route.page === "job") {
-    body = <Progress jobId={route.jobId} onDone={() => navigate(`#/deck/${route.slug}`)} />;
+    body = (
+      <Progress
+        jobId={route.jobId}
+        onDone={() => go({ page: "deck", slug: route.slug, view: "current" })}
+      />
+    );
   } else if (route.page === "rule0") {
     body = <Rule0 slug={route.slug} view={route.view} />;
   } else if (route.page === "deck") {
@@ -63,7 +73,7 @@ export function App() {
         onCancel={() => setRecognition(null)}
         onSaved={(slug, jobId) => {
           setRecognition(null);
-          navigate(`#/job/${slug}/${jobId}`);
+          go({ page: "job", slug, jobId });
         }}
       />
     );
@@ -83,7 +93,7 @@ export function App() {
             <span aria-hidden>‹</span> {route.page === "rule0" ? "Report" : "Decks"}
           </button>
         ) : (
-          <a href="#/" className="brand">
+          <a href={hrefOf({ page: "home" })} className="brand">
             <img src="./icon-64.png" alt="" width={32} height={32} />
             mtg doc
           </a>

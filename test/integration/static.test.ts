@@ -29,6 +29,7 @@ describe("static site export", () => {
     assert.match(html, /src="\.\/assets\/index-[\w-]+\.js"/, "assets use relative URLs");
     assert.ok(fs.existsSync(path.join(out, "symbols/G.svg")), "mana symbols ship with the site");
     assert.match(html, /<title>mtg doc<\/title>/);
+    assert.match(html, /<base href=".\/" \/>/);
     for (const f of [
       ".nojekyll",
       "manifest.webmanifest",
@@ -39,8 +40,8 @@ describe("static site export", () => {
       assert.ok(fs.existsSync(path.join(out, f)), `${f} exists`);
     }
 
-    // Everything is readable without JavaScript: an llms.txt index, a fallback inside the app
-    // shell (hash links never reach the server) and a plain page per deck.
+    // Everything is readable without JavaScript: an llms.txt index, and every URL the app shows
+    // is a real page with its content in plain HTML.
     const llms = fs.readFileSync(path.join(out, "llms.txt"), "utf8");
     assert.match(llms, new RegExp(`\\[Lathril, Blade of the Elves\\]\\(decks/${slug}/\\)`));
     assert.match(
@@ -48,12 +49,19 @@ describe("static site export", () => {
       new RegExp(`<div id="root"><main class="agent-fallback">.*href="decks/${slug}/"`),
     );
     assert.match(html, /rel="alternate" type="text\/plain" href="llms.txt"/);
-    const page = fs.readFileSync(path.join(out, `decks/${slug}/index.html`), "utf8");
-    assert.doesNotMatch(page, /<script/);
-    assert.match(page, /<h1>Lathril, Blade of the Elves<\/h1>/);
-    assert.match(page, /Decklist as submitted \(100 cards\)/);
-    assert.match(page, /Suggested decklist/);
-    assert.match(page, new RegExp(`href="../../#/deck/${slug}"`));
+    for (const [route, base] of [
+      [`decks/${slug}`, "../../"],
+      [`decks/${slug}/optimized`, "../../../"],
+      [`decks/${slug}/optimized/rule0`, "../../../../"],
+    ]) {
+      const page = fs.readFileSync(path.join(out, route, "index.html"), "utf8");
+      assert.match(page, new RegExp(`<base href="${base}" />`), route);
+      assert.match(page, /<div id="root"><main class="agent-fallback">/);
+      assert.match(page, /<h1>Lathril, Blade of the Elves<\/h1>/);
+      assert.match(page, /Decklist as submitted \(100 cards\)/);
+      assert.match(page, /Suggested decklist/);
+      assert.match(page, new RegExp(`href="data/decks/${slug}/report.md"`));
+    }
 
     const decks = JSON.parse(fs.readFileSync(path.join(out, "data/decks.json"), "utf8"));
     assert.ok(

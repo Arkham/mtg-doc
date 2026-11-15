@@ -2,9 +2,6 @@ import type { Report } from "../shared/types.ts";
 
 export type DeckView = "current" | "optimized";
 
-export const deckHash = (slug: string, view: DeckView, page?: "rule0") =>
-  `#/deck/${slug}${view === "optimized" ? "/optimized" : ""}${page ? `/${page}` : ""}`;
-
 /** Reports made before the original deck was stored can only show the optimized view. */
 export const hasOriginal = (r: Report) => Boolean(r.original);
 

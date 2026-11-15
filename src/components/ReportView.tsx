@@ -12,8 +12,8 @@ import type {
 } from "../../shared/types.ts";
 import { type DeckDetail, IS_STATIC, api, fileUrl } from "../api.ts";
 import { comboOutcome, groupByMissing } from "../combos.ts";
-import { type DeckView, asOriginal, deckHash, hasBothViews, viewOf } from "../views.ts";
-import { navigate } from "../nav.ts";
+import { type DeckView, asOriginal, hasBothViews, viewOf } from "../views.ts";
+import { deckHref, go, navigate } from "../nav.ts";
 import { BracketBadge, BracketPanel } from "./BracketPanel.tsx";
 import { ChatPanel } from "./ChatPanel.tsx";
 import { CardGallery, CardIndex, CardList, CardName, useGallery } from "./CardName.tsx";
@@ -677,7 +677,7 @@ function TargetBracket({
   const run = async () => {
     setBusy(true);
     const { jobId } = await api.reoptimize(slug, { ...options, bracket: target });
-    navigate(`#/job/${slug}/${jobId}`);
+    go({ page: "job", slug, jobId });
   };
   return (
     <div className="target-bracket">
@@ -780,7 +780,7 @@ function Rerun({ slug, initial }: { slug: string; initial: OptimizeOptions }) {
         className="primary"
         onClick={async () => {
           const { jobId } = await api.reoptimize(slug, opts);
-          navigate(`#/job/${slug}/${jobId}`);
+          go({ page: "job", slug, jobId });
         }}
       >
         Run
@@ -1110,7 +1110,7 @@ function Overview({ report: r, full, slug }: { report: Report; full: Report; slu
             {target ? ` to tune it for bracket ${target}` : ""}
             {full.options.budgetTotal ? ` within your $${full.options.budgetTotal} budget` : ""}.
           </p>
-          <a className="button primary" href={deckHash(slug, "optimized")}>
+          <a className="button primary" href={deckHref(slug, "optimized")}>
             See the optimized deck
           </a>
         </div>
@@ -1416,14 +1416,14 @@ function ViewToggle({ slug, view, swaps }: { slug: string; view: DeckView; swaps
       <button
         role="tab"
         aria-selected={view === "current"}
-        onClick={() => navigate(deckHash(slug, "current"))}
+        onClick={() => navigate(deckHref(slug, "current"))}
       >
         Your deck
       </button>
       <button
         role="tab"
         aria-selected={view === "optimized"}
-        onClick={() => navigate(deckHash(slug, "optimized"))}
+        onClick={() => navigate(deckHref(slug, "optimized"))}
       >
         Optimized {swaps > 0 && <span className="count">{swaps}</span>}
       </button>
@@ -1688,7 +1688,7 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
           <section className="panel" id="bracket">
             <BracketPanel
               b={r.bracket}
-              rule0Href={deckHash(slug, view, "rule0")}
+              rule0Href={deckHref(slug, view, "rule0")}
               actions={
                 !IS_STATIC && (
                   <TargetBracket slug={slug} options={full.options} current={r.bracket.target} />
