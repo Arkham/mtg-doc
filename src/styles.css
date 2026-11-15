@@ -266,6 +266,14 @@ button.back svg {
 .panel-head.compact .panel-head-text {
   flex-basis: auto;
 }
+/* The button sits on the title's line without making the header taller, so a section looks the
+   same with or without it (the decklist on both views): it overhangs into the panel's padding. */
+.panel-head.compact .panel-actions {
+  height: 0;
+  align-self: center;
+  /* One line, or the button starts at the zero-height box's top instead of centring on it. */
+  flex-wrap: nowrap;
+}
 .panel-head .count {
   font-size: 0.8em;
   color: var(--muted);

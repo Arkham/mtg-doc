@@ -267,6 +267,42 @@ test.describe("static site", () => {
     await expect(page.getByRole("button", { name: "Back" })).toBeVisible();
   });
 
+  test("reading the decklist, switching views doesn't move the list at all", async ({ page }) => {
+    await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/`);
+    const list = page.locator("#decklist");
+    await list.locator(".deck-group li").first().waitFor();
+    // Partway into the cards, as if reading them.
+    await list.evaluate((el) => {
+      const margin = parseFloat(getComputedStyle(el).scrollMarginTop);
+      const top = el.getBoundingClientRect().top + scrollY - margin + 120;
+      window.scrollTo({ top, behavior: "instant" });
+    });
+    const toggle = page.getByRole("tablist", { name: "Which deck" });
+    for (const tab of [/Optimized/, /Your deck/, /Optimized/]) {
+      // Where the list toolbar sits on every frame from before the tap until it settles.
+      await page.evaluate(() => {
+        const w = window as unknown as { listTops: number[] };
+        w.listTops = [];
+        const t0 = performance.now();
+        const sample = () => {
+          const bar = document.querySelector("#decklist .list-toolbar");
+          if (bar) w.listTops.push(bar.getBoundingClientRect().top);
+          if (performance.now() - t0 < 600) requestAnimationFrame(sample);
+        };
+        sample();
+      });
+      await toggle.getByRole("tab", { name: tab }).click();
+      await page.waitForTimeout(700);
+      const tops = await page.evaluate(
+        () => (window as unknown as { listTops: number[] }).listTops,
+      );
+      expect(
+        Math.max(...tops) - Math.min(...tops),
+        `${tab}: ${tops.join(", ")}`,
+      ).toBeLessThanOrEqual(1);
+    }
+  });
+
   test("switching between the two views stays on the section being read", async ({ page }) => {
     await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/`);
     const nav = page.locator(".section-nav");
