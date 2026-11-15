@@ -1605,9 +1605,11 @@ button.hero-card:hover:not(:disabled),
 button.hero-card:active:not(:disabled) {
   border: none;
 }
+/* Card images reserve their shape before they load, so nothing below jumps when they arrive. */
 .hero-card img {
   display: block;
   width: 232px;
+  aspect-ratio: 63 / 88;
   border-radius: 4.75% / 3.5%;
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.08),
@@ -1748,6 +1750,9 @@ button.hero-card:active:not(:disabled) {
   align-items: center;
   flex-wrap: wrap;
 }
+.hero-actions > * {
+  white-space: nowrap;
+}
 .hero-actions .primary {
   min-height: 44px;
   padding: 10px 20px;
@@ -1764,11 +1769,12 @@ button.hero-card:active:not(:disabled) {
 .menu > summary {
   min-height: 44px;
 }
+/* The menu is the last of the hero's actions, so it opens leftward and stays on screen. */
 .menu-items {
   position: absolute;
   z-index: 40;
   top: calc(100% + 6px);
-  left: 0;
+  right: 0;
   min-width: 220px;
   background: var(--raised);
   border: 1px solid var(--line-strong);
@@ -2521,6 +2527,7 @@ table.data th:not(:first-child) {
 .card-thumb {
   display: block;
   width: 56px;
+  aspect-ratio: 63 / 88;
   border-radius: 4.75% / 3.5%;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
 }
@@ -3751,12 +3758,15 @@ pre {
     -webkit-mask-image: linear-gradient(180deg, #000, transparent 60%);
     mask-image: linear-gradient(180deg, #000, transparent 60%);
   }
+  /* How to play on its own line, the list's copy and export side by side below it. */
   .hero-actions .primary {
-    flex: 1;
+    flex: 1 1 100%;
   }
-  .menu-items {
-    left: auto;
-    right: 0;
+  .hero-actions > :not(.primary) {
+    flex: 1 1 0;
+  }
+  .hero-actions .menu > summary {
+    width: 100%;
   }
   .stats {
     grid-template-columns: 1fr 1fr;

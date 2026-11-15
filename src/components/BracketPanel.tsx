@@ -51,11 +51,9 @@ function PowerMeter({ power, position }: { power: number; position: string }) {
 
 export function BracketPanel({
   b,
-  onHowToPlay,
   actions,
 }: {
   b: BracketReport;
-  onHowToPlay: () => void;
   /** Extra controls in the header, e.g. changing the target bracket. */
   actions?: ReactNode;
 }) {
@@ -80,10 +78,7 @@ export function BracketPanel({
               ` · Commander Spellbook: ${SPELLBOOK_TAG[a.spellbookTag] ?? a.spellbookTag}`}
           </div>
         </div>
-        <div className="bracket-actions">
-          {actions}
-          <button onClick={onHowToPlay}>How to play</button>
-        </div>
+        {actions && <div className="bracket-actions">{actions}</div>}
       </div>
 
       <PowerMeter power={a.power} position={POSITION_LABEL[a.position].toLowerCase()} />

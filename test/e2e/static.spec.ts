@@ -211,12 +211,12 @@ test.describe("static site", () => {
 
     // Each of those pages boots the app at its route, and back goes where it came from.
     await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/optimized/`);
-    await expect(page.getByRole("heading", { name: "The plan" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Optimized deck" })).toBeVisible();
     await expect(page.locator(".agent-fallback")).toHaveCount(0);
     await page.getByRole("tab", { name: "Your deck" }).click();
     await expect(page).toHaveURL(`${STATIC_URL}decks/${OVERPOWERED}/`);
     await page.goBack();
-    await expect(page.getByRole("heading", { name: "The plan" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Optimized deck" })).toBeVisible();
     await page.getByRole("button", { name: "Back" }).click();
     await expect(page).toHaveURL(STATIC_URL);
     await expect(page.locator(".deck-card")).toHaveCount(2);
@@ -246,7 +246,7 @@ test.describe("static site", () => {
       "aria-selected",
       "true",
     );
-    await expect(page.getByRole("heading", { name: "The plan" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Optimized deck" })).toBeVisible();
     await page.getByRole("button", { name: /^Show swaps/ }).click();
     await expect(page.locator("#decklist .swap").first()).toBeVisible();
     await toggle.getByRole("tab", { name: "Your deck" }).click();
@@ -263,6 +263,22 @@ test.describe("static site", () => {
     await expectNoHorizontalOverflow(page);
     await expect(page.getByRole("button", { name: "Find a card" })).toBeInViewport({ ratio: 1 });
     await expect(page.getByRole("button", { name: "Back" })).toBeVisible();
+  });
+
+  test("card images keep their place before they load, so the page doesn't jump", async ({
+    page,
+  }) => {
+    // Images that never arrive: the page must look the same as when they do.
+    await page.route(/\.(jpg|png|webp)(\?|$)/, (route) =>
+      route.request().url().includes("scryfall") ? route.abort() : route.continue(),
+    );
+    await page.goto(`${STATIC_URL}decks/${OPTIMIZED}/`);
+    await expect(page.locator(".hero-card img").first()).toBeAttached();
+    for (const selector of [".hero-card img", ".card-thumb"]) {
+      const box = await page.locator(selector).first().boundingBox();
+      expect(box, selector).not.toBeNull();
+      expect(box!.height / box!.width, selector).toBeCloseTo(88 / 63, 1);
+    }
   });
 
   test("reading the decklist, switching views doesn't move the list at all", async ({ page }) => {
@@ -316,7 +332,7 @@ test.describe("static site", () => {
     await expect(nav.locator("button.active")).toHaveText("Goldfish");
     const toggle = page.getByRole("tablist", { name: "Which deck" });
     await toggle.getByRole("tab", { name: /Optimized/ }).click();
-    await expect(page.getByRole("heading", { name: "The plan" })).toBeAttached();
+    await expect(page.getByRole("heading", { name: "Optimized deck" })).toBeAttached();
     await expect(page.locator("#sim")).toBeInViewport();
     await expect(nav.locator("button.active")).toHaveText("Goldfish");
     await toggle.getByRole("tab", { name: "Your deck" }).click();
@@ -410,7 +426,7 @@ test.describe("static site", () => {
     await expect(page.getByRole("button", { name: "Copy decklist" })).toBeEnabled();
     await page.locator(".menu > summary").click();
     await expect(page.getByRole("button", { name: /Copy cards to add/ })).toBeVisible();
-    const optimized = page.getByRole("link", { name: /Optimized list/ });
+    const optimized = page.getByRole("link", { name: /Download the optimized deck/ });
     await expect(optimized).toHaveAttribute("href", `data/decks/${OVERPOWERED}/optimized.txt`);
     const res = await page.request.get(
       new URL(`data/decks/${OVERPOWERED}/optimized.txt`, STATIC_URL).href,
@@ -517,8 +533,8 @@ test.describe("static site", () => {
     await expect(page.locator(".swap")).toHaveCount(0);
     await expect(page.getByText(/The doc prescribes/)).toHaveCount(0);
     await page.locator(".menu summary").click();
-    await expect(page.getByRole("link", { name: /Original list/ })).toBeVisible();
-    await expect(page.getByRole("link", { name: /Optimized list/ })).toHaveCount(0);
+    await expect(page.getByRole("link", { name: /Download your deck/ })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Download the optimized deck/ })).toHaveCount(0);
     await expectNoHorizontalOverflow(page);
   });
 
@@ -527,7 +543,13 @@ test.describe("static site", () => {
     isMobile,
   }) => {
     await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/optimized/`);
-    const button = page.getByRole("button", { name: "How to play" });
+    // Next to the deck's other actions, and only there.
+    const button = page.locator(".hero-actions").getByRole("button", { name: "How to play" });
+    await expect(page.getByRole("button", { name: "How to play" })).toHaveCount(1);
+    await expect(page.locator(".hero-actions").getByRole("button")).toHaveText([
+      "How to play",
+      "Copy decklist",
+    ]);
     await button.click();
     const dialog = page.getByRole("dialog", { name: "How to play" });
     await expect(dialog).toBeVisible();
@@ -579,11 +601,15 @@ test.describe("static site", () => {
     await expect(page.getByRole("heading", { name: "Decks" })).toBeVisible();
   });
 
-  test("the plan is a short line, with the doc's reasoning a tap away", async ({ page }) => {
+  test("the optimized deck's summary is a short line, with the doc's reasoning a tap away", async ({
+    page,
+  }) => {
     await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/optimized/`);
-    const plan = page.locator(".panel", { has: page.getByRole("heading", { name: "The plan" }) });
+    const plan = page.locator(".panel", {
+      has: page.getByRole("heading", { name: "Optimized deck" }),
+    });
     await expect(plan.locator(".panel-desc")).toHaveText(
-      /^What the doc's \d+ swaps change for bracket 3\.$/,
+      /^How the deck plays with the doc's \d+ swaps, for bracket 3\.$/,
     );
     const why = plan.locator("details", { hasText: "Why these swaps" });
     await expect(why.locator("p")).toBeHidden();

@@ -1380,16 +1380,16 @@ function ExportMenu({
             <span className="muted small">{swaps.length}</span>
           </button>
         )}
+        <a href={fileUrl(slug, "initial.txt")} download={`${slug}-initial.txt`}>
+          Download your deck <span className="muted small">.txt</span>
+        </a>
         {optimized && (
           <a href={fileUrl(slug, "optimized.txt")} download={`${slug}-optimized.txt`}>
-            Optimized list <span className="muted small">.txt</span>
+            Download the optimized deck <span className="muted small">.txt</span>
           </a>
         )}
-        <a href={fileUrl(slug, "initial.txt")} download={`${slug}-initial.txt`}>
-          Original list <span className="muted small">.txt</span>
-        </a>
         <a href={fileUrl(slug, "report.md")} download={`${slug}-report.md`}>
-          Full report <span className="muted small">.md</span>
+          Download the full report <span className="muted small">.md</span>
         </a>
         {IS_STATIC && (
           <a href={`decks/${slug}/`} target="_blank" rel="noreferrer">
@@ -1648,7 +1648,10 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
               </p>
             )}
             <div className="hero-actions">
-              <button className="primary" onClick={copyOptimized} disabled={!listText}>
+              <button className="primary" onClick={() => setHowToPlay(true)}>
+                How to play
+              </button>
+              <button onClick={copyOptimized} disabled={!listText}>
                 {copied ? "✓ Copied" : "Copy decklist"}
               </button>
               <ExportMenu
@@ -1677,8 +1680,8 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
         {optimized ? (
           <section className="panel">
             <PanelHead
-              title="The plan"
-              desc={`What the doc's ${r.swaps.length} ${r.swaps.length === 1 ? "swap changes" : "swaps change"}${r.bracket ? ` for bracket ${r.bracket.target}` : ""}.`}
+              title="Optimized deck"
+              desc={`How the deck plays with the doc's ${r.swaps.length} ${r.swaps.length === 1 ? "swap" : "swaps"}${r.bracket ? `, for bracket ${r.bracket.target}` : ""}.`}
             />
             {r.strategy && (
               <details className="disclosure plan-why">
@@ -1744,7 +1747,6 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
           <section className="panel" id="bracket">
             <BracketPanel
               b={r.bracket}
-              onHowToPlay={() => setHowToPlay(true)}
               actions={
                 !IS_STATIC && (
                   <TargetBracket slug={slug} options={full.options} current={r.bracket.target} />
