@@ -29,3 +29,9 @@ export const SearchIcon = () => (
     <path d="m20 20-3.5-3.5" />
   </svg>
 );
+
+export const ChevronLeftIcon = () => (
+  <svg {...base} strokeWidth={2.5}>
+    <path d="m15 5-7 7 7 7" />
+  </svg>
+);

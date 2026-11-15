@@ -492,6 +492,18 @@ test.describe("static site", () => {
     await page.goto(`${STATIC_URL}#/deck/${OPTIMIZED}`);
     await page.getByRole("link", { name: "Pre-game summary" }).click();
     await expect(page.locator(".rule0-name")).toHaveText("Upgraded");
+    // The back label is the button's text size, with its chevron level with it.
+    const back = page.getByRole("button", { name: "Back" });
+    const [label, button] = await Promise.all([
+      back.locator(".back-label").evaluate((el) => getComputedStyle(el).fontSize),
+      back.evaluate((el) => getComputedStyle(el).fontSize),
+    ]);
+    expect(label).toBe(button);
+    const [icon, text] = await Promise.all([
+      back.locator("svg").boundingBox(),
+      back.locator(".back-label").boundingBox(),
+    ]);
+    expect(Math.abs(icon!.y + icon!.height / 2 - (text!.y + text!.height / 2))).toBeLessThan(3);
     await expect(page.getByText("6+ turns")).toBeVisible();
     await expectNoHorizontalOverflow(page);
     await page.getByRole("button", { name: "Back" }).click();

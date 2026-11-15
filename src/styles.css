@@ -200,14 +200,12 @@ button.back {
   border: none;
   color: var(--accent-hi);
   font-size: var(--fs-base);
-  padding: 8px 10px 8px 2px;
+  padding: 8px 10px 8px 0;
   min-height: 44px;
-  gap: 4px;
+  gap: 2px;
 }
-button.back span {
-  font-size: var(--fs-xl);
-  line-height: 0;
-  margin-top: -3px;
+button.back svg {
+  flex: none;
 }
 
 .stack {

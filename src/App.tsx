@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { type AppConfig, type Recognition, api } from "./api.ts";
 import { CardSearchButton } from "./components/CardSearch.tsx";
 import { Home } from "./components/Home.tsx";
+import { ChevronLeftIcon } from "./components/Icons.tsx";
 import { Progress } from "./components/Progress.tsx";
 import { ReportView } from "./components/ReportView.tsx";
 import { Review } from "./components/Review.tsx";
@@ -107,7 +108,7 @@ export function App() {
       <header className="topbar">
         {inner ? (
           <button className="back" onClick={goBack} aria-label="Back">
-            <span aria-hidden>‹</span>{" "}
+            <ChevronLeftIcon />
             <span className="back-label">{route.page === "rule0" ? "Report" : "Decks"}</span>
           </button>
         ) : (

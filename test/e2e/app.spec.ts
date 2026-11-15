@@ -147,15 +147,25 @@ test.describe("local app", () => {
     const add = page.getByLabel("Add a card");
     await add.fill("Lightning Greavs");
     await add.press("Enter");
-    await expect(page.locator(".card-row.flash input.name")).toHaveValue("Lightning Greaves");
-    await expect(page.locator(".card-row.flash")).not.toContainText("printed");
+    // The flash lasts 1.6s, so read the flashed row's name and note in one go while it's on.
+    const flashed = () =>
+      page.locator(".card-row.flash").evaluateAll((rows) =>
+        rows.map((r) => ({
+          name: r.querySelector<HTMLInputElement>("input.name")?.value,
+          qty: r.querySelector<HTMLInputElement>("input.qty")?.value,
+          printed: r.textContent?.includes("printed") ?? false,
+        })),
+      );
+    await expect.poll(flashed).toEqual([{ name: "Lightning Greaves", qty: "1", printed: false }]);
     await expect(add).toHaveValue("");
     await expect(add).toBeFocused();
     await expect(page.locator(".status-chip").first()).toHaveText("101 / 100 cards");
 
     await add.fill("Forest");
     await add.press("Enter");
-    await expect(page.locator(".card-row.flash input.qty")).not.toHaveValue("1");
+    await expect
+      .poll(async () => (await flashed()).map((r) => r.name !== "Forest" || r.qty === "1"))
+      .toEqual([false]);
 
     await add.fill("Definitely Not A Magic Card");
     await add.press("Enter");
