@@ -1924,10 +1924,6 @@ button.hero-card:active:not(:disabled) {
   color: var(--new-text);
   background: rgba(150, 200, 170, 0.1);
 }
-.deck-group li.cut .card-name a {
-  color: var(--muted);
-  text-decoration: line-through;
-}
 
 .deck-images section + section {
   margin-top: 6px;
@@ -1973,9 +1969,6 @@ button.hero-card:active:not(:disabled) {
   padding: 8px;
   font-size: var(--fs-xs);
   color: var(--text-2);
-}
-.deck-image.cut img {
-  filter: grayscale(1) brightness(0.55);
 }
 .deck-image-qty {
   position: absolute;

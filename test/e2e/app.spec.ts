@@ -89,12 +89,15 @@ test.describe("local app", () => {
       /lands, under the recommended/,
     );
     await page.getByRole("button", { name: "Close chat" }).click();
+    const decklist = page.locator("#decklist");
+    await decklist.getByRole("tab", { name: "List" }).click();
     await expect(page.locator(".deck-group li.new").filter({ hasText: "Mind Stone" })).toHaveCount(
       1,
     );
 
     // Any swap the doc suggests can be made in the deck as submitted.
-    const swaps = page.locator("#swaps .swap");
+    await decklist.getByRole("tab", { name: /^Swaps/ }).click();
+    const swaps = decklist.locator(".swap");
     const before = await swaps.count();
     const first = swaps.first();
     const added = await first.locator(".mini-card.in .mini-card-name").innerText();

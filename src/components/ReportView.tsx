@@ -815,11 +815,9 @@ const hostOf = (url: string) => {
 /** Deck list as a visual grid of card images, grouped by type; tap a card to see it full size. */
 function DeckImages({
   groups,
-  cuts,
   showNew,
 }: {
   groups: { group: string; cards: DecklistCard[] }[];
-  cuts: Swap[];
   showNew: boolean;
 }) {
   const open = useGallery();
@@ -828,7 +826,7 @@ function DeckImages({
     name: string,
     image: string | null,
     badge: ReactNode,
-    state: "cut" | "new" | "" = "",
+    state: "new" | "" = "",
   ) => (
     <li key={key} className={`deck-image ${state}`}>
       <button aria-label={`Show ${name} full size`} onClick={() => image && open?.(name)}>
@@ -872,37 +870,32 @@ function DeckImages({
           </ul>
         </section>
       ))}
-      {cuts.length > 0 && (
-        <section>
-          <h3>
-            Cut <span className="muted">({cuts.length})</span>
-          </h3>
-          <ul>
-            {cuts.map((s, i) => tile(`cut-${i}`, s.out, s.outCard?.image ?? null, null, "cut"))}
-          </ul>
-        </section>
-      )}
     </div>
   );
 }
 
+type DecklistMode = "swaps" | "list" | "images";
+
+/** The deck's cards as a list or images and, on the optimized view, the swaps that made it. */
 function Decklist({
   cards,
-  swaps,
   compare,
+  swaps,
 }: {
   cards: DecklistCard[];
-  swaps: Swap[];
-  /** Mark new cards and offer the cut ones; off for the deck as submitted. */
+  /** Mark new cards; off for the deck as submitted. */
   compare: boolean;
+  /** The swaps tab, on the optimized view. */
+  swaps?: { count: number; content: ReactNode };
 }) {
-  const [showCuts, setShowCuts] = useState(false);
   const showNew = compare;
-  const [view, setView] = useState<"list" | "images">(() =>
-    localStorage.getItem(VIEW_KEY) === "images" ? "images" : "list",
-  );
-  const changeView = (v: "list" | "images") => {
-    setView(v);
+  const [stored, setStored] = useState<DecklistMode | null>(() => {
+    const v = localStorage.getItem(VIEW_KEY);
+    return v === "swaps" || v === "list" || v === "images" ? v : null;
+  });
+  const view: DecklistMode = swaps ? (stored ?? "swaps") : stored === "images" ? "images" : "list";
+  const changeView = (v: DecklistMode) => {
+    setStored(v);
     localStorage.setItem(VIEW_KEY, v);
   };
   const groups = GROUP_ORDER.map((g) => ({
@@ -911,39 +904,36 @@ function Decklist({
       .filter((c) => c.group === g)
       .sort((a, b) => a.cmc - b.cmc || a.name.localeCompare(b.name)),
   })).filter((g) => g.cards.length);
-  const cuts = showCuts ? swaps : [];
-  const galleryCards = [
-    ...groups.flatMap((g) => g.cards.map((c) => ({ name: c.name, card: c }))),
-    ...cuts.map((s) => ({ name: s.out, card: s.outCard })),
-  ];
+  const galleryCards = groups.flatMap((g) => g.cards.map((c) => ({ name: c.name, card: c })));
+  const tab = (v: DecklistMode, label: ReactNode) => (
+    <button role="tab" aria-selected={view === v} onClick={() => changeView(v)}>
+      {label}
+    </button>
+  );
   return (
     <CardGallery cards={galleryCards}>
       <div className="list-toolbar">
         <div className="segmented" role="tablist" aria-label="Decklist view">
-          <button role="tab" aria-selected={view === "list"} onClick={() => changeView("list")}>
-            List
-          </button>
-          <button role="tab" aria-selected={view === "images"} onClick={() => changeView("images")}>
-            Images
-          </button>
+          {swaps &&
+            tab(
+              "swaps",
+              <>
+                Swaps <span className="count">{swaps.count}</span>
+              </>,
+            )}
+          {tab("list", "List")}
+          {tab("images", "Images")}
         </div>
         <span className="muted small grow nowrap">
-          {cards.reduce((n, c) => n + c.qty, 0)} cards
+          {view === "swaps" && swaps
+            ? `${swaps.count} ${swaps.count === 1 ? "change" : "changes"}, and why`
+            : `${cards.reduce((n, c) => n + c.qty, 0)} cards`}
         </span>
-        {compare && (
-          <>
-            <button
-              className={`toggle ${showCuts ? "on" : ""}`}
-              aria-pressed={showCuts}
-              onClick={() => setShowCuts(!showCuts)}
-            >
-              Cut cards
-            </button>
-          </>
-        )}
       </div>
-      {view === "images" ? (
-        <DeckImages groups={groups} cuts={cuts} showNew={showNew} />
+      {view === "swaps" && swaps ? (
+        swaps.content
+      ) : view === "images" ? (
+        <DeckImages groups={groups} showNew={showNew} />
       ) : (
         <div className="decklist-groups">
           {groups.map(({ group, cards }) => (
@@ -969,22 +959,6 @@ function Decklist({
               </ul>
             </div>
           ))}
-          {showCuts && (
-            <div className="deck-group">
-              <h3>
-                Cut <span className="muted">({swaps.length})</span>
-              </h3>
-              <ul>
-                {swaps.map((s, i) => (
-                  <li key={i} className="cut">
-                    <span className="qty">1</span>
-                    <CardName name={s.out} card={s.outCard} className="grow" />
-                    <ManaCost cost={s.outCard?.manaCost} size={13} />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
       )}
     </CardGallery>
@@ -1497,7 +1471,6 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
     ...(r.synergies?.length || (!IS_STATIC && optimized)
       ? [["synergies", "Synergies"] as [string, string]]
       : []),
-    ...(optimized ? [["swaps", "Swaps"] as [string, string]] : []),
     ...(r.research ? [["research", "Research"] as [string, string]] : []),
   ];
 
@@ -1701,7 +1674,50 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
         {r.decklist && (
           <section className="panel" id="decklist">
             <PanelHead title="Decklist" />
-            <Decklist cards={r.decklist} swaps={r.swaps} compare={optimized} />
+            <Decklist
+              cards={r.decklist}
+              compare={optimized}
+              swaps={
+                optimized
+                  ? {
+                      count: r.swaps.length,
+                      content: (
+                        <>
+                          <SwapList swaps={r.swaps} slug={slug} onApplied={onApplied} />
+                          {r.edits && r.edits.length > 0 && (
+                            <div className="swap-group edits">
+                              <h3>
+                                Changes from chat <span className="muted">· {r.edits.length}</span>
+                              </h3>
+                              <ul className="edit-log">
+                                {r.edits.map((e, i) => (
+                                  <li key={i}>
+                                    <div className="edit-changes">
+                                      {e.changes.map((c, j) => (
+                                        <span key={j} className={`edit-chip ${c.action}`}>
+                                          {c.action === "add" ? "+" : "−"}{" "}
+                                          {c.qty > 1 ? `${c.qty} ` : ""}
+                                          <CardName name={c.name} />
+                                        </span>
+                                      ))}
+                                    </div>
+                                    <div className="muted small">
+                                      {e.target === "original" && (
+                                        <span className="badge">Your deck</span>
+                                      )}{" "}
+                                      {e.request && `“${e.request}”`}
+                                    </div>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </>
+                      ),
+                    }
+                  : undefined
+              }
+            />
           </section>
         )}
 
@@ -1778,45 +1794,6 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
               canRefresh={optimized}
               onUpdated={(report) => setDetail((d) => (d ? { ...d, report } : d))}
             />
-          </section>
-        )}
-
-        {optimized && (
-          <section className="panel" id="swaps">
-            <PanelHead
-              title="Swaps"
-              desc={
-                r.swaps.length
-                  ? `${r.swaps.length} changes from your original list, and why.`
-                  : undefined
-              }
-            />
-            <SwapList swaps={r.swaps} slug={slug} onApplied={onApplied} />
-            {r.edits && r.edits.length > 0 && (
-              <div className="swap-group edits">
-                <h3>
-                  Changes from chat <span className="muted">· {r.edits.length}</span>
-                </h3>
-                <ul className="edit-log">
-                  {r.edits.map((e, i) => (
-                    <li key={i}>
-                      <div className="edit-changes">
-                        {e.changes.map((c, j) => (
-                          <span key={j} className={`edit-chip ${c.action}`}>
-                            {c.action === "add" ? "+" : "−"} {c.qty > 1 ? `${c.qty} ` : ""}
-                            <CardName name={c.name} />
-                          </span>
-                        ))}
-                      </div>
-                      <div className="muted small">
-                        {e.target === "original" && <span className="badge">Your deck</span>}{" "}
-                        {e.request && `“${e.request}”`}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </section>
         )}
 
