@@ -107,7 +107,8 @@ export function App() {
       <header className="topbar">
         {inner ? (
           <button className="back" onClick={goBack} aria-label="Back">
-            <span aria-hidden>‹</span> {route.page === "rule0" ? "Report" : "Decks"}
+            <span aria-hidden>‹</span>{" "}
+            <span className="back-label">{route.page === "rule0" ? "Report" : "Decks"}</span>
           </button>
         ) : (
           <a href={hrefOf({ page: "home" })} className="brand">

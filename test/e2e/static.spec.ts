@@ -254,6 +254,17 @@ test.describe("static site", () => {
     await expect(page.locator("#decklist .deck-group li").first()).toBeVisible();
   });
 
+  test("the top bar fits a phone even with wider fonts", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/`);
+    await expect(page.getByRole("tablist", { name: "Which deck" })).toBeVisible();
+    // Linux and larger text settings render wider than macOS; Verdana stands in for them.
+    await page.addStyleTag({ content: "* { font-family: Verdana, sans-serif !important; }" });
+    await expectNoHorizontalOverflow(page);
+    await expect(page.getByRole("button", { name: "Find a card" })).toBeInViewport({ ratio: 1 });
+    await expect(page.getByRole("button", { name: "Back" })).toBeVisible();
+  });
+
   test("switching between the two views stays on the section being read", async ({ page }) => {
     await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/`);
     const nav = page.locator(".section-nav");

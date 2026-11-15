@@ -3489,6 +3489,14 @@ pre {
 
 /* ---------- phone ---------- */
 
+/* The back chevron, the view toggle and search share a phone's top bar; with larger or wider
+   fonts the back label is the one to give way. */
+@media (max-width: 430px) {
+  .topbar:has(.view-toggle) .back-label {
+    display: none;
+  }
+}
+
 @media (max-width: 640px) {
   :root {
     --gutter: 14px;
@@ -3523,6 +3531,12 @@ pre {
   }
   .topbar-meta {
     display: none;
+  }
+  .topbar {
+    gap: 6px;
+  }
+  .view-toggle button {
+    padding-inline: 10px;
   }
   .panel {
     padding: 18px 16px;
