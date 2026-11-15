@@ -41,7 +41,7 @@
   ],
   "generatedAt": "2026-11-09T14:43:26.632Z",
   "model": "gpt-6.1-sol",
-  "strategy": "Build a resilient draw-punishment board, then turn symmetrical draw effects and wheels into damage rather than racing toward an infinite combo. These changes lower the curve, bring ramp to roughly ten pieces, and improve protection and interaction while preserving the deck’s group-slug personality. The final configuration uses exactly three Game Changers under the supplied classification—Rhystic Study, Orcish Bowmasters, and Cyclonic Rift—and removes the existing two-card infinite combo, aiming for interactive games that reach turn six or later.",
+  "strategy": "Build a resilient draw-punishment board, then turn symmetrical draw effects and wheels into damage rather than racing toward an infinite combo. These changes lower the curve, bring ramp to roughly ten pieces, and improve protection and interaction while preserving the deck’s group-slug personality. The final configuration uses exactly three Game Changers under the supplied classification—[[Rhystic Study]], [[Orcish Bowmasters]], and [[Cyclonic Rift]]—and removes the existing two-card infinite combo, aiming for interactive games that reach turn six or later.",
   "themes": [
     "Wheels",
     "Draw punishment",
@@ -54,7 +54,7 @@
       "out": "Insurrection",
       "in": "Razorkin Needlehead",
       "category": "synergy",
-      "reason": "Needlehead makes every opposing draw more dangerous and keeps wheels productive when Nekusar is unavailable. Its double-red cost deserves attention, but it is substantially easier to deploy than Insurrection.",
+      "reason": "Needlehead makes every opposing draw more dangerous and keeps wheels productive when Nekusar is unavailable. Its double-red cost deserves attention, but it is substantially easier to deploy than [[Insurrection]].",
       "outCard": {
         "name": "Insurrection",
         "oracleId": "7f7c204f-be1a-47e4-91c6-ba6f906d9012",
@@ -198,7 +198,7 @@
       "out": "Charmbreaker Devils",
       "in": "Teferi's Puzzle Box",
       "category": "synergy",
-      "reason": "Puzzle Box repeatedly converts opponents’ hands into fresh draw triggers without needing additional wheel spells. It puts cards on the bottom rather than discarding them, so this build does not add Waste Not expecting those cards to interact.",
+      "reason": "Puzzle Box repeatedly converts opponents’ hands into fresh draw triggers without needing additional wheel spells. It puts cards on the bottom rather than discarding them, so this build does not add [[Waste Not]] expecting those cards to interact.",
       "outCard": {
         "name": "Charmbreaker Devils",
         "oracleId": "1b9df437-6988-4ddc-80c4-893e11076067",
@@ -416,7 +416,7 @@
       "out": "Cruel Ultimatum",
       "in": "Rakdos Signet",
       "category": "ramp",
-      "reason": "The Signet improves both acceleration and access to red and black mana. Cruel Ultimatum’s demanding seven-mana cost is poorly matched to a deck that wants to establish several smaller engines.",
+      "reason": "The Signet improves both acceleration and access to red and black mana. [[Cruel Ultimatum]]’s demanding seven-mana cost is poorly matched to a deck that wants to establish several smaller engines.",
       "outCard": {
         "name": "Cruel Ultimatum",
         "oracleId": "01294ac9-1a06-4ee8-b3b1-db1f07c9d94e",
@@ -572,7 +572,7 @@
       "out": "Collective Restraint",
       "in": "Thought Vessel",
       "category": "ramp",
-      "reason": "Keep Propaganda as the efficient defensive tax and use this slot for a third additional ramp piece. Thought Vessel’s hand-size benefit is useful, although its colorless mana does not solve the deck’s demanding colored costs.",
+      "reason": "Keep [[Propaganda]] as the efficient defensive tax and use this slot for a third additional ramp piece. [[Thought Vessel]]’s hand-size benefit is useful, although its colorless mana does not solve the deck’s demanding colored costs.",
       "outCard": {
         "name": "Collective Restraint",
         "oracleId": "51f561db-ca7f-4661-bc04-99b8af02b8c9",
@@ -786,7 +786,7 @@
       "out": "Dominate",
       "in": "Cyclonic Rift",
       "category": "bracket",
-      "reason": "Rift fills the third Game Changer slot and supplies flexible interaction, with an overloaded reset available later. Preserve Decree of Pain as a true creature wipe rather than removing it for another draw engine.",
+      "reason": "Rift fills the third Game Changer slot and supplies flexible interaction, with an overloaded reset available later. Preserve [[Decree of Pain]] as a true creature wipe rather than removing it for another draw engine.",
       "outCard": {
         "name": "Dominate",
         "oracleId": "77db8db4-9fe4-478e-b919-5348b0b87b0d",
@@ -849,7 +849,7 @@
       "out": "Drana, Kalastria Bloodchief",
       "in": "Whispering Madness",
       "category": "synergy",
-      "reason": "Replace a mana-hungry creature with another wheel that directly rewards Nekusar’s damage engines. Cipher offers optional reuse through evasive creatures such as Vampire Nighthawk, but the initial wheel is useful without connecting in combat.",
+      "reason": "Replace a mana-hungry creature with another wheel that directly rewards Nekusar’s damage engines. Cipher offers optional reuse through evasive creatures such as [[Vampire Nighthawk]], but the initial wheel is useful without connecting in combat.",
       "outCard": {
         "name": "Drana, Kalastria Bloodchief",
         "oracleId": "67391f99-739a-490a-ba16-7fa1d758ec34",
@@ -1887,7 +1887,7 @@
     }
   ],
   "research": {
-    "summary": "## 1. Main strategies/archetypes\n\n- **Wheels / draw-punishment:** The main build—establish effects that punish opponents for drawing, then chain **Windfall**, **Wheel of Fortune**, and similar spells to kill the table.\n- **Group slug:** A slower version using repeatable extra draws and multiple punishment permanents rather than one explosive turn.\n- **Wheel-storm / combo:** Emphasizes rituals, mana-producing discard engines, recursion, and consecutive wheels. **Infect** is a compact finishing package.\n- **Discard-control:** Adds discard payoffs or hand-denial effects. These overlap with wheels, but preventing opponents from drawing can conflict with Nekusar’s damage plan. EDHREC’s leading tags remain Wheels, Group Slug, Burn, and Card Draw. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer?utm_source=openai))\n\n## 2. Key synergy cards and engines\n\n| Role | Specific cards and purpose |\n|---|---|\n| **Wheels** | **Windfall**, **Wheel of Fortune**, **Reforge the Soul**, **Echo of Eons**, **Wheel and Deal**; **Jace's Archivist** and **Magus of the Wheel** provide repeatable/creature-based versions. |\n| **Redundant draw punishment** | **Underworld Dreams**, **Fate Unraveler**, **Razorkin Needlehead**, **Scrawling Crawler**, **Sheoldred, the Apocalypse**, **Orcish Bowmasters**. These let the deck function without its commander. |\n| **Repeatable draw engines** | **Teferi's Puzzle Box**, **Howling Mine**, **Spiteful Visions**. **Teferi's Puzzle Box** repeatedly replaces hands without discarding them. |\n\nThese are established selections on current EDHREC pages, not necessarily automatic inclusions in every power-level build. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer?utm_source=openai))\n\n- **Discard engines:** **Waste Not** converts opponents’ discarded cards into mana, creatures, or cards; **Geth's Grimoire** supplies cards; **Liliana's Caress** and **Megrim** add life-total pressure. Crucially, these need *discarding* wheels, not merely hand-shuffling effects. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer/optimized?utm_source=openai))\n- **Trigger/damage amplification:** **Harmonic Prodigy** doubles Nekusar’s triggered abilities; **Ghyrson Starn, Kelermorph** adds damage after his one-damage hits. Recent EDHREC coverage also highlights **Niv-Mizzet, Visionary** as a draw engine fueled by Nekusar’s damage. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer/wheels?utm_source=openai))\n\n## 3. Popular combos and their outputs\n\n| Exact cards | Result and important conditions |\n|---|---|\n| **Nekusar, the Mindrazer + Peer into the Abyss** | Target opponent draws half their library and loses half their life, rounded up; Nekusar then deals damage for those draws. **Usually kills one opponent**, but depends on their remaining library and life total—not an unconditional kill. |\n| **Nekusar, the Mindrazer + Tainted Strike + Windfall** | Give Nekusar infect, then wheel. Each opponent receives one poison counter per Nekusar damage trigger. From zero poison, **Windfall must make everyone draw at least ten cards** to kill the table. **Phyresis** or an equipped **Grafted Exoskeleton** can replace **Tainted Strike**. |\n| **Nekusar, the Mindrazer + Tainted Strike + Echo of Eons** | Cast **Tainted Strike**, cast **Echo of Eons**, then flash it back that turn. Fourteen draws per opponent produce **fourteen poison counters each**, absent interference. |\n\nCommander Spellbook documents these Nekusar-specific lines and their prerequisites. **One seven-card wheel alone is not lethal infect damage from zero poison.** ([commanderspellbook.com](https://commanderspellbook.com/combo/1561-1972/))\n\n**Higher-power engine:** **Underworld Breach + Lion's Eye Diamond + Wheel of Fortune** repeatedly escapes the Diamond and wheel, producing repeated seven-card draws and increasing storm count. With **Nekusar, the Mindrazer** present, those draws become table-wide damage. Spellbook’s starting setup requires at least six other cards across your hand/graveyard; actual repetitions are limited by available library/fuel. ([commanderspellbook.com](https://commanderspellbook.com/combo/1368-2706-3518/))\n\n## 4. Common mistakes and underperformers\n\n- **Giving away cards without sufficient punishment.** **Howling Mine**, **Kami of the Crescent Moon**, and especially **Font of Mythos** can help three opponents more than you. They suit slower slug builds better than streamlined wheel-storm lists. ([reddit.com](https://www.reddit.com/r/EDH/comments/1j4mlst?utm_source=openai))\n- **Casting Nekusar immediately, unprotected.** Have alternative payoffs and enough mana/protection to exploit him before opponents untap; do not make every game depend on repeatedly resolving a five-mana commander. ([reddit.com](https://www.reddit.com/r/EDH/comments/1uveq2m/the_way_of_the_wheel_how_to_build_a_wheels_deck/?utm_source=openai))\n- **Treating every wheel as equivalent.** Opponents can choose zero for **Wheel of Misfortune** and avoid wheeling. **Day's Undoing**, when cast on your turn, ends the turn before its draw-triggered punishment can resolve. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Confusing damage with life loss.** **Scrawling Crawler** causes life loss: damage amplifiers, infect, and **Niv-Mizzet, Visionary** do not enhance that loss. ([edhrec.com](https://edhrec.com/articles/nekusar-the-mindrazer-commander-makeover))\n- **Current explicit warning:** EDHREC’s September 11, 2026 makeover advises against **Naktamun Lorespinner**: Nekusar’s extra draws make preparing it again unreliable. ([edhrec.com](https://edhrec.com/articles/nekusar-the-mindrazer-commander-makeover))\n\n## 5. Mana base advice specific to Nekusar\n\n**My practical starting point:** approximately **36–37 lands and 10–12 ramp pieces**, adjusted after testing. Prioritize early colored mana and the ability to cast a payoff **plus a wheel/protection**, rather than merely reaching five mana. The published guide emphasizes land/ramp-heavy opening hands and the full Grixis Signet/Talisman suite. ([edh.wiki](https://edh.wiki/commanders/nekusar-the-mindrazer/?utm_source=openai))\n\n- **Fixing core:** **Command Tower**, **Exotic Orchard**, **Watery Grave**, **Steam Vents**, **Blood Crypt**; higher-budget lists add **Polluted Delta**, **Scalding Tarn**, and **Bloodstained Mire**. **Morphic Pool**, **Training Center**, and **Luxury Suite** are useful multiplayer duals. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Ramp:** **Sol Ring**, **Arcane Signet**, **Talisman of Dominance**, **Talisman of Creativity**, **Talisman of Indulgence**, **Dimir Signet**, **Izzet Signet**, **Rakdos Signet**. Colored two-mana rocks are particularly valuable here. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Build for actual pip requirements:** **Underworld Dreams** needs **BBB**, **Razorkin Needlehead** needs **RR**, and blue interaction often needs **UU**. Do not simply divide basics equally; the guide specifically omitted **Underworld Dreams** because of its demanding cost. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Limit colorless utility lands.** **Geier Reach Sanitarium** and **Mikokoro, Center of the Sea** support the plan, but **Reliquary Tower** is not mandatory: it neither fixes colors nor prevents wheel-induced discards. ([edh.wiki](https://edh.wiki/commanders/nekusar-the-mindrazer/?utm_source=openai))",
+    "summary": "## 1. Main strategies/archetypes\n\n- **Wheels / draw-punishment:** The main build—establish effects that punish opponents for drawing, then chain **[[Windfall]]**, **[[Wheel of Fortune]]**, and similar spells to kill the table.\n- **Group slug:** A slower version using repeatable extra draws and multiple punishment permanents rather than one explosive turn.\n- **Wheel-storm / combo:** Emphasizes rituals, mana-producing discard engines, recursion, and consecutive wheels. **Infect** is a compact finishing package.\n- **Discard-control:** Adds discard payoffs or hand-denial effects. These overlap with wheels, but preventing opponents from drawing can conflict with Nekusar’s damage plan. EDHREC’s leading tags remain Wheels, Group Slug, Burn, and Card Draw. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer?utm_source=openai))\n\n## 2. Key synergy cards and engines\n\n| Role | Specific cards and purpose |\n|---|---|\n| **Wheels** | **[[Windfall]]**, **[[Wheel of Fortune]]**, **[[Reforge the Soul]]**, **[[Echo of Eons]]**, **[[Wheel and Deal]]**; **[[Jace's Archivist]]** and **[[Magus of the Wheel]]** provide repeatable/creature-based versions. |\n| **Redundant draw punishment** | **[[Underworld Dreams]]**, **[[Fate Unraveler]]**, **[[Razorkin Needlehead]]**, **[[Scrawling Crawler]]**, **[[Sheoldred, the Apocalypse]]**, **[[Orcish Bowmasters]]**. These let the deck function without its commander. |\n| **Repeatable draw engines** | **[[Teferi's Puzzle Box]]**, **[[Howling Mine]]**, **[[Spiteful Visions]]**. **[[Teferi's Puzzle Box]]** repeatedly replaces hands without discarding them. |\n\nThese are established selections on current EDHREC pages, not necessarily automatic inclusions in every power-level build. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer?utm_source=openai))\n\n- **Discard engines:** **[[Waste Not]]** converts opponents’ discarded cards into mana, creatures, or cards; **[[Geth's Grimoire]]** supplies cards; **[[Liliana's Caress]]** and **[[Megrim]]** add life-total pressure. Crucially, these need *discarding* wheels, not merely hand-shuffling effects. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer/optimized?utm_source=openai))\n- **Trigger/damage amplification:** **[[Harmonic Prodigy]]** doubles Nekusar’s triggered abilities; **[[Ghyrson Starn, Kelermorph]]** adds damage after his one-damage hits. Recent EDHREC coverage also highlights **[[Niv-Mizzet, Visionary]]** as a draw engine fueled by Nekusar’s damage. ([edhrec.com](https://edhrec.com/commanders/nekusar-the-mindrazer/wheels?utm_source=openai))\n\n## 3. Popular combos and their outputs\n\n| Exact cards | Result and important conditions |\n|---|---|\n| **[[Nekusar, the Mindrazer]] + [[Peer into the Abyss]]** | Target opponent draws half their library and loses half their life, rounded up; Nekusar then deals damage for those draws. **Usually kills one opponent**, but depends on their remaining library and life total—not an unconditional kill. |\n| **[[Nekusar, the Mindrazer]] + [[Tainted Strike]] + [[Windfall]]** | Give Nekusar infect, then wheel. Each opponent receives one poison counter per Nekusar damage trigger. From zero poison, **[[Windfall]] must make everyone draw at least ten cards** to kill the table. **[[Phyresis]]** or an equipped **[[Grafted Exoskeleton]]** can replace **[[Tainted Strike]]**. |\n| **[[Nekusar, the Mindrazer]] + [[Tainted Strike]] + [[Echo of Eons]]** | Cast **[[Tainted Strike]]**, cast **[[Echo of Eons]]**, then flash it back that turn. Fourteen draws per opponent produce **fourteen poison counters each**, absent interference. |\n\nCommander Spellbook documents these Nekusar-specific lines and their prerequisites. **One seven-card wheel alone is not lethal infect damage from zero poison.** ([commanderspellbook.com](https://commanderspellbook.com/combo/1561-1972/))\n\n**Higher-power engine:** **[[Underworld Breach]] + [[Lion's Eye Diamond]] + [[Wheel of Fortune]]** repeatedly escapes the Diamond and wheel, producing repeated seven-card draws and increasing storm count. With **[[Nekusar, the Mindrazer]]** present, those draws become table-wide damage. Spellbook’s starting setup requires at least six other cards across your hand/graveyard; actual repetitions are limited by available library/fuel. ([commanderspellbook.com](https://commanderspellbook.com/combo/1368-2706-3518/))\n\n## 4. Common mistakes and underperformers\n\n- **Giving away cards without sufficient punishment.** **[[Howling Mine]]**, **[[Kami of the Crescent Moon]]**, and especially **[[Font of Mythos]]** can help three opponents more than you. They suit slower slug builds better than streamlined wheel-storm lists. ([reddit.com](https://www.reddit.com/r/EDH/comments/1j4mlst?utm_source=openai))\n- **Casting Nekusar immediately, unprotected.** Have alternative payoffs and enough mana/protection to exploit him before opponents untap; do not make every game depend on repeatedly resolving a five-mana commander. ([reddit.com](https://www.reddit.com/r/EDH/comments/1uveq2m/the_way_of_the_wheel_how_to_build_a_wheels_deck/?utm_source=openai))\n- **Treating every wheel as equivalent.** Opponents can choose zero for **[[Wheel of Misfortune]]** and avoid wheeling. **[[Day's Undoing]]**, when cast on your turn, ends the turn before its draw-triggered punishment can resolve. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Confusing damage with life loss.** **[[Scrawling Crawler]]** causes life loss: damage amplifiers, infect, and **[[Niv-Mizzet, Visionary]]** do not enhance that loss. ([edhrec.com](https://edhrec.com/articles/nekusar-the-mindrazer-commander-makeover))\n- **Current explicit warning:** EDHREC’s September 11, 2026 makeover advises against **[[Naktamun Lorespinner]]**: Nekusar’s extra draws make preparing it again unreliable. ([edhrec.com](https://edhrec.com/articles/nekusar-the-mindrazer-commander-makeover))\n\n## 5. Mana base advice specific to Nekusar\n\n**My practical starting point:** approximately **36–37 lands and 10–12 ramp pieces**, adjusted after testing. Prioritize early colored mana and the ability to cast a payoff **plus a wheel/protection**, rather than merely reaching five mana. The published guide emphasizes land/ramp-heavy opening hands and the full Grixis Signet/Talisman suite. ([edh.wiki](https://edh.wiki/commanders/nekusar-the-mindrazer/?utm_source=openai))\n\n- **Fixing core:** **[[Command Tower]]**, **[[Exotic Orchard]]**, **[[Watery Grave]]**, **[[Steam Vents]]**, **[[Blood Crypt]]**; higher-budget lists add **[[Polluted Delta]]**, **[[Scalding Tarn]]**, and **[[Bloodstained Mire]]**. **[[Morphic Pool]]**, **[[Training Center]]**, and **[[Luxury Suite]]** are useful multiplayer duals. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Ramp:** **[[Sol Ring]]**, **[[Arcane Signet]]**, **[[Talisman of Dominance]]**, **[[Talisman of Creativity]]**, **[[Talisman of Indulgence]]**, **[[Dimir Signet]]**, **[[Izzet Signet]]**, **[[Rakdos Signet]]**. Colored two-mana rocks are particularly valuable here. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Build for actual pip requirements:** **[[Underworld Dreams]]** needs **BBB**, **[[Razorkin Needlehead]]** needs **RR**, and blue interaction often needs **UU**. Do not simply divide basics equally; the guide specifically omitted **[[Underworld Dreams]]** because of its demanding cost. ([draftsim.com](https://draftsim.com/nekusar-edh-deck/))\n- **Limit colorless utility lands.** **[[Geier Reach Sanitarium]]** and **[[Mikokoro, Center of the Sea]]** support the plan, but **[[Reliquary Tower]]** is not mandatory: it neither fixes colors nor prevents wheel-induced discards. ([edh.wiki](https://edh.wiki/commanders/nekusar-the-mindrazer/?utm_source=openai))",
     "cardsMentioned": [
       "Windfall",
       "Wheel of Fortune",
@@ -3274,13 +3274,13 @@
   "manaSuggestions": [
     {
       "id": "84b42589-9674-41ef-8d64-c3d628151906",
-      "reason": "Temple of the False God only makes colorless mana; Exotic Orchard makes black and red and blue untapped, helping blue and black, which are short.",
+      "reason": "[[Temple of the False God]] only makes colorless mana; [[Exotic Orchard]] makes black and red and blue untapped, helping blue and black, which are short.",
       "changes": [
         {
           "action": "remove",
           "name": "Temple of the False God",
           "qty": 1,
-          "reason": "Temple of the False God only makes colorless mana; Exotic Orchard makes black and red and blue untapped, helping blue and black, which are short.",
+          "reason": "[[Temple of the False God]] only makes colorless mana; [[Exotic Orchard]] makes black and red and blue untapped, helping blue and black, which are short.",
           "ok": true,
           "card": {
             "name": "Temple of the False God",
@@ -3313,7 +3313,7 @@
           "action": "add",
           "name": "Exotic Orchard",
           "qty": 1,
-          "reason": "Temple of the False God only makes colorless mana; Exotic Orchard makes black and red and blue untapped, helping blue and black, which are short.",
+          "reason": "[[Temple of the False God]] only makes colorless mana; [[Exotic Orchard]] makes black and red and blue untapped, helping blue and black, which are short.",
           "ok": true,
           "card": {
             "name": "Exotic Orchard",
@@ -3350,13 +3350,13 @@
     },
     {
       "id": "783637c3-d638-4a7a-b2ac-a0821b0722ef",
-      "reason": "You have plenty of red sources; Watery Grave makes black and blue untapped, helping blue and black, which are short.",
+      "reason": "You have plenty of red sources; [[Watery Grave]] makes black and blue untapped, helping blue and black, which are short.",
       "changes": [
         {
           "action": "remove",
           "name": "Mountain",
           "qty": 1,
-          "reason": "You have plenty of red sources; Watery Grave makes black and blue untapped, helping blue and black, which are short.",
+          "reason": "You have plenty of red sources; [[Watery Grave]] makes black and blue untapped, helping blue and black, which are short.",
           "ok": true,
           "card": {
             "name": "Mountain",
@@ -3391,7 +3391,7 @@
           "action": "add",
           "name": "Watery Grave",
           "qty": 1,
-          "reason": "You have plenty of red sources; Watery Grave makes black and blue untapped, helping blue and black, which are short.",
+          "reason": "You have plenty of red sources; [[Watery Grave]] makes black and blue untapped, helping blue and black, which are short.",
           "ok": true,
           "card": {
             "name": "Watery Grave",
@@ -3428,13 +3428,13 @@
     },
     {
       "id": "89791397-1e9d-42c7-83bb-9da8b4e2b91d",
-      "reason": "Akoum Refuge always enters tapped; City of Brass makes black and red and blue untapped, helping blue, which is short.",
+      "reason": "[[Akoum Refuge]] always enters tapped; [[City of Brass]] makes black and red and blue untapped, helping blue, which is short.",
       "changes": [
         {
           "action": "remove",
           "name": "Akoum Refuge",
           "qty": 1,
-          "reason": "Akoum Refuge always enters tapped; City of Brass makes black and red and blue untapped, helping blue, which is short.",
+          "reason": "[[Akoum Refuge]] always enters tapped; [[City of Brass]] makes black and red and blue untapped, helping blue, which is short.",
           "ok": true,
           "card": {
             "name": "Akoum Refuge",
@@ -3471,7 +3471,7 @@
           "action": "add",
           "name": "City of Brass",
           "qty": 1,
-          "reason": "Akoum Refuge always enters tapped; City of Brass makes black and red and blue untapped, helping blue, which is short.",
+          "reason": "[[Akoum Refuge]] always enters tapped; [[City of Brass]] makes black and red and blue untapped, helping blue, which is short.",
           "ok": true,
           "card": {
             "name": "City of Brass",
@@ -3515,7 +3515,7 @@
         "Reforge the Soul",
         "Orcish Bowmasters"
       ],
-      "explanation": "Reforge the Soul makes each opponent draw seven cards, triggering Nekusar and Orcish Bowmasters seven times per opponent. This combines table-wide damage with a rapidly growing Orc Army and flexible Bowmasters damage."
+      "explanation": "[[Reforge the Soul]] makes each opponent draw seven cards, triggering Nekusar and [[Orcish Bowmasters]] seven times per opponent. This combines table-wide damage with a rapidly growing Orc Army and flexible Bowmasters damage."
     },
     {
       "title": "The Painful Puzzle Box",
@@ -3524,7 +3524,7 @@
         "Teferi's Puzzle Box",
         "Underworld Dreams"
       ],
-      "explanation": "Teferi's Puzzle Box forces opponents to redraw their hands every draw step, with Nekusar and Underworld Dreams dealing a combined 2 damage per card drawn. The normal draw and Nekusar's additional draw also trigger both punishers."
+      "explanation": "[[Teferi's Puzzle Box]] forces opponents to redraw their hands every draw step, with Nekusar and [[Underworld Dreams]] dealing a combined 2 damage per card drawn. The normal draw and Nekusar's additional draw also trigger both punishers."
     },
     {
       "title": "Draw, Bounce, Delay",
@@ -3533,7 +3533,7 @@
         "Sigil of Sleep",
         "Frozen Aether"
       ],
-      "explanation": "With Sigil of Sleep enchanting Nekusar, every opposing draw lets you return a creature that opponent controls to their hand. Frozen Aether makes replayed creatures enter tapped, helping keep attackers and utility creatures under control."
+      "explanation": "With [[Sigil of Sleep]] enchanting Nekusar, every opposing draw lets you return a creature that opponent controls to their hand. [[Frozen Aether]] makes replayed creatures enter tapped, helping keep attackers and utility creatures under control."
     },
     {
       "title": "Wheel into Empty Hands",
@@ -3542,7 +3542,7 @@
         "Helm of the Ghastlord",
         "Windfall"
       ],
-      "explanation": "Helm of the Ghastlord gives Nekusar both damage-triggered abilities, so every opponent's Windfall draw also generates a card for you and a discard for that opponent. Those triggers resolve after Windfall finishes, potentially stripping opponents of their freshly drawn hands without forming an infinite loop."
+      "explanation": "[[Helm of the Ghastlord]] gives Nekusar both damage-triggered abilities, so every opponent's [[Windfall]] draw also generates a card for you and a discard for that opponent. Those triggers resolve after [[Windfall]] finishes, potentially stripping opponents of their freshly drawn hands without forming an infinite loop."
     },
     {
       "title": "Double-Sided Draw Damage",
@@ -3551,7 +3551,7 @@
         "Prosperity",
         "Psychosis Crawler"
       ],
-      "explanation": "Prosperity for X causes Nekusar to deal X damage to each opponent while your own X draws make Psychosis Crawler drain each opponent for another X life. You refill your hand while each opponent loses a total of 2X life, assuming the damage is not prevented."
+      "explanation": "[[Prosperity]] for X causes Nekusar to deal X damage to each opponent while your own X draws make [[Psychosis Crawler]] drain each opponent for another X life. You refill your hand while each opponent loses a total of 2X life, assuming the damage is not prevented."
     },
     {
       "title": "Back-to-Back Wheel Burn",
@@ -3560,7 +3560,7 @@
         "Windfall",
         "Molten Psyche"
       ],
-      "explanation": "Windfall refills hands for Molten Psyche to shuffle away and redraw, generating another wave of Nekusar triggers. With metalcraft active, Molten Psyche also damages each opponent for all cards they have drawn that turn, including both spells' draws."
+      "explanation": "[[Windfall]] refills hands for [[Molten Psyche]] to shuffle away and redraw, generating another wave of Nekusar triggers. With metalcraft active, [[Molten Psyche]] also damages each opponent for all cards they have drawn that turn, including both spells' draws."
     },
     {
       "title": "Protected Repeatable Wheels",
@@ -3569,7 +3569,7 @@
         "Jace's Archivist",
         "Lightning Greaves"
       ],
-      "explanation": "Lightning Greaves lets Jace's Archivist activate immediately and protects it from targeted removal while equipped. Its repeatable wheel reloads your hand and turns every opposing redraw into Nekusar damage."
+      "explanation": "[[Lightning Greaves]] lets [[Jace's Archivist]] activate immediately and protects it from targeted removal while equipped. Its repeatable wheel reloads your hand and turns every opposing redraw into Nekusar damage."
     },
     {
       "title": "Six-Damage Draw Steps",
@@ -3577,7 +3577,7 @@
         "Nekusar, the Mindrazer",
         "Spiteful Visions"
       ],
-      "explanation": "Together they make opponents draw three cards during an ordinary draw step, with each card triggering both damage abilities for 6 total damage. Spiteful Visions also damages you for your own draws, making this a powerful but symmetrical accelerator."
+      "explanation": "Together they make opponents draw three cards during an ordinary draw step, with each card triggering both damage abilities for 6 total damage. [[Spiteful Visions]] also damages you for your own draws, making this a powerful but symmetrical accelerator."
     },
     {
       "title": "Pay to Attack, Bleed to Pay",
@@ -3587,7 +3587,7 @@
         "Manabarbs",
         "Sol Ring"
       ],
-      "explanation": "Propaganda taxes attacks against you, and Manabarbs punishes opponents who tap lands to pay that tax while Nekusar keeps draining them through draws. Sol Ring supplies mana without triggering Manabarbs, helping you operate under your own pressure package."
+      "explanation": "[[Propaganda]] taxes attacks against you, and [[Manabarbs]] punishes opponents who tap lands to pay that tax while Nekusar keeps draining them through draws. [[Sol Ring]] supplies mana without triggering [[Manabarbs]], helping you operate under your own pressure package."
     },
     {
       "title": "Removal with a Four-Damage Sting",
@@ -3604,7 +3604,7 @@
         "Psychosis Crawler",
         "Prosperity"
       ],
-      "explanation": "Your X draws from Prosperity produce X separate Psychosis Crawler triggers, each making every opponent lose exactly 1 life. Each resolution triggers Ob Nixilis once, generating X +1/+1 counters and X exiled cards you may play until your next end step."
+      "explanation": "Your X draws from [[Prosperity]] produce X separate [[Psychosis Crawler]] triggers, each making every opponent lose exactly 1 life. Each resolution triggers Ob Nixilis once, generating X +1/+1 counters and X exiled cards you may play until your next end step."
     },
     {
       "title": "Their Mana Fuels Your Kingpin",
@@ -3612,7 +3612,7 @@
         "Ob Nixilis, Captive Kingpin",
         "Manabarbs"
       ],
-      "explanation": "Each Manabarbs trigger that deals 1 damage to an opponent triggers Ob Nixilis, turning their land-based mana production into counters and temporary card access for you. This pressures opponents for spending mana as well as drawing cards."
+      "explanation": "Each [[Manabarbs]] trigger that deals 1 damage to an opponent triggers Ob Nixilis, turning their land-based mana production into counters and temporary card access for you. This pressures opponents for spending mana as well as drawing cards."
     },
     {
       "title": "Draw Pain Becomes Table Pain",
@@ -3621,7 +3621,7 @@
         "Helm of the Ghastlord",
         "Psychosis Crawler"
       ],
-      "explanation": "Enchant Nekusar with Helm of the Ghastlord: each time his draw-triggered damage hits an opponent, that opponent discards a card and you draw a card. Each resulting draw triggers Psychosis Crawler, spreading another 1 life loss to every opponent without creating an infinite loop."
+      "explanation": "Enchant Nekusar with [[Helm of the Ghastlord]]: each time his draw-triggered damage hits an opponent, that opponent discards a card and you draw a card. Each resulting draw triggers [[Psychosis Crawler]], spreading another 1 life loss to every opponent without creating an infinite loop."
     },
     {
       "title": "One More Card, One More Damage",
@@ -3630,7 +3630,7 @@
         "Nekusar, the Mindrazer",
         "Prosperity"
       ],
-      "explanation": "Nightscape Familiar reduces Prosperity's generic cost, letting you choose X one higher for the same mana investment. Every additional card drawn gives you another resource and makes Nekusar deal another damage to each opponent."
+      "explanation": "[[Nightscape Familiar]] reduces [[Prosperity]]'s generic cost, letting you choose X one higher for the same mana investment. Every additional card drawn gives you another resource and makes Nekusar deal another damage to each opponent."
     }
   ],
   "cardIndex": {
@@ -4184,11 +4184,6 @@
       "scryfallUri": "https://scryfall.com/card/fin/231/kefka-court-mage-kefka-ruler-of-ruin?utm_source=api",
       "priceUsd": 4.73
     },
-    "Teferi's Ageless Insight": {
-      "image": "https://cards.scryfall.io/normal/front/b/4/b4077e58-a497-4c8f-8e58-919c3204ad52.jpg?1783908752",
-      "scryfallUri": "https://scryfall.com/card/j25/371/teferis-ageless-insight?utm_source=api",
-      "priceUsd": 5.08
-    },
     "Ophidian Eye": {
       "image": "https://cards.scryfall.io/normal/front/2/6/26836ff5-b3c3-4b10-af1e-df3658781cb2.jpg?1783943242",
       "scryfallUri": "https://scryfall.com/card/tsp/70/ophidian-eye?utm_source=api",
@@ -4218,11 +4213,6 @@
       "image": "https://cards.scryfall.io/normal/front/f/6/f675f509-4343-4568-96dd-265626cb6c2b.jpg?1783929456",
       "scryfallUri": "https://scryfall.com/card/znc/96/notion-thief?utm_source=api",
       "priceUsd": 1.83
-    },
-    "Alhammarret's Archive": {
-      "image": "https://cards.scryfall.io/normal/front/a/b/abe6d2a2-3bc7-4998-bd46-50af74344b5d.jpg?1793111932",
-      "scryfallUri": "https://scryfall.com/card/trc/484/alhammarrets-archive?utm_source=api",
-      "priceUsd": 4.58
     },
     "Body of Knowledge": {
       "image": "https://cards.scryfall.io/normal/front/1/8/185b2e8f-ab37-42e4-b3a1-f38b19a2e05a.jpg?1783909628",
@@ -5872,25 +5862,25 @@
   },
   "howToPlay": {
     "original": {
-      "summary": "Nekusar, the Mindrazer turns opponents’ extra cards into damage, making generous draws surprisingly unfriendly. Stack draw punishers, then use Windfall and Prosperity to burn down the table.",
+      "summary": "[[Nekusar, the Mindrazer]] turns opponents’ extra cards into damage, making generous draws surprisingly unfriendly. Stack draw punishers, then use [[Windfall]] and [[Prosperity]] to burn down the table.",
       "early": [
-        "Use Sol Ring, Dimir Signet, or Wayfarer's Bauble to prepare for Nekusar, the Mindrazer.",
-        "Nightscape Familiar discounts Nekusar, the Mindrazer and your blue or red draw spells.",
-        "Establish Propaganda before your extra draws give opponents more creatures to attack with."
+        "Use [[Sol Ring]], [[Dimir Signet]], or [[Wayfarer's Bauble]] to prepare for [[Nekusar, the Mindrazer]].",
+        "[[Nightscape Familiar]] discounts [[Nekusar, the Mindrazer]] and your blue or red draw spells.",
+        "Establish [[Propaganda]] before your extra draws give opponents more creatures to attack with."
       ],
       "mid": [
-        "Cast Nekusar, the Mindrazer before activating Temple Bell or casting Windfall.",
-        "Add Fate Unraveler or Underworld Dreams to make every opposing draw hurt more.",
-        "Enchant Nekusar, the Mindrazer with Sigil of Sleep to bounce creatures whenever opponents draw."
+        "Cast [[Nekusar, the Mindrazer]] before activating [[Temple Bell]] or casting [[Windfall]].",
+        "Add [[Fate Unraveler]] or [[Underworld Dreams]] to make every opposing draw hurt more.",
+        "Enchant [[Nekusar, the Mindrazer]] with [[Sigil of Sleep]] to bounce creatures whenever opponents draw."
       ],
       "late": [
-        "From turn six onward, chain Windfall into Molten Psyche for a burst finish.",
-        "Cast Prosperity with Psychosis Crawler and Nekusar, the Mindrazer to punish both sides drawing."
+        "From turn six onward, chain [[Windfall]] into [[Molten Psyche]] for a burst finish.",
+        "Cast [[Prosperity]] with [[Psychosis Crawler]] and [[Nekusar, the Mindrazer]] to punish both sides drawing."
       ],
       "winConditions": [
-        "Nekusar, the Mindrazer and Spiteful Visions deal six damage during each opponent’s normal draw step.",
-        "Enchant Niv-Mizzet, the Firemind with Helm of the Ghastlord, then draw to loop damage.",
-        "Insurrection can finish opponents whose creatures survived your draw damage."
+        "[[Nekusar, the Mindrazer]] and [[Spiteful Visions]] deal six damage during each opponent’s normal draw step.",
+        "Enchant [[Niv-Mizzet, the Firemind]] with [[Helm of the Ghastlord]], then draw to loop damage.",
+        "[[Insurrection]] can finish opponents whose creatures survived your draw damage."
       ],
       "keyCards": [
         {
@@ -5903,45 +5893,45 @@
         },
         {
           "name": "Lightning Greaves",
-          "why": "It protects Nekusar or lets Jace's Archivist activate immediately."
+          "why": "It protects Nekusar or lets [[Jace's Archivist]] activate immediately."
         },
         {
           "name": "Frozen Aether",
-          "why": "It makes creatures bounced by Sigil of Sleep return tapped."
+          "why": "It makes creatures bounced by [[Sigil of Sleep]] return tapped."
         },
         {
           "name": "Psychosis Crawler",
           "why": "It makes your own draws drain every opponent."
         }
       ],
-      "mulligan": "Keep three lands covering your colors, Dimir Signet or Wayfarer's Bauble, and an affordable setup card like Propaganda.",
+      "mulligan": "Keep three lands covering your colors, [[Dimir Signet]] or [[Wayfarer's Bauble]], and an affordable setup card like [[Propaganda]].",
       "watchOut": [
-        "Move Lightning Greaves away before targeting its wearer with Sigil of Sleep.",
-        "Spiteful Visions and Manabarbs hurt you too, so track your life carefully.",
-        "Avoid feeding opponents with Kami of the Crescent Moon before establishing draw punishment."
+        "Move [[Lightning Greaves]] away before targeting its wearer with [[Sigil of Sleep]].",
+        "[[Spiteful Visions]] and [[Manabarbs]] hurt you too, so track your life carefully.",
+        "Avoid feeding opponents with [[Kami of the Crescent Moon]] before establishing draw punishment."
       ]
     },
     "optimized": {
-      "summary": "Nekusar, the Mindrazer turns opponents’ extra cards into damage, while wheels refill hands and multiply the pain. Win through repeated forced draws or Niv-Mizzet, the Firemind enchanted with Helm of the Ghastlord.",
+      "summary": "[[Nekusar, the Mindrazer]] turns opponents’ extra cards into damage, while wheels refill hands and multiply the pain. Win through repeated forced draws or [[Niv-Mizzet, the Firemind]] enchanted with [[Helm of the Ghastlord]].",
       "early": [
-        "Use Arcane Signet and Dimir Signet to assemble Nekusar, the Mindrazer’s three colors.",
-        "Play tapped lands like Crumbling Necropolis before you need mana for Nekusar, the Mindrazer.",
-        "Deploy Underworld Dreams or Razorkin Needlehead before giving opponents extra cards."
+        "Use [[Arcane Signet]] and [[Dimir Signet]] to assemble [[Nekusar, the Mindrazer]]’s three colors.",
+        "Play tapped lands like [[Crumbling Necropolis]] before you need mana for [[Nekusar, the Mindrazer]].",
+        "Deploy [[Underworld Dreams]] or [[Razorkin Needlehead]] before giving opponents extra cards."
       ],
       "mid": [
-        "Cast Nekusar, the Mindrazer, then use Swiftfoot Boots to protect your damage engine.",
-        "Follow Nekusar, the Mindrazer with Reforge the Soul, ideally alongside Orcish Bowmasters.",
-        "Equip Jace's Archivist with Lightning Greaves for immediate, repeatable hand resets."
+        "Cast [[Nekusar, the Mindrazer]], then use [[Swiftfoot Boots]] to protect your damage engine.",
+        "Follow [[Nekusar, the Mindrazer]] with [[Reforge the Soul]], ideally alongside [[Orcish Bowmasters]].",
+        "Equip [[Jace's Archivist]] with [[Lightning Greaves]] for immediate, repeatable hand resets."
       ],
       "late": [
-        "Follow Windfall with Molten Psyche, checking that three artifacts enable its extra damage.",
-        "Save Niv-Mizzet, the Firemind plus Helm of the Ghastlord for turn six onward.",
-        "Cast Prosperity with Psychosis Crawler to punish opponents for your draws too."
+        "Follow [[Windfall]] with [[Molten Psyche]], checking that three artifacts enable its extra damage.",
+        "Save [[Niv-Mizzet, the Firemind]] plus [[Helm of the Ghastlord]] for turn six onward.",
+        "Cast [[Prosperity]] with [[Psychosis Crawler]] to punish opponents for your draws too."
       ],
       "winConditions": [
-        "Combine Nekusar, the Mindrazer, Underworld Dreams, and repeated wheels to burn down opponents.",
-        "Pair Teferi's Puzzle Box with Fate Unraveler to repeatedly punish large hands.",
-        "Enchant Niv-Mizzet, the Firemind with Helm of the Ghastlord to chain lethal draw-triggered damage."
+        "Combine [[Nekusar, the Mindrazer]], [[Underworld Dreams]], and repeated wheels to burn down opponents.",
+        "Pair [[Teferi's Puzzle Box]] with [[Fate Unraveler]] to repeatedly punish large hands.",
+        "Enchant [[Niv-Mizzet, the Firemind]] with [[Helm of the Ghastlord]] to chain lethal draw-triggered damage."
       ],
       "keyCards": [
         {
@@ -5969,11 +5959,11 @@
           "why": "Taxes attackers while your draw engines attract attention."
         }
       ],
-      "mulligan": "Keep three lands covering your colors, Arcane Signet or Nightscape Familiar, and a draw punisher.",
+      "mulligan": "Keep three lands covering your colors, [[Arcane Signet]] or [[Nightscape Familiar]], and a draw punisher.",
       "watchOut": [
-        "Spiteful Visions and Manabarbs hurt you too, so watch your life before casting Prosperity.",
-        "Move Lightning Greaves away before targeting Nekusar, the Mindrazer with Helm of the Ghastlord.",
-        "Niv-Mizzet, the Firemind and Helm of the Ghastlord can exhaust your library before killing everyone."
+        "[[Spiteful Visions]] and [[Manabarbs]] hurt you too, so watch your life before casting [[Prosperity]].",
+        "Move [[Lightning Greaves]] away before targeting [[Nekusar, the Mindrazer]] with [[Helm of the Ghastlord]].",
+        "[[Niv-Mizzet, the Firemind]] and [[Helm of the Ghastlord]] can exhaust your library before killing everyone."
       ]
     }
   }

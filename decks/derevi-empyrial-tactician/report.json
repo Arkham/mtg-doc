@@ -41,7 +41,7 @@
   ],
   "generatedAt": "2026-11-09T21:56:26.331Z",
   "model": "gpt-6.1-sol",
-  "strategy": "Build toward Derevi stax-combo: develop efficient mana creatures, connect in combat, and use Derevi's untaps to operate through Winter Orb, Hokori, and Rising Waters. These changes replace expensive reactive cards with mana engines, premium draw, protection, tutors, and a decisive infinite-mana payoff while removing artifact taxes that undermine your own engines. This is a substantial move toward upper Bracket 4 with 18 swaps, not a fully rebuilt competitive list; play it with the stated expectation of no wins or effectively game-ending locks before turn four.",
+  "strategy": "Build toward Derevi stax-combo: develop efficient mana creatures, connect in combat, and use Derevi's untaps to operate through [[Winter Orb]], Hokori, and [[Rising Waters]]. These changes replace expensive reactive cards with mana engines, premium draw, protection, tutors, and a decisive infinite-mana payoff while removing artifact taxes that undermine your own engines. This is a substantial move toward upper Bracket 4 with 18 swaps, not a fully rebuilt competitive list; play it with the stated expectation of no wins or effectively game-ending locks before turn four.",
   "themes": [
     "Stax and asymmetric untapping",
     "Creature-based ramp",
@@ -417,7 +417,7 @@
       "out": "Austere Command",
       "in": "Emiel the Blessed",
       "category": "combo",
-      "reason": "Emiel repeatedly blinks Derevi to untap Bloom Tender or Faeburrow Elder: three mana per activation is mana-neutral, while Kinnan increases their output enough to generate infinite mana. Aura Shards converts the repeated creature entries into artifact and enchantment removal.",
+      "reason": "Emiel repeatedly blinks Derevi to untap [[Bloom Tender]] or [[Faeburrow Elder]]: three mana per activation is mana-neutral, while Kinnan increases their output enough to generate infinite mana. [[Aura Shards]] converts the repeated creature entries into artifact and enchantment removal.",
       "outCard": {
         "name": "Austere Command",
         "oracleId": "09cc8709-fe10-472a-b05c-e89f3523018d",
@@ -489,7 +489,7 @@
       "out": "Acidic Slime",
       "in": "Finale of Devastation",
       "category": "combo",
-      "reason": "Finale provides a tutor and finishing payoff. Kinnan plus Basalt Monolith supplies infinite colorless mana; with two green mana available, Finale can find Mirror Entity and give your team arbitrarily large power and haste.",
+      "reason": "Finale provides a tutor and finishing payoff. Kinnan plus [[Basalt Monolith]] supplies infinite colorless mana; with two green mana available, Finale can find [[Mirror Entity]] and give your team arbitrarily large power and haste.",
       "outCard": {
         "name": "Acidic Slime",
         "oracleId": "21f45043-5419-4019-8b6c-e5294bd5f549",
@@ -560,7 +560,7 @@
       "out": "Angel of Finality",
       "in": "Kinnan, Bonder Prodigy",
       "category": "combo",
-      "reason": "Kinnan improves your mana creatures and rocks, forms an infinite-colorless-mana combo with Basalt Monolith, and makes the Emiel/Derevi/Tender-or-Elder loop mana-positive; Stonecloaker remains available for targeted graveyard interaction.",
+      "reason": "Kinnan improves your mana creatures and rocks, forms an infinite-colorless-mana combo with [[Basalt Monolith]], and makes the Emiel/Derevi/Tender-or-Elder loop mana-positive; [[Stonecloaker]] remains available for targeted graveyard interaction.",
       "outCard": {
         "name": "Angel of Finality",
         "oracleId": "48d14b5c-711a-4f8a-9de5-55415cb7a79a",
@@ -641,7 +641,7 @@
       "out": "Condemn",
       "in": "Fierce Guardianship",
       "category": "interaction",
-      "reason": "Condemn cannot stop most opposing combo attempts, whereas Guardianship protects your engines and answers dangerous noncreature spells without requiring untapped mana while Derevi is on the battlefield.",
+      "reason": "[[Condemn]] cannot stop most opposing combo attempts, whereas Guardianship protects your engines and answers dangerous noncreature spells without requiring untapped mana while Derevi is on the battlefield.",
       "outCard": {
         "name": "Condemn",
         "oracleId": "377d31b5-0a48-4d5b-91bd-b5a62d4f7899",
@@ -704,7 +704,7 @@
       "out": "Energy Flux",
       "in": "Mana Vault",
       "category": "ramp",
-      "reason": "Cut Energy Flux, removing a tax that threatens your own Ring, Monolith, Orb, and other artifacts. Mana Vault accelerates key plays and becomes reusable when Derevi untaps it; retain Cultivate to support the existing basic-heavy mana base.",
+      "reason": "Cut [[Energy Flux]], removing a tax that threatens your own Ring, Monolith, Orb, and other artifacts. [[Mana Vault]] accelerates key plays and becomes reusable when Derevi untaps it; retain [[Cultivate]] to support the existing basic-heavy mana base.",
       "outCard": {
         "name": "Energy Flux",
         "oracleId": "7a756cd1-29a8-4edf-bb74-fbb5b4020022",
@@ -765,7 +765,7 @@
       "out": "Control Magic",
       "in": "Worldly Tutor",
       "category": "combo",
-      "reason": "One mana finds the specific creature your position needs, including Bloom Tender, Kinnan, Emiel, Seedborn Muse, or Hokori, rather than spending four mana on an opponent-dependent threat.",
+      "reason": "One mana finds the specific creature your position needs, including [[Bloom Tender]], Kinnan, Emiel, [[Seedborn Muse]], or Hokori, rather than spending four mana on an opponent-dependent threat.",
       "outCard": {
         "name": "Control Magic",
         "oracleId": "cd0d7141-46d2-4aa3-bc77-6b3b4513803e",
@@ -834,7 +834,7 @@
       "out": "Deglamer",
       "in": "Seedborn Muse",
       "category": "synergy",
-      "reason": "Muse restores your resources during opponents' untap steps, helping break parity under land-untap restrictions and enabling repeated Ring, creature, and instant-speed activations; Aura Shards and retained removal cover the lost interaction slot.",
+      "reason": "Muse restores your resources during opponents' untap steps, helping break parity under land-untap restrictions and enabling repeated Ring, creature, and instant-speed activations; [[Aura Shards]] and retained removal cover the lost interaction slot.",
       "outCard": {
         "name": "Deglamer",
         "oracleId": "049d2e18-8fa9-44d9-8618-f675592cb624",
@@ -972,7 +972,7 @@
       "out": "Dissipate",
       "in": "Mystic Remora",
       "category": "draw",
-      "reason": "Remora establishes card advantage for one mana, letting you develop creatures and hold interaction instead of reserving three mana for Dissipate; Fierce Guardianship replaces the lost counterspell slot.",
+      "reason": "Remora establishes card advantage for one mana, letting you develop creatures and hold interaction instead of reserving three mana for [[Dissipate]]; [[Fierce Guardianship]] replaces the lost counterspell slot.",
       "outCard": {
         "name": "Dissipate",
         "oracleId": "4b2e9aa9-6f91-41de-84b6-e9a89be06a53",
@@ -1046,7 +1046,7 @@
       "out": "Azorius Chancery",
       "in": "Hallowed Fountain",
       "category": "mana",
-      "reason": "Azorius Chancery always enters tapped; Hallowed Fountain makes blue and white untapped.",
+      "reason": "[[Azorius Chancery]] always enters tapped; [[Hallowed Fountain]] makes blue and white untapped.",
       "outCard": {
         "name": "Azorius Chancery",
         "oracleId": "189fc8f4-17ac-4f1d-82c8-8401445bdaf4",
@@ -1112,7 +1112,7 @@
       "out": "Azorius Guildgate",
       "in": "Breeding Pool",
       "category": "mana",
-      "reason": "Azorius Guildgate always enters tapped; Breeding Pool makes green and blue untapped.",
+      "reason": "[[Azorius Guildgate]] always enters tapped; [[Breeding Pool]] makes green and blue untapped.",
       "outCard": {
         "name": "Azorius Guildgate",
         "oracleId": "ad1712d8-809f-410c-8b91-ffe6fb8a69a1",
@@ -1178,7 +1178,7 @@
       "out": "Seaside Citadel",
       "in": "Flooded Strand",
       "category": "mana",
-      "reason": "Seaside Citadel always enters tapped; Flooded Strand makes white and blue untapped.",
+      "reason": "[[Seaside Citadel]] always enters tapped; [[Flooded Strand]] makes white and blue untapped.",
       "outCard": {
         "name": "Seaside Citadel",
         "oracleId": "2ae77795-6a80-498b-bf69-6fd612f601e4",
@@ -1240,7 +1240,7 @@
       "out": "Secluded Steppe",
       "in": "Temple Garden",
       "category": "mana",
-      "reason": "Secluded Steppe always enters tapped; Temple Garden makes green and white untapped.",
+      "reason": "[[Secluded Steppe]] always enters tapped; [[Temple Garden]] makes green and white untapped.",
       "outCard": {
         "name": "Secluded Steppe",
         "oracleId": "8dec6fcf-1254-4b1b-ba23-7a3e492a7241",
@@ -2255,7 +2255,7 @@
     }
   ],
   "research": {
-    "summary": "## 1. Main strategies/archetypes\n\nCurrent EDHREC tags show several overlapping builds—not just stax: **Birthing Pod, combo, flying, blink, stax, Birds, control, and tap/untap**. The main approaches are: ([edhrec.com](https://edhrec.com/commanders/derevi-empyrial-tactician))\n\n- **Stax/tempo:** Attack with small creatures, then use Derevi’s triggers to function through **Winter Orb**, **Static Orb**, **Stasis**, or **Hokori, Dust Drinker** while opponents struggle to untap. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/power-sink-derevis-zombie-apocalypse))\n- **Creature-toolbox/blink combo:** **Birthing Pod**, **Yisan, the Wanderer Bard**, and creature tutors assemble repeatable Derevi enter-the-battlefield loops. ([tappedout.net](https://tappedout.net/mtg-decks/bird-person-primer/))\n- **Evasive combat/Bird typal:** Flyers generate many combat-damage triggers; **Kastral, the Windcrested** and Bird payoffs turn that board into cards and damage. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/technically-playable-derevi-empyrial-tactician))\n- **Tap/untap value:** Repeatedly activate powerful mana producers and card-draw permanents rather than committing to a hard lock. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/technically-playable-derevi-empyrial-tactician))\n\n## 2. Key synergy cards and engines\n\n- **Mana:** **Bloom Tender**, **Faeburrow Elder**, **Circle of Dreams Druid**, and **Gaea's Cradle** reward concentrating Derevi’s untaps on one high-output permanent. **Wild Growth** and **Utopia Sprawl** similarly improve each land untap. ([edhrec.com](https://edhrec.com/commanders/derevi-empyrial-tactician))\n- **Cards:** **The One Ring** can be activated between successive untap triggers. **Edric, Spymaster of Trest**, **Toski, Bearer of Secrets**, and **Bident of Thassa** reward the same combat connections Derevi already wants. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/technically-playable-derevi-empyrial-tactician))\n- **Control:** **Verity Circle** turns Derevi tapping opposing creatures into draws; **Willbreaker** turns targeting opposing creatures into theft. **Aura Shards** converts creature entries—including repeated Derevi entries—into artifact/enchantment removal. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/power-sink-derevis-zombie-apocalypse))\n- **Toolbox:** **Birthing Pod**, **Yisan, the Wanderer Bard**, **Eladamri's Call**, and **Chord of Calling** help find the appropriate engine or combo creature. ([tappedout.net](https://tappedout.net/mtg-decks/bird-person-primer/))\n\n## 3. Popular combos—and their actual outputs\n\n**Every row includes Derevi, Empyrial Tactician.** “Infinite” means arbitrarily repeatable.\n\n| Other exact cards | Requirements and output |\n|---|---|\n| **Emiel the Blessed + Bloom Tender** | With Bloom Tender able to tap, Derevi supplies all three Bant colors. Tap for **{G}{W}{U}**, spend **{3}** blinking Derevi, then untap Bloom Tender. **Repeatable creature entries/exits, but no net mana at exactly three mana per tap.** Faeburrow Elder is an alternative. The mana-neutral qualification follows directly from the listed costs, despite Spellbook’s broader output labels. ([commanderspellbook.com](https://commanderspellbook.com/combo/2608-4499-5168/)) |\n| **Emiel the Blessed + Gaea's Cradle** | At **three creatures**, repeatable Derevi entries/exits; at **four or more**, also **unbounded green mana**. Each blink costs three, so three creatures merely breaks even. ([commanderspellbook.com](https://commanderspellbook.com/combo/2404-2608-4499/)) |\n| **Emiel the Blessed + Chromatic Orrery** | Tap Orrery for five, spend three blinking Derevi, untap Orrery: **unbounded colorless mana**, spendable as any color through Orrery, plus repeatable entries/exits. Orrery’s draw ability then draws your deck. ([commanderspellbook.com](https://commanderspellbook.com/combo/1283-2608-4499/)) |\n| **Deadeye Navigator + Gilded Lotus** | Pair Deadeye Navigator with Derevi. Lotus produces **{U}{U}{U}**; blink Derevi for **{1}{U}**, untap Lotus, and re-pair. Produces **unbounded blue mana**, then other colors by alternating Lotus activations, plus repeatable entries/exits. ([commanderspellbook.com](https://commanderspellbook.com/combo/1409-2608-5116/)) |\n\n## 4. Common mistakes/underperformers\n\n- **Mixing every archetype without a finish.** EDHREC’s precon analysis specifically flags lack of focus and closing power. Decide whether your principal finish is combat or combo. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/technically-playable-derevi-empyrial-tactician))\n- **Assuming every blink loop makes mana.** The Bloom Tender and three-creature Gaea's Cradle loops above are mana-neutral without additional help. ([commanderspellbook.com](https://commanderspellbook.com/combo/2608-4499-5168/))\n- **Overloading on slow lands.** One older pilot primer specifically reports tapped lands, **Cloud of Faeries** outside combos, and **Slithermuse** underperforming. Treat those creature cuts as build-specific experience, not universal consensus. ([tappedout.net](https://tappedout.net/mtg-decks/derevi-empyrial-tactician-edh-primer/))\n- **Making combat mana without a combat-speed outlet.** Untap-trigger mana needs to be used before the step ends; it does not automatically fund second-main-phase spells. Also, repeated **The One Ring** activations require a plan for its growing burden counters. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/technically-playable-derevi-empyrial-tactician))\n- **Copying obsolete lists:** **Nadu, Winged Wisdom**, **Mana Crypt**, and **Jeweled Lotus** remain banned in Commander. ([magic.wizards.com](https://magic.wizards.com/en/banned-restricted-list?utm_source=openai))\n\n## 5. Mana base advice specific to Derevi\n\n- **Prioritize early green and access to all three colors.** Derevi costs **{G}{W}{U}** to cast; its command-zone activation costs **{1}{G}{W}{U}**. Untaps cannot fix a missing color. ([commanderspellbook.com](https://commanderspellbook.com/card/2608/))\n- **Favor untapped fixing:** **Command Tower**, **Breeding Pool**, **Temple Garden**, **Hallowed Fountain**, fetch lands, and—at lower budgets—**Yavimaya Coast**, **Brushland**, and **Adarkar Wastes**. Multiplayer options include **Rejuvenating Springs**, **Bountiful Promenade**, and **Sea of Clouds**. ([edhrec.com](https://edhrec.com/commanders/derevi-empyrial-tactician))\n- **Balance output against tempo:** **Gaea's Cradle** is an exceptional untap target. **Lotus Field** and bounce lands provide multiple mana per untap but impose real setup costs; don’t fill the deck with them merely because Derevi can untap them. ([edhrec.com](https://edhrec.com/commanders/derevi-empyrial-tactician))\n- **My practical starting point:** around **35–36 lands for ordinary casual builds**, then adjust through testing. Don’t copy an aggressively low land count from a specialized combo list without also copying—and understanding—its acceleration package.",
+    "summary": "## 1. Main strategies/archetypes\n\nCurrent EDHREC tags show several overlapping builds—not just stax: **[[Birthing Pod]], combo, flying, blink, stax, Birds, control, and tap/untap**. The main approaches are: ([edhrec.com](https://edhrec.com/commanders/derevi-empyrial-tactician))\n\n- **Stax/tempo:** Attack with small creatures, then use Derevi’s triggers to function through **[[Winter Orb]]**, **[[Static Orb]]**, **[[Stasis]]**, or **[[Hokori, Dust Drinker]]** while opponents struggle to untap. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/power-sink-derevis-zombie-apocalypse))\n- **Creature-toolbox/blink combo:** **[[Birthing Pod]]**, **[[Yisan, the Wanderer Bard]]**, and creature tutors assemble repeatable Derevi enter-the-battlefield loops. ([tappedout.net](https://tappedout.net/mtg-decks/bird-person-primer/))\n- **Evasive combat/Bird typal:** Flyers generate many combat-damage triggers; **[[Kastral, the Windcrested]]** and Bird payoffs turn that board into cards and damage. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/technically-playable-derevi-empyrial-tactician))\n- **Tap/untap value:** Repeatedly activate powerful mana producers and card-draw permanents rather than committing to a hard lock. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/technically-playable-derevi-empyrial-tactician))\n\n## 2. Key synergy cards and engines\n\n- **Mana:** **[[Bloom Tender]]**, **[[Faeburrow Elder]]**, **[[Circle of Dreams Druid]]**, and **[[Gaea's Cradle]]** reward concentrating Derevi’s untaps on one high-output permanent. **[[Wild Growth]]** and **[[Utopia Sprawl]]** similarly improve each land untap. ([edhrec.com](https://edhrec.com/commanders/derevi-empyrial-tactician))\n- **Cards:** **[[The One Ring]]** can be activated between successive untap triggers. **[[Edric, Spymaster of Trest]]**, **[[Toski, Bearer of Secrets]]**, and **[[Bident of Thassa]]** reward the same combat connections Derevi already wants. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/technically-playable-derevi-empyrial-tactician))\n- **Control:** **[[Verity Circle]]** turns Derevi tapping opposing creatures into draws; **[[Willbreaker]]** turns targeting opposing creatures into theft. **[[Aura Shards]]** converts creature entries—including repeated Derevi entries—into artifact/enchantment removal. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/power-sink-derevis-zombie-apocalypse))\n- **Toolbox:** **[[Birthing Pod]]**, **[[Yisan, the Wanderer Bard]]**, **[[Eladamri's Call]]**, and **[[Chord of Calling]]** help find the appropriate engine or combo creature. ([tappedout.net](https://tappedout.net/mtg-decks/bird-person-primer/))\n\n## 3. Popular combos—and their actual outputs\n\n**Every row includes [[Derevi, Empyrial Tactician]].** “Infinite” means arbitrarily repeatable.\n\n| Other exact cards | Requirements and output |\n|---|---|\n| **[[Emiel the Blessed]] + [[Bloom Tender]]** | With [[Bloom Tender]] able to tap, Derevi supplies all three Bant colors. Tap for **{G}{W}{U}**, spend **{3}** blinking Derevi, then untap [[Bloom Tender]]. **Repeatable creature entries/exits, but no net mana at exactly three mana per tap.** [[Faeburrow Elder]] is an alternative. The mana-neutral qualification follows directly from the listed costs, despite Spellbook’s broader output labels. ([commanderspellbook.com](https://commanderspellbook.com/combo/2608-4499-5168/)) |\n| **[[Emiel the Blessed]] + [[Gaea's Cradle]]** | At **three creatures**, repeatable Derevi entries/exits; at **four or more**, also **unbounded green mana**. Each blink costs three, so three creatures merely breaks even. ([commanderspellbook.com](https://commanderspellbook.com/combo/2404-2608-4499/)) |\n| **[[Emiel the Blessed]] + [[Chromatic Orrery]]** | Tap Orrery for five, spend three blinking Derevi, untap Orrery: **unbounded colorless mana**, spendable as any color through Orrery, plus repeatable entries/exits. Orrery’s draw ability then draws your deck. ([commanderspellbook.com](https://commanderspellbook.com/combo/1283-2608-4499/)) |\n| **[[Deadeye Navigator]] + [[Gilded Lotus]]** | Pair [[Deadeye Navigator]] with Derevi. Lotus produces **{U}{U}{U}**; blink Derevi for **{1}{U}**, untap Lotus, and re-pair. Produces **unbounded blue mana**, then other colors by alternating Lotus activations, plus repeatable entries/exits. ([commanderspellbook.com](https://commanderspellbook.com/combo/1409-2608-5116/)) |\n\n## 4. Common mistakes/underperformers\n\n- **Mixing every archetype without a finish.** EDHREC’s precon analysis specifically flags lack of focus and closing power. Decide whether your principal finish is combat or combo. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/technically-playable-derevi-empyrial-tactician))\n- **Assuming every blink loop makes mana.** The [[Bloom Tender]] and three-creature [[Gaea's Cradle]] loops above are mana-neutral without additional help. ([commanderspellbook.com](https://commanderspellbook.com/combo/2608-4499-5168/))\n- **Overloading on slow lands.** One older pilot primer specifically reports tapped lands, **[[Cloud of Faeries]]** outside combos, and **[[Slithermuse]]** underperforming. Treat those creature cuts as build-specific experience, not universal consensus. ([tappedout.net](https://tappedout.net/mtg-decks/derevi-empyrial-tactician-edh-primer/))\n- **Making combat mana without a combat-speed outlet.** Untap-trigger mana needs to be used before the step ends; it does not automatically fund second-main-phase spells. Also, repeated **[[The One Ring]]** activations require a plan for its growing burden counters. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/technically-playable-derevi-empyrial-tactician))\n- **Copying obsolete lists:** **[[Nadu, Winged Wisdom]]**, **[[Mana Crypt]]**, and **[[Jeweled Lotus]]** remain banned in Commander. ([magic.wizards.com](https://magic.wizards.com/en/banned-restricted-list?utm_source=openai))\n\n## 5. Mana base advice specific to Derevi\n\n- **Prioritize early green and access to all three colors.** Derevi costs **{G}{W}{U}** to cast; its command-zone activation costs **{1}{G}{W}{U}**. Untaps cannot fix a missing color. ([commanderspellbook.com](https://commanderspellbook.com/card/2608/))\n- **Favor untapped fixing:** **[[Command Tower]]**, **[[Breeding Pool]]**, **[[Temple Garden]]**, **[[Hallowed Fountain]]**, fetch lands, and—at lower budgets—**[[Yavimaya Coast]]**, **[[Brushland]]**, and **[[Adarkar Wastes]]**. Multiplayer options include **[[Rejuvenating Springs]]**, **[[Bountiful Promenade]]**, and **[[Sea of Clouds]]**. ([edhrec.com](https://edhrec.com/commanders/derevi-empyrial-tactician))\n- **Balance output against tempo:** **[[Gaea's Cradle]]** is an exceptional untap target. **[[Lotus Field]]** and bounce lands provide multiple mana per untap but impose real setup costs; don’t fill the deck with them merely because Derevi can untap them. ([edhrec.com](https://edhrec.com/commanders/derevi-empyrial-tactician))\n- **My practical starting point:** around **35–36 lands for ordinary casual builds**, then adjust through testing. Don’t copy an aggressively low land count from a specialized combo list without also copying—and understanding—its acceleration package.",
     "cardsMentioned": [
       "Birthing Pod",
       "Winter Orb",
@@ -4999,13 +4999,13 @@
   "manaSuggestions": [
     {
       "id": "49691574-2969-460d-bddb-ba64d7bd8781",
-      "reason": "Selesnya Guildgate always enters tapped; Exotic Orchard makes green and blue and white untapped, helping blue, which is short.",
+      "reason": "[[Selesnya Guildgate]] always enters tapped; [[Exotic Orchard]] makes green and blue and white untapped, helping blue, which is short.",
       "changes": [
         {
           "action": "remove",
           "name": "Selesnya Guildgate",
           "qty": 1,
-          "reason": "Selesnya Guildgate always enters tapped; Exotic Orchard makes green and blue and white untapped, helping blue, which is short.",
+          "reason": "[[Selesnya Guildgate]] always enters tapped; [[Exotic Orchard]] makes green and blue and white untapped, helping blue, which is short.",
           "ok": true,
           "card": {
             "name": "Selesnya Guildgate",
@@ -5042,7 +5042,7 @@
           "action": "add",
           "name": "Exotic Orchard",
           "qty": 1,
-          "reason": "Selesnya Guildgate always enters tapped; Exotic Orchard makes green and blue and white untapped, helping blue, which is short.",
+          "reason": "[[Selesnya Guildgate]] always enters tapped; [[Exotic Orchard]] makes green and blue and white untapped, helping blue, which is short.",
           "ok": true,
           "card": {
             "name": "Exotic Orchard",
@@ -5079,13 +5079,13 @@
     },
     {
       "id": "533d00e5-92c3-42df-afe3-064d6e3329fe",
-      "reason": "Sejiri Refuge always enters tapped; Glacial Fortress makes blue and white untapped.",
+      "reason": "[[Sejiri Refuge]] always enters tapped; [[Glacial Fortress]] makes blue and white untapped.",
       "changes": [
         {
           "action": "remove",
           "name": "Sejiri Refuge",
           "qty": 1,
-          "reason": "Sejiri Refuge always enters tapped; Glacial Fortress makes blue and white untapped.",
+          "reason": "[[Sejiri Refuge]] always enters tapped; [[Glacial Fortress]] makes blue and white untapped.",
           "ok": true,
           "card": {
             "name": "Sejiri Refuge",
@@ -5122,7 +5122,7 @@
           "action": "add",
           "name": "Glacial Fortress",
           "qty": 1,
-          "reason": "Sejiri Refuge always enters tapped; Glacial Fortress makes blue and white untapped.",
+          "reason": "[[Sejiri Refuge]] always enters tapped; [[Glacial Fortress]] makes blue and white untapped.",
           "ok": true,
           "card": {
             "name": "Glacial Fortress",
@@ -5159,13 +5159,13 @@
     },
     {
       "id": "17d70f63-d1fc-4594-938b-2f27df045a6e",
-      "reason": "Selesnya Sanctuary always enters tapped; City of Brass makes green and blue and white untapped.",
+      "reason": "[[Selesnya Sanctuary]] always enters tapped; [[City of Brass]] makes green and blue and white untapped.",
       "changes": [
         {
           "action": "remove",
           "name": "Selesnya Sanctuary",
           "qty": 1,
-          "reason": "Selesnya Sanctuary always enters tapped; City of Brass makes green and blue and white untapped.",
+          "reason": "[[Selesnya Sanctuary]] always enters tapped; [[City of Brass]] makes green and blue and white untapped.",
           "ok": true,
           "card": {
             "name": "Selesnya Sanctuary",
@@ -5202,7 +5202,7 @@
           "action": "add",
           "name": "City of Brass",
           "qty": 1,
-          "reason": "Selesnya Sanctuary always enters tapped; City of Brass makes green and blue and white untapped.",
+          "reason": "[[Selesnya Sanctuary]] always enters tapped; [[City of Brass]] makes green and blue and white untapped.",
           "ok": true,
           "card": {
             "name": "City of Brass",
@@ -5246,7 +5246,7 @@
         "Winter Orb",
         "Opposition"
       ],
-      "explanation": "Opposition can tap Winter Orb during the end step before your turn, letting all your lands untap before the Orb resumes restricting opponents. Derevi supplies additional untaps for your resources, while Opposition can tap opponents' available lands during their upkeep."
+      "explanation": "[[Opposition]] can tap [[Winter Orb]] during the end step before your turn, letting all your lands untap before the Orb resumes restricting opponents. Derevi supplies additional untaps for your resources, while [[Opposition]] can tap opponents' available lands during their upkeep."
     },
     {
       "title": "Mana Under the Lock",
@@ -5255,7 +5255,7 @@
         "Hokori, Dust Drinker",
         "Bloom Tender"
       ],
-      "explanation": "Derevi supplies all three colors for Bloom Tender to produce {G}{W}{U}, and each combat-damage trigger can untap the Tender for another activation. This gives you substantial mana while Hokori, Dust Drinker keeps opponents' lands largely frozen."
+      "explanation": "Derevi supplies all three colors for [[Bloom Tender]] to produce {G}{W}{U}, and each combat-damage trigger can untap the Tender for another activation. This gives you substantial mana while [[Hokori, Dust Drinker]] keeps opponents' lands largely frozen."
     },
     {
       "title": "Evasive Combat Pays Twice",
@@ -5264,7 +5264,7 @@
         "Bident of Thassa",
         "Lu Xun, Scholar General"
       ],
-      "explanation": "Lu Xun, Scholar General's horsemanship makes it a reliable attacker, and connecting draws one card from its own ability plus another from Bident of Thassa. The same hit also triggers Derevi to untap a mana source or utility permanent."
+      "explanation": "[[Lu Xun, Scholar General]]'s horsemanship makes it a reliable attacker, and connecting draws one card from its own ability plus another from [[Bident of Thassa]]. The same hit also triggers Derevi to untap a mana source or utility permanent."
     },
     {
       "title": "Accelerated Ring Draws",
@@ -5272,7 +5272,7 @@
         "Derevi, Empyrial Tactician",
         "The One Ring"
       ],
-      "explanation": "Derevi's combat-damage triggers can repeatedly untap The One Ring, allowing multiple increasingly large draw activations in one combat. Each activation adds another burden counter, so the extra cards come with a growing upkeep-life cost."
+      "explanation": "Derevi's combat-damage triggers can repeatedly untap [[The One Ring]], allowing multiple increasingly large draw activations in one combat. Each activation adds another burden counter, so the extra cards come with a growing upkeep-life cost."
     },
     {
       "title": "Wizard Assembly Line",
@@ -5281,7 +5281,7 @@
         "Azami, Lady of Scrolls",
         "Stonybrook Schoolmaster"
       ],
-      "explanation": "Azami can tap Stonybrook Schoolmaster to draw a card and create a Merfolk Wizard token, then tap that new token to draw another card immediately. Derevi's triggers can untap the Schoolmaster to repeat the process, or untap other Wizards for more draws."
+      "explanation": "Azami can tap [[Stonybrook Schoolmaster]] to draw a card and create a Merfolk Wizard token, then tap that new token to draw another card immediately. Derevi's triggers can untap the Schoolmaster to repeat the process, or untap other Wizards for more draws."
     },
     {
       "title": "Every-Turn Token Lock",
@@ -5290,7 +5290,7 @@
         "Squirrel Nest",
         "Opposition"
       ],
-      "explanation": "Seedborn Muse untaps the enchanted land and your creatures during every opponent's untap step, letting Squirrel Nest produce another token each turn. Opposition turns those tokens into repeatable control over opposing lands, creatures, and artifacts."
+      "explanation": "[[Seedborn Muse]] untaps the enchanted land and your creatures during every opponent's untap step, letting [[Squirrel Nest]] produce another token each turn. [[Opposition]] turns those tokens into repeatable control over opposing lands, creatures, and artifacts."
     },
     {
       "title": "Selective Untap Advantage",
@@ -5299,7 +5299,7 @@
         "Stoic Angel",
         "Murkfiend Liege"
       ],
-      "explanation": "Stoic Angel limits each player's normal creature untaps, but Murkfiend Liege refreshes your green and blue creatures during opponents' untap steps. Derevi adds targeted untaps outside the untap step, helping your board keep attacking and activating abilities while opponents struggle to reset."
+      "explanation": "[[Stoic Angel]] limits each player's normal creature untaps, but [[Murkfiend Liege]] refreshes your green and blue creatures during opponents' untap steps. Derevi adds targeted untaps outside the untap step, helping your board keep attacking and activating abilities while opponents struggle to reset."
     },
     {
       "title": "Blink Into Removal and Recursion",
@@ -5308,7 +5308,7 @@
         "Aura Shards",
         "Eternal Witness"
       ],
-      "explanation": "Each activation of Emiel the Blessed blinking Eternal Witness returns a card from your graveyard and triggers Aura Shards to destroy an artifact or enchantment. This converts spare mana into repeatable recursion and board control without requiring an infinite loop."
+      "explanation": "Each activation of [[Emiel the Blessed]] blinking [[Eternal Witness]] returns a card from your graveyard and triggers [[Aura Shards]] to destroy an artifact or enchantment. This converts spare mana into repeatable recursion and board control without requiring an infinite loop."
     },
     {
       "title": "Renewable Counterspell Fodder",
@@ -5316,7 +5316,7 @@
         "Derevi, Empyrial Tactician",
         "Voidmage Prodigy"
       ],
-      "explanation": "Derevi is a Wizard, so Voidmage Prodigy can sacrifice it to counter any spell. Returning Derevi to the command zone lets you deploy it again for {1}{G}{W}{U}, bypassing commander tax and gaining another enters-the-battlefield tap or untap trigger."
+      "explanation": "Derevi is a Wizard, so [[Voidmage Prodigy]] can sacrifice it to counter any spell. Returning Derevi to the command zone lets you deploy it again for {1}{G}{W}{U}, bypassing commander tax and gaining another enters-the-battlefield tap or untap trigger."
     },
     {
       "title": "Squirrels Become a Win Condition",
@@ -5325,7 +5325,7 @@
         "Mirror Entity",
         "Derevi, Empyrial Tactician"
       ],
-      "explanation": "Derevi can untap the enchanted land to generate additional Squirrels, building a board without committing more creature cards. Mirror Entity turns those small tokens into large attackers, and each creature that connects generates another Derevi trigger."
+      "explanation": "Derevi can untap the enchanted land to generate additional Squirrels, building a board without committing more creature cards. [[Mirror Entity]] turns those small tokens into large attackers, and each creature that connects generates another Derevi trigger."
     },
     {
       "title": "Draw or Stay Locked",
@@ -5334,7 +5334,7 @@
         "Hokori, Dust Drinker",
         "Derevi, Empyrial Tactician"
       ],
-      "explanation": "Hokori, Dust Drinker restricts opponents' land untaps, making Rhystic Study's extra payment much harder to afford. Derevi, Empyrial Tactician untaps your mana sources through combat triggers, helping you deploy the cards you draw while opponents remain constrained."
+      "explanation": "[[Hokori, Dust Drinker]] restricts opponents' land untaps, making [[Rhystic Study]]'s extra payment much harder to afford. [[Derevi, Empyrial Tactician]] untaps your mana sources through combat triggers, helping you deploy the cards you draw while opponents remain constrained."
     },
     {
       "title": "Stacked Draw Demands",
@@ -5350,7 +5350,7 @@
         "Rhystic Study",
         "Cyclonic Rift"
       ],
-      "explanation": "An overloaded Cyclonic Rift forces opponents to rebuild their nonland boards by casting their cards again. Rhystic Study turns that rebuilding into additional draws or extra mana payments, slowing their recovery."
+      "explanation": "An overloaded [[Cyclonic Rift]] forces opponents to rebuild their nonland boards by casting their cards again. [[Rhystic Study]] turns that rebuilding into additional draws or extra mana payments, slowing their recovery."
     },
     {
       "title": "Blue Mana Through the Lock",
@@ -5359,7 +5359,7 @@
         "Derevi, Empyrial Tactician",
         "Rising Waters"
       ],
-      "explanation": "Rising Waters restricts normal land untaps, but Derevi's enters and combat-damage triggers can untap Island outside the untap step. This keeps blue mana available for interaction while opponents remain constrained."
+      "explanation": "[[Rising Waters]] restricts normal land untaps, but Derevi's enters and combat-damage triggers can untap [[Island]] outside the untap step. This keeps blue mana available for interaction while opponents remain constrained."
     },
     {
       "title": "Combat-Fueled Squirrel Production",
@@ -5368,7 +5368,7 @@
         "Squirrel Nest",
         "Derevi, Empyrial Tactician"
       ],
-      "explanation": "Enchant Island with Squirrel Nest, then use Derevi's enters or combat-damage triggers to untap it for additional Squirrel activations. Each untap can become another token instead of blue mana, building a wider board that can generate more Derevi triggers on later attacks."
+      "explanation": "Enchant [[Island]] with [[Squirrel Nest]], then use Derevi's enters or combat-damage triggers to untap it for additional Squirrel activations. Each untap can become another token instead of blue mana, building a wider board that can generate more Derevi triggers on later attacks."
     },
     {
       "title": "Recurring Island Fetch",
@@ -5377,7 +5377,7 @@
         "Flooded Strand",
         "Sun Titan"
       ],
-      "explanation": "Sun Titan can return Flooded Strand from your graveyard whenever it enters or attacks, letting you sacrifice the fetch land again to find Island. This turns Sun Titan's triggers into repeatable land ramp while suitable lands remain in your library."
+      "explanation": "[[Sun Titan]] can return [[Flooded Strand]] from your graveyard whenever it enters or attacks, letting you sacrifice the fetch land again to find [[Island]]. This turns [[Sun Titan]]'s triggers into repeatable land ramp while suitable lands remain in your library."
     }
   ],
   "cardIndex": {
@@ -5891,50 +5891,20 @@
       "scryfallUri": "https://scryfall.com/card/iko/11/drannith-magistrate?utm_source=api",
       "priceUsd": 12.42
     },
-    "Windswept Heath": {
-      "image": "https://cards.scryfall.io/normal/front/b/d/bd1d13f7-fd38-4f0b-a8e0-1eac78668117.jpg?1783911233",
-      "scryfallUri": "https://scryfall.com/card/mh3/235/windswept-heath?utm_source=api",
-      "priceUsd": 12.14
-    },
     "Noble Hierarch": {
       "image": "https://cards.scryfall.io/normal/front/4/0/400382a4-aea2-4827-b06a-1b0b3745908b.jpg?1783930143",
       "scryfallUri": "https://scryfall.com/card/2xm/177/noble-hierarch?utm_source=api",
       "priceUsd": 10.81
-    },
-    "Force of Will": {
-      "image": "https://cards.scryfall.io/normal/front/8/9/89f612d6-7c59-4a7b-a87d-45f789e88ba5.jpg?1789015964",
-      "scryfallUri": "https://scryfall.com/card/dmr/50/force-of-will?utm_source=api",
-      "priceUsd": 55.27
     },
     "Smothering Tithe": {
       "image": "https://cards.scryfall.io/normal/front/8/6/861b5889-0183-4bee-afeb-a4b2aa700a8e.jpg?1783915712",
       "scryfallUri": "https://scryfall.com/card/cmm/57/smothering-tithe?utm_source=api",
       "priceUsd": 60.15
     },
-    "Misty Rainforest": {
-      "image": "https://cards.scryfall.io/normal/front/8/8/88231c0d-0cc8-44ec-bf95-81d1710ac141.jpg?1783926795",
-      "scryfallUri": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api",
-      "priceUsd": 35.91
-    },
-    "Crop Rotation": {
-      "image": "https://cards.scryfall.io/normal/front/5/2/523414cb-f8db-407a-808a-01454e03d8b9.jpg?1783918448",
-      "scryfallUri": "https://scryfall.com/card/dmr/154/crop-rotation?utm_source=api",
-      "priceUsd": 3.56
-    },
     "Birthing Pod": {
       "image": "https://cards.scryfall.io/normal/front/b/7/b768efa2-e56b-4a7e-ace8-d673f10e0714.jpg?1783941303",
       "scryfallUri": "https://scryfall.com/card/nph/104/birthing-pod?utm_source=api",
       "priceUsd": 11.4
-    },
-    "Mystical Tutor": {
-      "image": "https://cards.scryfall.io/normal/front/3/6/36fa9a0b-b0c9-43ea-ba11-99d7982f974e.jpg?1783918491",
-      "scryfallUri": "https://scryfall.com/card/dmr/60/mystical-tutor?utm_source=api",
-      "priceUsd": 17.6
-    },
-    "Aven Mindcensor": {
-      "image": "https://cards.scryfall.io/normal/front/d/4/d4cf468f-4e9d-4551-a0ed-10bd6a2316ad.jpg?1783922493",
-      "scryfallUri": "https://scryfall.com/card/clb/688/aven-mindcensor?utm_source=api",
-      "priceUsd": 1.3
     },
     "Chord of Calling": {
       "image": "https://cards.scryfall.io/normal/front/b/1/b18fe7e0-8344-40cc-b242-83f01c6be7a6.jpg?1783913306",
@@ -5946,110 +5916,10 @@
       "scryfallUri": "https://scryfall.com/card/usg/321/gaeas-cradle?utm_source=api",
       "priceUsd": 1654.93
     },
-    "Delney, Streetwise Lookout": {
-      "image": "https://cards.scryfall.io/normal/front/b/e/be219928-3d0e-4d00-b124-152ce8a8c13b.jpg?1783912925",
-      "scryfallUri": "https://scryfall.com/card/mkm/12/delney-streetwise-lookout?utm_source=api",
-      "priceUsd": 34.18
-    },
-    "Swan Song": {
-      "image": "https://cards.scryfall.io/normal/front/8/3/83d0b761-d694-4232-9f40-5bd8c82a05f1.jpg?1783906053",
-      "scryfallUri": "https://scryfall.com/card/eoc/46/swan-song?utm_source=api",
-      "priceUsd": 12.04
-    },
-    "Chrome Mox": {
-      "image": "https://cards.scryfall.io/normal/front/f/3/f340cbf7-5bbe-45b9-a4bf-d1caa500ff93.jpg?1783930116",
-      "scryfallUri": "https://scryfall.com/card/2xm/240/chrome-mox?utm_source=api",
-      "priceUsd": 163.84
-    },
-    "Eldritch Evolution": {
-      "image": "https://cards.scryfall.io/normal/front/6/0/606caf13-c0d3-4a61-9a1a-32f13b6448ab.jpg?1783908101",
-      "scryfallUri": "https://scryfall.com/card/inr/195/eldritch-evolution?utm_source=api",
-      "priceUsd": 4.43
-    },
-    "Esper Sentinel": {
-      "image": "https://cards.scryfall.io/normal/front/f/3/f3537373-ef54-4578-9d05-6216420ee349.jpg?1783926893",
-      "scryfallUri": "https://scryfall.com/card/mh2/12/esper-sentinel?utm_source=api",
-      "priceUsd": 53.35
-    },
-    "Ancient Tomb": {
-      "image": "https://cards.scryfall.io/normal/front/b/d/bd3d4b4b-cf31-4f89-8140-9650edb03c7b.jpg?1783933762",
-      "scryfallUri": "https://scryfall.com/card/uma/236/ancient-tomb?utm_source=api",
-      "priceUsd": 124.96
-    },
-    "Grand Arbiter Augustin IV": {
-      "image": "https://cards.scryfall.io/normal/front/f/4/f43748ea-1d65-4ee8-9c66-221412a284c0.jpg?1783921832",
-      "scryfallUri": "https://scryfall.com/card/2x2/221/grand-arbiter-augustin-iv?utm_source=api",
-      "priceUsd": 18.13
-    },
-    "Neoform": {
-      "image": "https://cards.scryfall.io/normal/front/9/2/92d8f67e-4f2f-4a1f-b190-7c3f39e477e4.jpg?1783933392",
-      "scryfallUri": "https://scryfall.com/card/war/206/neoform?utm_source=api",
-      "priceUsd": 1.36
-    },
-    "Grand Abolisher": {
-      "image": "https://cards.scryfall.io/normal/front/e/e/ee793ed2-7d59-4640-8868-ad486600df2c.jpg?1783912003",
-      "scryfallUri": "https://scryfall.com/card/big/2/grand-abolisher?utm_source=api",
-      "priceUsd": 18.17
-    },
-    "Boseiju, Who Endures": {
-      "image": "https://cards.scryfall.io/normal/front/2/1/2135ac5a-187b-4dc9-8f82-34e8d1603416.jpg?1783923818",
-      "scryfallUri": "https://scryfall.com/card/neo/266/boseiju-who-endures?utm_source=api",
-      "priceUsd": 45.1
-    },
-    "Teferi's Protection": {
-      "image": "https://cards.scryfall.io/normal/front/4/8/483fa1cb-1e35-44f2-a143-98c0f107f5ca.jpg?1783921926",
-      "scryfallUri": "https://scryfall.com/card/2x2/32/teferis-protection?utm_source=api",
-      "priceUsd": 47.65
-    },
-    "Delighted Halfling": {
-      "image": "https://cards.scryfall.io/normal/front/7/1/71384418-173a-4f77-adab-56e52fa23692.jpg?1783916276",
-      "scryfallUri": "https://scryfall.com/card/ltr/158/delighted-halfling?utm_source=api",
-      "priceUsd": 21.91
-    },
     "Wild Growth": {
       "image": "https://cards.scryfall.io/normal/front/4/7/47260e7c-29bf-46f1-a029-9da7bbb418b5.jpg?1783912983",
       "scryfallUri": "https://scryfall.com/card/mkc/195/wild-growth?utm_source=api",
       "priceUsd": 0.81
-    },
-    "Wargate": {
-      "image": "https://cards.scryfall.io/normal/front/8/f/8f4fe11d-c404-489a-b17f-34f33b1597e8.jpg?1783942412",
-      "scryfallUri": "https://scryfall.com/card/arb/129/wargate?utm_source=api",
-      "priceUsd": 3.72
-    },
-    "Avacyn's Pilgrim": {
-      "image": "https://cards.scryfall.io/normal/front/a/3/a390a7df-b8da-41aa-93e5-2c0db938a27e.jpg?1783925334",
-      "scryfallUri": "https://scryfall.com/card/mic/132/avacyns-pilgrim?utm_source=api",
-      "priceUsd": 0.48
-    },
-    "Otawara, Soaring City": {
-      "image": "https://cards.scryfall.io/normal/front/4/8/486d7edc-d983-41f0-8b78-c99aecd72996.jpg?1783923816",
-      "scryfallUri": "https://scryfall.com/card/neo/271/otawara-soaring-city?utm_source=api",
-      "priceUsd": 28.65
-    },
-    "Mox Diamond": {
-      "image": "https://cards.scryfall.io/normal/front/b/f/bf9fecfd-d122-422f-bd0a-5bf69b434dfe.jpg?1783938445",
-      "scryfallUri": "https://scryfall.com/card/tpr/228/mox-diamond?utm_source=api",
-      "priceUsd": 1119.7
-    },
-    "Grim Monolith": {
-      "image": "https://cards.scryfall.io/normal/front/9/d/9ddc9fe1-17c8-4e1d-aeb8-c4214e881280.jpg?1783946223",
-      "scryfallUri": "https://scryfall.com/card/ulg/126/grim-monolith?utm_source=api",
-      "priceUsd": 475.65
-    },
-    "Faerie Mastermind": {
-      "image": "https://cards.scryfall.io/normal/front/b/c/bc9a7599-3c7d-4b83-bff3-e3d1f20f1b0f.jpg?1783903820",
-      "scryfallUri": "https://scryfall.com/card/soc/114/faerie-mastermind?utm_source=api",
-      "priceUsd": 13.1
-    },
-    "Teferi, Time Raveler": {
-      "image": "https://cards.scryfall.io/normal/front/6/6/662fe50f-d75c-422c-8c6c-1f9b5c4ba21f.jpg?1783913271",
-      "scryfallUri": "https://scryfall.com/card/rvr/232/teferi-time-raveler?utm_source=api",
-      "priceUsd": 7.6
-    },
-    "Spellseeker": {
-      "image": "https://cards.scryfall.io/normal/front/a/7/a749c591-2fbe-41d8-ac5b-56ebce82d33e.jpg?1783915690",
-      "scryfallUri": "https://scryfall.com/card/cmm/120/spellseeker?utm_source=api",
-      "priceUsd": 18.33
     },
     "Bountiful Promenade": {
       "image": "https://cards.scryfall.io/normal/front/f/0/f0b11ba3-68ba-4067-af40-2a55e31b395e.jpg?1783903209",
@@ -6066,180 +5936,30 @@
       "scryfallUri": "https://scryfall.com/card/rvr/159/utopia-sprawl?utm_source=api",
       "priceUsd": 1.69
     },
-    "Spara's Headquarters": {
-      "image": "https://cards.scryfall.io/normal/front/7/3/7363f1fb-9af3-4212-921f-d59533faf0e5.jpg?1783923052",
-      "scryfallUri": "https://scryfall.com/card/snc/257/sparas-headquarters?utm_source=api",
-      "priceUsd": 13.58
-    },
     "City of Brass": {
       "image": "https://cards.scryfall.io/normal/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
       "scryfallUri": "https://scryfall.com/card/tmc/62/city-of-brass?utm_source=api",
       "priceUsd": 10.71
-    },
-    "An Offer You Can't Refuse": {
-      "image": "https://cards.scryfall.io/normal/front/a/8/a829747f-cf9b-4d81-ba66-9f0630ed4565.jpg?1783909078",
-      "scryfallUri": "https://scryfall.com/card/fdn/160/an-offer-you-cant-refuse?utm_source=api",
-      "priceUsd": 2.95
     },
     "Sea of Clouds": {
       "image": "https://cards.scryfall.io/normal/front/f/7/f74c8ecf-cc03-40b5-9fad-15a2952727f7.jpg?1793281488",
       "scryfallUri": "https://scryfall.com/card/trc/555/sea-of-clouds?utm_source=api",
       "priceUsd": 6.44
     },
-    "Displacer Kitten": {
-      "image": "https://cards.scryfall.io/normal/front/c/7/c7a401b8-29fb-46ef-a663-427f66724d5c.jpg?1783922795",
-      "scryfallUri": "https://scryfall.com/card/clb/63/displacer-kitten?utm_source=api",
-      "priceUsd": 36.35
-    },
-    "Arcane Signet": {
-      "image": "https://cards.scryfall.io/normal/front/7/9/795df2ee-fbfc-4961-852c-e3ec50cc52da.jpg?1793021117",
-      "scryfallUri": "https://scryfall.com/card/trc/485/arcane-signet?utm_source=api",
-      "priceUsd": 0.58
-    },
     "Toski, Bearer of Secrets": {
       "image": "https://cards.scryfall.io/normal/front/e/8/e82e61d1-488d-4627-a54c-d8496a967814.jpg?1783912984",
       "scryfallUri": "https://scryfall.com/card/mkc/191/toski-bearer-of-secrets?utm_source=api",
       "priceUsd": 7.01
-    },
-    "Mockingbird": {
-      "image": "https://cards.scryfall.io/normal/front/a/d/ade32396-8841-4ba4-8852-d11146607f21.jpg?1783910846",
-      "scryfallUri": "https://scryfall.com/card/blb/61/mockingbird?utm_source=api",
-      "priceUsd": 3.89
-    },
-    "Llanowar Elves": {
-      "image": "https://cards.scryfall.io/normal/front/6/a/6a0b230b-d391-4998-a3f7-7b158a0ec2cd.jpg?1783909057",
-      "scryfallUri": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
-      "priceUsd": 0.36
-    },
-    "Narset, Parter of Veils": {
-      "image": "https://cards.scryfall.io/normal/front/4/e/4e6e5c63-b6e5-4756-bf23-6c6f8669442d.jpg?1783915440",
-      "scryfallUri": "https://scryfall.com/card/cmm/853/narset-parter-of-veils?utm_source=api",
-      "priceUsd": 1.22
-    },
-    "Green Sun's Zenith": {
-      "image": "https://cards.scryfall.io/normal/front/7/0/70291c7b-a86f-4466-8502-c28765a89b2a.jpg?1783921868",
-      "scryfallUri": "https://scryfall.com/card/2x2/150/green-suns-zenith?utm_source=api",
-      "priceUsd": 31.25
-    },
-    "Dovin's Veto": {
-      "image": "https://cards.scryfall.io/normal/front/5/d/5d6b5054-2224-4f68-9d82-3ed17c5dacc4.jpg?1783933400",
-      "scryfallUri": "https://scryfall.com/card/war/193/dovins-veto?utm_source=api",
-      "priceUsd": 3.87
-    },
-    "Flare of Denial": {
-      "image": "https://cards.scryfall.io/normal/front/7/1/71a98efb-9b0a-496b-ac21-8d70527ea544.jpg?1783911290",
-      "scryfallUri": "https://scryfall.com/card/mh3/62/flare-of-denial?utm_source=api",
-      "priceUsd": 3.72
-    },
-    "Mana Drain": {
-      "image": "https://cards.scryfall.io/normal/front/3/c/3c429c40-2389-41e5-8681-4bb274e25eba.jpg?1783921913",
-      "scryfallUri": "https://scryfall.com/card/2x2/57/mana-drain?utm_source=api",
-      "priceUsd": 53.72
-    },
-    "Savannah": {
-      "image": "https://cards.scryfall.io/normal/front/b/0/b0d161fc-4a2a-4f1d-82b4-a746552552df.jpg?1783939219",
-      "scryfallUri": "https://scryfall.com/card/vma/311/savannah?utm_source=api",
-      "priceUsd": 200.05
-    },
-    "Ranger-Captain of Eos": {
-      "image": "https://cards.scryfall.io/normal/front/a/f/af3928b4-813a-4120-8799-de34235d60ac.jpg?1783933158",
-      "scryfallUri": "https://scryfall.com/card/mh1/21/ranger-captain-of-eos?utm_source=api",
-      "priceUsd": 35.85
-    },
-    "Phyrexian Metamorph": {
-      "image": "https://cards.scryfall.io/normal/front/a/5/a564c2e8-f49f-4ed7-850f-7c8bc92e4926.jpg?1783906041",
-      "scryfallUri": "https://scryfall.com/card/eoc/75/phyrexian-metamorph?utm_source=api",
-      "priceUsd": 2.85
-    },
-    "Ephemerate": {
-      "image": "https://cards.scryfall.io/normal/front/2/d/2da5f3f8-5eef-498f-ba2c-2f3fbc3745aa.jpg?1783933164",
-      "scryfallUri": "https://scryfall.com/card/mh1/7/ephemerate?utm_source=api",
-      "priceUsd": 4.88
-    },
-    "Nature's Rhythm": {
-      "image": "https://cards.scryfall.io/normal/front/1/3/1397d904-c51d-451e-8505-7f3118acc1f6.jpg?1783907340",
-      "scryfallUri": "https://scryfall.com/card/tdm/150/natures-rhythm?utm_source=api",
-      "priceUsd": 5.38
-    },
-    "Wan Shi Tong, Librarian": {
-      "image": "https://cards.scryfall.io/normal/front/e/2/e20da6b5-1057-4a28-9e85-07de714e262f.jpg?1783904979",
-      "scryfallUri": "https://scryfall.com/card/tla/78/wan-shi-tong-librarian?utm_source=api",
-      "priceUsd": 30.5
-    },
-    "Tropical Island": {
-      "image": "https://cards.scryfall.io/normal/front/4/7/47033ba4-8f26-4a6b-97bd-5b366327325e.jpg?1783939216",
-      "scryfallUri": "https://scryfall.com/card/vma/321/tropical-island?utm_source=api",
-      "priceUsd": 250
     },
     "Stasis": {
       "image": "https://cards.scryfall.io/normal/front/6/2/62f99124-6595-45f8-bece-1775e4c55a5c.jpg?1783941448",
       "scryfallUri": "https://scryfall.com/card/me4/64/stasis?utm_source=api",
       "priceUsd": 9.61
     },
-    "Archon of Emeria": {
-      "image": "https://cards.scryfall.io/normal/front/2/2/228c1650-da3c-4099-91b6-18e3873c9cdb.jpg?1783929424",
-      "scryfallUri": "https://scryfall.com/card/znr/4/archon-of-emeria?utm_source=api",
-      "priceUsd": 2.44
-    },
-    "Tundra": {
-      "image": "https://cards.scryfall.io/normal/front/e/f/efd35cb4-862d-4699-a197-b744989b3ceb.jpg?1783939215",
-      "scryfallUri": "https://scryfall.com/card/vma/322/tundra?utm_source=api",
-      "priceUsd": 319.61
-    },
-    "Force of Negation": {
-      "image": "https://cards.scryfall.io/normal/front/1/8/1825a719-1b2a-4af9-9cd2-7cb497cd0317.jpg?1783921916",
-      "scryfallUri": "https://scryfall.com/card/2x2/50/force-of-negation?utm_source=api",
-      "priceUsd": 46.77
-    },
-    "Mana Confluence": {
-      "image": "https://cards.scryfall.io/normal/front/5/0/504a69eb-3c2d-4bb1-b117-252b15acf0c2.jpg?1783939402",
-      "scryfallUri": "https://scryfall.com/card/jou/163/mana-confluence?utm_source=api",
-      "priceUsd": 34.05
-    },
-    "Elvish Mystic": {
-      "image": "https://cards.scryfall.io/normal/front/0/8/08b9a296-3b76-4f8f-9d71-7c9af92bb3b4.jpg?1785647413",
-      "scryfallUri": "https://scryfall.com/card/hoc/205/elvish-mystic?utm_source=api",
-      "priceUsd": 5.3
-    },
-    "Wooded Foothills": {
-      "image": "https://cards.scryfall.io/normal/front/4/e/4e11ea8a-f895-438d-a3b7-f070238e4161.jpg?1783911232",
-      "scryfallUri": "https://scryfall.com/card/mh3/236/wooded-foothills?utm_source=api",
-      "priceUsd": 19.72
-    },
-    "Captain Sisay": {
-      "image": "https://cards.scryfall.io/normal/front/d/2/d24d441c-f37f-44fe-8a93-f5c89df807e4.jpg?1783945664",
-      "scryfallUri": "https://scryfall.com/card/inv/237/captain-sisay?utm_source=api",
-      "priceUsd": 13.41
-    },
-    "Sylvan Library": {
-      "image": "https://cards.scryfall.io/normal/front/6/a/6ada256f-2e55-4c1f-b4d3-d7b10b498956.jpg?1783918436",
-      "scryfallUri": "https://scryfall.com/card/dmr/179/sylvan-library?utm_source=api",
-      "priceUsd": 27.05
-    },
-    "Silence": {
-      "image": "https://cards.scryfall.io/normal/front/1/c/1c2b13b1-31f0-4676-88a7-53f3a190e9a2.jpg?1783939940",
-      "scryfallUri": "https://scryfall.com/card/m14/35/silence?utm_source=api",
-      "priceUsd": 11.62
-    },
-    "Polluted Delta": {
-      "image": "https://cards.scryfall.io/normal/front/6/e/6e288374-2b71-4ace-b1d2-a19fee6cb4af.jpg?1783911240",
-      "scryfallUri": "https://scryfall.com/card/mh3/224/polluted-delta?utm_source=api",
-      "priceUsd": 21.41
-    },
-    "Counterspell": {
-      "image": "https://cards.scryfall.io/normal/front/4/f/4f616706-ec97-4923-bb1e-11a69fbaa1f8.jpg?1783909630",
-      "scryfallUri": "https://scryfall.com/card/dsc/114/counterspell?utm_source=api",
-      "priceUsd": 4.14
-    },
     "Deadeye Navigator": {
       "image": "https://cards.scryfall.io/normal/front/4/f/4f0791b5-fdb4-4378-8fd3-7e7367ffc05c.jpg?1783908166",
       "scryfallUri": "https://scryfall.com/card/inr/59/deadeye-navigator?utm_source=api",
       "priceUsd": 2.65
-    },
-    "Blind Obedience": {
-      "image": "https://cards.scryfall.io/normal/front/d/8/d859e1f9-feb3-497a-af0b-f74fee46861f.jpg?1783913350",
-      "scryfallUri": "https://scryfall.com/card/rvr/9/blind-obedience?utm_source=api",
-      "priceUsd": 6.34
     },
     "Exotic Orchard": {
       "image": "https://cards.scryfall.io/normal/front/0/a/0a4a51a3-fb8b-4611-8f94-fbcab547423c.jpg?1793021293",
@@ -6250,71 +5970,6 @@
       "image": "https://cards.scryfall.io/normal/front/8/6/86bf43b1-8d4e-4759-bb2d-0b2e03ba7012.jpg?1783945379",
       "scryfallUri": "https://scryfall.com/card/7ed/319/static-orb?utm_source=api",
       "priceUsd": 15.76
-    },
-    "Brightglass Gearhulk": {
-      "image": "https://cards.scryfall.io/normal/front/3/d/3dea5b45-925c-4732-8e9d-fa8232792736.jpg?1783907862",
-      "scryfallUri": "https://scryfall.com/card/dft/191/brightglass-gearhulk?utm_source=api",
-      "priceUsd": 3.95
-    },
-    "Flusterstorm": {
-      "image": "https://cards.scryfall.io/normal/front/f/9/f900eeb7-7c45-44bc-ad3a-0bbe594ecf50.jpg?1783935548",
-      "scryfallUri": "https://scryfall.com/card/ima/55/flusterstorm?utm_source=api",
-      "priceUsd": 7.34
-    },
-    "Mox Amber": {
-      "image": "https://cards.scryfall.io/normal/front/6/6/66024e69-ad60-4c9a-a0ca-da138d33ad80.jpg?1783934955",
-      "scryfallUri": "https://scryfall.com/card/dom/224/mox-amber?utm_source=api",
-      "priceUsd": 84.6
-    },
-    "Voice of Victory": {
-      "image": "https://cards.scryfall.io/normal/front/e/c/ec3de5f4-bb55-4ab9-995f-f3e0dc22c1bb.jpg?1783907401",
-      "scryfallUri": "https://scryfall.com/card/tdm/33/voice-of-victory?utm_source=api",
-      "priceUsd": 18.24
-    },
-    "Preston, the Vanisher": {
-      "image": "https://cards.scryfall.io/normal/front/9/5/952cb0b3-a6b7-4279-8833-3d8890b2d005.jpg?1783919194",
-      "scryfallUri": "https://scryfall.com/card/j22/8/preston-the-vanisher?utm_source=api",
-      "priceUsd": 61.31
-    },
-    "Felidar Guardian": {
-      "image": "https://cards.scryfall.io/normal/front/4/4/44bdbed8-5d21-4bf5-8a32-9623b1139c85.jpg?1783936780",
-      "scryfallUri": "https://scryfall.com/card/aer/19/felidar-guardian?utm_source=api",
-      "priceUsd": 3.71
-    },
-    "Linvala, Keeper of Silence": {
-      "image": "https://cards.scryfall.io/normal/front/d/d/dded98c3-17cb-4a43-a209-289ceb11df39.jpg?1783930467",
-      "scryfallUri": "https://scryfall.com/card/jmp/119/linvala-keeper-of-silence?utm_source=api",
-      "priceUsd": 21.55
-    },
-    "Scalding Tarn": {
-      "image": "https://cards.scryfall.io/normal/front/7/1/71e491c5-8c07-449b-b2f1-ffa052e6d311.jpg?1783926793",
-      "scryfallUri": "https://scryfall.com/card/mh2/254/scalding-tarn?utm_source=api",
-      "priceUsd": 35.37
-    },
-    "Peregrine Drake": {
-      "image": "https://cards.scryfall.io/normal/front/6/1/611c8fa2-b53f-483b-9efa-759ac59dc30f.jpg?1783918487",
-      "scryfallUri": "https://scryfall.com/card/dmr/65/peregrine-drake?utm_source=api",
-      "priceUsd": 0.19
-    },
-    "Verdant Catacombs": {
-      "image": "https://cards.scryfall.io/normal/front/9/4/94c229ea-90da-4aa0-bfda-b162fb3b5b8b.jpg?1783926791",
-      "scryfallUri": "https://scryfall.com/card/mh2/260/verdant-catacombs?utm_source=api",
-      "priceUsd": 29.65
-    },
-    "Transit Mage": {
-      "image": "https://cards.scryfall.io/normal/front/6/7/6727169f-c33a-4ca5-889d-a63bcfc5a3f0.jpg?1783907900",
-      "scryfallUri": "https://scryfall.com/card/dft/70/transit-mage?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Archivist of Oghma": {
-      "image": "https://cards.scryfall.io/normal/front/f/6/f6589e02-8c84-4069-88d1-ebcc8520cae1.jpg?1783922823",
-      "scryfallUri": "https://scryfall.com/card/clb/4/archivist-of-oghma?utm_source=api",
-      "priceUsd": 6.3
-    },
-    "Elesh Norn, Mother of Machines": {
-      "image": "https://cards.scryfall.io/normal/front/4/4/44dcab01-1d13-4dfc-ae2f-fbaa3dd35087.jpg?1783918082",
-      "scryfallUri": "https://scryfall.com/card/one/10/elesh-norn-mother-of-machines?utm_source=api",
-      "priceUsd": 27.28
     },
     "Edric, Spymaster of Trest": {
       "image": "https://cards.scryfall.io/normal/front/2/2/22d6a4c9-4bdd-4e70-8481-95260e6aa7ab.jpg?1783911902",
@@ -6331,305 +5986,35 @@
       "scryfallUri": "https://scryfall.com/card/cmm/334/yisan-the-wanderer-bard?utm_source=api",
       "priceUsd": 0.33
     },
-    "Marsh Flats": {
-      "image": "https://cards.scryfall.io/normal/front/9/d/9db3ba6d-eb7f-4f5b-9a3b-c6239c3baa42.jpg?1783926796",
-      "scryfallUri": "https://scryfall.com/card/mh2/248/marsh-flats?utm_source=api",
-      "priceUsd": 32.23
-    },
-    "Pact of Negation": {
-      "image": "https://cards.scryfall.io/normal/front/1/e/1ed4c0bb-b710-44a1-b8bc-6bd11c27b8b8.jpg?1783927843",
-      "scryfallUri": "https://scryfall.com/card/tsr/77/pact-of-negation?utm_source=api",
-      "priceUsd": 16.99
-    },
-    "Judge's Familiar": {
-      "image": "https://cards.scryfall.io/normal/front/e/d/ed363208-cf66-4205-8512-b999b67227d3.jpg?1783913286",
-      "scryfallUri": "https://scryfall.com/card/rvr/192/judges-familiar?utm_source=api",
-      "priceUsd": 0.23
-    },
-    "Lavinia, Azorius Renegade": {
-      "image": "https://cards.scryfall.io/normal/front/1/9/197bf3f4-c0df-4082-97a1-902ceabbdd3f.jpg?1783913285",
-      "scryfallUri": "https://scryfall.com/card/rvr/195/lavinia-azorius-renegade?utm_source=api",
-      "priceUsd": 1.12
-    },
-    "Arid Mesa": {
-      "image": "https://cards.scryfall.io/normal/front/2/5/25ac5405-df7b-4097-914a-022cb18e20d4.jpg?1783926797",
-      "scryfallUri": "https://scryfall.com/card/mh2/244/arid-mesa?utm_source=api",
-      "priceUsd": 28.28
-    },
-    "Archdruid's Charm": {
-      "image": "https://cards.scryfall.io/normal/front/5/c/5caae5ae-845f-42c2-b1ae-956df2739433.jpg?1783912870",
-      "scryfallUri": "https://scryfall.com/card/mkm/151/archdruids-charm?utm_source=api",
-      "priceUsd": 9.43
-    },
-    "Watcher of the Spheres": {
-      "image": "https://cards.scryfall.io/normal/front/3/5/354b9ea4-3d55-48cc-b426-c46b1d1bb397.jpg?1783930659",
-      "scryfallUri": "https://scryfall.com/card/m21/227/watcher-of-the-spheres?utm_source=api",
-      "priceUsd": 0.64
-    },
-    "Simic Growth Chamber": {
-      "image": "https://cards.scryfall.io/normal/front/2/1/212d97c5-c144-483b-b42e-00623477e928.jpg?1783909568",
-      "scryfallUri": "https://scryfall.com/card/dsc/298/simic-growth-chamber?utm_source=api",
-      "priceUsd": 0.31
-    },
     "Lotus Field": {
       "image": "https://cards.scryfall.io/normal/front/e/e/ee5ac47c-e8b6-400e-b91e-a7cd0f952cf1.jpg?1783903726",
       "scryfallUri": "https://scryfall.com/card/soc/385/lotus-field?utm_source=api",
       "priceUsd": 2.67
-    },
-    "Lotus Petal": {
-      "image": "https://cards.scryfall.io/normal/front/f/8/f85ab5f9-508e-45de-8fa1-ce1f16552ffc.jpg?1783938446",
-      "scryfallUri": "https://scryfall.com/card/tpr/225/lotus-petal?utm_source=api",
-      "priceUsd": 27.12
-    },
-    "Fabricate": {
-      "image": "https://cards.scryfall.io/normal/front/4/4/44e49332-b1e1-4b88-b508-516b55c67a1d.jpg?1783942335",
-      "scryfallUri": "https://scryfall.com/card/hop/9/fabricate?utm_source=api",
-      "priceUsd": 10.14
-    },
-    "Empyrean Eagle": {
-      "image": "https://cards.scryfall.io/normal/front/5/7/577e99a7-4a55-4314-8f08-2ae0c33b85c7.jpg?1783909053",
-      "scryfallUri": "https://scryfall.com/card/fdn/239/empyrean-eagle?utm_source=api",
-      "priceUsd": 0.26
-    },
-    "Fyndhorn Elves": {
-      "image": "https://cards.scryfall.io/normal/front/4/5/450744cf-7eba-491b-97b0-ca80c6368bbb.jpg?1783928794",
-      "scryfallUri": "https://scryfall.com/card/cmr/228/fyndhorn-elves?utm_source=api",
-      "priceUsd": 1.57
-    },
-    "Aven Interrupter": {
-      "image": "https://cards.scryfall.io/normal/front/d/3/d3ca43a4-d194-440f-8099-f1fa103a108d.jpg?1783911861",
-      "scryfallUri": "https://scryfall.com/card/otj/4/aven-interrupter?utm_source=api",
-      "priceUsd": 2.91
-    },
-    "Minamo, School at Water's Edge": {
-      "image": "https://cards.scryfall.io/normal/front/7/5/7536292c-da25-41c8-ba28-1e35758a7f3d.jpg?1783944273",
-      "scryfallUri": "https://scryfall.com/card/chk/279/minamo-school-at-waters-edge?utm_source=api",
-      "priceUsd": 57.62
     },
     "Kastral, the Windcrested": {
       "image": "https://cards.scryfall.io/normal/front/e/b/ebf68793-22a2-4a59-9d37-6791584edca1.jpg?1783910795",
       "scryfallUri": "https://scryfall.com/card/blb/221/kastral-the-windcrested?utm_source=api",
       "priceUsd": 0.45
     },
-    "Farewell": {
-      "image": "https://cards.scryfall.io/normal/front/1/1/114d2180-093b-4838-97ad-badbc8ee50b0.jpg?1783913032",
-      "scryfallUri": "https://scryfall.com/card/mkc/64/farewell?utm_source=api",
-      "priceUsd": 5.25
-    },
-    "Walking Ballista": {
-      "image": "https://cards.scryfall.io/normal/front/5/2/5272436e-74f0-44c4-a291-ea8ebc3f1525.jpg?1783930088",
-      "scryfallUri": "https://scryfall.com/card/2xm/306/walking-ballista?utm_source=api",
-      "priceUsd": 8.95
-    },
-    "Growing Rites of Itlimoc // Itlimoc, Cradle of the Sun": {
-      "image": "https://cards.scryfall.io/normal/front/0/0/004524bf-b249-4dac-9c10-44d57143feb9.jpg?1783913751",
-      "scryfallUri": "https://scryfall.com/card/lci/188/growing-rites-of-itlimoc-itlimoc-cradle-of-the-sun?utm_source=api",
-      "priceUsd": 7.55
-    },
-    "Mistrise Village": {
-      "image": "https://cards.scryfall.io/normal/front/d/4/d44bccbf-6fab-46e4-8ddb-6577e27ec6e8.jpg?1783907277",
-      "scryfallUri": "https://scryfall.com/card/tdm/261/mistrise-village?utm_source=api",
-      "priceUsd": 6.34
-    },
-    "Muddle the Mixture": {
-      "image": "https://cards.scryfall.io/normal/front/e/6/e69d760c-48fb-4e7f-8611-547b0c22928c.jpg?1783913334",
-      "scryfallUri": "https://scryfall.com/card/rvr/50/muddle-the-mixture?utm_source=api",
-      "priceUsd": 3.23
-    },
-    "Badgermole Cub": {
-      "image": "https://cards.scryfall.io/normal/front/3/4/340c5799-4964-44dd-8c48-8f3f3aba5211.jpg?1786399172",
-      "scryfallUri": "https://scryfall.com/card/tla/167/badgermole-cub?utm_source=api",
-      "priceUsd": 40.54
-    },
-    "Yavimaya, Cradle of Growth": {
-      "image": "https://cards.scryfall.io/normal/front/4/e/4e4b6e22-93b2-4896-bba5-0ceaa5d8ea3c.jpg?1783926791",
-      "scryfallUri": "https://scryfall.com/card/mh2/261/yavimaya-cradle-of-growth?utm_source=api",
-      "priceUsd": 13.3
-    },
-    "Gleaming Splendor": {
-      "image": "https://cards.scryfall.io/normal/front/3/b/3b087bd4-bbb7-4963-bdb6-0a700ff19a04.jpg?1785496942",
-      "scryfallUri": "https://scryfall.com/card/hob/15/gleaming-splendor?utm_source=api",
-      "priceUsd": 32.08
-    },
-    "Thalia, Heretic Cathar": {
-      "image": "https://cards.scryfall.io/normal/front/c/0/c062937f-d519-4206-99b0-cbea01b85a0d.jpg?1783908172",
-      "scryfallUri": "https://scryfall.com/card/inr/44/thalia-heretic-cathar?utm_source=api",
-      "priceUsd": 1.83
-    },
-    "Deafening Silence": {
-      "image": "https://cards.scryfall.io/normal/front/6/0/6072d9b0-d3c7-46f4-bd24-095bb13c4dea.jpg?1783932677",
-      "scryfallUri": "https://scryfall.com/card/eld/10/deafening-silence?utm_source=api",
-      "priceUsd": 1.41
-    },
-    "Warden of Evos Isle": {
-      "image": "https://cards.scryfall.io/normal/front/4/0/40d26ee1-5264-4f5a-ac01-8304888589aa.jpg?1783908746",
-      "scryfallUri": "https://scryfall.com/card/j25/385/warden-of-evos-isle?utm_source=api",
-      "priceUsd": 0.31
-    },
-    "Mental Misstep": {
-      "image": "https://cards.scryfall.io/normal/front/6/1/61e9c6df-1c84-4eab-9076-a4feb6347c10.jpg?1783941319",
-      "scryfallUri": "https://scryfall.com/card/nph/38/mental-misstep?utm_source=api",
-      "priceUsd": 8.45
-    },
     "Adarkar Wastes": {
       "image": "https://cards.scryfall.io/normal/front/4/2/42e0aa15-639a-4e88-9bd8-ce5e7c7d7649.jpg?1783906017",
       "scryfallUri": "https://scryfall.com/card/eoc/147/adarkar-wastes?utm_source=api",
       "priceUsd": 0.34
-    },
-    "Thrasios, Triton Hero": {
-      "image": "https://cards.scryfall.io/normal/front/2/1/21e27b91-c7f1-4709-aa0d-8b5d81b22a0a.jpg?1783937081",
-      "scryfallUri": "https://scryfall.com/card/c16/46/thrasios-triton-hero?utm_source=api",
-      "priceUsd": 27.14
-    },
-    "Gemstone Caverns": {
-      "image": "https://cards.scryfall.io/normal/front/7/f/7f273641-c5f3-48bc-b89e-3cff52d26a0b.jpg?1783927750",
-      "scryfallUri": "https://scryfall.com/card/tsr/280/gemstone-caverns?utm_source=api",
-      "priceUsd": 62.31
-    },
-    "Valley Floodcaller": {
-      "image": "https://cards.scryfall.io/normal/front/9/0/90b12da0-f666-471d-95f5-15d8c9b31c92.jpg?1783910840",
-      "scryfallUri": "https://scryfall.com/card/blb/79/valley-floodcaller?utm_source=api",
-      "priceUsd": 3.81
-    },
-    "Collector Ouphe": {
-      "image": "https://cards.scryfall.io/normal/front/0/8/085107a2-c1ec-473c-81d8-23e5a7197776.jpg?1783933099",
-      "scryfallUri": "https://scryfall.com/card/mh1/158/collector-ouphe?utm_source=api",
-      "priceUsd": 3.16
-    },
-    "Thalia, Guardian of Thraben": {
-      "image": "https://cards.scryfall.io/normal/front/c/9/c9f8b8fb-1cd8-450e-a1fe-892e7a323479.jpg?1783924909",
-      "scryfallUri": "https://scryfall.com/card/vow/38/thalia-guardian-of-thraben?utm_source=api",
-      "priceUsd": 0.43
-    },
-    "Nature's Will": {
-      "image": "https://cards.scryfall.io/normal/front/7/5/75a291a0-db0d-4ccc-b7ae-240cafa41883.jpg?1783944286",
-      "scryfallUri": "https://scryfall.com/card/chk/230/natures-will?utm_source=api",
-      "priceUsd": 8.18
-    },
-    "Tezzeret the Seeker": {
-      "image": "https://cards.scryfall.io/normal/front/c/f/cf339735-eb1a-46f0-8c3e-eae06f278eca.jpg?1783938417",
-      "scryfallUri": "https://scryfall.com/card/mm2/62/tezzeret-the-seeker?utm_source=api",
-      "priceUsd": 26.06
-    },
-    "Kangee, Sky Warden": {
-      "image": "https://cards.scryfall.io/normal/front/9/9/99988f41-99b4-4423-be5f-9dc4ec7d813b.jpg?1783928773",
-      "scryfallUri": "https://scryfall.com/card/cmr/283/kangee-sky-warden?utm_source=api",
-      "priceUsd": 0.3
-    },
-    "Flesh Duplicate": {
-      "image": "https://cards.scryfall.io/normal/front/5/1/512e9bd2-77b9-4c1c-8d30-e6249dbd930e.jpg?1783914670",
-      "scryfallUri": "https://scryfall.com/card/who/44/flesh-duplicate?utm_source=api",
-      "priceUsd": 8.97
-    },
-    "Aura of Silence": {
-      "image": "https://cards.scryfall.io/normal/front/8/2/8223756e-6e63-455d-9e86-5608863b7643.jpg?1783938103",
-      "scryfallUri": "https://scryfall.com/card/c15/60/aura-of-silence?utm_source=api",
-      "priceUsd": 9.53
-    },
-    "Enduring Curiosity": {
-      "image": "https://cards.scryfall.io/normal/front/8/6/8616629e-08f9-41ad-bfec-f86c8096f1cb.jpg?1783909497",
-      "scryfallUri": "https://scryfall.com/card/dsk/51/enduring-curiosity?utm_source=api",
-      "priceUsd": 6.4
-    },
-    "Nature's Claim": {
-      "image": "https://cards.scryfall.io/normal/front/d/2/d24b6640-ef2f-4c92-beb3-afdf78f9c2d5.jpg?1783935517",
-      "scryfallUri": "https://scryfall.com/card/ima/177/natures-claim?utm_source=api",
-      "priceUsd": 1.03
-    },
-    "Supreme Verdict": {
-      "image": "https://cards.scryfall.io/normal/front/0/0/000cdcf7-fb26-4abc-970d-c39086b2eff2.jpg?1793111927",
-      "scryfallUri": "https://scryfall.com/card/trc/480/supreme-verdict?utm_source=api",
-      "priceUsd": 1.7
-    },
-    "Shifting Woodland": {
-      "image": "https://cards.scryfall.io/normal/front/0/5/059164e1-894d-4586-9800-e60d6fbd6eb6.jpg?1783911237",
-      "scryfallUri": "https://scryfall.com/card/mh3/228/shifting-woodland?utm_source=api",
-      "priceUsd": 7.74
     },
     "Willbreaker": {
       "image": "https://cards.scryfall.io/normal/front/2/4/2465eafc-453c-4e4f-b369-0951b8a4b7bf.jpg?1783938345",
       "scryfallUri": "https://scryfall.com/card/ori/84/willbreaker?utm_source=api",
       "priceUsd": 1.46
     },
-    "Reflecting Pool": {
-      "image": "https://cards.scryfall.io/normal/front/c/b/cbc4281a-b70d-4f96-b309-38e986484829.jpg?1789644471",
-      "scryfallUri": "https://scryfall.com/card/frc/23/reflecting-pool?utm_source=api",
-      "priceUsd": 5.28
-    },
     "Verity Circle": {
       "image": "https://cards.scryfall.io/normal/front/5/8/58b0d8be-f2e7-4bc9-a700-ed4c06785ecf.jpg?1783924961",
       "scryfallUri": "https://scryfall.com/card/voc/116/verity-circle?utm_source=api",
       "priceUsd": 1.21
     },
-    "Sink into Stupor // Soporific Springs": {
-      "image": "https://cards.scryfall.io/normal/front/5/3/5358b87a-1a29-426d-b165-40c97da2c14d.jpg?1783911236",
-      "scryfallUri": "https://scryfall.com/card/mh3/241/sink-into-stupor-soporific-springs?utm_source=api",
-      "priceUsd": 9.66
-    },
-    "Idyllic Tutor": {
-      "image": "https://cards.scryfall.io/normal/front/f/0/f06edd53-f3ac-44b0-a087-5670ba8f0fa5.jpg?1783931595",
-      "scryfallUri": "https://scryfall.com/card/thb/24/idyllic-tutor?utm_source=api",
-      "priceUsd": 12.1
-    },
-    "Choco, Seeker of Paradise": {
-      "image": "https://cards.scryfall.io/normal/front/4/0/409c305a-52dc-4538-8e72-efcd568eaf49.jpg?1783906575",
-      "scryfallUri": "https://scryfall.com/card/fin/215/choco-seeker-of-paradise?utm_source=api",
-      "priceUsd": 0.38
-    },
-    "Ledger Shredder": {
-      "image": "https://cards.scryfall.io/normal/front/7/e/7ea4b5bc-18a4-45db-a56a-ab3f8bd2fb0d.jpg?1783923147",
-      "scryfallUri": "https://scryfall.com/card/snc/46/ledger-shredder?utm_source=api",
-      "priceUsd": 8.77
-    },
-    "Angel's Grace": {
-      "image": "https://cards.scryfall.io/normal/front/e/7/e78e39ea-20be-4196-992c-7ed2cb8150c1.jpg?1783927886",
-      "scryfallUri": "https://scryfall.com/card/tsr/4/angels-grace?utm_source=api",
-      "priceUsd": 3.13
-    },
     "Chromatic Orrery": {
       "image": "https://cards.scryfall.io/normal/front/3/a/3af78d76-ad5c-44ba-880d-b834bcde5398.jpg?1783930659",
       "scryfallUri": "https://scryfall.com/card/m21/228/chromatic-orrery?utm_source=api",
       "priceUsd": 34.18
-    },
-    "Mox Opal": {
-      "image": "https://cards.scryfall.io/normal/front/5/6/56001a36-126b-4c08-af98-a6cc4d84210e.jpg?1783930101",
-      "scryfallUri": "https://scryfall.com/card/2xm/275/mox-opal?utm_source=api",
-      "priceUsd": 220.34
-    },
-    "Waterlogged Grove": {
-      "image": "https://cards.scryfall.io/normal/front/0/a/0ab6bfbd-d2e1-4c4c-9f91-6f69c5b8e3bb.jpg?1783933063",
-      "scryfallUri": "https://scryfall.com/card/mh1/249/waterlogged-grove?utm_source=api",
-      "priceUsd": 1.32
-    },
-    "Strix Serenade": {
-      "image": "https://cards.scryfall.io/normal/front/4/2/42ac5ac7-b2f9-4e6f-af41-7e42ac816374.jpg?1783911288",
-      "scryfallUri": "https://scryfall.com/card/mh3/71/strix-serenade?utm_source=api",
-      "priceUsd": 3.08
-    },
-    "Hedge Maze": {
-      "image": "https://cards.scryfall.io/normal/front/5/2/5260f8ae-805b-4eae-badf-62de0f768867.jpg?1783912824",
-      "scryfallUri": "https://scryfall.com/card/mkm/262/hedge-maze?utm_source=api",
-      "priceUsd": 13.57
-    },
-    "Veil of Summer": {
-      "image": "https://cards.scryfall.io/normal/front/a/a/aa686c34-1c11-469f-93c2-f9891aea521f.jpg?1783932955",
-      "scryfallUri": "https://scryfall.com/card/m20/198/veil-of-summer?utm_source=api",
-      "priceUsd": 3.71
-    },
-    "Jackdaw Savior": {
-      "image": "https://cards.scryfall.io/normal/front/1/2/121af600-6143-450a-9f87-12ce4833f1ec.jpg?1783910860",
-      "scryfallUri": "https://scryfall.com/card/blb/18/jackdaw-savior?utm_source=api",
-      "priceUsd": 0.52
-    },
-    "Jubilant Skybonder": {
-      "image": "https://cards.scryfall.io/normal/front/7/f/7f8f2d69-fba9-40e5-8ef7-75e14ef4070a.jpg?1783931012",
-      "scryfallUri": "https://scryfall.com/card/iko/223/jubilant-skybonder?utm_source=api",
-      "priceUsd": 0.33
-    },
-    "Mindbreak Trap": {
-      "image": "https://cards.scryfall.io/normal/front/4/f/4f51140b-6254-431a-8810-94307bfdfbbe.jpg?1783942162",
-      "scryfallUri": "https://scryfall.com/card/zen/57/mindbreak-trap?utm_source=api",
-      "priceUsd": 15.65
     },
     "Brushland": {
       "image": "https://cards.scryfall.io/normal/front/1/8/18d236ce-3b78-403a-b5f9-4fb44123d85b.jpg?1783920007",
@@ -6641,455 +6026,15 @@
       "scryfallUri": "https://scryfall.com/card/msc/199/gilded-lotus?utm_source=api",
       "priceUsd": 1.05
     },
-    "Lush Portico": {
-      "image": "https://cards.scryfall.io/normal/front/c/1/c17816e8-28b1-4295-a637-efb0e5c18873.jpg?1783912824",
-      "scryfallUri": "https://scryfall.com/card/mkm/263/lush-portico?utm_source=api",
-      "priceUsd": 6.36
-    },
-    "Snap": {
-      "image": "https://cards.scryfall.io/normal/front/f/1/f13406c6-f208-402a-94d3-a94a24f03563.jpg?1783918488",
-      "scryfallUri": "https://scryfall.com/card/dmr/66/snap?utm_source=api",
-      "priceUsd": 3
-    },
-    "Force of Vigor": {
-      "image": "https://cards.scryfall.io/normal/front/0/1/017c415b-d635-43c6-92b8-8c95d1c4ff8d.jpg?1783933099",
-      "scryfallUri": "https://scryfall.com/card/mh1/164/force-of-vigor?utm_source=api",
-      "priceUsd": 6.25
-    },
-    "Agatha's Soul Cauldron": {
-      "image": "https://cards.scryfall.io/normal/front/0/1/019b51b0-e5c6-4208-922b-7736686dddcd.jpg?1783915059",
-      "scryfallUri": "https://scryfall.com/card/woe/242/agathas-soul-cauldron?utm_source=api",
-      "priceUsd": 40.26
-    },
-    "Fellwar Stone": {
-      "image": "https://cards.scryfall.io/normal/front/3/e/3ef87948-0ad9-4757-a692-2262c8e24367.jpg?1785759354",
-      "scryfallUri": "https://scryfall.com/card/mbc/74/fellwar-stone?utm_source=api",
-      "priceUsd": 2.68
-    },
-    "Carpet of Flowers": {
-      "image": "https://cards.scryfall.io/normal/front/9/3/93abb48a-85f2-432d-8602-0a1d17fbb409.jpg?1783946318",
-      "scryfallUri": "https://scryfall.com/card/usg/240/carpet-of-flowers?utm_source=api",
-      "priceUsd": 4.84
-    },
-    "Talisman of Curiosity": {
-      "image": "https://cards.scryfall.io/normal/front/8/3/8388c4e8-bda1-47e5-8df2-ddec5babcaf9.jpg?1783912967",
-      "scryfallUri": "https://scryfall.com/card/mkc/241/talisman-of-curiosity?utm_source=api",
-      "priceUsd": 0.47
-    },
-    "Sevinne's Reclamation": {
-      "image": "https://cards.scryfall.io/normal/front/8/d/8deab1ef-4219-4767-a3c4-b61250d0ebe0.jpg?1783903800",
-      "scryfallUri": "https://scryfall.com/card/soc/170/sevinnes-reclamation?utm_source=api",
-      "priceUsd": 0.41
-    },
-    "Sterling Grove": {
-      "image": "https://cards.scryfall.io/normal/front/b/a/ba03e105-a76c-4769-a35a-d780448890ec.jpg?1783926777",
-      "scryfallUri": "https://scryfall.com/card/mh2/293/sterling-grove?utm_source=api",
-      "priceUsd": 3.44
-    },
-    "Cryptolith Rite": {
-      "image": "https://cards.scryfall.io/normal/front/0/a/0a4e707f-b760-434d-ba97-a0fe651f3f6a.jpg?1783908102",
-      "scryfallUri": "https://scryfall.com/card/inr/189/cryptolith-rite?utm_source=api",
-      "priceUsd": 13.2
-    },
-    "Selesnya Signet": {
-      "image": "https://cards.scryfall.io/normal/front/4/3/43b5b24f-316a-406d-b30a-0f6252f6590d.jpg?1793497998",
-      "scryfallUri": "https://scryfall.com/card/plst/RVR-267/selesnya-signet?utm_source=api",
-      "priceUsd": 0.35
-    },
-    "Urza's Saga": {
-      "image": "https://cards.scryfall.io/normal/front/c/1/c1e0f201-42cb-46a1-901a-65bb4fc18f6c.jpg?1783926791",
-      "scryfallUri": "https://scryfall.com/card/mh2/259/urzas-saga?utm_source=api",
-      "priceUsd": 39.24
-    },
-    "Meticulous Archive": {
-      "image": "https://cards.scryfall.io/normal/front/6/5/652236c2-84ef-45e4-b5fc-ed6170bc3d6c.jpg?1783912824",
-      "scryfallUri": "https://scryfall.com/card/mkm/264/meticulous-archive?utm_source=api",
-      "priceUsd": 15.29
-    },
-    "Talisman of Progress": {
-      "image": "https://cards.scryfall.io/normal/front/5/f/5fd601c4-44a9-45d0-a2a4-03a2eca700c7.jpg?1793021219",
-      "scryfallUri": "https://scryfall.com/card/trc/508/talisman-of-progress?utm_source=api",
-      "priceUsd": 0.4
-    },
-    "Shalai, Voice of Plenty": {
-      "image": "https://cards.scryfall.io/normal/front/5/3/53876046-cdb8-4157-96cd-7832d3ad2549.jpg?1783907119",
-      "scryfallUri": "https://scryfall.com/card/tdc/130/shalai-voice-of-plenty?utm_source=api",
-      "priceUsd": 1.25
-    },
-    "Hinterland Harbor": {
-      "image": "https://cards.scryfall.io/normal/front/b/e/be99af65-ca51-48f4-a004-baf21e267cc8.jpg?1793281457",
-      "scryfallUri": "https://scryfall.com/card/trc/537/hinterland-harbor?utm_source=api",
-      "priceUsd": 4.09
-    },
-    "Beast Within": {
-      "image": "https://cards.scryfall.io/normal/front/1/9/1929cf4b-0d18-4f7d-a631-621a378ff015.jpg?1793281367",
-      "scryfallUri": "https://scryfall.com/card/trc/459/beast-within?utm_source=api",
-      "priceUsd": 0.47
-    },
-    "Retraction Helix": {
-      "image": "https://cards.scryfall.io/normal/front/7/a/7aa3fdd0-34d8-47b3-9753-d2929838732e.jpg?1783935172",
-      "scryfallUri": "https://scryfall.com/card/a25/71/retraction-helix?utm_source=api",
-      "priceUsd": 0.4
-    },
-    "Simic Signet": {
-      "image": "https://cards.scryfall.io/normal/front/b/f/bf222c78-f12e-4857-93da-fade99c740b8.jpg?1783909583",
-      "scryfallUri": "https://scryfall.com/card/dsc/252/simic-signet?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Shorikai, Genesis Engine": {
-      "image": "https://cards.scryfall.io/normal/front/9/6/969ac7dd-f3aa-4888-9ff0-d16a31b5e7a9.jpg?1783923999",
-      "scryfallUri": "https://scryfall.com/card/nec/4/shorikai-genesis-engine?utm_source=api",
-      "priceUsd": 3.17
-    },
-    "Reconnaissance Mission": {
-      "image": "https://cards.scryfall.io/normal/front/9/f/9fdd83d4-b473-498f-b45e-174f025e1259.jpg?1783903238",
-      "scryfallUri": "https://scryfall.com/card/msc/153/reconnaissance-mission?utm_source=api",
-      "priceUsd": 0.4
-    },
-    "Oko, Thief of Crowns": {
-      "image": "https://cards.scryfall.io/normal/front/3/4/3462a3d0-5552-49fa-9eb7-100960c55891.jpg?1791803810",
-      "scryfallUri": "https://scryfall.com/card/eld/197/oko-thief-of-crowns?utm_source=api",
-      "priceUsd": 6.62
-    },
-    "Louisoix's Sacrifice": {
-      "image": "https://cards.scryfall.io/normal/front/4/a/4a6976f2-0bd5-449a-8fcf-f5a732ce22c1.jpg?1783906634",
-      "scryfallUri": "https://scryfall.com/card/fin/59/louisoixs-sacrifice?utm_source=api",
-      "priceUsd": 0.38
-    },
     "Glacial Fortress": {
       "image": "https://cards.scryfall.io/normal/front/d/3/d306154a-7adb-4b35-b0cf-9c8d2fc1f72f.jpg?1793021313",
       "scryfallUri": "https://scryfall.com/card/trc/535/glacial-fortress?utm_source=api",
       "priceUsd": 0.44
     },
-    "Ghostly Prison": {
-      "image": "https://cards.scryfall.io/normal/front/e/1/e1f723a8-0be9-4270-b451-a52d6b2fda4e.jpg?1783903809",
-      "scryfallUri": "https://scryfall.com/card/soc/146/ghostly-prison?utm_source=api",
-      "priceUsd": 6.39
-    },
-    "Rest in Peace": {
-      "image": "https://cards.scryfall.io/normal/front/d/1/d108c2b1-236e-4b8d-8445-d9749ccc4fea.jpg?1783912003",
-      "scryfallUri": "https://scryfall.com/card/big/4/rest-in-peace?utm_source=api",
-      "priceUsd": 0.86
-    },
-    "Propaganda": {
-      "image": "https://cards.scryfall.io/normal/front/a/c/ac943e31-26bc-4b54-b73f-460e6e402d86.jpg?1783903239",
-      "scryfallUri": "https://scryfall.com/card/msc/151/propaganda?utm_source=api",
-      "priceUsd": 2.88
-    },
-    "Dazzling Denial": {
-      "image": "https://cards.scryfall.io/normal/front/8/7/8739f1ac-2e57-4b52-a7ff-cc8df5936aad.jpg?1783910851",
-      "scryfallUri": "https://scryfall.com/card/blb/45/dazzling-denial?utm_source=api",
-      "priceUsd": 0.21
-    },
-    "Wilderness Reclamation": {
-      "image": "https://cards.scryfall.io/normal/front/5/e/5e6c0cb4-f17d-48ae-9bbf-9498505a23b0.jpg?1783909598",
-      "scryfallUri": "https://scryfall.com/card/dsc/205/wilderness-reclamation?utm_source=api",
-      "priceUsd": 3.63
-    },
-    "Root Maze": {
-      "image": "https://cards.scryfall.io/normal/front/7/2/727c757a-2ae5-45fd-9832-646a355a5710.jpg?1783942994",
-      "scryfallUri": "https://scryfall.com/card/10e/292/root-maze?utm_source=api",
-      "priceUsd": 4.81
-    },
-    "Pollywog Prodigy": {
-      "image": "https://cards.scryfall.io/normal/front/9/4/94a020df-714b-4465-bfa2-ac15f27d8412.jpg?1783910733",
-      "scryfallUri": "https://scryfall.com/card/blc/15/pollywog-prodigy?utm_source=api",
-      "priceUsd": 6.43
-    },
-    "Authority of the Consuls": {
-      "image": "https://cards.scryfall.io/normal/front/4/2/42ce2d7f-5924-47c0-b5ed-dacf9f9617a0.jpg?1783909087",
-      "scryfallUri": "https://scryfall.com/card/fdn/137/authority-of-the-consuls?utm_source=api",
-      "priceUsd": 5.41
-    },
-    "Talisman of Unity": {
-      "image": "https://cards.scryfall.io/normal/front/8/9/89e8443d-daf4-4cef-9080-d7568b5c540e.jpg?1783912968",
-      "scryfallUri": "https://scryfall.com/card/mkc/244/talisman-of-unity?utm_source=api",
-      "priceUsd": 4.92
-    },
-    "Azorius Signet": {
-      "image": "https://cards.scryfall.io/normal/front/a/f/af690536-b0bc-4d85-8bb8-f6856b9f927b.jpg?1789599829",
-      "scryfallUri": "https://scryfall.com/card/frc/53/azorius-signet?utm_source=api",
-      "priceUsd": 0.26
-    },
-    "Eiganjo, Seat of the Empire": {
-      "image": "https://cards.scryfall.io/normal/front/c/3/c375a022-5b57-496d-a802-e4ea8376e9e4.jpg?1783923818",
-      "scryfallUri": "https://scryfall.com/card/neo/268/eiganjo-seat-of-the-empire?utm_source=api",
-      "priceUsd": 7.1
-    },
-    "Nature's Lore": {
-      "image": "https://cards.scryfall.io/normal/front/6/a/6a55cafa-cb5c-482c-b3c9-1b1f4f0c698d.jpg?1793281413",
-      "scryfallUri": "https://scryfall.com/card/trc/467/natures-lore?utm_source=api",
-      "priceUsd": 3.37
-    },
-    "Mirari's Wake": {
-      "image": "https://cards.scryfall.io/normal/front/e/f/ef4fa4e8-39e8-47a6-b975-ff5d46e59edd.jpg?1783915415",
-      "scryfallUri": "https://scryfall.com/card/cmm/928/miraris-wake?utm_source=api",
-      "priceUsd": 4.89
-    },
-    "Panharmonicon": {
-      "image": "https://cards.scryfall.io/normal/front/9/9/998d0cc8-ca2a-41c3-ab65-d05c26ab8278.jpg?1783921789",
-      "scryfallUri": "https://scryfall.com/card/2x2/310/panharmonicon?utm_source=api",
-      "priceUsd": 6.27
-    },
-    "Heroic Intervention": {
-      "image": "https://cards.scryfall.io/normal/front/2/e/2ed6abbe-3ec0-48a9-94ad-e62660a63de0.jpg?1793281401",
-      "scryfallUri": "https://scryfall.com/card/trc/465/heroic-intervention?utm_source=api",
-      "priceUsd": 6.82
-    },
-    "Birthing Ritual": {
-      "image": "https://cards.scryfall.io/normal/front/4/8/4820d223-4ea1-4850-931c-3d2ab5eb003b.jpg?1783911264",
-      "scryfallUri": "https://scryfall.com/card/mh3/146/birthing-ritual?utm_source=api",
-      "priceUsd": 4.25
-    },
-    "Thorn of Amethyst": {
-      "image": "https://cards.scryfall.io/normal/front/e/4/e472d4f5-add4-4de3-8718-31a47a35277c.jpg?1783942851",
-      "scryfallUri": "https://scryfall.com/card/lrw/262/thorn-of-amethyst?utm_source=api",
-      "priceUsd": 1.36
-    },
-    "Fertile Ground": {
-      "image": "https://cards.scryfall.io/normal/front/8/3/83778d03-6196-4994-8f78-4db6cec823fb.jpg?1783904546",
-      "scryfallUri": "https://scryfall.com/card/ecc/106/fertile-ground?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Hylda of the Icy Crown": {
-      "image": "https://cards.scryfall.io/normal/front/a/e/ae9231fd-053d-4b84-a7a8-86063465bc49.jpg?1783915071",
-      "scryfallUri": "https://scryfall.com/card/woe/206/hylda-of-the-icy-crown?utm_source=api",
-      "priceUsd": 2.61
-    },
-    "Noxious Revival": {
-      "image": "https://cards.scryfall.io/normal/front/1/b/1bdd1243-1d14-496a-9b7a-0c5b34461361.jpg?1783941300",
-      "scryfallUri": "https://scryfall.com/card/nph/118/noxious-revival?utm_source=api",
-      "priceUsd": 6.52
-    },
-    "Ghostly Flicker": {
-      "image": "https://cards.scryfall.io/normal/front/d/c/dc143ba3-2a58-4980-9fa0-a05a9e9ed082.jpg?1783915697",
-      "scryfallUri": "https://scryfall.com/card/cmm/98/ghostly-flicker?utm_source=api",
-      "priceUsd": 1.66
-    },
-    "Fabled Passage": {
-      "image": "https://cards.scryfall.io/normal/front/5/e/5ea98881-83bf-4daa-9d53-9e638340ea2e.jpg?1793112001",
-      "scryfallUri": "https://scryfall.com/card/trc/529/fabled-passage?utm_source=api",
-      "priceUsd": 1.19
-    },
-    "Dryad Arbor": {
-      "image": "https://cards.scryfall.io/normal/front/e/3/e3ddbebf-72cd-4d1b-ba0d-d94934654ab7.jpg?1783909577",
-      "scryfallUri": "https://scryfall.com/card/dsc/273/dryad-arbor?utm_source=api",
-      "priceUsd": 3.58
-    },
-    "Alchemist's Refuge": {
-      "image": "https://cards.scryfall.io/normal/front/3/6/36a11c11-1ea9-48e2-b1bc-49cba1390620.jpg?1783903737",
-      "scryfallUri": "https://scryfall.com/card/soc/360/alchemists-refuge?utm_source=api",
-      "priceUsd": 0.4
-    },
-    "Negate": {
-      "image": "https://cards.scryfall.io/normal/front/c/5/c57ee875-5ce7-4c47-841c-9639d622fe00.jpg?1793111882",
-      "scryfallUri": "https://scryfall.com/card/trc/439/negate?utm_source=api",
-      "priceUsd": 0.36
-    },
-    "Sphere of Resistance": {
-      "image": "https://cards.scryfall.io/normal/front/9/e/9ea2ae1d-91b4-44a0-b2e6-61839d8f4468.jpg?1783939231",
-      "scryfallUri": "https://scryfall.com/card/vma/284/sphere-of-resistance?utm_source=api",
-      "priceUsd": 14.03
-    },
-    "Strip Mine": {
-      "image": "https://cards.scryfall.io/normal/front/f/5/f57fd4c9-0004-4f71-a30f-2720943f57ca.jpg?1783939218",
-      "scryfallUri": "https://scryfall.com/card/vma/316/strip-mine?utm_source=api",
-      "priceUsd": 10.7
-    },
-    "Split Up": {
-      "image": "https://cards.scryfall.io/normal/front/1/b/1bb9a5b1-48d2-453e-8991-c788bc63e482.jpg?1783909503",
-      "scryfallUri": "https://scryfall.com/card/dsk/32/split-up?utm_source=api",
-      "priceUsd": 1.59
-    },
-    "Isochron Scepter": {
-      "image": "https://cards.scryfall.io/normal/front/2/a/2aa24fe0-e275-4307-b26c-2a656068a451.jpg?1783930107",
-      "scryfallUri": "https://scryfall.com/card/2xm/264/isochron-scepter?utm_source=api",
-      "priceUsd": 14.33
-    },
     "Freed from the Real": {
       "image": "https://cards.scryfall.io/normal/front/c/4/c47ee6f6-50c1-4f56-b9ce-4c309bfb92ca.jpg?1783935178",
       "scryfallUri": "https://scryfall.com/card/a25/58/freed-from-the-real?utm_source=api",
       "priceUsd": 7.65
-    },
-    "Seaside Haven": {
-      "image": "https://cards.scryfall.io/normal/front/9/c/9c940a6b-3c5e-4ce2-92b6-63e2cb575c15.jpg?1783945028",
-      "scryfallUri": "https://scryfall.com/card/ons/323/seaside-haven?utm_source=api",
-      "priceUsd": 0.73
-    },
-    "Trinisphere": {
-      "image": "https://cards.scryfall.io/normal/front/3/1/316caa4e-a53a-460b-978c-5f0fba7bc549.jpg?1783930090",
-      "scryfallUri": "https://scryfall.com/card/2xm/303/trinisphere?utm_source=api",
-      "priceUsd": 34.83
-    },
-    "Dramatic Reversal": {
-      "image": "https://cards.scryfall.io/normal/front/2/a/2ad14406-4504-4951-83f0-82c298964d6c.jpg?1783904806",
-      "scryfallUri": "https://scryfall.com/card/tle/158/dramatic-reversal?utm_source=api",
-      "priceUsd": 0.48
-    },
-    "Sunpetal Grove": {
-      "image": "https://cards.scryfall.io/normal/front/1/0/10133c76-755c-413d-a515-f1c31c053eae.jpg?1793281499",
-      "scryfallUri": "https://scryfall.com/card/trc/565/sunpetal-grove?utm_source=api",
-      "priceUsd": 0.35
-    },
-    "Altar of the Brood": {
-      "image": "https://cards.scryfall.io/normal/front/8/d/8d59d264-87ee-4305-bffb-110549331a82.jpg?1783939050",
-      "scryfallUri": "https://scryfall.com/card/ktk/216/altar-of-the-brood?utm_source=api",
-      "priceUsd": 10.3
-    },
-    "Deserted Beach": {
-      "image": "https://cards.scryfall.io/normal/front/5/6/56dae4c4-3e71-4a32-979b-4e26d9c9e96c.jpg?1788878239",
-      "scryfallUri": "https://scryfall.com/card/fra/176/deserted-beach?utm_source=api",
-      "priceUsd": 1.69
-    },
-    "Evendo, Waking Haven": {
-      "image": "https://cards.scryfall.io/normal/front/2/f/2fa09104-acbe-4410-b101-2fe6ac28efde.jpg?1783905915",
-      "scryfallUri": "https://scryfall.com/card/eoe/253/evendo-waking-haven?utm_source=api",
-      "priceUsd": 18.1
-    },
-    "Brainstorm": {
-      "image": "https://cards.scryfall.io/normal/front/1/e/1ede3080-8c47-48a0-b757-92c3fa91fac0.jpg?1793281332",
-      "scryfallUri": "https://scryfall.com/card/trc/434/brainstorm?utm_source=api",
-      "priceUsd": 1.02
-    },
-    "Meekstone": {
-      "image": "https://cards.scryfall.io/normal/front/0/a/0a691664-9275-4b89-a8e3-b99c88717ffb.jpg?1783945387",
-      "scryfallUri": "https://scryfall.com/card/7ed/307/meekstone?utm_source=api",
-      "priceUsd": 12.06
-    },
-    "Emergence Zone": {
-      "image": "https://cards.scryfall.io/normal/front/a/b/ab95f6e7-b806-47fe-a071-6c38b3176d94.jpg?1783933367",
-      "scryfallUri": "https://scryfall.com/card/war/245/emergence-zone?utm_source=api",
-      "priceUsd": 4.19
-    },
-    "Kutzil, Malamet Exemplar": {
-      "image": "https://cards.scryfall.io/normal/front/c/9/c9f88a40-a6ed-4c1f-a309-011aca1acddd.jpg?1783913732",
-      "scryfallUri": "https://scryfall.com/card/lci/232/kutzil-malamet-exemplar?utm_source=api",
-      "priceUsd": 2.6
-    },
-    "Sensei's Divining Top": {
-      "image": "https://cards.scryfall.io/normal/front/e/5/e5142b7a-e580-4737-a4aa-2590f6610ceb.jpg?1783921788",
-      "scryfallUri": "https://scryfall.com/card/2x2/314/senseis-divining-top?utm_source=api",
-      "priceUsd": 38.67
-    },
-    "Wrath of God": {
-      "image": "https://cards.scryfall.io/normal/front/1/e/1eac116d-bc78-4585-8b97-2775c3d0bdb4.jpg?1793281330",
-      "scryfallUri": "https://scryfall.com/card/trc/433/wrath-of-god?utm_source=api",
-      "priceUsd": 2.13
-    },
-    "Invasion of Ikoria // Zilortha, Apex of Ikoria": {
-      "image": "https://cards.scryfall.io/normal/front/5/d/5d59c8f2-f6af-40a6-8dfe-8cc45bf231ce.jpg?1783916974",
-      "scryfallUri": "https://scryfall.com/card/mom/190/invasion-of-ikoria-zilortha-apex-of-ikoria?utm_source=api",
-      "priceUsd": 9.93
-    },
-    "Tamiyo, Field Researcher": {
-      "image": "https://cards.scryfall.io/normal/front/5/7/576ba8db-fad9-4c48-96be-a8a7e5f43039.jpg?1783908070",
-      "scryfallUri": "https://scryfall.com/card/inr/249/tamiyo-field-researcher?utm_source=api",
-      "priceUsd": 4.4
-    },
-    "Chromatic Lantern": {
-      "image": "https://cards.scryfall.io/normal/front/9/b/9b29492a-8bdd-4806-8d1b-3058ed277cc1.jpg?1787743253",
-      "scryfallUri": "https://scryfall.com/card/mbc/73/chromatic-lantern?utm_source=api",
-      "priceUsd": 3.7
-    },
-    "Reconnaissance": {
-      "image": "https://cards.scryfall.io/normal/front/a/1/a16012d8-703c-4385-8769-13e3caba3fc6.jpg?1783946529",
-      "scryfallUri": "https://scryfall.com/card/exo/17/reconnaissance?utm_source=api",
-      "priceUsd": 5.22
-    },
-    "Trouble in Pairs": {
-      "image": "https://cards.scryfall.io/normal/front/0/f/0f61e93f-5f97-4c7d-b3d5-0e05242faeb3.jpg?1783913050",
-      "scryfallUri": "https://scryfall.com/card/mkc/15/trouble-in-pairs?utm_source=api",
-      "priceUsd": 33.46
-    },
-    "Three Visits": {
-      "image": "https://cards.scryfall.io/normal/front/9/9/99bf792f-963e-4509-8d3c-7db129c6a77f.jpg?1783903227",
-      "scryfallUri": "https://scryfall.com/card/msc/181/three-visits?utm_source=api",
-      "priceUsd": 5.11
-    },
-    "Guardian Project": {
-      "image": "https://cards.scryfall.io/normal/front/5/e/5e45740f-a38a-4c73-9f81-0741aa98767b.jpg?1793281390",
-      "scryfallUri": "https://scryfall.com/card/trc/463/guardian-project?utm_source=api",
-      "priceUsd": 4.92
-    },
-    "Reliquary Tower": {
-      "image": "https://cards.scryfall.io/normal/front/1/3/13caa07e-3b72-4ee2-92c6-f119d02341f9.jpg?1793112056",
-      "scryfallUri": "https://scryfall.com/card/trc/551/reliquary-tower?utm_source=api",
-      "priceUsd": 2.41
-    },
-    "Dreamroot Cascade": {
-      "image": "https://cards.scryfall.io/normal/front/e/f/ef662b92-5a7f-48c9-bcc1-14b55e091aef.jpg?1783903621",
-      "scryfallUri": "https://scryfall.com/card/sos/254/dreamroot-cascade?utm_source=api",
-      "priceUsd": 1.39
-    },
-    "Bala Ged Recovery // Bala Ged Sanctuary": {
-      "image": "https://cards.scryfall.io/normal/front/c/5/c5cb3052-358d-44a7-8cfd-cd31b236494a.jpg?1783929347",
-      "scryfallUri": "https://scryfall.com/card/znr/180/bala-ged-recovery-bala-ged-sanctuary?utm_source=api",
-      "priceUsd": 6.55
-    },
-    "Overgrown Farmland": {
-      "image": "https://cards.scryfall.io/normal/front/1/7/178e61e4-472f-42cd-9d3b-4880c2acc527.jpg?1788878246",
-      "scryfallUri": "https://scryfall.com/card/fra/185/overgrown-farmland?utm_source=api",
-      "priceUsd": 1.24
-    },
-    "Murmuration": {
-      "image": "https://cards.scryfall.io/normal/front/5/6/561c9c4e-942e-40e8-b5f2-ac709a502f18.jpg?1783910736",
-      "scryfallUri": "https://scryfall.com/card/blc/10/murmuration?utm_source=api",
-      "priceUsd": 0.37
-    },
-    "Kindred Discovery": {
-      "image": "https://cards.scryfall.io/normal/front/1/9/19bdedb2-768b-4adf-8193-917a10c8f729.jpg?1783903239",
-      "scryfallUri": "https://scryfall.com/card/msc/150/kindred-discovery?utm_source=api",
-      "priceUsd": 6.02
-    },
-    "Gavony Township": {
-      "image": "https://cards.scryfall.io/normal/front/c/e/ce46c4e2-a515-41d7-8d70-d20cf4925996.jpg?1783917097",
-      "scryfallUri": "https://scryfall.com/card/moc/406/gavony-township?utm_source=api",
-      "priceUsd": 5.13
-    },
-    "Elesh Norn, Grand Cenobite": {
-      "image": "https://cards.scryfall.io/normal/front/7/8/78c2bfef-06a5-4c7f-8283-ea3fb673b7a1.jpg?1783935557",
-      "scryfallUri": "https://scryfall.com/card/ima/18/elesh-norn-grand-cenobite?utm_source=api",
-      "priceUsd": 20.27
-    },
-    "Generous Gift": {
-      "image": "https://cards.scryfall.io/normal/front/c/3/c3f9b454-97e9-4c77-b37a-e974221ae385.jpg?1783903247",
-      "scryfallUri": "https://scryfall.com/card/msc/133/generous-gift?utm_source=api",
-      "priceUsd": 2.39
-    },
-    "Flawless Maneuver": {
-      "image": "https://cards.scryfall.io/normal/front/3/f/3ffe82a4-584e-4ebd-9551-a745bed01e26.jpg?1789599786",
-      "scryfallUri": "https://scryfall.com/card/frc/25/flawless-maneuver?utm_source=api",
-      "priceUsd": 7.71
-    },
-    "Prairie Stream": {
-      "image": "https://cards.scryfall.io/normal/front/d/d/dd3d841f-9bac-4b4d-bf21-2dfadd1397fc.jpg?1793021358",
-      "scryfallUri": "https://scryfall.com/card/trc/548/prairie-stream?utm_source=api",
-      "priceUsd": 0.42
-    },
-    "Flooded Grove": {
-      "image": "https://cards.scryfall.io/normal/front/d/f/df797e0d-8ae2-4fdb-a33d-4ba7852b0172.jpg?1783903731",
-      "scryfallUri": "https://scryfall.com/card/soc/373/flooded-grove?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Thought Vessel": {
-      "image": "https://cards.scryfall.io/normal/front/d/f/df44b703-e025-480d-9c7b-55873407bdf4.jpg?1793111967",
-      "scryfallUri": "https://scryfall.com/card/trc/509/thought-vessel?utm_source=api",
-      "priceUsd": 1.55
-    },
-    "Rampant Growth": {
-      "image": "https://cards.scryfall.io/normal/front/0/9/099c081d-06ae-4ca5-ab3b-f70d01509258.jpg?1793281421",
-      "scryfallUri": "https://scryfall.com/card/trc/468/rampant-growth?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Farseek": {
-      "image": "https://cards.scryfall.io/normal/front/d/d/dde15e36-ad2d-4438-9b51-78a04bc80779.jpg?1793281387",
-      "scryfallUri": "https://scryfall.com/card/trc/462/farseek?utm_source=api",
-      "priceUsd": 0.46
-    },
-    "Canopy Vista": {
-      "image": "https://cards.scryfall.io/normal/front/d/b/dbded07b-46d4-4efe-9ab1-00b8b1ae8e5a.jpg?1793281447",
-      "scryfallUri": "https://scryfall.com/card/trc/515/canopy-vista?utm_source=api",
-      "priceUsd": 0.45
     },
     "Derevi, Empyrial Tactician": {
       "image": "https://cards.scryfall.io/normal/front/3/a/3a1d0dad-18a8-489e-ac11-08f64b72fda4.jpg?1783936231",
@@ -7312,24 +6257,24 @@
   ],
   "howToPlay": {
     "original": {
-      "summary": "Derevi turns evasive attacks into extra mana while Winter Orb and similar effects slow opponents. Win through enlarged creature armies or a recursion loop that powers lethal Stroke of Genius casts.",
+      "summary": "Derevi turns evasive attacks into extra mana while [[Winter Orb]] and similar effects slow opponents. Win through enlarged creature armies or a recursion loop that powers lethal [[Stroke of Genius]] casts.",
       "early": [
-        "Keep green access for Cultivate or Kodama's Reach before deploying your land locks.",
-        "Deploy Derevi, Empyrial Tactician and Trygon Predator to start earning combat untaps.",
-        "Use Derevi’s triggers to untap Sol Ring or lands for additional development."
+        "Keep green access for [[Cultivate]] or [[Kodama's Reach]] before deploying your land locks.",
+        "Deploy [[Derevi, Empyrial Tactician]] and [[Trygon Predator]] to start earning combat untaps.",
+        "Use Derevi’s triggers to untap [[Sol Ring]] or lands for additional development."
       ],
       "mid": [
-        "Tap Winter Orb with Opposition during the preceding end step for unrestricted land untaps.",
-        "Pair Lu Xun, Scholar General with Bident of Thassa for extra combat draws.",
-        "Tap Stonybrook Schoolmaster through Azami, Lady of Scrolls to draw and create another Wizard."
+        "Tap [[Winter Orb]] with [[Opposition]] during the preceding end step for unrestricted land untaps.",
+        "Pair [[Lu Xun, Scholar General]] with [[Bident of Thassa]] for extra combat draws.",
+        "Tap [[Stonybrook Schoolmaster]] through [[Azami, Lady of Scrolls]] to draw and create another Wizard."
       ],
       "late": [
-        "Untap Squirrel Nest’s enchanted land with Derevi to grow your army.",
-        "Stack Mirror Entity’s zero activations to loop Reveillark, Karmic Guide, and Derevi."
+        "Untap [[Squirrel Nest]]’s enchanted land with Derevi to grow your army.",
+        "Stack [[Mirror Entity]]’s zero activations to loop [[Reveillark]], [[Karmic Guide]], and Derevi."
       ],
       "winConditions": [
-        "Use Mirror Entity and True Conviction to turn Squirrel Nest tokens into lethal attackers.",
-        "Loop Derevi with Reveillark and Karmic Guide, funding lethal Stroke of Genius casts."
+        "Use [[Mirror Entity]] and [[True Conviction]] to turn [[Squirrel Nest]] tokens into lethal attackers.",
+        "Loop Derevi with [[Reveillark]] and [[Karmic Guide]], funding lethal [[Stroke of Genius]] casts."
       ],
       "keyCards": [
         {
@@ -7338,43 +6283,43 @@
         },
         {
           "name": "Opposition",
-          "why": "Taps opposing resources and switches off Winter Orb."
+          "why": "Taps opposing resources and switches off [[Winter Orb]]."
         },
         {
           "name": "Murkfiend Liege",
-          "why": "Refreshes blue and green creatures despite Stoic Angel."
+          "why": "Refreshes blue and green creatures despite [[Stoic Angel]]."
         },
         {
           "name": "Aura Shards",
           "why": "Turns creature arrivals into repeated artifact and enchantment removal."
         }
       ],
-      "mulligan": "Keep two or three lands, green access, and Sol Ring, Cultivate, or Kodama's Reach.",
+      "mulligan": "Keep two or three lands, green access, and [[Sol Ring]], [[Cultivate]], or [[Kodama's Reach]].",
       "watchOut": [
-        "Delay Hokori, Dust Drinker until Derevi can untap your lands reliably.",
-        "Lightning Greaves prevents Derevi from targeting the equipped creature with untap triggers.",
-        "Murkfiend Liege can prevent Mirror Entity’s zero activations from killing your combo creatures."
+        "Delay [[Hokori, Dust Drinker]] until Derevi can untap your lands reliably.",
+        "[[Lightning Greaves]] prevents Derevi from targeting the equipped creature with untap triggers.",
+        "[[Murkfiend Liege]] can prevent [[Mirror Entity]]’s zero activations from killing your combo creatures."
       ]
     },
     "optimized": {
-      "summary": "Derevi turns combat hits into extra mana while Winter Orb and similar effects slow opponents. Win with a Mirror Entity army or infinite mana powering Stroke of Genius.",
+      "summary": "Derevi turns combat hits into extra mana while [[Winter Orb]] and similar effects slow opponents. Win with a [[Mirror Entity]] army or infinite mana powering [[Stroke of Genius]].",
       "early": [
-        "Prioritize green mana for Birds of Paradise or Bloom Tender.",
-        "Land Mystic Remora early to draw while opponents develop.",
-        "Deploy Derevi, Empyrial Tactician to unlock Bloom Tender’s three colors."
+        "Prioritize green mana for [[Birds of Paradise]] or [[Bloom Tender]].",
+        "Land [[Mystic Remora]] early to draw while opponents develop.",
+        "Deploy [[Derevi, Empyrial Tactician]] to unlock [[Bloom Tender]]’s three colors."
       ],
       "mid": [
-        "Attack with Lu Xun, Scholar General for cards and Derevi untaps.",
-        "Untap mana creatures with Derevi to operate through Hokori, Dust Drinker.",
-        "Use Opposition and Squirrel Nest tokens to tap opposing lands during upkeep."
+        "Attack with [[Lu Xun, Scholar General]] for cards and Derevi untaps.",
+        "Untap mana creatures with Derevi to operate through [[Hokori, Dust Drinker]].",
+        "Use [[Opposition]] and [[Squirrel Nest]] tokens to tap opposing lands during upkeep."
       ],
       "late": [
-        "Pair Kinnan, Bonder Prodigy with Basalt Monolith for infinite colorless mana.",
-        "Find Mirror Entity with Eladamri's Call when your army can attack."
+        "Pair [[Kinnan, Bonder Prodigy]] with [[Basalt Monolith]] for infinite colorless mana.",
+        "Find [[Mirror Entity]] with [[Eladamri's Call]] when your army can attack."
       ],
       "winConditions": [
-        "Spend infinite mana on Mirror Entity, then attack with your enlarged army.",
-        "Use infinite mana with Stroke of Genius to deck an opponent."
+        "Spend infinite mana on [[Mirror Entity]], then attack with your enlarged army.",
+        "Use infinite mana with [[Stroke of Genius]] to deck an opponent."
       ],
       "keyCards": [
         {
@@ -7387,7 +6332,7 @@
         },
         {
           "name": "Seedborn Muse",
-          "why": "Refreshes Opposition fodder and mana during opponents’ untap steps."
+          "why": "Refreshes [[Opposition]] fodder and mana during opponents’ untap steps."
         },
         {
           "name": "The One Ring",
@@ -7398,11 +6343,11 @@
           "why": "Turns creatures and Squirrel tokens into artifact or enchantment removal."
         }
       ],
-      "mulligan": "Keep two or three lands, green access, and Birds of Paradise, Bloom Tender, or Mystic Remora.",
+      "mulligan": "Keep two or three lands, green access, and [[Birds of Paradise]], [[Bloom Tender]], or [[Mystic Remora]].",
       "watchOut": [
-        "Tap Winter Orb with Opposition before your turn so your lands untap normally.",
-        "Lightning Greaves prevents your Derevi triggers and Emiel the Blessed from targeting its wearer.",
-        "Kinnan, Bonder Prodigy makes infinite colorless mana, so reserve blue for Stroke of Genius."
+        "Tap [[Winter Orb]] with [[Opposition]] before your turn so your lands untap normally.",
+        "[[Lightning Greaves]] prevents your Derevi triggers and [[Emiel the Blessed]] from targeting its wearer.",
+        "[[Kinnan, Bonder Prodigy]] makes infinite colorless mana, so reserve blue for [[Stroke of Genius]]."
       ]
     }
   }

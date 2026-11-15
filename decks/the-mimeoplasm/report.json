@@ -41,7 +41,7 @@
   ],
   "generatedAt": "2026-11-09T23:51:28.957Z",
   "model": "gpt-6.1-sol",
-  "strategy": "Build toward turn-six-or-later wins through graveyard-fueled combat, large Mimeoplasm copies, and Living Death rather than an early infect knockout or compact combo. These changes improve early ramp, graveyard setup, repeatable card advantage, and colored mana while preserving meaningful interaction and independent reanimation. Survival of the Fittest and Gifts Ungiven occupy two of the three designated Game Changer slots; Yawgmoth's Will is removed rather than retained alongside them. This is an upper-end Bracket 3 build, with no extra turns, mass land denial, or added infinite combos; its powerful tutor openings should not be used to pursue pre-turn-six eliminations.",
+  "strategy": "Build toward turn-six-or-later wins through graveyard-fueled combat, large Mimeoplasm copies, and [[Living Death]] rather than an early infect knockout or compact combo. These changes improve early ramp, graveyard setup, repeatable card advantage, and colored mana while preserving meaningful interaction and independent reanimation. [[Survival of the Fittest]] and [[Gifts Ungiven]] occupy two of the three designated Game Changer slots; [[Yawgmoth's Will]] is removed rather than retained alongside them. This is an upper-end Bracket 3 build, with no extra turns, mass land denial, or added infinite combos; its powerful tutor openings should not be used to pursue pre-turn-six eliminations.",
   "themes": [
     "Self-mill",
     "Reanimator",
@@ -54,7 +54,7 @@
       "out": "Mindleech Mass",
       "in": "Frantic Search",
       "category": "draw",
-      "reason": "Frantic Search provides instant-speed filtering and a discard outlet while untapping three lands. It advances your actual graveyard plan much more reliably than an eight-mana combat-damage payoff.",
+      "reason": "[[Frantic Search]] provides instant-speed filtering and a discard outlet while untapping three lands. It advances your actual graveyard plan much more reliably than an eight-mana combat-damage payoff.",
       "outCard": {
         "name": "Mindleech Mass",
         "oracleId": "facc2d6f-3f28-4b87-b643-44fdf939a2b5",
@@ -200,7 +200,7 @@
       "out": "Tornado Elemental",
       "in": "Skull Prophet",
       "category": "ramp",
-      "reason": "Skull Prophet accelerates into your commander and can switch to self-mill when mana is no longer the bottleneck. Both modes contribute more consistently than the expensive Elemental.",
+      "reason": "[[Skull Prophet]] accelerates into your commander and can switch to self-mill when mana is no longer the bottleneck. Both modes contribute more consistently than the expensive Elemental.",
       "outCard": {
         "name": "Tornado Elemental",
         "oracleId": "822cecd9-f93e-4fd4-a496-9bec653b4099",
@@ -343,7 +343,7 @@
       "out": "Extractor Demon",
       "in": "Fauna Shaman",
       "category": "synergy",
-      "reason": "Fauna Shaman turns spare creatures into the specific copy target, counter donor, or utility creature you need. Discarding a creature is productive setup rather than merely a cost in this deck.",
+      "reason": "[[Fauna Shaman]] turns spare creatures into the specific copy target, counter donor, or utility creature you need. Discarding a creature is productive setup rather than merely a cost in this deck.",
       "outCard": {
         "name": "Extractor Demon",
         "oracleId": "1fb5c014-9366-4f9e-9728-303ff766002b",
@@ -416,7 +416,7 @@
       "out": "Steel Hellkite",
       "in": "Birds of Paradise",
       "category": "ramp",
-      "reason": "One-mana acceleration and three-color fixing improve almost every opening hand. Birds also provides expendable material for Victimize or Skullclamp later.",
+      "reason": "One-mana acceleration and three-color fixing improve almost every opening hand. Birds also provides expendable material for [[Victimize]] or [[Skullclamp]] later.",
       "outCard": {
         "name": "Steel Hellkite",
         "oracleId": "6e64f1e0-ddd6-4ee7-8797-086e234b02e8",
@@ -564,7 +564,7 @@
       "out": "Dreamborn Muse",
       "in": "Ripples of Undeath",
       "category": "draw",
-      "reason": "Ripples supplies controlled self-mill and optional card recovery each turn. Unlike Dreamborn Muse, it does not depend on hand sizes or automatically fuel every opponent equally.",
+      "reason": "Ripples supplies controlled self-mill and optional card recovery each turn. Unlike [[Dreamborn Muse]], it does not depend on hand sizes or automatically fuel every opponent equally.",
       "outCard": {
         "name": "Dreamborn Muse",
         "oracleId": "68d7f338-c6e7-4372-b41c-901e39e08bde",
@@ -635,7 +635,7 @@
       "out": "Genesis",
       "in": "Assassin's Trophy",
       "category": "interaction",
-      "reason": "Genesis is slow and overlaps with your remaining recursion. Trophy answers graveyard hate and other troublesome permanents for two mana.",
+      "reason": "[[Genesis]] is slow and overlaps with your remaining recursion. Trophy answers graveyard hate and other troublesome permanents for two mana.",
       "outCard": {
         "name": "Genesis",
         "oracleId": "15afdd88-05fc-4335-8a55-c6ee702f3bef",
@@ -921,7 +921,7 @@
       "out": "Nezumi Graverobber // Nighteyes the Desecrator",
       "in": "Scavenging Ooze",
       "category": "interaction",
-      "reason": "Scavenging Ooze provides selective, repeatable graveyard interaction without needing an opponent's graveyard emptied first. Exile opposing threats while preserving the creatures you intend to copy.",
+      "reason": "[[Scavenging Ooze]] provides selective, repeatable graveyard interaction without needing an opponent's graveyard emptied first. Exile opposing threats while preserving the creatures you intend to copy.",
       "outCard": {
         "name": "Nezumi Graverobber // Nighteyes the Desecrator",
         "oracleId": "1373fa8d-0a39-4451-a482-ce2071438dc8",
@@ -994,7 +994,7 @@
       "out": "Perplex",
       "in": "Counterspell",
       "category": "interaction",
-      "reason": "Perplex lets an opponent discard their hand instead of losing a critical spell. Counterspell reliably stops graveyard exile, sweepers, or opposing wins for less mana, while your creature tutors handle selection.",
+      "reason": "[[Perplex]] lets an opponent discard their hand instead of losing a critical spell. [[Counterspell]] reliably stops graveyard exile, sweepers, or opposing wins for less mana, while your creature tutors handle selection.",
       "outCard": {
         "name": "Perplex",
         "oracleId": "904f9e0c-cb7f-4611-8bf7-2e408e8ab237",
@@ -1071,7 +1071,7 @@
       "out": "Spell Crumple",
       "in": "Victimize",
       "category": "synergy",
-      "reason": "Victimize converts an expendable utility creature into two substantial reanimated threats. Counterspell and Dissipate remain available, so this does not remove the entire counterspell package.",
+      "reason": "[[Victimize]] converts an expendable utility creature into two substantial reanimated threats. [[Counterspell]] and [[Dissipate]] remain available, so this does not remove the entire counterspell package.",
       "outCard": {
         "name": "Spell Crumple",
         "oracleId": "d4ab7848-5c37-4c6b-be29-0bb703333e5b",
@@ -1145,7 +1145,7 @@
       "out": "Momentous Fall",
       "in": "Greater Good",
       "category": "draw",
-      "reason": "Greater Good repeatedly converts your enormous creatures into cards and useful discards. It also lets you sacrifice a threatened Mimeoplasm before exile removal resolves.",
+      "reason": "[[Greater Good]] repeatedly converts your enormous creatures into cards and useful discards. It also lets you sacrifice a threatened Mimeoplasm before exile removal resolves.",
       "outCard": {
         "name": "Momentous Fall",
         "oracleId": "6a5ce1b0-ac78-4a74-9eb7-4064e1687bf1",
@@ -1219,7 +1219,7 @@
       "out": "Relic Crush",
       "in": "Necromancy",
       "category": "synergy",
-      "reason": "Your retained removal already covers artifacts and enchantments. Necromancy adds efficient independent reanimation, preserving key creatures that Mimeoplasm would otherwise permanently exile.",
+      "reason": "Your retained removal already covers artifacts and enchantments. [[Necromancy]] adds efficient independent reanimation, preserving key creatures that Mimeoplasm would otherwise permanently exile.",
       "outCard": {
         "name": "Relic Crush",
         "oracleId": "92381398-94f6-471f-874a-b5894e6f9487",
@@ -1282,7 +1282,7 @@
       "out": "Mindcrank",
       "in": "Mesmeric Orb",
       "category": "synergy",
-      "reason": "Mindcrank depends on opponents losing life and does not mill you. Orb stocks your graveyard through ordinary untapping while also increasing the graveyard resources available to Mimeoplasm.",
+      "reason": "[[Mindcrank]] depends on opponents losing life and does not mill you. Orb stocks your graveyard through ordinary untapping while also increasing the graveyard resources available to Mimeoplasm.",
       "outCard": {
         "name": "Mindcrank",
         "oracleId": "c73c1d91-0163-49c6-832a-b9327e7a2c9b",
@@ -1337,7 +1337,7 @@
       "out": "Dreadship Reef",
       "in": "Breeding Pool",
       "category": "mana",
-      "reason": "Immediate blue-green fixing is better than spending turns charging a storage land. Its Forest type also makes it searchable with Skyshroud Claim.",
+      "reason": "Immediate blue-green fixing is better than spending turns charging a storage land. Its Forest type also makes it searchable with [[Skyshroud Claim]].",
       "outCard": {
         "name": "Dreadship Reef",
         "oracleId": "130a8cf5-1354-4d17-91c8-c073642eb3db",
@@ -1416,7 +1416,7 @@
       "out": "Jwar Isle Refuge",
       "in": "Watery Grave",
       "category": "mana",
-      "reason": "Watery Grave provides the same colors with the option to enter untapped. Its basic land types make it searchable with Farseek.",
+      "reason": "[[Watery Grave]] provides the same colors with the option to enter untapped. Its basic land types make it searchable with [[Farseek]].",
       "outCard": {
         "name": "Jwar Isle Refuge",
         "oracleId": "8b96f837-7c32-473a-b5ae-1d66527eaf7b",
@@ -1499,7 +1499,7 @@
       "out": "Temple of the False God",
       "in": "Exotic Orchard",
       "category": "mana",
-      "reason": "Temple can be unusable in early hands and does not fix colors. Exotic Orchard normally supplies useful colored mana immediately in multiplayer.",
+      "reason": "Temple can be unusable in early hands and does not fix colors. [[Exotic Orchard]] normally supplies useful colored mana immediately in multiplayer.",
       "outCard": {
         "name": "Temple of the False God",
         "oracleId": "cfdd5dc6-593e-495a-8cfe-3a56b3c4c7df",
@@ -1735,7 +1735,7 @@
       "out": "Barren Moor",
       "in": "Reflecting Pool",
       "category": "mana",
-      "reason": "Barren Moor always enters tapped; Reflecting Pool makes black and green and blue untapped, helping blue and green, which are short.",
+      "reason": "[[Barren Moor]] always enters tapped; [[Reflecting Pool]] makes black and green and blue untapped, helping blue and green, which are short.",
       "outCard": {
         "name": "Barren Moor",
         "oracleId": "326ba371-124c-4949-a048-3a0c8962e567",
@@ -1799,7 +1799,7 @@
       "out": "Dimir Aqueduct",
       "in": "Fabled Passage",
       "category": "mana",
-      "reason": "Dimir Aqueduct always enters tapped; Fabled Passage makes blue and black and green untapped, helping green, which is short.",
+      "reason": "[[Dimir Aqueduct]] always enters tapped; [[Fabled Passage]] makes blue and black and green untapped, helping green, which is short.",
       "outCard": {
         "name": "Dimir Aqueduct",
         "oracleId": "378a1d57-e2f1-4b84-9692-1564602e9e99",
@@ -1859,7 +1859,7 @@
       "out": "Golgari Rot Farm",
       "in": "Verdant Catacombs",
       "category": "mana",
-      "reason": "Golgari Rot Farm always enters tapped; Verdant Catacombs makes black and green untapped.",
+      "reason": "[[Golgari Rot Farm]] always enters tapped; [[Verdant Catacombs]] makes black and green untapped.",
       "outCard": {
         "name": "Golgari Rot Farm",
         "oracleId": "1b301478-b14f-4ef8-94e6-9647d582eabe",
@@ -1919,7 +1919,7 @@
       "out": "Simic Growth Chamber",
       "in": "Yavimaya Coast",
       "category": "mana",
-      "reason": "Simic Growth Chamber always enters tapped; Yavimaya Coast makes green and blue untapped.",
+      "reason": "[[Simic Growth Chamber]] always enters tapped; [[Yavimaya Coast]] makes green and blue untapped.",
       "outCard": {
         "name": "Simic Growth Chamber",
         "oracleId": "046f5783-cc7b-416a-8cf6-2bcef9c2cc1a",
@@ -2688,7 +2688,7 @@
     }
   ],
   "research": {
-    "summary": "## 1. Main strategies/archetypes\n\n- **Self-mill reanimator/toolbox:** fill your graveyard, reanimate valuable creatures, and use The Mimeoplasm as a flexible threat. This is the central strategy; mill, graveyard, and dredge builds overlap heavily.\n- **Voltron/infect:** copy an evasive or infect creature, using another creature’s enormous power to supply +1/+1 counters.\n- **Graveyard combo:** assemble Necrotic Ooze or reanimation-based combo packages.\n- **Secondary themes:** +1/+1 counters and Ooze typal—both represented, but not necessary to the commander’s core plan. ([edhrec.com](https://edhrec.com/commanders/the-mimeoplasm))\n\n## 2. Key synergy cards and engines\n\n| Role | Specific cards |\n|---|---|\n| **Find and stock the graveyard** | **Entomb**, **Buried Alive**, **Survival of the Fittest**, **Fauna Shaman** |\n| **Mill while improving your hand** | **Grisly Salvage**, **Frantic Search**, **Fact or Fiction**, **Stitcher's Supplier**, **Mesmeric Orb** |\n| **Independent reanimation** | **Reanimate**, **Animate Dead**, **Necromancy**, **Victimize**, **Living Death**—important so the deck does not depend entirely on its commander |\n| **Large counter donors** | **Lord of Extinction**, **Consuming Aberration**, **Yargle and Multani**, **Death's Shadow** |\n| **Useful copy targets** | **Skithiryx, the Blight Dragon**, **Blighted Agent**, **Titanoth Rex**, **Woodfall Primus** |\n| **Long-game resources** | **Life from the Loam**, **Muldrotha, the Gravetide**, **Underrealm Lich** |\n\nThese recur across current EDHREC recommendations and dedicated deckbuilding articles; select targets according to your chosen win condition rather than including every package. ([edhrec.com](https://edhrec.com/commanders/the-mimeoplasm?utm_source=openai))\n\n## 3. Popular combos and finishing combinations\n\n| Exact cards | Setup and result |\n|---|---|\n| **Necrotic Ooze + Phyrexian Devourer + Triskelion** | Ooze on the battlefield; the other two in graveyards. Exile library cards to put counters on Ooze, then remove counters to deal damage. **Potentially table-lethal, but finite**, limited by the remaining library’s total mana value—not genuinely infinite. |\n| **Mikaeus, the Unhallowed + Triskelion** | Both on the battlefield. Remove counters for damage, reserving two shots to kill Triskelion itself; undying returns it. **Infinite damage and death/enter/leave triggers.** |\n| **Kederekt Leviathan + Animate Dead** | Reanimate Leviathan; its trigger returns other nonland permanents, including Animate Dead, to hand, causing Leviathan’s sacrifice. **Repeatable nonland-board reset for {1}{B} each iteration**, not a free infinite loop. |\n| **Hermit Druid + Thassa's Oracle** | With **no basic lands in your library**, an active Druid mills everything for {G}; cast Oracle from hand for {U}{U}. **Wins the game.** |\n\nCommander Spellbook documents these sequences and their prerequisites. ([commanderspellbook.com](https://commanderspellbook.com/combo/1495-1656-4899/?q=card:%22Triskelion%22))\n\n**Commander-specific finisher:** The Mimeoplasm copying **Blighted Agent**, with **Yargle and Multani** supplying 18 counters, becomes a **19/19 unblockable infect creature**—lethal to one opponent if it connects, but it still needs haste or a turn cycle. ([edhrec.com](https://edhrec.com/articles/slimer-voracious-apparition-commander-deck-tech?utm_source=openai))\n\n## 4. Common mistakes / underperformers\n\n- **Treating The Mimeoplasm as repeatable reanimation:** it **exiles both cards**. Preserve essential combo pieces, and run separate reanimation spells. It copies only **one** creature’s abilities; the second supplies counters, not keywords. ([media.wizards.com](https://media.wizards.com/2022/wpn/marketing_materials/2x2/EN_MTG2X2_Release%20Notes_20220418.pdf))\n- **Keeping outdated, low-impact creatures:** a February 2026 precon rebuild specifically cuts or criticizes **Dark Hatchling**, **Slipstream Eel**, and **Triskelavus**. **Grave Pact** also contributed little without sufficient sacrifice support. ([edhrec.com](https://edhrec.com/articles/devour-for-power-commander-precon-remastered?utm_source=openai))\n- **Dredging without enough actual draw:** **Golgari Grave-Troll** is powerful, but one budget analysis cut it because the list could not support consistent dredging. That is a build-dependent warning, not a universal cut. ([edhrec.com](https://edhrec.com/articles/from-the-brim-to-the-trim-melting-opponents-faces-with-a-budget-reanimator-deck))\n- **Assuming raw size is enough:** giant creatures still need evasion; **Jumbo Cactuar**, for example, requires additional help to push damage through. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/slimer-voracious-apparition-commander-deck-tech?utm_source=openai))\n\n## 5. Mana base advice specific to The Mimeoplasm\n\n- **Practical starting point: 36–38 lands**, then tune downward only with a genuinely low curve and substantial acceleration. Prioritize early **green**, while reliably assembling **{2}{B}{G}{U}**; the 2026 rebuild uses 37 lands and favors land ramp. ([edhrec.com](https://edhrec.com/articles/devour-for-power-commander-precon-remastered?utm_source=openai))\n- Favor **Command Tower**, **Exotic Orchard**, and efficient colored lands such as **Llanowar Wastes**, **Yavimaya Coast**, and **Underground River** over excessive slow or colorless utility lands. **Cephalid Coliseum** is particularly synergistic as a draw/discard outlet. ([edhrec.com](https://edhrec.com/articles/devour-for-power-commander-precon-remastered?utm_source=openai))\n- **Choose the Hermit Druid plan before building the lands.** Normal reanimator lists can retain basics and use **Cultivate**, **Kodama's Reach**, and **Sakura-Tribe Elder**; the deterministic Oracle combo instead requires no basics remaining in the library. ([edhrec.com](https://edhrec.com/articles/devour-for-power-commander-precon-remastered?utm_source=openai))",
+    "summary": "## 1. Main strategies/archetypes\n\n- **Self-mill reanimator/toolbox:** fill your graveyard, reanimate valuable creatures, and use [[The Mimeoplasm]] as a flexible threat. This is the central strategy; mill, graveyard, and dredge builds overlap heavily.\n- **Voltron/infect:** copy an evasive or infect creature, using another creature’s enormous power to supply +1/+1 counters.\n- **Graveyard combo:** assemble [[Necrotic Ooze]] or reanimation-based combo packages.\n- **Secondary themes:** +1/+1 counters and Ooze typal—both represented, but not necessary to the commander’s core plan. ([edhrec.com](https://edhrec.com/commanders/the-mimeoplasm))\n\n## 2. Key synergy cards and engines\n\n| Role | Specific cards |\n|---|---|\n| **Find and stock the graveyard** | **[[Entomb]]**, **[[Buried Alive]]**, **[[Survival of the Fittest]]**, **[[Fauna Shaman]]** |\n| **Mill while improving your hand** | **[[Grisly Salvage]]**, **[[Frantic Search]]**, **[[Fact or Fiction]]**, **[[Stitcher's Supplier]]**, **[[Mesmeric Orb]]** |\n| **Independent reanimation** | **[[Reanimate]]**, **[[Animate Dead]]**, **[[Necromancy]]**, **[[Victimize]]**, **[[Living Death]]**—important so the deck does not depend entirely on its commander |\n| **Large counter donors** | **[[Lord of Extinction]]**, **[[Consuming Aberration]]**, **[[Yargle and Multani]]**, **[[Death's Shadow]]** |\n| **Useful copy targets** | **[[Skithiryx, the Blight Dragon]]**, **[[Blighted Agent]]**, **[[Titanoth Rex]]**, **[[Woodfall Primus]]** |\n| **Long-game resources** | **[[Life from the Loam]]**, **[[Muldrotha, the Gravetide]]**, **[[Underrealm Lich]]** |\n\nThese recur across current EDHREC recommendations and dedicated deckbuilding articles; select targets according to your chosen win condition rather than including every package. ([edhrec.com](https://edhrec.com/commanders/the-mimeoplasm?utm_source=openai))\n\n## 3. Popular combos and finishing combinations\n\n| Exact cards | Setup and result |\n|---|---|\n| **[[Necrotic Ooze]] + [[Phyrexian Devourer]] + [[Triskelion]]** | Ooze on the battlefield; the other two in graveyards. Exile library cards to put counters on Ooze, then remove counters to deal damage. **Potentially table-lethal, but finite**, limited by the remaining library’s total mana value—not genuinely infinite. |\n| **[[Mikaeus, the Unhallowed]] + [[Triskelion]]** | Both on the battlefield. Remove counters for damage, reserving two shots to kill [[Triskelion]] itself; undying returns it. **Infinite damage and death/enter/leave triggers.** |\n| **[[Kederekt Leviathan]] + [[Animate Dead]]** | Reanimate Leviathan; its trigger returns other nonland permanents, including [[Animate Dead]], to hand, causing Leviathan’s sacrifice. **Repeatable nonland-board reset for {1}{B} each iteration**, not a free infinite loop. |\n| **[[Hermit Druid]] + [[Thassa's Oracle]]** | With **no basic lands in your library**, an active Druid mills everything for {G}; cast Oracle from hand for {U}{U}. **Wins the game.** |\n\nCommander Spellbook documents these sequences and their prerequisites. ([commanderspellbook.com](https://commanderspellbook.com/combo/1495-1656-4899/?q=card:%22Triskelion%22))\n\n**Commander-specific finisher:** [[The Mimeoplasm]] copying **[[Blighted Agent]]**, with **[[Yargle and Multani]]** supplying 18 counters, becomes a **19/19 unblockable infect creature**—lethal to one opponent if it connects, but it still needs haste or a turn cycle. ([edhrec.com](https://edhrec.com/articles/slimer-voracious-apparition-commander-deck-tech?utm_source=openai))\n\n## 4. Common mistakes / underperformers\n\n- **Treating [[The Mimeoplasm]] as repeatable reanimation:** it **exiles both cards**. Preserve essential combo pieces, and run separate reanimation spells. It copies only **one** creature’s abilities; the second supplies counters, not keywords. ([media.wizards.com](https://media.wizards.com/2022/wpn/marketing_materials/2x2/EN_MTG2X2_Release%20Notes_20220418.pdf))\n- **Keeping outdated, low-impact creatures:** a February 2026 precon rebuild specifically cuts or criticizes **[[Dark Hatchling]]**, **[[Slipstream Eel]]**, and **[[Triskelavus]]**. **[[Grave Pact]]** also contributed little without sufficient sacrifice support. ([edhrec.com](https://edhrec.com/articles/devour-for-power-commander-precon-remastered?utm_source=openai))\n- **Dredging without enough actual draw:** **[[Golgari Grave-Troll]]** is powerful, but one budget analysis cut it because the list could not support consistent dredging. That is a build-dependent warning, not a universal cut. ([edhrec.com](https://edhrec.com/articles/from-the-brim-to-the-trim-melting-opponents-faces-with-a-budget-reanimator-deck))\n- **Assuming raw size is enough:** giant creatures still need evasion; **[[Jumbo Cactuar]]**, for example, requires additional help to push damage through. ([cloudflare.edhrec.com](https://cloudflare.edhrec.com/articles/slimer-voracious-apparition-commander-deck-tech?utm_source=openai))\n\n## 5. Mana base advice specific to [[The Mimeoplasm]]\n\n- **Practical starting point: 36–38 lands**, then tune downward only with a genuinely low curve and substantial acceleration. Prioritize early **green**, while reliably assembling **{2}{B}{G}{U}**; the 2026 rebuild uses 37 lands and favors land ramp. ([edhrec.com](https://edhrec.com/articles/devour-for-power-commander-precon-remastered?utm_source=openai))\n- Favor **[[Command Tower]]**, **[[Exotic Orchard]]**, and efficient colored lands such as **[[Llanowar Wastes]]**, **[[Yavimaya Coast]]**, and **[[Underground River]]** over excessive slow or colorless utility lands. **[[Cephalid Coliseum]]** is particularly synergistic as a draw/discard outlet. ([edhrec.com](https://edhrec.com/articles/devour-for-power-commander-precon-remastered?utm_source=openai))\n- **Choose the [[Hermit Druid]] plan before building the lands.** Normal reanimator lists can retain basics and use **[[Cultivate]]**, **[[Kodama's Reach]]**, and **[[Sakura-Tribe Elder]]**; the deterministic Oracle combo instead requires no basics remaining in the library. ([edhrec.com](https://edhrec.com/articles/devour-for-power-commander-precon-remastered?utm_source=openai))",
     "cardsMentioned": [
       "Necrotic Ooze",
       "Entomb",
@@ -5134,13 +5134,13 @@
   "manaSuggestions": [
     {
       "id": "676cda2f-2be3-49c9-b195-971cd48be51b",
-      "reason": "You have plenty of green sources; City of Brass makes black and green and blue untapped, helping black, which is short.",
+      "reason": "You have plenty of green sources; [[City of Brass]] makes black and green and blue untapped, helping black, which is short.",
       "changes": [
         {
           "action": "remove",
           "name": "Forest",
           "qty": 1,
-          "reason": "You have plenty of green sources; City of Brass makes black and green and blue untapped, helping black, which is short.",
+          "reason": "You have plenty of green sources; [[City of Brass]] makes black and green and blue untapped, helping black, which is short.",
           "ok": true,
           "card": {
             "name": "Forest",
@@ -5175,7 +5175,7 @@
           "action": "add",
           "name": "City of Brass",
           "qty": 1,
-          "reason": "You have plenty of green sources; City of Brass makes black and green and blue untapped, helping black, which is short.",
+          "reason": "You have plenty of green sources; [[City of Brass]] makes black and green and blue untapped, helping black, which is short.",
           "ok": true,
           "card": {
             "name": "City of Brass",
@@ -5220,7 +5220,7 @@
         "Lord of Extinction",
         "Titanoth Rex"
       ],
-      "explanation": "Buried Alive puts both creatures into your graveyard, letting The Mimeoplasm copy Titanoth Rex and use Lord of Extinction's graveyard-scaled power for additional +1/+1 counters. The result is an enormous trampling commander that can threaten lethal commander damage."
+      "explanation": "[[Buried Alive]] puts both creatures into your graveyard, letting [[The Mimeoplasm]] copy [[Titanoth Rex]] and use [[Lord of Extinction]]'s graveyard-scaled power for additional +1/+1 counters. The result is an enormous trampling commander that can threaten lethal commander damage."
     },
     {
       "title": "Unblockable Commander Clock",
@@ -5228,7 +5228,7 @@
         "The Mimeoplasm",
         "Whispersilk Cloak"
       ],
-      "explanation": "Whispersilk Cloak makes a counter-loaded The Mimeoplasm unblockable while protecting it from targeted removal. This turns the commander's huge size into a reliable commander-damage threat rather than something opponents can repeatedly chump-block."
+      "explanation": "[[Whispersilk Cloak]] makes a counter-loaded [[The Mimeoplasm]] unblockable while protecting it from targeted removal. This turns the commander's huge size into a reliable commander-damage threat rather than something opponents can repeatedly chump-block."
     },
     {
       "title": "Tutor Into Teamwide Flying",
@@ -5238,7 +5238,7 @@
         "Breeding Pool",
         "The Mimeoplasm"
       ],
-      "explanation": "Survival of the Fittest can find Wonder, then discard it to another activation while tutoring a useful creature. With Breeding Pool providing the Island subtype, leaving Wonder in your graveyard gives The Mimeoplasm and your other creatures flying."
+      "explanation": "[[Survival of the Fittest]] can find [[Wonder]], then discard it to another activation while tutoring a useful creature. With [[Breeding Pool]] providing the Island subtype, leaving [[Wonder]] in your graveyard gives [[The Mimeoplasm]] and your other creatures flying."
     },
     {
       "title": "Graveyard-Sized Table Drain",
@@ -5246,7 +5246,7 @@
         "Lord of Extinction",
         "Jarad, Golgari Lich Lord"
       ],
-      "explanation": "Lord of Extinction turns the deck's graveyard filling into enormous power, and Jarad, Golgari Lich Lord converts that power into life loss for every opponent. This provides a potentially lethal finish without needing to attack."
+      "explanation": "[[Lord of Extinction]] turns the deck's graveyard filling into enormous power, and [[Jarad, Golgari Lich Lord]] converts that power into life loss for every opponent. This provides a potentially lethal finish without needing to attack."
     },
     {
       "title": "Wipe, Then Recruit",
@@ -5254,7 +5254,7 @@
         "Life's Finale",
         "Sepulchral Primordial"
       ],
-      "explanation": "Life's Finale destroys the creature board and stocks one opponent's graveyard with up to three creatures chosen from their library. A subsequent Sepulchral Primordial can steal one of those curated targets and creatures from the other opponents' newly stocked graveyards."
+      "explanation": "[[Life's Finale]] destroys the creature board and stocks one opponent's graveyard with up to three creatures chosen from their library. A subsequent [[Sepulchral Primordial]] can steal one of those curated targets and creatures from the other opponents' newly stocked graveyards."
     },
     {
       "title": "Turn One Body Into Two",
@@ -5263,7 +5263,7 @@
         "Yavimaya Elder",
         "Solemn Simulacrum"
       ],
-      "explanation": "Sacrificing Yavimaya Elder to Victimize triggers its land-search ability while returning two creatures from your graveyard. Returning Solemn Simulacrum as one of them adds another land to the battlefield and leaves behind a creature that replaces itself when it dies."
+      "explanation": "Sacrificing [[Yavimaya Elder]] to [[Victimize]] triggers its land-search ability while returning two creatures from your graveyard. Returning [[Solemn Simulacrum]] as one of them adds another land to the battlefield and leaves behind a creature that replaces itself when it dies."
     },
     {
       "title": "Renewable Shroud Fuel",
@@ -5272,7 +5272,7 @@
         "Life from the Loam",
         "Verdant Catacombs"
       ],
-      "explanation": "Sylvan Safekeeper turns lands into protection for The Mimeoplasm or another key creature, while Life from the Loam returns those sacrificed lands to your hand. Verdant Catacombs is another reusable land target, and dredging Life from the Loam also advances the graveyard plan."
+      "explanation": "[[Sylvan Safekeeper]] turns lands into protection for [[The Mimeoplasm]] or another key creature, while [[Life from the Loam]] returns those sacrificed lands to your hand. [[Verdant Catacombs]] is another reusable land target, and dredging [[Life from the Loam]] also advances the graveyard plan."
     },
     {
       "title": "Low-Cost Dredge Reload",
@@ -5280,7 +5280,7 @@
         "Frantic Search",
         "Golgari Grave-Troll"
       ],
-      "explanation": "With Golgari Grave-Troll in your graveyard, replace a Frantic Search draw with dredge 6, then discard the returned Troll during the spell's discard step to prepare another dredge. Untapping up to three lands keeps mana available while you load the graveyard for The Mimeoplasm and reanimation."
+      "explanation": "With [[Golgari Grave-Troll]] in your graveyard, replace a [[Frantic Search]] draw with dredge 6, then discard the returned Troll during the spell's discard step to prepare another dredge. Untapping up to three lands keeps mana available while you load the graveyard for [[The Mimeoplasm]] and reanimation."
     },
     {
       "title": "One-Hit Poison Commander",
@@ -5290,7 +5290,7 @@
         "Skithiryx, the Blight Dragon",
         "Lord of Extinction"
       ],
-      "explanation": "Buried Alive puts both creatures into your graveyard, letting The Mimeoplasm copy Skithiryx, the Blight Dragon and gain counters equal to Lord of Extinction's power. If that power is at least 6, the resulting flying infect commander can deliver lethal poison in one unblocked hit, with {B} granting haste."
+      "explanation": "[[Buried Alive]] puts both creatures into your graveyard, letting [[The Mimeoplasm]] copy [[Skithiryx, the Blight Dragon]] and gain counters equal to [[Lord of Extinction]]'s power. If that power is at least 6, the resulting flying infect commander can deliver lethal poison in one unblocked hit, with {B} granting haste."
     },
     {
       "title": "Loot Into an Infect Dragon",
@@ -5298,7 +5298,7 @@
         "Likeness Looter",
         "Skithiryx, the Blight Dragon"
       ],
-      "explanation": "Likeness Looter can discard Skithiryx, the Blight Dragon while filtering your hand, then pay {5} to become its copy without removing it from your graveyard. The copy gains infect and regeneration, and another {B} grants haste so it can attack immediately."
+      "explanation": "[[Likeness Looter]] can discard [[Skithiryx, the Blight Dragon]] while filtering your hand, then pay {5} to become its copy without removing it from your graveyard. The copy gains infect and regeneration, and another {B} grants haste so it can attack immediately."
     },
     {
       "title": "Buried Dragon, Immediate Threat",
@@ -5307,7 +5307,7 @@
         "Necromancy",
         "Skithiryx, the Blight Dragon"
       ],
-      "explanation": "Entomb finds Skithiryx, the Blight Dragon for Necromancy to reanimate, bypassing its normal casting cost. Reanimate it during your precombat main phase and pay {B} for haste to immediately threaten four poison counters through the air."
+      "explanation": "[[Entomb]] finds [[Skithiryx, the Blight Dragon]] for [[Necromancy]] to reanimate, bypassing its normal casting cost. Reanimate it during your precombat main phase and pay {B} for haste to immediately threaten four poison counters through the air."
     },
     {
       "title": "Sacrifice, Dredge, Reload",
@@ -5315,7 +5315,7 @@
         "Golgari Grave-Troll",
         "Greater Good"
       ],
-      "explanation": "Sacrifice a large Golgari Grave-Troll to Greater Good, then replace one of the resulting draws with its dredge 6 to return it to your hand. The remaining draws and subsequent discards stock your hand and graveyard, while the milled creatures can make the next Grave-Troll larger."
+      "explanation": "Sacrifice a large [[Golgari Grave-Troll]] to [[Greater Good]], then replace one of the resulting draws with its dredge 6 to return it to your hand. The remaining draws and subsequent discards stock your hand and graveyard, while the milled creatures can make the next Grave-Troll larger."
     },
     {
       "title": "Salvage Into Cheap Reanimation",
@@ -5323,7 +5323,7 @@
         "Grisly Salvage",
         "Stitch Together"
       ],
-      "explanation": "Grisly Salvage can put a reanimation target into your graveyard while keeping a useful creature or land in hand. Its discarded cards, plus Grisly Salvage itself, help reach the seven-card threshold that turns Stitch Together into a two-mana battlefield reanimation spell."
+      "explanation": "[[Grisly Salvage]] can put a reanimation target into your graveyard while keeping a useful creature or land in hand. Its discarded cards, plus [[Grisly Salvage]] itself, help reach the seven-card threshold that turns [[Stitch Together]] into a two-mana battlefield reanimation spell."
     },
     {
       "title": "Fetch the Flying Switch",
@@ -5332,7 +5332,7 @@
         "Watery Grave",
         "Wonder"
       ],
-      "explanation": "With Wonder in your graveyard, Farseek can find Watery Grave because it is an Island and a Swamp. Watery Grave enables Wonder's teamwide flying even while tapped, helping your oversized graveyard-powered creatures connect."
+      "explanation": "With [[Wonder]] in your graveyard, [[Farseek]] can find [[Watery Grave]] because it is an Island and a Swamp. [[Watery Grave]] enables [[Wonder]]'s teamwide flying even while tapped, helping your oversized graveyard-powered creatures connect."
     },
     {
       "title": "Wipe, Draw, Reanimate Their Best",
@@ -5340,7 +5340,7 @@
         "Decree of Pain",
         "Sepulchral Primordial"
       ],
-      "explanation": "Decree of Pain clears creatures into graveyards while drawing you a fresh hand. Follow it with Sepulchral Primordial to reanimate up to one freshly destroyed creature from each opponent's graveyard and rebuild your board with their best threats."
+      "explanation": "[[Decree of Pain]] clears creatures into graveyards while drawing you a fresh hand. Follow it with [[Sepulchral Primordial]] to reanimate up to one freshly destroyed creature from each opponent's graveyard and rebuild your board with their best threats."
     },
     {
       "title": "Turn the Wipe Into a Dredge Reload",
@@ -5349,7 +5349,7 @@
         "Golgari Grave-Troll",
         "The Mimeoplasm"
       ],
-      "explanation": "If Decree of Pain destroys Golgari Grave-Troll, the Troll is in your graveyard before the spell's draws happen, so you can replace one of those draws with dredge 6. The wipe and dredge together stock graveyards with creature choices and counter fuel for The Mimeoplasm while the remaining draws refill your hand."
+      "explanation": "If [[Decree of Pain]] destroys [[Golgari Grave-Troll]], the Troll is in your graveyard before the spell's draws happen, so you can replace one of those draws with dredge 6. The wipe and dredge together stock graveyards with creature choices and counter fuel for [[The Mimeoplasm]] while the remaining draws refill your hand."
     },
     {
       "title": "Basic Island, Airborne Ooze",
@@ -5358,7 +5358,7 @@
         "Wonder",
         "The Mimeoplasm"
       ],
-      "explanation": "With Wonder in your graveyard, Island gives your creatures flying, helping a large The Mimeoplasm connect for commander damage. Leave Wonder in the graveyard rather than exiling it to The Mimeoplasm so the evasion stays active."
+      "explanation": "With [[Wonder]] in your graveyard, [[Island]] gives your creatures flying, helping a large [[The Mimeoplasm]] connect for commander damage. Leave [[Wonder]] in the graveyard rather than exiling it to [[The Mimeoplasm]] so the evasion stays active."
     }
   ],
   "cardIndex": {
@@ -5752,11 +5752,6 @@
       "scryfallUri": "https://scryfall.com/card/vma/148/yawgmoths-will?utm_source=api",
       "priceUsd": 47.34
     },
-    "Windfall": {
-      "image": "https://cards.scryfall.io/normal/front/9/c/9ce7113b-08f7-4584-b65f-a7b5caa90c2f.jpg?1783911933",
-      "scryfallUri": "https://scryfall.com/card/otc/123/windfall?utm_source=api",
-      "priceUsd": 5.44
-    },
     "Frantic Search": {
       "image": "https://cards.scryfall.io/normal/front/4/5/4547db5f-f031-4dc1-8a61-532c9be4533a.jpg?1793111872",
       "scryfallUri": "https://scryfall.com/card/trc/438/frantic-search?utm_source=api",
@@ -5786,11 +5781,6 @@
       "image": "https://cards.scryfall.io/normal/front/4/9/492c2f9a-51e7-4e0f-9899-23bf43ea988b.jpg?1783903230",
       "scryfallUri": "https://scryfall.com/card/msc/170/birds-of-paradise?utm_source=api",
       "priceUsd": 8.52
-    },
-    "Nature's Lore": {
-      "image": "https://cards.scryfall.io/normal/front/6/a/6a55cafa-cb5c-482c-b3c9-1b1f4f0c698d.jpg?1793281413",
-      "scryfallUri": "https://scryfall.com/card/trc/467/natures-lore?utm_source=api",
-      "priceUsd": 3.37
     },
     "Grisly Salvage": {
       "image": "https://cards.scryfall.io/normal/front/1/2/12a90f7a-28df-4017-b221-0e9234ff74a7.jpg?1783907026",
@@ -5977,30 +5967,15 @@
       "scryfallUri": "https://scryfall.com/card/woe/222/cruel-somnophage-cant-wake-up?utm_source=api",
       "priceUsd": 0.43
     },
-    "Misty Rainforest": {
-      "image": "https://cards.scryfall.io/normal/front/8/8/88231c0d-0cc8-44ec-bf95-81d1710ac141.jpg?1783926795",
-      "scryfallUri": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api",
-      "priceUsd": 35.91
-    },
     "Llanowar Wastes": {
       "image": "https://cards.scryfall.io/normal/front/2/6/266316d3-3bbc-4283-aab8-69629855909f.jpg?1783903726",
       "scryfallUri": "https://scryfall.com/card/soc/383/llanowar-wastes?utm_source=api",
       "priceUsd": 0.88
     },
-    "Polluted Delta": {
-      "image": "https://cards.scryfall.io/normal/front/6/e/6e288374-2b71-4ace-b1d2-a19fee6cb4af.jpg?1783911240",
-      "scryfallUri": "https://scryfall.com/card/mh3/224/polluted-delta?utm_source=api",
-      "priceUsd": 21.41
-    },
     "Careful Study": {
       "image": "https://cards.scryfall.io/normal/front/d/e/dea15b53-2940-40e7-8d48-8ec11341da83.jpg?1783945264",
       "scryfallUri": "https://scryfall.com/card/ody/70/careful-study?utm_source=api",
       "priceUsd": 7.28
-    },
-    "Drowned Catacomb": {
-      "image": "https://cards.scryfall.io/normal/front/7/f/7f6615d6-4307-43fe-a9a1-d2ef956246d0.jpg?1793021277",
-      "scryfallUri": "https://scryfall.com/card/trc/525/drowned-catacomb?utm_source=api",
-      "priceUsd": 1.12
     },
     "Toxic Deluge": {
       "image": "https://cards.scryfall.io/normal/front/1/d/1df2c2a6-94a9-4365-9bd5-dd5f2854c562.jpg?1793023039",
@@ -6011,21 +5986,6 @@
       "image": "https://cards.scryfall.io/normal/front/c/9/c9bd60fc-2777-44bc-b314-a792e8e48360.jpg?1783921921",
       "scryfallUri": "https://scryfall.com/card/2x2/43/consecrated-sphinx?utm_source=api",
       "priceUsd": 33.07
-    },
-    "Woodland Cemetery": {
-      "image": "https://cards.scryfall.io/normal/front/4/d/4d6f6c96-f813-4864-b4e1-b2a0aa8be1e8.jpg?1783903713",
-      "scryfallUri": "https://scryfall.com/card/soc/424/woodland-cemetery?utm_source=api",
-      "priceUsd": 0.96
-    },
-    "Deathrite Shaman": {
-      "image": "https://cards.scryfall.io/normal/front/c/f/cfdb1c47-14be-491f-88b3-bed03489dbc5.jpg?1783913292",
-      "scryfallUri": "https://scryfall.com/card/rvr/175/deathrite-shaman?utm_source=api",
-      "priceUsd": 7.46
-    },
-    "Voidslime": {
-      "image": "https://cards.scryfall.io/normal/front/8/7/87e802b0-52a1-4108-ab4c-cb8ddc27e000.jpg?1783913271",
-      "scryfallUri": "https://scryfall.com/card/rvr/237/voidslime?utm_source=api",
-      "priceUsd": 0.62
     },
     "Demonic Tutor": {
       "image": "https://cards.scryfall.io/normal/front/a/2/a24b4cb6-cebb-428b-8654-74347a6a8d63.jpg?1783915679",
@@ -6057,995 +6017,25 @@
       "scryfallUri": "https://scryfall.com/card/trc/575/underground-river?utm_source=api",
       "priceUsd": 0.91
     },
-    "Swiftfoot Boots": {
-      "image": "https://cards.scryfall.io/normal/front/3/b/3b69b12e-ef29-455c-8939-eacf44c6c3f6.jpg?1793021194",
-      "scryfallUri": "https://scryfall.com/card/trc/501/swiftfoot-boots?utm_source=api",
-      "priceUsd": 1.61
-    },
     "Muldrotha, the Gravetide": {
       "image": "https://cards.scryfall.io/normal/front/7/0/705b4d97-2f50-47f7-9053-d748f4337553.jpg?1783904538",
       "scryfallUri": "https://scryfall.com/card/ecc/128/muldrotha-the-gravetide?utm_source=api",
       "priceUsd": 0.65
-    },
-    "Incarnation Technique": {
-      "image": "https://cards.scryfall.io/normal/front/9/6/9655deda-f02b-47a0-89a3-2904b11b84aa.jpg?1783927597",
-      "scryfallUri": "https://scryfall.com/card/c21/41/incarnation-technique?utm_source=api",
-      "priceUsd": 9.05
-    },
-    "Hinterland Harbor": {
-      "image": "https://cards.scryfall.io/normal/front/b/e/be99af65-ca51-48f4-a004-baf21e267cc8.jpg?1793281457",
-      "scryfallUri": "https://scryfall.com/card/trc/537/hinterland-harbor?utm_source=api",
-      "priceUsd": 4.09
-    },
-    "Singularity Rupture": {
-      "image": "https://cards.scryfall.io/normal/front/a/3/a34012e3-ec7a-4713-a2c2-f8efff49e364.jpg?1783905925",
-      "scryfallUri": "https://scryfall.com/card/eoe/228/singularity-rupture?utm_source=api",
-      "priceUsd": 2.16
-    },
-    "Aftermath Analyst": {
-      "image": "https://cards.scryfall.io/normal/front/6/6/66f135b4-8cb3-4a4e-86ae-81a3cf4b7259.jpg?1783906036",
-      "scryfallUri": "https://scryfall.com/card/eoc/91/aftermath-analyst?utm_source=api",
-      "priceUsd": 1.15
-    },
-    "Champion of Wits": {
-      "image": "https://cards.scryfall.io/normal/front/4/8/489e339b-3bc6-4221-9734-d796b65910d2.jpg?1783923284",
-      "scryfallUri": "https://scryfall.com/card/ncc/213/champion-of-wits?utm_source=api",
-      "priceUsd": 0.19
-    },
-    "Morphic Pool": {
-      "image": "https://cards.scryfall.io/normal/front/5/6/5667b84e-38d1-4583-80ec-2c4584a81ee8.jpg?1793021331",
-      "scryfallUri": "https://scryfall.com/card/trc/540/morphic-pool?utm_source=api",
-      "priceUsd": 6.58
-    },
-    "Body Double": {
-      "image": "https://cards.scryfall.io/normal/front/6/d/6d434b49-c3e8-4b4d-b573-c144ba78e98b.jpg?1783915705",
-      "scryfallUri": "https://scryfall.com/card/cmm/75/body-double?utm_source=api",
-      "priceUsd": 0.26
     },
     "Ancient Tomb": {
       "image": "https://cards.scryfall.io/normal/front/b/d/bd3d4b4b-cf31-4f89-8140-9650edb03c7b.jpg?1783933762",
       "scryfallUri": "https://scryfall.com/card/uma/236/ancient-tomb?utm_source=api",
       "priceUsd": 124.96
     },
-    "Deathcap Glade": {
-      "image": "https://cards.scryfall.io/normal/front/7/8/78897104-80e1-4d8a-9958-145b40f679e8.jpg?1783903621",
-      "scryfallUri": "https://scryfall.com/card/sos/253/deathcap-glade?utm_source=api",
-      "priceUsd": 2.84
-    },
-    "Opulent Palace": {
-      "image": "https://cards.scryfall.io/normal/front/f/0/f0001153-dbcb-44e5-99be-2c186c9b10b0.jpg?1783904523",
-      "scryfallUri": "https://scryfall.com/card/ecc/157/opulent-palace?utm_source=api",
-      "priceUsd": 0.34
-    },
-    "Unmarked Grave": {
-      "image": "https://cards.scryfall.io/normal/front/4/9/492b368b-de32-45c1-8459-238aae54f9fc.jpg?1783926852",
-      "scryfallUri": "https://scryfall.com/card/mh2/106/unmarked-grave?utm_source=api",
-      "priceUsd": 2.97
-    },
     "Stitcher's Supplier": {
       "image": "https://cards.scryfall.io/normal/front/2/e/2edcde06-b326-476e-884d-770187c785fe.jpg?1783907080",
       "scryfallUri": "https://scryfall.com/card/tdc/196/stitchers-supplier?utm_source=api",
       "priceUsd": 0.42
     },
-    "Shifting Woodland": {
-      "image": "https://cards.scryfall.io/normal/front/0/5/059164e1-894d-4586-9800-e60d6fbd6eb6.jpg?1783911237",
-      "scryfallUri": "https://scryfall.com/card/mh3/228/shifting-woodland?utm_source=api",
-      "priceUsd": 7.74
-    },
-    "Bala Ged Recovery // Bala Ged Sanctuary": {
-      "image": "https://cards.scryfall.io/normal/front/c/5/c5cb3052-358d-44a7-8cfd-cd31b236494a.jpg?1783929347",
-      "scryfallUri": "https://scryfall.com/card/znr/180/bala-ged-recovery-bala-ged-sanctuary?utm_source=api",
-      "priceUsd": 6.55
-    },
-    "Predator Ooze": {
-      "image": "https://cards.scryfall.io/normal/front/3/3/333b3cca-ebbf-4ceb-a6a5-3d49cb2e143a.jpg?1783908916",
-      "scryfallUri": "https://scryfall.com/card/fdn/642/predator-ooze?utm_source=api",
-      "priceUsd": 0.18
-    },
-    "Shipwreck Marsh": {
-      "image": "https://cards.scryfall.io/normal/front/9/e/9e944c5b-68ac-4a30-bbd4-09a4288319ce.jpg?1788878245",
-      "scryfallUri": "https://scryfall.com/card/fra/189/shipwreck-marsh?utm_source=api",
-      "priceUsd": 1.59
-    },
-    "Gelatinous Cube": {
-      "image": "https://cards.scryfall.io/normal/front/1/c/1c472e70-300c-4881-86e7-c5ca690ab9b6.jpg?1783926493",
-      "scryfallUri": "https://scryfall.com/card/afr/105/gelatinous-cube?utm_source=api",
-      "priceUsd": 0.33
-    },
-    "Three Visits": {
-      "image": "https://cards.scryfall.io/normal/front/9/9/99bf792f-963e-4509-8d3c-7db129c6a77f.jpg?1783903227",
-      "scryfallUri": "https://scryfall.com/card/msc/181/three-visits?utm_source=api",
-      "priceUsd": 5.11
-    },
-    "Biowaste Blob": {
-      "image": "https://cards.scryfall.io/normal/front/8/b/8bbf476f-ccc8-42ac-8d01-64bb85552acd.jpg?1783928799",
-      "scryfallUri": "https://scryfall.com/card/cmr/219/biowaste-blob?utm_source=api",
-      "priceUsd": 0.4
-    },
-    "Dimir Signet": {
-      "image": "https://cards.scryfall.io/normal/front/0/8/0862060d-3198-4eeb-af8c-efeb27f42a99.jpg?1789599833",
-      "scryfallUri": "https://scryfall.com/card/frc/56/dimir-signet?utm_source=api",
-      "priceUsd": 0.37
-    },
-    "An Offer You Can't Refuse": {
-      "image": "https://cards.scryfall.io/normal/front/a/8/a829747f-cf9b-4d81-ba66-9f0630ed4565.jpg?1783909078",
-      "scryfallUri": "https://scryfall.com/card/fdn/160/an-offer-you-cant-refuse?utm_source=api",
-      "priceUsd": 2.95
-    },
-    "Sultai Charm": {
-      "image": "https://cards.scryfall.io/normal/front/7/2/72af6c1f-33a0-4e02-95b7-74ecaa6a6d87.jpg?1783921405",
-      "scryfallUri": "https://scryfall.com/card/dmc/168/sultai-charm?utm_source=api",
-      "priceUsd": 0.31
-    },
-    "Takenuma, Abandoned Mire": {
-      "image": "https://cards.scryfall.io/normal/front/4/9/499037cc-a577-41cb-8ca2-5e117945634f.jpg?1783923812",
-      "scryfallUri": "https://scryfall.com/card/neo/278/takenuma-abandoned-mire?utm_source=api",
-      "priceUsd": 12.73
-    },
-    "Prime Speaker Zegana": {
-      "image": "https://cards.scryfall.io/normal/front/d/2/d2f007b0-b578-44f8-be65-cd9e2ac56e09.jpg?1783908909",
-      "scryfallUri": "https://scryfall.com/card/fdn/664/prime-speaker-zegana?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Simic Signet": {
-      "image": "https://cards.scryfall.io/normal/front/b/f/bf222c78-f12e-4857-93da-fade99c740b8.jpg?1783909583",
-      "scryfallUri": "https://scryfall.com/card/dsc/252/simic-signet?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Satyr Wayfinder": {
-      "image": "https://cards.scryfall.io/normal/front/e/6/e64c5e9b-e73d-4721-8816-eca02eb6b828.jpg?1793281424",
-      "scryfallUri": "https://scryfall.com/card/trc/469/satyr-wayfinder?utm_source=api",
-      "priceUsd": 0.12
-    },
-    "Malevolent Rumble": {
-      "image": "https://cards.scryfall.io/normal/front/a/1/a178cfe8-f9fa-4255-88d0-54a0bed079f5.jpg?1783911259",
-      "scryfallUri": "https://scryfall.com/card/mh3/161/malevolent-rumble?utm_source=api",
-      "priceUsd": 0.47
-    },
-    "Malakir Rebirth // Malakir Mire": {
-      "image": "https://cards.scryfall.io/normal/front/6/0/609d3ecf-f88d-4268-a8d3-4bf2bcf5df60.jpg?1783929378",
-      "scryfallUri": "https://scryfall.com/card/znr/111/malakir-rebirth-malakir-mire?utm_source=api",
-      "priceUsd": 10.99
-    },
-    "Urborg Lhurgoyf": {
-      "image": "https://cards.scryfall.io/normal/front/a/6/a6f97236-1497-4811-8189-0545707451da.jpg?1783921291",
-      "scryfallUri": "https://scryfall.com/card/dmu/186/urborg-lhurgoyf?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Old Stickfingers": {
-      "image": "https://cards.scryfall.io/normal/front/3/2/329888c6-25d9-4eb9-9308-f979c3859669.jpg?1791803824",
-      "scryfallUri": "https://scryfall.com/card/dsc/227/old-stickfingers?utm_source=api",
-      "priceUsd": 0.35
-    },
-    "Golgari Signet": {
-      "image": "https://cards.scryfall.io/normal/front/9/5/95103b4c-d0c0-40fa-9ddd-c7416455ca0c.jpg?1783909585",
-      "scryfallUri": "https://scryfall.com/card/dsc/246/golgari-signet?utm_source=api",
-      "priceUsd": 0.4
-    },
-    "Biogenic Ooze": {
-      "image": "https://cards.scryfall.io/normal/front/0/e/0e850205-d010-49af-b68b-262360751b70.jpg?1783904159",
-      "scryfallUri": "https://scryfall.com/card/tmc/49/biogenic-ooze?utm_source=api",
-      "priceUsd": 0.29
-    },
-    "Flooded Grove": {
-      "image": "https://cards.scryfall.io/normal/front/d/f/df797e0d-8ae2-4fdb-a33d-4ba7852b0172.jpg?1783903731",
-      "scryfallUri": "https://scryfall.com/card/soc/373/flooded-grove?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Green Slime": {
-      "image": "https://cards.scryfall.io/normal/front/b/1/b1beaaae-9406-4beb-8e74-d278822434c7.jpg?1783922499",
-      "scryfallUri": "https://scryfall.com/card/clb/680/green-slime?utm_source=api",
-      "priceUsd": 2.32
-    },
-    "Twilight Mire": {
-      "image": "https://cards.scryfall.io/normal/front/3/c/3cc8186b-b46f-46c0-8dfb-9e423e430048.jpg?1783903716",
-      "scryfallUri": "https://scryfall.com/card/soc/418/twilight-mire?utm_source=api",
-      "priceUsd": 0.43
-    },
-    "Sultai Ascendancy": {
-      "image": "https://cards.scryfall.io/normal/front/3/3/3314d77a-039f-43e4-a457-6ceba20c0ffe.jpg?1783939052",
-      "scryfallUri": "https://scryfall.com/card/ktk/203/sultai-ascendancy?utm_source=api",
-      "priceUsd": 0.34
-    },
-    "Dreamroot Cascade": {
-      "image": "https://cards.scryfall.io/normal/front/e/f/ef662b92-5a7f-48c9-bcc1-14b55e091aef.jpg?1783903621",
-      "scryfallUri": "https://scryfall.com/card/sos/254/dreamroot-cascade?utm_source=api",
-      "priceUsd": 1.39
-    },
-    "Dina's Guidance": {
-      "image": "https://cards.scryfall.io/normal/front/7/7/775c1e50-08a4-413f-ab0f-f1c2a79cfe94.jpg?1783903646",
-      "scryfallUri": "https://scryfall.com/card/sos/184/dinas-guidance?utm_source=api",
-      "priceUsd": 0.73
-    },
-    "Icetill Explorer": {
-      "image": "https://cards.scryfall.io/normal/front/d/9/d9482aab-6ddf-48e1-84fa-b13d5ff81e69.jpg?1783905935",
-      "scryfallUri": "https://scryfall.com/card/eoe/192/icetill-explorer?utm_source=api",
-      "priceUsd": 22.27
-    },
-    "Uchuulon": {
-      "image": "https://cards.scryfall.io/normal/front/e/c/ecef5fca-72ec-4aee-af6e-ee5d6f6bc567.jpg?1783922501",
-      "scryfallUri": "https://scryfall.com/card/clb/673/uchuulon?utm_source=api",
-      "priceUsd": 7.88
-    },
-    "Revitalizing Repast // Old-Growth Grove": {
-      "image": "https://cards.scryfall.io/normal/front/0/3/03522b6b-31ec-4126-8885-5dbb2248688b.jpg?1783911227",
-      "scryfallUri": "https://scryfall.com/card/mh3/256/revitalizing-repast-old-growth-grove?utm_source=api",
-      "priceUsd": 1.44
-    },
-    "Grave Researcher // Reanimate": {
-      "image": "https://cards.scryfall.io/normal/front/8/b/8b1e10e8-ea14-4761-910b-4072e2a18456.jpg?1783903680",
-      "scryfallUri": "https://scryfall.com/card/sos/85/grave-researcher-reanimate?utm_source=api",
-      "priceUsd": 2.07
-    },
-    "Urborg, Tomb of Yawgmoth": {
-      "image": "https://cards.scryfall.io/normal/front/9/e/9e1a9e38-6ffc-490f-b0be-23ba4e8204c6.jpg?1783927747",
-      "scryfallUri": "https://scryfall.com/card/tsr/287/urborg-tomb-of-yawgmoth?utm_source=api",
-      "priceUsd": 53.46
-    },
-    "Ledger Shredder": {
-      "image": "https://cards.scryfall.io/normal/front/7/e/7ea4b5bc-18a4-45db-a56a-ab3f8bd2fb0d.jpg?1783923147",
-      "scryfallUri": "https://scryfall.com/card/snc/46/ledger-shredder?utm_source=api",
-      "priceUsd": 8.77
-    },
-    "Bitter Triumph": {
-      "image": "https://cards.scryfall.io/normal/front/c/f/cfe118f0-f727-41a6-aaaf-9638fe1dad49.jpg?1793021093",
-      "scryfallUri": "https://scryfall.com/card/trc/445/bitter-triumph?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Aeve, Progenitor Ooze": {
-      "image": "https://cards.scryfall.io/normal/front/d/f/dfe9b1b8-dffe-427d-be1e-2c6b8395bd54.jpg?1783926836",
-      "scryfallUri": "https://scryfall.com/card/mh2/148/aeve-progenitor-ooze?utm_source=api",
-      "priceUsd": 0.29
-    },
-    "Oran-Rief Ooze": {
-      "image": "https://cards.scryfall.io/normal/front/8/8/88874c5c-249f-4560-a05a-64bd1d8db83f.jpg?1783908631",
-      "scryfallUri": "https://scryfall.com/card/j25/693/oran-rief-ooze?utm_source=api",
-      "priceUsd": 0.28
-    },
-    "Thirst for Discovery": {
-      "image": "https://cards.scryfall.io/normal/front/1/e/1ea179e9-9c0d-46c1-9ee8-60be68e1f79c.jpg?1783924880",
-      "scryfallUri": "https://scryfall.com/card/vow/85/thirst-for-discovery?utm_source=api",
-      "priceUsd": 0.34
-    },
-    "Consuming Blob": {
-      "image": "https://cards.scryfall.io/normal/front/4/5/4540fa4b-93e8-4749-a839-9a6e816c1145.jpg?1783925582",
-      "scryfallUri": "https://scryfall.com/card/mid/177/consuming-blob?utm_source=api",
-      "priceUsd": 0.51
-    },
-    "Ochre Jelly": {
-      "image": "https://cards.scryfall.io/normal/front/9/f/9f23cfb7-c6b6-4f04-abba-5b2a6117ea12.jpg?1783926458",
-      "scryfallUri": "https://scryfall.com/card/afr/196/ochre-jelly?utm_source=api",
-      "priceUsd": 0.4
-    },
-    "Ravenous Slime": {
-      "image": "https://cards.scryfall.io/normal/front/5/2/528d8f5e-2d58-4526-875b-21d199267210.jpg?1783934331",
-      "scryfallUri": "https://scryfall.com/card/c18/34/ravenous-slime?utm_source=api",
-      "priceUsd": 1.79
-    },
-    "Tyrranax Rex": {
-      "image": "https://cards.scryfall.io/normal/front/0/f/0fb52b44-da5f-4f7a-a6c2-7924b855e051.jpg?1783918007",
-      "scryfallUri": "https://scryfall.com/card/one/189/tyrranax-rex?utm_source=api",
-      "priceUsd": 5.98
-    },
-    "Stinkweed Imp": {
-      "image": "https://cards.scryfall.io/normal/front/2/a/2ab08d69-210b-4b06-88a2-45281a1a4e1e.jpg?1783938781",
-      "scryfallUri": "https://scryfall.com/card/dvd/36/stinkweed-imp?utm_source=api",
-      "priceUsd": 1.59
-    },
     "Cephalid Coliseum": {
       "image": "https://cards.scryfall.io/normal/front/0/3/03b9c9ed-fb6f-4f8d-bb1d-7999dec4245c.jpg?1783906997",
       "scryfallUri": "https://scryfall.com/card/tdc/349/cephalid-coliseum?utm_source=api",
       "priceUsd": 0.32
-    },
-    "Rampant Growth": {
-      "image": "https://cards.scryfall.io/normal/front/0/9/099c081d-06ae-4ca5-ab3b-f70d01509258.jpg?1793281421",
-      "scryfallUri": "https://scryfall.com/card/trc/468/rampant-growth?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Dakmor Salvage": {
-      "image": "https://cards.scryfall.io/normal/front/7/2/72474b66-1dda-409d-8703-b026c1777081.jpg?1783906015",
-      "scryfallUri": "https://scryfall.com/card/eoc/156/dakmor-salvage?utm_source=api",
-      "priceUsd": 0.28
-    },
-    "Mystic Genesis": {
-      "image": "https://cards.scryfall.io/normal/front/5/6/56b93af3-f7b9-4b66-8a66-366134ebb896.jpg?1783936614",
-      "scryfallUri": "https://scryfall.com/card/mm3/174/mystic-genesis?utm_source=api",
-      "priceUsd": 0.17
-    },
-    "Arcane Denial": {
-      "image": "https://cards.scryfall.io/normal/front/5/e/5eb843ef-b223-40d0-a461-54b16d188d0e.jpg?1783903242",
-      "scryfallUri": "https://scryfall.com/card/msc/147/arcane-denial?utm_source=api",
-      "priceUsd": 2.56
-    },
-    "Delighted Halfling": {
-      "image": "https://cards.scryfall.io/normal/front/7/1/71384418-173a-4f77-adab-56e52fa23692.jpg?1783916276",
-      "scryfallUri": "https://scryfall.com/card/ltr/158/delighted-halfling?utm_source=api",
-      "priceUsd": 21.91
-    },
-    "Plasm Capture": {
-      "image": "https://cards.scryfall.io/normal/front/1/1/11ee15d5-1c93-4c30-911f-32e2aabf020e.jpg?1783911896",
-      "scryfallUri": "https://scryfall.com/card/otc/237/plasm-capture?utm_source=api",
-      "priceUsd": 0.39
-    },
-    "Mitotic Slime": {
-      "image": "https://cards.scryfall.io/normal/front/8/a/8aacf055-e36f-4428-8a3c-f73fa4b4307c.jpg?1783923245",
-      "scryfallUri": "https://scryfall.com/card/ncc/302/mitotic-slime?utm_source=api",
-      "priceUsd": 0.39
-    },
-    "The Mindskinner": {
-      "image": "https://cards.scryfall.io/normal/front/7/f/7f1bb4c5-99be-46cc-ad54-7affb5f0144c.jpg?1783909491",
-      "scryfallUri": "https://scryfall.com/card/dsk/66/the-mindskinner?utm_source=api",
-      "priceUsd": 3.02
-    },
-    "Pernicious Deed": {
-      "image": "https://cards.scryfall.io/normal/front/8/6/8652e3a1-bcd4-4c0c-a085-34f19702df26.jpg?1783935114",
-      "scryfallUri": "https://scryfall.com/card/a25/212/pernicious-deed?utm_source=api",
-      "priceUsd": 3.59
-    },
-    "Boseiju, Who Endures": {
-      "image": "https://cards.scryfall.io/normal/front/2/1/2135ac5a-187b-4dc9-8f82-34e8d1603416.jpg?1783923818",
-      "scryfallUri": "https://scryfall.com/card/neo/266/boseiju-who-endures?utm_source=api",
-      "priceUsd": 45.1
-    },
-    "Geier Reach Sanitarium": {
-      "image": "https://cards.scryfall.io/normal/front/4/b/4b9c92f0-4242-4a3e-9ede-6a4935f5c75d.jpg?1783913830",
-      "scryfallUri": "https://scryfall.com/card/lcc/335/geier-reach-sanitarium?utm_source=api",
-      "priceUsd": 2.61
-    },
-    "Drag to the Roots": {
-      "image": "https://cards.scryfall.io/normal/front/4/6/46f46095-6479-46b0-9e59-194d83f86a46.jpg?1783909444",
-      "scryfallUri": "https://scryfall.com/card/dsk/213/drag-to-the-roots?utm_source=api",
-      "priceUsd": 0.31
-    },
-    "Stubborn Denial": {
-      "image": "https://cards.scryfall.io/normal/front/6/f/6f8626c4-306f-4e9d-8840-2bb73fe87e87.jpg?1783939084",
-      "scryfallUri": "https://scryfall.com/card/ktk/56/stubborn-denial?utm_source=api",
-      "priceUsd": 3.54
-    },
-    "Yavimaya, Cradle of Growth": {
-      "image": "https://cards.scryfall.io/normal/front/4/e/4e4b6e22-93b2-4896-bba5-0ceaa5d8ea3c.jpg?1783926791",
-      "scryfallUri": "https://scryfall.com/card/mh2/261/yavimaya-cradle-of-growth?utm_source=api",
-      "priceUsd": 13.3
-    },
-    "Fell the Profane // Fell Mire": {
-      "image": "https://cards.scryfall.io/normal/front/a/3/a3cb782d-c459-468d-9779-9b5669abc337.jpg?1783911234",
-      "scryfallUri": "https://scryfall.com/card/mh3/244/fell-the-profane-fell-mire?utm_source=api",
-      "priceUsd": 5.76
-    },
-    "Dread Return": {
-      "image": "https://cards.scryfall.io/normal/front/3/4/34a87901-98bb-41dd-b566-bcb510c20022.jpg?1783915677",
-      "scryfallUri": "https://scryfall.com/card/cmm/153/dread-return?utm_source=api",
-      "priceUsd": 0.46
-    },
-    "Gutter Grime": {
-      "image": "https://cards.scryfall.io/normal/front/a/9/a9d007a2-163d-4e09-a70b-280a6fa3203b.jpg?1783940917",
-      "scryfallUri": "https://scryfall.com/card/isd/186/gutter-grime?utm_source=api",
-      "priceUsd": 0.36
-    },
-    "Smuggler's Surprise": {
-      "image": "https://cards.scryfall.io/normal/front/e/7/e7fbb489-e2b5-4278-8162-86802cf124d8.jpg?1783911803",
-      "scryfallUri": "https://scryfall.com/card/otj/180/smugglers-surprise?utm_source=api",
-      "priceUsd": 5.4
-    },
-    "Nature's Claim": {
-      "image": "https://cards.scryfall.io/normal/front/d/2/d24b6640-ef2f-4c92-beb3-afdf78f9c2d5.jpg?1783935517",
-      "scryfallUri": "https://scryfall.com/card/ima/177/natures-claim?utm_source=api",
-      "priceUsd": 1.03
-    },
-    "Trickbind": {
-      "image": "https://cards.scryfall.io/normal/front/f/2/f2e58ff2-dea3-42b3-8c22-3e6202a7d433.jpg?1783943238",
-      "scryfallUri": "https://scryfall.com/card/tsp/88/trickbind?utm_source=api",
-      "priceUsd": 12.42
-    },
-    "Glimpse the Unthinkable": {
-      "image": "https://cards.scryfall.io/normal/front/c/5/c54a2256-673d-4d93-9e1d-7790bf254881.jpg?1783921832",
-      "scryfallUri": "https://scryfall.com/card/2x2/218/glimpse-the-unthinkable?utm_source=api",
-      "priceUsd": 3.15
-    },
-    "Nephalia Drownyard": {
-      "image": "https://cards.scryfall.io/normal/front/f/e/fe2e25b7-f950-482b-9e35-266b1278a71a.jpg?1783913826",
-      "scryfallUri": "https://scryfall.com/card/lcc/344/nephalia-drownyard?utm_source=api",
-      "priceUsd": 0.26
-    },
-    "Palantír of Orthanc": {
-      "image": "https://cards.scryfall.io/normal/front/6/e/6efb6a69-562c-4d95-858d-b067444cfd7e.jpg?1783916235",
-      "scryfallUri": "https://scryfall.com/card/ltr/247/palant%C3%ADr-of-orthanc?utm_source=api",
-      "priceUsd": 15.38
-    },
-    "Bojuka Bog": {
-      "image": "https://cards.scryfall.io/normal/front/5/5/55b5b094-9d2d-4d96-b90c-78fecdae725a.jpg?1783903734",
-      "scryfallUri": "https://scryfall.com/card/soc/363/bojuka-bog?utm_source=api",
-      "priceUsd": 1.58
-    },
-    "Mana Drain": {
-      "image": "https://cards.scryfall.io/normal/front/3/c/3c429c40-2389-41e5-8681-4bb274e25eba.jpg?1783921913",
-      "scryfallUri": "https://scryfall.com/card/2x2/57/mana-drain?utm_source=api",
-      "priceUsd": 53.72
-    },
-    "Drown in the Loch": {
-      "image": "https://cards.scryfall.io/normal/front/e/b/eb7b9762-740b-4c1c-a411-20dbf023aea5.jpg?1783922399",
-      "scryfallUri": "https://scryfall.com/card/clb/842/drown-in-the-loch?utm_source=api",
-      "priceUsd": 1.5
-    },
-    "Indominus Rex, Alpha": {
-      "image": "https://cards.scryfall.io/normal/front/2/5/25e6ebfb-8f0b-44f0-a911-103ade41c6bc.jpg?1783913634",
-      "scryfallUri": "https://scryfall.com/card/rex/14/indominus-rex-alpha?utm_source=api",
-      "priceUsd": 23.1
-    },
-    "Hedron Crab": {
-      "image": "https://cards.scryfall.io/normal/front/d/1/d109b70e-862f-4d8a-8b40-ef6dc904868f.jpg?1783907106",
-      "scryfallUri": "https://scryfall.com/card/tdc/155/hedron-crab?utm_source=api",
-      "priceUsd": 3.53
-    },
-    "Convert to Slime": {
-      "image": "https://cards.scryfall.io/normal/front/a/4/a4dfb147-10f6-49f1-b777-12125e87189b.jpg?1783909653",
-      "scryfallUri": "https://scryfall.com/card/dsc/37/convert-to-slime?utm_source=api",
-      "priceUsd": 0.65
-    },
-    "Sunken Hollow": {
-      "image": "https://cards.scryfall.io/normal/front/a/f/af0eb74d-c203-42ea-a24f-c70429b3e4c3.jpg?1793021388",
-      "scryfallUri": "https://scryfall.com/card/trc/564/sunken-hollow?utm_source=api",
-      "priceUsd": 0.53
-    },
-    "Fellwar Stone": {
-      "image": "https://cards.scryfall.io/normal/front/3/e/3ef87948-0ad9-4757-a692-2262c8e24367.jpg?1785759354",
-      "scryfallUri": "https://scryfall.com/card/mbc/74/fellwar-stone?utm_source=api",
-      "priceUsd": 2.68
-    },
-    "Winternight Stories": {
-      "image": "https://cards.scryfall.io/normal/front/6/4/64d9367c-f50c-4568-aa63-6760c44ecaeb.jpg?1783907385",
-      "scryfallUri": "https://scryfall.com/card/tdm/67/winternight-stories?utm_source=api",
-      "priceUsd": 1.45
-    },
-    "Fell Beast of Mordor": {
-      "image": "https://cards.scryfall.io/normal/front/d/a/daa9c5dd-e7d9-4a7b-b75a-897911a3411b.jpg?1783914191",
-      "scryfallUri": "https://scryfall.com/card/ltc/513/fell-beast-of-mordor?utm_source=api",
-      "priceUsd": 1.65
-    },
-    "Awaken the Honored Dead": {
-      "image": "https://cards.scryfall.io/normal/front/1/4/14078a49-2230-4ad7-aea0-0c253813c646.jpg?1783907325",
-      "scryfallUri": "https://scryfall.com/card/tdm/170/awaken-the-honored-dead?utm_source=api",
-      "priceUsd": 0.43
-    },
-    "Altar of Dementia": {
-      "image": "https://cards.scryfall.io/normal/front/1/6/169356e0-46dc-4096-8e66-36726454f104.jpg?1783933075",
-      "scryfallUri": "https://scryfall.com/card/mh1/218/altar-of-dementia?utm_source=api",
-      "priceUsd": 15.87
-    },
-    "Traumatize": {
-      "image": "https://cards.scryfall.io/normal/front/9/b/9b8784dd-83f9-41f8-aedc-f0f81073ffcb.jpg?1783939929",
-      "scryfallUri": "https://scryfall.com/card/m14/77/traumatize?utm_source=api",
-      "priceUsd": 3.65
-    },
-    "Negate": {
-      "image": "https://cards.scryfall.io/normal/front/c/5/c57ee875-5ce7-4c47-841c-9639d622fe00.jpg?1793111882",
-      "scryfallUri": "https://scryfall.com/card/trc/439/negate?utm_source=api",
-      "priceUsd": 0.36
-    },
-    "Llanowar Elves": {
-      "image": "https://cards.scryfall.io/normal/front/6/a/6a0b230b-d391-4998-a3f7-7b158a0ec2cd.jpg?1783909057",
-      "scryfallUri": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
-      "priceUsd": 0.36
-    },
-    "Gelatinous Genesis": {
-      "image": "https://cards.scryfall.io/normal/front/4/e/4e5c2be0-76ab-4873-a1fc-9ff65a9347c7.jpg?1783930148",
-      "scryfallUri": "https://scryfall.com/card/2xm/169/gelatinous-genesis?utm_source=api",
-      "priceUsd": 0.55
-    },
-    "Slime Against Humanity": {
-      "image": "https://cards.scryfall.io/normal/front/1/e/1eb21318-d32e-4724-8908-c0d7613de2f4.jpg?1783912861",
-      "scryfallUri": "https://scryfall.com/card/mkm/177/slime-against-humanity?utm_source=api",
-      "priceUsd": 1.14
-    },
-    "Damnation": {
-      "image": "https://cards.scryfall.io/normal/front/d/3/d3c0aac5-b9f1-4446-bfea-3e1dd1cf1f2f.jpg?1783921909",
-      "scryfallUri": "https://scryfall.com/card/2x2/73/damnation?utm_source=api",
-      "priceUsd": 21.29
-    },
-    "Mosswort Bridge": {
-      "image": "https://cards.scryfall.io/normal/front/f/b/fbf2148a-e8d8-453f-9901-2941bf0d15d4.jpg?1793281466",
-      "scryfallUri": "https://scryfall.com/card/trc/541/mosswort-bridge?utm_source=api",
-      "priceUsd": 0.59
-    },
-    "Deathsprout": {
-      "image": "https://cards.scryfall.io/normal/front/2/6/26a0ae4f-a48c-4333-a53f-70702b5b4c9e.jpg?1783931151",
-      "scryfallUri": "https://scryfall.com/card/c20/208/deathsprout?utm_source=api",
-      "priceUsd": 0.36
-    },
-    "Mulch": {
-      "image": "https://cards.scryfall.io/normal/front/9/f/9f6afdab-b41f-4713-b74a-e90e8bbbaf0a.jpg?1783909603",
-      "scryfallUri": "https://scryfall.com/card/dsc/189/mulch?utm_source=api",
-      "priceUsd": 0.35
-    },
-    "Exhume": {
-      "image": "https://cards.scryfall.io/normal/front/5/f/5f1cdcba-a04a-4a2f-8bc1-0dd7fa03754d.jpg?1783930426",
-      "scryfallUri": "https://scryfall.com/card/jmp/230/exhume?utm_source=api",
-      "priceUsd": 6.02
-    },
-    "Miming Slime": {
-      "image": "https://cards.scryfall.io/normal/front/8/0/80d816cd-9ca6-4118-893e-5c6b167d9d81.jpg?1783933788",
-      "scryfallUri": "https://scryfall.com/card/uma/173/miming-slime?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Ooze Flux": {
-      "image": "https://cards.scryfall.io/normal/front/e/9/e9554369-7961-4cea-9da0-a1235805a26a.jpg?1783940116",
-      "scryfallUri": "https://scryfall.com/card/gtc/128/ooze-flux?utm_source=api",
-      "priceUsd": 0.31
-    },
-    "Maddening Cacophony": {
-      "image": "https://cards.scryfall.io/normal/front/1/0/10a79733-702c-4611-b073-71db7f1158b2.jpg?1783929393",
-      "scryfallUri": "https://scryfall.com/card/znr/67/maddening-cacophony?utm_source=api",
-      "priceUsd": 6.73
-    },
-    "Agadeem's Awakening // Agadeem, the Undercrypt": {
-      "image": "https://cards.scryfall.io/normal/front/6/7/67f4c93b-080c-4196-b095-6a120a221988.jpg?1783929388",
-      "scryfallUri": "https://scryfall.com/card/znr/90/agadeems-awakening-agadeem-the-undercrypt?utm_source=api",
-      "priceUsd": 25.68
-    },
-    "Six": {
-      "image": "https://cards.scryfall.io/normal/front/f/9/f9246b68-580f-4f53-883d-7900880e4b0d.jpg?1783911256",
-      "scryfallUri": "https://scryfall.com/card/mh3/169/six?utm_source=api",
-      "priceUsd": 4.09
-    },
-    "Thirst for Identity": {
-      "image": "https://cards.scryfall.io/normal/front/c/3/c3949f8c-d1c5-45c2-80ed-a57f4f9af86e.jpg?1783904479",
-      "scryfallUri": "https://scryfall.com/card/ecl/79/thirst-for-identity?utm_source=api",
-      "priceUsd": 0.28
-    },
-    "Out of the Tombs": {
-      "image": "https://cards.scryfall.io/normal/front/f/1/f1170bfa-9623-44c3-a15e-bd8c2627fe6e.jpg?1783920916",
-      "scryfallUri": "https://scryfall.com/card/40k/46/out-of-the-tombs?utm_source=api",
-      "priceUsd": 9.91
-    },
-    "Cemetery Tampering": {
-      "image": "https://cards.scryfall.io/normal/front/b/6/b6d4cf14-c43e-454b-ae76-3678617067f8.jpg?1783909621",
-      "scryfallUri": "https://scryfall.com/card/dsc/135/cemetery-tampering?utm_source=api",
-      "priceUsd": 0.37
-    },
-    "Life // Death": {
-      "image": "https://cards.scryfall.io/normal/front/e/1/e16d52ca-f8de-4852-9bff-9d208e5f678f.jpg?1783918419",
-      "scryfallUri": "https://scryfall.com/card/dmr/216/life-death?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Kishla Village": {
-      "image": "https://cards.scryfall.io/normal/front/9/f/9f0ff90d-7312-44df-afc5-29c768fa7758.jpg?1783907278",
-      "scryfallUri": "https://scryfall.com/card/tdm/259/kishla-village?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Foreboding Landscape": {
-      "image": "https://cards.scryfall.io/normal/front/c/f/cf53f97c-dd4c-44bd-93ba-faa6d64c985a.jpg?1783906986",
-      "scryfallUri": "https://scryfall.com/card/tdc/365/foreboding-landscape?utm_source=api",
-      "priceUsd": 0.27
-    },
-    "Impervious Greatwurm": {
-      "image": "https://cards.scryfall.io/normal/front/a/1/a1aa77ae-f685-48ee-85dc-ba6084cd30ba.jpg?1783921867",
-      "scryfallUri": "https://scryfall.com/card/2x2/152/impervious-greatwurm?utm_source=api",
-      "priceUsd": 4.33
-    },
-    "Sink into Stupor // Soporific Springs": {
-      "image": "https://cards.scryfall.io/normal/front/5/3/5358b87a-1a29-426d-b165-40c97da2c14d.jpg?1783911236",
-      "scryfallUri": "https://scryfall.com/card/mh3/241/sink-into-stupor-soporific-springs?utm_source=api",
-      "priceUsd": 9.66
-    },
-    "Pongify": {
-      "image": "https://cards.scryfall.io/normal/front/2/9/299aa687-97a4-4fdd-8e73-2069e20fae43.jpg?1793111884",
-      "scryfallUri": "https://scryfall.com/card/trc/441/pongify?utm_source=api",
-      "priceUsd": 1.71
-    },
-    "Hedge Shredder": {
-      "image": "https://cards.scryfall.io/normal/front/3/9/39e83502-2ffd-4169-94e3-116701323ed5.jpg?1783909453",
-      "scryfallUri": "https://scryfall.com/card/dsk/183/hedge-shredder?utm_source=api",
-      "priceUsd": 3.62
-    },
-    "Colossal Skyturtle": {
-      "image": "https://cards.scryfall.io/normal/front/f/4/f40bd797-4d12-4098-a1a8-d7e5b7b82ac9.jpg?1783923837",
-      "scryfallUri": "https://scryfall.com/card/neo/216/colossal-skyturtle?utm_source=api",
-      "priceUsd": 0.39
-    },
-    "The Ozolith": {
-      "image": "https://cards.scryfall.io/normal/front/9/3/9341ed06-53db-4604-b60a-3ea9129afbc2.jpg?1783931006",
-      "scryfallUri": "https://scryfall.com/card/iko/237/the-ozolith?utm_source=api",
-      "priceUsd": 60.18
-    },
-    "Simic Ascendancy": {
-      "image": "https://cards.scryfall.io/normal/front/f/e/fec1ffcd-84d3-44b3-b1d5-b33a4fee348a.jpg?1783913844",
-      "scryfallUri": "https://scryfall.com/card/lcc/288/simic-ascendancy?utm_source=api",
-      "priceUsd": 0.57
-    },
-    "Slime Molding": {
-      "image": "https://cards.scryfall.io/normal/front/0/d/0daf6a74-57f7-4c44-9413-a28002f3de4c.jpg?1783936629",
-      "scryfallUri": "https://scryfall.com/card/mm3/137/slime-molding?utm_source=api",
-      "priceUsd": 0.21
-    },
-    "Extract from Darkness": {
-      "image": "https://cards.scryfall.io/normal/front/e/0/e0769e3f-d27d-4aff-8da0-f03c10b8650b.jpg?1783921837",
-      "scryfallUri": "https://scryfall.com/card/2x2/210/extract-from-darkness?utm_source=api",
-      "priceUsd": 0.34
-    },
-    "Thirst for Meaning": {
-      "image": "https://cards.scryfall.io/normal/front/b/9/b91bd773-b36b-4a7a-a9e4-3a07cff90646.jpg?1783909622",
-      "scryfallUri": "https://scryfall.com/card/dsc/129/thirst-for-meaning?utm_source=api",
-      "priceUsd": 0.28
-    },
-    "Bayou": {
-      "image": "https://cards.scryfall.io/normal/front/b/d/bd7567df-b4d8-41a8-8eac-c05afa784bfe.jpg?1783939226",
-      "scryfallUri": "https://scryfall.com/card/vma/293/bayou?utm_source=api",
-      "priceUsd": 249
-    },
-    "Sidisi, Brood Tyrant": {
-      "image": "https://cards.scryfall.io/normal/front/6/b/6b8e44d4-db67-4bf4-97c0-ffe6a0eb2954.jpg?1783915610",
-      "scryfallUri": "https://scryfall.com/card/cmm/355/sidisi-brood-tyrant?utm_source=api",
-      "priceUsd": 1.26
-    },
-    "Talisman of Resilience": {
-      "image": "https://cards.scryfall.io/normal/front/e/f/eff598b0-0b32-41d0-b980-584576e58626.jpg?1783909582",
-      "scryfallUri": "https://scryfall.com/card/dsc/255/talisman-of-resilience?utm_source=api",
-      "priceUsd": 0.45
-    },
-    "Swan Song": {
-      "image": "https://cards.scryfall.io/normal/front/8/3/83d0b761-d694-4232-9f40-5bd8c82a05f1.jpg?1783906053",
-      "scryfallUri": "https://scryfall.com/card/eoc/46/swan-song?utm_source=api",
-      "priceUsd": 12.04
-    },
-    "Dance of the Dead": {
-      "image": "https://cards.scryfall.io/normal/front/4/4/44de44be-db14-4932-968b-a5bc8b575716.jpg?1783942625",
-      "scryfallUri": "https://scryfall.com/card/me2/83/dance-of-the-dead?utm_source=api",
-      "priceUsd": 14.69
-    },
-    "Evolving Wilds": {
-      "image": "https://cards.scryfall.io/normal/front/6/e/6e01ec28-d815-47a8-ab0f-d383a4736ebe.jpg?1793021295",
-      "scryfallUri": "https://scryfall.com/card/trc/527/evolving-wilds?utm_source=api",
-      "priceUsd": 0.31
-    },
-    "Tropical Island": {
-      "image": "https://cards.scryfall.io/normal/front/4/7/47033ba4-8f26-4a6b-97bd-5b366327325e.jpg?1783939216",
-      "scryfallUri": "https://scryfall.com/card/vma/321/tropical-island?utm_source=api",
-      "priceUsd": 250
-    },
-    "Whispering Madness": {
-      "image": "https://cards.scryfall.io/normal/front/5/a/5a62cda0-34b2-42f0-83bd-c08eecf02fa4.jpg?1783937042",
-      "scryfallUri": "https://scryfall.com/card/c16/229/whispering-madness?utm_source=api",
-      "priceUsd": 3.45
-    },
-    "Otawara, Soaring City": {
-      "image": "https://cards.scryfall.io/normal/front/4/8/486d7edc-d983-41f0-8b78-c99aecd72996.jpg?1783923816",
-      "scryfallUri": "https://scryfall.com/card/neo/271/otawara-soaring-city?utm_source=api",
-      "priceUsd": 28.65
-    },
-    "Mind Grind": {
-      "image": "https://cards.scryfall.io/normal/front/6/7/671eb9e8-1a69-4570-8972-2e7de371cef4.jpg?1783940104",
-      "scryfallUri": "https://scryfall.com/card/gtc/178/mind-grind?utm_source=api",
-      "priceUsd": 2.88
-    },
-    "Far Wanderings": {
-      "image": "https://cards.scryfall.io/normal/front/d/b/db67c59e-a9fb-4580-a8cc-ac5ef6c07440.jpg?1783929468",
-      "scryfallUri": "https://scryfall.com/card/znc/66/far-wanderings?utm_source=api",
-      "priceUsd": 0.4
-    },
-    "Underground Sea": {
-      "image": "https://cards.scryfall.io/normal/front/2/6/26cee543-6eab-494e-a803-33a5d48d7d74.jpg?1783939214",
-      "scryfallUri": "https://scryfall.com/card/vma/323/underground-sea?utm_source=api",
-      "priceUsd": 297
-    },
-    "Matzalantli, the Great Door // The Core": {
-      "image": "https://cards.scryfall.io/normal/front/b/4/b4c31b29-06ba-436d-a3d9-18f4796c39be.jpg?1783913729",
-      "scryfallUri": "https://scryfall.com/card/lci/256/matzalantli-the-great-door-the-core?utm_source=api",
-      "priceUsd": 2.27
-    },
-    "Alchemist's Refuge": {
-      "image": "https://cards.scryfall.io/normal/front/3/6/36a11c11-1ea9-48e2-b1bc-49cba1390620.jpg?1783903737",
-      "scryfallUri": "https://scryfall.com/card/soc/360/alchemists-refuge?utm_source=api",
-      "priceUsd": 0.4
-    },
-    "Slurrk, All-Ingesting": {
-      "image": "https://cards.scryfall.io/normal/front/8/1/8107fd21-7d34-44ce-afb8-920eab3b924e.jpg?1783917134",
-      "scryfallUri": "https://scryfall.com/card/moc/312/slurrk-all-ingesting?utm_source=api",
-      "priceUsd": 0.4
-    },
-    "Experiment Kraj": {
-      "image": "https://cards.scryfall.io/normal/front/6/d/6d938197-2557-421a-985e-5add932d4bac.jpg?1783915616",
-      "scryfallUri": "https://scryfall.com/card/cmm/337/experiment-kraj?utm_source=api",
-      "priceUsd": 0.38
-    },
-    "Oran-Rief, the Vastwood": {
-      "image": "https://cards.scryfall.io/normal/front/d/4/d46d3ef7-b81f-42f4-9c1b-fa53f11eae65.jpg?1783903728",
-      "scryfallUri": "https://scryfall.com/card/soc/391/oran-rief-the-vastwood?utm_source=api",
-      "priceUsd": 0.44
-    },
-    "Syr Konrad, the Grim": {
-      "image": "https://cards.scryfall.io/normal/front/4/4/443a4eac-f972-4027-aed4-552d4edc2ce1.jpg?1783909613",
-      "scryfallUri": "https://scryfall.com/card/dsc/158/syr-konrad-the-grim?utm_source=api",
-      "priceUsd": 1.4
-    },
-    "Temple of Deceit": {
-      "image": "https://cards.scryfall.io/normal/front/e/1/e18748ce-e52e-4cd1-89d4-cd2578a0d574.jpg?1783908897",
-      "scryfallUri": "https://scryfall.com/card/fdn/697/temple-of-deceit?utm_source=api",
-      "priceUsd": 0.22
-    },
-    "Talisman of Dominance": {
-      "image": "https://cards.scryfall.io/normal/front/4/c/4cfcaacc-216d-4872-8a7a-27eace8039ed.jpg?1793021208",
-      "scryfallUri": "https://scryfall.com/card/trc/505/talisman-of-dominance?utm_source=api",
-      "priceUsd": 1.17
-    },
-    "Forbidden Alchemy": {
-      "image": "https://cards.scryfall.io/normal/front/0/4/04def7e3-10e4-4733-8c19-8fa6e4469086.jpg?1783907107",
-      "scryfallUri": "https://scryfall.com/card/tdc/152/forbidden-alchemy?utm_source=api",
-      "priceUsd": 0.28
-    },
-    "Persist": {
-      "image": "https://cards.scryfall.io/normal/front/b/7/b7a56356-91bf-42f5-ab21-af2c48e78fc3.jpg?1783904558",
-      "scryfallUri": "https://scryfall.com/card/ecc/83/persist?utm_source=api",
-      "priceUsd": 1.57
-    },
-    "Thought Scour": {
-      "image": "https://cards.scryfall.io/normal/front/4/a/4afee6b3-55a4-44e5-b08c-85e0c813cd09.jpg?1783921909",
-      "scryfallUri": "https://scryfall.com/card/2x2/65/thought-scour?utm_source=api",
-      "priceUsd": 0.42
-    },
-    "Chromatic Lantern": {
-      "image": "https://cards.scryfall.io/normal/front/9/b/9b29492a-8bdd-4806-8d1b-3058ed277cc1.jpg?1787743253",
-      "scryfallUri": "https://scryfall.com/card/mbc/73/chromatic-lantern?utm_source=api",
-      "priceUsd": 3.7
-    },
-    "Squirming Emergence": {
-      "image": "https://cards.scryfall.io/normal/front/8/e/8ee16629-f9be-4cdb-bf52-1d640781ee00.jpg?1783913729",
-      "scryfallUri": "https://scryfall.com/card/lci/241/squirming-emergence?utm_source=api",
-      "priceUsd": 0.28
-    },
-    "Memory Erosion": {
-      "image": "https://cards.scryfall.io/normal/front/f/2/f2fedec9-d938-419b-91e1-b4d9ad970464.jpg?1783934764",
-      "scryfallUri": "https://scryfall.com/card/cm2/45/memory-erosion?utm_source=api",
-      "priceUsd": 9.3
-    },
-    "Fractured Sanity": {
-      "image": "https://cards.scryfall.io/normal/front/8/1/81875876-c1a0-4f64-8dfc-39217b5e4020.jpg?1783922470",
-      "scryfallUri": "https://scryfall.com/card/clb/722/fractured-sanity?utm_source=api",
-      "priceUsd": 2.68
-    },
-    "Growth Spiral": {
-      "image": "https://cards.scryfall.io/normal/front/4/e/4e518ba7-371d-4996-bebb-9f618e02db63.jpg?1793281444",
-      "scryfallUri": "https://scryfall.com/card/trc/476/growth-spiral?utm_source=api",
-      "priceUsd": 0.3
-    },
-    "Sylvan Library": {
-      "image": "https://cards.scryfall.io/normal/front/6/a/6ada256f-2e55-4c1f-b4d3-d7b10b498956.jpg?1783918436",
-      "scryfallUri": "https://scryfall.com/card/dmr/179/sylvan-library?utm_source=api",
-      "priceUsd": 27.05
-    },
-    "Talisman of Curiosity": {
-      "image": "https://cards.scryfall.io/normal/front/8/3/8388c4e8-bda1-47e5-8df2-ddec5babcaf9.jpg?1783912967",
-      "scryfallUri": "https://scryfall.com/card/mkc/241/talisman-of-curiosity?utm_source=api",
-      "priceUsd": 0.47
-    },
-    "Disciple of Freyalise // Garden of Freyalise": {
-      "image": "https://cards.scryfall.io/normal/front/a/8/a8e9ea5a-5e10-4b77-baef-0352ff035483.jpg?1783911228",
-      "scryfallUri": "https://scryfall.com/card/mh3/250/disciple-of-freyalise-garden-of-freyalise?utm_source=api",
-      "priceUsd": 3.73
-    },
-    "Breach the Multiverse": {
-      "image": "https://cards.scryfall.io/normal/front/d/a/daf51a76-7a57-4462-ae18-a19e817e49e5.jpg?1783917016",
-      "scryfallUri": "https://scryfall.com/card/mom/94/breach-the-multiverse?utm_source=api",
-      "priceUsd": 9.7
-    },
-    "Conduit of Worlds": {
-      "image": "https://cards.scryfall.io/normal/front/8/3/8380eb8d-d1c3-4f96-b3b9-54845188c1d1.jpg?1783903232",
-      "scryfallUri": "https://scryfall.com/card/msc/171/conduit-of-worlds?utm_source=api",
-      "priceUsd": 1.03
-    },
-    "Phyrexian Tower": {
-      "image": "https://cards.scryfall.io/normal/front/0/b/0b47f6d2-9f65-47a4-bfc4-15619befe53d.jpg?1783911207",
-      "scryfallUri": "https://scryfall.com/card/mh3/303/phyrexian-tower?utm_source=api",
-      "priceUsd": 32.57
-    },
-    "Dark Ritual": {
-      "image": "https://cards.scryfall.io/normal/front/1/1/11e12a84-e7be-4afc-a230-c2e644743fa8.jpg?1783903013",
-      "scryfallUri": "https://scryfall.com/card/msc/793/dark-ritual?utm_source=api",
-      "priceUsd": 8.54
-    },
-    "Blasphemous Edict": {
-      "image": "https://cards.scryfall.io/normal/front/1/1/11040ecd-3153-4029-b42b-1441bc51ec34.jpg?1783909112",
-      "scryfallUri": "https://scryfall.com/card/fdn/57/blasphemous-edict?utm_source=api",
-      "priceUsd": 4.96
-    },
-    "Mystic Remora": {
-      "image": "https://cards.scryfall.io/normal/front/4/0/40140991-cffa-4b52-9a25-37e9a8aa9ddd.jpg?1783918491",
-      "scryfallUri": "https://scryfall.com/card/dmr/59/mystic-remora?utm_source=api",
-      "priceUsd": 11.89
-    },
-    "Lumra, Bellow of the Woods": {
-      "image": "https://cards.scryfall.io/normal/front/a/e/ae4f3aaf-3960-48cd-b34b-32e4ae5ae088.jpg?1785161492",
-      "scryfallUri": "https://scryfall.com/card/blb/183/lumra-bellow-of-the-woods?utm_source=api",
-      "priceUsd": 28.58
-    },
-    "Temple of Mystery": {
-      "image": "https://cards.scryfall.io/normal/front/d/6/d6389dee-0095-4e35-98fb-ba36aec8b8c4.jpg?1793281512",
-      "scryfallUri": "https://scryfall.com/card/trc/568/temple-of-mystery?utm_source=api",
-      "priceUsd": 0.75
-    },
-    "Terrasymbiosis": {
-      "image": "https://cards.scryfall.io/normal/front/2/6/26008c7d-5dbe-4da2-b475-4dd307e7bc68.jpg?1783905928",
-      "scryfallUri": "https://scryfall.com/card/eoe/210/terrasymbiosis?utm_source=api",
-      "priceUsd": 8.83
-    },
-    "Temple of Malady": {
-      "image": "https://cards.scryfall.io/normal/front/1/c/1ca36218-db87-4e44-8606-2a516504ed20.jpg?1783903717",
-      "scryfallUri": "https://scryfall.com/card/soc/413/temple-of-malady?utm_source=api",
-      "priceUsd": 0.27
-    },
-    "Tear Asunder": {
-      "image": "https://cards.scryfall.io/normal/front/e/4/e408c673-4a1f-45db-827a-75c501e1b3d6.jpg?1783906030",
-      "scryfallUri": "https://scryfall.com/card/eoc/109/tear-asunder?utm_source=api",
-      "priceUsd": 0.33
-    },
-    "Tortured Existence": {
-      "image": "https://cards.scryfall.io/normal/front/1/7/1754b92b-d6f9-4503-af01-dee03f72a048.jpg?1783946558",
-      "scryfallUri": "https://scryfall.com/card/sth/74/tortured-existence?utm_source=api",
-      "priceUsd": 3.01
-    },
-    "Phyrexian Arena": {
-      "image": "https://cards.scryfall.io/normal/front/0/7/0784b6f0-9ebf-43d2-ba0f-a6bc93ba0c48.jpg?1783909072",
-      "scryfallUri": "https://scryfall.com/card/fdn/180/phyrexian-arena?utm_source=api",
-      "priceUsd": 3.66
-    },
-    "Darkwater Catacombs": {
-      "image": "https://cards.scryfall.io/normal/front/0/3/03fbf51d-f622-4629-a228-a03ce7caf500.jpg?1783906991",
-      "scryfallUri": "https://scryfall.com/card/tdc/355/darkwater-catacombs?utm_source=api",
-      "priceUsd": 0.31
-    },
-    "Garruk's Uprising": {
-      "image": "https://cards.scryfall.io/normal/front/b/5/b58c4033-f764-42f6-966f-b7202a2babbf.jpg?1783904546",
-      "scryfallUri": "https://scryfall.com/card/ecc/109/garruks-uprising?utm_source=api",
-      "priceUsd": 0.57
-    },
-    "Commander's Sphere": {
-      "image": "https://cards.scryfall.io/normal/front/a/1/a145fe99-1cca-45c6-aa7e-ec5d8a7bcd13.jpg?1793021131",
-      "scryfallUri": "https://scryfall.com/card/trc/487/commanders-sphere?utm_source=api",
-      "priceUsd": 0.42
-    },
-    "Path of Ancestry": {
-      "image": "https://cards.scryfall.io/normal/front/4/a/4ac05a29-0722-4d8b-80e9-a46c38491c14.jpg?1793021342",
-      "scryfallUri": "https://scryfall.com/card/trc/545/path-of-ancestry?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Grapple with the Past": {
-      "image": "https://cards.scryfall.io/normal/front/7/6/76c25c9a-245b-41c7-a75d-8061eb231389.jpg?1783907045",
-      "scryfallUri": "https://scryfall.com/card/tdc/257/grapple-with-the-past?utm_source=api",
-      "priceUsd": 0.31
-    },
-    "Brainstorm": {
-      "image": "https://cards.scryfall.io/normal/front/1/e/1ede3080-8c47-48a0-b757-92c3fa91fac0.jpg?1793281332",
-      "scryfallUri": "https://scryfall.com/card/trc/434/brainstorm?utm_source=api",
-      "priceUsd": 1.02
-    },
-    "Crucible of Worlds": {
-      "image": "https://cards.scryfall.io/normal/front/7/f/7f4893ef-f983-418b-b7a4-5f073c844545.jpg?1783921793",
-      "scryfallUri": "https://scryfall.com/card/2x2/303/crucible-of-worlds?utm_source=api",
-      "priceUsd": 32.66
-    },
-    "Noxious Revival": {
-      "image": "https://cards.scryfall.io/normal/front/1/b/1bdd1243-1d14-496a-9b7a-0c5b34461361.jpg?1783941300",
-      "scryfallUri": "https://scryfall.com/card/nph/118/noxious-revival?utm_source=api",
-      "priceUsd": 6.52
-    },
-    "March of the World Ooze": {
-      "image": "https://cards.scryfall.io/normal/front/b/1/b1964ec5-0dd1-4b54-917c-cbeab05aba79.jpg?1783907868",
-      "scryfallUri": "https://scryfall.com/card/dft/169/march-of-the-world-ooze?utm_source=api",
-      "priceUsd": 2.34
-    },
-    "Culling Ritual": {
-      "image": "https://cards.scryfall.io/normal/front/a/b/abaad8c5-763d-4276-9b19-623cd19f59b9.jpg?1783903755",
-      "scryfallUri": "https://scryfall.com/card/soc/302/culling-ritual?utm_source=api",
-      "priceUsd": 0.55
-    },
-    "Doubling Season": {
-      "image": "https://cards.scryfall.io/normal/front/f/2/f2c4f80e-84a0-463b-82c3-5c6503809351.jpg?1783909062",
-      "scryfallUri": "https://scryfall.com/card/fdn/216/doubling-season?utm_source=api",
-      "priceUsd": 32.89
-    },
-    "Nezahal, Primal Tide": {
-      "image": "https://cards.scryfall.io/normal/front/a/9/a959b40d-dd8c-49d8-8003-744d0c877b04.jpg?1783928719",
-      "scryfallUri": "https://scryfall.com/card/cmr/401/nezahal-primal-tide?utm_source=api",
-      "priceUsd": 8.54
-    },
-    "Hardened Scales": {
-      "image": "https://cards.scryfall.io/normal/front/9/9/99cfd1a8-49fd-4cc0-96f2-f9f159ce5d55.jpg?1783903765",
-      "scryfallUri": "https://scryfall.com/card/soc/272/hardened-scales?utm_source=api",
-      "priceUsd": 2.82
-    },
-    "Mistrise Village": {
-      "image": "https://cards.scryfall.io/normal/front/d/4/d44bccbf-6fab-46e4-8ddb-6577e27ec6e8.jpg?1783907277",
-      "scryfallUri": "https://scryfall.com/card/tdm/261/mistrise-village?utm_source=api",
-      "priceUsd": 6.34
-    },
-    "Heroic Intervention": {
-      "image": "https://cards.scryfall.io/normal/front/2/e/2ed6abbe-3ec0-48a9-94ad-e62660a63de0.jpg?1793281401",
-      "scryfallUri": "https://scryfall.com/card/trc/465/heroic-intervention?utm_source=api",
-      "priceUsd": 6.82
-    },
-    "Terastodon": {
-      "image": "https://cards.scryfall.io/normal/front/6/3/63195796-197e-47ec-85f0-d4ec0065f6e6.jpg?1783927528",
-      "scryfallUri": "https://scryfall.com/card/c21/207/terastodon?utm_source=api",
-      "priceUsd": 0.39
-    },
-    "Toxrill, the Corrosive": {
-      "image": "https://cards.scryfall.io/normal/front/8/4/84e64f38-b1f3-47cd-8cfb-a4861369aca3.jpg?1783924850",
-      "scryfallUri": "https://scryfall.com/card/vow/132/toxrill-the-corrosive?utm_source=api",
-      "priceUsd": 20.21
-    },
-    "Branching Evolution": {
-      "image": "https://cards.scryfall.io/normal/front/c/0/c0f1a736-8b12-4f58-a031-bf1733f65c51.jpg?1783911212",
-      "scryfallUri": "https://scryfall.com/card/mh3/285/branching-evolution?utm_source=api",
-      "priceUsd": 7.71
-    },
-    "Command Beacon": {
-      "image": "https://cards.scryfall.io/normal/front/e/5/e537cbf9-1e27-48bf-bb52-97daf3e5b41d.jpg?1793111989",
-      "scryfallUri": "https://scryfall.com/card/trc/520/command-beacon?utm_source=api",
-      "priceUsd": 3.32
-    },
-    "Deadly Rollick": {
-      "image": "https://cards.scryfall.io/normal/front/0/e/0e13f735-54fa-42b6-aea4-ced33811d7d4.jpg?1783915679",
-      "scryfallUri": "https://scryfall.com/card/cmm/147/deadly-rollick?utm_source=api",
-      "priceUsd": 27.14
-    },
-    "Jodah's Avenger": {
-      "image": "https://cards.scryfall.io/normal/front/4/7/4707277a-f0ba-4f35-9274-7a38efbc11e8.jpg?1783927845",
-      "scryfallUri": "https://scryfall.com/card/tsr/72/jodahs-avenger?utm_source=api",
-      "priceUsd": 0.09
-    },
-    "Harrow": {
-      "image": "https://cards.scryfall.io/normal/front/3/e/3e76be46-cf81-4fef-bc5b-f87666cb0413.jpg?1783906034",
-      "scryfallUri": "https://scryfall.com/card/eoc/98/harrow?utm_source=api",
-      "priceUsd": 0.34
-    },
-    "Deadbridge Chant": {
-      "image": "https://cards.scryfall.io/normal/front/e/6/e67b8f21-c173-4d1d-8224-2eba4bcc6975.jpg?1783909596",
-      "scryfallUri": "https://scryfall.com/card/dsc/215/deadbridge-chant?utm_source=api",
-      "priceUsd": 0.39
-    },
-    "Villainous Wealth": {
-      "image": "https://cards.scryfall.io/normal/front/a/4/a467072c-99d9-4013-8d28-607a06cf50fe.jpg?1783911892",
-      "scryfallUri": "https://scryfall.com/card/otc/249/villainous-wealth?utm_source=api",
-      "priceUsd": 0.39
-    },
-    "Emergent Ultimatum": {
-      "image": "https://cards.scryfall.io/normal/front/3/a/3a6a52ab-6d38-4429-9969-90064e615152.jpg?1783931025",
-      "scryfallUri": "https://scryfall.com/card/iko/185/emergent-ultimatum?utm_source=api",
-      "priceUsd": 0.39
-    },
-    "Colossal Grave-Reaver": {
-      "image": "https://cards.scryfall.io/normal/front/7/c/7c3f7d76-528a-490a-852a-071adcd7bd55.jpg?1783907165",
-      "scryfallUri": "https://scryfall.com/card/tdc/50/colossal-grave-reaver?utm_source=api",
-      "priceUsd": 11.54
-    },
-    "Archon of Cruelty": {
-      "image": "https://cards.scryfall.io/normal/front/9/5/95ff951b-a098-409c-86c8-373b6c9f8331.jpg?1789599818",
-      "scryfallUri": "https://scryfall.com/card/frc/47/archon-of-cruelty?utm_source=api",
-      "priceUsd": 1.9
-    },
-    "Reliquary Tower": {
-      "image": "https://cards.scryfall.io/normal/front/1/3/13caa07e-3b72-4ee2-92c6-f119d02341f9.jpg?1793112056",
-      "scryfallUri": "https://scryfall.com/card/trc/551/reliquary-tower?utm_source=api",
-      "priceUsd": 2.41
-    },
-    "Flotsam // Jetsam": {
-      "image": "https://cards.scryfall.io/normal/front/c/1/c1500cbf-5619-465e-a97b-75e676ce789b.jpg?1783912830",
-      "scryfallUri": "https://scryfall.com/card/mkm/247/flotsam-jetsam?utm_source=api",
-      "priceUsd": 0.11
-    },
-    "Rise of the Dark Realms": {
-      "image": "https://cards.scryfall.io/normal/front/8/6/8645bf0c-631f-4003-bd24-3e069ae23513.jpg?1783909071",
-      "scryfallUri": "https://scryfall.com/card/fdn/183/rise-of-the-dark-realms?utm_source=api",
-      "priceUsd": 6.09
-    },
-    "Jin-Gitaxias, Core Augur": {
-      "image": "https://cards.scryfall.io/normal/front/1/4/14a360b6-c7b4-4b25-8288-b3bb8d527bda.jpg?1783935545",
-      "scryfallUri": "https://scryfall.com/card/ima/62/jin-gitaxias-core-augur?utm_source=api",
-      "priceUsd": 13.45
-    },
-    "Ghalta, Primal Hunger": {
-      "image": "https://cards.scryfall.io/normal/front/6/a/6a9c39e4-a8cf-42dd-8d0e-45634b335546.jpg?1783909058",
-      "scryfallUri": "https://scryfall.com/card/fdn/222/ghalta-primal-hunger?utm_source=api",
-      "priceUsd": 1.03
     },
     "The Mimeoplasm": {
       "image": "https://cards.scryfall.io/normal/front/9/9/998b86f3-e53f-4ebb-b111-6f14577fded1.jpg?1783911897",
@@ -7142,11 +6132,6 @@
       "scryfallUri": "https://scryfall.com/card/tor/27/cephalid-aristocrat?utm_source=api",
       "priceUsd": 0.16
     },
-    "Cryptcaller Chariot": {
-      "image": "https://cards.scryfall.io/normal/front/a/0/a0c8259c-055e-4bff-b945-c0ecb057a8f0.jpg?1783907897",
-      "scryfallUri": "https://scryfall.com/card/dft/80/cryptcaller-chariot?utm_source=api",
-      "priceUsd": 0.4
-    },
     "Bloodchief Ascension": {
       "image": "https://cards.scryfall.io/normal/front/d/5/d56d1535-d9de-459f-bc31-0923f621e0e9.jpg?1783915683",
       "scryfallUri": "https://scryfall.com/card/cmm/139/bloodchief-ascension?utm_source=api",
@@ -7161,31 +6146,6 @@
       "image": "https://cards.scryfall.io/normal/front/b/c/bc1f42a2-fe11-45da-9552-069803b4068a.jpg?1783915670",
       "scryfallUri": "https://scryfall.com/card/cmm/173/mikaeus-the-unhallowed?utm_source=api",
       "priceUsd": 21.84
-    },
-    "Urban Daggertooth": {
-      "image": "https://cards.scryfall.io/normal/front/4/a/4ab83a39-d90d-403e-b74d-fe99c8b2aacd.jpg?1783926824",
-      "scryfallUri": "https://scryfall.com/card/mh2/181/urban-daggertooth?utm_source=api",
-      "priceUsd": 0.23
-    },
-    "Mephidross Vampire": {
-      "image": "https://cards.scryfall.io/normal/front/7/5/754f202f-4f08-4c39-9219-1114d8508788.jpg?1783944398",
-      "scryfallUri": "https://scryfall.com/card/5dn/53/mephidross-vampire?utm_source=api",
-      "priceUsd": 2.57
-    },
-    "Scythe of the Wretched": {
-      "image": "https://cards.scryfall.io/normal/front/1/4/143e7a81-fb3d-4bad-854a-b24138ca7415.jpg?1783944505",
-      "scryfallUri": "https://scryfall.com/card/mrd/239/scythe-of-the-wretched?utm_source=api",
-      "priceUsd": 7.48
-    },
-    "Heroic Feast": {
-      "image": "https://cards.scryfall.io/normal/front/3/2/32d05c3d-cf03-492e-a956-2e77c36e36c4.jpg?1783902917",
-      "scryfallUri": "https://scryfall.com/card/msh/172/heroic-feast?utm_source=api",
-      "priceUsd": 0.32
-    },
-    "Vraska, Swarm's Eminence": {
-      "image": "https://cards.scryfall.io/normal/front/5/9/59ee2974-07e9-4506-903c-457cb7327dd8.jpg?1783933375",
-      "scryfallUri": "https://scryfall.com/card/war/236/vraska-swarms-eminence?utm_source=api",
-      "priceUsd": 0.34
     },
     "Reanimate": {
       "image": "https://cards.scryfall.io/normal/front/3/6/368b6903-5fc4-43e7-bd44-46b8107c8bb4.jpg?1783909614",
@@ -7363,26 +6323,26 @@
   ],
   "howToPlay": {
     "original": {
-      "summary": "Fill graveyards, then let The Mimeoplasm borrow the best creature abilities and biggest power. Build toward late-game commander damage, poison, or a table-wide drain from Jarad, Golgari Lich Lord.",
+      "summary": "Fill graveyards, then let [[The Mimeoplasm]] borrow the best creature abilities and biggest power. Build toward late-game commander damage, poison, or a table-wide drain from [[Jarad, Golgari Lich Lord]].",
       "early": [
-        "Use Sakura-Tribe Elder to develop mana while stocking your graveyard with a creature.",
-        "Cast Grisly Salvage to find lands while loading creatures into your graveyard.",
-        "Use Entomb to bury Wonder for flying or Genesis for recurring creatures."
+        "Use [[Sakura-Tribe Elder]] to develop mana while stocking your graveyard with a creature.",
+        "Cast [[Grisly Salvage]] to find lands while loading creatures into your graveyard.",
+        "Use [[Entomb]] to bury [[Wonder]] for flying or [[Genesis]] for recurring creatures."
       ],
       "mid": [
-        "With seven graveyard cards, Stitch Together returns a creature directly to the battlefield.",
-        "Follow Life's Finale with Sepulchral Primordial to recruit creatures you selected from an opponent's library.",
-        "The Mimeoplasm can copy opponents' dead creatures, so inspect every graveyard before choosing."
+        "With seven graveyard cards, [[Stitch Together]] returns a creature directly to the battlefield.",
+        "Follow [[Life's Finale]] with [[Sepulchral Primordial]] to recruit creatures you selected from an opponent's library.",
+        "[[The Mimeoplasm]] can copy opponents' dead creatures, so inspect every graveyard before choosing."
       ],
       "late": [
-        "Copy Skithiryx, the Blight Dragon with The Mimeoplasm, using Lord of Extinction for counters.",
-        "Equip Whispersilk Cloak to make The Mimeoplasm unblockable and protect it from targeted removal.",
-        "Sacrifice Lord of Extinction to Jarad, Golgari Lich Lord when its power threatens everyone's life."
+        "Copy [[Skithiryx, the Blight Dragon]] with [[The Mimeoplasm]], using [[Lord of Extinction]] for counters.",
+        "Equip [[Whispersilk Cloak]] to make [[The Mimeoplasm]] unblockable and protect it from targeted removal.",
+        "Sacrifice [[Lord of Extinction]] to [[Jarad, Golgari Lich Lord]] when its power threatens everyone's life."
       ],
       "winConditions": [
-        "The Mimeoplasm wearing Whispersilk Cloak can eliminate players through 21 commander combat damage.",
-        "The Mimeoplasm copying Skithiryx, the Blight Dragon can deliver ten poison counters in one hit.",
-        "Jarad, Golgari Lich Lord turns enormous creatures into life loss for every opponent."
+        "[[The Mimeoplasm]] wearing [[Whispersilk Cloak]] can eliminate players through 21 commander combat damage.",
+        "[[The Mimeoplasm]] copying [[Skithiryx, the Blight Dragon]] can deliver ten poison counters in one hit.",
+        "[[Jarad, Golgari Lich Lord]] turns enormous creatures into life loss for every opponent."
       ],
       "keyCards": [
         {
@@ -7395,7 +6355,7 @@
         },
         {
           "name": "Wonder",
-          "why": "Grants your creatures flying from the graveyard with an Island."
+          "why": "Grants your creatures flying from the graveyard with an [[Island]]."
         },
         {
           "name": "Life from the Loam",
@@ -7406,34 +6366,34 @@
           "why": "Converts a threatened giant into cards and life."
         }
       ],
-      "mulligan": "Keep three lands with green access, Sakura-Tribe Elder or Cultivate, and Grisly Salvage or Buried Alive.",
+      "mulligan": "Keep three lands with green access, [[Sakura-Tribe Elder]] or [[Cultivate]], and [[Grisly Salvage]] or [[Buried Alive]].",
       "watchOut": [
-        "The Mimeoplasm permanently exiles its chosen creatures, removing them from your future reanimation options.",
-        "Living Death also rebuilds opposing boards, so compare graveyards before casting it.",
-        "Whispersilk Cloak's shroud also prevents your own targeted spells and equip abilities."
+        "[[The Mimeoplasm]] permanently exiles its chosen creatures, removing them from your future reanimation options.",
+        "[[Living Death]] also rebuilds opposing boards, so compare graveyards before casting it.",
+        "[[Whispersilk Cloak]]'s shroud also prevents your own targeted spells and equip abilities."
       ]
     },
     "optimized": {
-      "summary": "This deck fills graveyards, then turns The Mimeoplasm into a huge, threatening creature. It wins through commander damage, infect attacks, or sacrificing Lord of Extinction to drain everyone.",
+      "summary": "This deck fills graveyards, then turns [[The Mimeoplasm]] into a huge, threatening creature. It wins through commander damage, infect attacks, or sacrificing [[Lord of Extinction]] to drain everyone.",
       "early": [
-        "Use Sakura-Tribe Elder to find an Island while adding a creature to your graveyard.",
-        "Cast Grisly Salvage to find lands or creatures while stocking your graveyard.",
-        "Cycle Titanoth Rex early to draw and prepare eleven extra counters for The Mimeoplasm."
+        "Use [[Sakura-Tribe Elder]] to find an [[Island]] while adding a creature to your graveyard.",
+        "Cast [[Grisly Salvage]] to find lands or creatures while stocking your graveyard.",
+        "Cycle [[Titanoth Rex]] early to draw and prepare eleven extra counters for [[The Mimeoplasm]]."
       ],
       "mid": [
-        "Buried Alive puts Titanoth Rex, Lord of Extinction, and Wonder into your graveyard.",
-        "Copy Titanoth Rex with The Mimeoplasm, using Lord of Extinction for extra counters.",
-        "Discard Wonder through Survival of the Fittest; Breeding Pool enables its teamwide flying."
+        "[[Buried Alive]] puts [[Titanoth Rex]], [[Lord of Extinction]], and [[Wonder]] into your graveyard.",
+        "Copy [[Titanoth Rex]] with [[The Mimeoplasm]], using [[Lord of Extinction]] for extra counters.",
+        "Discard [[Wonder]] through [[Survival of the Fittest]]; [[Breeding Pool]] enables its teamwide flying."
       ],
       "late": [
-        "From turn six onward, equip The Mimeoplasm with Whispersilk Cloak to bypass blockers.",
-        "Sacrifice Lord of Extinction to Jarad, Golgari Lich Lord to drain every opponent.",
-        "Follow Life's Finale with Sepulchral Primordial to recruit creatures from opponents' freshly stocked graveyards."
+        "From turn six onward, equip [[The Mimeoplasm]] with [[Whispersilk Cloak]] to bypass blockers.",
+        "Sacrifice [[Lord of Extinction]] to [[Jarad, Golgari Lich Lord]] to drain every opponent.",
+        "Follow [[Life's Finale]] with [[Sepulchral Primordial]] to recruit creatures from opponents' freshly stocked graveyards."
       ],
       "winConditions": [
-        "The Mimeoplasm copying Titanoth Rex can deliver lethal commander damage with enough added counters.",
-        "The Mimeoplasm copying Skithiryx, the Blight Dragon can deliver ten poison in one attack.",
-        "Jarad, Golgari Lich Lord converts Lord of Extinction's enormous power into tablewide life loss."
+        "[[The Mimeoplasm]] copying [[Titanoth Rex]] can deliver lethal commander damage with enough added counters.",
+        "[[The Mimeoplasm]] copying [[Skithiryx, the Blight Dragon]] can deliver ten poison in one attack.",
+        "[[Jarad, Golgari Lich Lord]] converts [[Lord of Extinction]]'s enormous power into tablewide life loss."
       ],
       "keyCards": [
         {
@@ -7446,7 +6406,7 @@
         },
         {
           "name": "Wonder",
-          "why": "Grants teamwide flying from your graveyard with an Island."
+          "why": "Grants teamwide flying from your graveyard with an [[Island]]."
         },
         {
           "name": "Greater Good",
@@ -7454,14 +6414,14 @@
         },
         {
           "name": "Life from the Loam",
-          "why": "Recovers lands sacrificed to Sylvan Safekeeper while fueling graveyards."
+          "why": "Recovers lands sacrificed to [[Sylvan Safekeeper]] while fueling graveyards."
         }
       ],
-      "mulligan": "Keep three lands, green mana, Sakura-Tribe Elder or Farseek, and Grisly Salvage or Frantic Search.",
+      "mulligan": "Keep three lands, green mana, [[Sakura-Tribe Elder]] or [[Farseek]], and [[Grisly Salvage]] or [[Frantic Search]].",
       "watchOut": [
-        "The Mimeoplasm exiles both chosen creatures, so those cards cannot support later reanimation.",
-        "Lightning Greaves and Whispersilk Cloak grant shroud, blocking your own targeted abilities and equipment.",
-        "Living Death also returns opponents' creatures, so compare graveyards before casting it."
+        "[[The Mimeoplasm]] exiles both chosen creatures, so those cards cannot support later reanimation.",
+        "[[Lightning Greaves]] and [[Whispersilk Cloak]] grant shroud, blocking your own targeted abilities and equipment.",
+        "[[Living Death]] also returns opponents' creatures, so compare graveyards before casting it."
       ]
     }
   }
