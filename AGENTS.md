@@ -19,6 +19,7 @@ pnpm typecheck        # tsc --noEmit (TypeScript 7)
 pnpm build:static     # read-only site into site/ (see README for --only/--out)
 pnpm check:decks      # every saved report agrees with its deck list in every section
 pnpm fix:contradictions   # fix what saved reports' model-written texts say that the facts contradict (needs an LLM; --dry-run, --only)
+pnpm write:guides     # (re)write saved decks' how-to-play guides (needs an LLM; --only); run fix:contradictions after
 ```
 
 CI (`.github/workflows/ci.yml`) runs all of the above, including the e2e suite, on every push and PR.

@@ -6,18 +6,8 @@ import { ChevronLeftIcon } from "./components/Icons.tsx";
 import { Progress } from "./components/Progress.tsx";
 import { ReportView } from "./components/ReportView.tsx";
 import { Review } from "./components/Review.tsx";
-import { Rule0 } from "./components/Rule0.tsx";
 import { type ScrollAnchor, captureAnchor, restoreAnchor } from "./scroll-anchor.ts";
-import {
-  ROUTE_CHANGE,
-  type Route,
-  currentRoute,
-  deckHref,
-  go,
-  isAppLink,
-  navigate,
-  hrefOf,
-} from "./nav.ts";
+import { ROUTE_CHANGE, type Route, currentRoute, go, isAppLink, navigate, hrefOf } from "./nav.ts";
 
 export function App() {
   const [route, setRoute] = useState<Route>(currentRoute);
@@ -67,7 +57,7 @@ export function App() {
 
   const goBack = () => {
     setRecognition(null);
-    navigate(route.page === "rule0" ? deckHref(route.slug, route.view) : hrefOf({ page: "home" }));
+    navigate(hrefOf({ page: "home" }));
   };
 
   let body;
@@ -78,8 +68,6 @@ export function App() {
         onDone={() => go({ page: "deck", slug: route.slug, view: "current" })}
       />
     );
-  } else if (route.page === "rule0") {
-    body = <Rule0 slug={route.slug} view={route.view} />;
   } else if (route.page === "deck") {
     body = <ReportView slug={route.slug} view={route.view} />;
   } else if (recognition) {
@@ -109,7 +97,7 @@ export function App() {
         {inner ? (
           <button className="back" onClick={goBack} aria-label="Back">
             <ChevronLeftIcon />
-            <span className="back-label">{route.page === "rule0" ? "Report" : "Decks"}</span>
+            <span className="back-label">Decks</span>
           </button>
         ) : (
           <a href={hrefOf({ page: "home" })} className="brand">

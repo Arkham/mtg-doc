@@ -46,6 +46,7 @@ import { parseDecklist } from "./decklist.ts";
 import { buildCardIndex } from "./card-index.ts";
 import { landCandidates, toSuggestion } from "./mana-advice.ts";
 import { checkContradictions } from "./contradictions.ts";
+import { writeGuides } from "./play-guide.ts";
 import { enqueueEdit } from "./edit-queue.ts";
 import { findSynergies } from "./synergies.ts";
 import { BRACKET_PAGE, getCommanderData } from "./sources/edhrec.ts";
@@ -73,6 +74,7 @@ const STEPS = [
   "Review swaps",
   "Fix mana base & verify bracket",
   "Find synergies",
+  "Write how-to-play guides",
   "Check for contradictions",
   "Write report",
 ] as const;
@@ -511,7 +513,7 @@ async function run(job: Job, opts: RunOptions) {
     return found;
   });
 
-  const report = await step(job, 9, async (s) => {
+  const draft = await step(job, 9, async (s) => {
     const bracket: BracketReport | undefined = isCommander
       ? {
           target,
@@ -567,11 +569,21 @@ async function run(job: Job, opts: RunOptions) {
       synergies,
       ...(pinned?.edits.length ? { edits: pinned.edits } : {}),
     };
-    if (!llmEnabled()) {
+    if (!llmEnabled() || !isCommander) {
       s.status = "skipped";
       return report;
     }
-    const checked = await checkContradictions(report).catch((e) => {
+    const howToPlay = await writeGuides(report, { original: submitted, optimized: finalDeck });
+    s.detail = howToPlay ? "written" : "failed";
+    return howToPlay ? { ...report, howToPlay } : report;
+  });
+
+  const report = await step(job, 10, async (s) => {
+    if (!llmEnabled()) {
+      s.status = "skipped";
+      return draft;
+    }
+    const checked = await checkContradictions(draft).catch((e) => {
       warnings.push(`Contradiction check failed: ${e}`);
       return null;
     });
@@ -580,10 +592,10 @@ async function run(job: Job, opts: RunOptions) {
         ? `${checked.fixes.length} fixed`
         : "none found"
       : "failed";
-    return checked?.report ?? report;
+    return checked?.report ?? draft;
   });
 
-  await step(job, 10, async () => {
+  await step(job, 11, async () => {
     report.cardIndex = await buildCardIndex(report, [
       ...submitted.slots.map((x) => x.card),
       ...deck.slots.map((x) => x.card),

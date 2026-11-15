@@ -51,11 +51,11 @@ function PowerMeter({ power, position }: { power: number; position: string }) {
 
 export function BracketPanel({
   b,
-  rule0Href,
+  onHowToPlay,
   actions,
 }: {
   b: BracketReport;
-  rule0Href: string;
+  onHowToPlay: () => void;
   /** Extra controls in the header, e.g. changing the target bracket. */
   actions?: ReactNode;
 }) {
@@ -82,9 +82,7 @@ export function BracketPanel({
         </div>
         <div className="bracket-actions">
           {actions}
-          <a className="button" href={rule0Href}>
-            Pre-game summary
-          </a>
+          <button onClick={onHowToPlay}>How to play</button>
         </div>
       </div>
 

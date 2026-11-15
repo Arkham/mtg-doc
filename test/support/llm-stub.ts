@@ -70,6 +70,29 @@ const CONTENT_FILTER = {
 };
 
 function answer(body: Record<string, unknown>, text: string, hasImage: boolean): unknown {
+  if (text.includes("Write a short, friendly guide to playing this Commander deck")) {
+    return message(
+      JSON.stringify({
+        summary: "Go wide with elves, then drain the table with Lathril.",
+        early: [
+          "Play a mana elf on turn one.",
+          "Cast Lathril on turn three.",
+          "Hold up a removal spell.",
+          "A fourth bullet to cut.",
+        ],
+        mid: ["Attack to make Elf Warrior tokens."],
+        late: ["Tap ten elves to drain everyone."],
+        winConditions: ["Lathril's drain ability."],
+        keyCards: [
+          { name: "lathril, blade of the elves", why: "The engine and the finisher." },
+          { name: "Not A Real Card", why: "Invented, so it's dropped." },
+          { name: "Forest", why: "Makes green mana." },
+        ],
+        mulligan: "Keep hands with three lands and a mana elf.",
+        watchOut: ["Board wipes reset your tokens."],
+      }),
+    );
+  }
   if (text.includes("You check a Commander deck report for contradictions")) {
     const synergy = /\[(synergy-\d+)\] \(synergy "Lands matter"/.exec(text)?.[1];
     return message(

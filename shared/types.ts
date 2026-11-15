@@ -313,6 +313,22 @@ export interface Synergy {
   explanation: string;
 }
 
+/** An easy-to-read guide to piloting one deck, written for players. */
+export interface PlayGuide {
+  /** What the deck does, in a sentence or two. */
+  summary: string;
+  /** Short bullets for each stage of a game. */
+  early: string[];
+  mid: string[];
+  late: string[];
+  winConditions: string[];
+  /** Cards in this deck that matter most, and why. */
+  keyCards: { name: string; why: string }[];
+  /** What a keepable opening hand looks like. */
+  mulligan: string;
+  watchOut: string[];
+}
+
 /** A land swap proposed to improve the mana base, which the user can apply to their deck. */
 export interface ManaSuggestion {
   id: string;
@@ -353,6 +369,8 @@ export interface Report {
   edits?: DeckEdit[];
   /** The deck as submitted, for the default view; `before` and `bracket.before` hold its stats. */
   original?: { decklist: DecklistCard[]; combosPresent: Combo[]; combosOneAway: Combo[] };
+  /** How to play the deck as submitted and the suggested one (needs an LLM). */
+  howToPlay?: { original?: PlayGuide; optimized?: PlayGuide };
   /** Strong non-combo interactions in the deck (needs an LLM). */
   synergies?: Synergy[];
   /** Land swaps that would still improve the mana base; recomputed after every edit. */

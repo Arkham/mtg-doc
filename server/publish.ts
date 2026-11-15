@@ -23,6 +23,9 @@ export function withoutSuggestions(r: Report): Report {
     combosPresent: o?.combosPresent ?? [],
     combosOneAway: o?.combosOneAway ?? [],
     synergies: r.synergies?.filter((s) => s.cards.every((n) => names.has(n))),
+    ...(r.howToPlay?.original
+      ? { howToPlay: { original: r.howToPlay.original } }
+      : { howToPlay: undefined }),
     bracket: r.bracket && {
       ...r.bracket,
       after: r.bracket.before,

@@ -100,6 +100,11 @@ export function checkReport(
       r.original.combosOneAway,
       inInitial,
     );
+    for (const k of r.howToPlay?.original?.keyCards ?? [])
+      if (!inInitial(k.name))
+        problems.push(
+          `How to play (deck as submitted): key card ${k.name} isn't in the deck as submitted.`,
+        );
     if (r.bracket) {
       checkAssessment(problems, "Bracket (deck as submitted)", r.bracket.before, inInitial);
       checkBracketCombosListed(
@@ -118,6 +123,9 @@ export function checkReport(
 
   checkCombos(problems, "Combos", r.combosPresent, has);
   checkOneAway(problems, "Combos one card away", r.combosOneAway, has);
+
+  for (const k of r.howToPlay?.optimized?.keyCards ?? [])
+    if (!has(k.name)) problems.push(`How to play: key card ${k.name} isn't in the deck.`);
 
   for (const s of r.synergies ?? []) {
     const absent = s.cards.filter((n) => !has(n));

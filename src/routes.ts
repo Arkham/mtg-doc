@@ -3,7 +3,6 @@ import type { DeckView } from "./views.ts";
 export type Route =
   | { page: "home" }
   | { page: "deck"; slug: string; view: DeckView }
-  | { page: "rule0"; slug: string; view: DeckView }
   | { page: "job"; slug: string; jobId: string };
 
 /**
@@ -14,20 +13,14 @@ export type Route =
 export function routeHref(route: Route, isStatic: boolean): string {
   if (route.page === "job") return `#/job/${route.slug}/${route.jobId}`;
   if (route.page === "home") return isStatic ? "./" : "#/";
-  const parts = [
-    route.slug,
-    ...(route.view === "optimized" ? ["optimized"] : []),
-    ...(route.page === "rule0" ? ["rule0"] : []),
-  ].join("/");
+  const parts = [route.slug, ...(route.view === "optimized" ? ["optimized"] : [])].join("/");
   return isStatic ? `decks/${parts}/` : `#/deck/${parts}`;
 }
 
-function fromParts([page, a, b, c]: string[], isStatic: boolean): Route {
-  if (page === (isStatic ? "decks" : "deck") && a) {
-    const view: DeckView = b === "optimized" ? "optimized" : "current";
-    const rest = view === "optimized" ? c : b;
-    return rest === "rule0" ? { page: "rule0", slug: a, view } : { page: "deck", slug: a, view };
-  }
+function fromParts([page, a, b]: string[], isStatic: boolean): Route {
+  // Links to the old pre-game summary page (…/rule0) land on the deck.
+  if (page === (isStatic ? "decks" : "deck") && a)
+    return { page: "deck", slug: a, view: b === "optimized" ? "optimized" : "current" };
   if (page === "job" && a && b && !isStatic) return { page: "job", slug: a, jobId: b };
   return { page: "home" };
 }
@@ -41,10 +34,8 @@ export const pathRoute = (path: string): Route => fromParts(path.split("/"), tru
 
 /** All the paths the static build writes a page for, for one deck. */
 export const deckPaths = (slug: string) =>
-  (["current", "optimized"] as const).flatMap((view) =>
-    (["deck", "rule0"] as const).map((page) => routeHref({ page, slug, view }, true)),
-  );
+  (["current", "optimized"] as const).map((view) => routeHref({ page: "deck", slug, view }, true));
 
 /** Whether a path below the published site's root is one of the app's own pages. */
 export const isAppPath = (path: string) =>
-  path === "" || /^decks\/[^/]+\/(optimized\/)?(rule0\/)?$/.test(path);
+  path === "" || /^decks\/[^/]+\/(optimized\/)?$/.test(path);

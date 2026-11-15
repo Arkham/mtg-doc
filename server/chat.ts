@@ -47,6 +47,7 @@ import { loadDeck, snapshot, startOptimize, twoCardCombos } from "./pipeline.ts"
 import { buildCardIndex } from "./card-index.ts";
 import { suggestManaFixes } from "./mana-advice.ts";
 import { findSynergies, keepPresentSynergies } from "./synergies.ts";
+import { keepGuidesTo, writeGuides } from "./play-guide.ts";
 import { lookupExact, lookupFuzzy } from "./sources/scryfall.ts";
 import { estimateBracket, findCombos } from "./sources/spellbook.ts";
 import {
@@ -648,6 +649,14 @@ export async function applyDeckChanges(
     synergies: present && [...present, ...newSynergies],
     edits,
   };
+  // The guides follow the lists they describe: an edit to the submitted list rebuilds both.
+  updated.howToPlay = llmEnabled()
+    ? await writeGuides(
+        updated,
+        { original: initial, optimized: next },
+        editsOriginal ? ["original", "optimized"] : ["optimized"],
+      )
+    : keepGuidesTo(report.howToPlay, { original: initial, optimized: next });
   updated.cardIndex = await buildCardIndex(
     updated,
     valid.flatMap((c) => (c.card ? [c.card] : [])),

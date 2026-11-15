@@ -13,6 +13,7 @@
     "build:static": "tsx scripts/build-static.ts",
     "check:decks": "tsx scripts/check-decks.ts",
     "fix:contradictions": "tsx scripts/fix-contradictions.ts",
+    "write:guides": "tsx scripts/write-guides.ts",
     "symbols": "tsx scripts/fetch-symbols.ts",
     "preview:static": "vite preview --outDir site --port 4173 --host",
     "test:unit": "tsx --test test/unit/*.test.ts",

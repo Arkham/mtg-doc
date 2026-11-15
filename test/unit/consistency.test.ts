@@ -59,6 +59,34 @@ const optimized = {
 };
 
 describe("checkReport", () => {
+  test("a how-to-play guide may only name key cards its deck runs", () => {
+    const g = (name: string) => ({
+      summary: "",
+      early: [],
+      mid: [],
+      late: [],
+      winConditions: [],
+      keyCards: [{ name, why: "" }],
+      mulligan: "",
+      watchOut: [],
+    });
+    assert.deepEqual(
+      checkReport(
+        report({ howToPlay: { original: g("Fog Bank"), optimized: g("Fevered Visions") } }),
+      ),
+      [],
+    );
+    assert.deepEqual(
+      checkReport(
+        report({ howToPlay: { original: g("Fevered Visions"), optimized: g("Fog Bank") } }),
+      ),
+      [
+        "How to play (deck as submitted): key card Fevered Visions isn't in the deck as submitted.",
+        "How to play: key card Fog Bank isn't in the deck.",
+      ],
+    );
+  });
+
   test("a consistent report has no problems", () => {
     assert.deepEqual(checkReport(report(), optimized), []);
   });

@@ -8,8 +8,7 @@ export const ROUTE_CHANGE = "routechange";
 
 export const hrefOf = (route: Route) => routeHref(route, IS_STATIC);
 
-export const deckHref = (slug: string, view: DeckView, page?: "rule0") =>
-  hrefOf(page ? { page, slug, view } : { page: "deck", slug, view });
+export const deckHref = (slug: string, view: DeckView) => hrefOf({ page: "deck", slug, view });
 
 /** The static build pins the site root with a <base> element, so pages at any depth share it. */
 const sitePath = (url: URL) => {

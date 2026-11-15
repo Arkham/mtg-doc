@@ -52,7 +52,6 @@ describe("static site export", () => {
     for (const [route, base] of [
       [`decks/${slug}`, "../../"],
       [`decks/${slug}/optimized`, "../../../"],
-      [`decks/${slug}/optimized/rule0`, "../../../../"],
     ]) {
       const page = fs.readFileSync(path.join(out, route, "index.html"), "utf8");
       assert.match(page, new RegExp(`<base href="${base}" />`), route);
@@ -63,6 +62,7 @@ describe("static site export", () => {
       assert.match(page, new RegExp(`href="data/decks/${slug}/report.md"`));
     }
 
+    assert.ok(!fs.existsSync(path.join(out, `decks/${slug}/rule0`)), "How to play is a dialog");
     const decks = JSON.parse(fs.readFileSync(path.join(out, "data/decks.json"), "utf8"));
     assert.ok(
       decks.some(

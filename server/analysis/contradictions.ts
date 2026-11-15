@@ -1,4 +1,7 @@
 import type { Report } from "../../shared/types.ts";
+import { guideTexts, withGuideText } from "./play-guide.ts";
+
+const GUIDE_DECK = { original: "the deck as submitted", optimized: "the suggested deck" } as const;
 
 /** A piece of model-written text in a report, by where it lives. */
 export interface ReportText {
@@ -33,6 +36,16 @@ export function reportTexts(r: Report): ReportText[] {
       kind: `synergy "${s.title}" between ${s.cards.join(" + ")}`,
       text: s.explanation,
     })),
+    ...(["original", "optimized"] as const).flatMap((which) => {
+      const guide = r.howToPlay?.[which];
+      return guide
+        ? guideTexts(guide).map((t) => ({
+            id: `guide-${which}-${t.key}`,
+            kind: `how-to-play guide for ${GUIDE_DECK[which]}, ${t.key}${t.key.startsWith("keyCards.") ? ` (${guide.keyCards[Number(t.key.split(".")[1])].name})` : ""}`,
+            text: t.text,
+          }))
+        : [];
+    }),
   ];
 }
 
@@ -98,6 +111,13 @@ export function knownCards(r: Report): string[] {
 /** The report with the fixes applied to its texts; a null fix drops that synergy. */
 export function applyTextFixes(r: Report, fixes: TextFix[]): Report {
   const byId = new Map(fixes.map((f) => [f.id, f.fixed]));
+  const howToPlay = r.howToPlay && { ...r.howToPlay };
+  for (const f of fixes) {
+    const m = /^guide-(original|optimized)-(.+)$/.exec(f.id);
+    const guide = m && howToPlay?.[m[1] as "original" | "optimized"];
+    if (guide && f.fixed !== null)
+      howToPlay![m[1] as "original" | "optimized"] = withGuideText(guide, m[2], f.fixed.trim());
+  }
   const fixed = (id: string, text: string) => {
     const f = byId.get(id);
     return f === undefined || f === null ? text : f.trim();
@@ -106,6 +126,7 @@ export function applyTextFixes(r: Report, fixes: TextFix[]): Report {
     ...r,
     strategy: fixed("strategy", r.strategy),
     swaps: r.swaps.map((s, i) => ({ ...s, reason: fixed(`swap-${i}`, s.reason) })),
+    ...(howToPlay ? { howToPlay } : {}),
     synergies: r.synergies
       ?.map((s, i) => ({ s, id: `synergy-${i}` }))
       .filter(({ id }) => byId.get(id) !== null)

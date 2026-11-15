@@ -3,6 +3,7 @@ import type {
   Combo,
   DeckSnapshot,
   DecklistCard,
+  PlayGuide,
   Report,
 } from "../shared/types.ts";
 import { BRACKETS } from "./analysis/bracket.ts";
@@ -94,6 +95,28 @@ function statRows(s: DeckSnapshot): [string, string | number][] {
   ];
 }
 
+/** An easy-to-read guide to piloting one of the decks. */
+function guideLines(title: string, g: PlayGuide): string[] {
+  const bullets = (label: string, xs: string[]) =>
+    xs.length ? [`**${label}**`, "", ...xs.map((x) => `- ${x}`), ""] : [];
+  return [
+    `### ${title}`,
+    "",
+    g.summary,
+    "",
+    ...bullets("Early game", g.early),
+    ...bullets("Mid game", g.mid),
+    ...bullets("Late game", g.late),
+    ...bullets("How it wins", g.winConditions),
+    ...bullets(
+      "Key cards",
+      g.keyCards.map((k) => `${k.name}: ${k.why}`),
+    ),
+    ...(g.mulligan ? [`**Mulligan:** ${g.mulligan}`, ""] : []),
+    ...bullets("Watch out for", g.watchOut),
+  ];
+}
+
 function bracketLines(a: BracketAssessment, target: number | null, minTurns: number): string[] {
   const out: string[] = [];
   if (target !== null) out.push(`Checked against the rules of bracket ${target}:`, "");
@@ -145,6 +168,7 @@ export function renderMarkdown(r: Report): string {
   // ---- Part 1: the deck as submitted ----
   lines.push("## Part 1: The deck as submitted", "");
   if (o) lines.push(...decklist("Decklist", o.decklist));
+  if (r.howToPlay?.original) lines.push(...guideLines("How to play", r.howToPlay.original));
   lines.push("### Stats", "", ...table(["", "Value"], statRows(b)));
   for (const i of b.mana.issues) lines.push(`- ⚠️ ${i}`);
   if (b.mana.issues.length) lines.push("");
@@ -206,6 +230,8 @@ export function renderMarkdown(r: Report): string {
       "",
     );
     if (r.strategy) lines.push("### Strategy", "", nested(r.strategy), "");
+    if (r.howToPlay?.optimized)
+      lines.push(...guideLines("How to play the suggested deck", r.howToPlay.optimized));
 
     lines.push(
       `### Suggested swaps (${r.swaps.length})`,

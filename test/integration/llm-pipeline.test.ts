@@ -14,6 +14,7 @@ process.env.LLM_API_KEY = "stub-key";
 process.env.LLM_WEB_SEARCH = "true";
 const { recognizeImages } = await import("../../server/ocr.ts");
 const { whenIdle } = await import("../../server/edit-queue.ts");
+const { readDeckFile } = await import("../../server/storage.ts");
 const { optimizeFixtureDeck } = await import("../support/sample.ts");
 
 after(() => stub.close());
@@ -36,6 +37,25 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
       assert.ok(report.cardIndex![name]?.image, `${name} from the research has a preview`);
 
     assert.equal(report.model, "gpt-6.1-sol");
+    // A how-to-play guide for each deck, kept to its cards and a quick read.
+    for (const which of ["original", "optimized"] as const) {
+      const guide = report.howToPlay![which]!;
+      assert.equal(guide.summary, "Go wide with elves, then drain the table with Lathril.");
+      assert.equal(guide.early.length, 3, "cut to three bullets");
+      assert.deepEqual(
+        guide.keyCards.map((k) => k.name),
+        ["Lathril, Blade of the Elves", "Forest"],
+        "names resolved to the deck, invented cards dropped",
+      );
+    }
+    assert.equal(job.steps.find((s) => s.label === "Write how-to-play guides")!.status, "done");
+    const md = await readDeckFile(report.slug, "report.md");
+    assert.match(md, /### How to play\n\nGo wide with elves/);
+    assert.match(md, /### How to play the suggested deck\n/);
+    assert.match(
+      md,
+      /\*\*Key cards\*\*\n\n- Lathril, Blade of the Elves: The engine and the finisher\./,
+    );
     // Contradictions between the model's texts and the facts are fixed, once a second check
     // agrees; the invented one (on the strategy) and one about a text that doesn't exist aren't.
     const contradictions = job.steps.find((s) => s.label === "Check for contradictions")!;
@@ -55,6 +75,12 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     const [factCheck] = reads;
     assert.match(factCheck.text, /Deck as submitted \(what the owner plays today\): /);
     assert.match(factCheck.text, /\[swap-0\] \(reason for the swap cut /);
+    assert.ok(
+      reads.some((r) =>
+        r.text.includes("[guide-original-summary] (how-to-play guide for the deck as submitted"),
+      ),
+      "the guides are checked too, against the deck each describes",
+    );
     assert.ok(
       report.warnings.some((w) => w.includes("Card Not In Deck")),
       "invalid LLM swap was rejected",
@@ -294,7 +320,6 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     // Apply one of the doc's swaps (the Apply button on a swap), asked from the suggested deck:
     // it edits the deck as submitted, not the list on screen.
     const { applyChatChanges } = await import("../../server/chat.ts");
-    const { readDeckFile } = await import("../../server/storage.ts");
     const { parseDecklist } = await import("../../server/decklist.ts");
     const current = (await readReport(slug))!;
     const [swap] = current.swaps;

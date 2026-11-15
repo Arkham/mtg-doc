@@ -198,16 +198,14 @@ test.describe("static site", () => {
     await expect(page.locator(".agent-fallback")).toHaveCount(0);
     await page.getByRole("link", { name: "See the optimized deck" }).click();
     await expect(page).toHaveURL(`${STATIC_URL}decks/${OVERPOWERED}/optimized/`);
-    await page.getByRole("link", { name: "Pre-game summary" }).click();
-    await expect(page.locator(".rule0-name")).toBeVisible();
 
     // Whatever URL the app shows is a page with the full report, for readers that don't run
     // JavaScript (AI agents get a link copied from the address bar).
     const shown = page.url();
-    expect(shown).toBe(`${STATIC_URL}decks/${OVERPOWERED}/optimized/rule0/`);
     const text = await (await request.get(shown)).text();
     expect(text).toContain("<h1>Lathril, Blade of the Elves: Commander deck report</h1>");
     expect(text).toContain("Suggested decklist");
+    expect(text).toContain("How to play the suggested deck");
     const shell = await (await request.get(STATIC_URL)).text();
     expect(shell).toContain(`href="decks/${OVERPOWERED}/"`);
 
@@ -524,27 +522,72 @@ test.describe("static site", () => {
     await expectNoHorizontalOverflow(page);
   });
 
-  test("pre-game summary and back navigation", async ({ page }) => {
-    await page.goto(`${STATIC_URL}#/deck/${OPTIMIZED}`);
-    await page.getByRole("link", { name: "Pre-game summary" }).click();
-    await expect(page.locator(".rule0-name")).toHaveText("Upgraded");
+  test("How to play opens over the page, for the deck on screen, without changing the URL", async ({
+    page,
+    isMobile,
+  }) => {
+    await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/optimized/`);
+    const button = page.getByRole("button", { name: "How to play" });
+    await button.click();
+    const dialog = page.getByRole("dialog", { name: "How to play" });
+    await expect(dialog).toBeVisible();
+    await expect(page).toHaveURL(`${STATIC_URL}decks/${OVERPOWERED}/optimized/`);
+    await expect(dialog).toContainText("The suggested elves: faster mana, the same drain finish.");
+    await expect(dialog.getByRole("heading", { name: /Early game/ })).toBeVisible();
+    await expect(dialog.getByText("Keep three lands and a mana elf.")).toBeVisible();
+    // Card names in the guide preview, like anywhere else.
+    await expect(
+      dialog.locator(".play-cards").getByRole("link", { name: "Lathril, Blade of the Elves" }),
+    ).toBeVisible();
+    await expect(dialog.getByRole("link", { name: "Llanowar Elves" })).toBeVisible();
+    // The table talk, as the old pre-game summary had it.
+    await expect(dialog.getByText("6+ turns")).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+    if (page.viewportSize()!.width <= 640) {
+      const box = (await dialog.boundingBox())!;
+      expect(box.width).toBe(page.viewportSize()!.width);
+    }
+    if (isMobile) await dialog.getByRole("button", { name: "Close" }).click();
+    else await page.keyboard.press("Escape");
+    await expect(dialog).toHaveCount(0);
+    // Focus goes back where it was; WebKit doesn't focus a button that's tapped.
+    if (!isMobile) await expect(button).toBeFocused();
+
+    // On your deck, it's that deck's guide.
+    await page
+      .getByRole("tablist", { name: "Which deck" })
+      .getByRole("tab", { name: "Your deck" })
+      .click();
+    await button.click();
+    await expect(dialog).toContainText("Your elves: go wide, then drain the table with Lathril.");
+    await dialog.getByRole("button", { name: "Close" }).click();
+
     // The back label is the button's text size, with its chevron level with it.
     const back = page.getByRole("button", { name: "Back" });
-    const [label, button] = await Promise.all([
+    const [label, size] = await Promise.all([
       back.locator(".back-label").evaluate((el) => getComputedStyle(el).fontSize),
       back.evaluate((el) => getComputedStyle(el).fontSize),
     ]);
-    expect(label).toBe(button);
+    expect(label).toBe(size);
     const [icon, text] = await Promise.all([
       back.locator("svg").boundingBox(),
       back.locator(".back-label").boundingBox(),
     ]);
-    expect(Math.abs(icon!.y + icon!.height / 2 - (text!.y + text!.height / 2))).toBeLessThan(3);
-    await expect(page.getByText("6+ turns")).toBeVisible();
-    await expectNoHorizontalOverflow(page);
-    await page.getByRole("button", { name: "Back" }).click();
-    await expect(page.getByRole("heading", { name: "Bracket 3: Upgraded" })).toBeVisible();
-    await page.getByRole("button", { name: "Back" }).click();
+    if (await back.locator(".back-label").isVisible())
+      expect(Math.abs(icon!.y + icon!.height / 2 - (text!.y + text!.height / 2))).toBeLessThan(3);
+    await back.click();
     await expect(page.getByRole("heading", { name: "Decks" })).toBeVisible();
+  });
+
+  test("the plan is a short line, with the doc's reasoning a tap away", async ({ page }) => {
+    await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/optimized/`);
+    const plan = page.locator(".panel", { has: page.getByRole("heading", { name: "The plan" }) });
+    await expect(plan.locator(".panel-desc")).toHaveText(
+      /^What the doc's \d+ swaps change for bracket 3\.$/,
+    );
+    const why = plan.locator("details", { hasText: "Why these swaps" });
+    await expect(why.locator("p")).toBeHidden();
+    await why.locator("summary").click();
+    await expect(why.locator("p")).toBeVisible();
   });
 });

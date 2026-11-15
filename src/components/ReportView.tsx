@@ -24,7 +24,8 @@ import { type DeckView, asOriginal, hasBothViews, viewOf } from "../views.ts";
 import { deckHref, go, navigate } from "../nav.ts";
 import { BracketBadge, BracketPanel } from "./BracketPanel.tsx";
 import { ChatPanel } from "./ChatPanel.tsx";
-import { CardGallery, CardIndex, CardList, CardName, useGallery } from "./CardName.tsx";
+import { CardGallery, CardIndex, CardList, CardName, CardText, useGallery } from "./CardName.tsx";
+import { HowToPlay } from "./HowToPlay.tsx";
 import { tiltHandlers } from "./Foil.tsx";
 import { ManaCost, OracleText } from "./Mana.tsx";
 import { Markdown } from "./Markdown.tsx";
@@ -1445,6 +1446,9 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
   const [copied, setCopied] = useState(false);
   const [optimizedText, setOptimizedText] = useState<string | null>(null);
   const [zoomed, setZoomed] = useState<Card | null>(null);
+  const [howToPlay, setHowToPlay] = useState(false);
+  // Stable, so the dialog doesn't re-run its setup each time the report re-renders.
+  const closeHowToPlay = useCallback(() => setHowToPlay(false), []);
 
   // Prefetched so the clipboard write happens synchronously in the tap; iOS Safari rejects it otherwise.
   const loadList = useCallback(() => {
@@ -1530,6 +1534,13 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
         <p className="updating-note" role="status">
           <span className="spinner" aria-hidden /> Updating the report with your changes…
         </p>
+      )}
+      {howToPlay && (
+        <HowToPlay
+          r={r}
+          guide={full.howToPlay?.[optimized ? "optimized" : "original"]}
+          onClose={closeHowToPlay}
+        />
       )}
       <div className="stack report">
         <section className="hero" style={auraStyle(r.commanderCards)}>
@@ -1657,8 +1668,18 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
 
         {optimized ? (
           <section className="panel">
-            <h2>The plan</h2>
-            <p className="lede">{r.strategy}</p>
+            <PanelHead
+              title="The plan"
+              desc={`What the doc's ${r.swaps.length} ${r.swaps.length === 1 ? "swap changes" : "swaps change"}${r.bracket ? ` for bracket ${r.bracket.target}` : ""}.`}
+            />
+            {r.strategy && (
+              <details className="disclosure plan-why">
+                <summary>Why these swaps</summary>
+                <p>
+                  <CardText text={r.strategy} />
+                </p>
+              </details>
+            )}
             <div className="stats">
               <Stat label="Swaps" after={r.swaps.length} />
               <Stat
@@ -1715,7 +1736,7 @@ export function ReportView({ slug, view: requested }: { slug: string; view: Deck
           <section className="panel" id="bracket">
             <BracketPanel
               b={r.bracket}
-              rule0Href={deckHref(slug, view, "rule0")}
+              onHowToPlay={() => setHowToPlay(true)}
               actions={
                 !IS_STATIC && (
                   <TargetBracket slug={slug} options={full.options} current={r.bracket.target} />

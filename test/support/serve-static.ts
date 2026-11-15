@@ -9,13 +9,41 @@ import http from "node:http";
 import os from "node:os";
 import path from "node:path";
 import { config } from "../../server/config.ts";
-import { setHideSuggestions } from "../../server/storage.ts";
+import { parseDecklist } from "../../server/decklist.ts";
+import { readDeckFile, setHideSuggestions, writeResults } from "../../server/storage.ts";
+import type { PlayGuide } from "../../shared/types.ts";
 import { optimizeFixtureDeck } from "./sample.ts";
 
 const PORT = Number(process.env.STATIC_PORT ?? 4174);
 const BASE = "/mtg-doc/";
 
-await optimizeFixtureDeck("lathril-overpowered.txt", { bracket: 3, tone: "max", budgetTotal: 300 });
+const overpowered = await optimizeFixtureDeck("lathril-overpowered.txt", {
+  bracket: 3,
+  tone: "max",
+  budgetTotal: 300,
+});
+// Optimized without an LLM, so give it the how-to-play guides one would write.
+const guide = (summary: string): PlayGuide => ({
+  summary,
+  early: ["Play Llanowar Elves on turn one.", "Cast Lathril on turn three."],
+  mid: ["Attack with Lathril to make Elf Warriors."],
+  late: ["Tap ten elves to drain the table."],
+  winConditions: ["Lathril's drain, once you have ten elves."],
+  keyCards: [{ name: "Lathril, Blade of the Elves", why: "Makes the army and finishes the game." }],
+  mulligan: "Keep three lands and a mana elf.",
+  watchOut: ["Board wipes reset your tokens."],
+});
+await writeResults(
+  overpowered.slug,
+  {
+    ...overpowered.report,
+    howToPlay: {
+      original: guide("Your elves: go wide, then drain the table with Lathril."),
+      optimized: guide("The suggested elves: faster mana, the same drain finish."),
+    },
+  },
+  parseDecklist(await readDeckFile(overpowered.slug, "optimized.txt")),
+);
 const casual = await optimizeFixtureDeck("lathril.txt", {
   bracket: 2,
   tone: "casual",
