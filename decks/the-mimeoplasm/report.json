@@ -41,7 +41,7 @@
   ],
   "generatedAt": "2026-11-09T23:51:28.957Z",
   "model": "gpt-6.1-sol",
-  "strategy": "Build toward turn-six-or-later wins through graveyard-fueled combat, large Mimeoplasm copies, and Living Death rather than an early infect knockout or compact combo. These changes improve early ramp, graveyard setup, repeatable card advantage, and colored mana while preserving meaningful interaction and independent reanimation. Cyclonic Rift, Survival of the Fittest, and Gifts Ungiven occupy the three designated Game Changer slots; Yawgmoth's Will is removed rather than retained alongside them. This is an upper-end Bracket 3 build, with no extra turns, mass land denial, or added infinite combos; its powerful tutor openings should not be used to pursue pre-turn-six eliminations.",
+  "strategy": "Build toward turn-six-or-later wins through graveyard-fueled combat, large Mimeoplasm copies, and Living Death rather than an early infect knockout or compact combo. These changes improve early ramp, graveyard setup, repeatable card advantage, and colored mana while preserving meaningful interaction and independent reanimation. Survival of the Fittest and Gifts Ungiven occupy two of the three designated Game Changer slots; Yawgmoth's Will is removed rather than retained alongside them. This is an upper-end Bracket 3 build, with no extra turns, mass land denial, or added infinite combos; its powerful tutor openings should not be used to pursue pre-turn-six eliminations.",
   "themes": [
     "Self-mill",
     "Reanimator",
@@ -778,7 +778,7 @@
       "out": "Yawgmoth's Will",
       "in": "Gifts Ungiven",
       "category": "bracket",
-      "reason": "Remove Will rather than retaining it alongside the three designated Game Changers. Gifts offers instant-speed graveyard setup and resource selection without Will's exile replacement effect working against your persistent graveyard engines.",
+      "reason": "Remove Will rather than retaining it alongside the two designated Game Changers. Gifts offers instant-speed graveyard setup and resource selection without Will's exile replacement effect working against your persistent graveyard engines.",
       "outCard": {
         "name": "Yawgmoth's Will",
         "oracleId": "322f0459-f394-44f0-977b-55fd0cbe0712",
@@ -1337,7 +1337,7 @@
       "out": "Dreadship Reef",
       "in": "Breeding Pool",
       "category": "mana",
-      "reason": "Immediate blue-green fixing is better than spending turns charging a storage land. Its Forest type also makes it searchable with Nature's Lore and Skyshroud Claim.",
+      "reason": "Immediate blue-green fixing is better than spending turns charging a storage land. Its Forest type also makes it searchable with Skyshroud Claim.",
       "outCard": {
         "name": "Dreadship Reef",
         "oracleId": "130a8cf5-1354-4d17-91c8-c073642eb3db",
@@ -1578,7 +1578,7 @@
       "out": "Lonely Sandbar",
       "in": "Rejuvenating Springs",
       "category": "mana",
-      "reason": "In a normal four-player game, Springs enters untapped and fixes both blue and green. Keep Barren Moor as a cycling outlet for Life from the Loam rather than retaining every tapped cycling land.",
+      "reason": "In a normal four-player game, Springs enters untapped and fixes both blue and green.",
       "outCard": {
         "name": "Lonely Sandbar",
         "oracleId": "765863c8-1be0-4bb1-9e9c-db7701cffde3",

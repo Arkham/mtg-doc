@@ -41,7 +41,7 @@
   ],
   "generatedAt": "2026-11-09T21:56:26.331Z",
   "model": "gpt-6.1-sol",
-  "strategy": "Build toward Derevi stax-combo: develop efficient mana creatures, connect in combat, and use Derevi's untaps to operate through Winter Orb, Hokori, and Rising Waters. These changes replace expensive reactive cards with mana engines, premium draw, protection, tutors, and a decisive infinite-mana payoff while removing artifact taxes that undermine your own engines. This is a substantial move toward upper Bracket 4 within the 15-swap limit, not a fully rebuilt competitive list; play it with the stated expectation of no wins or effectively game-ending locks before turn four.",
+  "strategy": "Build toward Derevi stax-combo: develop efficient mana creatures, connect in combat, and use Derevi's untaps to operate through Winter Orb, Hokori, and Rising Waters. These changes replace expensive reactive cards with mana engines, premium draw, protection, tutors, and a decisive infinite-mana payoff while removing artifact taxes that undermine your own engines. This is a substantial move toward upper Bracket 4 with 18 swaps, not a fully rebuilt competitive list; play it with the stated expectation of no wins or effectively game-ending locks before turn four.",
   "themes": [
     "Stax and asymmetric untapping",
     "Creature-based ramp",
@@ -55,7 +55,7 @@
       "out": "Luminate Primordial",
       "in": "Bloom Tender",
       "category": "ramp",
-      "reason": "Keep the proposal. Derevi supplies all three Bant colors, making Tender a three-mana producer that turns each relevant Derevi untap into substantial acceleration and supports Emiel loops.",
+      "reason": "Derevi supplies all three Bant colors, making Tender a three-mana producer that turns each relevant Derevi untap into substantial acceleration and supports Emiel loops.",
       "outCard": {
         "name": "Luminate Primordial",
         "oracleId": "c1bc819a-f291-4b55-94f7-269f160ce76b",
@@ -128,7 +128,7 @@
       "out": "Skyward Eye Prophets",
       "in": "Faeburrow Elder",
       "category": "ramp",
-      "reason": "Keep the proposal. Elder produces three mana with Derevi present, costs half as much as Prophets, and has vigilance to attack for a Derevi trigger while remaining available to produce mana.",
+      "reason": "Elder produces three mana with Derevi present, costs half as much as Prophets, and has vigilance to attack for a Derevi trigger while remaining available to produce mana.",
       "outCard": {
         "name": "Skyward Eye Prophets",
         "oracleId": "45bef776-121b-4489-9c46-f7b4fd4c3c0d",
@@ -207,7 +207,7 @@
       "out": "Sunblast Angel",
       "in": "Birds of Paradise",
       "category": "ramp",
-      "reason": "Keep the proposal. One-mana fixing accelerates Derevi and your engines, while flying lets Birds generate combat triggers when attacking is more valuable than tapping for mana.",
+      "reason": "One-mana fixing accelerates Derevi and your engines, while flying lets Birds generate combat triggers when attacking is more valuable than tapping for mana.",
       "outCard": {
         "name": "Sunblast Angel",
         "oracleId": "8b34d1df-4024-497d-bd28-a7caa8c3fa24",
@@ -286,7 +286,7 @@
       "out": "True Conviction",
       "in": "Cyclonic Rift",
       "category": "interaction",
-      "reason": "Keep the proposal. Rift provides early interaction or an asymmetric late-game reset that preserves your creatures and lock pieces while clearing the way for combat connections.",
+      "reason": "Rift provides early interaction or an asymmetric late-game reset that preserves your creatures and lock pieces while clearing the way for combat connections.",
       "outCard": {
         "name": "True Conviction",
         "oracleId": "fc299c1c-50f3-492a-b6b8-a3664bb72ab7",
@@ -355,7 +355,7 @@
       "out": "Swiftfoot Boots",
       "in": "The One Ring",
       "category": "draw",
-      "reason": "Keep the proposal. Derevi can untap the Ring repeatedly, allowing additional activations between resolving combat triggers; its protection trigger also buys time to establish your engine.",
+      "reason": "Derevi can untap the Ring repeatedly, allowing additional activations between resolving combat triggers; its protection trigger also buys time to establish your engine.",
       "outCard": {
         "name": "Swiftfoot Boots",
         "oracleId": "c8b143ad-43ec-4e0d-a440-e348daa31391",
@@ -417,7 +417,7 @@
       "out": "Austere Command",
       "in": "Emiel the Blessed",
       "category": "combo",
-      "reason": "Keep the proposal. Emiel repeatedly blinks Derevi to untap Bloom Tender or Faeburrow Elder: three mana per activation is mana-neutral, while Kinnan increases their output enough to generate infinite mana. Aura Shards converts the repeated creature entries into artifact and enchantment removal.",
+      "reason": "Emiel repeatedly blinks Derevi to untap Bloom Tender or Faeburrow Elder: three mana per activation is mana-neutral, while Kinnan increases their output enough to generate infinite mana. Aura Shards converts the repeated creature entries into artifact and enchantment removal.",
       "outCard": {
         "name": "Austere Command",
         "oracleId": "09cc8709-fe10-472a-b05c-e89f3523018d",
@@ -489,7 +489,7 @@
       "out": "Acidic Slime",
       "in": "Finale of Devastation",
       "category": "combo",
-      "reason": "Replace Smothering Tithe with a tutor and finishing payoff rather than another four-mana engine. Kinnan plus Basalt Monolith supplies infinite colorless mana; with two green mana available, Finale can find Mirror Entity and give your team arbitrarily large power and haste.",
+      "reason": "Finale provides a tutor and finishing payoff. Kinnan plus Basalt Monolith supplies infinite colorless mana; with two green mana available, Finale can find Mirror Entity and give your team arbitrarily large power and haste.",
       "outCard": {
         "name": "Acidic Slime",
         "oracleId": "21f45043-5419-4019-8b6c-e5294bd5f549",
@@ -560,7 +560,7 @@
       "out": "Angel of Finality",
       "in": "Kinnan, Bonder Prodigy",
       "category": "combo",
-      "reason": "Keep the proposal. Kinnan improves your mana creatures and rocks, forms an infinite-colorless-mana combo with Basalt Monolith, and makes the Emiel/Derevi/Tender-or-Elder loop mana-positive; Stonecloaker remains available for targeted graveyard interaction.",
+      "reason": "Kinnan improves your mana creatures and rocks, forms an infinite-colorless-mana combo with Basalt Monolith, and makes the Emiel/Derevi/Tender-or-Elder loop mana-positive; Stonecloaker remains available for targeted graveyard interaction.",
       "outCard": {
         "name": "Angel of Finality",
         "oracleId": "48d14b5c-711a-4f8a-9de5-55415cb7a79a",
@@ -641,7 +641,7 @@
       "out": "Condemn",
       "in": "Fierce Guardianship",
       "category": "interaction",
-      "reason": "Keep the proposal. Condemn cannot stop most opposing combo attempts, whereas Guardianship protects your engines and answers dangerous noncreature spells without requiring untapped mana while Derevi is on the battlefield.",
+      "reason": "Condemn cannot stop most opposing combo attempts, whereas Guardianship protects your engines and answers dangerous noncreature spells without requiring untapped mana while Derevi is on the battlefield.",
       "outCard": {
         "name": "Condemn",
         "oracleId": "377d31b5-0a48-4d5b-91bd-b5a62d4f7899",
@@ -704,7 +704,7 @@
       "out": "Energy Flux",
       "in": "Mana Vault",
       "category": "ramp",
-      "reason": "Change the proposed cut from Cultivate to Energy Flux, removing a tax that threatens your own Ring, Monolith, Orb, and other artifacts. Mana Vault accelerates key plays and becomes reusable when Derevi untaps it; retain Cultivate to support the existing basic-heavy mana base.",
+      "reason": "Cut Energy Flux, removing a tax that threatens your own Ring, Monolith, Orb, and other artifacts. Mana Vault accelerates key plays and becomes reusable when Derevi untaps it; retain Cultivate to support the existing basic-heavy mana base.",
       "outCard": {
         "name": "Energy Flux",
         "oracleId": "7a756cd1-29a8-4edf-bb74-fbb5b4020022",
@@ -765,7 +765,7 @@
       "out": "Control Magic",
       "in": "Worldly Tutor",
       "category": "combo",
-      "reason": "Keep the proposal. One mana finds the specific creature your position needs, including Bloom Tender, Kinnan, Emiel, Seedborn Muse, or Hokori, rather than spending four mana on an opponent-dependent threat.",
+      "reason": "One mana finds the specific creature your position needs, including Bloom Tender, Kinnan, Emiel, Seedborn Muse, or Hokori, rather than spending four mana on an opponent-dependent threat.",
       "outCard": {
         "name": "Control Magic",
         "oracleId": "cd0d7141-46d2-4aa3-bc77-6b3b4513803e",
@@ -834,7 +834,7 @@
       "out": "Deglamer",
       "in": "Seedborn Muse",
       "category": "synergy",
-      "reason": "Keep the proposal. Muse restores your resources during opponents' untap steps, helping break parity under land-untap restrictions and enabling repeated Ring, creature, and instant-speed activations; Aura Shards and retained removal cover the lost interaction slot.",
+      "reason": "Muse restores your resources during opponents' untap steps, helping break parity under land-untap restrictions and enabling repeated Ring, creature, and instant-speed activations; Aura Shards and retained removal cover the lost interaction slot.",
       "outCard": {
         "name": "Deglamer",
         "oracleId": "049d2e18-8fa9-44d9-8618-f675592cb624",
@@ -905,7 +905,7 @@
       "out": "Kataki, War's Wage",
       "in": "Eladamri's Call",
       "category": "combo",
-      "reason": "Replace the proposed land swap with removal of the second self-taxing artifact hate piece. Call puts the required engine or combo creature directly into hand, improving assembly and recovery without risking your own artifact infrastructure.",
+      "reason": "Remove the second self-taxing artifact hate piece. Call puts the required engine or combo creature directly into hand, improving assembly and recovery without risking your own artifact infrastructure.",
       "outCard": {
         "name": "Kataki, War's Wage",
         "oracleId": "27ffa6e9-c161-4f53-8b41-7fae5f199f41",
@@ -972,7 +972,7 @@
       "out": "Dissipate",
       "in": "Mystic Remora",
       "category": "draw",
-      "reason": "Keep the proposal. Remora establishes card advantage for one mana, letting you develop creatures and hold interaction instead of reserving three mana for Dissipate; Fierce Guardianship replaces the lost counterspell slot.",
+      "reason": "Remora establishes card advantage for one mana, letting you develop creatures and hold interaction instead of reserving three mana for Dissipate; Fierce Guardianship replaces the lost counterspell slot.",
       "outCard": {
         "name": "Dissipate",
         "oracleId": "4b2e9aa9-6f91-41de-84b6-e9a89be06a53",

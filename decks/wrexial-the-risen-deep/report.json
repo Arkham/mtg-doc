@@ -210,7 +210,7 @@
       "out": "Spinal Embrace",
       "in": "Force of Will",
       "category": "interaction",
-      "reason": "Free stack interaction protects Wrexial connections, draw engines, and combo attempts without requiring six open mana. This is a much stronger optimized-table upgrade than the proposed Traumatize.",
+      "reason": "Free stack interaction protects Wrexial connections, draw engines, and combo attempts without requiring six open mana. This is a much stronger optimized-table upgrade.",
       "outCard": {
         "name": "Spinal Embrace",
         "oracleId": "4cf3fb65-9107-428a-8853-029ec97112b5",
@@ -867,7 +867,7 @@
       "out": "Quicksilver Elemental",
       "in": "Whispering Madness",
       "category": "synergy",
-      "reason": "Whispering Madness adds a second wheel for Notion Thief, Narset, and graveyard setup. Ciphering it onto Wrexial enables repeat wheels through his landwalk, although his shroud equipment must be removed before choosing him for cipher.",
+      "reason": "Whispering Madness adds a second wheel for Notion Thief, Narset, and graveyard setup. Ciphering it onto Wrexial enables repeat wheels through his landwalk, even while his shroud equipment remains attached.",
       "outCard": {
         "name": "Quicksilver Elemental",
         "oracleId": "c88e3aff-c539-4e8b-8ee1-a43b3d0962b4",
