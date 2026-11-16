@@ -1,0 +1,19 @@
+{
+  "slug": "prossh-skyraider-of-kher",
+  "format": "commander",
+  "commanders": [
+    "Prossh, Skyraider of Kher"
+  ],
+  "deckName": null,
+  "createdAt": "2026-11-16T23:05:23.708Z",
+  "options": {
+    "maxSwaps": 15,
+    "budgetPerCard": null,
+    "budgetTotal": null,
+    "bracket": null,
+    "tone": "max",
+    "locked": [],
+    "webResearch": true
+  },
+  "image": "https://cards.scryfall.io/art_crop/front/8/8/889c1a0f-7df2-4497-8058-04358173d7e8.jpg?1783935112"
+}
