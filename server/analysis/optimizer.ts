@@ -16,7 +16,7 @@ import type { ScoredCard } from "./candidates.ts";
 import { type Deck, cloneDeck, countRoles, totalPrice } from "./deck.ts";
 import { BASIC_FOR, analyzeMana, landColors } from "./mana.ts";
 import type { ProposedSwap, SolverCard, SolverResult } from "./search.ts";
-import { CARD_REFS_RULE } from "./prose.ts";
+import { CARD_REFS_RULE, CardNameSchema } from "./prose.ts";
 import { ref } from "../../shared/card-refs.ts";
 
 const CATEGORIES = [
@@ -36,8 +36,8 @@ const PlanSchema = z.object({
   themes: z.array(z.string()).default([]),
   swaps: z.array(
     z.object({
-      out: z.string(),
-      in: z.string(),
+      out: CardNameSchema,
+      in: CardNameSchema,
       category: z
         .string()
         .transform(
@@ -183,7 +183,7 @@ ${input.research?.summary.slice(0, 4000) ?? "n/a"}
 ${candLines.join("\n")}
 
 ## Writing for the owner
-${CARD_REFS_RULE}
+${CARD_REFS_RULE} That applies to "strategy" and each "reason" only: a swap's "out" and "in" are plain card names.
 The strategy and every reason are shown to the deck's owner, each reason next to its swap. The owner never sees the solver, its proposals or this review, so write as if you picked every swap yourself: say what the new card does for this deck and why it beats the card it replaces. Never describe your review or refer to proposals: no "Keep the proposal", "Change the proposed cut from X to Y", "Replace the proposed land swap", "instead of the proposed…" or "as suggested". When you replace a proposal's card, explain the card you chose, not the change you made.
 
 Reply with JSON only:

@@ -4,7 +4,7 @@ import { BRACKETS } from "./analysis/bracket.ts";
 import type { Deck } from "./analysis/deck.ts";
 import { matchInDeck } from "./analysis/edits.ts";
 import { fitGuide } from "./analysis/play-guide.ts";
-import { CARD_REFS_RULE } from "./analysis/prose.ts";
+import { CARD_REFS_RULE, CardNameSchema } from "./analysis/prose.ts";
 import { chatJson } from "./llm.ts";
 
 const GuideSchema = z.object({
@@ -13,7 +13,7 @@ const GuideSchema = z.object({
   mid: z.array(z.string()).catch([]),
   late: z.array(z.string()).catch([]),
   winConditions: z.array(z.string()).catch([]),
-  keyCards: z.array(z.object({ name: z.string(), why: z.string() })).catch([]),
+  keyCards: z.array(z.object({ name: CardNameSchema, why: z.string() })).catch([]),
   mulligan: z.string().catch(""),
   watchOut: z.array(z.string()).catch([]),
 });

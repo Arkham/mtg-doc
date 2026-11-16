@@ -1,9 +1,16 @@
-import { refsIn, resolveRefs } from "../../shared/card-refs.ts";
+import { z } from "zod";
+import { plainText, refsIn, resolveRefs } from "../../shared/card-refs.ts";
 import type { PlayGuide, Report } from "../../shared/types.ts";
 
 /** How every prompt that writes copy must name cards (see shared/card-refs.ts). */
 export const CARD_REFS_RULE =
   'Write every Magic card you name as [[Exact Card Name]], like "[[Sol Ring]] ramps into [[Lathril, Blade of the Elves]]". Mark card names only: never numbers, turns, card types, mechanics or other words, even ones that share a name with a card.';
+
+/**
+ * A field the model must fill with a plain card name. Prompts that include CARD_REFS_RULE make the
+ * model mark names everywhere, so markers that slip into these fields are taken out.
+ */
+export const CardNameSchema = z.string().transform((s) => plainText(s).trim());
 
 const mapGuide = (g: PlayGuide, fn: (t: string) => string): PlayGuide => ({
   summary: fn(g.summary),

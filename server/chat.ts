@@ -38,7 +38,7 @@ import {
   reconcileSwaps,
 } from "./analysis/reconcile.ts";
 import { worsenedGaps } from "./analysis/reoptimize.ts";
-import { CARD_REFS_RULE, indexResolver } from "./analysis/prose.ts";
+import { CARD_REFS_RULE, CardNameSchema, indexResolver } from "./analysis/prose.ts";
 import { refsIn, resolveRefs } from "../shared/card-refs.ts";
 import { makeRerun } from "./analysis/rerun.ts";
 import { makeViolation } from "./analysis/search.ts";
@@ -117,7 +117,7 @@ const ReplySchema = z.object({
     .array(
       z.object({
         action: z.enum(["add", "remove"]),
-        name: z.string().min(1),
+        name: CardNameSchema.pipe(z.string().min(1)),
         qty: z.coerce.number().int().positive().catch(1),
         reason: z.string().catch(""),
       }),

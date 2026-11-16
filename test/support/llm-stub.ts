@@ -86,7 +86,7 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
         keyCards: [
           { name: "lathril, blade of the elves", why: "The engine and the finisher." },
           { name: "Not A Real Card", why: "Invented, so it's dropped." },
-          { name: "Forest", why: "Makes green mana." },
+          { name: "[[Forest]]", why: "Makes green mana." },
         ],
         mulligan: "Keep hands with three lands and a mana elf.",
         watchOut: ["Board wipes reset your tokens."],
@@ -125,7 +125,7 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
         synergies: [
           {
             title: "Rock into the commander",
-            cards: ["Mind Stone", "Lathril, Blade of the Elves"],
+            cards: ["[[Mind Stone]]", "Lathril, Blade of the Elves"],
             explanation: "Stub synergy for an added card.",
           },
           {
@@ -228,7 +228,7 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
       JSON.stringify({
         reply: "Stub chat: trade Sol Ring for a fairer rock.",
         changes: [
-          { action: "remove", name: "Sol Ring", qty: 1, reason: "stub" },
+          { action: "remove", name: "[[Sol Ring]]", qty: 1, reason: "stub" },
           { action: "add", name: "Mind Stone", qty: 1, reason: "stub" },
         ],
       }),
@@ -284,9 +284,10 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
   }
   if (text.includes("constraint solver has proposed swaps")) {
     const swaps = [...text.matchAll(/OUT (.+?) \(\$[^)]*\) → IN (.+?) \(\$/g)].map(
-      ([, out, inName]) => ({
-        out,
-        in: inName,
+      ([, out, inName], i) => ({
+        // Real models mark names here too, following the copy's card-reference rule.
+        out: i === 0 ? `[[${out}]]` : out,
+        in: i === 0 ? `[[${inName}]]` : inName,
         category: "synergy",
         reason: `Stub reason: ${inName} fits the elves plan.`,
       }),

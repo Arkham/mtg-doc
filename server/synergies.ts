@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { Combo, Synergy } from "../shared/types.ts";
 import type { Deck } from "./analysis/deck.ts";
 import { matchInDeck } from "./analysis/edits.ts";
-import { CARD_REFS_RULE } from "./analysis/prose.ts";
+import { CARD_REFS_RULE, CardNameSchema } from "./analysis/prose.ts";
 import { chatJson, decide } from "./llm.ts";
 
 const SynergySchema = z.object({
@@ -10,7 +10,7 @@ const SynergySchema = z.object({
     .array(
       z.object({
         title: z.string().min(1),
-        cards: z.array(z.string()).min(2).max(4),
+        cards: z.array(CardNameSchema).min(2).max(4),
         explanation: z.string().min(1),
       }),
     )
