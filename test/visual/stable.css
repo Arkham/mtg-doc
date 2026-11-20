@@ -1,0 +1,13 @@
+/* Applied only while screenshotting: rendering noise that differs from one frame to the next. */
+html,
+* {
+  scrollbar-width: none !important;
+}
+::-webkit-scrollbar {
+  display: none !important;
+}
+/* 3D-transformed layers rasterize their edges differently from frame to frame. */
+.tilt {
+  transform: none !important;
+  transform-style: flat !important;
+}

@@ -20,6 +20,7 @@
     "test:unit": "tsx --test test/unit/*.test.ts",
     "test:integration": "tsx --test test/integration/*.test.ts",
     "test:e2e": "playwright test",
+    "test:visual": "playwright test -c playwright.visual.config.ts",
     "test:record": "FIXTURES=record tsx --test --test-concurrency=1 test/unit/*.test.ts test/integration/*.test.ts && FIXTURES=record playwright test",
     "test:record:missing": "FIXTURES=missing tsx --test --test-concurrency=1 test/unit/*.test.ts test/integration/*.test.ts && FIXTURES=missing playwright test",
     "test:coverage": "tsx --test --experimental-test-coverage --test-coverage-include=\"server/**\" test/unit/*.test.ts test/integration/*.test.ts",

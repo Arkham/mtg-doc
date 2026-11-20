@@ -1,0 +1,214 @@
+<div id="root">
+  <div class="app">
+    <header class="topbar">
+      <button aria-label="Back" class="back">
+        <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="18">
+          <path d="m15 5-7 7 7 7">
+        <span class="back-label">
+          "Decks"
+      <div class="topbar-slot" id="topbar-slot">
+      <button aria-label="Find a card" class="icon topbar-search" title="Find a card (/)">
+        <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+          <circle cx="11" cy="11" r="7">
+          <path d="m20 20-3.5-3.5">
+    <main>
+      <div class="review">
+        <div class="page-head">
+          <div>
+            <h1>
+              "Check the cards"
+            <p class="muted">
+              "Fix anything that was misread, confirm the commander, then optimize."
+          <button class="ghost">
+            "Start over"
+        <div class="review-layout ">
+          <div class="stack">
+            <section class="panel">
+              <div class="status-chips">
+                <span class="status-chip ok">
+                  <strong>
+                    "100"
+                  " / 100 cards"
+                <span class="status-chip warn">
+                  "2 off-color"
+              <div class="setup-grid">
+                <div class="field">
+                  <span>
+                    "Format"
+                  <div class="segmented">
+                    <button aria-selected="true">
+                      "Commander"
+                    <button aria-selected="false">
+                      "Other"
+                <div class="field">
+                  <span>
+                    "Commander"
+                  <div class="commander-picks">
+                    <div class="commander-pick">
+                      <img alt="" src="https://cards.scryfall.io/art_crop/front/8/d/8d4e5480-a287-4a25-b855-a26dae555b1c.jpg?1783909053">
+                      <div>
+                        <span class="card-name ">
+                          <a href="https://scryfall.com/card/fdn/242/lathril-blade-of-the-elves?utm_source=api" rel="noreferrer" target="_blank">
+                            "Lathril, Blade of the Elves"
+                        <span aria-label="{2}{B}{G}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{2}" height="14" src="/symbols/2.svg" width="14">
+                            <img alt="{B}" height="14" src="/symbols/B.svg" width="14">
+                            <img alt="{G}" height="14" src="/symbols/G.svg" width="14">
+                      <button aria-label="Remove Lathril, Blade of the Elves" class="icon">
+                        "✕"
+                    <div class="commander-add">
+                      <select .value="">
+                        <option>
+                          "Add partner…"
+                        <option>
+                          "Abomination of Llanowar"
+                        <option>
+                          "Dionus, Elvish Archdruid"
+                        <option>
+                          "Dwynen, Gilt-Leaf Daen"
+                        <option>
+                          "Ezuri, Renegade Leader"
+                        <option>
+                          "High Perfect Morcant"
+                        <option>
+                          "Marwyn, the Nurturer"
+                      <input list="cmdr-ac" placeholder="Search partner" style="" .value="">
+                      <datalist id="cmdr-ac">
+              <details class="ai-notes" .open=false>
+                <summary>
+                  "Notes from the scan (1)"
+                <ul>
+                  <li>
+                    "Outside the commander's color identity: Divination, Thornwood Falls. These will be cut."
+            <section class="panel">
+              <form class="add-card">
+                <input aria-label="Quantity to add" class="qty" inputmode="numeric" min="1" style="" type="number" .value="1">
+                <input aria-label="Add a card" list="add-ac" placeholder="Add a card: type a name and press Enter" style="" .value="">
+                <datalist id="add-ac">
+                <button disabled="" type="submit">
+                  "Add"
+              <div class="list-toolbar">
+                <div class="segmented">
+                  <button aria-selected="false">
+                    "All "
+                    <span class="count">
+                      "81"
+                  <button aria-selected="true">
+                    "Needs attention "
+                    <span class="count">
+                      "2"
+                <input placeholder="Find a card" style="" type="search" .value="">
+              <datalist id="name-ac">
+              <ul class="card-rows">
+                <li class="group-head">
+                  "Sorcery "
+                  <span class="muted">
+                    "1"
+                <li class="card-row warn ">
+                  <div class="thumb">
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/m19/51/divination?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/c/b/cb3b35b8-f321-46d8-a441-6b9a6efa9021.jpg?1783934590">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" style="" type="number" .value="1">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" style="" .value="Divination">
+                    <div class="card-row-sub small">
+                      <span class="warn">
+                        "Outside the commander’s colors, will be cut."
+                  <span class="card-row-cost">
+                    <span aria-label="{2}{U}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{2}" height="15" src="/symbols/2.svg" width="15">
+                        <img alt="{U}" height="15" src="/symbols/U.svg" width="15">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Divination" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+                <li class="group-head">
+                  "Land "
+                  <span class="muted">
+                    "1"
+                <li class="card-row warn ">
+                  <div class="thumb">
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/tdm/269/thornwood-falls?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/e/b/ebb502c2-5fd0-46a9-b77d-010f4a942056.jpg?1783907271">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" style="" type="number" .value="1">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" style="" .value="Thornwood Falls">
+                    <div class="card-row-sub small">
+                      <span class="warn">
+                        "Outside the commander’s colors, will be cut."
+                  <span class="card-row-cost">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Thornwood Falls" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+            <details class="panel disclosure" open="" .open=true>
+              <summary>
+                <span>
+                  "Optimization settings"
+                <span class="muted small">
+                  "up to 15 swaps · any budget · current bracket · max power"
+              <div class="grid4">
+                <label class="field">
+                  <span>
+                    "Max swaps"
+                  <input inputmode="numeric" max="40" min="1" style="" type="number" .value="15">
+                <label class="field">
+                  <span>
+                    "Deck budget ($)"
+                  <input inputmode="decimal" min="0" placeholder="No limit" style="" type="number" .value="">
+                <label class="field">
+                  <span>
+                    "Max per card ($)"
+                  <input inputmode="decimal" min="0" placeholder="No limit" style="" type="number" .value="">
+                <label class="field">
+                  <span>
+                    "Target bracket"
+                  <select .value="">
+                    <option>
+                      "Stay in current bracket"
+                    <option>
+                      "1: Exhibition"
+                    <option>
+                      "2: Core"
+                    <option>
+                      "3: Upgraded"
+                    <option>
+                      "4: Optimized"
+                    <option>
+                      "5: cEDH"
+                <div class="field">
+                  <span>
+                    "Push"
+                  <div class="segmented">
+                    <button aria-selected="true">
+                      "Max"
+                    <button aria-selected="false">
+                      "Balanced"
+                    <button aria-selected="false">
+                      "Casual"
+                <label class="field checkbox">
+                  <input disabled="" style="" type="checkbox" .value="on" .checked=false>
+                  <span>
+                    "Web research"
+                    <span class="muted small">
+                      " (needs an LLM)"
+        <div class="action-bar">
+          <div class="action-bar-info small">
+            <span class="muted">
+              "100 cards"
+          <button class="primary big">
+            "Save & optimize"

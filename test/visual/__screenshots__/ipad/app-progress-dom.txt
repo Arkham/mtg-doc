@@ -1,0 +1,56 @@
+<div id="root">
+  <div class="app">
+    <header class="topbar">
+      <button aria-label="Back" class="back">
+        <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="18">
+          <path d="m15 5-7 7 7 7">
+        <span class="back-label">
+          "Decks"
+      <div class="topbar-slot" id="topbar-slot">
+      <button aria-label="Find a card" class="icon topbar-search" title="Find a card (/)">
+        <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+          <circle cx="11" cy="11" r="7">
+          <path d="m20 20-3.5-3.5">
+    <main>
+      <section class="panel narrow">
+        <h1>
+          "Optimizing your deck"
+        <p class="muted">
+          "Usually 30–90 seconds. Your list is already saved in "
+          <code>
+            "decks/lathril-blade-of-the-elves/"
+          "."
+        <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress" role="progressbar">
+          <div style="width: 50%">
+        <ul class="steps">
+          <li class="done">
+            <span aria-label="done" class="step-icon done">
+              "✓"
+            <div>
+              "Load card data"
+              <div class="muted small">
+                "100 cards"
+          <li class="done">
+            <span aria-label="done" class="step-icon done">
+              "✓"
+            <div>
+              "Find combos & check bracket"
+          <li class="skipped">
+            <span aria-label="skipped" class="step-icon skipped">
+              "–"
+            <div>
+              "Fetch EDHREC recommendations"
+          <li class="running">
+            <span aria-label="running" class="spinner step-icon">
+            <div>
+              "Search for upgrades"
+          <li class="pending">
+            <span aria-label="pending" class="step-icon pending">
+              "○"
+            <div>
+              "Review swaps"
+          <li class="pending">
+            <span aria-label="pending" class="step-icon pending">
+              "○"
+            <div>
+              "Write report"

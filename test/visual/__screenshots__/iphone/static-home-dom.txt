@@ -1,0 +1,67 @@
+<div id="root">
+  <div class="app">
+    <header class="topbar">
+      <a class="brand" href="./">
+        <img alt="" height="32" src="./icon-64.png" width="32">
+        "mtg doc"
+      <div class="topbar-slot" id="topbar-slot">
+      <button aria-label="Find a card" class="icon topbar-search" title="Find a card (/)">
+        <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+          <circle cx="11" cy="11" r="7">
+          <path d="m20 20-3.5-3.5">
+    <main>
+      <div class="stack">
+        <section class="home-hero">
+          <div class="home-hero-text">
+            <span class="hero-role">
+              <span aria-hidden="true">
+                "♛"
+              " The mtg doc"
+            <h1>
+              "The doc will see your deck now."
+            <p>
+              "Check-ups for Commander decks: what each one does today, its bracket and combos, and the swaps the doc prescribes."
+            <p class="home-hero-count">
+              "2 decks examined so far"
+          <div aria-hidden="true" class="home-hero-doc">
+            <img alt="" height="360" src="./doc.webp" width="360">
+        <section>
+          <div class="section-head">
+            <h2 class="home-section-title">
+              "Decks"
+          <div class="deck-grid">
+            <a class="deck-card" href="decks/lathril-blade-of-the-elves/" style="--aura-1: #8f5bd8; --aura-2: #3dbb6c; --aura-3: #3dbb6c">
+              <div class="deck-art">
+                <span>
+                  "🃏"
+                <div class="deck-art-top">
+                  <span aria-label="{B}{G}" class="mana-cost">
+                    <span class="mana-face">
+                      <img alt="{B}" height="20" src="./symbols/B.svg" width="20">
+                      <img alt="{G}" height="20" src="./symbols/G.svg" width="20">
+                  <span class="bracket-badge b4 sm" title="Bracket 4: Optimized">
+                    "4"
+                <strong class="deck-art-name">
+                  "Lathril, Blade of the Elves"
+              <div class="deck-card-body">
+                <span class="muted small">
+                  "Bracket 4 · 35 lands · $2279"
+                <span class="deck-suggest">
+                  <img alt="" height="18" src="./icon-64.png" width="18">
+                  "14 suggested swaps for bracket 3"
+            <a class="deck-card" href="decks/lathril-blade-of-the-elves-2/" style="--aura-1: #8f5bd8; --aura-2: #3dbb6c; --aura-3: #3dbb6c">
+              <div class="deck-art">
+                <span>
+                  "🃏"
+                <div class="deck-art-top">
+                  <span aria-label="{B}{G}" class="mana-cost">
+                    <span class="mana-face">
+                      <img alt="{B}" height="20" src="./symbols/B.svg" width="20">
+                      <img alt="{G}" height="20" src="./symbols/G.svg" width="20">
+                  <span class="bracket-badge b2 sm" title="Bracket 2: Core">
+                    "2"
+                <strong class="deck-art-name">
+                  "Lathril, Blade of the Elves"
+              <div class="deck-card-body">
+                <span class="muted small">
+                  "Bracket 2 · 34 lands · $382"

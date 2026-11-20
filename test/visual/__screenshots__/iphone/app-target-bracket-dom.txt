@@ -1,0 +1,250 @@
+<div class="bracket-panel">
+  <div class="bracket-head">
+    <span class="bracket-badge b3 lg" title="Bracket 3: Upgraded">
+      "3"
+    <div class="bracket-title">
+      <h2>
+        "Bracket 3: Upgraded"
+      <div class="muted small">
+        "Target 3 · Max power · Mid Upgraded · was bracket 4 · Commander Spellbook: Spicy"
+    <div class="bracket-actions">
+      <div class="target-bracket">
+        <label>
+          <span class="muted small">
+            "Aim for"
+          <select aria-label="Target bracket" .value="2">
+            <option>
+              "Bracket 1"
+            <option>
+              "Bracket 2"
+            <option>
+              "Bracket 3"
+            <option>
+              "Bracket 4"
+            <option>
+              "Bracket 5"
+        <button class="primary">
+          "Re-run for bracket 2"
+  <div aria-label="Power 53 of 100" class="power-meter">
+    <div class="power-track">
+      <div class="power-fill" style="width: 53%">
+      <span class="power-tick" style="left: 25%">
+      <span class="power-tick" style="left: 40%">
+      <span class="power-tick" style="left: 65%">
+      <span class="power-tick" style="left: 90%">
+    <div class="power-labels small muted">
+      <span>
+        "casual"
+      <span>
+        "power 53 · mid"
+      <span>
+        "cEDH"
+  <ul class="checks">
+    <li class="ok">
+      <span aria-hidden="true" class="check-icon">
+        "✓"
+      <strong>
+        "Game Changers"
+      <span class="muted">
+        "0 of 3 allowed"
+    <li class="ok">
+      <span aria-hidden="true" class="check-icon">
+        "✓"
+      <strong>
+        "Mass land denial"
+      <span class="muted">
+        "none"
+    <li class="ok">
+      <span aria-hidden="true" class="check-icon">
+        "✓"
+      <strong>
+        "Extra turns"
+      <span class="muted">
+        "none"
+    <li class="ok">
+      <span aria-hidden="true" class="check-icon">
+        "✓"
+      <strong>
+        "Two-card combos"
+      <span class="muted">
+        "only late-game ones"
+    <li class="ok">
+      <span aria-hidden="true" class="check-icon">
+        "⏱"
+      <strong>
+        "Game length"
+      <span class="muted">
+        "expect at least 6 turns before anyone wins"
+  <div class="grid2 bracket-grid">
+    <div>
+      <h3>
+        "Game Changers "
+        <span class="muted">
+          "0 / 3"
+      <div class="gc-slots">
+        <div class="gc-slot empty">
+          "open slot"
+        <div class="gc-slot empty">
+          "open slot"
+        <div class="gc-slot empty">
+          "open slot"
+      <p class="small muted gc-options">
+        "Best others for this deck: "
+        <span>
+          <span class="card-name ">
+            <a href="https://scryfall.com/card/tdc/268/seedborn-muse?utm_source=api" rel="noreferrer" target="_blank">
+              "Seedborn Muse"
+        <span>
+          " · "
+          <span class="card-name ">
+            <a href="https://scryfall.com/card/dmr/185/worldly-tutor?utm_source=api" rel="noreferrer" target="_blank">
+              "Worldly Tutor"
+        <span>
+          " · "
+          <span class="card-name ">
+            <a href="https://scryfall.com/card/ema/177/natural-order?utm_source=api" rel="noreferrer" target="_blank">
+              "Natural Order"
+        <span>
+          " · "
+          <span class="card-name ">
+            <a href="https://scryfall.com/card/cmm/150/demonic-tutor?utm_source=api" rel="noreferrer" target="_blank">
+              "Demonic Tutor"
+    <div>
+      <h3>
+        "Two-card combos"
+      <ul class="combo-speed">
+        <li>
+          <span>
+            <span class="card-name ">
+              <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                "Staff of Domination"
+            <span class="muted">
+              " + "
+            <span class="card-name ">
+              <a href="https://scryfall.com/card/mh3/286/priest-of-titania?utm_source=api" rel="noreferrer" target="_blank">
+                "Priest of Titania"
+            " "
+            <a aria-label="View combo on Commander Spellbook" class="small" href="https://commanderspellbook.com/combo/1376-2645/" rel="noreferrer" target="_blank">
+              "↗"
+          <span class="small muted">
+            "3.1% of games assembled before turn 6"
+        <li>
+          <span>
+            <span class="card-name ">
+              <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                "Staff of Domination"
+            <span class="muted">
+              " + "
+            <span class="card-name ">
+              <a href="https://scryfall.com/card/hoc/204/elvish-archdruid?utm_source=api" rel="noreferrer" target="_blank">
+                "Elvish Archdruid"
+            " "
+            <a aria-label="View combo on Commander Spellbook" class="small" href="https://commanderspellbook.com/combo/2645-3151/" rel="noreferrer" target="_blank">
+              "↗"
+          <span class="small muted">
+            "2.7% of games assembled before turn 6"
+        <li>
+          <span>
+            <span class="card-name ">
+              <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                "Staff of Domination"
+            <span class="muted">
+              " + "
+            <span class="card-name ">
+              <a href="https://scryfall.com/card/khc/79/wirewood-channeler?utm_source=api" rel="noreferrer" target="_blank">
+                "Wirewood Channeler"
+            " "
+            <a aria-label="View combo on Commander Spellbook" class="small" href="https://commanderspellbook.com/combo/1902-2645/" rel="noreferrer" target="_blank">
+              "↗"
+          <span class="small muted">
+            "3% of games assembled before turn 6"
+        <li>
+          <span>
+            <span class="card-name ">
+              <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                "Staff of Domination"
+            <span class="muted">
+              " + "
+            <span class="card-name ">
+              <a href="https://scryfall.com/card/j25/687/marwyn-the-nurturer?utm_source=api" rel="noreferrer" target="_blank">
+                "Marwyn, the Nurturer"
+            " "
+            <a aria-label="View combo on Commander Spellbook" class="small" href="https://commanderspellbook.com/combo/2436-2645/" rel="noreferrer" target="_blank">
+              "↗"
+          <span class="small muted">
+            "3.2% of games assembled before turn 6"
+        <li>
+          <span>
+            <span class="card-name ">
+              <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                "Staff of Domination"
+            <span class="muted">
+              " + "
+            <span class="card-name ">
+              <a href="https://scryfall.com/card/afr/176/circle-of-dreams-druid?utm_source=api" rel="noreferrer" target="_blank">
+                "Circle of Dreams Druid"
+            " "
+            <a aria-label="View combo on Commander Spellbook" class="small" href="https://commanderspellbook.com/combo/1526-2645/" rel="noreferrer" target="_blank">
+              "↗"
+          <span class="small muted">
+            "2.9% of games assembled before turn 6"
+  <details class="excluded" .open=false>
+    <summary>
+      "8 strong cards skipped to stay within your limits"
+    <ul>
+      <li>
+        <span class="card-name ">
+          <a href="https://scryfall.com/card/tdc/268/seedborn-muse?utm_source=api" rel="noreferrer" target="_blank">
+            "Seedborn Muse"
+        " "
+        <span class="muted small">
+          "· would put the deck over the $300 budget"
+      <li>
+        <span class="card-name ">
+          <a href="https://scryfall.com/card/khc/14/wolverine-riders?utm_source=api" rel="noreferrer" target="_blank">
+            "Wolverine Riders"
+        " "
+        <span class="muted small">
+          "· would put the deck over the $300 budget"
+      <li>
+        <span class="card-name ">
+          <a href="https://scryfall.com/card/mh3/149/eladamri-korvecdal?utm_source=api" rel="noreferrer" target="_blank">
+            "Eladamri, Korvecdal"
+        " "
+        <span class="muted small">
+          "· would put the deck over the $300 budget"
+      <li>
+        <span class="card-name ">
+          <a href="https://scryfall.com/card/cma/120/joraga-warcaller?utm_source=api" rel="noreferrer" target="_blank">
+            "Joraga Warcaller"
+        " "
+        <span class="muted small">
+          "· would put the deck over the $300 budget"
+      <li>
+        <span class="card-name ">
+          <a href="https://scryfall.com/card/2x2/132/allosaurus-shepherd?utm_source=api" rel="noreferrer" target="_blank">
+            "Allosaurus Shepherd"
+        " "
+        <span class="muted small">
+          "· would put the deck over the $300 budget"
+      <li>
+        <span class="card-name ">
+          <a href="https://scryfall.com/card/ltc/502/galadhrim-brigade?utm_source=api" rel="noreferrer" target="_blank">
+            "Galadhrim Brigade"
+        " "
+        <span class="muted small">
+          "· would put the deck over the $300 budget"
+      <li>
+        <span class="card-name ">
+          <a href="https://scryfall.com/card/mat/48/tyvar-the-bellicose?utm_source=api" rel="noreferrer" target="_blank">
+            "Tyvar the Bellicose"
+        " "
+        <span class="muted small">
+          "· would put the deck over the $300 budget"
+      <li>
+        <span class="card-name ">
+          <a href="https://scryfall.com/card/shm/267/umbral-mantle?utm_source=api" rel="noreferrer" target="_blank">
+            "Umbral Mantle"
+        " "
+        <span class="muted small">
+          "· would put the deck over the $300 budget"

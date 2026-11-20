@@ -13,8 +13,11 @@ import { parseDecklist } from "../../server/decklist.ts";
 import { readDeckFile, setHideSuggestions, writeResults } from "../../server/storage.ts";
 import type { PlayGuide } from "../../shared/types.ts";
 import { optimizeFixtureDeck } from "./sample.ts";
+import { pinReport } from "./visual-seed.ts";
 
 const PORT = Number(process.env.STATIC_PORT ?? 4174);
+/** The visual suite pins dates and fills in the copy an LLM would write (see visual-seed.ts). */
+const VISUAL = process.env.VISUAL === "1";
 const BASE = "/mtg-doc/";
 
 const overpowered = await optimizeFixtureDeck("lathril-overpowered.txt", {
@@ -51,6 +54,10 @@ const casual = await optimizeFixtureDeck("lathril.txt", {
 });
 // One deck is published without the doc's suggestions.
 await setHideSuggestions(casual.slug, true);
+if (VISUAL) {
+  await pinReport(overpowered.slug, { rich: true });
+  await pinReport(casual.slug);
+}
 
 const out = fs.mkdtempSync(path.join(os.tmpdir(), "mtg-doc-e2e-site-"));
 execFileSync(process.execPath, ["--import", "tsx", "scripts/build-static.ts", "--out", out], {

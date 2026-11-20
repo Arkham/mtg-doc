@@ -1,0 +1,2308 @@
+<div id="root">
+  <div class="app">
+    <header class="topbar">
+      <button aria-label="Back" class="back">
+        <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="18">
+          <path d="m15 5-7 7 7 7">
+        <span class="back-label">
+          "Decks"
+      <div class="topbar-slot" id="topbar-slot">
+        <div aria-label="Which deck" class="segmented view-toggle" role="tablist">
+          <button aria-selected="false" role="tab">
+            "Your deck"
+          <button aria-selected="true" role="tab">
+            "Optimized "
+            <span class="count">
+              "14"
+      <button aria-label="Find a card" class="icon topbar-search" title="Find a card (/)">
+        <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+          <circle cx="11" cy="11" r="7">
+          <path d="m20 20-3.5-3.5">
+    <main>
+      <div class="stack report">
+        <section class="hero" style="--aura-1: #8f5bd8; --aura-2: #3dbb6c; --aura-3: #3dbb6c">
+          <div aria-hidden="true" class="hero-backdrop">
+            <div class="hero-ambient" style="background-image: url("https://cards.scryfall.io/art_crop/front/8/d/8d4e5480-a287-4a25-b855-a26dae555b1c.jpg?1783909053")">
+            <div class="hero-art" style="background-image: url("https://cards.scryfall.io/art_crop/front/8/d/8d4e5480-a287-4a25-b855-a26dae555b1c.jpg?1783909053")">
+          <div class="hero-cards ">
+            <button aria-label="Show Lathril, Blade of the Elves full size" class="hero-card tilt">
+              <img alt="Lathril, Blade of the Elves" src="https://cards.scryfall.io/normal/front/8/d/8d4e5480-a287-4a25-b855-a26dae555b1c.jpg?1783909053">
+              <span aria-hidden="true" class="foil">
+          <div class="hero-head">
+            <div class="hero-kicker">
+              <span class="hero-role">
+                <span aria-hidden="true">
+                  "♛"
+                " Commander"
+              <a class="bracket-link" href="#bracket">
+                <span class="bracket-badge b3 sm" title="Bracket 3: Upgraded">
+                  "3"
+                "Bracket 3 · Upgraded"
+            <div class="hero-title">
+              <h1>
+                "Lathril, Blade of the Elves"
+              <span aria-label="{2}{B}{G}" class="mana-cost">
+                <span class="mana-face">
+                  <img alt="{2}" height="20" src="./symbols/2.svg" width="20">
+                  <img alt="{B}" height="20" src="./symbols/B.svg" width="20">
+                  <img alt="{G}" height="20" src="./symbols/G.svg" width="20">
+          <div class="hero-text">
+            <div class="commander-rules">
+              <div class="type-line">
+                <span>
+                  "Legendary Creature — Elf Noble"
+                  <span class="type-sep">
+                    " · "
+                  <span class="pt">
+                    "2/3"
+              <div class="oracle">
+                <div class="oracle-face">
+                  <p>
+                    <span>
+                      "Menace "
+                    <em class="reminder">
+                      "(This creature can't be blocked except by two or more creatures.)"
+                    <span>
+                  <p>
+                    <span>
+                      "Whenever Lathril deals combat damage to a player, create that many 1/1 green Elf Warrior creature tokens."
+                  <p>
+                    <span>
+                      <img alt="{T}" class="oracle-symbol" height="15" src="./symbols/T.svg" width="15">
+                      ", Tap ten untapped Elves you control: Each opponent loses 10 life and you gain 10 life."
+          <div class="hero-foot">
+            <p class="hero-themes">
+              <span>
+                "Elves"
+              <span>
+                <span class="type-sep">
+                  " · "
+                "Go wide"
+              <span>
+                <span class="type-sep">
+                  " · "
+                "Drain"
+            <div class="hero-actions">
+              <button class="primary">
+                "How to play"
+              <button>
+                "Copy decklist"
+              <details class="menu" .open=false>
+                <summary class="button">
+                  "Export ▾"
+                <div class="menu-items">
+                  <button class="menu-item">
+                    "Copy cards to add"
+                    <span class="muted small">
+                      "14"
+                  <a download="lathril-blade-of-the-elves-initial.txt" href="data/decks/lathril-blade-of-the-elves/initial.txt">
+                    "Download your deck "
+                    <span class="muted small">
+                      ".txt"
+                  <a download="lathril-blade-of-the-elves-optimized.txt" href="data/decks/lathril-blade-of-the-elves/optimized.txt">
+                    "Download the optimized deck "
+                    <span class="muted small">
+                      ".txt"
+                  <a download="lathril-blade-of-the-elves-report.md" href="data/decks/lathril-blade-of-the-elves/report.md">
+                    "Download the full report "
+                    <span class="muted small">
+                      ".md"
+                  <a href="decks/lathril-blade-of-the-elves/" rel="noreferrer" target="_blank">
+                    "Plain-text version "
+                    <span class="muted small">
+                      "for AI agents"
+                  <a href="https://edhrec.com/commanders/lathril-blade-of-the-elves/upgraded" rel="noreferrer" target="_blank">
+                    "View on EDHREC ↗"
+            <p class="hero-meta">
+              "Updated Jan 15, 2026 · based on 36,498 decks on EDHREC"
+        <nav aria-label="Report sections" class="section-nav">
+          <button class="" data-id="bracket">
+            "Bracket"
+          <button class="" data-id="decklist">
+            "Decklist"
+          <button class="" data-id="mana">
+            "Mana"
+          <button class="" data-id="sim">
+            "Goldfish"
+          <button class="active" data-id="combos">
+            "Combos"
+          <button class="" data-id="synergies">
+            "Synergies"
+          <button class="" data-id="research">
+            "Research"
+        <section class="panel">
+          <header class="panel-head">
+            <div class="panel-head-text">
+              <h2>
+                "Optimized deck"
+              <p class="panel-desc">
+                "How the deck plays with the doc's 14 swaps, for bracket 3."
+          <details class="disclosure plan-why" open="" .open=true>
+            <summary>
+              "Why these swaps"
+            <p>
+              "Go wide with mana elves, then turn the army into damage. The swaps trade slow cards for "
+              <span class="card-name ">
+                <a href="https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api" rel="noreferrer" target="_blank">
+                  "Llanowar Elves"
+              "-style mana and keep the deck in its bracket."
+          <div class="stats">
+            <div class="stat">
+              <span class="stat-label">
+                "Swaps"
+              <strong class="">
+                "14"
+            <div class="stat">
+              <span class="stat-label">
+                "Lands (rec. 36)"
+              <strong class="">
+                "35"
+            <div class="stat">
+              <span class="stat-label">
+                "Avg mana value"
+              <strong class="">
+                "3.06"
+            <div class="stat">
+              <span class="stat-label">
+                "Interaction"
+              <strong class="ok">
+                "7"
+              <span class="stat-was">
+                "was 6"
+            <div class="stat">
+              <span class="stat-label">
+                "Commander on curve"
+              <strong class="ok">
+                "86.6%"
+              <span class="stat-was">
+                "was 81.2%"
+            <div class="stat">
+              <span class="stat-label">
+                "Mana screw"
+              <strong class="warn">
+                "7.5%"
+              <span class="stat-was">
+                "was 7.2%"
+            <div class="stat">
+              <span class="stat-label">
+                "Cost of new cards"
+              <strong class="">
+                "$37.97"
+            <div class="stat">
+              <span class="stat-label">
+                "Deck price (budget $300)"
+              <strong class="ok">
+                "$297"
+              <span class="stat-was">
+                "was $2279"
+        <section class="panel" id="bracket">
+          <div class="bracket-panel">
+            <div class="bracket-head">
+              <span class="bracket-badge b3 lg" title="Bracket 3: Upgraded">
+                "3"
+              <div class="bracket-title">
+                <h2>
+                  "Bracket 3: Upgraded"
+                <div class="muted small">
+                  "Target 3 · Max power · Mid Upgraded · was bracket 4 · Commander Spellbook: Spicy"
+            <div aria-label="Power 53 of 100" class="power-meter">
+              <div class="power-track">
+                <div class="power-fill" style="width: 53%">
+                <span class="power-tick" style="left: 25%">
+                <span class="power-tick" style="left: 40%">
+                <span class="power-tick" style="left: 65%">
+                <span class="power-tick" style="left: 90%">
+              <div class="power-labels small muted">
+                <span>
+                  "casual"
+                <span>
+                  "power 53 · mid"
+                <span>
+                  "cEDH"
+            <ul class="checks">
+              <li class="ok">
+                <span aria-hidden="true" class="check-icon">
+                  "✓"
+                <strong>
+                  "Game Changers"
+                <span class="muted">
+                  "0 of 3 allowed"
+              <li class="ok">
+                <span aria-hidden="true" class="check-icon">
+                  "✓"
+                <strong>
+                  "Mass land denial"
+                <span class="muted">
+                  "none"
+              <li class="ok">
+                <span aria-hidden="true" class="check-icon">
+                  "✓"
+                <strong>
+                  "Extra turns"
+                <span class="muted">
+                  "none"
+              <li class="ok">
+                <span aria-hidden="true" class="check-icon">
+                  "✓"
+                <strong>
+                  "Two-card combos"
+                <span class="muted">
+                  "only late-game ones"
+              <li class="ok">
+                <span aria-hidden="true" class="check-icon">
+                  "⏱"
+                <strong>
+                  "Game length"
+                <span class="muted">
+                  "expect at least 6 turns before anyone wins"
+            <div class="grid2 bracket-grid">
+              <div>
+                <h3>
+                  "Game Changers "
+                  <span class="muted">
+                    "0 / 3"
+                <div class="gc-slots">
+                  <div class="gc-slot empty">
+                    "open slot"
+                  <div class="gc-slot empty">
+                    "open slot"
+                  <div class="gc-slot empty">
+                    "open slot"
+                <p class="small muted gc-options">
+                  "Best others for this deck: "
+                  <span>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/tdc/268/seedborn-muse?utm_source=api" rel="noreferrer" target="_blank">
+                        "Seedborn Muse"
+                  <span>
+                    " · "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/dmr/185/worldly-tutor?utm_source=api" rel="noreferrer" target="_blank">
+                        "Worldly Tutor"
+                  <span>
+                    " · "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/ema/177/natural-order?utm_source=api" rel="noreferrer" target="_blank">
+                        "Natural Order"
+                  <span>
+                    " · "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/cmm/150/demonic-tutor?utm_source=api" rel="noreferrer" target="_blank">
+                        "Demonic Tutor"
+              <div>
+                <h3>
+                  "Two-card combos"
+                <ul class="combo-speed">
+                  <li>
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                          "Staff of Domination"
+                      <span class="muted">
+                        " + "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/mh3/286/priest-of-titania?utm_source=api" rel="noreferrer" target="_blank">
+                          "Priest of Titania"
+                      " "
+                      <a aria-label="View combo on Commander Spellbook" class="small" href="https://commanderspellbook.com/combo/1376-2645/" rel="noreferrer" target="_blank">
+                        "↗"
+                    <span class="small muted">
+                      "3.1% of games assembled before turn 6"
+                  <li>
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                          "Staff of Domination"
+                      <span class="muted">
+                        " + "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/hoc/204/elvish-archdruid?utm_source=api" rel="noreferrer" target="_blank">
+                          "Elvish Archdruid"
+                      " "
+                      <a aria-label="View combo on Commander Spellbook" class="small" href="https://commanderspellbook.com/combo/2645-3151/" rel="noreferrer" target="_blank">
+                        "↗"
+                    <span class="small muted">
+                      "2.7% of games assembled before turn 6"
+                  <li>
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                          "Staff of Domination"
+                      <span class="muted">
+                        " + "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/khc/79/wirewood-channeler?utm_source=api" rel="noreferrer" target="_blank">
+                          "Wirewood Channeler"
+                      " "
+                      <a aria-label="View combo on Commander Spellbook" class="small" href="https://commanderspellbook.com/combo/1902-2645/" rel="noreferrer" target="_blank">
+                        "↗"
+                    <span class="small muted">
+                      "3% of games assembled before turn 6"
+                  <li>
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                          "Staff of Domination"
+                      <span class="muted">
+                        " + "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/j25/687/marwyn-the-nurturer?utm_source=api" rel="noreferrer" target="_blank">
+                          "Marwyn, the Nurturer"
+                      " "
+                      <a aria-label="View combo on Commander Spellbook" class="small" href="https://commanderspellbook.com/combo/2436-2645/" rel="noreferrer" target="_blank">
+                        "↗"
+                    <span class="small muted">
+                      "3.2% of games assembled before turn 6"
+                  <li>
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                          "Staff of Domination"
+                      <span class="muted">
+                        " + "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/afr/176/circle-of-dreams-druid?utm_source=api" rel="noreferrer" target="_blank">
+                          "Circle of Dreams Druid"
+                      " "
+                      <a aria-label="View combo on Commander Spellbook" class="small" href="https://commanderspellbook.com/combo/1526-2645/" rel="noreferrer" target="_blank">
+                        "↗"
+                    <span class="small muted">
+                      "2.9% of games assembled before turn 6"
+            <details class="excluded" .open=false>
+              <summary>
+                "8 strong cards skipped to stay within your limits"
+              <ul>
+                <li>
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/tdc/268/seedborn-muse?utm_source=api" rel="noreferrer" target="_blank">
+                      "Seedborn Muse"
+                  " "
+                  <span class="muted small">
+                    "· would put the deck over the $300 budget"
+                <li>
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/khc/14/wolverine-riders?utm_source=api" rel="noreferrer" target="_blank">
+                      "Wolverine Riders"
+                  " "
+                  <span class="muted small">
+                    "· would put the deck over the $300 budget"
+                <li>
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/mh3/149/eladamri-korvecdal?utm_source=api" rel="noreferrer" target="_blank">
+                      "Eladamri, Korvecdal"
+                  " "
+                  <span class="muted small">
+                    "· would put the deck over the $300 budget"
+                <li>
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/cma/120/joraga-warcaller?utm_source=api" rel="noreferrer" target="_blank">
+                      "Joraga Warcaller"
+                  " "
+                  <span class="muted small">
+                    "· would put the deck over the $300 budget"
+                <li>
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/2x2/132/allosaurus-shepherd?utm_source=api" rel="noreferrer" target="_blank">
+                      "Allosaurus Shepherd"
+                  " "
+                  <span class="muted small">
+                    "· would put the deck over the $300 budget"
+                <li>
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/ltc/502/galadhrim-brigade?utm_source=api" rel="noreferrer" target="_blank">
+                      "Galadhrim Brigade"
+                  " "
+                  <span class="muted small">
+                    "· would put the deck over the $300 budget"
+                <li>
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/mat/48/tyvar-the-bellicose?utm_source=api" rel="noreferrer" target="_blank">
+                      "Tyvar the Bellicose"
+                  " "
+                  <span class="muted small">
+                    "· would put the deck over the $300 budget"
+                <li>
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/shm/267/umbral-mantle?utm_source=api" rel="noreferrer" target="_blank">
+                      "Umbral Mantle"
+                  " "
+                  <span class="muted small">
+                    "· would put the deck over the $300 budget"
+        <section class="panel" id="decklist">
+          <header class="panel-head compact">
+            <div class="panel-head-text">
+              <h2>
+                "Swaps"
+            <div class="panel-actions">
+              <button>
+                "Show decklist"
+          <div class="swap-group">
+            <h3>
+              "Spells "
+              <span class="muted">
+                "· 10"
+            <div class="swaps">
+              <article class="swap">
+                <div class="swap-head">
+                  <span class="badge">
+                    "🎯 Bracket"
+                <div class="swap-cards">
+                  <div class="mini-card out">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/tpr/199/survival-of-the-fittest?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Survival of the Fittest" loading="eager" src="https://cards.scryfall.io/normal/front/4/e/4ef0d7f9-ddb9-4e83-a9bf-09bec22fc80d.jpg?1783938453">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Cut"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/tpr/199/survival-of-the-fittest?utm_source=api" rel="noreferrer" target="_blank">
+                          "Survival of the Fittest"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{1}{G}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                        <span>
+                          "$81.52"
+                  <div aria-hidden="true" class="arrow">
+                    "→"
+                  <div class="mini-card in">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/khc/59/elvish-promenade?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Elvish Promenade" loading="eager" src="https://cards.scryfall.io/normal/front/2/0/20602cb8-f925-4de0-ad4b-86d0f5514384.jpg?1783928316">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Add"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/khc/59/elvish-promenade?utm_source=api" rel="noreferrer" target="_blank">
+                          "Elvish Promenade"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{3}{G}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{3}" height="13" src="./symbols/3.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                        <span>
+                          "$7.27"
+                <div class="reason">
+                  <p>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/tpr/199/survival-of-the-fittest?utm_source=api" rel="noreferrer" target="_blank">
+                        "Survival of the Fittest"
+                    " is over the 3 Game Changer limit; "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/khc/59/elvish-promenade?utm_source=api" rel="noreferrer" target="_blank">
+                        "Elvish Promenade"
+                    " is the best legal replacement."
+                  <p class="alternatives small">
+                    <span class="muted">
+                      "Also consider: "
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/ecc/122/glissa-sunslayer?utm_source=api" rel="noreferrer" target="_blank">
+                          "Glissa Sunslayer"
+                    <span>
+                      <span class="muted">
+                        " · "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/khc/14/wolverine-riders?utm_source=api" rel="noreferrer" target="_blank">
+                          "Wolverine Riders"
+              <article class="swap">
+                <div class="swap-head">
+                  <span class="badge">
+                    "🎯 Bracket"
+                <div class="swap-cards">
+                  <div class="mini-card out">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/dmr/108/vampiric-tutor?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Vampiric Tutor" loading="eager" src="https://cards.scryfall.io/normal/front/3/4/34a0203f-9cce-43a4-9cb7-8ce6647895cd.jpg?1783918468">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Cut"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/dmr/108/vampiric-tutor?utm_source=api" rel="noreferrer" target="_blank">
+                          "Vampiric Tutor"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{B}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
+                        <span>
+                          "$49.85"
+                  <div aria-hidden="true" class="arrow">
+                    "→"
+                  <div class="mini-card in">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Staff of Domination" loading="eager" src="https://cards.scryfall.io/normal/front/f/d/fde838c8-2f32-4e7d-a236-0bc42dd7abd9.jpg?1783928743">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Add"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                          "Staff of Domination"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{3}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{3}" height="13" src="./symbols/3.svg" width="13">
+                        <span>
+                          "$11.34"
+                <div class="reason">
+                  <p>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/dmr/108/vampiric-tutor?utm_source=api" rel="noreferrer" target="_blank">
+                        "Vampiric Tutor"
+                    " is over the 3 Game Changer limit; "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                        "Staff of Domination"
+                    " is the best legal replacement."
+                  <p class="alternatives small">
+                    <span class="muted">
+                      "Also consider: "
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/ecc/122/glissa-sunslayer?utm_source=api" rel="noreferrer" target="_blank">
+                          "Glissa Sunslayer"
+                    <span>
+                      <span class="muted">
+                        " · "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/khc/14/wolverine-riders?utm_source=api" rel="noreferrer" target="_blank">
+                          "Wolverine Riders"
+                    <span>
+                      <span class="muted">
+                        " · "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/cmm/290/freyalise-llanowars-fury?utm_source=api" rel="noreferrer" target="_blank">
+                          "Freyalise, Llanowar's Fury"
+              <article class="swap">
+                <div class="swap-head">
+                  <span class="badge">
+                    "🎯 Bracket"
+                <div class="swap-cards">
+                  <div class="mini-card out">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/m19/51/divination?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Divination" loading="eager" src="https://cards.scryfall.io/normal/front/c/b/cb3b35b8-f321-46d8-a441-6b9a6efa9021.jpg?1783934590">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Cut"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/m19/51/divination?utm_source=api" rel="noreferrer" target="_blank">
+                          "Divination"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{2}{U}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{2}" height="13" src="./symbols/2.svg" width="13">
+                            <img alt="{U}" height="13" src="./symbols/U.svg" width="13">
+                        <span>
+                          "$0.24"
+                  <div aria-hidden="true" class="arrow">
+                    "→"
+                  <div class="mini-card in">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/hob/142/wood-elves?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Wood Elves" loading="eager" src="https://cards.scryfall.io/normal/front/2/4/2476e42b-b209-4207-8ed9-cb668f89b218.jpg?1783902784">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Add"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/hob/142/wood-elves?utm_source=api" rel="noreferrer" target="_blank">
+                          "Wood Elves"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{2}{G}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{2}" height="13" src="./symbols/2.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                        <span>
+                          "$0.22"
+                <div class="reason">
+                  <p>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/m19/51/divination?utm_source=api" rel="noreferrer" target="_blank">
+                        "Divination"
+                    " is outside the commander's color identity; "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/hob/142/wood-elves?utm_source=api" rel="noreferrer" target="_blank">
+                        "Wood Elves"
+                    " is the best legal replacement."
+                  <p class="alternatives small">
+                    <span class="muted">
+                      "Also consider: "
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/khm/212/harald-king-of-skemfar?utm_source=api" rel="noreferrer" target="_blank">
+                          "Harald, King of Skemfar"
+                    <span>
+                      <span class="muted">
+                        " · "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/ecc/120/binding-the-old-gods?utm_source=api" rel="noreferrer" target="_blank">
+                          "Binding the Old Gods"
+                    <span>
+                      <span class="muted">
+                        " · "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/clb/254/silvanuss-invoker?utm_source=api" rel="noreferrer" target="_blank">
+                          "Silvanus's Invoker"
+              <article class="swap">
+                <div class="swap-head">
+                  <span class="badge">
+                    "🎯 Bracket"
+                <div class="swap-cards">
+                  <div class="mini-card out">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/cmm/150/demonic-tutor?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Demonic Tutor" loading="eager" src="https://cards.scryfall.io/normal/front/a/2/a24b4cb6-cebb-428b-8654-74347a6a8d63.jpg?1783915679">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Cut"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/cmm/150/demonic-tutor?utm_source=api" rel="noreferrer" target="_blank">
+                          "Demonic Tutor"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{1}{B}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
+                            <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
+                        <span>
+                          "$65.47"
+                  <div aria-hidden="true" class="arrow">
+                    "→"
+                  <div class="mini-card in">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/khc/51/miara-thorn-of-the-glade?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Miara, Thorn of the Glade" loading="eager" src="https://cards.scryfall.io/normal/front/7/b/7bdb9bfe-5e56-429d-af23-7548532e2406.jpg?1783928320">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Add"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/khc/51/miara-thorn-of-the-glade?utm_source=api" rel="noreferrer" target="_blank">
+                          "Miara, Thorn of the Glade"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{1}{B}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
+                            <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
+                        <span>
+                          "$0.33"
+                <div class="reason">
+                  <p>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/cmm/150/demonic-tutor?utm_source=api" rel="noreferrer" target="_blank">
+                        "Demonic Tutor"
+                    " is $65.47, trimmed to fit the $300 deck budget; "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/khc/51/miara-thorn-of-the-glade?utm_source=api" rel="noreferrer" target="_blank">
+                        "Miara, Thorn of the Glade"
+                    " is the best legal replacement."
+                  <p class="alternatives small">
+                    <span class="muted">
+                      "Also consider: "
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/a25/160/arbor-elf?utm_source=api" rel="noreferrer" target="_blank">
+                          "Arbor Elf"
+              <article class="swap">
+                <div class="swap-head">
+                  <span class="badge">
+                    "🎯 Bracket"
+                <div class="swap-cards">
+                  <div class="mini-card out">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/ema/177/natural-order?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Natural Order" loading="eager" src="https://cards.scryfall.io/normal/front/b/f/bfe3329c-7faa-4925-b9d2-075a1ab27e80.jpg?1783937562">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Cut"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/ema/177/natural-order?utm_source=api" rel="noreferrer" target="_blank">
+                          "Natural Order"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{2}{G}{G}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{2}" height="13" src="./symbols/2.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                        <span>
+                          "$35.48"
+                  <div aria-hidden="true" class="arrow">
+                    "→"
+                  <div class="mini-card in">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/khm/109/skemfar-avenger?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Skemfar Avenger" loading="eager" src="https://cards.scryfall.io/normal/front/f/a/fad2c6d4-03dd-4dab-861c-77c55bda0db7.jpg?1783928240">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Add"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/khm/109/skemfar-avenger?utm_source=api" rel="noreferrer" target="_blank">
+                          "Skemfar Avenger"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{1}{B}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
+                            <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
+                        <span>
+                          "$0.41"
+                <div class="reason">
+                  <p>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/ema/177/natural-order?utm_source=api" rel="noreferrer" target="_blank">
+                        "Natural Order"
+                    " is $35.48, trimmed to fit the $300 deck budget; "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/khm/109/skemfar-avenger?utm_source=api" rel="noreferrer" target="_blank">
+                        "Skemfar Avenger"
+                    " is the best legal replacement."
+                  <p class="alternatives small">
+                    <span class="muted">
+                      "Also consider: "
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/ecc/122/glissa-sunslayer?utm_source=api" rel="noreferrer" target="_blank">
+                          "Glissa Sunslayer"
+              <article class="swap">
+                <div class="swap-head">
+                  <span class="badge">
+                    "🎯 Bracket"
+                <div class="swap-cards">
+                  <div class="mini-card out">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/fdn/216/doubling-season?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Doubling Season" loading="eager" src="https://cards.scryfall.io/normal/front/f/2/f2c4f80e-84a0-463b-82c3-5c6503809351.jpg?1783909062">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Cut"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/fdn/216/doubling-season?utm_source=api" rel="noreferrer" target="_blank">
+                          "Doubling Season"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{4}{G}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{4}" height="13" src="./symbols/4.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                        <span>
+                          "$32.89"
+                  <div aria-hidden="true" class="arrow">
+                    "→"
+                  <div class="mini-card in">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/fdn/218/dwynens-elite?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Dwynen's Elite" loading="eager" src="https://cards.scryfall.io/normal/front/8/9/89d94c28-ea2e-4a3d-935f-6b2d9f2efc7a.jpg?1783909060">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Add"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/fdn/218/dwynens-elite?utm_source=api" rel="noreferrer" target="_blank">
+                          "Dwynen's Elite"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{1}{G}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                        <span>
+                          "$0.19"
+                <div class="reason">
+                  <p>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/fdn/216/doubling-season?utm_source=api" rel="noreferrer" target="_blank">
+                        "Doubling Season"
+                    " is $32.89, trimmed to fit the $300 deck budget; "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/fdn/218/dwynens-elite?utm_source=api" rel="noreferrer" target="_blank">
+                        "Dwynen's Elite"
+                    " is the best legal replacement."
+                  <p class="alternatives small">
+                    <span class="muted">
+                      "Also consider: "
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/khm/103/poison-the-cup?utm_source=api" rel="noreferrer" target="_blank">
+                          "Poison the Cup"
+                    <span>
+                      <span class="muted">
+                        " · "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/khm/212/harald-king-of-skemfar?utm_source=api" rel="noreferrer" target="_blank">
+                          "Harald, King of Skemfar"
+                    <span>
+                      <span class="muted">
+                        " · "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/clb/254/silvanuss-invoker?utm_source=api" rel="noreferrer" target="_blank">
+                          "Silvanus's Invoker"
+              <article class="swap">
+                <div class="swap-head">
+                  <span class="badge">
+                    "🎯 Bracket"
+                <div class="swap-cards">
+                  <div class="mini-card out">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/cmm/289/finale-of-devastation?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Finale of Devastation" loading="eager" src="https://cards.scryfall.io/normal/front/b/1/b10d99bf-b2ce-4443-b924-ff0eb8be1033.jpg?1783915632">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Cut"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/cmm/289/finale-of-devastation?utm_source=api" rel="noreferrer" target="_blank">
+                          "Finale of Devastation"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{X}{G}{G}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{X}" height="13" src="./symbols/X.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                        <span>
+                          "$29.88"
+                  <div aria-hidden="true" class="arrow">
+                    "→"
+                  <div class="mini-card in">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/mh3/288/wirewood-symbiote?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Wirewood Symbiote" loading="eager" src="https://cards.scryfall.io/normal/front/d/2/d237f5cc-2b9b-4929-9697-72078bac4c77.jpg?1783911211">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Add"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/mh3/288/wirewood-symbiote?utm_source=api" rel="noreferrer" target="_blank">
+                          "Wirewood Symbiote"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{G}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                        <span>
+                          "$0.28"
+                <div class="reason">
+                  <p>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/cmm/289/finale-of-devastation?utm_source=api" rel="noreferrer" target="_blank">
+                        "Finale of Devastation"
+                    " is $29.88, trimmed to fit the $300 deck budget; "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/mh3/288/wirewood-symbiote?utm_source=api" rel="noreferrer" target="_blank">
+                        "Wirewood Symbiote"
+                    " is the best legal replacement."
+                  <p class="alternatives small">
+                    <span class="muted">
+                      "Also consider: "
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/a25/160/arbor-elf?utm_source=api" rel="noreferrer" target="_blank">
+                          "Arbor Elf"
+              <article class="swap">
+                <div class="swap-head">
+                  <span class="badge">
+                    "🎯 Bracket"
+                <div class="swap-cards">
+                  <div class="mini-card out">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/dmr/185/worldly-tutor?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Worldly Tutor" loading="eager" src="https://cards.scryfall.io/normal/front/f/3/f39aa2e9-e294-4ce6-bf5e-e1f579101a7a.jpg?1783918434">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Cut"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/dmr/185/worldly-tutor?utm_source=api" rel="noreferrer" target="_blank">
+                          "Worldly Tutor"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{G}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                        <span>
+                          "$30.05"
+                  <div aria-hidden="true" class="arrow">
+                    "→"
+                  <div class="mini-card in">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/khc/70/nullmage-shepherd?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Nullmage Shepherd" loading="eager" src="https://cards.scryfall.io/normal/front/c/4/c4a15a09-cf68-411a-a18d-aaad00d308c9.jpg?1783928311">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Add"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/khc/70/nullmage-shepherd?utm_source=api" rel="noreferrer" target="_blank">
+                          "Nullmage Shepherd"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{3}{G}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{3}" height="13" src="./symbols/3.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                        <span>
+                          "$0.72"
+                <div class="reason">
+                  <p>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/dmr/185/worldly-tutor?utm_source=api" rel="noreferrer" target="_blank">
+                        "Worldly Tutor"
+                    " is $30.05, trimmed to fit the $300 deck budget; "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/khc/70/nullmage-shepherd?utm_source=api" rel="noreferrer" target="_blank">
+                        "Nullmage Shepherd"
+                    " is the best legal replacement."
+                  <p class="alternatives small">
+                    <span class="muted">
+                      "Also consider: "
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/ecc/122/glissa-sunslayer?utm_source=api" rel="noreferrer" target="_blank">
+                          "Glissa Sunslayer"
+                    <span>
+                      <span class="muted">
+                        " · "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/ecc/114/realmwalker?utm_source=api" rel="noreferrer" target="_blank">
+                          "Realmwalker"
+              <article class="swap">
+                <div class="swap-head">
+                  <span class="badge">
+                    "🎯 Bracket"
+                <div class="swap-cards">
+                  <div class="mini-card out">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/tdm/138/craterhoof-behemoth?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Craterhoof Behemoth" loading="eager" src="https://cards.scryfall.io/normal/front/2/7/276f5cee-a501-4658-bd4d-7a044bf1ccbc.jpg?1783907345">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Cut"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/tdm/138/craterhoof-behemoth?utm_source=api" rel="noreferrer" target="_blank">
+                          "Craterhoof Behemoth"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{5}{G}{G}{G}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{5}" height="13" src="./symbols/5.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                        <span>
+                          "$25.70"
+                  <div aria-hidden="true" class="arrow">
+                    "→"
+                  <div class="mini-card in">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/ecl/193/selfless-safewright?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Selfless Safewright" loading="eager" src="https://cards.scryfall.io/normal/front/a/c/ac95b1c3-9eb2-4f80-bb32-72b36817d622.jpg?1783904421">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Add"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/ecl/193/selfless-safewright?utm_source=api" rel="noreferrer" target="_blank">
+                          "Selfless Safewright"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{3}{G}{G}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{3}" height="13" src="./symbols/3.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                        <span>
+                          "$0.78"
+                <div class="reason">
+                  <p>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/tdm/138/craterhoof-behemoth?utm_source=api" rel="noreferrer" target="_blank">
+                        "Craterhoof Behemoth"
+                    " is $25.70, trimmed to fit the $300 deck budget; "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/ecl/193/selfless-safewright?utm_source=api" rel="noreferrer" target="_blank">
+                        "Selfless Safewright"
+                    " is the best legal replacement."
+                  <p class="alternatives small">
+                    <span class="muted">
+                      "Also consider: "
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/ecc/122/glissa-sunslayer?utm_source=api" rel="noreferrer" target="_blank">
+                          "Glissa Sunslayer"
+                    <span>
+                      <span class="muted">
+                        " · "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/trc/501/swiftfoot-boots?utm_source=api" rel="noreferrer" target="_blank">
+                          "Swiftfoot Boots"
+                    <span>
+                      <span class="muted">
+                        " · "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/ecc/114/realmwalker?utm_source=api" rel="noreferrer" target="_blank">
+                          "Realmwalker"
+              <article class="swap">
+                <div class="swap-head">
+                  <span class="badge">
+                    "🎯 Bracket"
+                <div class="swap-cards">
+                  <div class="mini-card out">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/jud/130/seedtime?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Seedtime" loading="eager" src="https://cards.scryfall.io/normal/front/4/f/4ffd5c52-f260-400c-b088-8792282509a5.jpg?1783945108">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Cut"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/jud/130/seedtime?utm_source=api" rel="noreferrer" target="_blank">
+                          "Seedtime"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{1}{G}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                        <span>
+                          "$13.04"
+                  <div aria-hidden="true" class="arrow">
+                    "→"
+                  <div class="mini-card in">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/trc/464/harmonize?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Harmonize" loading="eager" src="https://cards.scryfall.io/normal/front/4/e/4e9c9e24-7f41-402c-b346-e553cee90c58.jpg?1793281397">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Add"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/trc/464/harmonize?utm_source=api" rel="noreferrer" target="_blank">
+                          "Harmonize"
+                      <div class="muted small mini-card-meta">
+                        <span aria-label="{2}{G}{G}" class="mana-cost">
+                          <span class="mana-face">
+                            <img alt="{2}" height="13" src="./symbols/2.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                            <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                        <span>
+                          "$0.16"
+                <div class="reason">
+                  <p>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/jud/130/seedtime?utm_source=api" rel="noreferrer" target="_blank">
+                        "Seedtime"
+                    " is $13.04, trimmed to fit the $300 deck budget; "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/trc/464/harmonize?utm_source=api" rel="noreferrer" target="_blank">
+                        "Harmonize"
+                    " is the best legal replacement."
+                  <p class="alternatives small">
+                    <span class="muted">
+                      "Also consider: "
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/khc/75/sylvan-messenger?utm_source=api" rel="noreferrer" target="_blank">
+                          "Sylvan Messenger"
+                    <span>
+                      <span class="muted">
+                        " · "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/khc/52/pride-of-the-perfect?utm_source=api" rel="noreferrer" target="_blank">
+                          "Pride of the Perfect"
+                    <span>
+                      <span class="muted">
+                        " · "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/khm/103/poison-the-cup?utm_source=api" rel="noreferrer" target="_blank">
+                          "Poison the Cup"
+          <div class="swap-group">
+            <h3>
+              "Mana base "
+              <span class="muted">
+                "· 4"
+            <div class="swaps">
+              <article class="swap">
+                <div class="swap-head">
+                  <span class="badge">
+                    "🎯 Bracket"
+                <div class="swap-cards">
+                  <div class="mini-card out">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/usg/321/gaeas-cradle?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Gaea's Cradle" loading="eager" src="https://cards.scryfall.io/normal/front/2/5/25b0b816-0583-44aa-9dc5-f3ff48993a51.jpg?1783946299">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Cut"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/usg/321/gaeas-cradle?utm_source=api" rel="noreferrer" target="_blank">
+                          "Gaea's Cradle"
+                      <div class="muted small mini-card-meta">
+                        <span>
+                          "$1654.93"
+                  <div aria-hidden="true" class="arrow">
+                    "→"
+                  <div class="mini-card in">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/lrw/268/gilt-leaf-palace?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Gilt-Leaf Palace" loading="eager" src="https://cards.scryfall.io/normal/front/c/c/cc4bbbb5-4218-4b2a-9ca2-de4d5f5dda19.jpg?1783942847">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Add"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/lrw/268/gilt-leaf-palace?utm_source=api" rel="noreferrer" target="_blank">
+                          "Gilt-Leaf Palace"
+                      <div class="muted small mini-card-meta">
+                        <span>
+                          "$8.93"
+                <div class="reason">
+                  <p>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/usg/321/gaeas-cradle?utm_source=api" rel="noreferrer" target="_blank">
+                        "Gaea's Cradle"
+                    " is over the 3 Game Changer limit; "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/lrw/268/gilt-leaf-palace?utm_source=api" rel="noreferrer" target="_blank">
+                        "Gilt-Leaf Palace"
+                    " is the best legal replacement."
+                  <p class="alternatives small">
+                    <span class="muted">
+                      "Also consider: "
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/blb/260/three-tree-city?utm_source=api" rel="noreferrer" target="_blank">
+                          "Three Tree City"
+              <article class="swap">
+                <div class="swap-head">
+                  <span class="badge">
+                    "🧩 Synergy"
+                <div class="swap-cards">
+                  <div class="mini-card out">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/tdm/269/thornwood-falls?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Thornwood Falls" loading="eager" src="https://cards.scryfall.io/normal/front/e/b/ebb502c2-5fd0-46a9-b77d-010f4a942056.jpg?1783907271">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Cut"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/tdm/269/thornwood-falls?utm_source=api" rel="noreferrer" target="_blank">
+                          "Thornwood Falls"
+                      <div class="muted small mini-card-meta">
+                        <span>
+                          "$0.15"
+                  <div aria-hidden="true" class="arrow">
+                    "→"
+                  <div class="mini-card in">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/hob/181/elven-passage?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Elven Passage" loading="eager" src="https://cards.scryfall.io/normal/front/d/d/dd1fd2ab-2565-4798-a832-fc849df82f74.jpg?1785323319">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Add"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/hob/181/elven-passage?utm_source=api" rel="noreferrer" target="_blank">
+                          "Elven Passage"
+                      <div class="muted small mini-card-meta">
+                        <span>
+                          "$1.16"
+                <div class="reason">
+                  <p>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/hob/181/elven-passage?utm_source=api" rel="noreferrer" target="_blank">
+                        "Elven Passage"
+                    " scores 5.39 higher for this commander at bracket 3."
+                  <p class="alternatives small">
+                    <span class="muted">
+                      "Also consider: "
+                    <span>
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/msc/275/unclaimed-territory?utm_source=api" rel="noreferrer" target="_blank">
+                          "Unclaimed Territory"
+              <article class="swap">
+                <div class="swap-head">
+                  <span class="badge">
+                    "💧 Mana"
+                <div class="swap-cards">
+                  <div class="mini-card out">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/fdn/689/golgari-guildgate?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Golgari Guildgate" loading="eager" src="https://cards.scryfall.io/normal/front/9/2/92d4646c-a375-4835-aa58-8bb77d1a5abf.jpg?1783908900">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Cut"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/fdn/689/golgari-guildgate?utm_source=api" rel="noreferrer" target="_blank">
+                          "Golgari Guildgate"
+                      <div class="muted small mini-card-meta">
+                        <span>
+                          "$0.13"
+                  <div aria-hidden="true" class="arrow">
+                    "→"
+                  <div class="mini-card in">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/msc/265/secluded-courtyard?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Secluded Courtyard" loading="eager" src="https://cards.scryfall.io/normal/front/c/0/c0d17d04-cf0b-4918-bfec-b34b0d98a602.jpg?1783903197">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Add"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/msc/265/secluded-courtyard?utm_source=api" rel="noreferrer" target="_blank">
+                          "Secluded Courtyard"
+                      <div class="muted small mini-card-meta">
+                        <span>
+                          "$0.29"
+                <div class="reason">
+                  <p>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/fdn/689/golgari-guildgate?utm_source=api" rel="noreferrer" target="_blank">
+                        "Golgari Guildgate"
+                    " always enters tapped; "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/msc/265/secluded-courtyard?utm_source=api" rel="noreferrer" target="_blank">
+                        "Secluded Courtyard"
+                    " makes black and green untapped."
+              <article class="swap">
+                <div class="swap-head">
+                  <span class="badge">
+                    "💧 Mana"
+                <div class="swap-cards">
+                  <div class="mini-card out">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/tdm/258/jungle-hollow?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Jungle Hollow" loading="eager" src="https://cards.scryfall.io/normal/front/e/a/ea13440b-3f7b-4182-9541-27c1fa3121e5.jpg?1783907280">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Cut"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/tdm/258/jungle-hollow?utm_source=api" rel="noreferrer" target="_blank">
+                          "Jungle Hollow"
+                      <div class="muted small mini-card-meta">
+                        <span>
+                          "$0.20"
+                  <div aria-hidden="true" class="arrow">
+                    "→"
+                  <div class="mini-card in">
+                    <span class="card-name mini-card-img">
+                      <a href="https://scryfall.com/card/khm/254/darkbore-pathway-slitherbore-pathway?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="Darkbore Pathway // Slitherbore Pathway" loading="eager" src="https://cards.scryfall.io/normal/front/8/7/87a4e5fe-161f-42da-9ca2-67c8e8970e94.jpg?1783928184">
+                    <div class="mini-card-text">
+                      <span class="side-label">
+                        "Add"
+                      <span class="card-name mini-card-name">
+                        <a href="https://scryfall.com/card/khm/254/darkbore-pathway-slitherbore-pathway?utm_source=api" rel="noreferrer" target="_blank">
+                          "Darkbore Pathway // Slitherbore Pathway"
+                      <div class="muted small mini-card-meta">
+                        <span>
+                          "$5.89"
+                <div class="reason">
+                  <p>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/tdm/258/jungle-hollow?utm_source=api" rel="noreferrer" target="_blank">
+                        "Jungle Hollow"
+                    " always enters tapped; "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/khm/254/darkbore-pathway-slitherbore-pathway?utm_source=api" rel="noreferrer" target="_blank">
+                        "Darkbore Pathway // Slitherbore Pathway"
+                    " makes black and green untapped."
+        <section class="panel" id="mana">
+          <header class="panel-head">
+            <div class="panel-head-text">
+              <h2>
+                "Mana base"
+              <p class="panel-desc">
+                "How many of your lands make each color, against how many a deck leaning on that color this much needs to cast its spells on time."
+          <div class="split">
+            <div>
+              <div class="color-bars">
+                <div class="color-row">
+                  <span title="Black">
+                    <span aria-label="{B}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{B}" height="22" src="./symbols/B.svg" width="22">
+                  <div class="color-row-head">
+                    <span>
+                      <strong>
+                        "20"
+                      " of the "
+                      <strong>
+                        "17"
+                      " lands we'd want make black"
+                      <span class="muted">
+                        " (was 18)"
+                    <span class="status-chip ok">
+                      "enough"
+                  <div class="bar-track">
+                    <div class="bar before" style="width: 72%">
+                    <div class="bar after " style="width: 80%">
+                    <div class="target" style="left: 68%" title="target 17">
+                  <span class="small color-why">
+                    "27% of the colored mana symbols in your spells are black. The target is higher because "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/soc/300/casualties-of-war?utm_source=api" rel="noreferrer" target="_blank">
+                        "Casualties of War"
+                    " costs "
+                    <span aria-label="{2}{B}{B}{G}{G}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{2}" height="13" src="./symbols/2.svg" width="13">
+                        <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
+                        <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
+                        <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                        <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                    ". Your mana rocks and creatures add 5 more black sources."
+                <div class="color-row">
+                  <span title="Green">
+                    <span aria-label="{G}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{G}" height="22" src="./symbols/G.svg" width="22">
+                  <div class="color-row-head">
+                    <span>
+                      <strong>
+                        "25"
+                      " of the "
+                      <strong>
+                        "25"
+                      " lands we'd want make green"
+                    <span class="status-chip ok">
+                      "enough"
+                  <div class="bar-track">
+                    <div class="bar before" style="width: 100%">
+                    <div class="bar after " style="width: 100%">
+                    <div class="target" style="left: 100%" title="target 25">
+                  <span class="small color-why">
+                    "73% of the colored mana symbols in your spells are green.  Your mana rocks and creatures add 11 more green sources."
+                <div class="muted small legend">
+                  <span class="bar-swatch before">
+                  " before "
+                  <span class="bar-swatch after">
+                  " after"
+                  <span class="target-swatch">
+                  " lands we'd want"
+              <h3>
+                "Mana curve"
+              <p class="sub-desc">
+                "Spells at each mana value; lands not counted."
+              <figure class="curve-figure">
+                <div aria-label="Mana curve, before and after" class="curve" role="img">
+                  <div class="curve-col">
+                    <div class="curve-bars">
+                      <span class="curve-count" style="bottom: 0%">
+                        "0"
+                      <div class="bar before" style="height: 0%" title="before: 0">
+                      <div class="bar after" style="height: 0%" title="after: 0">
+                    <span class="curve-mv">
+                      "0"
+                  <div class="curve-col">
+                    <div class="curve-bars">
+                      <span class="curve-count" style="bottom: 40.14273%" title="was 9">
+                        "8"
+                      <div class="bar before" style="height: 40.14273%" title="before: 9">
+                      <div class="bar after" style="height: 35.682426%" title="after: 8">
+                    <span class="curve-mv">
+                      "1"
+                  <div class="curve-col">
+                    <div class="curve-bars">
+                      <span class="curve-count" style="bottom: 57.983943%" title="was 13">
+                        "12"
+                      <div class="bar before" style="height: 57.983943%" title="before: 13">
+                      <div class="bar after" style="height: 53.52364%" title="after: 12">
+                    <span class="curve-mv">
+                      "2"
+                  <div class="curve-col">
+                    <div class="curve-bars">
+                      <span class="curve-count" style="bottom: 84.745763%" title="was 18">
+                        "19"
+                      <div class="bar before" style="height: 80.285459%" title="before: 18">
+                      <div class="bar after" style="height: 84.745763%" title="after: 19">
+                    <span class="curve-mv">
+                      "3"
+                  <div class="curve-col">
+                    <div class="curve-bars">
+                      <span class="curve-count" style="bottom: 84.745763%" title="was 17">
+                        "19"
+                      <div class="bar before" style="height: 75.825156%" title="before: 17">
+                      <div class="bar after" style="height: 84.745763%" title="after: 19">
+                    <span class="curve-mv">
+                      "4"
+                  <div class="curve-col">
+                    <div class="curve-bars">
+                      <span class="curve-count" style="bottom: 22.301517%">
+                        "5"
+                      <div class="bar before" style="height: 22.301517%" title="before: 5">
+                      <div class="bar after" style="height: 22.301517%" title="after: 5">
+                    <span class="curve-mv">
+                      "5"
+                  <div class="curve-col">
+                    <div class="curve-bars">
+                      <span class="curve-count" style="bottom: 4.460303%">
+                        "1"
+                      <div class="bar before" style="height: 4.460303%" title="before: 1">
+                      <div class="bar after" style="height: 4.460303%" title="after: 1">
+                    <span class="curve-mv">
+                      "6"
+                  <div class="curve-col">
+                    <div class="curve-bars">
+                      <span class="curve-count" style="bottom: 4.460303%" title="was 1">
+                        "0"
+                      <div class="bar before" style="height: 4.460303%" title="before: 1">
+                      <div class="bar after" style="height: 0%" title="after: 0">
+                    <span class="curve-mv">
+                      "7+"
+                <figcaption class="legend">
+                  <span class="bar-swatch before">
+                  " before "
+                  <span class="bar-swatch after">
+                  " after"
+                  <span class="grow">
+                  "mana value"
+            <div>
+              <div class="mana-advice">
+                <h3>
+                  "What we changed"
+                <ul class="mana-changes">
+                  <li>
+                    <div class="mana-swap">
+                      <span class="mana-swap-chips">
+                        <span class="edit-chip remove">
+                          "− "
+                          <span class="card-name ">
+                            <a href="https://scryfall.com/card/fdn/689/golgari-guildgate?utm_source=api" rel="noreferrer" target="_blank">
+                              "Golgari Guildgate"
+                        <span class="muted">
+                          "→"
+                        <span class="edit-chip add">
+                          "+ "
+                          <span class="card-name ">
+                            <a href="https://scryfall.com/card/msc/265/secluded-courtyard?utm_source=api" rel="noreferrer" target="_blank">
+                              "Secluded Courtyard"
+                    <div class="muted small">
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/fdn/689/golgari-guildgate?utm_source=api" rel="noreferrer" target="_blank">
+                          "Golgari Guildgate"
+                      " always enters tapped; "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/msc/265/secluded-courtyard?utm_source=api" rel="noreferrer" target="_blank">
+                          "Secluded Courtyard"
+                      " makes black and green untapped."
+                  <li>
+                    <div class="mana-swap">
+                      <span class="mana-swap-chips">
+                        <span class="edit-chip remove">
+                          "− "
+                          <span class="card-name ">
+                            <a href="https://scryfall.com/card/tdm/258/jungle-hollow?utm_source=api" rel="noreferrer" target="_blank">
+                              "Jungle Hollow"
+                        <span class="muted">
+                          "→"
+                        <span class="edit-chip add">
+                          "+ "
+                          <span class="card-name ">
+                            <a href="https://scryfall.com/card/khm/254/darkbore-pathway-slitherbore-pathway?utm_source=api" rel="noreferrer" target="_blank">
+                              "Darkbore Pathway // Slitherbore Pathway"
+                    <div class="muted small">
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/tdm/258/jungle-hollow?utm_source=api" rel="noreferrer" target="_blank">
+                          "Jungle Hollow"
+                      " always enters tapped; "
+                      <span class="card-name ">
+                        <a href="https://scryfall.com/card/khm/254/darkbore-pathway-slitherbore-pathway?utm_source=api" rel="noreferrer" target="_blank">
+                          "Darkbore Pathway // Slitherbore Pathway"
+                      " makes black and green untapped."
+              <dl class="land-notes">
+                <dt>
+                  "Enters tapped"
+                <dd>
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/trc/545/path-of-ancestry?utm_source=api" rel="noreferrer" target="_blank">
+                      "Path of Ancestry"
+                <dt>
+                  "Colorless only"
+                <dd>
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/trc/552/rogues-passage?utm_source=api" rel="noreferrer" target="_blank">
+                      "Rogue's Passage"
+                  <span class="muted">
+                    ", "
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/evg/27/wirewood-lodge?utm_source=api" rel="noreferrer" target="_blank">
+                      "Wirewood Lodge"
+        <section class="panel" id="sim">
+          <header class="panel-head">
+            <div class="panel-head-text">
+              <h2>
+                "Goldfish simulation"
+              <p class="panel-desc">
+                "10,000 solo games with a free mulligan and greedy land and ramp plays."
+          <div class="split">
+            <div>
+              <h3 class="split-head">
+                "Mana development"
+              <div class="table-wrap">
+                <table class="data">
+                  <thead>
+                    <tr>
+                      <th>
+                      <th>
+                        "Before"
+                      <th>
+                        "After"
+                      <th>
+                        "Δ"
+                  <tbody>
+                    <tr>
+                      <td>
+                        "Mulligan rate"
+                      <td>
+                        "22.2%"
+                      <td>
+                        <strong>
+                          "22.7%"
+                      <td>
+                        <span class="warn">
+                          "+0.5%"
+                    <tr>
+                      <td>
+                        "Land drop on turn 2"
+                      <td>
+                        "99.7%"
+                      <td>
+                        <strong>
+                          "99.5%"
+                      <td>
+                        <span class="warn">
+                          "-0.2%"
+                    <tr>
+                      <td>
+                        "Land drop on turn 3"
+                      <td>
+                        "88.7%"
+                      <td>
+                        <strong>
+                          "88%"
+                      <td>
+                        <span class="warn">
+                          "-0.7%"
+                    <tr>
+                      <td>
+                        "Land drop on turn 4"
+                      <td>
+                        "70.1%"
+                      <td>
+                        <strong>
+                          "69.6%"
+                      <td>
+                        <span class="warn">
+                          "-0.5%"
+                    <tr>
+                      <td>
+                        "Land drop on turn 5"
+                      <td>
+                        "50.5%"
+                      <td>
+                        <strong>
+                          "50.2%"
+                      <td>
+                        <span class="warn">
+                          "-0.3%"
+                    <tr>
+                      <td>
+                        "Commander cast on curve"
+                      <td>
+                        "81.2%"
+                      <td>
+                        <strong>
+                          "86.6%"
+                      <td>
+                        <span class="ok">
+                          "+5.4%"
+                    <tr>
+                      <td>
+                        "Commander cast by turn 5"
+                      <td>
+                        "91.3%"
+                      <td>
+                        <strong>
+                          "92.5%"
+                      <td>
+                        <span class="ok">
+                          "+1.2%"
+                    <tr>
+                      <td>
+                        "All colors by turn 3"
+                      <td>
+                        "93.2%"
+                      <td>
+                        <strong>
+                          "95.9%"
+                      <td>
+                        <span class="ok">
+                          "+2.7%"
+                    <tr>
+                      <td>
+                        "Mana available turn 4"
+                      <td>
+                        "4.77"
+                      <td>
+                        <strong>
+                          "4.78"
+                      <td>
+                        <span class="ok">
+                          "+0.01"
+                    <tr>
+                      <td>
+                        "Mana screw (<3 lands on T4)"
+                      <td>
+                        "7.2%"
+                      <td>
+                        <strong>
+                          "7.5%"
+                      <td>
+                        <span class="warn">
+                          "+0.3%"
+                    <tr>
+                      <td>
+                        "Flood (10+ lands seen by T7)"
+                      <td>
+                        "0.3%"
+                      <td>
+                        <strong>
+                          "0.2%"
+                      <td>
+                        <span class="ok">
+                          "-0.1%"
+            <div>
+              <h3 class="split-first">
+                "Card roles"
+              <div class="table-wrap">
+                <table class="data">
+                  <thead>
+                    <tr>
+                      <th>
+                        "Role"
+                      <th>
+                        "Before"
+                      <th>
+                        "After"
+                      <th>
+                        "Typical"
+                  <tbody>
+                    <tr>
+                      <td>
+                        "ramp"
+                      <td>
+                        "15"
+                      <td class="">
+                        <strong>
+                          "16"
+                      <td class="muted">
+                        "10+"
+                    <tr>
+                      <td>
+                        "draw"
+                      <td>
+                        "8"
+                      <td class="">
+                        <strong>
+                          "11"
+                      <td class="muted">
+                        "10+"
+                    <tr>
+                      <td>
+                        "removal"
+                      <td>
+                        "5"
+                      <td class="warn">
+                        <strong>
+                          "6"
+                      <td class="muted">
+                        "8+"
+                    <tr>
+                      <td>
+                        "wipe"
+                      <td>
+                        "1"
+                      <td class="warn">
+                        <strong>
+                          "1"
+                      <td class="muted">
+                        "2+"
+                    <tr>
+                      <td>
+                        "counter"
+                      <td>
+                        "0"
+                      <td class="">
+                        <strong>
+                          "0"
+                      <td class="muted">
+                    <tr>
+                      <td>
+                        "tutor"
+                      <td>
+                        "6"
+                      <td class="">
+                        <strong>
+                          "1"
+                      <td class="muted">
+                    <tr>
+                      <td>
+                        "protection"
+                      <td>
+                        "1"
+                      <td class="warn">
+                        <strong>
+                          "2"
+                      <td class="muted">
+                        "3+"
+                    <tr>
+                      <td>
+                        "recursion"
+                      <td>
+                        "0"
+                      <td class="warn">
+                        <strong>
+                          "0"
+                      <td class="muted">
+                        "2+"
+                    <tr>
+                      <td>
+                        "wincon"
+                      <td>
+                        "3"
+                      <td class="">
+                        <strong>
+                          "2"
+                      <td class="muted">
+        <section class="panel" id="combos">
+          <header class="panel-head">
+            <div class="panel-head-text">
+              <h2>
+                "Combos"
+              <p class="panel-desc">
+                "Infinite combos from Commander Spellbook, in your deck or one card away."
+            <div class="panel-actions">
+              <div aria-label="Which combos" class="segmented" role="tablist">
+                <button aria-selected="true" role="tab">
+                  "All "
+                  <span class="count">
+                    "17"
+                <button aria-selected="false" role="tab">
+                  "In deck "
+                  <span class="count">
+                    "5"
+                <button aria-selected="false" role="tab">
+                  "1 card away "
+                  <span class="count">
+                    "12"
+          <ul class="combo-rows">
+            <li class="combo-row present">
+              <div class="combo-thumbs">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Staff of Domination" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/f/d/fde838c8-2f32-4e7d-a236-0bc42dd7abd9.jpg?1783928743">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/mh3/286/priest-of-titania?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Priest of Titania" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/e/b/eb11921b-1b28-483f-a707-4de21a6daa31.jpg?1783911212">
+              <div class="combo-body">
+                <div class="combo-title">
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                      "Staff of Domination"
+                  <span class="muted">
+                    " + "
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/mh3/286/priest-of-titania?utm_source=api" rel="noreferrer" target="_blank">
+                      "Priest of Titania"
+                  " "
+                  <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1376-2645/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite untap of creatures you control · Infinite mana creatures you control can produce · Infinite green mana">
+                    "↗"
+                <div class="combo-tags">
+                  <span class="badge new">
+                    "✓ In your deck"
+                  <span class="outcome">
+                    "Infinite mana"
+            <li class="combo-row present">
+              <div class="combo-thumbs">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Staff of Domination" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/f/d/fde838c8-2f32-4e7d-a236-0bc42dd7abd9.jpg?1783928743">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/hoc/204/elvish-archdruid?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Elvish Archdruid" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/0/0/006ff5a3-355b-4a7d-b402-bb3c8d32a585.jpg?1785497593">
+              <div class="combo-body">
+                <div class="combo-title">
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                      "Staff of Domination"
+                  <span class="muted">
+                    " + "
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/hoc/204/elvish-archdruid?utm_source=api" rel="noreferrer" target="_blank">
+                      "Elvish Archdruid"
+                  " "
+                  <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2645-3151/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite untap of creatures you control · Infinite mana creatures you control can produce · Infinite green mana">
+                    "↗"
+                <div class="combo-tags">
+                  <span class="badge new">
+                    "✓ In your deck"
+                  <span class="outcome">
+                    "Infinite mana"
+            <li class="combo-row present">
+              <div class="combo-thumbs">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Staff of Domination" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/f/d/fde838c8-2f32-4e7d-a236-0bc42dd7abd9.jpg?1783928743">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/j25/687/marwyn-the-nurturer?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Marwyn, the Nurturer" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/4/c/4c92e444-2a33-4e67-a8be-8cf5d564e589.jpg?1783908631">
+              <div class="combo-body">
+                <div class="combo-title">
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                      "Staff of Domination"
+                  <span class="muted">
+                    " + "
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/j25/687/marwyn-the-nurturer?utm_source=api" rel="noreferrer" target="_blank">
+                      "Marwyn, the Nurturer"
+                  " "
+                  <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2436-2645/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
+                    "↗"
+                <div class="combo-tags">
+                  <span class="badge new">
+                    "✓ In your deck"
+                  <span class="outcome">
+                    "Infinite mana"
+            <li class="combo-row present">
+              <div class="combo-thumbs">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Staff of Domination" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/f/d/fde838c8-2f32-4e7d-a236-0bc42dd7abd9.jpg?1783928743">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/afr/176/circle-of-dreams-druid?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Circle of Dreams Druid" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/b/e/be6fdec0-a2c4-4da2-ae14-961185eaee66.jpg?1783926466">
+              <div class="combo-body">
+                <div class="combo-title">
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                      "Staff of Domination"
+                  <span class="muted">
+                    " + "
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/afr/176/circle-of-dreams-druid?utm_source=api" rel="noreferrer" target="_blank">
+                      "Circle of Dreams Druid"
+                  " "
+                  <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1526-2645/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
+                    "↗"
+                <div class="combo-tags">
+                  <span class="badge new">
+                    "✓ In your deck"
+                  <span class="outcome">
+                    "Infinite mana"
+            <li class="combo-row present">
+              <div class="combo-thumbs">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Staff of Domination" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/f/d/fde838c8-2f32-4e7d-a236-0bc42dd7abd9.jpg?1783928743">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/khc/79/wirewood-channeler?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Wirewood Channeler" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/5/6/5670ae47-befb-4aaf-a77a-d7dbd4d8dc08.jpg?1783928307">
+              <div class="combo-body">
+                <div class="combo-title">
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                      "Staff of Domination"
+                  <span class="muted">
+                    " + "
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/khc/79/wirewood-channeler?utm_source=api" rel="noreferrer" target="_blank">
+                      "Wirewood Channeler"
+                  " "
+                  <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1902-2645/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite colored mana · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite mana creatures you control can produce · Infinite untap of creatures you control">
+                    "↗"
+                <div class="combo-tags">
+                  <span class="badge new">
+                    "✓ In your deck"
+                  <span class="outcome">
+                    "Infinite mana"
+            <li class="combo-row away">
+              <div class="combo-thumbs">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/shm/267/umbral-mantle?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Umbral Mantle" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/1/0/10e35711-aec9-4024-a2a6-9efff8c71df2.jpg?1783942708">
+              <div class="combo-body">
+                <div class="combo-title">
+                  <span class="muted">
+                    "Add"
+                  " "
+                  <strong>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/shm/267/umbral-mantle?utm_source=api" rel="noreferrer" target="_blank">
+                        "Umbral Mantle"
+                  <span class="muted small">
+                    " $11.81"
+                <div class="combo-tags">
+                  <span class="badge">
+                    "1 card away"
+                  <span class="outcome">
+                    "Infinite mana"
+                  <span class="muted small">
+                    "completes 5 combos"
+                  <span class="badge warn" title="would put the deck over the $300 budget">
+                    "Outside bracket 3"
+                <ul class="combo-partners">
+                  <li>
+                    <span class="muted small">
+                      "with"
+                    " "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/mh3/286/priest-of-titania?utm_source=api" rel="noreferrer" target="_blank">
+                        "Priest of Titania"
+                    <span class="muted small">
+                      " · Infinite mana"
+                    " "
+                    <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1376-2816/" rel="noreferrer" target="_blank" title="Infinite green mana · Infinitely large creature until end of turn · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
+                      "↗"
+                  <li>
+                    <span class="muted small">
+                      "with"
+                    " "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/hoc/204/elvish-archdruid?utm_source=api" rel="noreferrer" target="_blank">
+                        "Elvish Archdruid"
+                    <span class="muted small">
+                      " · Infinite mana"
+                    " "
+                    <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2816-3151/" rel="noreferrer" target="_blank" title="Infinite green mana · Infinitely large creature until end of turn · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
+                      "↗"
+                  <li>
+                    <span class="muted small">
+                      "with"
+                    " "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/j25/687/marwyn-the-nurturer?utm_source=api" rel="noreferrer" target="_blank">
+                        "Marwyn, the Nurturer"
+                    <span class="muted small">
+                      " · Infinite mana"
+                    " "
+                    <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2436-2816/" rel="noreferrer" target="_blank" title="Infinite green mana · Infinitely large creature until end of turn · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
+                      "↗"
+                  <li>
+                    <span class="muted small">
+                      "with"
+                    " "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/afr/176/circle-of-dreams-druid?utm_source=api" rel="noreferrer" target="_blank">
+                        "Circle of Dreams Druid"
+                    <span class="muted small">
+                      " · Infinite mana"
+                    " "
+                    <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1526-2816/" rel="noreferrer" target="_blank" title="Infinite green mana · Infinitely large creature until end of turn · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
+                      "↗"
+                  <li>
+                    <span class="muted small">
+                      "with"
+                    " "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/khc/79/wirewood-channeler?utm_source=api" rel="noreferrer" target="_blank">
+                        "Wirewood Channeler"
+                    <span class="muted small">
+                      " · Infinite mana"
+                    " "
+                    <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1902-2816/" rel="noreferrer" target="_blank" title="Infinite colored mana · Infinitely large creature until end of turn · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
+                      "↗"
+            <li class="combo-row away">
+              <div class="combo-thumbs">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/rvr/270/sword-of-the-paruns?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Sword of the Paruns" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/3/e/3e0fd1d6-c57e-47c7-a87f-0487cf5b2786.jpg?1783913258">
+              <div class="combo-body">
+                <div class="combo-title">
+                  <span class="muted">
+                    "Add"
+                  " "
+                  <strong>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/rvr/270/sword-of-the-paruns?utm_source=api" rel="noreferrer" target="_blank">
+                        "Sword of the Paruns"
+                  <span class="muted small">
+                    " $2.66"
+                <div class="combo-tags">
+                  <span class="badge">
+                    "1 card away"
+                  <span class="outcome">
+                    "Infinite mana"
+                  <span class="muted small">
+                    "completes 4 combos"
+                <ul class="combo-partners">
+                  <li>
+                    <span class="muted small">
+                      "with"
+                    " "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/mh3/286/priest-of-titania?utm_source=api" rel="noreferrer" target="_blank">
+                        "Priest of Titania"
+                    <span class="muted small">
+                      " · Infinite mana"
+                    " "
+                    <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1376-5200/" rel="noreferrer" target="_blank" title="Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
+                      "↗"
+                  <li>
+                    <span class="muted small">
+                      "with"
+                    " "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/hoc/204/elvish-archdruid?utm_source=api" rel="noreferrer" target="_blank">
+                        "Elvish Archdruid"
+                    <span class="muted small">
+                      " · Infinite mana"
+                    " "
+                    <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/3151-5200/" rel="noreferrer" target="_blank" title="Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
+                      "↗"
+                  <li>
+                    <span class="muted small">
+                      "with"
+                    " "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/j25/687/marwyn-the-nurturer?utm_source=api" rel="noreferrer" target="_blank">
+                        "Marwyn, the Nurturer"
+                    <span class="muted small">
+                      " · Infinite mana"
+                    " "
+                    <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2436-5200/" rel="noreferrer" target="_blank" title="Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
+                      "↗"
+                  <li>
+                    <span class="muted small">
+                      "with"
+                    " "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/afr/176/circle-of-dreams-druid?utm_source=api" rel="noreferrer" target="_blank">
+                        "Circle of Dreams Druid"
+                    <span class="muted small">
+                      " · Infinite mana"
+                    " "
+                    <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1526-5200/" rel="noreferrer" target="_blank" title="Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
+                      "↗"
+            <li class="combo-row away">
+              <div class="combo-thumbs">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/ncc/315/temur-sabertooth?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Temur Sabertooth" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/c/3/c3a5a175-e963-42cc-a0ba-d8914bb93c00.jpg?1783923238">
+              <div class="combo-body">
+                <div class="combo-title">
+                  <span class="muted">
+                    "Add"
+                  " "
+                  <strong>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/ncc/315/temur-sabertooth?utm_source=api" rel="noreferrer" target="_blank">
+                        "Temur Sabertooth"
+                  <span class="muted small">
+                    " $2.71"
+                <div class="combo-tags">
+                  <span class="badge">
+                    "1 card away"
+                  <span class="outcome">
+                    "Infinite mana"
+                  <span class="muted small">
+                    "completes 2 combos"
+                <ul class="combo-partners">
+                  <li>
+                    <span class="muted small">
+                      "with"
+                    " "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/afr/176/circle-of-dreams-druid?utm_source=api" rel="noreferrer" target="_blank">
+                        "Circle of Dreams Druid"
+                    <span class="muted">
+                      " + "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/mh3/288/wirewood-symbiote?utm_source=api" rel="noreferrer" target="_blank">
+                        "Wirewood Symbiote"
+                    <span class="muted">
+                      " + "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api" rel="noreferrer" target="_blank">
+                        "Llanowar Elves"
+                    <span class="muted small">
+                      " · Infinite mana"
+                    " "
+                    <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/215-1526-1627-1909/" rel="noreferrer" target="_blank" title="Infinite blinking of some creatures · Infinite green mana">
+                      "↗"
+                  <li>
+                    <span class="muted small">
+                      "with"
+                    " "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/afr/176/circle-of-dreams-druid?utm_source=api" rel="noreferrer" target="_blank">
+                        "Circle of Dreams Druid"
+                    <span class="muted">
+                      " + "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/mh3/288/wirewood-symbiote?utm_source=api" rel="noreferrer" target="_blank">
+                        "Wirewood Symbiote"
+                    <span class="muted">
+                      " + "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/hoc/205/elvish-mystic?utm_source=api" rel="noreferrer" target="_blank">
+                        "Elvish Mystic"
+                    <span class="muted small">
+                      " · Infinite mana"
+                    " "
+                    <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/215-1526-1909-4852/" rel="noreferrer" target="_blank" title="Infinite blinking of some creatures · Infinite green mana">
+                      "↗"
+            <li class="combo-row away">
+              <div class="combo-thumbs">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/ecc/116/selvala-heart-of-the-wilds?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Selvala, Heart of the Wilds" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/8/1/812856be-cf51-42de-96d2-4ac91e71d442.jpg?1783904541">
+              <div class="combo-body">
+                <div class="combo-title">
+                  <span class="muted">
+                    "Add"
+                  " "
+                  <strong>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/ecc/116/selvala-heart-of-the-wilds?utm_source=api" rel="noreferrer" target="_blank">
+                        "Selvala, Heart of the Wilds"
+                  <span class="muted small">
+                    " $6.17"
+                <div class="combo-tags">
+                  <span class="badge">
+                    "1 card away"
+                  <span class="outcome">
+                    "Infinite mana"
+                <ul class="combo-partners">
+                  <li>
+                    <span class="muted small">
+                      "with"
+                    " "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                        "Staff of Domination"
+                    " "
+                    <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/527-2645/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite colored mana · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite mana creatures you control can produce · Infinite untap of creatures you control">
+                      "↗"
+            <li class="combo-row away">
+              <div class="combo-thumbs">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/ecc/107/flourishing-defenses?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Flourishing Defenses" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/3/7/37a678b3-53ba-48c7-9846-6454f8b34127.jpg?1783904546">
+              <div class="combo-body">
+                <div class="combo-title">
+                  <span class="muted">
+                    "Add"
+                  " "
+                  <strong>
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/ecc/107/flourishing-defenses?utm_source=api" rel="noreferrer" target="_blank">
+                        "Flourishing Defenses"
+                  <span class="muted small">
+                    " $0.43"
+                <div class="combo-tags">
+                  <span class="badge">
+                    "1 card away"
+                  <span class="outcome">
+                    "Infinite value"
+                <ul class="combo-partners">
+                  <li>
+                    <span class="muted small">
+                      "with"
+                    " "
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/ecl/229/high-perfect-morcant?utm_source=api" rel="noreferrer" target="_blank">
+                        "High Perfect Morcant"
+                    " "
+                    <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1084-7151/" rel="noreferrer" target="_blank" title="Near-infinite creature ETB · Near-infinite creature tokens · Near-infinite proliferate · Reduce any number of opposing creatures' toughness to 0 whenever an Elf enters under your control · Reduce the toughness of creatures opponents control to 0">
+                      "↗"
+          <button class="ghost small-btn">
+            "Show all 12 cards one away"
+        <section class="panel" id="synergies">
+          <header class="panel-head">
+            <div class="panel-head-text">
+              <h2>
+                "Synergies"
+              <p class="panel-desc">
+                "Cards that are stronger together, without being an infinite combo."
+          <ul class="synergies">
+            <li class="synergy">
+              <div class="synergy-cards">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/fdn/242/lathril-blade-of-the-elves?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Lathril, Blade of the Elves" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/8/d/8d4e5480-a287-4a25-b855-a26dae555b1c.jpg?1783909053">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Llanowar Elves" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/6/a/6a0b230b-d391-4998-a3f7-7b158a0ec2cd.jpg?1783909057">
+                <span class="card-name ">
+                  <a href="https://scryfall.com/card/hoc/205/elvish-mystic?utm_source=api" rel="noreferrer" target="_blank">
+                    <img alt="Elvish Mystic" class="card-thumb" loading="eager" src="https://cards.scryfall.io/normal/front/0/8/08b9a296-3b76-4f8f-9d71-7c9af92bb3b4.jpg?1785647413">
+              <div class="synergy-text">
+                <strong>
+                  "Elves fuel the army"
+                <div class="small synergy-names">
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/fdn/242/lathril-blade-of-the-elves?utm_source=api" rel="noreferrer" target="_blank">
+                      "Lathril, Blade of the Elves"
+                  <span class="muted">
+                    " + "
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api" rel="noreferrer" target="_blank">
+                      "Llanowar Elves"
+                  <span class="muted">
+                    " + "
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/hoc/205/elvish-mystic?utm_source=api" rel="noreferrer" target="_blank">
+                      "Elvish Mystic"
+                <p class="small">
+                  "Mana elves cast Lathril early, and every Elf Warrior token is another body for her drain."
+        <section class="panel" id="research">
+          <header class="panel-head">
+            <div class="panel-head-text">
+              <h2>
+                "Web research"
+              <p class="panel-desc">
+                "What 2 guides and discussions say about this commander."
+          <details class="disclosure" open="" .open=true>
+            <summary>
+              "Read the summary"
+            <div class="markdown">
+              <h4>
+                "How people build Lathril"
+              <p>
+                "Most lists lean on "
+                <strong>
+                  "mana elves"
+                " and token makers, then finish with "
+                <em>
+                  "Lathril's drain"
+                "."
+              <ul>
+                <li>
+                  "Ramp early with "
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api" rel="noreferrer" target="_blank">
+                      "Llanowar Elves"
+                <li>
+                  "Protect the board from wipes"
+              <div class="table-wrap">
+                <table class="data md-table">
+                  <thead>
+                    <tr>
+                      <th>
+                        "Plan"
+                      <th>
+                        "Cards"
+                  <tbody>
+                    <tr>
+                      <td>
+                        "Ramp"
+                      <td>
+                        <strong>
+                          "Elves"
+                        ", "
+                        <a href="https://example.test/guide" rel="noreferrer" target="_blank">
+                          "a guide"
+                    <tr>
+                      <td>
+                        "Finish"
+                      <td>
+                        "Lathril"
+          <h3>
+            "Sources"
+          <ul class="sources">
+            <li>
+              <a href="https://www.example.test/lathril" rel="noreferrer" target="_blank">
+                "Lathril deck tech"
+              <span class="source-host">
+                "example.test"
+            <li>
+              <a href="https://guides.example.test/elves" rel="noreferrer" target="_blank">
+                "Elves in Commander"
+              <span class="source-host">
+                "guides.example.test"
+        <section class="panel">
+          <div class="row between">
+            <details class="disclosure" .open=false>
+              <summary>
+                "Original list"
+              <pre>
+                "Commander\n1 Lathril, Blade of the Elves\n\nDeck\n1 Abomination of Llanowar\n1 Arcane Signet\n1 Assassin's Trophy\n1 Banner of Kinship\n1 Beast Whisperer\n1 Beast Within\n1 Canopy Tactician\n1 Casualties of War\n1 Champions of the Perfect\n1 Circle of Dreams Druid\n1 Command Tower\n1 Craterhoof Behemoth\n1 Crown of Skemfar\n1 Cultivate\n1 Deathcap Glade\n1 Demonic Tutor\n1 Dionus, Elvish Archdruid\n1 Divination\n1 Doubling Season\n1 Dwynen, Gilt-Leaf Daen\n1 Elderfang Venom\n1 Elven Ambush\n1 Elves of Deep Shadow\n1 Elvish Archdruid\n1 Elvish Champion\n1 Elvish Harbinger\n1 Elvish Mystic\n1 Elvish Warmaster\n1 Ezuri, Renegade Leader\n1 Finale of Devastation\n12 Forest\n1 Fyndhorn Elves\n1 Gaea's Cradle\n1 Galadhrim Ambush\n1 Golgari Charm\n1 Golgari Guildgate\n1 Gray Merchant of Asphodel\n1 Grizzly Bears\n1 Growing Rites of Itlimoc\n1 Heroic Intervention\n1 High Perfect Morcant\n1 Immaculate Magistrate\n1 Imperious Perfect\n1 Jungle Hollow\n1 Leaf-Crowned Visionary\n1 Llanowar Elves\n1 Llanowar Wastes\n1 Lys Alana Huntmaster\n1 Marwyn, the Nurturer\n1 Moldervine Reclamation\n1 Morcant's Loyalist\n1 Natural Order\n1 Necroblossom Snarl\n1 Overgrown Tomb\n1 Pact of the Serpent\n1 Path of Ancestry\n1 Poison-Tip Archer\n1 Priest of Titania\n1 Prowess of the Fair\n1 Putrefy\n1 Reclamation Sage\n1 Rogue's Passage\n1 Ruthless Winnower\n1 Seedtime\n1 Shaman of the Pack\n1 Skemfar Shadowsage\n1 Skullclamp\n1 Sol Ring\n1 Survival of the Fittest\n8 Swamp\n1 Thornwood Falls\n1 Timberwatch Elf\n1 Tyvar Kell\n1 Undergrowth Stadium\n1 Vampiric Tutor\n1 Vitalize\n1 Wirewood Channeler\n1 Wirewood Lodge\n1 Woodland Cemetery\n1 Worldly Tutor\n1 Yavimaya, Cradle of Growth\n"
