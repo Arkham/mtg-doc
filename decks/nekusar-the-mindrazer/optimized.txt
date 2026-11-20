@@ -3,7 +3,6 @@ Commander
 
 Deck
 1 Akoum Refuge
-1 Arcane Denial
 1 Arcane Signet
 1 Baleful Mastery
 1 Blue Sun's Zenith
@@ -12,18 +11,18 @@ Deck
 1 Command Tower
 1 Crosis's Charm
 1 Crumbling Necropolis
-1 Cyclonic Rift
 1 Darksteel Ingot
 1 Decree of Pain
 1 Dimir Guildgate
 1 Dimir Signet
 1 Earthquake
 1 Evolving Wilds
+1 Exotic Orchard
 1 Fate Unraveler
-1 Fevered Visions
 1 Frozen Aether
 1 Grixis Charm
 1 Grixis Panorama
+1 Harmonic Prodigy
 1 Helm of the Ghastlord
 1 Incendiary Command
 8 Island
@@ -36,6 +35,7 @@ Deck
 1 Leyline of Punishment
 1 Lightning Greaves
 1 Magus of the Wheel
+1 Mana Sculpt
 1 Manabarbs
 1 Mikokoro, Center of the Sea
 1 Minds Aglow
@@ -57,7 +57,6 @@ Deck
 1 Psychosis Crawler
 1 Rakdos Carnarium
 1 Rakdos Guildgate
-1 Rakdos Signet
 1 Razorkin Needlehead
 1 Reforge the Soul
 1 Reliquary Tower
@@ -74,14 +73,15 @@ Deck
 1 Swiftfoot Boots
 1 Teferi's Puzzle Box
 1 Temple Bell
-1 Temple of the False God
 1 Terminate
 1 Thought Vessel
+1 Torbran, Thane of Red Fell
 1 Underworld Dreams
 1 Vampire Nighthawk
 1 Vivid Creek
 1 Vivid Marsh
 1 Wayfarer's Bauble
+1 Wheel of Fate
 1 Whispering Madness
 1 Wild Ricochet
 1 Windfall

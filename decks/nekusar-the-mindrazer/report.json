@@ -120,81 +120,6 @@
       ]
     },
     {
-      "out": "Thraximundar",
-      "in": "Arcane Signet",
-      "category": "ramp",
-      "reason": "Replace an expensive combat threat with early colored acceleration. Casting Nekusar while retaining mana for protection is more important than adding another seven-mana attacker.",
-      "outCard": {
-        "name": "Thraximundar",
-        "oracleId": "9e0e4217-fefe-48dd-9153-032460192b19",
-        "manaCost": "{4}{U}{B}{R}",
-        "cmc": 7,
-        "typeLine": "Legendary Creature — Zombie Assassin",
-        "oracleText": "Haste\nWhenever Thraximundar attacks, defending player sacrifices a creature of their choice.\nWhenever a player sacrifices a creature, you may put a +1/+1 counter on Thraximundar.",
-        "colors": [
-          "B",
-          "R",
-          "U"
-        ],
-        "colorIdentity": [
-          "B",
-          "R",
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": true,
-        "priceUsd": 1.13,
-        "image": "https://cards.scryfall.io/normal/front/0/e/0e7334eb-66c1-4410-966c-4e76c1b9e9a7.jpg?1783921801",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/0/e/0e7334eb-66c1-4410-966c-4e76c1b9e9a7.jpg?1783921801",
-        "scryfallUri": "https://scryfall.com/card/2x2/287/thraximundar?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
-        "name": "Arcane Signet",
-        "oracleId": "0bc7f093-bef0-4f1a-852c-4b75ebf54838",
-        "manaCost": "{2}",
-        "cmc": 2,
-        "typeLine": "Artifact",
-        "oracleText": "{T}: Add one mana of any color in your commander's color identity.",
-        "colors": [],
-        "colorIdentity": [],
-        "producedMana": [
-          "B",
-          "G",
-          "R",
-          "U",
-          "W"
-        ],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.58,
-        "image": "https://cards.scryfall.io/normal/front/7/9/795df2ee-fbfc-4961-852c-e3ec50cc52da.jpg?1793021117",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/7/9/795df2ee-fbfc-4961-852c-e3ec50cc52da.jpg?1793021117",
-        "scryfallUri": "https://scryfall.com/card/trc/485/arcane-signet?utm_source=api",
-        "roles": [
-          "ramp"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Howling Mine",
-          "image": "https://cards.scryfall.io/normal/front/d/7/d7ae7be5-9c44-4707-9450-5074412a4c9f.jpg?1793111944",
-          "scryfallUri": "https://scryfall.com/card/trc/494/howling-mine?utm_source=api"
-        }
-      ]
-    },
-    {
       "out": "Charmbreaker Devils",
       "in": "Teferi's Puzzle Box",
       "category": "synergy",
@@ -261,235 +186,6 @@
           "name": "Kederekt Parasite",
           "image": "https://cards.scryfall.io/normal/front/b/c/bc5da9e8-c070-4cf4-a21b-24ff2178d751.jpg?1783909618",
           "scryfallUri": "https://scryfall.com/card/dsc/144/kederekt-parasite?utm_source=api"
-        }
-      ]
-    },
-    {
-      "out": "Opportunity",
-      "in": "Reforge the Soul",
-      "category": "draw",
-      "reason": "A seven-card wheel refreshes your resources while triggering all opposing-draw punishers. It offers a more relevant payoff than spending six mana to draw four cards yourself.",
-      "outCard": {
-        "name": "Opportunity",
-        "oracleId": "1f544a9f-c238-4858-be19-d6cd7d023dcc",
-        "manaCost": "{4}{U}{U}",
-        "cmc": 6,
-        "typeLine": "Instant",
-        "oracleText": "Target player draws four cards.",
-        "colors": [
-          "U"
-        ],
-        "colorIdentity": [
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.29,
-        "image": "https://cards.scryfall.io/normal/front/2/2/2237063a-2c2a-44fc-9103-c6e5db171ae5.jpg?1783908762",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/2/2/2237063a-2c2a-44fc-9103-c6e5db171ae5.jpg?1783908762",
-        "scryfallUri": "https://scryfall.com/card/j25/338/opportunity?utm_source=api",
-        "roles": [
-          "draw"
-        ]
-      },
-      "inCard": {
-        "name": "Reforge the Soul",
-        "oracleId": "ece854f8-8c60-4f30-894f-2286d3dd61b9",
-        "manaCost": "{3}{R}{R}",
-        "cmc": 5,
-        "typeLine": "Sorcery",
-        "oracleText": "Each player discards their hand, then draws seven cards.\nMiracle {1}{R} (You may cast this card for its miracle cost when you draw it if it's the first card you drew this turn.)",
-        "colors": [
-          "R"
-        ],
-        "colorIdentity": [
-          "R"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 6.13,
-        "image": "https://cards.scryfall.io/normal/front/1/c/1c3509c6-2ae7-45be-8ac9-4d14d69db32f.jpg?1783908117",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/1/c/1c3509c6-2ae7-45be-8ac9-4d14d69db32f.jpg?1783908117",
-        "scryfallUri": "https://scryfall.com/card/inr/167/reforge-the-soul?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Dark Deal",
-          "image": "https://cards.scryfall.io/normal/front/d/6/d6f0fcd5-232f-4e99-8cfc-ea0fe9c915a6.jpg?1783904806",
-          "scryfallUri": "https://scryfall.com/card/tle/161/dark-deal?utm_source=api"
-        },
-        {
-          "name": "Kederekt Parasite",
-          "image": "https://cards.scryfall.io/normal/front/b/c/bc5da9e8-c070-4cf4-a21b-24ff2178d751.jpg?1783909618",
-          "scryfallUri": "https://scryfall.com/card/dsc/144/kederekt-parasite?utm_source=api"
-        }
-      ]
-    },
-    {
-      "out": "Uyo, Silent Prophet",
-      "in": "Magus of the Wheel",
-      "category": "synergy",
-      "reason": "Magus provides a visible, interactable wheel that can be deployed before Nekusar. Without haste it must survive a turn before activating, which suits the intended bracket pacing.",
-      "outCard": {
-        "name": "Uyo, Silent Prophet",
-        "oracleId": "93da1e63-54d6-4b05-af91-f13e7e111176",
-        "manaCost": "{4}{U}{U}",
-        "cmc": 6,
-        "typeLine": "Legendary Creature — Moonfolk Wizard",
-        "oracleText": "Flying\n{2}, Return two lands you control to their owner's hand: Copy target instant or sorcery spell. You may choose new targets for the copy.",
-        "colors": [
-          "U"
-        ],
-        "colorIdentity": [
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": true,
-        "priceUsd": 0.37,
-        "image": "https://cards.scryfall.io/normal/front/5/0/50840915-545b-4de2-94bb-22a0b1e0dc7a.jpg?1783939679",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/5/0/50840915-545b-4de2-94bb-22a0b1e0dc7a.jpg?1783939679",
-        "scryfallUri": "https://scryfall.com/card/c13/64/uyo-silent-prophet?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
-        "name": "Magus of the Wheel",
-        "oracleId": "df13dafb-f82e-42ac-b6dc-efe82af5db58",
-        "manaCost": "{2}{R}",
-        "cmc": 3,
-        "typeLine": "Creature — Human Wizard",
-        "oracleText": "{1}{R}, {T}, Sacrifice this creature: Each player discards their hand, then draws seven cards.",
-        "colors": [
-          "R"
-        ],
-        "colorIdentity": [
-          "R"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 1.21,
-        "image": "https://cards.scryfall.io/normal/front/0/e/0e952dd9-ef09-40f0-993f-eb3a1516616a.jpg?1783915649",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/0/e/0e952dd9-ef09-40f0-993f-eb3a1516616a.jpg?1783915649",
-        "scryfallUri": "https://scryfall.com/card/cmm/241/magus-of-the-wheel?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Dark Deal",
-          "image": "https://cards.scryfall.io/normal/front/d/6/d6f0fcd5-232f-4e99-8cfc-ea0fe9c915a6.jpg?1783904806",
-          "scryfallUri": "https://scryfall.com/card/tle/161/dark-deal?utm_source=api"
-        },
-        {
-          "name": "Kederekt Parasite",
-          "image": "https://cards.scryfall.io/normal/front/b/c/bc5da9e8-c070-4cf4-a21b-24ff2178d751.jpg?1783909618",
-          "scryfallUri": "https://scryfall.com/card/dsc/144/kederekt-parasite?utm_source=api"
-        }
-      ]
-    },
-    {
-      "out": "Cruel Ultimatum",
-      "in": "Rakdos Signet",
-      "category": "ramp",
-      "reason": "The Signet improves both acceleration and access to red and black mana. [[Cruel Ultimatum]]’s demanding seven-mana cost is poorly matched to a deck that wants to establish several smaller engines.",
-      "outCard": {
-        "name": "Cruel Ultimatum",
-        "oracleId": "01294ac9-1a06-4ee8-b3b1-db1f07c9d94e",
-        "manaCost": "{U}{U}{B}{B}{B}{R}{R}",
-        "cmc": 7,
-        "typeLine": "Sorcery",
-        "oracleText": "Target opponent sacrifices a creature of their choice, discards three cards, then loses 5 life. You return a creature card from your graveyard to your hand, draw three cards, then gain 5 life.",
-        "colors": [
-          "B",
-          "R",
-          "U"
-        ],
-        "colorIdentity": [
-          "B",
-          "R",
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.49,
-        "image": "https://cards.scryfall.io/normal/front/d/7/d71a8ea5-199e-473e-a2b1-e2f7cc804ffc.jpg?1783936138",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/d/7/d71a8ea5-199e-473e-a2b1-e2f7cc804ffc.jpg?1783936138",
-        "scryfallUri": "https://scryfall.com/card/e01/82/cruel-ultimatum?utm_source=api",
-        "roles": [
-          "removal",
-          "draw"
-        ]
-      },
-      "inCard": {
-        "name": "Rakdos Signet",
-        "oracleId": "3adb7681-977f-4a32-9ec8-51481b958268",
-        "manaCost": "{2}",
-        "cmc": 2,
-        "typeLine": "Artifact",
-        "oracleText": "{1}, {T}: Add {B}{R}.",
-        "colors": [],
-        "colorIdentity": [
-          "B",
-          "R"
-        ],
-        "producedMana": [
-          "B",
-          "R"
-        ],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.38,
-        "image": "https://cards.scryfall.io/normal/front/a/2/a263e71d-953f-4648-b326-33133cfa7e00.jpg?1789599847",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/a/2/a263e71d-953f-4648-b326-33133cfa7e00.jpg?1789599847",
-        "scryfallUri": "https://scryfall.com/card/frc/60/rakdos-signet?utm_source=api",
-        "roles": [
-          "ramp"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Kederekt Parasite",
-          "image": "https://cards.scryfall.io/normal/front/b/c/bc5da9e8-c070-4cf4-a21b-24ff2178d751.jpg?1783909618",
-          "scryfallUri": "https://scryfall.com/card/dsc/144/kederekt-parasite?utm_source=api"
-        },
-        {
-          "name": "Peer into the Abyss",
-          "image": "https://cards.scryfall.io/normal/front/a/a/aac00055-640e-4749-8d23-d242e6d0b23a.jpg?1783930701",
-          "scryfallUri": "https://scryfall.com/card/m21/117/peer-into-the-abyss?utm_source=api"
         }
       ]
     },
@@ -641,82 +337,6 @@
       ]
     },
     {
-      "out": "Dismiss",
-      "in": "Arcane Denial",
-      "category": "interaction",
-      "reason": "Two-mana interaction is easier to hold up while developing Nekusar and other engines. The countered spell’s controller can draw additional cards later, creating potential punishment triggers without making the counter dependent on Nekusar.",
-      "outCard": {
-        "name": "Dismiss",
-        "oracleId": "5c828a5e-10ae-4f63-86fd-2f160af43cc3",
-        "manaCost": "{2}{U}{U}",
-        "cmc": 4,
-        "typeLine": "Instant",
-        "oracleText": "Counter target spell.\nDraw a card.",
-        "colors": [
-          "U"
-        ],
-        "colorIdentity": [
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.16,
-        "image": "https://cards.scryfall.io/normal/front/9/5/95b57eec-ecb3-408c-b938-7d3a34602cc5.jpg?1783937325",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/9/5/95b57eec-ecb3-408c-b938-7d3a34602cc5.jpg?1783937325",
-        "scryfallUri": "https://scryfall.com/card/cn2/108/dismiss?utm_source=api",
-        "roles": [
-          "counter",
-          "draw"
-        ]
-      },
-      "inCard": {
-        "name": "Arcane Denial",
-        "oracleId": "ab1cc360-b9de-48d9-9983-4dfe4a7d2a37",
-        "manaCost": "{1}{U}",
-        "cmc": 2,
-        "typeLine": "Instant",
-        "oracleText": "Counter target spell. Its controller may draw up to two cards at the beginning of the next turn's upkeep.\nYou draw a card at the beginning of the next turn's upkeep.",
-        "colors": [
-          "U"
-        ],
-        "colorIdentity": [
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 2.56,
-        "image": "https://cards.scryfall.io/normal/front/5/e/5eb843ef-b223-40d0-a461-54b16d188d0e.jpg?1783903242",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/5/e/5eb843ef-b223-40d0-a461-54b16d188d0e.jpg?1783903242",
-        "scryfallUri": "https://scryfall.com/card/msc/147/arcane-denial?utm_source=api",
-        "roles": [
-          "counter",
-          "draw"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Waste Not",
-          "image": "https://cards.scryfall.io/normal/front/2/f/2f5500a2-c6d6-40d7-b586-59b854733160.jpg?1783937067",
-          "scryfallUri": "https://scryfall.com/card/c16/117/waste-not?utm_source=api"
-        },
-        {
-          "name": "Sheoldred, the Apocalypse",
-          "image": "https://cards.scryfall.io/normal/front/d/6/d67be074-cdd4-41d9-ac89-0a0456c4e4b2.jpg?1783921327",
-          "scryfallUri": "https://scryfall.com/card/dmu/107/sheoldred-the-apocalypse?utm_source=api"
-        }
-      ]
-    },
-    {
       "out": "Diviner's Wand",
       "in": "Baleful Mastery",
       "category": "interaction",
@@ -781,327 +401,6 @@
           "scryfallUri": "https://scryfall.com/card/dmu/107/sheoldred-the-apocalypse?utm_source=api"
         }
       ]
-    },
-    {
-      "out": "Dominate",
-      "in": "Cyclonic Rift",
-      "category": "bracket",
-      "reason": "Rift fills the third Game Changer slot and supplies flexible interaction, with an overloaded reset available later. Preserve [[Decree of Pain]] as a true creature wipe rather than removing it for another draw engine.",
-      "outCard": {
-        "name": "Dominate",
-        "oracleId": "77db8db4-9fe4-478e-b919-5348b0b87b0d",
-        "manaCost": "{X}{1}{U}{U}",
-        "cmc": 3,
-        "typeLine": "Instant",
-        "oracleText": "Gain control of target creature with mana value X or less.",
-        "colors": [
-          "U"
-        ],
-        "colorIdentity": [
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.54,
-        "image": "https://cards.scryfall.io/normal/front/b/9/b9cfd7fc-22a5-4f21-bebf-d4823db48841.jpg?1783938094",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/b/9/b9cfd7fc-22a5-4f21-bebf-d4823db48841.jpg?1783938094",
-        "scryfallUri": "https://scryfall.com/card/c15/92/dominate?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
-        "name": "Cyclonic Rift",
-        "oracleId": "d75b9c82-1b49-4c3e-a1b5-aeef57d6644b",
-        "manaCost": "{1}{U}",
-        "cmc": 2,
-        "typeLine": "Instant",
-        "oracleText": "Return target nonland permanent you don't control to its owner's hand.\nOverload {6}{U} (You may cast this spell for its overload cost. If you do, change \"target\" in its text to \"each.\")",
-        "colors": [
-          "U"
-        ],
-        "colorIdentity": [
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": true,
-        "canBeCommander": false,
-        "priceUsd": 38.41,
-        "image": "https://cards.scryfall.io/normal/front/d/f/dfb7c4b9-f2f4-4d4e-baf2-86551c8150fe.jpg?1783913339",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/d/f/dfb7c4b9-f2f4-4d4e-baf2-86551c8150fe.jpg?1783913339",
-        "scryfallUri": "https://scryfall.com/card/rvr/40/cyclonic-rift?utm_source=api",
-        "roles": [
-          "removal"
-        ]
-      },
-      "alternatives": []
-    },
-    {
-      "out": "Drana, Kalastria Bloodchief",
-      "in": "Whispering Madness",
-      "category": "synergy",
-      "reason": "Replace a mana-hungry creature with another wheel that directly rewards Nekusar’s damage engines. Cipher offers optional reuse through evasive creatures such as [[Vampire Nighthawk]], but the initial wheel is useful without connecting in combat.",
-      "outCard": {
-        "name": "Drana, Kalastria Bloodchief",
-        "oracleId": "67391f99-739a-490a-ba16-7fa1d758ec34",
-        "manaCost": "{3}{B}{B}",
-        "cmc": 5,
-        "typeLine": "Legendary Creature — Vampire Shaman",
-        "oracleText": "Flying\n{X}{B}{B}: Target creature gets -0/-X until end of turn and Drana gets +X/+0 until end of turn.",
-        "colors": [
-          "B"
-        ],
-        "colorIdentity": [
-          "B"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": true,
-        "priceUsd": 0.51,
-        "image": "https://cards.scryfall.io/normal/front/2/c/2c58ce5e-b038-4376-a5f4-9849baa255b9.jpg?1783935907",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/2/c/2c58ce5e-b038-4376-a5f4-9849baa255b9.jpg?1783935907",
-        "scryfallUri": "https://scryfall.com/card/c17/112/drana-kalastria-bloodchief?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
-        "name": "Whispering Madness",
-        "oracleId": "7bbc5f3a-f8fb-47e8-837e-ce319bc489de",
-        "manaCost": "{2}{U}{B}",
-        "cmc": 4,
-        "typeLine": "Sorcery",
-        "oracleText": "Each player discards their hand, then draws cards equal to the greatest number of cards a player discarded this way.\nCipher (Then you may exile this spell card encoded on a creature you control. Whenever that creature deals combat damage to a player, its controller may cast a copy of the encoded card without paying its mana cost.)",
-        "colors": [
-          "B",
-          "U"
-        ],
-        "colorIdentity": [
-          "B",
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 3.45,
-        "image": "https://cards.scryfall.io/normal/front/5/a/5a62cda0-34b2-42f0-83bd-c08eecf02fa4.jpg?1783937042",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/5/a/5a62cda0-34b2-42f0-83bd-c08eecf02fa4.jpg?1783937042",
-        "scryfallUri": "https://scryfall.com/card/c16/229/whispering-madness?utm_source=api",
-        "roles": [
-          "draw"
-        ]
-      },
-      "alternatives": []
-    },
-    {
-      "out": "Fog Bank",
-      "in": "Fevered Visions",
-      "category": "other",
-      "reason": "Low-synergy blocker; makes room for a stronger Nekusar payoff.",
-      "outCard": {
-        "name": "Fog Bank",
-        "oracleId": "3a2bb47d-228d-499e-a34b-9e10d99e9b2c",
-        "manaCost": "{1}{U}",
-        "cmc": 2,
-        "typeLine": "Creature — Wall",
-        "oracleText": "Defender (This creature can't attack.)\nFlying\nPrevent all combat damage that would be dealt to and dealt by this creature.",
-        "colors": [
-          "U"
-        ],
-        "colorIdentity": [
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.14,
-        "power": "0",
-        "toughness": "2",
-        "image": "https://cards.scryfall.io/normal/front/1/8/18748b1d-4161-482c-a726-8762b4c1819c.jpg?1783908934",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/1/8/18748b1d-4161-482c-a726-8762b4c1819c.jpg?1783908934",
-        "scryfallUri": "https://scryfall.com/card/fdn/591/fog-bank?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
-        "name": "Fevered Visions",
-        "oracleId": "70763549-4b4e-4cb8-8c02-0639ba18bb1a",
-        "manaCost": "{1}{U}{R}",
-        "cmc": 3,
-        "typeLine": "Enchantment",
-        "oracleText": "At the beginning of each player's end step, that player draws a card. If the player is your opponent and has four or more cards in hand, this enchantment deals 2 damage to that player.",
-        "colors": [
-          "R",
-          "U"
-        ],
-        "colorIdentity": [
-          "R",
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.53,
-        "image": "https://cards.scryfall.io/normal/front/d/3/d3a48c02-b9be-4649-9d20-0e72e1c52c94.jpg?1793111916",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/d/3/d3a48c02-b9be-4649-9d20-0e72e1c52c94.jpg?1793111916",
-        "scryfallUri": "https://scryfall.com/card/trc/474/fevered-visions?utm_source=api",
-        "roles": [
-          "draw"
-        ]
-      },
-      "fromChat": true
-    },
-    {
-      "out": "Venser's Journal",
-      "in": "Ob Nixilis, the Hate-Twisted",
-      "category": "other",
-      "reason": "Punishes every opposing draw and offers creature removal that forces additional draws.",
-      "outCard": {
-        "name": "Venser's Journal",
-        "oracleId": "f7907327-4df3-4bb2-a274-03d9e266af2f",
-        "manaCost": "{5}",
-        "cmc": 5,
-        "typeLine": "Artifact — Book",
-        "oracleText": "You have no maximum hand size.\nAt the beginning of your upkeep, you gain 1 life for each card in your hand.",
-        "colors": [],
-        "colorIdentity": [],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 8.13,
-        "image": "https://cards.scryfall.io/normal/front/d/2/d2877f52-b46f-4039-a72b-f1fcd024f032.jpg?1783927500",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/d/2/d2877f52-b46f-4039-a72b-f1fcd024f032.jpg?1783927500",
-        "scryfallUri": "https://scryfall.com/card/c21/273/vensers-journal?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
-        "name": "Ob Nixilis, the Hate-Twisted",
-        "oracleId": "88cd12e5-ca89-4176-96fd-320fe2ccd087",
-        "manaCost": "{3}{B}{B}",
-        "cmc": 5,
-        "typeLine": "Legendary Planeswalker — Nixilis",
-        "oracleText": "Whenever an opponent draws a card, Ob Nixilis deals 1 damage to that player.\n−2: Destroy target creature. Its controller draws two cards.",
-        "colors": [
-          "B"
-        ],
-        "colorIdentity": [
-          "B"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.55,
-        "loyalty": "5",
-        "image": "https://cards.scryfall.io/normal/front/1/4/14916e2d-73af-4747-a927-d2d4cb3e32db.jpg?1783933441",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/1/4/14916e2d-73af-4747-a927-d2d4cb3e32db.jpg?1783933441",
-        "scryfallUri": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api",
-        "roles": [
-          "removal",
-          "draw"
-        ]
-      },
-      "fromChat": true
-    },
-    {
-      "out": "Viseling",
-      "in": "Ob Nixilis, Captive Kingpin",
-      "category": "other",
-      "reason": "Nekusar's individual 1-damage triggers grow him and exile cards you can play until your next end step.",
-      "outCard": {
-        "name": "Viseling",
-        "oracleId": "05b9dccb-2364-4bca-a12e-8cb54a3f3a0b",
-        "manaCost": "{4}",
-        "cmc": 4,
-        "typeLine": "Artifact Creature — Phyrexian Construct",
-        "oracleText": "At the beginning of each opponent's upkeep, this creature deals X damage to that player, where X is the number of cards in their hand minus 4.",
-        "colors": [],
-        "colorIdentity": [],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.38,
-        "power": "2",
-        "toughness": "2",
-        "image": "https://cards.scryfall.io/normal/front/3/8/38a6105e-a67b-4805-b50c-dea404f60fac.jpg?1783939633",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/3/8/38a6105e-a67b-4805-b50c-dea404f60fac.jpg?1783939633",
-        "scryfallUri": "https://scryfall.com/card/c13/269/viseling?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
-        "name": "Ob Nixilis, Captive Kingpin",
-        "oracleId": "55b6434b-1542-40fd-b12a-697d40976582",
-        "manaCost": "{2}{B}{R}",
-        "cmc": 4,
-        "typeLine": "Legendary Creature — Demon",
-        "oracleText": "Flying, trample\nWhenever one or more opponents each lose exactly 1 life, put a +1/+1 counter on Ob Nixilis. Exile the top card of your library. Until your next end step, you may play that card.",
-        "colors": [
-          "B",
-          "R"
-        ],
-        "colorIdentity": [
-          "B",
-          "R"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": true,
-        "priceUsd": 15.32,
-        "power": "4",
-        "toughness": "3",
-        "image": "https://cards.scryfall.io/normal/front/d/d/ddb68233-3683-41bd-9b6e-4f07a1b54244.jpg?1783916511",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/d/d/ddb68233-3683-41bd-9b6e-4f07a1b54244.jpg?1783916511",
-        "scryfallUri": "https://scryfall.com/card/mat/41/ob-nixilis-captive-kingpin?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "fromChat": true
     }
   ],
   "before": {
@@ -1109,23 +408,24 @@
       "landCount": 36,
       "mdfcLands": 0,
       "recommendedLands": 37,
-      "avgCmc": 3.49,
+      "avgCmc": 3.22,
       "curve": {
+        "0": 1,
         "1": 7,
-        "2": 13,
-        "3": 16,
-        "4": 12,
+        "2": 14,
+        "3": 17,
+        "4": 13,
         "5": 6,
-        "6": 4,
-        "7+": 5
+        "6": 2,
+        "7+": 3
       },
       "colors": [
         {
           "color": "U",
-          "pips": 39.5,
-          "pipShare": 0.391,
-          "landSources": 18,
-          "rampSources": 3,
+          "pips": 30.5,
+          "pipShare": 0.321,
+          "landSources": 19,
+          "rampSources": 4,
           "targetSources": 21,
           "targetReason": "heaviest-card",
           "heaviestCard": {
@@ -1135,23 +435,23 @@
         },
         {
           "color": "B",
-          "pips": 28.5,
-          "pipShare": 0.282,
-          "landSources": 19,
-          "rampSources": 2,
+          "pips": 26.5,
+          "pipShare": 0.279,
+          "landSources": 20,
+          "rampSources": 3,
           "targetSources": 21,
           "targetReason": "heaviest-card",
           "heaviestCard": {
-            "name": "Cruel Ultimatum",
-            "manaCost": "{U}{U}{B}{B}{B}{R}{R}"
+            "name": "Underworld Dreams",
+            "manaCost": "{B}{B}{B}"
           }
         },
         {
           "color": "R",
-          "pips": 33,
-          "pipShare": 0.327,
-          "landSources": 17,
-          "rampSources": 2,
+          "pips": 38,
+          "pipShare": 0.4,
+          "landSources": 18,
+          "rampSources": 3,
           "targetSources": 21,
           "targetReason": "heaviest-card",
           "heaviestCard": {
@@ -1174,51 +474,49 @@
       ],
       "colorlessLands": [
         "Mikokoro, Center of the Sea",
-        "Reliquary Tower",
-        "Temple of the False God"
+        "Reliquary Tower"
       ],
       "basics": {
         "Island": 8,
         "Mountain": 4,
         "Swamp": 6
       },
-      "rampCount": 8,
+      "rampCount": 9,
       "issues": [
-        "Blue: 18 lands make it, about 21 wanted.",
-        "Black: 19 lands make it, about 21 wanted.",
-        "Red: 17 lands make it, about 21 wanted.",
+        "Blue: 19 lands make it, about 21 wanted.",
+        "Red: 18 lands make it, about 21 wanted.",
         "10 lands enter tapped unconditionally; aim for 4 or fewer.",
-        "3 colorless-only lands strain a 3-color mana base."
+        "2 colorless-only lands strain a 3-color mana base."
       ]
     },
     "sim": {
       "games": 10000,
-      "mulliganRate": 20.9,
+      "mulliganRate": 21.2,
       "landDropByTurn": {
-        "1": 99.9,
-        "2": 99.7,
-        "3": 89.3,
-        "4": 72.5,
-        "5": 54,
-        "6": 36.4,
-        "7": 22.9,
-        "8": 13.4
+        "1": 99.8,
+        "2": 99.6,
+        "3": 89.2,
+        "4": 71.9,
+        "5": 52.9,
+        "6": 36,
+        "7": 23,
+        "8": 13.1
       },
-      "commanderOnCurve": 55.1,
+      "commanderOnCurve": 59,
       "commanderByTurn": {
         "1": 0,
         "2": 0,
-        "3": 2.3,
-        "4": 21.9,
-        "5": 55.1,
-        "6": 75.2,
-        "7": 82.6,
-        "8": 88.2
+        "3": 2.4,
+        "4": 25.4,
+        "5": 59,
+        "6": 78.2,
+        "7": 85.1,
+        "8": 90.1
       },
-      "allColorsByTurn3": 80,
-      "avgManaTurn4": 4.29,
-      "screwRate": 6.8,
-      "floodRate": 0.4,
+      "allColorsByTurn3": 84.5,
+      "avgManaTurn4": 4.37,
+      "screwRate": 6.6,
+      "floodRate": 0.3,
       "combos": [
         {
           "cards": [
@@ -1230,10 +528,10 @@
             "2": 0,
             "3": 0,
             "4": 0,
-            "5": 0.2,
-            "6": 0.5,
-            "7": 0.9,
-            "8": 1.3
+            "5": 0.1,
+            "6": 0.4,
+            "7": 0.7,
+            "8": 1.1
           }
         }
       ]
@@ -1246,12 +544,12 @@
       },
       {
         "role": "ramp",
-        "count": 8,
+        "count": 9,
         "target": 10
       },
       {
         "role": "draw",
-        "count": 28,
+        "count": 27,
         "target": 10
       },
       {
@@ -1291,12 +589,12 @@
       },
       {
         "role": "other",
-        "count": 21,
+        "count": 20,
         "target": null
       }
     ],
     "totalCards": 100,
-    "totalPriceUsd": 235.04
+    "totalPriceUsd": 262.29
   },
   "after": {
     "mana": {
@@ -1305,10 +603,11 @@
       "recommendedLands": 36,
       "avgCmc": 3,
       "curve": {
+        "0": 1,
         "1": 7,
-        "2": 19,
+        "2": 17,
         "3": 16,
-        "4": 13,
+        "4": 14,
         "5": 6,
         "6": 1,
         "7+": 1
@@ -1316,9 +615,9 @@
       "colors": [
         {
           "color": "U",
-          "pips": 30.5,
-          "pipShare": 0.335,
-          "landSources": 18,
+          "pips": 29.5,
+          "pipShare": 0.317,
+          "landSources": 19,
           "rampSources": 4,
           "targetSources": 21,
           "targetReason": "heaviest-card",
@@ -1330,9 +629,9 @@
         {
           "color": "B",
           "pips": 27.5,
-          "pipShare": 0.302,
-          "landSources": 19,
-          "rampSources": 4,
+          "pipShare": 0.296,
+          "landSources": 20,
+          "rampSources": 3,
           "targetSources": 21,
           "targetReason": "heaviest-card",
           "heaviestCard": {
@@ -1342,15 +641,15 @@
         },
         {
           "color": "R",
-          "pips": 33,
-          "pipShare": 0.363,
-          "landSources": 17,
-          "rampSources": 4,
-          "targetSources": 17,
-          "targetReason": "share",
+          "pips": 36,
+          "pipShare": 0.387,
+          "landSources": 18,
+          "rampSources": 3,
+          "targetSources": 21,
+          "targetReason": "heaviest-card",
           "heaviestCard": {
-            "name": "Incendiary Command",
-            "manaCost": "{3}{R}{R}"
+            "name": "Torbran, Thane of Red Fell",
+            "manaCost": "{1}{R}{R}{R}"
           }
         }
       ],
@@ -1368,49 +667,48 @@
       ],
       "colorlessLands": [
         "Mikokoro, Center of the Sea",
-        "Reliquary Tower",
-        "Temple of the False God"
+        "Reliquary Tower"
       ],
       "basics": {
         "Island": 8,
         "Mountain": 4,
         "Swamp": 6
       },
-      "rampCount": 11,
+      "rampCount": 10,
       "issues": [
-        "Blue: 18 lands make it, about 21 wanted.",
-        "Black: 19 lands make it, about 21 wanted.",
+        "Blue: 19 lands make it, about 21 wanted.",
+        "Red: 18 lands make it, about 21 wanted.",
         "10 lands enter tapped unconditionally; aim for 4 or fewer.",
-        "3 colorless-only lands strain a 3-color mana base."
+        "2 colorless-only lands strain a 3-color mana base."
       ]
     },
     "sim": {
       "games": 10000,
-      "mulliganRate": 20.7,
+      "mulliganRate": 21.5,
       "landDropByTurn": {
-        "1": 100,
-        "2": 99.8,
+        "1": 99.9,
+        "2": 99.7,
         "3": 89.5,
-        "4": 72.7,
-        "5": 53.5,
-        "6": 35.4,
-        "7": 21.5,
-        "8": 12.6
+        "4": 72.3,
+        "5": 53.8,
+        "6": 35.9,
+        "7": 22.3,
+        "8": 13.3
       },
-      "commanderOnCurve": 64.6,
+      "commanderOnCurve": 61.7,
       "commanderByTurn": {
         "1": 0,
         "2": 0,
-        "3": 3.4,
-        "4": 32.3,
-        "5": 64.6,
-        "6": 81.3,
-        "7": 87.7,
-        "8": 92
+        "3": 2.8,
+        "4": 28.8,
+        "5": 61.7,
+        "6": 80.2,
+        "7": 86.4,
+        "8": 91.2
       },
-      "allColorsByTurn3": 83.4,
-      "avgManaTurn4": 4.58,
-      "screwRate": 6.6,
+      "allColorsByTurn3": 85.1,
+      "avgManaTurn4": 4.47,
+      "screwRate": 6.8,
       "floodRate": 0.3,
       "combos": [
         {
@@ -1425,8 +723,8 @@
             "4": 0,
             "5": 0.2,
             "6": 0.5,
-            "7": 0.9,
-            "8": 1.3
+            "7": 0.8,
+            "8": 1.2
           }
         }
       ]
@@ -1439,17 +737,17 @@
       },
       {
         "role": "ramp",
-        "count": 11,
+        "count": 10,
         "target": 10
       },
       {
         "role": "draw",
-        "count": 32,
+        "count": 30,
         "target": 10
       },
       {
         "role": "removal",
-        "count": 9,
+        "count": 8,
         "target": 8
       },
       {
@@ -1484,12 +782,12 @@
       },
       {
         "role": "other",
-        "count": 13,
+        "count": 16,
         "target": null
       }
     ],
     "totalCards": 100,
-    "totalPriceUsd": 327.22
+    "totalPriceUsd": 298.16
   },
   "combosPresent": [
     {
@@ -1526,7 +824,7 @@
       "description": "Activate Sol Ring by tapping it, adding {C} {C}.\nCast the permanent that can be cast using {C} by paying its mana cost.\nHullbreaker Horror triggers, returning Sol Ring from the battlefield to your hand.\nCast Sol Ring by paying {1}. \nHullbreaker Horror triggers, returning the permanent cast in step 2 from the battlefield to your hand.\nRepeat.\nIf the permanent can be cast by paying {0}, this combo nets infinite colorless mana.",
       "bracketTag": "E",
       "url": "https://commanderspellbook.com/combo/513-5034--46/",
-      "popularity": 368508
+      "popularity": 370104
     },
     {
       "id": "1561-3862",
@@ -1547,7 +845,7 @@
       "description": "Cast Peer into the Abyss by paying {4}{B}{B}{B}, targeting an opponent whose library size is larger than or equal to their life total.\nResolve Peer into the Abyss, causing that opponent to draw cards equal to half their library size and causing them to lose half their life total, rounded up.\nOrcish Bowmasters triggers for each card drawn, dealing 1 damage to the opponent for each card drawn this way and putting that many +1/+1 counters on an Army you control.\nThe opponent loses the game due to having zero or less life.\n",
       "bracketTag": "P",
       "url": "https://commanderspellbook.com/combo/1561-3862/",
-      "popularity": 46916
+      "popularity": 47019
     },
     {
       "id": "542-5034",
@@ -1565,7 +863,7 @@
       "description": "Cast Sol Ring by paying its mana cost.\nTidespout Tyrant triggers, returning a nontoken permanent that can be cast using {C} from the battlefield to your hand.\nActivate Sol Ring by tapping it, adding {C}{C}.\nCast the nontoken permanent returned in step 2 by paying its mana cost.\nTidespout Tyrant triggers, returning Sol Ring from the battlefield to your hand.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/542-5034/",
-      "popularity": 38117
+      "popularity": 38184
     },
     {
       "id": "1561-2720",
@@ -1582,7 +880,7 @@
       "description": "Cast Peer Into the Abyss targeting an opponent.\nThat player loses half their life and draws half their library.\nThey are then dealt damage by Underworld Dreams equal to the amount of cards they drew.\nThat player loses the game.",
       "bracketTag": "O",
       "url": "https://commanderspellbook.com/combo/1561-2720/",
-      "popularity": 36650
+      "popularity": 36799
     },
     {
       "id": "1561-2384",
@@ -1601,7 +899,7 @@
       "description": "Cast Peer into the Abyss by paying {4}{B}{B}{B}, causing you to draw half your library and lose half your life total, rounding up each time.\nPsychosis Crawler triggers for each card you drew, causing each opponent to lose life equal to the number of cards you drew.",
       "bracketTag": "P",
       "url": "https://commanderspellbook.com/combo/1561-2384/",
-      "popularity": 31492
+      "popularity": 31600
     },
     {
       "id": "1089-4971",
@@ -1620,7 +918,7 @@
       "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to any target.\nCuriosity triggers, allowing you to draw a card.\nRepeat from step 2.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/1089-4971/",
-      "popularity": 26426
+      "popularity": 26404
     },
     {
       "id": "4971-6092",
@@ -1639,7 +937,7 @@
       "description": "Draw a card.\nNiv-Mizzet, the Firemind triggers, dealing 1 damage to an opponent.\nNiv-Mizzet, Visionary triggers, causing you to draw a card.\nRepeat from step 2.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/4971-6092/",
-      "popularity": 23157
+      "popularity": 23048
     },
     {
       "id": "1561-5919",
@@ -1659,7 +957,7 @@
       "description": "Cast Peer into the Abyss by paying {4}{B}{B}{B}, causing an opponent to draw cards equal to half their library and causing them to lose half their life total, rounded up.\nRazorkin Needlehead triggers for each card drawn this way.\nResolve the first trigger, dealing 1 damage to the opponent.\nIf the opponent has 0 or less life, the opponent loses the game due to having zero or less life.\nRepeat from step 3 for each remaining trigger and/or until the opponent loses the game.",
       "bracketTag": "P",
       "url": "https://commanderspellbook.com/combo/1561-5919/",
-      "popularity": 18141
+      "popularity": 18200
     },
     {
       "id": "1561-1972",
@@ -1679,7 +977,7 @@
       "description": "Cast Peer into the Abyss by paying {4}{B}{B}{B}, causing an opponent to draw cards equal to half their library and causing them to lose half their life total, rounded up.\nNekusar triggers for each card drawn this way.\nResolve the first trigger, dealing 1 damage to the opponent.\nIf the opponent has 0 or less life, the opponent loses the game due to having zero or less life.\nRepeat from step 3 for each remaining trigger and/or until the opponent loses the game.",
       "bracketTag": "P",
       "url": "https://commanderspellbook.com/combo/1561-1972/",
-      "popularity": 18112
+      "popularity": 18159
     },
     {
       "id": "1561-5165",
@@ -1696,7 +994,7 @@
       "description": "With Ob Nixilis, the Hate-Twisted on the battlefield, cast Peer into the Abyss targeting an opponent.\nPeer into the Abyss would resolve (with card draw and life loss rounded up in instances of odd number of cards or life), and then the static ability on Ob Nixilis, the Hate-Twisted dealing damage for each card drawn.",
       "bracketTag": "O",
       "url": "https://commanderspellbook.com/combo/1561-5165/",
-      "popularity": 17059
+      "popularity": 17085
     },
     {
       "id": "2384-6574",
@@ -1715,7 +1013,7 @@
       "description": "Draw a card.\nPsychosis Crawler triggers, causing each opponent to lose 1 life.\nKefka triggers, causing you to draw a card.\nRepeat from step 2.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/2384-6574/",
-      "popularity": 15274
+      "popularity": 15365
     },
     {
       "id": "2396-4971",
@@ -1734,7 +1032,7 @@
       "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to an opponent.\nOphidian Eye triggers, allowing you to draw a card.\nRepeat from step 2.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/2396-4971/",
-      "popularity": 13676
+      "popularity": 13673
     },
     {
       "id": "406-4971",
@@ -1753,7 +1051,7 @@
       "description": "Activate Niv-Mizzet's ability to draw a card.\nNiv-Mizzet triggers, dealing 1 damage to target opponent.\nWhen Niv-Mizzet deals damage, its ability from Tandem Lookout triggers, causing you to draw a card.\nRepeat from step 2.\nTo end the loop and stop yourself drawing from an empty library, choose any target besides an opponent in step 2.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/406-4971/",
-      "popularity": 11884
+      "popularity": 11883
     },
     {
       "id": "953-2384",
@@ -1772,7 +1070,7 @@
       "description": "Cast Enter the Infinite by paying {8}{U}{U}{U}{U}, causing you to draw your library and then put a card on top of your library.\nPsychosis Crawler triggers for each card drawn, causing each opponent to lose that much life.",
       "bracketTag": "C",
       "url": "https://commanderspellbook.com/combo/953-2384/",
-      "popularity": 9743
+      "popularity": 9808
     },
     {
       "id": "2390-4166",
@@ -1810,7 +1108,7 @@
       "description": "During your opponent's draw step, they draw a card, and Teferi's Puzzle Box triggers.\nResolve the Teferi's Puzzle Box trigger, causing the opponent to put the cards in their hand onto the bottom of their library and draw no cards due to Narset.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/1177-2286/",
-      "popularity": 8463
+      "popularity": 8480
     },
     {
       "id": "2286-3221",
@@ -1828,7 +1126,7 @@
       "description": "At the beginning of your opponent's draw step, after they draw their card, Teferi's Puzzle Box triggers, causing them to put the cards in their hand on the bottom of their library, then attempt to draw that many cards.\nNotion Thief's replacement effect causes you to draw that many cards instead.\nRepeat on each opponent's draw step.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/2286-3221/",
-      "popularity": 6068
+      "popularity": 6082
     },
     {
       "id": "700-4971",
@@ -1846,7 +1144,7 @@
       "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to Body of Knowledge.\nBody of Knowledge triggers, drawing you a card.\nRepeat.\nBreak the loop by damaging a different target with Niv-Mizzet.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/700-4971/",
-      "popularity": 5183
+      "popularity": 5192
     },
     {
       "id": "790-1972-4651",
@@ -1864,7 +1162,7 @@
       "description": "Cast Windfall by paying {2}{U}, causing each player to discard their hand and then draw a number of cards equal to the greatest number of cards a player discarded this way.\nNekusar triggers for each card drawn this way, giving each opponent a poison counter for each card they drew.\nEach opponent loses the game due to having ten or more poison counters",
       "bracketTag": "E",
       "url": "https://commanderspellbook.com/combo/790-1972-4651/",
-      "popularity": 5162
+      "popularity": 5178
     },
     {
       "id": "4971-6574",
@@ -1883,7 +1181,7 @@
       "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to an opponent.\nKefka triggers, causing you to draw a card.\nRepeat from step 2.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/4971-6574/",
-      "popularity": 4420
+      "popularity": 4435
     }
   ],
   "research": {
@@ -2030,11 +1328,11 @@
           ],
           "twoCard": true,
           "tag": "S",
-          "earlyPct": 0.2,
+          "earlyPct": 0.1,
           "url": "https://commanderspellbook.com/combo/384-4971/"
         }
       ],
-      "power": 32,
+      "power": 35,
       "position": "low",
       "checks": [
         {
@@ -2064,8 +1362,7 @@
       "spellbookTag": "S",
       "gameChangers": [
         "Rhystic Study",
-        "Orcish Bowmasters",
-        "Cyclonic Rift"
+        "Orcish Bowmasters"
       ],
       "massLandDenial": [],
       "extraTurns": [],
@@ -2086,13 +1383,13 @@
           "url": "https://commanderspellbook.com/combo/384-4971/"
         }
       ],
-      "power": 48,
+      "power": 43,
       "position": "mid",
       "checks": [
         {
           "label": "Game Changers",
           "ok": true,
-          "detail": "3 of 3 allowed"
+          "detail": "2 of 3 allowed"
         },
         {
           "label": "Mass land denial",
@@ -2126,7 +1423,7 @@
       {
         "name": "Cyclonic Rift",
         "score": 0.29,
-        "inDeck": true
+        "inDeck": false
       },
       {
         "name": "Force of Will",
@@ -2170,7 +1467,7 @@
       "cmc": 5,
       "image": "https://cards.scryfall.io/normal/front/4/a/4afdc65d-3c97-47af-83fa-df340389802e.jpg?1783915612",
       "scryfallUri": "https://scryfall.com/card/cmm/349/nekusar-the-mindrazer?utm_source=api",
-      "priceUsd": 2.74,
+      "priceUsd": 2.92,
       "isNew": false,
       "delta": 0
     },
@@ -2182,7 +1479,19 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/5/1/51aecc57-f0cc-4e35-af38-ead25cf8a1b8.jpg?1783932721",
       "scryfallUri": "https://scryfall.com/card/c19/226/akoum-refuge?utm_source=api",
-      "priceUsd": 0.35,
+      "priceUsd": 0.36,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Arcane Signet",
+      "manaCost": "{2}",
+      "qty": 1,
+      "group": "Artifact",
+      "cmc": 2,
+      "image": "https://cards.scryfall.io/normal/front/7/9/795df2ee-fbfc-4961-852c-e3ec50cc52da.jpg?1793021117",
+      "scryfallUri": "https://scryfall.com/card/trc/485/arcane-signet?utm_source=api",
+      "priceUsd": 0.38,
       "isNew": false,
       "delta": 0
     },
@@ -2206,7 +1515,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/5/5/55b5b094-9d2d-4d96-b90c-78fecdae725a.jpg?1783903734",
       "scryfallUri": "https://scryfall.com/card/soc/363/bojuka-bog?utm_source=api",
-      "priceUsd": 1.75,
+      "priceUsd": 2.1,
       "isNew": false,
       "delta": 0
     },
@@ -2218,7 +1527,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/6/5/65ebbff0-fbe6-4310-a33f-e00bb2534979.jpg?1783909049",
       "scryfallUri": "https://scryfall.com/card/fdn/250/burnished-hart?utm_source=api",
-      "priceUsd": 0.31,
+      "priceUsd": 0.28,
       "isNew": false,
       "delta": 0
     },
@@ -2230,7 +1539,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/a/7/a73297d2-580c-4174-a427-265f6916d09f.jpg?1793021256",
       "scryfallUri": "https://scryfall.com/card/trc/521/command-tower?utm_source=api",
-      "priceUsd": 0.28,
+      "priceUsd": 0.23,
       "isNew": false,
       "delta": 0
     },
@@ -2254,7 +1563,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/d/2/d28542af-936f-44e5-a4e3-119f23c9f0d6.jpg?1783903203",
       "scryfallUri": "https://scryfall.com/card/msc/237/crumbling-necropolis?utm_source=api",
-      "priceUsd": 0.37,
+      "priceUsd": 0.39,
       "isNew": false,
       "delta": 0
     },
@@ -2266,7 +1575,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/f/2/f279fcf1-e4f5-4873-9d73-8d62e0343b81.jpg?1783911890",
       "scryfallUri": "https://scryfall.com/card/otc/256/darksteel-ingot?utm_source=api",
-      "priceUsd": 0.39,
+      "priceUsd": 0.38,
       "isNew": false,
       "delta": 0
     },
@@ -2302,7 +1611,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/0/8/0862060d-3198-4eeb-af8c-efeb27f42a99.jpg?1789599833",
       "scryfallUri": "https://scryfall.com/card/frc/56/dimir-signet?utm_source=api",
-      "priceUsd": 0.43,
+      "priceUsd": 0.38,
       "isNew": false,
       "delta": 0
     },
@@ -2326,7 +1635,19 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/6/e/6e01ec28-d815-47a8-ab0f-d383a4736ebe.jpg?1793021295",
       "scryfallUri": "https://scryfall.com/card/trc/527/evolving-wilds?utm_source=api",
-      "priceUsd": 0.29,
+      "priceUsd": 0.32,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Exotic Orchard",
+      "manaCost": "",
+      "qty": 1,
+      "group": "Land",
+      "cmc": 0,
+      "image": "https://cards.scryfall.io/normal/front/0/a/0a4a51a3-fb8b-4611-8f94-fbcab547423c.jpg?1793021293",
+      "scryfallUri": "https://scryfall.com/card/trc/528/exotic-orchard?utm_source=api",
+      "priceUsd": 0.3,
       "isNew": false,
       "delta": 0
     },
@@ -2338,7 +1659,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/3/0/30250c4d-2c16-4d03-874e-aec39d8e72a9.jpg?1783909619",
       "scryfallUri": "https://scryfall.com/card/dsc/141/fate-unraveler?utm_source=api",
-      "priceUsd": 2.99,
+      "priceUsd": 3.12,
       "isNew": false,
       "delta": 0
     },
@@ -2350,7 +1671,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/e/7/e727bb9e-3510-4c8e-ac49-6d7217667a18.jpg?1783943158",
       "scryfallUri": "https://scryfall.com/card/plc/54/frozen-aether?utm_source=api",
-      "priceUsd": 1.41,
+      "priceUsd": 1.43,
       "isNew": false,
       "delta": 0
     },
@@ -2362,7 +1683,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/2/0/20332354-a294-4448-a66f-533e6b546df6.jpg?1783939651",
       "scryfallUri": "https://scryfall.com/card/c13/192/grixis-charm?utm_source=api",
-      "priceUsd": 0.17,
+      "priceUsd": 0.16,
       "isNew": false,
       "delta": 0
     },
@@ -2379,6 +1700,18 @@
       "delta": 0
     },
     {
+      "name": "Harmonic Prodigy",
+      "manaCost": "{1}{R}",
+      "qty": 1,
+      "group": "Creature",
+      "cmc": 2,
+      "image": "https://cards.scryfall.io/normal/front/6/3/63a565e3-d7a8-469d-898f-49fef634c107.jpg?1783903818",
+      "scryfallUri": "https://scryfall.com/card/soc/123/harmonic-prodigy?utm_source=api",
+      "priceUsd": 6.18,
+      "isNew": false,
+      "delta": 0
+    },
+    {
       "name": "Helm of the Ghastlord",
       "manaCost": "{3}{U/B}",
       "qty": 1,
@@ -2386,7 +1719,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/6/5/653dd5b7-1ad3-4df1-bd2a-4e6ae362a8a2.jpg?1783942732",
       "scryfallUri": "https://scryfall.com/card/shm/166/helm-of-the-ghastlord?utm_source=api",
-      "priceUsd": 7.64,
+      "priceUsd": 7.88,
       "isNew": false,
       "delta": 0
     },
@@ -2398,7 +1731,7 @@
       "cmc": 5,
       "image": "https://cards.scryfall.io/normal/front/9/2/925d6ae9-deb8-41a4-99de-fd6fc6924d3b.jpg?1783939667",
       "scryfallUri": "https://scryfall.com/card/c13/113/incendiary-command?utm_source=api",
-      "priceUsd": 1.42,
+      "priceUsd": 1.37,
       "isNew": false,
       "delta": 0
     },
@@ -2422,7 +1755,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/b/f/bfac9395-7ca5-48dd-ab83-7c26ada12f61.jpg?1783911875",
       "scryfallUri": "https://scryfall.com/card/otc/302/izzet-boilerworks?utm_source=api",
-      "priceUsd": 0.35,
+      "priceUsd": 0.36,
       "isNew": false,
       "delta": 0
     },
@@ -2446,7 +1779,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/d/5/d5e141ad-5cb8-416b-9acf-bce1baeb6b6b.jpg?1789599844",
       "scryfallUri": "https://scryfall.com/card/frc/58/izzet-signet?utm_source=api",
-      "priceUsd": 0.33,
+      "priceUsd": 0.31,
       "isNew": false,
       "delta": 0
     },
@@ -2458,7 +1791,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/3/c/3c21df8e-a24f-4ce1-aa8a-1467f9f9423a.jpg?1783938093",
       "scryfallUri": "https://scryfall.com/card/c15/95/jaces-archivist?utm_source=api",
-      "priceUsd": 7.25,
+      "priceUsd": 7.24,
       "isNew": false,
       "delta": 0
     },
@@ -2482,7 +1815,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/d/d/dd420010-6eaf-4853-8b7b-11de1157416b.jpg?1783924965",
       "scryfallUri": "https://scryfall.com/card/voc/107/kami-of-the-crescent-moon?utm_source=api",
-      "priceUsd": 8.18,
+      "priceUsd": 7.45,
       "isNew": false,
       "delta": 0
     },
@@ -2506,7 +1839,19 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/6/5/659ef698-96ea-4fa9-b63c-0da93a2d1e78.jpg?1793197566",
       "scryfallUri": "https://scryfall.com/card/trc/496/lightning-greaves?utm_source=api",
-      "priceUsd": 2.58,
+      "priceUsd": 3.08,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Mana Sculpt",
+      "manaCost": "{1}{U}{U}",
+      "qty": 1,
+      "group": "Instant",
+      "cmc": 3,
+      "image": "https://cards.scryfall.io/normal/front/2/0/200c8e3d-c53b-40c7-a29a-fccc1281bfc6.jpg?1783903688",
+      "scryfallUri": "https://scryfall.com/card/sos/57/mana-sculpt?utm_source=api",
+      "priceUsd": 0.88,
       "isNew": false,
       "delta": 0
     },
@@ -2518,7 +1863,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/a/d/adf081d5-e644-4f46-8bc8-a754b089acb4.jpg?1783941067",
       "scryfallUri": "https://scryfall.com/card/m12/150/manabarbs?utm_source=api",
-      "priceUsd": 5.08,
+      "priceUsd": 4.98,
       "isNew": false,
       "delta": 0
     },
@@ -2530,7 +1875,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/d/8/d80eb098-5433-4b1e-aad5-0fd31bf598dd.jpg?1783921384",
       "scryfallUri": "https://scryfall.com/card/dmc/217/mikokoro-center-of-the-sea?utm_source=api",
-      "priceUsd": 4.91,
+      "priceUsd": 4.99,
       "isNew": false,
       "delta": 0
     },
@@ -2542,7 +1887,7 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/c/c/ccacc197-7c22-444d-8e6e-950dca63eb2c.jpg?1783915694",
       "scryfallUri": "https://scryfall.com/card/cmm/105/minds-aglow?utm_source=api",
-      "priceUsd": 1.43,
+      "priceUsd": 1.35,
       "isNew": false,
       "delta": 0
     },
@@ -2554,7 +1899,7 @@
       "cmc": 5,
       "image": "https://cards.scryfall.io/normal/front/a/3/a3e6784b-78e8-4f0b-8d27-d49c7cea9252.jpg?1783935545",
       "scryfallUri": "https://scryfall.com/card/ima/67/mnemonic-wall?utm_source=api",
-      "priceUsd": 0.22,
+      "priceUsd": 0.19,
       "isNew": false,
       "delta": 0
     },
@@ -2578,7 +1923,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/5/7/57e2382d-1f27-40d1-b809-c188c19ebc72.jpg?1783941723",
       "scryfallUri": "https://scryfall.com/card/som/98/molten-psyche?utm_source=api",
-      "priceUsd": 4.53,
+      "priceUsd": 4.6,
       "isNew": false,
       "delta": 0
     },
@@ -2607,6 +1952,18 @@
       "delta": 0
     },
     {
+      "name": "Nightscape Familiar",
+      "manaCost": "{1}{B}",
+      "qty": 1,
+      "group": "Creature",
+      "cmc": 2,
+      "image": "https://cards.scryfall.io/normal/front/4/c/4cf1918f-ad58-4f62-bd8c-649919de0e75.jpg?1783918474",
+      "scryfallUri": "https://scryfall.com/card/dmr/94/nightscape-familiar?utm_source=api",
+      "priceUsd": 0.4,
+      "isNew": false,
+      "delta": 0
+    },
+    {
       "name": "Niv-Mizzet, the Firemind",
       "manaCost": "{2}{U}{U}{R}{R}",
       "qty": 1,
@@ -2614,7 +1971,7 @@
       "cmc": 6,
       "image": "https://cards.scryfall.io/normal/front/3/9/395465b8-f5ed-4668-9e6a-82257150c52c.jpg?1783931145",
       "scryfallUri": "https://scryfall.com/card/c20/225/niv-mizzet-the-firemind?utm_source=api",
-      "priceUsd": 1.08,
+      "priceUsd": 1.15,
       "isNew": false,
       "delta": 0
     },
@@ -2631,6 +1988,30 @@
       "delta": 0
     },
     {
+      "name": "Ob Nixilis, Captive Kingpin",
+      "manaCost": "{2}{B}{R}",
+      "qty": 1,
+      "group": "Creature",
+      "cmc": 4,
+      "image": "https://cards.scryfall.io/normal/front/d/d/ddb68233-3683-41bd-9b6e-4f07a1b54244.jpg?1783916511",
+      "scryfallUri": "https://scryfall.com/card/mat/41/ob-nixilis-captive-kingpin?utm_source=api",
+      "priceUsd": 15.56,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Ob Nixilis, the Hate-Twisted",
+      "manaCost": "{3}{B}{B}",
+      "qty": 1,
+      "group": "Planeswalker",
+      "cmc": 5,
+      "image": "https://cards.scryfall.io/normal/front/1/4/14916e2d-73af-4747-a927-d2d4cb3e32db.jpg?1783933441",
+      "scryfallUri": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api",
+      "priceUsd": 0.57,
+      "isNew": false,
+      "delta": 0
+    },
+    {
       "name": "Opal Palace",
       "manaCost": "",
       "qty": 1,
@@ -2638,7 +2019,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/9/1/912553e7-1e67-4045-84fd-0a791754cf6c.jpg?1783903726",
       "scryfallUri": "https://scryfall.com/card/soc/390/opal-palace?utm_source=api",
-      "priceUsd": 0.29,
+      "priceUsd": 0.31,
       "isNew": false,
       "delta": 0
     },
@@ -2650,7 +2031,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/4/6/46e4aa67-4643-42ff-8172-200498686494.jpg?1783940651",
       "scryfallUri": "https://scryfall.com/card/avr/219/otherworld-atlas?utm_source=api",
-      "priceUsd": 1.44,
+      "priceUsd": 1.38,
       "isNew": false,
       "delta": 0
     },
@@ -2662,7 +2043,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/a/c/ac943e31-26bc-4b54-b73f-460e6e402d86.jpg?1783903239",
       "scryfallUri": "https://scryfall.com/card/msc/151/propaganda?utm_source=api",
-      "priceUsd": 2.87,
+      "priceUsd": 3.13,
       "isNew": false,
       "delta": 0
     },
@@ -2686,7 +2067,7 @@
       "cmc": 5,
       "image": "https://cards.scryfall.io/normal/front/d/0/d0f42a19-c180-45b1-9f4c-787cf3a4a649.jpg?1783912973",
       "scryfallUri": "https://scryfall.com/card/mkc/234/psychosis-crawler?utm_source=api",
-      "priceUsd": 2.34,
+      "priceUsd": 2.18,
       "isNew": false,
       "delta": 0
     },
@@ -2698,7 +2079,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/2/0/20c799a9-ab94-46e6-9111-00505e071c41.jpg?1783904522",
       "scryfallUri": "https://scryfall.com/card/ecc/161/rakdos-carnarium?utm_source=api",
-      "priceUsd": 0.4,
+      "priceUsd": 0.38,
       "isNew": false,
       "delta": 0
     },
@@ -2710,7 +2091,19 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/e/1/e1f01964-c610-4d0f-a2b4-f52e46dc50d2.jpg?1783908899",
       "scryfallUri": "https://scryfall.com/card/fdn/693/rakdos-guildgate?utm_source=api",
-      "priceUsd": 0.18,
+      "priceUsd": 0.22,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Reforge the Soul",
+      "manaCost": "{3}{R}{R}",
+      "qty": 1,
+      "group": "Sorcery",
+      "cmc": 5,
+      "image": "https://cards.scryfall.io/normal/front/1/c/1c3509c6-2ae7-45be-8ac9-4d14d69db32f.jpg?1783908117",
+      "scryfallUri": "https://scryfall.com/card/inr/167/reforge-the-soul?utm_source=api",
+      "priceUsd": 6.13,
       "isNew": false,
       "delta": 0
     },
@@ -2722,7 +2115,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/1/3/13caa07e-3b72-4ee2-92c6-f119d02341f9.jpg?1793112056",
       "scryfallUri": "https://scryfall.com/card/trc/551/reliquary-tower?utm_source=api",
-      "priceUsd": 1.64,
+      "priceUsd": 2.09,
       "isNew": false,
       "delta": 0
     },
@@ -2734,7 +2127,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/9/f/9f37c5b6-a59c-45cd-9a99-e9357fe9ea1b.jpg?1783919146",
       "scryfallUri": "https://scryfall.com/card/j22/114/rhystic-study?utm_source=api",
-      "priceUsd": 68.08,
+      "priceUsd": 68.2,
       "isNew": false,
       "delta": 0
     },
@@ -2746,7 +2139,7 @@
       "cmc": 5,
       "image": "https://cards.scryfall.io/normal/front/e/1/e1e61750-f7d7-4e6d-9d68-e1e357868a8d.jpg?1783944308",
       "scryfallUri": "https://scryfall.com/card/chk/143/seizan-perverter-of-truth?utm_source=api",
-      "priceUsd": 1.79,
+      "priceUsd": 1.76,
       "isNew": false,
       "delta": 0
     },
@@ -2758,7 +2151,7 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/1/3/13063520-6e2f-4eaa-b84f-a38e5bf486f8.jpg?1783940777",
       "scryfallUri": "https://scryfall.com/card/ddi/25/sigil-of-sleep?utm_source=api",
-      "priceUsd": 9.23,
+      "priceUsd": 9.22,
       "isNew": false,
       "delta": 0
     },
@@ -2770,7 +2163,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/b/6/b6ef8e44-3b40-46c2-973e-8f857126a13e.jpg?1783939680",
       "scryfallUri": "https://scryfall.com/card/c13/57/skyscribing?utm_source=api",
-      "priceUsd": 0.56,
+      "priceUsd": 0.55,
       "isNew": false,
       "delta": 0
     },
@@ -2782,7 +2175,7 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/f/c/fc817e07-c1f3-469f-9cf7-0945dea7400f.jpg?1793021181",
       "scryfallUri": "https://scryfall.com/card/trc/499/sol-ring?utm_source=api",
-      "priceUsd": 0.91,
+      "priceUsd": 1.15,
       "isNew": false,
       "delta": 0
     },
@@ -2794,7 +2187,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/d/a/daafd816-f7c1-4630-9e5c-a1e5db570a35.jpg?1783903212",
       "scryfallUri": "https://scryfall.com/card/msc/215/solemn-simulacrum?utm_source=api",
-      "priceUsd": 0.5,
+      "priceUsd": 0.39,
       "isNew": false,
       "delta": 0
     },
@@ -2806,7 +2199,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/3/b/3be610eb-790f-4f47-a92a-34fe704cc8e0.jpg?1783909589",
       "scryfallUri": "https://scryfall.com/card/dsc/233/spiteful-visions?utm_source=api",
-      "priceUsd": 1.4,
+      "priceUsd": 1.63,
       "isNew": false,
       "delta": 0
     },
@@ -2830,7 +2223,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/7/3/73514b51-6c19-4b3c-9cf9-2cf5028d7708.jpg?1783927806",
       "scryfallUri": "https://scryfall.com/card/tsr/144/sudden-spoiling?utm_source=api",
-      "priceUsd": 5.13,
+      "priceUsd": 4.14,
       "isNew": false,
       "delta": 0
     },
@@ -2854,7 +2247,7 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/3/b/3b69b12e-ef29-455c-8939-eacf44c6c3f6.jpg?1793021194",
       "scryfallUri": "https://scryfall.com/card/trc/501/swiftfoot-boots?utm_source=api",
-      "priceUsd": 1.26,
+      "priceUsd": 1.61,
       "isNew": false,
       "delta": 0
     },
@@ -2871,18 +2264,6 @@
       "delta": 0
     },
     {
-      "name": "Temple of the False God",
-      "manaCost": "",
-      "qty": 1,
-      "group": "Land",
-      "cmc": 0,
-      "image": "https://cards.scryfall.io/normal/front/c/d/cd5e9799-00e1-41a9-b5b9-5d5164c71561.jpg?1793281644",
-      "scryfallUri": "https://scryfall.com/card/trc/570/temple-of-the-false-god?utm_source=api",
-      "priceUsd": 0.36,
-      "isNew": false,
-      "delta": 0
-    },
-    {
       "name": "Terminate",
       "manaCost": "{B}{R}",
       "qty": 1,
@@ -2890,7 +2271,19 @@
       "cmc": 2,
       "image": "https://cards.scryfall.io/normal/front/a/3/a3666439-e859-417b-b39e-5f14dbef81d8.jpg?1793197541",
       "scryfallUri": "https://scryfall.com/card/trc/481/terminate?utm_source=api",
-      "priceUsd": 0.32,
+      "priceUsd": 0.28,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Torbran, Thane of Red Fell",
+      "manaCost": "{1}{R}{R}{R}",
+      "qty": 1,
+      "group": "Creature",
+      "cmc": 4,
+      "image": "https://cards.scryfall.io/normal/front/7/9/79f591cd-d277-4ba5-b1bf-1c09cac9cb8a.jpg?1783932614",
+      "scryfallUri": "https://scryfall.com/card/eld/147/torbran-thane-of-red-fell?utm_source=api",
+      "priceUsd": 3.4,
       "isNew": false,
       "delta": 0
     },
@@ -2902,7 +2295,7 @@
       "cmc": 3,
       "image": "https://cards.scryfall.io/normal/front/0/3/03919c86-1c4a-43b0-a2db-54ca6ae1ac57.jpg?1783931557",
       "scryfallUri": "https://scryfall.com/card/thb/121/underworld-dreams?utm_source=api",
-      "priceUsd": 2.29,
+      "priceUsd": 1.98,
       "isNew": false,
       "delta": 0
     },
@@ -2926,7 +2319,7 @@
       "cmc": 0,
       "image": "https://cards.scryfall.io/normal/front/c/9/c9082527-aa88-42f7-b2f2-de21878cb179.jpg?1783923181",
       "scryfallUri": "https://scryfall.com/card/ncc/444/vivid-creek?utm_source=api",
-      "priceUsd": 0.35,
+      "priceUsd": 0.34,
       "isNew": false,
       "delta": 0
     },
@@ -2950,7 +2343,31 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/7/c/7ccf086d-6ea2-4222-a7c1-325c22587ed6.jpg?1793021232",
       "scryfallUri": "https://scryfall.com/card/trc/511/wayfarers-bauble?utm_source=api",
-      "priceUsd": 0.3,
+      "priceUsd": 0.28,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Wheel of Fate",
+      "manaCost": "",
+      "qty": 1,
+      "group": "Sorcery",
+      "cmc": 0,
+      "image": "https://cards.scryfall.io/normal/front/c/7/c7937e12-76d9-4030-a68c-7a93a3c852cb.jpg?1783927784",
+      "scryfallUri": "https://scryfall.com/card/tsr/198/wheel-of-fate?utm_source=api",
+      "priceUsd": 2.5,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Whispering Madness",
+      "manaCost": "{2}{U}{B}",
+      "qty": 1,
+      "group": "Sorcery",
+      "cmc": 4,
+      "image": "https://cards.scryfall.io/normal/front/5/a/5a62cda0-34b2-42f0-83bd-c08eecf02fa4.jpg?1783937042",
+      "scryfallUri": "https://scryfall.com/card/c16/229/whispering-madness?utm_source=api",
+      "priceUsd": 3.1,
       "isNew": false,
       "delta": 0
     },
@@ -2962,7 +2379,7 @@
       "cmc": 4,
       "image": "https://cards.scryfall.io/normal/front/8/d/8d3dddfa-9579-42d7-867b-7e37b83b3eeb.jpg?1783928710",
       "scryfallUri": "https://scryfall.com/card/cmr/419/wild-ricochet?utm_source=api",
-      "priceUsd": 0.35,
+      "priceUsd": 0.38,
       "isNew": false,
       "delta": 0
     },
@@ -2986,19 +2403,19 @@
       "cmc": 1,
       "image": "https://cards.scryfall.io/normal/front/3/f/3f09e393-7318-43eb-95f8-0f2797a771d7.jpg?1783942941",
       "scryfallUri": "https://scryfall.com/card/me1/111/winds-of-change?utm_source=api",
-      "priceUsd": 3.24,
+      "priceUsd": 3,
       "isNew": false,
       "delta": 0
     },
     {
-      "name": "Nightscape Familiar",
-      "manaCost": "{1}{B}",
+      "name": "Magus of the Wheel",
+      "manaCost": "{2}{R}",
       "qty": 1,
       "group": "Creature",
-      "cmc": 2,
-      "image": "https://cards.scryfall.io/normal/front/4/c/4cf1918f-ad58-4f62-bd8c-649919de0e75.jpg?1783918474",
-      "scryfallUri": "https://scryfall.com/card/dmr/94/nightscape-familiar?utm_source=api",
-      "priceUsd": 0.41,
+      "cmc": 3,
+      "image": "https://cards.scryfall.io/normal/front/0/e/0e952dd9-ef09-40f0-993f-eb3a1516616a.jpg?1783915649",
+      "scryfallUri": "https://scryfall.com/card/cmm/241/magus-of-the-wheel?utm_source=api",
+      "priceUsd": 1.16,
       "isNew": false,
       "delta": 0
     },
@@ -3015,18 +2432,6 @@
       "delta": 1
     },
     {
-      "name": "Arcane Signet",
-      "manaCost": "{2}",
-      "qty": 1,
-      "group": "Artifact",
-      "cmc": 2,
-      "image": "https://cards.scryfall.io/normal/front/7/9/795df2ee-fbfc-4961-852c-e3ec50cc52da.jpg?1793021117",
-      "scryfallUri": "https://scryfall.com/card/trc/485/arcane-signet?utm_source=api",
-      "priceUsd": 0.58,
-      "isNew": true,
-      "delta": 1
-    },
-    {
       "name": "Teferi's Puzzle Box",
       "manaCost": "{4}",
       "qty": 1,
@@ -3035,42 +2440,6 @@
       "image": "https://cards.scryfall.io/normal/front/4/1/415e81e9-ca65-4bc0-8aab-d905d58fe6cc.jpg?1783943890",
       "scryfallUri": "https://scryfall.com/card/9ed/312/teferis-puzzle-box?utm_source=api",
       "priceUsd": 18.99,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Reforge the Soul",
-      "manaCost": "{3}{R}{R}",
-      "qty": 1,
-      "group": "Sorcery",
-      "cmc": 5,
-      "image": "https://cards.scryfall.io/normal/front/1/c/1c3509c6-2ae7-45be-8ac9-4d14d69db32f.jpg?1783908117",
-      "scryfallUri": "https://scryfall.com/card/inr/167/reforge-the-soul?utm_source=api",
-      "priceUsd": 6.13,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Magus of the Wheel",
-      "manaCost": "{2}{R}",
-      "qty": 1,
-      "group": "Creature",
-      "cmc": 3,
-      "image": "https://cards.scryfall.io/normal/front/0/e/0e952dd9-ef09-40f0-993f-eb3a1516616a.jpg?1783915649",
-      "scryfallUri": "https://scryfall.com/card/cmm/241/magus-of-the-wheel?utm_source=api",
-      "priceUsd": 1.21,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Rakdos Signet",
-      "manaCost": "{2}",
-      "qty": 1,
-      "group": "Artifact",
-      "cmc": 2,
-      "image": "https://cards.scryfall.io/normal/front/a/2/a263e71d-953f-4648-b326-33133cfa7e00.jpg?1789599847",
-      "scryfallUri": "https://scryfall.com/card/frc/60/rakdos-signet?utm_source=api",
-      "priceUsd": 0.38,
       "isNew": true,
       "delta": 1
     },
@@ -3099,18 +2468,6 @@
       "delta": 1
     },
     {
-      "name": "Arcane Denial",
-      "manaCost": "{1}{U}",
-      "qty": 1,
-      "group": "Instant",
-      "cmc": 2,
-      "image": "https://cards.scryfall.io/normal/front/5/e/5eb843ef-b223-40d0-a461-54b16d188d0e.jpg?1783903242",
-      "scryfallUri": "https://scryfall.com/card/msc/147/arcane-denial?utm_source=api",
-      "priceUsd": 2.56,
-      "isNew": true,
-      "delta": 1
-    },
-    {
       "name": "Baleful Mastery",
       "manaCost": "{3}{B}",
       "qty": 1,
@@ -3119,66 +2476,6 @@
       "image": "https://cards.scryfall.io/normal/front/5/7/579e20e7-1395-4a6c-a836-ae3419fc8808.jpg?1783911932",
       "scryfallUri": "https://scryfall.com/card/otc/126/baleful-mastery?utm_source=api",
       "priceUsd": 3.12,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Cyclonic Rift",
-      "manaCost": "{1}{U}",
-      "qty": 1,
-      "group": "Instant",
-      "cmc": 2,
-      "image": "https://cards.scryfall.io/normal/front/d/f/dfb7c4b9-f2f4-4d4e-baf2-86551c8150fe.jpg?1783913339",
-      "scryfallUri": "https://scryfall.com/card/rvr/40/cyclonic-rift?utm_source=api",
-      "priceUsd": 38.41,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Whispering Madness",
-      "manaCost": "{2}{U}{B}",
-      "qty": 1,
-      "group": "Sorcery",
-      "cmc": 4,
-      "image": "https://cards.scryfall.io/normal/front/5/a/5a62cda0-34b2-42f0-83bd-c08eecf02fa4.jpg?1783937042",
-      "scryfallUri": "https://scryfall.com/card/c16/229/whispering-madness?utm_source=api",
-      "priceUsd": 3.45,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Fevered Visions",
-      "manaCost": "{1}{U}{R}",
-      "qty": 1,
-      "group": "Enchantment",
-      "cmc": 3,
-      "image": "https://cards.scryfall.io/normal/front/d/3/d3a48c02-b9be-4649-9d20-0e72e1c52c94.jpg?1793111916",
-      "scryfallUri": "https://scryfall.com/card/trc/474/fevered-visions?utm_source=api",
-      "priceUsd": 0.53,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Ob Nixilis, the Hate-Twisted",
-      "manaCost": "{3}{B}{B}",
-      "qty": 1,
-      "group": "Planeswalker",
-      "cmc": 5,
-      "image": "https://cards.scryfall.io/normal/front/1/4/14916e2d-73af-4747-a927-d2d4cb3e32db.jpg?1783933441",
-      "scryfallUri": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api",
-      "priceUsd": 0.55,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Ob Nixilis, Captive Kingpin",
-      "manaCost": "{2}{B}{R}",
-      "qty": 1,
-      "group": "Creature",
-      "cmc": 4,
-      "image": "https://cards.scryfall.io/normal/front/d/d/ddb68233-3683-41bd-9b6e-4f07a1b54244.jpg?1783916511",
-      "scryfallUri": "https://scryfall.com/card/mat/41/ob-nixilis-captive-kingpin?utm_source=api",
-      "priceUsd": 15.32,
       "isNew": true,
       "delta": 1
     }
@@ -3269,108 +2566,192 @@
           "reason": "Reduce blue and red spell costs while providing an early regenerating blocker."
         }
       ]
-    }
-  ],
-  "manaSuggestions": [
+    },
     {
-      "id": "84b42589-9674-41ef-8d64-c3d628151906",
-      "reason": "[[Temple of the False God]] only makes colorless mana; [[Exotic Orchard]] makes black and red and blue untapped, helping blue and black, which are short.",
+      "at": "2026-11-19T23:24:36.134Z",
+      "request": "i've made these swaps in the original deck\n- thraximundar + arcane signet\n- viseling + ob nixilis captive\n- venser's journal + ob nixilis the hate twisted\n- fog bank + harmonic prodigy\n- drana + whispering madness\n- opportunity + reforge the soul\n- dominate + wheel of fate\n- dismiss + mana sculpt\n- cruel ultimatum + torbran, thane of red fell",
+      "target": "original",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Thraximundar",
+          "qty": 1,
+          "reason": "Seven mana for a creature that doesn't advance the draw-damage plan."
+        },
+        {
+          "action": "remove",
+          "name": "Viseling",
+          "qty": 1,
+          "reason": "Its upkeep damage is slow and conditional compared with a draw-punisher."
+        },
+        {
+          "action": "remove",
+          "name": "Venser's Journal",
+          "qty": 1,
+          "reason": "No maximum hand size is already covered by [[Reliquary Tower]] and [[Thought Vessel]]."
+        },
+        {
+          "action": "remove",
+          "name": "Fog Bank",
+          "qty": 1,
+          "reason": "Pure defense that does nothing for the game plan."
+        },
+        {
+          "action": "remove",
+          "name": "Drana, Kalastria Bloodchief",
+          "qty": 1,
+          "reason": "Mana-hungry removal on a fragile body."
+        },
+        {
+          "action": "remove",
+          "name": "Opportunity",
+          "qty": 1,
+          "reason": "Six mana for a one-shot draw that also helps opponents far less than a wheel does."
+        },
+        {
+          "action": "remove",
+          "name": "Dominate",
+          "qty": 1,
+          "reason": "Conditional theft with a heavy cost."
+        },
+        {
+          "action": "remove",
+          "name": "Cruel Ultimatum",
+          "qty": 1,
+          "reason": "Seven mana at sorcery speed is too clunky for what the deck is doing."
+        },
+        {
+          "action": "add",
+          "name": "Arcane Signet",
+          "qty": 1,
+          "reason": "Two-mana fixing in all three colors accelerates [[Nekusar, the Mindrazer]] by a turn."
+        },
+        {
+          "action": "add",
+          "name": "Ob Nixilis, Captive Kingpin",
+          "qty": 1,
+          "reason": "Every point of pinged damage adds a +1/+1 counter and an exile, turning your wheels into card advantage."
+        },
+        {
+          "action": "add",
+          "name": "Ob Nixilis, the Hate-Twisted",
+          "qty": 1,
+          "reason": "Punishes every opposing draw and can sacrifice a big creature for cards."
+        },
+        {
+          "action": "add",
+          "name": "Harmonic Prodigy",
+          "qty": 1,
+          "reason": "Cheap Wizard body, but note it only doubles ETB-triggered abilities, not the draw-step ping."
+        },
+        {
+          "action": "add",
+          "name": "Whispering Madness",
+          "qty": 1,
+          "reason": "Wheel with cipher that can be re-triggered on a connecting attacker."
+        },
+        {
+          "action": "add",
+          "name": "Reforge the Soul",
+          "qty": 1,
+          "reason": "Miracle wheel refills your hand and pings the table for a pile of damage."
+        },
+        {
+          "action": "add",
+          "name": "Wheel of Fate",
+          "qty": 1,
+          "reason": "Suspend makes it free to set up, and the wheel feeds every draw-punisher you control."
+        },
+        {
+          "action": "add",
+          "name": "Torbran, Thane of Red Fell",
+          "qty": 1,
+          "reason": "Each point of ping becomes three, though it also amplifies damage aimed at you."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-19T23:26:07.049Z",
+      "request": "it's literally called mana sculpt https://scryfall.com/card/sos/57/mana-sculpt add it, and remove dismiss",
+      "target": "original",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Dismiss",
+          "qty": 1,
+          "reason": "Outclassed by cheaper, more flexible interaction in the deck."
+        },
+        {
+          "action": "add",
+          "name": "Mana Sculpt",
+          "qty": 1,
+          "reason": "Straight swap per your request; keeps the instant-speed interaction count intact."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-19T23:31:25.017Z",
+      "request": "Mana base: [[Temple of the False God]] only makes colorless mana; [[Exotic Orchard]] makes black and red and blue untapped, helping blue and black and red, which are short.",
+      "target": "original",
       "changes": [
         {
           "action": "remove",
           "name": "Temple of the False God",
           "qty": 1,
-          "reason": "[[Temple of the False God]] only makes colorless mana; [[Exotic Orchard]] makes black and red and blue untapped, helping blue and black, which are short.",
-          "ok": true,
-          "card": {
-            "name": "Temple of the False God",
-            "oracleId": "cfdd5dc6-593e-495a-8cfe-3a56b3c4c7df",
-            "manaCost": "",
-            "cmc": 0,
-            "typeLine": "Land",
-            "oracleText": "{T}: Add {C}{C}. Activate only if you control five or more lands.",
-            "colors": [],
-            "colorIdentity": [],
-            "producedMana": [
-              "C"
-            ],
-            "isLand": true,
-            "isMdfcLand": false,
-            "entersTapped": false,
-            "legalCommander": true,
-            "gameChanger": false,
-            "canBeCommander": false,
-            "priceUsd": 0.36,
-            "image": "https://cards.scryfall.io/normal/front/c/d/cd5e9799-00e1-41a9-b5b9-5d5164c71561.jpg?1793281644",
-            "imageArt": "https://cards.scryfall.io/art_crop/front/c/d/cd5e9799-00e1-41a9-b5b9-5d5164c71561.jpg?1793281644",
-            "scryfallUri": "https://scryfall.com/card/trc/570/temple-of-the-false-god?utm_source=api",
-            "roles": [
-              "land"
-            ]
-          }
+          "reason": "[[Temple of the False God]] only makes colorless mana; [[Exotic Orchard]] makes black and red and blue untapped, helping blue and black and red, which are short."
         },
         {
           "action": "add",
           "name": "Exotic Orchard",
           "qty": 1,
-          "reason": "[[Temple of the False God]] only makes colorless mana; [[Exotic Orchard]] makes black and red and blue untapped, helping blue and black, which are short.",
-          "ok": true,
-          "card": {
-            "name": "Exotic Orchard",
-            "oracleId": "27b047e3-0d41-45e2-98e9-9391d7923a1e",
-            "manaCost": "",
-            "cmc": 0,
-            "typeLine": "Land",
-            "oracleText": "{T}: Add one mana of any color that a land an opponent controls could produce.",
-            "colors": [],
-            "colorIdentity": [],
-            "producedMana": [
-              "B",
-              "G",
-              "R",
-              "U",
-              "W"
-            ],
-            "isLand": true,
-            "isMdfcLand": false,
-            "entersTapped": false,
-            "legalCommander": true,
-            "gameChanger": false,
-            "canBeCommander": false,
-            "priceUsd": 0.28,
-            "image": "https://cards.scryfall.io/normal/front/0/a/0a4a51a3-fb8b-4611-8f94-fbcab547423c.jpg?1793021293",
-            "imageArt": "https://cards.scryfall.io/art_crop/front/0/a/0a4a51a3-fb8b-4611-8f94-fbcab547423c.jpg?1793021293",
-            "scryfallUri": "https://scryfall.com/card/trc/528/exotic-orchard?utm_source=api",
-            "roles": [
-              "land"
-            ]
-          }
+          "reason": "[[Temple of the False God]] only makes colorless mana; [[Exotic Orchard]] makes black and red and blue untapped, helping blue and black and red, which are short."
         }
       ]
     },
     {
-      "id": "783637c3-d638-4a7a-b2ac-a0821b0722ef",
-      "reason": "You have plenty of red sources; [[Watery Grave]] makes black and blue untapped, helping blue and black, which are short.",
+      "at": "2026-11-19T23:36:57.921Z",
+      "request": "Swap: Uyo, Silent Prophet → Magus of the Wheel",
+      "target": "original",
       "changes": [
         {
           "action": "remove",
-          "name": "Mountain",
+          "name": "Uyo, Silent Prophet",
           "qty": 1,
-          "reason": "You have plenty of red sources; [[Watery Grave]] makes black and blue untapped, helping blue and black, which are short.",
+          "reason": "Magus provides a visible, interactable wheel that can be deployed before Nekusar. Without haste it must survive a turn before activating, which suits the intended bracket pacing."
+        },
+        {
+          "action": "add",
+          "name": "Magus of the Wheel",
+          "qty": 1,
+          "reason": "Magus provides a visible, interactable wheel that can be deployed before Nekusar. Without haste it must survive a turn before activating, which suits the intended bracket pacing."
+        }
+      ]
+    }
+  ],
+  "manaSuggestions": [
+    {
+      "id": "91f5304f-adbb-4a84-b445-4adb9e26b7fc",
+      "reason": "You have plenty of blue sources; [[City of Brass]] makes black and red and blue untapped, helping blue and black and red, which are short.",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Island",
+          "qty": 1,
+          "reason": "You have plenty of blue sources; [[City of Brass]] makes black and red and blue untapped, helping blue and black and red, which are short.",
           "ok": true,
           "card": {
-            "name": "Mountain",
-            "oracleId": "a3fb7228-e76b-4e96-a40e-20b5fed75685",
+            "name": "Island",
+            "oracleId": "b2c6aa39-2d2a-459c-a555-fb48ba993373",
             "manaCost": "",
             "cmc": 0,
-            "typeLine": "Basic Land — Mountain",
-            "oracleText": "({T}: Add {R}.)",
+            "typeLine": "Basic Land — Island",
+            "oracleText": "({T}: Add {U}.)",
             "colors": [],
             "colorIdentity": [
-              "R"
+              "U"
             ],
             "producedMana": [
-              "R"
+              "U"
             ],
             "isLand": true,
             "isMdfcLand": false,
@@ -3379,89 +2760,9 @@
             "gameChanger": false,
             "canBeCommander": false,
             "priceUsd": null,
-            "image": "https://cards.scryfall.io/normal/front/8/5/85177bd7-6c50-48da-b692-ae5fe7bd357c.jpg?1791578439",
-            "imageArt": "https://cards.scryfall.io/art_crop/front/8/5/85177bd7-6c50-48da-b692-ae5fe7bd357c.jpg?1791578439",
-            "scryfallUri": "https://scryfall.com/card/mdd/298/mountain?utm_source=api",
-            "roles": [
-              "land"
-            ]
-          }
-        },
-        {
-          "action": "add",
-          "name": "Watery Grave",
-          "qty": 1,
-          "reason": "You have plenty of red sources; [[Watery Grave]] makes black and blue untapped, helping blue and black, which are short.",
-          "ok": true,
-          "card": {
-            "name": "Watery Grave",
-            "oracleId": "fc9ec820-4245-4a96-b009-5308a818ca58",
-            "manaCost": "",
-            "cmc": 0,
-            "typeLine": "Land — Island Swamp",
-            "oracleText": "({T}: Add {U} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
-            "colors": [],
-            "colorIdentity": [
-              "B",
-              "U"
-            ],
-            "producedMana": [
-              "B",
-              "U"
-            ],
-            "isLand": true,
-            "isMdfcLand": false,
-            "entersTapped": false,
-            "legalCommander": true,
-            "gameChanger": false,
-            "canBeCommander": false,
-            "priceUsd": 7.34,
-            "image": "https://cards.scryfall.io/normal/front/5/5/5525d6a6-e532-4047-9da4-bfae7927fecc.jpg?1784036860",
-            "imageArt": "https://cards.scryfall.io/art_crop/front/5/5/5525d6a6-e532-4047-9da4-bfae7927fecc.jpg?1784036860",
-            "scryfallUri": "https://scryfall.com/card/trk/306/watery-grave?utm_source=api",
-            "roles": [
-              "land"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "89791397-1e9d-42c7-83bb-9da8b4e2b91d",
-      "reason": "[[Akoum Refuge]] always enters tapped; [[City of Brass]] makes black and red and blue untapped, helping blue, which is short.",
-      "changes": [
-        {
-          "action": "remove",
-          "name": "Akoum Refuge",
-          "qty": 1,
-          "reason": "[[Akoum Refuge]] always enters tapped; [[City of Brass]] makes black and red and blue untapped, helping blue, which is short.",
-          "ok": true,
-          "card": {
-            "name": "Akoum Refuge",
-            "oracleId": "354fecd1-2371-49e3-81c6-7e47728dbb1f",
-            "manaCost": "",
-            "cmc": 0,
-            "typeLine": "Land",
-            "oracleText": "This land enters tapped.\nWhen this land enters, you gain 1 life.\n{T}: Add {B} or {R}.",
-            "colors": [],
-            "colorIdentity": [
-              "B",
-              "R"
-            ],
-            "producedMana": [
-              "B",
-              "R"
-            ],
-            "isLand": true,
-            "isMdfcLand": false,
-            "entersTapped": true,
-            "legalCommander": true,
-            "gameChanger": false,
-            "canBeCommander": false,
-            "priceUsd": 0.35,
-            "image": "https://cards.scryfall.io/normal/front/5/1/51aecc57-f0cc-4e35-af38-ead25cf8a1b8.jpg?1783932721",
-            "imageArt": "https://cards.scryfall.io/art_crop/front/5/1/51aecc57-f0cc-4e35-af38-ead25cf8a1b8.jpg?1783932721",
-            "scryfallUri": "https://scryfall.com/card/c19/226/akoum-refuge?utm_source=api",
+            "image": "https://cards.scryfall.io/normal/front/1/3/1335d293-3dd2-4f13-bd2c-22181f4528ee.jpg?1791578424",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/1/3/1335d293-3dd2-4f13-bd2c-22181f4528ee.jpg?1791578424",
+            "scryfallUri": "https://scryfall.com/card/mdd/294/island?utm_source=api",
             "roles": [
               "land"
             ]
@@ -3471,7 +2772,7 @@
           "action": "add",
           "name": "City of Brass",
           "qty": 1,
-          "reason": "[[Akoum Refuge]] always enters tapped; [[City of Brass]] makes black and red and blue untapped, helping blue, which is short.",
+          "reason": "You have plenty of blue sources; [[City of Brass]] makes black and red and blue untapped, helping blue and black and red, which are short.",
           "ok": true,
           "card": {
             "name": "City of Brass",
@@ -3495,10 +2796,167 @@
             "legalCommander": true,
             "gameChanger": false,
             "canBeCommander": false,
-            "priceUsd": 9.52,
+            "priceUsd": 9.66,
             "image": "https://cards.scryfall.io/normal/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
             "imageArt": "https://cards.scryfall.io/art_crop/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
             "scryfallUri": "https://scryfall.com/card/tmc/62/city-of-brass?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c2d74309-34c0-4495-813d-b84d70fd3255",
+      "reason": "You have plenty of black sources; [[Cavern of Souls]] makes black and red and blue untapped, helping blue and red, which are short.",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Swamp",
+          "qty": 1,
+          "reason": "You have plenty of black sources; [[Cavern of Souls]] makes black and red and blue untapped, helping blue and red, which are short.",
+          "ok": true,
+          "card": {
+            "name": "Swamp",
+            "oracleId": "56719f6a-1a6c-4c0a-8d21-18f7d7350b68",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Basic Land — Swamp",
+            "oracleText": "({T}: Add {B}.)",
+            "colors": [],
+            "colorIdentity": [
+              "B"
+            ],
+            "producedMana": [
+              "B"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": null,
+            "image": "https://cards.scryfall.io/normal/front/b/2/b233b117-9369-45c1-80c5-cc857386b6be.jpg?1791578437",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/b/2/b233b117-9369-45c1-80c5-cc857386b6be.jpg?1791578437",
+            "scryfallUri": "https://scryfall.com/card/mdd/296/swamp?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        },
+        {
+          "action": "add",
+          "name": "Cavern of Souls",
+          "qty": 1,
+          "reason": "You have plenty of black sources; [[Cavern of Souls]] makes black and red and blue untapped, helping blue and red, which are short.",
+          "ok": true,
+          "card": {
+            "name": "Cavern of Souls",
+            "oracleId": "89ca686a-7c72-4d8f-9290-e89635624a83",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Land",
+            "oracleText": "As this land enters, choose a creature type.\n{T}: Add {C}.\n{T}: Add one mana of any color. Spend this mana only to cast a creature spell of the chosen type, and that spell can't be countered.",
+            "colors": [],
+            "colorIdentity": [],
+            "producedMana": [
+              "B",
+              "C",
+              "G",
+              "R",
+              "U",
+              "W"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": 47.9,
+            "image": "https://cards.scryfall.io/normal/front/3/a/3aad15a2-8a1b-4460-9b06-e85863081878.jpg?1783913719",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/3/a/3aad15a2-8a1b-4460-9b06-e85863081878.jpg?1783913719",
+            "scryfallUri": "https://scryfall.com/card/lci/269/cavern-of-souls?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "b407cd5e-b521-4ce4-bfba-bc4c4a5f7054",
+      "reason": "You have plenty of black sources; [[Mana Confluence]] makes black and red and blue untapped, helping blue and red, which are short.",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Swamp",
+          "qty": 1,
+          "reason": "You have plenty of black sources; [[Mana Confluence]] makes black and red and blue untapped, helping blue and red, which are short.",
+          "ok": true,
+          "card": {
+            "name": "Swamp",
+            "oracleId": "56719f6a-1a6c-4c0a-8d21-18f7d7350b68",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Basic Land — Swamp",
+            "oracleText": "({T}: Add {B}.)",
+            "colors": [],
+            "colorIdentity": [
+              "B"
+            ],
+            "producedMana": [
+              "B"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": null,
+            "image": "https://cards.scryfall.io/normal/front/b/2/b233b117-9369-45c1-80c5-cc857386b6be.jpg?1791578437",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/b/2/b233b117-9369-45c1-80c5-cc857386b6be.jpg?1791578437",
+            "scryfallUri": "https://scryfall.com/card/mdd/296/swamp?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        },
+        {
+          "action": "add",
+          "name": "Mana Confluence",
+          "qty": 1,
+          "reason": "You have plenty of black sources; [[Mana Confluence]] makes black and red and blue untapped, helping blue and red, which are short.",
+          "ok": true,
+          "card": {
+            "name": "Mana Confluence",
+            "oracleId": "d0ee5bdc-2b69-4b73-9a20-ffcc18783b29",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Land",
+            "oracleText": "{T}, Pay 1 life: Add one mana of any color.",
+            "colors": [],
+            "colorIdentity": [],
+            "producedMana": [
+              "B",
+              "G",
+              "R",
+              "U",
+              "W"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": 34.24,
+            "image": "https://cards.scryfall.io/normal/front/5/0/504a69eb-3c2d-4bb1-b117-252b15acf0c2.jpg?1783939402",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/5/0/504a69eb-3c2d-4bb1-b117-252b15acf0c2.jpg?1783939402",
+            "scryfallUri": "https://scryfall.com/card/jou/163/mana-confluence?utm_source=api",
             "roles": [
               "land"
             ]
@@ -3631,6 +3089,124 @@
         "Prosperity"
       ],
       "explanation": "[[Nightscape Familiar]] reduces [[Prosperity]]'s generic cost, letting you choose X one higher for the same mana investment. Every additional card drawn gives you another resource and makes Nekusar deal another damage to each opponent."
+    },
+    {
+      "title": "Torbran Triples the Wheel Burn",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Torbran, Thane of Red Fell",
+        "Reforge the Soul"
+      ],
+      "explanation": "[[Reforge the Soul]] refills every hand, so each opponent draws many cards and [[Nekusar, the Mindrazer]] triggers repeatedly; [[Torbran, Thane of Red Fell]] makes each of those red damage triggers deal 3 instead of 1."
+    },
+    {
+      "title": "Harmonic Double Pings",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Harmonic Prodigy",
+        "Whispering Madness"
+      ],
+      "explanation": "[[Harmonic Prodigy]] doubles each [[Nekusar, the Mindrazer]] draw-damage trigger, and [[Whispering Madness]] forces a fresh hand so opponents immediately draw into the doubled punishment."
+    },
+    {
+      "title": "Kingpin Feasts on Wheel Draws",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Ob Nixilis, Captive Kingpin",
+        "Wheel of Fate"
+      ],
+      "explanation": "[[Wheel of Fate]] refills every hand, and each draw triggers [[Nekusar, the Mindrazer]] for exactly 1 life loss; [[Ob Nixilis, Captive Kingpin]] turns each of those losses into a +1/+1 counter and a card exiled."
+    },
+    {
+      "title": "Cipher Wheels on a Flyer",
+      "cards": [
+        "Whispering Madness",
+        "Vampire Nighthawk",
+        "Nekusar, the Mindrazer"
+      ],
+      "explanation": "Encode [[Whispering Madness]] on [[Vampire Nighthawk]], then each combat damage recasts the wheel and forces more draws for [[Nekusar, the Mindrazer]] to punish."
+    },
+    {
+      "title": "Counter Into a Big Zenith",
+      "cards": [
+        "Mana Sculpt",
+        "Nekusar, the Mindrazer",
+        "Blue Sun's Zenith"
+      ],
+      "explanation": "With [[Nekusar, the Mindrazer]] in play to satisfy the Wizard clause, [[Mana Sculpt]] counters an opposing spell and banks colorless mana; at the next main phase, use that mana to help cast a large [[Blue Sun's Zenith]] targeting an opponent, making them draw and take damage from [[Nekusar, the Mindrazer]]."
+    },
+    {
+      "title": "Familiar Discounts the Commander",
+      "cards": [
+        "Exotic Orchard",
+        "Nightscape Familiar",
+        "Nekusar, the Mindrazer"
+      ],
+      "explanation": "[[Exotic Orchard]] supplies the colored mana for [[Nekusar, the Mindrazer]], while [[Nightscape Familiar]] reduces the blue and red costs, making the commander cheaper to cast and recast."
+    },
+    {
+      "title": "Seizan Stacks the Draw Pain",
+      "cards": [
+        "Exotic Orchard",
+        "Nekusar, the Mindrazer",
+        "Seizan, Perverter of Truth"
+      ],
+      "explanation": "[[Exotic Orchard]] supplies the colored mana for [[Nekusar, the Mindrazer]] and [[Seizan, Perverter of Truth]]; Seizan forces extra draws on each upkeep, so Nekusar's damage repeats without needing another spell."
+    },
+    {
+      "title": "Needlehead Joins the Draw Punishment",
+      "cards": [
+        "Exotic Orchard",
+        "Nekusar, the Mindrazer",
+        "Razorkin Needlehead"
+      ],
+      "explanation": "[[Exotic Orchard]] helps cast [[Nekusar, the Mindrazer]] and [[Razorkin Needlehead]]; the commander adds extra draws while the Needlehead punishes opponent draws, stacking damage from the same draw triggers."
+    },
+    {
+      "title": "Puzzle Box Feeds Bowmasters",
+      "cards": [
+        "Exotic Orchard",
+        "Orcish Bowmasters",
+        "Teferi's Puzzle Box"
+      ],
+      "explanation": "[[Exotic Orchard]] supplies the black mana for [[Orcish Bowmasters]] and the generic mana for [[Teferi's Puzzle Box]]; the Box creates repeated draws that Bowmasters punishes while dealing damage."
+    },
+    {
+      "title": "Wheel Feeds the Firemind",
+      "cards": [
+        "Magus of the Wheel",
+        "Nekusar, the Mindrazer",
+        "Niv-Mizzet, the Firemind"
+      ],
+      "explanation": "[[Magus of the Wheel]] refills every hand; [[Nekusar, the Mindrazer]] taxes opponents' draws while [[Niv-Mizzet, the Firemind]] turns your own refill into extra damage."
+    },
+    {
+      "title": "Magus Stacks Draw Pain",
+      "cards": [
+        "Magus of the Wheel",
+        "Nekusar, the Mindrazer",
+        "Fate Unraveler"
+      ],
+      "explanation": "[[Magus of the Wheel]] makes each opponent draw seven, so [[Nekusar, the Mindrazer]] and [[Fate Unraveler]] each punish every card drawn for a massive burst."
+    },
+    {
+      "title": "Magus Feeds the Kingpin",
+      "cards": [
+        "Magus of the Wheel",
+        "Nekusar, the Mindrazer",
+        "Razorkin Needlehead",
+        "Ob Nixilis, Captive Kingpin"
+      ],
+      "explanation": "[[Magus of the Wheel]] forces mass draws, so [[Nekusar, the Mindrazer]] and [[Razorkin Needlehead]] each ping per draw; every exact-one-life loss triggers [[Ob Nixilis, Captive Kingpin]] for counters and exiled cards."
+    },
+    {
+      "title": "Hasty Magus Wheel",
+      "cards": [
+        "Magus of the Wheel",
+        "Lightning Greaves",
+        "Nekusar, the Mindrazer"
+      ],
+      "explanation": "[[Lightning Greaves]] gives [[Magus of the Wheel]] haste so it can tap and sacrifice immediately, letting [[Nekusar, the Mindrazer]] punish the forced draw before opponents untap."
     }
   ],
   "cardIndex": {
@@ -3744,11 +3320,6 @@
       "scryfallUri": "https://scryfall.com/card/cn2/108/dismiss?utm_source=api",
       "priceUsd": 0.16
     },
-    "Arcane Denial": {
-      "image": "https://cards.scryfall.io/normal/front/5/e/5eb843ef-b223-40d0-a461-54b16d188d0e.jpg?1783903242",
-      "scryfallUri": "https://scryfall.com/card/msc/147/arcane-denial?utm_source=api",
-      "priceUsd": 2.56
-    },
     "Diviner's Wand": {
       "image": "https://cards.scryfall.io/normal/front/2/7/277eed87-6b78-456d-91fb-774c72b3ae8c.jpg?1783942775",
       "scryfallUri": "https://scryfall.com/card/mor/142/diviners-wand?utm_source=api",
@@ -3773,11 +3344,6 @@
       "image": "https://cards.scryfall.io/normal/front/6/5/653dd5b7-1ad3-4df1-bd2a-4e6ae362a8a2.jpg?1783942732",
       "scryfallUri": "https://scryfall.com/card/shm/166/helm-of-the-ghastlord?utm_source=api",
       "priceUsd": 7.63
-    },
-    "Fevered Visions": {
-      "image": "https://cards.scryfall.io/normal/front/d/3/d3a48c02-b9be-4649-9d20-0e72e1c52c94.jpg?1793111916",
-      "scryfallUri": "https://scryfall.com/card/trc/474/fevered-visions?utm_source=api",
-      "priceUsd": 0.55
     },
     "Drana, Kalastria Bloodchief": {
       "image": "https://cards.scryfall.io/normal/front/2/c/2c58ce5e-b038-4376-a5f4-9849baa255b9.jpg?1783935907",
@@ -4284,16 +3850,6 @@
       "scryfallUri": "https://scryfall.com/card/fdn/677/pyromancers-goggles?utm_source=api",
       "priceUsd": 0.39
     },
-    "Mind Over Matter": {
-      "image": "https://cards.scryfall.io/normal/front/6/e/6e091dd6-149f-46ea-bae0-224e79e3aacb.jpg?1783946523",
-      "scryfallUri": "https://scryfall.com/card/exo/40/mind-over-matter?utm_source=api",
-      "priceUsd": 48.95
-    },
-    "Narset's Reversal": {
-      "image": "https://cards.scryfall.io/normal/front/4/e/4ede8d68-6870-445c-b140-da98adbc246a.jpg?1783907140",
-      "scryfallUri": "https://scryfall.com/card/tdc/92/narsets-reversal?utm_source=api",
-      "priceUsd": 3.04
-    },
     "Tainted Strike": {
       "image": "https://cards.scryfall.io/normal/front/d/0/d0f82007-99f6-4c6c-8182-ee631c33531f.jpg?1783941727",
       "scryfallUri": "https://scryfall.com/card/som/80/tainted-strike?utm_source=api",
@@ -4443,6 +3999,36 @@
       "image": "https://cards.scryfall.io/normal/front/4/c/4cf1918f-ad58-4f62-bd8c-649919de0e75.jpg?1783918474",
       "scryfallUri": "https://scryfall.com/card/dmr/94/nightscape-familiar?utm_source=api",
       "priceUsd": 0.41
+    },
+    "Wheel of Fate": {
+      "image": "https://cards.scryfall.io/normal/front/c/7/c7937e12-76d9-4030-a68c-7a93a3c852cb.jpg?1783927784",
+      "scryfallUri": "https://scryfall.com/card/tsr/198/wheel-of-fate?utm_source=api",
+      "priceUsd": 2.5
+    },
+    "Torbran, Thane of Red Fell": {
+      "image": "https://cards.scryfall.io/normal/front/7/9/79f591cd-d277-4ba5-b1bf-1c09cac9cb8a.jpg?1783932614",
+      "scryfallUri": "https://scryfall.com/card/eld/147/torbran-thane-of-red-fell?utm_source=api",
+      "priceUsd": 3.4
+    },
+    "Casey Jones, Back Alley Brute": {
+      "image": "https://cards.scryfall.io/normal/front/4/1/416d888d-2699-49bd-830b-bf5bda25c91f.jpg?1783904167",
+      "scryfallUri": "https://scryfall.com/card/tmc/22/casey-jones-back-alley-brute?utm_source=api",
+      "priceUsd": 0.32
+    },
+    "Cavern of Souls": {
+      "image": "https://cards.scryfall.io/normal/front/3/a/3aad15a2-8a1b-4460-9b06-e85863081878.jpg?1783913719",
+      "scryfallUri": "https://scryfall.com/card/lci/269/cavern-of-souls?utm_source=api",
+      "priceUsd": 47.9
+    },
+    "Mana Sculpt": {
+      "image": "https://cards.scryfall.io/normal/front/2/0/200c8e3d-c53b-40c7-a29a-fccc1281bfc6.jpg?1783903688",
+      "scryfallUri": "https://scryfall.com/card/sos/57/mana-sculpt?utm_source=api",
+      "priceUsd": 0.88
+    },
+    "Mana Confluence": {
+      "image": "https://cards.scryfall.io/normal/front/5/0/504a69eb-3c2d-4bb1-b117-252b15acf0c2.jpg?1783939402",
+      "scryfallUri": "https://scryfall.com/card/jou/163/mana-confluence?utm_source=api",
+      "priceUsd": 34.24
     }
   },
   "original": {
@@ -4455,7 +4041,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/4/a/4afdc65d-3c97-47af-83fa-df340389802e.jpg?1783915612",
         "scryfallUri": "https://scryfall.com/card/cmm/349/nekusar-the-mindrazer?utm_source=api",
-        "priceUsd": 2.74,
+        "priceUsd": 2.92,
         "isNew": false,
         "delta": 0
       },
@@ -4467,7 +4053,19 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/5/1/51aecc57-f0cc-4e35-af38-ead25cf8a1b8.jpg?1783932721",
         "scryfallUri": "https://scryfall.com/card/c19/226/akoum-refuge?utm_source=api",
-        "priceUsd": 0.35,
+        "priceUsd": 0.36,
+        "isNew": false,
+        "delta": 0
+      },
+      {
+        "name": "Arcane Signet",
+        "manaCost": "{2}",
+        "qty": 1,
+        "group": "Artifact",
+        "cmc": 2,
+        "image": "https://cards.scryfall.io/normal/front/7/9/795df2ee-fbfc-4961-852c-e3ec50cc52da.jpg?1793021117",
+        "scryfallUri": "https://scryfall.com/card/trc/485/arcane-signet?utm_source=api",
+        "priceUsd": 0.38,
         "isNew": false,
         "delta": 0
       },
@@ -4491,7 +4089,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/5/5/55b5b094-9d2d-4d96-b90c-78fecdae725a.jpg?1783903734",
         "scryfallUri": "https://scryfall.com/card/soc/363/bojuka-bog?utm_source=api",
-        "priceUsd": 1.75,
+        "priceUsd": 2.1,
         "isNew": false,
         "delta": 0
       },
@@ -4503,7 +4101,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/6/5/65ebbff0-fbe6-4310-a33f-e00bb2534979.jpg?1783909049",
         "scryfallUri": "https://scryfall.com/card/fdn/250/burnished-hart?utm_source=api",
-        "priceUsd": 0.31,
+        "priceUsd": 0.28,
         "isNew": false,
         "delta": 0
       },
@@ -4515,7 +4113,7 @@
         "cmc": 6,
         "image": "https://cards.scryfall.io/normal/front/1/7/179eb5aa-3882-4dea-9ddf-beb09f4b7d97.jpg?1783908829",
         "scryfallUri": "https://scryfall.com/card/j25/132/charmbreaker-devils?utm_source=api",
-        "priceUsd": 0.27,
+        "priceUsd": 0.26,
         "isNew": false,
         "delta": 0
       },
@@ -4539,7 +4137,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/a/7/a73297d2-580c-4174-a427-265f6916d09f.jpg?1793021256",
         "scryfallUri": "https://scryfall.com/card/trc/521/command-tower?utm_source=api",
-        "priceUsd": 0.28,
+        "priceUsd": 0.23,
         "isNew": false,
         "delta": 0
       },
@@ -4556,18 +4154,6 @@
         "delta": 0
       },
       {
-        "name": "Cruel Ultimatum",
-        "manaCost": "{U}{U}{B}{B}{B}{R}{R}",
-        "qty": 1,
-        "group": "Sorcery",
-        "cmc": 7,
-        "image": "https://cards.scryfall.io/normal/front/d/7/d71a8ea5-199e-473e-a2b1-e2f7cc804ffc.jpg?1783936138",
-        "scryfallUri": "https://scryfall.com/card/e01/82/cruel-ultimatum?utm_source=api",
-        "priceUsd": 0.52,
-        "isNew": false,
-        "delta": 0
-      },
-      {
         "name": "Crumbling Necropolis",
         "manaCost": "",
         "qty": 1,
@@ -4575,7 +4161,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/d/2/d28542af-936f-44e5-a4e3-119f23c9f0d6.jpg?1783903203",
         "scryfallUri": "https://scryfall.com/card/msc/237/crumbling-necropolis?utm_source=api",
-        "priceUsd": 0.37,
+        "priceUsd": 0.39,
         "isNew": false,
         "delta": 0
       },
@@ -4587,7 +4173,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/f/2/f279fcf1-e4f5-4873-9d73-8d62e0343b81.jpg?1783911890",
         "scryfallUri": "https://scryfall.com/card/otc/256/darksteel-ingot?utm_source=api",
-        "priceUsd": 0.39,
+        "priceUsd": 0.38,
         "isNew": false,
         "delta": 0
       },
@@ -4623,19 +4209,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/0/8/0862060d-3198-4eeb-af8c-efeb27f42a99.jpg?1789599833",
         "scryfallUri": "https://scryfall.com/card/frc/56/dimir-signet?utm_source=api",
-        "priceUsd": 0.43,
-        "isNew": false,
-        "delta": 0
-      },
-      {
-        "name": "Dismiss",
-        "manaCost": "{2}{U}{U}",
-        "qty": 1,
-        "group": "Instant",
-        "cmc": 4,
-        "image": "https://cards.scryfall.io/normal/front/9/5/95b57eec-ecb3-408c-b938-7d3a34602cc5.jpg?1783937325",
-        "scryfallUri": "https://scryfall.com/card/cn2/108/dismiss?utm_source=api",
-        "priceUsd": 0.16,
+        "priceUsd": 0.38,
         "isNew": false,
         "delta": 0
       },
@@ -4648,30 +4222,6 @@
         "image": "https://cards.scryfall.io/normal/front/2/7/277eed87-6b78-456d-91fb-774c72b3ae8c.jpg?1783942775",
         "scryfallUri": "https://scryfall.com/card/mor/142/diviners-wand?utm_source=api",
         "priceUsd": 0.33,
-        "isNew": false,
-        "delta": 0
-      },
-      {
-        "name": "Dominate",
-        "manaCost": "{X}{1}{U}{U}",
-        "qty": 1,
-        "group": "Instant",
-        "cmc": 3,
-        "image": "https://cards.scryfall.io/normal/front/b/9/b9cfd7fc-22a5-4f21-bebf-d4823db48841.jpg?1783938094",
-        "scryfallUri": "https://scryfall.com/card/c15/92/dominate?utm_source=api",
-        "priceUsd": 0.53,
-        "isNew": false,
-        "delta": 0
-      },
-      {
-        "name": "Drana, Kalastria Bloodchief",
-        "manaCost": "{3}{B}{B}",
-        "qty": 1,
-        "group": "Creature",
-        "cmc": 5,
-        "image": "https://cards.scryfall.io/normal/front/2/c/2c58ce5e-b038-4376-a5f4-9849baa255b9.jpg?1783935907",
-        "scryfallUri": "https://scryfall.com/card/c17/112/drana-kalastria-bloodchief?utm_source=api",
-        "priceUsd": 0.51,
         "isNew": false,
         "delta": 0
       },
@@ -4695,7 +4245,19 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/6/e/6e01ec28-d815-47a8-ab0f-d383a4736ebe.jpg?1793021295",
         "scryfallUri": "https://scryfall.com/card/trc/527/evolving-wilds?utm_source=api",
-        "priceUsd": 0.29,
+        "priceUsd": 0.32,
+        "isNew": false,
+        "delta": 0
+      },
+      {
+        "name": "Exotic Orchard",
+        "manaCost": "",
+        "qty": 1,
+        "group": "Land",
+        "cmc": 0,
+        "image": "https://cards.scryfall.io/normal/front/0/a/0a4a51a3-fb8b-4611-8f94-fbcab547423c.jpg?1793021293",
+        "scryfallUri": "https://scryfall.com/card/trc/528/exotic-orchard?utm_source=api",
+        "priceUsd": 0.3,
         "isNew": false,
         "delta": 0
       },
@@ -4707,19 +4269,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/3/0/30250c4d-2c16-4d03-874e-aec39d8e72a9.jpg?1783909619",
         "scryfallUri": "https://scryfall.com/card/dsc/141/fate-unraveler?utm_source=api",
-        "priceUsd": 2.99,
-        "isNew": false,
-        "delta": 0
-      },
-      {
-        "name": "Fog Bank",
-        "manaCost": "{1}{U}",
-        "qty": 1,
-        "group": "Creature",
-        "cmc": 2,
-        "image": "https://cards.scryfall.io/normal/front/1/8/18748b1d-4161-482c-a726-8762b4c1819c.jpg?1783908934",
-        "scryfallUri": "https://scryfall.com/card/fdn/591/fog-bank?utm_source=api",
-        "priceUsd": 0.26,
+        "priceUsd": 3.12,
         "isNew": false,
         "delta": 0
       },
@@ -4731,7 +4281,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/e/7/e727bb9e-3510-4c8e-ac49-6d7217667a18.jpg?1783943158",
         "scryfallUri": "https://scryfall.com/card/plc/54/frozen-aether?utm_source=api",
-        "priceUsd": 1.41,
+        "priceUsd": 1.43,
         "isNew": false,
         "delta": 0
       },
@@ -4743,7 +4293,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/2/0/20332354-a294-4448-a66f-533e6b546df6.jpg?1783939651",
         "scryfallUri": "https://scryfall.com/card/c13/192/grixis-charm?utm_source=api",
-        "priceUsd": 0.17,
+        "priceUsd": 0.16,
         "isNew": false,
         "delta": 0
       },
@@ -4760,6 +4310,18 @@
         "delta": 0
       },
       {
+        "name": "Harmonic Prodigy",
+        "manaCost": "{1}{R}",
+        "qty": 1,
+        "group": "Creature",
+        "cmc": 2,
+        "image": "https://cards.scryfall.io/normal/front/6/3/63a565e3-d7a8-469d-898f-49fef634c107.jpg?1783903818",
+        "scryfallUri": "https://scryfall.com/card/soc/123/harmonic-prodigy?utm_source=api",
+        "priceUsd": 6.18,
+        "isNew": false,
+        "delta": 0
+      },
+      {
         "name": "Helm of the Ghastlord",
         "manaCost": "{3}{U/B}",
         "qty": 1,
@@ -4767,7 +4329,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/6/5/653dd5b7-1ad3-4df1-bd2a-4e6ae362a8a2.jpg?1783942732",
         "scryfallUri": "https://scryfall.com/card/shm/166/helm-of-the-ghastlord?utm_source=api",
-        "priceUsd": 7.64,
+        "priceUsd": 7.88,
         "isNew": false,
         "delta": 0
       },
@@ -4779,7 +4341,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/9/2/925d6ae9-deb8-41a4-99de-fd6fc6924d3b.jpg?1783939667",
         "scryfallUri": "https://scryfall.com/card/c13/113/incendiary-command?utm_source=api",
-        "priceUsd": 1.42,
+        "priceUsd": 1.37,
         "isNew": false,
         "delta": 0
       },
@@ -4791,7 +4353,7 @@
         "cmc": 8,
         "image": "https://cards.scryfall.io/normal/front/d/f/df8a0a8c-1953-46e6-9da5-b4c20909ce1c.jpg?1783915648",
         "scryfallUri": "https://scryfall.com/card/cmm/236/insurrection?utm_source=api",
-        "priceUsd": 15.56,
+        "priceUsd": 13.85,
         "isNew": false,
         "delta": 0
       },
@@ -4815,7 +4377,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/b/f/bfac9395-7ca5-48dd-ab83-7c26ada12f61.jpg?1783911875",
         "scryfallUri": "https://scryfall.com/card/otc/302/izzet-boilerworks?utm_source=api",
-        "priceUsd": 0.35,
+        "priceUsd": 0.36,
         "isNew": false,
         "delta": 0
       },
@@ -4839,7 +4401,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/d/5/d5e141ad-5cb8-416b-9acf-bce1baeb6b6b.jpg?1789599844",
         "scryfallUri": "https://scryfall.com/card/frc/58/izzet-signet?utm_source=api",
-        "priceUsd": 0.33,
+        "priceUsd": 0.31,
         "isNew": false,
         "delta": 0
       },
@@ -4851,7 +4413,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/3/c/3c21df8e-a24f-4ce1-aa8a-1467f9f9423a.jpg?1783938093",
         "scryfallUri": "https://scryfall.com/card/c15/95/jaces-archivist?utm_source=api",
-        "priceUsd": 7.25,
+        "priceUsd": 7.24,
         "isNew": false,
         "delta": 0
       },
@@ -4875,7 +4437,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/d/d/dd420010-6eaf-4853-8b7b-11de1157416b.jpg?1783924965",
         "scryfallUri": "https://scryfall.com/card/voc/107/kami-of-the-crescent-moon?utm_source=api",
-        "priceUsd": 8.18,
+        "priceUsd": 7.45,
         "isNew": false,
         "delta": 0
       },
@@ -4899,7 +4461,19 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/6/5/659ef698-96ea-4fa9-b63c-0da93a2d1e78.jpg?1793197566",
         "scryfallUri": "https://scryfall.com/card/trc/496/lightning-greaves?utm_source=api",
-        "priceUsd": 2.58,
+        "priceUsd": 3.08,
+        "isNew": false,
+        "delta": 0
+      },
+      {
+        "name": "Mana Sculpt",
+        "manaCost": "{1}{U}{U}",
+        "qty": 1,
+        "group": "Instant",
+        "cmc": 3,
+        "image": "https://cards.scryfall.io/normal/front/2/0/200c8e3d-c53b-40c7-a29a-fccc1281bfc6.jpg?1783903688",
+        "scryfallUri": "https://scryfall.com/card/sos/57/mana-sculpt?utm_source=api",
+        "priceUsd": 0.88,
         "isNew": false,
         "delta": 0
       },
@@ -4911,7 +4485,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/a/d/adf081d5-e644-4f46-8bc8-a754b089acb4.jpg?1783941067",
         "scryfallUri": "https://scryfall.com/card/m12/150/manabarbs?utm_source=api",
-        "priceUsd": 5.08,
+        "priceUsd": 4.98,
         "isNew": false,
         "delta": 0
       },
@@ -4923,7 +4497,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/d/8/d80eb098-5433-4b1e-aad5-0fd31bf598dd.jpg?1783921384",
         "scryfallUri": "https://scryfall.com/card/dmc/217/mikokoro-center-of-the-sea?utm_source=api",
-        "priceUsd": 4.91,
+        "priceUsd": 4.99,
         "isNew": false,
         "delta": 0
       },
@@ -4935,7 +4509,7 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/c/c/ccacc197-7c22-444d-8e6e-950dca63eb2c.jpg?1783915694",
         "scryfallUri": "https://scryfall.com/card/cmm/105/minds-aglow?utm_source=api",
-        "priceUsd": 1.43,
+        "priceUsd": 1.35,
         "isNew": false,
         "delta": 0
       },
@@ -4947,7 +4521,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/a/3/a3e6784b-78e8-4f0b-8d27-d49c7cea9252.jpg?1783935545",
         "scryfallUri": "https://scryfall.com/card/ima/67/mnemonic-wall?utm_source=api",
-        "priceUsd": 0.22,
+        "priceUsd": 0.19,
         "isNew": false,
         "delta": 0
       },
@@ -4971,7 +4545,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/5/7/57e2382d-1f27-40d1-b809-c188c19ebc72.jpg?1783941723",
         "scryfallUri": "https://scryfall.com/card/som/98/molten-psyche?utm_source=api",
-        "priceUsd": 4.53,
+        "priceUsd": 4.6,
         "isNew": false,
         "delta": 0
       },
@@ -5000,6 +4574,18 @@
         "delta": 0
       },
       {
+        "name": "Nightscape Familiar",
+        "manaCost": "{1}{B}",
+        "qty": 1,
+        "group": "Creature",
+        "cmc": 2,
+        "image": "https://cards.scryfall.io/normal/front/4/c/4cf1918f-ad58-4f62-bd8c-649919de0e75.jpg?1783918474",
+        "scryfallUri": "https://scryfall.com/card/dmr/94/nightscape-familiar?utm_source=api",
+        "priceUsd": 0.4,
+        "isNew": false,
+        "delta": 0
+      },
+      {
         "name": "Niv-Mizzet, the Firemind",
         "manaCost": "{2}{U}{U}{R}{R}",
         "qty": 1,
@@ -5007,7 +4593,7 @@
         "cmc": 6,
         "image": "https://cards.scryfall.io/normal/front/3/9/395465b8-f5ed-4668-9e6a-82257150c52c.jpg?1783931145",
         "scryfallUri": "https://scryfall.com/card/c20/225/niv-mizzet-the-firemind?utm_source=api",
-        "priceUsd": 1.08,
+        "priceUsd": 1.15,
         "isNew": false,
         "delta": 0
       },
@@ -5024,6 +4610,30 @@
         "delta": 0
       },
       {
+        "name": "Ob Nixilis, Captive Kingpin",
+        "manaCost": "{2}{B}{R}",
+        "qty": 1,
+        "group": "Creature",
+        "cmc": 4,
+        "image": "https://cards.scryfall.io/normal/front/d/d/ddb68233-3683-41bd-9b6e-4f07a1b54244.jpg?1783916511",
+        "scryfallUri": "https://scryfall.com/card/mat/41/ob-nixilis-captive-kingpin?utm_source=api",
+        "priceUsd": 15.56,
+        "isNew": false,
+        "delta": 0
+      },
+      {
+        "name": "Ob Nixilis, the Hate-Twisted",
+        "manaCost": "{3}{B}{B}",
+        "qty": 1,
+        "group": "Planeswalker",
+        "cmc": 5,
+        "image": "https://cards.scryfall.io/normal/front/1/4/14916e2d-73af-4747-a927-d2d4cb3e32db.jpg?1783933441",
+        "scryfallUri": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api",
+        "priceUsd": 0.57,
+        "isNew": false,
+        "delta": 0
+      },
+      {
         "name": "Opal Palace",
         "manaCost": "",
         "qty": 1,
@@ -5031,19 +4641,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/9/1/912553e7-1e67-4045-84fd-0a791754cf6c.jpg?1783903726",
         "scryfallUri": "https://scryfall.com/card/soc/390/opal-palace?utm_source=api",
-        "priceUsd": 0.29,
-        "isNew": false,
-        "delta": 0
-      },
-      {
-        "name": "Opportunity",
-        "manaCost": "{4}{U}{U}",
-        "qty": 1,
-        "group": "Instant",
-        "cmc": 6,
-        "image": "https://cards.scryfall.io/normal/front/2/2/2237063a-2c2a-44fc-9103-c6e5db171ae5.jpg?1783908762",
-        "scryfallUri": "https://scryfall.com/card/j25/338/opportunity?utm_source=api",
-        "priceUsd": 0.28,
+        "priceUsd": 0.31,
         "isNew": false,
         "delta": 0
       },
@@ -5055,7 +4653,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/4/6/46e4aa67-4643-42ff-8172-200498686494.jpg?1783940651",
         "scryfallUri": "https://scryfall.com/card/avr/219/otherworld-atlas?utm_source=api",
-        "priceUsd": 1.44,
+        "priceUsd": 1.38,
         "isNew": false,
         "delta": 0
       },
@@ -5067,7 +4665,7 @@
         "cmc": 7,
         "image": "https://cards.scryfall.io/normal/front/9/7/97f536be-7836-4c9a-befc-94590e602f26.jpg?1783939673",
         "scryfallUri": "https://scryfall.com/card/c13/89/price-of-knowledge?utm_source=api",
-        "priceUsd": 2.25,
+        "priceUsd": 2.37,
         "isNew": false,
         "delta": 0
       },
@@ -5079,7 +4677,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/a/c/ac943e31-26bc-4b54-b73f-460e6e402d86.jpg?1783903239",
         "scryfallUri": "https://scryfall.com/card/msc/151/propaganda?utm_source=api",
-        "priceUsd": 2.87,
+        "priceUsd": 3.13,
         "isNew": false,
         "delta": 0
       },
@@ -5103,7 +4701,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/d/0/d0f42a19-c180-45b1-9f4c-787cf3a4a649.jpg?1783912973",
         "scryfallUri": "https://scryfall.com/card/mkc/234/psychosis-crawler?utm_source=api",
-        "priceUsd": 2.34,
+        "priceUsd": 2.18,
         "isNew": false,
         "delta": 0
       },
@@ -5115,7 +4713,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/2/0/20c799a9-ab94-46e6-9111-00505e071c41.jpg?1783904522",
         "scryfallUri": "https://scryfall.com/card/ecc/161/rakdos-carnarium?utm_source=api",
-        "priceUsd": 0.4,
+        "priceUsd": 0.38,
         "isNew": false,
         "delta": 0
       },
@@ -5127,7 +4725,19 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/e/1/e1f01964-c610-4d0f-a2b4-f52e46dc50d2.jpg?1783908899",
         "scryfallUri": "https://scryfall.com/card/fdn/693/rakdos-guildgate?utm_source=api",
-        "priceUsd": 0.18,
+        "priceUsd": 0.22,
+        "isNew": false,
+        "delta": 0
+      },
+      {
+        "name": "Reforge the Soul",
+        "manaCost": "{3}{R}{R}",
+        "qty": 1,
+        "group": "Sorcery",
+        "cmc": 5,
+        "image": "https://cards.scryfall.io/normal/front/1/c/1c3509c6-2ae7-45be-8ac9-4d14d69db32f.jpg?1783908117",
+        "scryfallUri": "https://scryfall.com/card/inr/167/reforge-the-soul?utm_source=api",
+        "priceUsd": 6.13,
         "isNew": false,
         "delta": 0
       },
@@ -5139,7 +4749,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/1/3/13caa07e-3b72-4ee2-92c6-f119d02341f9.jpg?1793112056",
         "scryfallUri": "https://scryfall.com/card/trc/551/reliquary-tower?utm_source=api",
-        "priceUsd": 1.64,
+        "priceUsd": 2.09,
         "isNew": false,
         "delta": 0
       },
@@ -5151,7 +4761,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/9/f/9f37c5b6-a59c-45cd-9a99-e9357fe9ea1b.jpg?1783919146",
         "scryfallUri": "https://scryfall.com/card/j22/114/rhystic-study?utm_source=api",
-        "priceUsd": 68.08,
+        "priceUsd": 68.2,
         "isNew": false,
         "delta": 0
       },
@@ -5163,7 +4773,7 @@
         "cmc": 5,
         "image": "https://cards.scryfall.io/normal/front/e/1/e1e61750-f7d7-4e6d-9d68-e1e357868a8d.jpg?1783944308",
         "scryfallUri": "https://scryfall.com/card/chk/143/seizan-perverter-of-truth?utm_source=api",
-        "priceUsd": 1.79,
+        "priceUsd": 1.76,
         "isNew": false,
         "delta": 0
       },
@@ -5175,7 +4785,7 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/1/3/13063520-6e2f-4eaa-b84f-a38e5bf486f8.jpg?1783940777",
         "scryfallUri": "https://scryfall.com/card/ddi/25/sigil-of-sleep?utm_source=api",
-        "priceUsd": 9.23,
+        "priceUsd": 9.22,
         "isNew": false,
         "delta": 0
       },
@@ -5187,7 +4797,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/b/6/b6ef8e44-3b40-46c2-973e-8f857126a13e.jpg?1783939680",
         "scryfallUri": "https://scryfall.com/card/c13/57/skyscribing?utm_source=api",
-        "priceUsd": 0.56,
+        "priceUsd": 0.55,
         "isNew": false,
         "delta": 0
       },
@@ -5199,7 +4809,7 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/f/c/fc817e07-c1f3-469f-9cf7-0945dea7400f.jpg?1793021181",
         "scryfallUri": "https://scryfall.com/card/trc/499/sol-ring?utm_source=api",
-        "priceUsd": 0.91,
+        "priceUsd": 1.15,
         "isNew": false,
         "delta": 0
       },
@@ -5211,7 +4821,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/d/a/daafd816-f7c1-4630-9e5c-a1e5db570a35.jpg?1783903212",
         "scryfallUri": "https://scryfall.com/card/msc/215/solemn-simulacrum?utm_source=api",
-        "priceUsd": 0.5,
+        "priceUsd": 0.39,
         "isNew": false,
         "delta": 0
       },
@@ -5223,7 +4833,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/3/b/3be610eb-790f-4f47-a92a-34fe704cc8e0.jpg?1783909589",
         "scryfallUri": "https://scryfall.com/card/dsc/233/spiteful-visions?utm_source=api",
-        "priceUsd": 1.4,
+        "priceUsd": 1.63,
         "isNew": false,
         "delta": 0
       },
@@ -5247,7 +4857,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/7/3/73514b51-6c19-4b3c-9cf9-2cf5028d7708.jpg?1783927806",
         "scryfallUri": "https://scryfall.com/card/tsr/144/sudden-spoiling?utm_source=api",
-        "priceUsd": 5.13,
+        "priceUsd": 4.14,
         "isNew": false,
         "delta": 0
       },
@@ -5271,7 +4881,7 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/3/b/3b69b12e-ef29-455c-8939-eacf44c6c3f6.jpg?1793021194",
         "scryfallUri": "https://scryfall.com/card/trc/501/swiftfoot-boots?utm_source=api",
-        "priceUsd": 1.26,
+        "priceUsd": 1.61,
         "isNew": false,
         "delta": 0
       },
@@ -5288,18 +4898,6 @@
         "delta": 0
       },
       {
-        "name": "Temple of the False God",
-        "manaCost": "",
-        "qty": 1,
-        "group": "Land",
-        "cmc": 0,
-        "image": "https://cards.scryfall.io/normal/front/c/d/cd5e9799-00e1-41a9-b5b9-5d5164c71561.jpg?1793281644",
-        "scryfallUri": "https://scryfall.com/card/trc/570/temple-of-the-false-god?utm_source=api",
-        "priceUsd": 0.36,
-        "isNew": false,
-        "delta": 0
-      },
-      {
         "name": "Terminate",
         "manaCost": "{B}{R}",
         "qty": 1,
@@ -5307,19 +4905,19 @@
         "cmc": 2,
         "image": "https://cards.scryfall.io/normal/front/a/3/a3666439-e859-417b-b39e-5f14dbef81d8.jpg?1793197541",
         "scryfallUri": "https://scryfall.com/card/trc/481/terminate?utm_source=api",
-        "priceUsd": 0.32,
+        "priceUsd": 0.28,
         "isNew": false,
         "delta": 0
       },
       {
-        "name": "Thraximundar",
-        "manaCost": "{4}{U}{B}{R}",
+        "name": "Torbran, Thane of Red Fell",
+        "manaCost": "{1}{R}{R}{R}",
         "qty": 1,
         "group": "Creature",
-        "cmc": 7,
-        "image": "https://cards.scryfall.io/normal/front/0/e/0e7334eb-66c1-4410-966c-4e76c1b9e9a7.jpg?1783921801",
-        "scryfallUri": "https://scryfall.com/card/2x2/287/thraximundar?utm_source=api",
-        "priceUsd": 1.13,
+        "cmc": 4,
+        "image": "https://cards.scryfall.io/normal/front/7/9/79f591cd-d277-4ba5-b1bf-1c09cac9cb8a.jpg?1783932614",
+        "scryfallUri": "https://scryfall.com/card/eld/147/torbran-thane-of-red-fell?utm_source=api",
+        "priceUsd": 3.4,
         "isNew": false,
         "delta": 0
       },
@@ -5331,19 +4929,7 @@
         "cmc": 3,
         "image": "https://cards.scryfall.io/normal/front/0/3/03919c86-1c4a-43b0-a2db-54ca6ae1ac57.jpg?1783931557",
         "scryfallUri": "https://scryfall.com/card/thb/121/underworld-dreams?utm_source=api",
-        "priceUsd": 2.29,
-        "isNew": false,
-        "delta": 0
-      },
-      {
-        "name": "Uyo, Silent Prophet",
-        "manaCost": "{4}{U}{U}",
-        "qty": 1,
-        "group": "Creature",
-        "cmc": 6,
-        "image": "https://cards.scryfall.io/normal/front/5/0/50840915-545b-4de2-94bb-22a0b1e0dc7a.jpg?1783939679",
-        "scryfallUri": "https://scryfall.com/card/c13/64/uyo-silent-prophet?utm_source=api",
-        "priceUsd": 0.38,
+        "priceUsd": 1.98,
         "isNew": false,
         "delta": 0
       },
@@ -5360,30 +4946,6 @@
         "delta": 0
       },
       {
-        "name": "Venser's Journal",
-        "manaCost": "{5}",
-        "qty": 1,
-        "group": "Artifact",
-        "cmc": 5,
-        "image": "https://cards.scryfall.io/normal/front/d/2/d2877f52-b46f-4039-a72b-f1fcd024f032.jpg?1783927500",
-        "scryfallUri": "https://scryfall.com/card/c21/273/vensers-journal?utm_source=api",
-        "priceUsd": 7.06,
-        "isNew": false,
-        "delta": 0
-      },
-      {
-        "name": "Viseling",
-        "manaCost": "{4}",
-        "qty": 1,
-        "group": "Creature",
-        "cmc": 4,
-        "image": "https://cards.scryfall.io/normal/front/3/8/38a6105e-a67b-4805-b50c-dea404f60fac.jpg?1783939633",
-        "scryfallUri": "https://scryfall.com/card/c13/269/viseling?utm_source=api",
-        "priceUsd": 0.38,
-        "isNew": false,
-        "delta": 0
-      },
-      {
         "name": "Vivid Creek",
         "manaCost": "",
         "qty": 1,
@@ -5391,7 +4953,7 @@
         "cmc": 0,
         "image": "https://cards.scryfall.io/normal/front/c/9/c9082527-aa88-42f7-b2f2-de21878cb179.jpg?1783923181",
         "scryfallUri": "https://scryfall.com/card/ncc/444/vivid-creek?utm_source=api",
-        "priceUsd": 0.35,
+        "priceUsd": 0.34,
         "isNew": false,
         "delta": 0
       },
@@ -5415,7 +4977,31 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/7/c/7ccf086d-6ea2-4222-a7c1-325c22587ed6.jpg?1793021232",
         "scryfallUri": "https://scryfall.com/card/trc/511/wayfarers-bauble?utm_source=api",
-        "priceUsd": 0.3,
+        "priceUsd": 0.28,
+        "isNew": false,
+        "delta": 0
+      },
+      {
+        "name": "Wheel of Fate",
+        "manaCost": "",
+        "qty": 1,
+        "group": "Sorcery",
+        "cmc": 0,
+        "image": "https://cards.scryfall.io/normal/front/c/7/c7937e12-76d9-4030-a68c-7a93a3c852cb.jpg?1783927784",
+        "scryfallUri": "https://scryfall.com/card/tsr/198/wheel-of-fate?utm_source=api",
+        "priceUsd": 2.5,
+        "isNew": false,
+        "delta": 0
+      },
+      {
+        "name": "Whispering Madness",
+        "manaCost": "{2}{U}{B}",
+        "qty": 1,
+        "group": "Sorcery",
+        "cmc": 4,
+        "image": "https://cards.scryfall.io/normal/front/5/a/5a62cda0-34b2-42f0-83bd-c08eecf02fa4.jpg?1783937042",
+        "scryfallUri": "https://scryfall.com/card/c16/229/whispering-madness?utm_source=api",
+        "priceUsd": 3.1,
         "isNew": false,
         "delta": 0
       },
@@ -5427,7 +5013,7 @@
         "cmc": 4,
         "image": "https://cards.scryfall.io/normal/front/8/d/8d3dddfa-9579-42d7-867b-7e37b83b3eeb.jpg?1783928710",
         "scryfallUri": "https://scryfall.com/card/cmr/419/wild-ricochet?utm_source=api",
-        "priceUsd": 0.35,
+        "priceUsd": 0.38,
         "isNew": false,
         "delta": 0
       },
@@ -5451,19 +5037,19 @@
         "cmc": 1,
         "image": "https://cards.scryfall.io/normal/front/3/f/3f09e393-7318-43eb-95f8-0f2797a771d7.jpg?1783942941",
         "scryfallUri": "https://scryfall.com/card/me1/111/winds-of-change?utm_source=api",
-        "priceUsd": 3.24,
+        "priceUsd": 3,
         "isNew": false,
         "delta": 0
       },
       {
-        "name": "Nightscape Familiar",
-        "manaCost": "{1}{B}",
+        "name": "Magus of the Wheel",
+        "manaCost": "{2}{R}",
         "qty": 1,
         "group": "Creature",
-        "cmc": 2,
-        "image": "https://cards.scryfall.io/normal/front/4/c/4cf1918f-ad58-4f62-bd8c-649919de0e75.jpg?1783918474",
-        "scryfallUri": "https://scryfall.com/card/dmr/94/nightscape-familiar?utm_source=api",
-        "priceUsd": 0.41,
+        "cmc": 3,
+        "image": "https://cards.scryfall.io/normal/front/0/e/0e952dd9-ef09-40f0-993f-eb3a1516616a.jpg?1783915649",
+        "scryfallUri": "https://scryfall.com/card/cmm/241/magus-of-the-wheel?utm_source=api",
+        "priceUsd": 1.16,
         "isNew": false,
         "delta": 0
       }
@@ -5503,7 +5089,7 @@
         "description": "Activate Sol Ring by tapping it, adding {C} {C}.\nCast the permanent that can be cast using {C} by paying its mana cost.\nHullbreaker Horror triggers, returning Sol Ring from the battlefield to your hand.\nCast Sol Ring by paying {1}. \nHullbreaker Horror triggers, returning the permanent cast in step 2 from the battlefield to your hand.\nRepeat.\nIf the permanent can be cast by paying {0}, this combo nets infinite colorless mana.",
         "bracketTag": "E",
         "url": "https://commanderspellbook.com/combo/513-5034--46/",
-        "popularity": 368508
+        "popularity": 370104
       },
       {
         "id": "542-5034",
@@ -5521,7 +5107,7 @@
         "description": "Cast Sol Ring by paying its mana cost.\nTidespout Tyrant triggers, returning a nontoken permanent that can be cast using {C} from the battlefield to your hand.\nActivate Sol Ring by tapping it, adding {C}{C}.\nCast the nontoken permanent returned in step 2 by paying its mana cost.\nTidespout Tyrant triggers, returning Sol Ring from the battlefield to your hand.\nRepeat.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/542-5034/",
-        "popularity": 38117
+        "popularity": 38184
       },
       {
         "id": "1561-2720",
@@ -5538,7 +5124,7 @@
         "description": "Cast Peer Into the Abyss targeting an opponent.\nThat player loses half their life and draws half their library.\nThey are then dealt damage by Underworld Dreams equal to the amount of cards they drew.\nThat player loses the game.",
         "bracketTag": "O",
         "url": "https://commanderspellbook.com/combo/1561-2720/",
-        "popularity": 36650
+        "popularity": 36799
       },
       {
         "id": "1561-2384",
@@ -5557,7 +5143,7 @@
         "description": "Cast Peer into the Abyss by paying {4}{B}{B}{B}, causing you to draw half your library and lose half your life total, rounding up each time.\nPsychosis Crawler triggers for each card you drew, causing each opponent to lose life equal to the number of cards you drew.",
         "bracketTag": "P",
         "url": "https://commanderspellbook.com/combo/1561-2384/",
-        "popularity": 31492
+        "popularity": 31600
       },
       {
         "id": "1089-4971",
@@ -5576,7 +5162,7 @@
         "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to any target.\nCuriosity triggers, allowing you to draw a card.\nRepeat from step 2.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/1089-4971/",
-        "popularity": 26426
+        "popularity": 26404
       },
       {
         "id": "4971-6092",
@@ -5595,7 +5181,7 @@
         "description": "Draw a card.\nNiv-Mizzet, the Firemind triggers, dealing 1 damage to an opponent.\nNiv-Mizzet, Visionary triggers, causing you to draw a card.\nRepeat from step 2.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/4971-6092/",
-        "popularity": 23157
+        "popularity": 23048
       },
       {
         "id": "1561-1972",
@@ -5615,7 +5201,24 @@
         "description": "Cast Peer into the Abyss by paying {4}{B}{B}{B}, causing an opponent to draw cards equal to half their library and causing them to lose half their life total, rounded up.\nNekusar triggers for each card drawn this way.\nResolve the first trigger, dealing 1 damage to the opponent.\nIf the opponent has 0 or less life, the opponent loses the game due to having zero or less life.\nRepeat from step 3 for each remaining trigger and/or until the opponent loses the game.",
         "bracketTag": "P",
         "url": "https://commanderspellbook.com/combo/1561-1972/",
-        "popularity": 18112
+        "popularity": 18159
+      },
+      {
+        "id": "1561-5165",
+        "cards": [
+          "Ob Nixilis, the Hate-Twisted",
+          "Peer into the Abyss"
+        ],
+        "missing": [
+          "Peer into the Abyss"
+        ],
+        "produces": [
+          "Target player loses the game"
+        ],
+        "description": "With Ob Nixilis, the Hate-Twisted on the battlefield, cast Peer into the Abyss targeting an opponent.\nPeer into the Abyss would resolve (with card draw and life loss rounded up in instances of odd number of cards or life), and then the static ability on Ob Nixilis, the Hate-Twisted dealing damage for each card drawn.",
+        "bracketTag": "O",
+        "url": "https://commanderspellbook.com/combo/1561-5165/",
+        "popularity": 17085
       },
       {
         "id": "2384-6574",
@@ -5634,7 +5237,7 @@
         "description": "Draw a card.\nPsychosis Crawler triggers, causing each opponent to lose 1 life.\nKefka triggers, causing you to draw a card.\nRepeat from step 2.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/2384-6574/",
-        "popularity": 15274
+        "popularity": 15365
       },
       {
         "id": "2396-4971",
@@ -5653,7 +5256,7 @@
         "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to an opponent.\nOphidian Eye triggers, allowing you to draw a card.\nRepeat from step 2.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/2396-4971/",
-        "popularity": 13676
+        "popularity": 13673
       },
       {
         "id": "406-4971",
@@ -5672,7 +5275,7 @@
         "description": "Activate Niv-Mizzet's ability to draw a card.\nNiv-Mizzet triggers, dealing 1 damage to target opponent.\nWhen Niv-Mizzet deals damage, its ability from Tandem Lookout triggers, causing you to draw a card.\nRepeat from step 2.\nTo end the loop and stop yourself drawing from an empty library, choose any target besides an opponent in step 2.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/406-4971/",
-        "popularity": 11884
+        "popularity": 11883
       },
       {
         "id": "953-2384",
@@ -5691,7 +5294,26 @@
         "description": "Cast Enter the Infinite by paying {8}{U}{U}{U}{U}, causing you to draw your library and then put a card on top of your library.\nPsychosis Crawler triggers for each card drawn, causing each opponent to lose that much life.",
         "bracketTag": "C",
         "url": "https://commanderspellbook.com/combo/953-2384/",
-        "popularity": 9743
+        "popularity": 9808
+      },
+      {
+        "id": "2390-4166",
+        "cards": [
+          "Ob Nixilis, Captive Kingpin",
+          "All Will Be One"
+        ],
+        "missing": [
+          "All Will Be One"
+        ],
+        "produces": [
+          "Exile your library",
+          "Infinite +1/+1 counters on a creature",
+          "Infinite damage"
+        ],
+        "description": "Cause an opponent to lose 1 life.\nOb Nixilis triggers, putting a +1/+1 counter on itself and exiling the top card of your library.\nAll Will Be One triggers, dealing 1 damage to an opponent.\nRepeat from step 2.",
+        "bracketTag": "S",
+        "url": "https://commanderspellbook.com/combo/2390-4166/",
+        "popularity": 8933
       },
       {
         "id": "700-4971",
@@ -5709,7 +5331,7 @@
         "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to Body of Knowledge.\nBody of Knowledge triggers, drawing you a card.\nRepeat.\nBreak the loop by damaging a different target with Niv-Mizzet.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/700-4971/",
-        "popularity": 5183
+        "popularity": 5192
       },
       {
         "id": "790-1972-4651",
@@ -5727,7 +5349,7 @@
         "description": "Cast Windfall by paying {2}{U}, causing each player to discard their hand and then draw a number of cards equal to the greatest number of cards a player discarded this way.\nNekusar triggers for each card drawn this way, giving each opponent a poison counter for each card they drew.\nEach opponent loses the game due to having ten or more poison counters",
         "bracketTag": "E",
         "url": "https://commanderspellbook.com/combo/790-1972-4651/",
-        "popularity": 5162
+        "popularity": 5178
       },
       {
         "id": "4971-6574",
@@ -5746,7 +5368,7 @@
         "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to an opponent.\nKefka triggers, causing you to draw a card.\nRepeat from step 2.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/4971-6574/",
-        "popularity": 4420
+        "popularity": 4435
       },
       {
         "id": "876-4944",
@@ -5763,7 +5385,7 @@
         "description": "Activate Lightning Greaves's equip ability by paying {0}, targeting any creature you control except the creature that has Lightning Greaves attached.\nCrackdown Construct triggers, giving it +1/+1 until end of turn.\nResolve Lightning Greaves's equip ability.\nRepeat.",
         "bracketTag": "O",
         "url": "https://commanderspellbook.com/combo/876-4944/",
-        "popularity": 3996
+        "popularity": 4034
       },
       {
         "id": "790-2152-4651",
@@ -5781,7 +5403,26 @@
         "description": "Cast Windfall by paying {2}{U}, causing each player to discard their hand and then draw a number of cards equal to the greatest number of cards a player discarded this way.\nFate Unraveler triggers for each card drawn this way, giving each opponent a poison counter for each card they drew.\nEach opponent loses the game due to having ten or more poison counters",
         "bracketTag": "E",
         "url": "https://commanderspellbook.com/combo/790-2152-4651/",
-        "popularity": 3893
+        "popularity": 3906
+      },
+      {
+        "id": "4166-7362",
+        "cards": [
+          "Casey Jones, Back Alley Brute",
+          "Ob Nixilis, Captive Kingpin"
+        ],
+        "missing": [
+          "Casey Jones, Back Alley Brute"
+        ],
+        "produces": [
+          "Exile your library with the ability to play the exiled cards until end of turn",
+          "Infinite +1/+1 counters on a creature",
+          "Infinite damage"
+        ],
+        "description": "Declare Casey as an attacker, triggering its first ability, putting a +1/+1 counter on it.\nCasey's second ability triggers, dealing 1 damage to an opponent.\nOb Nixilis triggers, putting a +1/+1 counter on it and exiling the top card of your library with the ability to play it until your end step.\nRepeat from step 2.",
+        "bracketTag": "R",
+        "url": "https://commanderspellbook.com/combo/4166-7362/",
+        "popularity": 3141
       },
       {
         "id": "5941-6790",
@@ -5798,172 +5439,119 @@
         "description": "Cast any instant or sorcery by paying its mana cost.\nHolding priority, activate Pyromancer's Goggles by tapping it, adding {R}.\nCast Wild Ricochet by paying its mana cost, targeting the instant or sorcery cast in step 1.\nPyromancer's Goggles triggers, copying Wild Ricochet, with the copy targeting the original Wild Ricochet.\nResolve the copy of Wild Ricochet, creating a copy of Wild Ricochet targeting the original Wild Ricochet.\nRepeat step 5.",
         "bracketTag": "E",
         "url": "https://commanderspellbook.com/combo/5941-6790/",
-        "popularity": 3078
-      },
-      {
-        "id": "4067-4857",
-        "cards": [
-          "Mind Over Matter",
-          "Temple Bell"
-        ],
-        "missing": [
-          "Mind Over Matter"
-        ],
-        "produces": [
-          "Infinite looting",
-          "Infinite self-discard triggers",
-          "Infinite draw triggers",
-          "Near-infinite card draw for each opponent",
-          "Near-infinite draw triggers for each opponent"
-        ],
-        "description": "Activate Temple Bell by tapping it, causing each player to draw a card.\nActivate Mind Over Matter by discarding a card, untapping Temple Bell.\nRepeat.",
-        "bracketTag": "R",
-        "url": "https://commanderspellbook.com/combo/4067-4857/",
-        "popularity": 2948
-      },
-      {
-        "id": "3141-4067",
-        "cards": [
-          "Jace's Archivist",
-          "Mind Over Matter"
-        ],
-        "missing": [
-          "Mind Over Matter"
-        ],
-        "produces": [
-          "Infinite draw triggers for all players",
-          "Infinite rummaging for all players",
-          "Infinite self-discard triggers for all players",
-          "Near-infinite mana permanents you control can produce"
-        ],
-        "description": "Activate any mana-producing permanent you control by tapping it, adding {U}.\nActivate Jace's Archivist by paying {U} and tapping it, causing each player to discard their hand and draw cards equal to the greatest number of cards discarded this way.\nActivate Mind over Matter twice by discarding two cards, untapping Jace's Archivist and the mana-producing permanent.\nRepeat.",
-        "bracketTag": "S",
-        "url": "https://commanderspellbook.com/combo/3141-4067/",
-        "popularity": 2562
-      },
-      {
-        "id": "11-5941",
-        "cards": [
-          "Narset's Reversal",
-          "Wild Ricochet"
-        ],
-        "missing": [
-          "Narset's Reversal"
-        ],
-        "produces": [
-          "Infinite magecraft triggers"
-        ],
-        "description": "Cast any instant or sorcery by paying its mana cost.\nHolding priority, cast Wild Ricochet by paying its mana cost, targeting the instant or sorcery cast in step 1.\nCast Narset's Reversal by paying {U}{U}, copying Wild Ricochet targeting the spell cast in step 1 and returning the original Wild Ricochet to your hand.\nCast Wild Ricochet by paying its mana cost, copying the copy of Wild Ricochet, targeting the copy of Wild Ricochet.\nResolve the copy of Wild Ricochet, creating a copy of Wild Ricochet targeting the copy of Wild Ricochet.\nRepeat step 5.",
-        "bracketTag": "E",
-        "url": "https://commanderspellbook.com/combo/11-5941/",
-        "popularity": 2474
+        "popularity": 3087
       }
     ]
   },
   "howToPlay": {
     "original": {
-      "summary": "[[Nekusar, the Mindrazer]] turns opponents’ extra cards into damage, making generous draws surprisingly unfriendly. Stack draw punishers, then use [[Windfall]] and [[Prosperity]] to burn down the table.",
+      "summary": "The deck forces everyone to draw extra cards, then turns those draws into damage with [[Nekusar, the Mindrazer]] and similar punishers, closing games with big symmetric draws and wheel effects.",
       "early": [
-        "Use [[Sol Ring]], [[Dimir Signet]], or [[Wayfarer's Bauble]] to prepare for [[Nekusar, the Mindrazer]].",
-        "[[Nightscape Familiar]] discounts [[Nekusar, the Mindrazer]] and your blue or red draw spells.",
-        "Establish [[Propaganda]] before your extra draws give opponents more creatures to attack with."
+        "Ramp with [[Sol Ring]] and [[Arcane Signet]] so [[Nekusar, the Mindrazer]] lands early.",
+        "Play [[Kami of the Crescent Moon]] and [[Seizan, Perverter of Truth]] to start the bleeding.",
+        "Protect your commander with [[Lightning Greaves]] or [[Swiftfoot Boots]] before opponents can target it."
       ],
       "mid": [
-        "Cast [[Nekusar, the Mindrazer]] before activating [[Temple Bell]] or casting [[Windfall]].",
-        "Add [[Fate Unraveler]] or [[Underworld Dreams]] to make every opposing draw hurt more.",
-        "Enchant [[Nekusar, the Mindrazer]] with [[Sigil of Sleep]] to bounce creatures whenever opponents draw."
+        "Refill everyone's hands with [[Windfall]] and [[Reforge the Soul]] while your enchantments tax each draw.",
+        "Stack [[Underworld Dreams]] and [[Fate Unraveler]] so every opponent draw hurts twice.",
+        "Use [[Jace's Archivist]] alongside [[Lightning Greaves]] to reuse wheel effects repeatedly."
       ],
       "late": [
-        "From turn six onward, chain [[Windfall]] into [[Molten Psyche]] for a burst finish.",
-        "Cast [[Prosperity]] with [[Psychosis Crawler]] and [[Nekusar, the Mindrazer]] to punish both sides drawing."
+        "Cast a huge [[Prosperity]] or [[Minds Aglow]] to burn the whole table at once.",
+        "[[Psychosis Crawler]] turns your giant hand into a lethal attacker or a drain effect.",
+        "Finish with [[Insurrection]] when opponents' boards are bigger than yours."
       ],
       "winConditions": [
-        "[[Nekusar, the Mindrazer]] and [[Spiteful Visions]] deal six damage during each opponent’s normal draw step.",
-        "Enchant [[Niv-Mizzet, the Firemind]] with [[Helm of the Ghastlord]], then draw to loop damage.",
-        "[[Insurrection]] can finish opponents whose creatures survived your draw damage."
-      ],
-      "keyCards": [
-        {
-          "name": "Windfall",
-          "why": "It converts the largest hand into fresh cards and damage."
-        },
-        {
-          "name": "Jace's Archivist",
-          "why": "It repeatedly turns everyone’s hands into damaging draws."
-        },
-        {
-          "name": "Lightning Greaves",
-          "why": "It protects Nekusar or lets [[Jace's Archivist]] activate immediately."
-        },
-        {
-          "name": "Frozen Aether",
-          "why": "It makes creatures bounced by [[Sigil of Sleep]] return tapped."
-        },
-        {
-          "name": "Psychosis Crawler",
-          "why": "It makes your own draws drain every opponent."
-        }
-      ],
-      "mulligan": "Keep three lands covering your colors, [[Dimir Signet]] or [[Wayfarer's Bauble]], and an affordable setup card like [[Propaganda]].",
-      "watchOut": [
-        "Move [[Lightning Greaves]] away before targeting its wearer with [[Sigil of Sleep]].",
-        "[[Spiteful Visions]] and [[Manabarbs]] hurt you too, so track your life carefully.",
-        "Avoid feeding opponents with [[Kami of the Crescent Moon]] before establishing draw punishment."
-      ]
-    },
-    "optimized": {
-      "summary": "[[Nekusar, the Mindrazer]] turns opponents’ extra cards into damage, while wheels refill hands and multiply the pain. Win through repeated forced draws or [[Niv-Mizzet, the Firemind]] enchanted with [[Helm of the Ghastlord]].",
-      "early": [
-        "Use [[Arcane Signet]] and [[Dimir Signet]] to assemble [[Nekusar, the Mindrazer]]’s three colors.",
-        "Play tapped lands like [[Crumbling Necropolis]] before you need mana for [[Nekusar, the Mindrazer]].",
-        "Deploy [[Underworld Dreams]] or [[Razorkin Needlehead]] before giving opponents extra cards."
-      ],
-      "mid": [
-        "Cast [[Nekusar, the Mindrazer]], then use [[Swiftfoot Boots]] to protect your damage engine.",
-        "Follow [[Nekusar, the Mindrazer]] with [[Reforge the Soul]], ideally alongside [[Orcish Bowmasters]].",
-        "Equip [[Jace's Archivist]] with [[Lightning Greaves]] for immediate, repeatable hand resets."
-      ],
-      "late": [
-        "Follow [[Windfall]] with [[Molten Psyche]], checking that three artifacts enable its extra damage.",
-        "Save [[Niv-Mizzet, the Firemind]] plus [[Helm of the Ghastlord]] for turn six onward.",
-        "Cast [[Prosperity]] with [[Psychosis Crawler]] to punish opponents for your draws too."
-      ],
-      "winConditions": [
-        "Combine [[Nekusar, the Mindrazer]], [[Underworld Dreams]], and repeated wheels to burn down opponents.",
-        "Pair [[Teferi's Puzzle Box]] with [[Fate Unraveler]] to repeatedly punish large hands.",
-        "Enchant [[Niv-Mizzet, the Firemind]] with [[Helm of the Ghastlord]] to chain lethal draw-triggered damage."
+        "[[Nekusar, the Mindrazer]] plus [[Underworld Dreams]] drains opponents on every single draw.",
+        "[[Psychosis Crawler]] and [[Prosperity]] convert a huge symmetric draw into lethal life loss.",
+        "[[Niv-Mizzet, the Firemind]] with [[Helm of the Ghastlord]] draws endlessly and pings forever."
       ],
       "keyCards": [
         {
           "name": "Nekusar, the Mindrazer",
-          "why": "Supplies extra draws and damages opponents for every card drawn."
+          "why": "Your engine: every opponent draw costs them life."
+        },
+        {
+          "name": "Underworld Dreams",
+          "why": "Cheap redundant punishment for every opponent draw."
         },
         {
           "name": "Windfall",
-          "why": "Refills everyone’s hands, triggering your draw punishers repeatedly."
-        },
-        {
-          "name": "Orcish Bowmasters",
-          "why": "Turns opponents’ extra draws into targeted damage and Army growth."
-        },
-        {
-          "name": "Sigil of Sleep",
-          "why": "Lets Nekusar bounce opposing creatures whenever his draw damage connects."
+          "why": "Refills hands and converts draw punishment into damage."
         },
         {
           "name": "Psychosis Crawler",
-          "why": "Makes your own draws drain every opponent."
+          "why": "Turns your huge hand into damage and a big body."
         },
         {
-          "name": "Propaganda",
-          "why": "Taxes attackers while your draw engines attract attention."
+          "name": "Torbran, Thane of Red Fell",
+          "why": "Makes each red ping hurt considerably more."
+        },
+        {
+          "name": "Lightning Greaves",
+          "why": "Keeps your fragile commander alive and swinging immediately."
         }
       ],
-      "mulligan": "Keep three lands covering your colors, [[Arcane Signet]] or [[Nightscape Familiar]], and a draw punisher.",
+      "mulligan": "Keep lands, a mana rock, and at least one damage-on-draw permanent like [[Underworld Dreams]].",
       "watchOut": [
-        "[[Spiteful Visions]] and [[Manabarbs]] hurt you too, so watch your life before casting [[Prosperity]].",
-        "Move [[Lightning Greaves]] away before targeting [[Nekusar, the Mindrazer]] with [[Helm of the Ghastlord]].",
-        "[[Niv-Mizzet, the Firemind]] and [[Helm of the Ghastlord]] can exhaust your library before killing everyone."
+        "Your own [[Spiteful Visions]] and [[Manabarbs]] hurt you too, so plan around them.",
+        "Opponents may remove [[Nekusar, the Mindrazer]], so keep a backup like [[Fate Unraveler]] ready.",
+        "Wheels refill opponents' hands with removal, so timing matters more than raw speed."
+      ]
+    },
+    "optimized": {
+      "summary": "This deck makes everyone draw extra cards while [[Nekusar, the Mindrazer]] and pain enchantments burn them for it. Wheels like [[Windfall]] turn those draws into table-wide damage, finishing with [[Psychosis Crawler]] or [[Niv-Mizzet, the Firemind]].",
+      "early": [
+        "Play [[Sol Ring]] or [[Arcane Signet]] to land [[Nekusar, the Mindrazer]] ahead of schedule.",
+        "[[Nightscape Familiar]] makes your blue and red spells cheaper, including the commander.",
+        "Hold [[Propaganda]] to tax attackers while you set up draw punishment."
+      ],
+      "mid": [
+        "Cast [[Windfall]] or [[Reforge the Soul]] to burn everyone through [[Nekusar, the Mindrazer]].",
+        "[[Teferi's Puzzle Box]] with [[Underworld Dreams]] makes every draw step hurt badly.",
+        "Cipher [[Whispering Madness]] onto [[Vampire Nighthawk]] so each hit wheels again."
+      ],
+      "late": [
+        "Drop [[Torbran, Thane of Red Fell]] before a wheel to pile on extra damage.",
+        "[[Psychosis Crawler]] plus [[Prosperity]] drains the whole table in one big draw.",
+        "[[Niv-Mizzet, the Firemind]] with [[Helm of the Ghastlord]] keeps looping free draw triggers."
+      ],
+      "winConditions": [
+        "Repeated wheel effects with [[Nekusar, the Mindrazer]] and [[Underworld Dreams]] grind everyone down.",
+        "[[Niv-Mizzet, the Firemind]] enchanted by [[Helm of the Ghastlord]] loops infinite draw triggers.",
+        "[[Psychosis Crawler]] with [[Prosperity]] or [[Skyscribing]] drains all opponents at once."
+      ],
+      "keyCards": [
+        {
+          "name": "Nekusar, the Mindrazer",
+          "why": "Your engine: extra draws become damage to every opponent."
+        },
+        {
+          "name": "Teferi's Puzzle Box",
+          "why": "Forces painful repeated draws and refills hands for wheels."
+        },
+        {
+          "name": "Underworld Dreams",
+          "why": "Backup draw-punisher that stacks with the commander."
+        },
+        {
+          "name": "Torbran, Thane of Red Fell",
+          "why": "Multiplies every red damage trigger from your wheels."
+        },
+        {
+          "name": "Psychosis Crawler",
+          "why": "Turns your own big draws into opponent life loss."
+        },
+        {
+          "name": "Lightning Greaves",
+          "why": "Protects and hastens the commander and [[Jace's Archivist]]."
+        }
+      ],
+      "mulligan": "Keep two or three lands, a cheap rock like [[Sol Ring]], and one wheel or draw-pain permanent.",
+      "watchOut": [
+        "[[Nekusar, the Mindrazer]] is removal bait, so keep [[Lightning Greaves]] or [[Swiftfoot Boots]] ready.",
+        "Symmetric draw effects also hand opponents their answers, so avoid overextending into sweepers.",
+        "Life gain and damage prevention blank your plan; [[Leyline of Punishment]] turns that off."
       ]
     }
   }
