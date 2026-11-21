@@ -50,14 +50,10 @@
               <div aria-label="Speed" class="run-speeds" role="group">
                 <button aria-pressed="false" class="run-speed">
                   "1×"
-                <button aria-pressed="false" class="run-speed">
-                  "2×"
                 <button aria-pressed="true" class="run-speed">
+                  "2×"
+                <button aria-pressed="false" class="run-speed">
                   "4×"
-                <button aria-pressed="false" class="run-speed">
-                  "8×"
-                <button aria-pressed="false" class="run-speed">
-                  "16×"
             <div class="run-scrub">
               <svg aria-hidden="true" class="run-histogram" preserveAspectRatio="none" viewBox="0 0 120 30">
                 <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="0" y="27.857142857142858">

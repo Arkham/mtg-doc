@@ -20,7 +20,7 @@
             <h1>
               "Optimizing your deck"
           <strong aria-hidden="true" class="run-clock">
-            "00:28.5"
+            "00:27.0"
           <p aria-live="polite" class="run-now">
             "The doc is reviewing the swaps."
         <div class="run-chart">

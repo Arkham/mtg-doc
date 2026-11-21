@@ -66,7 +66,7 @@ test.describe("local app", () => {
     await expect(time).toContainText("00:00.1 /");
     await page.keyboard.press("Space");
     await expect(page.locator(".run-kicker")).toHaveText("Replay");
-    await page.getByRole("button", { name: "16×" }).click();
+    await page.getByRole("button", { name: "4×" }).click();
     await expect(page.locator(".run-summary")).toBeVisible();
     await expect(page.getByRole("link", { name: "See the optimized deck" })).toBeVisible();
     await page.getByRole("button", { name: "Back", exact: true }).click();

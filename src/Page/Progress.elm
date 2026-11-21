@@ -39,6 +39,14 @@ driftMs =
     1500
 
 
+{-| How far behind the run a live view plays: the server's events arrive before the moment they
+describe is shown, so everything moves from where it started instead of popping in late.
+-}
+delayMs : Float
+delayMs =
+    300
+
+
 {-| Where the run comes from: one going on now (a job), or a deck's saved last run.
 -}
 type Source
@@ -61,10 +69,13 @@ type alias Model =
     , run : Maybe RunRecord
     , error : Maybe String
 
-    -- The page's clock (ms), and what it read when the latest trace arrived: the chart moves on
-    -- between snapshots by itself.
+    -- The page's clock (ms); when, on it, the run started (as best the events tell); the moment
+    -- of the run shown live, which moves on every frame and never goes back; and the latest
+    -- run time the server reported.
     , now : Float
-    , received : Float
+    , origin : Maybe Float
+    , liveAt : Float
+    , reported : Float
     , selected : Maybe String
     , finished : Bool
     , look : Look
@@ -98,14 +109,19 @@ type Msg
     | Linger
 
 
+defaultSpeed : Float
+defaultSpeed =
+    2
+
+
 speeds : List Float
 speeds =
-    [ 1, 2, 4, 8, 16 ]
+    [ 1, 2, 4 ]
 
 
 blank : Source -> Model
 blank source =
-    { source = source, job = Nothing, run = Nothing, error = Nothing, now = 0, received = 0, selected = Nothing, finished = False, look = Map, playback = Nothing, stay = False }
+    { source = source, job = Nothing, run = Nothing, error = Nothing, now = 0, origin = Nothing, liveAt = 0, reported = 0, selected = Nothing, finished = False, look = Map, playback = Nothing, stay = False }
 
 
 {-| A run going on now.
@@ -138,7 +154,7 @@ update msg model =
             ( { model | error = Just e }, Cmd.none, False )
 
         GotRun (Ok run) ->
-            ( { model | run = Just run, playback = Just { at = 0, playing = True, speed = 4 } }, Cmd.none, False )
+            ( { model | run = Just run, playback = Just { at = 0, playing = True, speed = defaultSpeed } }, Cmd.none, False )
 
         GotRun (Err e) ->
             ( { model | error = Just e }, Cmd.none, False )
@@ -153,6 +169,7 @@ update msg model =
             in
             ( { model
                 | now = now
+                , liveAt = liveClock model now
                 , playback =
                     model.playback
                         |> Maybe.map
@@ -193,7 +210,7 @@ update msg model =
         Replay ->
             let
                 speed =
-                    model.playback |> Maybe.map .speed |> Maybe.withDefault 4
+                    model.playback |> Maybe.map .speed |> Maybe.withDefault defaultSpeed
             in
             ( { model | stay = True, playback = Just { at = 0, playing = True, speed = speed } }, Cmd.none, False )
 
@@ -345,7 +362,20 @@ arrived job model =
             justDone =
                 job.status == JobStatusDone && not model.finished
         in
-        ( { model | job = Just job, received = model.now, finished = model.finished || justDone }
+        ( { model
+            | job = Just job
+            , finished = model.finished || justDone
+
+            -- The event that took the least time to arrive tells best when the run started.
+            , origin =
+                case job.trace of
+                    Just t ->
+                        Just (min (Maybe.withDefault (model.now - t.elapsed) model.origin) (model.now - t.elapsed))
+
+                    Nothing ->
+                        model.origin
+            , reported = job.trace |> Maybe.map .elapsed |> Maybe.withDefault model.reported
+          }
         , if justDone then
             -- The finished chart, and what it adds up to, before the deck opens.
             Process.sleep lingerMs |> Task.perform (\_ -> Linger)
@@ -356,9 +386,55 @@ arrived job model =
         )
 
 
+{-| The live moment at the page's time `now`: the run's time a little behind the server's, moving
+on at the frame's pace, and catching up gently (never jumping back) when an event shows it's
+behind. It stops at the end of the run, or a little past the latest event while it goes on.
+-}
+liveClock : Model -> Float -> Float
+liveClock model now =
+    case ( model.origin, fullTrace model ) of
+        ( Just origin, Just trace ) ->
+            let
+                limit =
+                    if isLive model then
+                        model.reported + driftMs
+
+                    else
+                        trace.elapsed
+
+                target =
+                    min limit (now - origin - delayMs)
+
+                gap =
+                    target - model.liveAt
+            in
+            if gap > 2000 then
+                target
+
+            else if gap > 0 then
+                let
+                    dt =
+                        max 0 (now - model.now)
+                in
+                model.liveAt + min gap (dt * 1.25)
+
+            else
+                model.liveAt
+
+        _ ->
+            model.liveAt
+
+
+{-| Whether a live view still has a moment to move on to.
+-}
+catchingUp : Model -> Bool
+catchingUp model =
+    model.playback == Nothing && model.run == Nothing && (fullTrace model |> Maybe.map (\t -> model.liveAt < t.elapsed) |> Maybe.withDefault False)
+
+
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    if isLive model || (model.playback |> Maybe.map .playing |> Maybe.withDefault False) then
+    if isLive model || catchingUp model || (model.playback |> Maybe.map .playing |> Maybe.withDefault False) then
         Browser.Events.onAnimationFrame Frame
 
     else
@@ -367,18 +443,6 @@ subscriptions model =
 
 
 -- READING THE TRACE
-
-
-{-| The run's time now (ms since it started): the latest trace's, moved on by the page's clock
-while the run goes on, but only so far past it: the server sends one every second.
--}
-elapsed : Model -> Trace -> Bool -> Float
-elapsed model trace running =
-    if running then
-        trace.elapsed + clamp 0 driftMs (model.now - model.received)
-
-    else
-        trace.elapsed
 
 
 {-| The time the chart spans: at least 20s, and a little more than the run so far, so the "now"
@@ -529,7 +593,11 @@ moment model trace =
             pb.at
 
         Nothing ->
-            elapsed model trace (isLive model)
+            if model.run == Nothing then
+                min trace.elapsed model.liveAt
+
+            else
+                trace.elapsed
 
 
 {-| Whether the moment shown is the run's end, with everything it did.
@@ -712,12 +780,9 @@ chart env model full =
         t =
             moment model full
 
+        -- Live too: the run is shown a little behind the events, which may already say what's next.
         trace =
-            if model.playback == Nothing then
-                full
-
-            else
-                traceAt t full
+            traceAt t full
 
         ended =
             atEnd model full
@@ -818,13 +883,7 @@ runMap model trace =
                 else
                     []
                )
-            ++ (case model.playback of
-                    Just pb ->
-                        [ attribute "at" (String.fromFloat pb.at) ]
-
-                    Nothing ->
-                        []
-               )
+            ++ [ attribute "at" (String.fromFloat (moment model trace)) ]
             ++ (case model.selected of
                     Just name ->
                         [ attribute "selected" name ]

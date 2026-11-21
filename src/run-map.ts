@@ -3,13 +3,13 @@
  * outside services are stations along the bottom, and every request is a comet that flies from its
  * task to its service, circles there while it waits and flies back with the answer.
  *
- * Everything on it is a function of the trace and a moment, so the same drawing goes live (the
- * moment moves on between snapshots by itself) and shows any moment of a finished run.
+ * Everything on it is a function of the trace and a moment, which the page keeps (live, a little
+ * behind the server's events; or a replay's playhead) and moves on every frame: the map draws
+ * whatever moment it's given, in the same frame.
  *
- * Set `trace` (a `Trace`) as a property; attributes: `running` while the run goes on, `at` (ms) to
- * show a moment of a finished run rather than its end, and `selected` (a task's name) to light up
- * what it waits for and what waits for it. Fires `select` (detail: a task's name) when a task is
- * tapped.
+ * Set `trace` (a `Trace`) as a property; attributes: `at` (ms), the moment to show (the run's end
+ * without it); `running` while the run goes on; and `selected` (a task's name) to light up what it
+ * waits for and what waits for it. Fires `select` (detail: a task's name) when a task is tapped.
  */
 import type { Service, Trace, TraceRequest, TraceTask } from "../shared/types.ts";
 import { criticalEdges, depths, directNeeds, stateAt } from "./run-graph.ts";
@@ -29,7 +29,6 @@ const FONT = '-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui
 const MONO = 'ui-monospace, "SF Mono", Menlo, monospace';
 /** How long a comet takes to reach its service, or to come back. */
 const FLIGHT_MS = 420;
-const DRIFT_MS = 1500;
 
 interface Point {
   x: number;
@@ -155,17 +154,15 @@ const hash = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) |
 export class RunMap extends HTMLElement {
   static observedAttributes = ["running", "selected", "at"];
   #trace: Trace | null = null;
-  #received = 0;
   #canvas = document.createElement("canvas");
   #ctx = this.#canvas.getContext("2d")!;
   #layout: Layout | null = null;
-  #frame = 0;
+  #pending = false;
   #resize = new ResizeObserver(() => this.#relayout());
 
   set trace(trace: Trace) {
     const first = !this.#trace || this.#trace.tasks.length !== trace.tasks.length;
     this.#trace = trace;
-    this.#received = performance.now();
     if (first) this.#relayout();
     this.#wake();
   }
@@ -186,8 +183,6 @@ export class RunMap extends HTMLElement {
 
   disconnectedCallback() {
     this.#resize.disconnect();
-    cancelAnimationFrame(this.#frame);
-    this.#frame = 0;
   }
 
   attributeChangedCallback() {
@@ -200,12 +195,8 @@ export class RunMap extends HTMLElement {
 
   /** The moment the map shows. */
   #now(): number {
-    const trace = this.#trace!;
     const at = this.getAttribute("at");
-    if (at !== null) return Number(at);
-    // Only so far past the latest trace: the server sends one every second.
-    const drift = Math.min(DRIFT_MS, performance.now() - this.#received);
-    return this.#running ? trace.elapsed + drift : trace.elapsed;
+    return at === null ? this.#trace!.elapsed : Number(at);
   }
 
   #relayout() {
@@ -221,14 +212,14 @@ export class RunMap extends HTMLElement {
     this.#wake();
   }
 
-  /** Draws now, and keeps drawing while something on the map moves. */
+  /** Draws once whatever changed is in. */
   #wake() {
-    if (this.#frame || !this.isConnected) return;
-    this.#frame = requestAnimationFrame(() => {
-      this.#frame = 0;
-      if (!this.#trace || !this.#layout) return;
-      this.#draw(this.#now());
-      if (this.#running) this.#wake();
+    if (this.#pending || !this.isConnected) return;
+    this.#pending = true;
+    // After whatever else the page changes in this frame, and before it's painted.
+    queueMicrotask(() => {
+      this.#pending = false;
+      if (this.#trace && this.#layout) this.#draw(this.#now());
     });
   }
 
