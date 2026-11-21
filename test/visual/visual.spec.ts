@@ -357,6 +357,11 @@ test.describe("local app", () => {
     await page.getByRole("button", { name: /Ask the doc/ }).click();
     await expect(page.locator(".chat-rerun")).toBeVisible();
     await shot(page, "app-chat", { fullPage: false });
+    // An earlier reply, which names cards in its text.
+    await page
+      .locator(".chat-msg.assistant .chat-bubble", { hasText: "Simple edits always work" })
+      .evaluate((el) => el.scrollIntoView({ block: "center" }));
+    await shot(page, "app-chat-earlier", { fullPage: false });
   });
 
   test("empty chat", async ({ page }) => {

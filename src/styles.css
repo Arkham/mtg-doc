@@ -3254,16 +3254,23 @@ pre {
   border: 1px solid var(--line);
   border-bottom-left-radius: 4px;
 }
-/* Card names inside a bubble stay inline text but are marked as previewable. */
+/* Card names inside a bubble stay inline text, in the gold card names have everywhere else, with
+   an underline that says they open a preview. */
 .chat-bubble .card-name > a {
   display: inline;
-  color: inherit;
-  text-decoration: underline dotted var(--line-strong);
-  text-underline-offset: 2px;
+  color: var(--accent-hi);
+  text-decoration: underline dotted rgba(235, 200, 118, 0.6);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
 }
 .chat-bubble .card-name > a:hover {
-  color: var(--accent-hi);
+  text-decoration-style: solid;
   text-decoration-color: currentColor;
+}
+/* The user's own bubble is gold already: there, the underline carries it. */
+.chat-msg.user .chat-bubble .card-name > a {
+  color: inherit;
+  text-decoration-color: var(--accent);
 }
 .typing {
   display: inline-flex;
