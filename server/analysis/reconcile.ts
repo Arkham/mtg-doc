@@ -3,15 +3,18 @@
  * list must describe exactly how the current list differs from the submitted one.
  */
 import type {
+  BracketAssessment,
   BracketCombo,
   BracketReport,
   Card,
   Combo,
   DeckChange,
   DeckEdit,
+  ManaSuggestion,
   Swap,
 } from "../../shared/types.ts";
 import { isBasicLand } from "../sources/scryfall.ts";
+import type { BracketEstimate } from "../sources/spellbook.ts";
 import { type Deck, cloneDeck } from "./deck.ts";
 
 const counts = (deck: Deck) => {
@@ -283,4 +286,68 @@ export function fallbackCombos(
       c.cards.every((n) => c.missing.includes(n) || names.has(n)),
   );
   return { present, oneAway };
+}
+
+const namesIn = (deck: Deck) =>
+  new Set([...deck.commanders, ...deck.slots.map((s) => s.card)].map((c) => c.name));
+
+/**
+ * Commander Spellbook's bracket estimate as the last one had it, for a deck edited since: the
+ * cards it flagged and the combos it found, kept where the deck still has them. Good enough to
+ * check the bracket right after an edit, until a fresh estimate comes in.
+ */
+export function provisionalEstimate(
+  last: BracketAssessment | undefined,
+  deck: Deck,
+): BracketEstimate | null {
+  if (!last) return null;
+  const names = namesIn(deck);
+  const cards: BracketEstimate["cards"] = new Map();
+  const flag = (list: string[], key: "gameChanger" | "massLandDenial" | "extraTurn") => {
+    for (const name of list) {
+      const flags = cards.get(name) ?? {
+        gameChanger: false,
+        massLandDenial: false,
+        extraTurn: false,
+        banned: false,
+      };
+      cards.set(name, { ...flags, [key]: true });
+    }
+  };
+  flag(last.gameChangers, "gameChanger");
+  flag(last.massLandDenial, "massLandDenial");
+  flag(last.extraTurns, "extraTurn");
+  return {
+    tag: last.spellbookTag ?? "",
+    cards,
+    combos: last.combos
+      .filter((c) => c.cards.every((n) => names.has(n)))
+      .map((c) => ({
+        id: c.url,
+        cards: c.cards,
+        produces: c.produces,
+        definitelyTwoCard: c.twoCard,
+        arguablyTwoCard: false,
+        relevant: true,
+        lock: false,
+        extraTurn: false,
+        massLandDenial: false,
+        tag: c.tag,
+        url: c.url,
+      })),
+  };
+}
+
+/** Land swaps that can still be made: what they cut is in the deck, and what they add isn't. */
+export function applicableManaSuggestions(
+  suggestions: ManaSuggestion[] | undefined,
+  deck: Deck,
+): ManaSuggestion[] | undefined {
+  if (!suggestions) return suggestions;
+  const names = namesIn(deck);
+  return suggestions.filter((m) =>
+    m.changes.every((c) =>
+      c.action === "remove" ? names.has(c.name) : isBasicLand(c.name) || !names.has(c.name),
+    ),
+  );
 }

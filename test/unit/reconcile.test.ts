@@ -1,8 +1,17 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
-import type { BracketReport, DeckChange, DeckEdit, Swap } from "../../shared/types.ts";
+import type {
+  BracketAssessment,
+  BracketReport,
+  DeckChange,
+  DeckEdit,
+  ManaSuggestion,
+  Swap,
+} from "../../shared/types.ts";
 import { type Deck, cloneDeck } from "../../server/analysis/deck.ts";
 import {
+  applicableManaSuggestions,
+  provisionalEstimate,
   fallbackCombos,
   onSubmittedList,
   pinEdits,
@@ -387,6 +396,82 @@ describe("refreshBracketLists", () => {
     assert.deepEqual(
       next.excluded.map((e) => e.name),
       ["Mind Stone"],
+    );
+  });
+});
+
+describe("provisionalEstimate", () => {
+  const assessment = (extra: Partial<BracketAssessment> = {}): BracketAssessment => ({
+    bracket: 3,
+    spellbookTag: "P",
+    gameChangers: ["Rhystic Study"],
+    massLandDenial: ["Armageddon"],
+    extraTurns: [],
+    combos: [
+      {
+        cards: ["Combo A", "Combo B"],
+        produces: ["Infinite mana"],
+        twoCard: true,
+        tag: "P",
+        earlyPct: 3,
+        url: "https://example.test/ab",
+      },
+      {
+        cards: ["Combo A", "Cut Piece"],
+        produces: ["Infinite damage"],
+        twoCard: true,
+        tag: "R",
+        earlyPct: 1,
+        url: "https://example.test/ac",
+      },
+    ],
+    power: 50,
+    position: "mid",
+    checks: [],
+    ...extra,
+  });
+
+  test("keeps the last estimate's flags, and only the combos the edited deck still has", () => {
+    const deck = testDeck(37, [spell("Combo A"), spell("Combo B"), spell("Rhystic Study")]);
+    const est = provisionalEstimate(assessment(), deck)!;
+    assert.equal(est.tag, "P");
+    assert.equal(est.cards.get("Rhystic Study")?.gameChanger, true);
+    assert.equal(est.cards.get("Armageddon")?.massLandDenial, true);
+    assert.deepEqual(
+      est.combos.map((c) => [c.cards, c.relevant, c.definitelyTwoCard]),
+      [[["Combo A", "Combo B"], true, true]],
+    );
+  });
+
+  test("there's nothing to go on without a bracket", () => {
+    assert.equal(provisionalEstimate(undefined, testDeck()), null);
+  });
+});
+
+describe("applicableManaSuggestions", () => {
+  const suggestion = (id: string, out: string, add: string): ManaSuggestion => ({
+    id,
+    reason: "",
+    changes: [
+      { action: "remove", name: out, qty: 1, reason: "", ok: true },
+      { action: "add", name: add, qty: 1, reason: "", ok: true },
+    ],
+  });
+
+  test("keeps the land swaps the edited deck can still make", () => {
+    const deck = testDeck(37, [spell("Overgrown Tomb", { isLand: true })]);
+    const kept = applicableManaSuggestions(
+      [
+        suggestion("ok", "Forest", "Woodland Cemetery"),
+        suggestion("cut-gone", "Llanowar Wastes", "Woodland Cemetery"),
+        suggestion("already-in", "Forest", "Overgrown Tomb"),
+        suggestion("basic", "Overgrown Tomb", "Swamp"),
+      ],
+      deck,
+    );
+    assert.deepEqual(
+      kept!.map((m) => m.id),
+      ["ok", "basic"],
     );
   });
 });

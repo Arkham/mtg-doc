@@ -118,7 +118,7 @@ describe("deck chat without an LLM", () => {
       report: Report;
       updating: boolean;
     };
-    assert.equal(after.updating, false);
+    assert.ok(!after.updating);
     assert.ok(after.report.decklist!.some((c) => c.name === "Arcane Signet"));
   });
 

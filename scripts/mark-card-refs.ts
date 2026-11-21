@@ -15,7 +15,8 @@ import { llmEnabled } from "../server/config.ts";
 import { chatJson } from "../server/llm.ts";
 import { loadDeck } from "../server/pipeline.ts";
 import { listDecks, readReport, writeResults } from "../server/storage.ts";
-import { readChat, refSettler, updateChat } from "../server/chat.ts";
+import { refSettler } from "../server/chat.ts";
+import { readChat, updateChat } from "../server/chat-history.ts";
 import type { DeckChatMessage } from "../shared/types.ts";
 
 const { values } = parseArgs({ options: { only: { type: "string" } } });

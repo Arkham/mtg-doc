@@ -366,14 +366,33 @@ test.describe("local app", () => {
     await shot(page, "app-chat-empty", { fullPage: false });
   });
 
-  test("updating after a change", async ({ page }) => {
-    // While it's updating the page polls; every poll gets the same answer.
+  /** The deck as if changes were in progress: its detail and its status say so. */
+  async function changing(page: Page, status: Record<string, unknown>) {
+    // While it's changing the page polls; every poll gets the same answer.
     const detail = await (await page.request.get(`${APP_URL}api/decks/${DECK}`)).json();
     await page.route(`**/api/decks/${DECK}`, (route) =>
-      route.fulfill({ json: { ...detail, updating: true } }),
+      route.fulfill({ json: { ...detail, ...status } }),
+    );
+    await page.route(`**/api/decks/${DECK}/status`, (route) =>
+      route.fulfill({ json: { savedAt: detail.savedAt, ...status } }),
     );
     await page.goto(`${APP_URL}#/deck/${DECK}`);
     await expect(page.locator(".updating-note")).toBeVisible();
+  }
+
+  test("updating after a change", async ({ page }) => {
+    await changing(page, { updating: true });
     await shot(page, "app-updating", { fullPage: false });
+  });
+
+  test("waiting for the edits to stop", async ({ page }) => {
+    await changing(page, { refreshInMs: 23_400 });
+    await expect(page.locator(".updating-note")).toContainText("updates in 24s");
+    await shot(page, "app-refresh-waiting", { fullPage: false });
+  });
+
+  test("working out what the edits changed", async ({ page }) => {
+    await changing(page, { refreshing: true });
+    await shot(page, "app-refreshing", { fullPage: false });
   });
 });

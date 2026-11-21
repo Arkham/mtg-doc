@@ -112,11 +112,22 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   the deck's edit queue (`server/edit-queue.ts`): the API answers at once with an edit id, the
   queue runs a deck's edits one at a time in order, and the UI polls until they're in. New code
   that writes a report must go through it too, and write files with `writeAtomic`.
-- After every change, the doc checks what it made worse in the optimizer's terms
-  (`worsenedGaps`: lands, color sources, roles, bracket checks, budget, dropped suggestions) and
-  `decide`s whether a re-run is worth it (without an LLM, any such gap is). If so it proposes a
-  re-run that keeps the user's edits (`keepEdits`: chat's swaps are pinned, their adds locked and
-  their cuts excluded), with a button to confirm.
+- An edit is quick: the list and everything that follows from it alone (stats, simulation,
+  bracket from the last estimate, combos and synergies that still hold, land swaps that still
+  apply) go in at once. What needs Commander Spellbook, Scryfall searches or the model (bracket
+  estimate, combo search, land suggestions, synergies with new cards, guides, the contradiction
+  check) is a refresh (`server/refresh.ts`) that runs once edits stop for `REFRESH_DELAY_MS`
+  (30s); every edit pushes it back, so a run of edits is worked out once. It computes outside the
+  queue and saves only if no edit came in meanwhile, so edits never wait for it. Pending
+  refreshes are kept in the deck's `refresh.json` and resume after a restart; a full re-run
+  supersedes them. When you add a report field that needs an outside service or the model, work
+  it out in the refresh, and keep the quick edit consistent without it.
+- Once an edit's refresh is in, the doc checks what the edits made worse in the optimizer's
+  terms (`worsenedSince`, from the gaps the deck had before the first of them: lands, color
+  sources, roles, bracket checks, budget, dropped suggestions) and `decide`s whether a re-run is
+  worth it (without an LLM, any such gap is). If so it proposes a re-run that keeps the user's
+  edits (`keepEdits`: chat's swaps are pinned, their adds locked and their cuts excluded), with a
+  button to confirm.
 - Importing a deck (photo or list, the review screen) happens before the deck exists, so it's out
   of scope.
 - A chat edit updates every section that names the cards it touches, not just the list: stats,
@@ -138,7 +149,7 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   file): a full re-record fetches live data, which can change the decks the optimizer builds and
   so every request after it.
 - Import `test/support/env.ts` first in every Node test: it isolates tests from `.env`, disables the
-  LLM and installs the fixture layer. Stub the LLM endpoint explicitly when testing LLM code.
+  LLM, installs the fixture layer and runs edits' refreshes right away (`whenIdle` waits for them). Stub the LLM endpoint explicitly when testing LLM code.
 - Unit-test pure logic in `server/analysis` directly with the factories in `test/support/cards.ts`.
   Integration tests cover the full pipeline, the HTTP API and the static build. Playwright covers the
   UI, including touch behaviour on iPhone/iPad and checks for horizontal overflow on phones.

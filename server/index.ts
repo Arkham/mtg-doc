@@ -2,8 +2,11 @@ import path from "node:path";
 import express from "express";
 import { createApp } from "./app.ts";
 import { config, llmEnabled } from "./config.ts";
+import { resumeRefreshes } from "./refresh.ts";
 
 const app = createApp();
+// Edits whose refresh was still waiting when the server stopped.
+await resumeRefreshes();
 
 if (process.env.NODE_ENV === "production") {
   const dist = path.join(config.root, "dist");

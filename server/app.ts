@@ -3,19 +3,20 @@ import path from "node:path";
 import express, { type NextFunction, type Request, type Response } from "express";
 import multer from "multer";
 import { z } from "zod";
-import type { RecognitionResult } from "../shared/types.ts";
+import type { DeckStatus, RecognitionResult } from "../shared/types.ts";
 import { config, llmEnabled } from "./config.ts";
 import {
   applyChatChanges,
   applyManaSuggestion,
   applySwap,
   chatAboutDeck,
-  readChat,
   refreshSynergies,
   startChatRerun,
 } from "./chat.ts";
+import { readChat } from "./chat-history.ts";
 import { editStatus, pendingEdits } from "./edit-queue.ts";
 import { recognizeImages, recognizeText } from "./ocr.ts";
+import { refreshStatus } from "./refresh.ts";
 import { getJob, startOptimize } from "./pipeline.ts";
 import { autocomplete, lookupExact, resolveNames } from "./sources/scryfall.ts";
 import {
@@ -27,6 +28,7 @@ import {
   readMeta,
   setHideSuggestions,
   readReport,
+  reportSavedAt,
   writeDeck,
   writeMeta,
 } from "./storage.ts";
@@ -42,6 +44,15 @@ interface RecognitionJob {
 }
 
 const recognitionJobs = new Map<string, RecognitionJob>();
+
+async function deckStatus(slug: string): Promise<DeckStatus> {
+  const savedAt = await reportSavedAt(slug);
+  return {
+    ...(pendingEdits(slug).length ? { updating: true } : {}),
+    ...refreshStatus(slug),
+    ...(savedAt !== null ? { savedAt } : {}),
+  };
+}
 
 /** Builds the API app. Static/Vite serving and listening happen in index.ts. */
 export function createApp() {
@@ -204,12 +215,22 @@ export function createApp() {
     "/api/decks/:slug",
     wrap(async (req, res) => {
       const slug = String(req.params.slug);
-      const [meta, report, initial] = await Promise.all([
+      const [meta, report, initial, status] = await Promise.all([
         readMeta(slug),
         readReport(slug),
         readInitial(slug),
+        deckStatus(slug),
       ]);
-      res.json({ meta, report, initial, updating: pendingEdits(slug).length > 0 });
+      res.json({ meta, report, initial, ...status });
+    }),
+  );
+
+  app.get(
+    "/api/decks/:slug/status",
+    wrap(async (req, res) => {
+      const slug = String(req.params.slug);
+      await readMeta(slug);
+      res.json(await deckStatus(slug));
     }),
   );
 

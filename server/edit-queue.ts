@@ -48,7 +48,47 @@ export const pendingEdits = (slug: string) =>
     (t) => t.slug === slug && (t.state === "queued" || t.state === "running"),
   );
 
-/** Resolves once every task queued for the deck so far has finished. */
+/**
+ * Work that waits for a deck's edits to settle: `run` starts once `delayMs` pass without another
+ * call for the deck, so a burst of edits leads to one run. It runs outside the queue (it's slow,
+ * and edits mustn't wait for it); it queues its own writes.
+ */
+const timers = new Map<string, { timer: NodeJS.Timeout; at: number }>();
+const running = new Map<string, Promise<unknown>>();
+
+export function debounce(slug: string, delayMs: number, run: () => Promise<unknown>) {
+  cancelDebounced(slug);
+  const timer = setTimeout(() => {
+    timers.delete(slug);
+    const work = run()
+      .catch((err) => console.error(`[refresh ${slug}]`, err))
+      .finally(() => {
+        if (running.get(slug) === work) running.delete(slug);
+      });
+    running.set(slug, work);
+  }, delayMs);
+  timers.set(slug, { timer, at: Date.now() + delayMs });
+}
+
+export function cancelDebounced(slug: string) {
+  const scheduled = timers.get(slug);
+  if (scheduled) clearTimeout(scheduled.timer);
+  timers.delete(slug);
+}
+
+/** When the deck's settled work starts, or null if none is waiting. */
+export const debouncedAt = (slug: string) => timers.get(slug)?.at ?? null;
+
+/** Whether the deck's settled work is running now. */
+export const debouncedRunning = (slug: string) => running.has(slug);
+
+/** Resolves once every task queued for the deck so far has finished, settled work included. */
 export async function whenIdle(slug: string) {
-  while (pendingEdits(slug).length) await tails.get(slug)?.catch(() => {});
+  for (;;) {
+    if (pendingEdits(slug).length) await tails.get(slug)?.catch(() => {});
+    else if (running.has(slug)) await running.get(slug);
+    else if (timers.has(slug))
+      await new Promise((r) => setTimeout(r, Math.max(0, timers.get(slug)!.at - Date.now()) + 5));
+    else return;
+  }
 }

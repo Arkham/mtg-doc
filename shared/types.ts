@@ -452,11 +452,21 @@ export interface DeckDetailMeta {
   hideSuggestions?: boolean;
 }
 
+/** Changes to a deck still being worked out (`GET /api/decks/:slug/status`). */
+export interface DeckStatus {
+  /** Edits are still being made in the background; the report updates when they're in. */
+  updating?: boolean;
+  /** Edits are in; their slower parts (combos, synergies...) are worked out in this long. */
+  refreshInMs?: number;
+  /** Those slower parts are being worked out now. */
+  refreshing?: boolean;
+  /** When the report was last saved (ms since the epoch): it changed if this did. */
+  savedAt?: number;
+}
+
 /** A deck with its report (`GET /api/decks/:slug`, or `detail.json` on the static site). */
-export interface DeckDetail {
+export interface DeckDetail extends DeckStatus {
   meta: DeckDetailMeta;
   report: Report | null;
   initial: string;
-  /** Edits are still being made in the background; the report updates when they're in. */
-  updating?: boolean;
 }

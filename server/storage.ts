@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import fsSync from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import {
@@ -8,6 +9,7 @@ import {
   type OptimizeOptions,
   type Report,
 } from "../shared/types.ts";
+import type { Gap } from "./analysis/reoptimize.ts";
 import { checkReport } from "./analysis/consistency.ts";
 import { config } from "./config.ts";
 import { formatDecklist, parseDecklist } from "./decklist.ts";
@@ -139,6 +141,61 @@ export async function writeResults(
 export async function readReport(slug: string): Promise<Report | null> {
   const p = path.join(deckDir(slug), "report.json");
   return (await exists(p)) ? JSON.parse(await fs.readFile(p, "utf8")) : null;
+}
+
+/** When the report was last saved (ms since the epoch), or null if it hasn't been. */
+export async function reportSavedAt(slug: string): Promise<number | null> {
+  const stat = await fs.stat(path.join(deckDir(slug), "report.json")).catch(() => null);
+  return stat ? stat.mtimeMs : null;
+}
+
+/**
+ * Edits whose slower consequences (combos, synergies, guides...) haven't been worked out yet.
+ * Kept on disk so a restart doesn't lose them.
+ */
+export interface PendingRefresh {
+  /** Bumped by every edit: a refresh saves its results only if no edit came in meanwhile. */
+  version: number;
+  /** When the refresh starts (ms since the epoch). */
+  due: number;
+  /** The report's gaps before the first of these edits, to judge what they made worse. */
+  gaps: Gap[];
+  /** The doc's swaps these edits made no longer apply. */
+  droppedSwaps: number;
+  /** Cards the edits brought in, to look for synergies with. */
+  added: string[];
+  /** Whether they changed the deck as submitted, not only the suggestions. */
+  original: boolean;
+  /** The changes, oldest first. */
+  changes: { action: "add" | "remove"; name: string; qty: number }[];
+}
+
+const pendingPath = (slug: string) => path.join(deckDir(slug), "refresh.json");
+
+export async function readPendingRefresh(slug: string): Promise<PendingRefresh | null> {
+  return fs.readFile(pendingPath(slug), "utf8").then(
+    (t) => JSON.parse(t) as PendingRefresh,
+    () => null,
+  );
+}
+
+export async function writePendingRefresh(slug: string, pending: PendingRefresh) {
+  await writeAtomic(pendingPath(slug), JSON.stringify(pending, null, 2));
+}
+
+export async function clearPendingRefresh(slug: string) {
+  await fs.rm(pendingPath(slug), { force: true });
+}
+
+/** Decks with a refresh still to run, from before a restart. */
+export async function decksWithPendingRefresh(): Promise<string[]> {
+  const dirs = await fs.readdir(config.decksDir, { withFileTypes: true }).catch(() => []);
+  return dirs
+    .filter(
+      (d) =>
+        d.isDirectory() && fsSync.existsSync(path.join(config.decksDir, d.name, "refresh.json")),
+    )
+    .map((d) => d.name);
 }
 
 export async function readDeckFile(

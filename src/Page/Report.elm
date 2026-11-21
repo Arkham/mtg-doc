@@ -1,4 +1,4 @@
-module Page.Report exposing (ApplierState, Chrome, ComboFilter, DecklistView, Model, Msg, Out(..), chrome, closeHowToPlay, init, load, subscriptions, update, view)
+module Page.Report exposing (ApplierState, Chrome, ComboFilter, DecklistView, Model, Msg, Note(..), Out(..), chrome, closeHowToPlay, init, load, subscriptions, update, view)
 
 import Api
 import Chat
@@ -60,6 +60,7 @@ type alias Model =
     , detail : Maybe DeckDetail
     , error : Maybe String
     , pollToken : Int
+    , status : DeckStatus
     , copied : Bool
     , copyToken : Int
     , optimizedText : Maybe String
@@ -90,7 +91,7 @@ type alias Model =
 type Msg
     = GotDetail (Result String DeckDetail)
     | Poll Int
-    | GotPolledDetail (Result String DeckDetail)
+    | GotStatus Int (Result String DeckStatus)
     | GotList (Maybe String)
     | Copied
     | Uncopy Int
@@ -145,6 +146,7 @@ init env decklistView slug =
         , detail = Nothing
         , error = Nothing
         , pollToken = 0
+        , status = idle
         , copied = False
         , copyToken = 0
         , optimizedText = Nothing
@@ -187,7 +189,7 @@ load env slug model =
         [ Api.deck env.isStatic slug GotDetail
         , loadList env slug
         , if model.slug /= slug then
-            Cmd.map ChatMsg (Chat.slugChanged slug model.chat)
+            Cmd.map ChatMsg (Chat.reload slug model.chat)
 
           else
             Cmd.none
@@ -236,21 +238,16 @@ update : Env -> Msg -> Model -> ( Model, Cmd Msg, Maybe Out )
 update env msg model =
     case msg of
         GotDetail (Ok detail) ->
-            let
-                token =
-                    model.pollToken + 1
-
-                updating =
-                    detail.updating == Just True
-            in
-            ( { model | detail = Just detail, pollToken = token }
-            , if updating then
-                Process.sleep pollMs |> Task.perform (\_ -> Poll token)
-
-              else
-                Cmd.none
-            , Nothing
-            )
+            watch
+                { model
+                    | detail = Just detail
+                    , status =
+                        { updating = detail.updating
+                        , refreshInMs = detail.refreshInMs
+                        , refreshing = detail.refreshing
+                        , savedAt = detail.savedAt
+                        }
+                }
 
         GotDetail (Err e) ->
             if model.detail == Nothing then
@@ -261,26 +258,31 @@ update env msg model =
 
         Poll token ->
             if token == model.pollToken then
-                ( model, Api.deck env.isStatic model.slug GotPolledDetail, Nothing )
+                ( model, Api.status model.slug (GotStatus token), Nothing )
 
             else
                 none model
 
-        GotPolledDetail result ->
-            let
-                ( m, cmd, out ) =
-                    update env (GotDetail result) model
-            in
-            case result of
-                Ok d ->
-                    if d.updating == Just True then
-                        ( m, cmd, out )
+        GotStatus token (Ok status) ->
+            if token /= model.pollToken then
+                none model
 
-                    else
-                        ( m, Cmd.batch [ cmd, loadList env model.slug ], out )
+            else if status.savedAt /= model.status.savedAt then
+                -- The report changed: an edit went in, or its refresh. The chat may have an offer.
+                ( { model | status = status }
+                , Cmd.batch
+                    [ Api.deck env.isStatic model.slug GotDetail
+                    , loadList env model.slug
+                    , Cmd.map ChatMsg (Chat.reload model.slug model.chat)
+                    ]
+                , Nothing
+                )
 
-                Err _ ->
-                    ( m, cmd, out )
+            else
+                watch { model | status = status }
+
+        GotStatus _ (Err _) ->
+            none model
 
         GotList text ->
             none { model | optimizedText = text }
@@ -520,6 +522,36 @@ update env msg model =
 
         Ignore ->
             none model
+
+
+idle : DeckStatus
+idle =
+    { updating = Nothing, refreshInMs = Nothing, refreshing = Nothing, savedAt = Nothing }
+
+
+{-| Edits are being made, or worked out: the report will change.
+-}
+changing : DeckStatus -> Bool
+changing status =
+    status.updating == Just True || status.refreshInMs /= Nothing || status.refreshing == Just True
+
+
+{-| Checks on the deck again shortly while it's busy, to show what the edits change once it's in.
+-}
+watch : Model -> ( Model, Cmd Msg, Maybe Out )
+watch model =
+    let
+        token =
+            model.pollToken + 1
+    in
+    ( { model | pollToken = token }
+    , if changing model.status then
+        Process.sleep pollMs |> Task.perform (\_ -> Poll token)
+
+      else
+        Cmd.none
+    , Nothing
+    )
 
 
 applierOf : Applier -> Model -> ApplierState
@@ -2244,10 +2276,30 @@ viewToggle env slug v swaps =
 changes are being made, and dialogs over the page.
 -}
 type alias Chrome =
-    { updating : Bool
+    { note : Maybe Note
     , toggle : Maybe (Html Msg)
     , overlays : List (Html Msg)
     }
+
+
+{-| What the page says about changes in progress.
+-}
+type Note
+    = Updating
+    | Refreshing
+    | RefreshIn Float
+
+
+noteOf : DeckStatus -> Maybe Note
+noteOf status =
+    if status.updating == Just True then
+        Just Updating
+
+    else if status.refreshing == Just True then
+        Just Refreshing
+
+    else
+        Maybe.map RefreshIn status.refreshInMs
 
 
 chrome : Env -> DeckView -> Model -> Chrome
@@ -2260,7 +2312,12 @@ chrome env requested model =
                         shownView =
                             viewOf full requested
                     in
-                    { updating = model.error == Nothing && detail.updating == Just True
+                    { note =
+                        if model.error /= Nothing then
+                            Nothing
+
+                        else
+                            noteOf model.status
                     , toggle =
                         if model.error == Nothing && hasBothViews full then
                             Just (viewToggle env model.slug shownView (List.length full.swaps))
@@ -2303,10 +2360,10 @@ chrome env requested model =
                     }
 
                 Nothing ->
-                    { updating = False, toggle = Nothing, overlays = [] }
+                    { note = Nothing, toggle = Nothing, overlays = [] }
 
         Nothing ->
-            { updating = False, toggle = Nothing, overlays = [] }
+            { note = Nothing, toggle = Nothing, overlays = [] }
 
 
 {-| The page itself. Drawn lazily: hovering a card elsewhere doesn't redraw the report.

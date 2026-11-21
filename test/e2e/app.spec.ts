@@ -198,16 +198,22 @@ test.describe("local app with a model", () => {
   }) => {
     await page.goto(`${LLM_APP_URL}#/deck/lathril-blade-of-the-elves/optimized`);
     await page.getByRole("button", { name: /Ask the doc/ }).click();
+    // Every text the reply bubble shows while it's written.
+    await page.evaluate(() => {
+      const w = window as unknown as { shown: string[] };
+      w.shown = [];
+      new MutationObserver(() => {
+        const text = document.querySelector(".chat-bubble.streaming")?.textContent;
+        if (text && text !== w.shown.at(-1)) w.shown.push(text);
+      }).observe(document.body, { subtree: true, childList: true, characterData: true });
+    });
     const message = page.getByLabel("Message");
     await message.fill("Give me a fairer mana rock");
     await message.press("Enter");
 
-    // Part of the reply, still being written, before the rest of the answer arrives.
+    // The reply, still being written, before the rest of the answer arrives.
     const streaming = page.locator(".chat-bubble.streaming");
     await expect(streaming).toContainText("Stub chat");
-    const partial = await streaming.textContent();
-    expect("Stub chat: trade Sol Ring for a fairer rock.".startsWith(partial!)).toBe(true);
-    expect(partial!.length).toBeLessThan("Stub chat: trade Sol Ring for a fairer rock.".length);
     await expect(page.locator(".chat-changes")).toHaveCount(0);
 
     // Then the saved message, with the changes it proposes.
@@ -218,6 +224,13 @@ test.describe("local app with a model", () => {
     );
     await expect(reply.locator(".chat-changes")).toContainText("Mind Stone");
     await expect(reply.getByRole("button", { name: "Apply 2 changes" })).toBeVisible();
+    const full = "Stub chat: trade Sol Ring for a fairer rock.";
+    const shown = await page.evaluate(() => (window as unknown as { shown: string[] }).shown);
+    expect(shown.length, shown.join(" | ")).toBeGreaterThan(3);
+    shown.forEach((text, i) => {
+      expect(full.startsWith(text), text).toBe(true);
+      if (i) expect(text.length).toBeGreaterThan(shown[i - 1].length);
+    });
 
     // Closing the chat mid-reply doesn't lose it: it's in the history when the chat opens again.
     await message.fill("Give me a fairer mana rock");
@@ -229,5 +242,33 @@ test.describe("local app with a model", () => {
       timeout: 30_000,
     });
     await expect(page.locator(".chat-msg.user")).toHaveCount(2);
+  });
+});
+
+test.describe("local app, editing a deck", () => {
+  test("edits show in the list at once; the rest of the report follows once they stop", async ({
+    page,
+  }) => {
+    await page.goto(`${LLM_APP_URL}#/deck/lathril-blade-of-the-elves-2/optimized`);
+    const decklist = page.locator("#decklist");
+    await decklist.getByRole("button", { name: /^Show swaps/ }).click();
+    const swaps = decklist.locator(".swap");
+    await expect(swaps.first()).toBeVisible();
+    const before = await swaps.count();
+
+    // Two of the doc's swaps, one after the other: each goes in at once.
+    for (let i = 1; i <= 2; i++) {
+      await swaps
+        .first()
+        .getByRole("button", { name: /^Apply .* to your deck$/ })
+        .click();
+      await expect(swaps).toHaveCount(before - i, { timeout: 30_000 });
+    }
+    const note = page.locator(".updating-note");
+    await expect(note).toHaveText(/^Saved · the rest of the report updates in \ds$/);
+
+    // Then the rest is worked out, once, and the page shows it without a reload.
+    await expect(note).toHaveCount(0, { timeout: 30_000 });
+    await expect(swaps).toHaveCount(before - 2);
   });
 });

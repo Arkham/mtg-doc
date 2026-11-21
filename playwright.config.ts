@@ -34,7 +34,7 @@ export default defineConfig({
       command:
         "node --import tsx scripts/elm.ts && node --import tsx --import ./test/support/env.ts server/index.ts",
       url: `http://127.0.0.1:${APP_PORT}/api/config`,
-      env: { PORT: String(APP_PORT), HOST: "127.0.0.1" },
+      env: { PORT: String(APP_PORT), HOST: "127.0.0.1", REFRESH_DELAY_MS: "1500" },
       timeout: 120_000,
       reuseExistingServer: !process.env.CI,
     },
@@ -43,7 +43,7 @@ export default defineConfig({
       command:
         "node --import tsx scripts/elm.ts && node --import tsx test/support/serve-llm-app.ts",
       url: `http://127.0.0.1:${LLM_APP_PORT}/api/config`,
-      env: { PORT: String(LLM_APP_PORT), HOST: "127.0.0.1" },
+      env: { PORT: String(LLM_APP_PORT), HOST: "127.0.0.1", REFRESH_DELAY_MS: "1500" },
       timeout: 180_000,
       reuseExistingServer: !process.env.CI,
     },

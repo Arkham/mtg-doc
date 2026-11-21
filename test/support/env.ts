@@ -10,6 +10,8 @@ import { installHttpFixtures } from "./http-fixtures.ts";
 process.env.LLM_API_KEY = "";
 process.env.LLM_WEB_SEARCH = "false";
 process.env.LLM_RETRY_DELAY_MS = "0";
+// Edits' refreshes run right away, unless a test is about waiting for them.
+process.env.REFRESH_DELAY_MS ??= "0";
 process.env.LLM_BASE_URL = "https://llm.test/v1";
 // Blank rather than unset: server/config.ts only reads `.env` for keys missing from the environment.
 for (const key of ["LLM_MODEL", "LLM_VISION_MODEL", "LLM_SEARCH_MODEL", "LLM_DECISION_MODEL"]) {

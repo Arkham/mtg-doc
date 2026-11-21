@@ -62,6 +62,11 @@ export function optimizationGaps(r: Report): Gap[] {
 
 /** Gaps the change opened or widened; ones the deck already had aren't the change's doing. */
 export function worsenedGaps(before: Report, after: Report): Gap[] {
-  const was = new Map(optimizationGaps(before).map((g) => [g.key, g.size]));
+  return worsenedSince(optimizationGaps(before), after);
+}
+
+/** The same, from the gaps the deck had before (kept while edits wait to be worked out). */
+export function worsenedSince(before: Gap[], after: Report): Gap[] {
+  const was = new Map(before.map((g) => [g.key, g.size]));
   return optimizationGaps(after).filter((g) => g.size > (was.get(g.key) ?? 0));
 }

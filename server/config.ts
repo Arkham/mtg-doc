@@ -42,6 +42,8 @@ export const config = {
     retryDelayMs: Number(env("LLM_RETRY_DELAY_MS") ?? 2000),
   },
   userAgent: "mtg-doc/0.1 (local)",
+  /** How long edits must stop before their slower consequences are worked out (see refresh.ts). */
+  refreshDelayMs: Number(env("REFRESH_DELAY_MS") ?? 30_000),
   /** Scryfall's hard limits: 2/s for search, named and collection; 10/s for everything else. */
   scryfallIntervalMs: {
     limited: Number(env("SCRYFALL_LIMITED_INTERVAL_MS") ?? 520),

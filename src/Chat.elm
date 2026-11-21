@@ -1,4 +1,4 @@
-module Chat exposing (Config, Model, Msg, Out(..), init, slugChanged, subscriptions, update, view)
+module Chat exposing (Config, Model, Msg, Out(..), init, reload, subscriptions, update, view)
 
 {-| Sidebar for asking questions about a deck and making edits through conversation.
 -}
@@ -100,11 +100,11 @@ init =
     }
 
 
-{-| Fetched on every open (and when the deck changes while open): applying a suggestion
-elsewhere on the page can add a proposal.
+{-| Fetched on every open, and again while open when the deck or its report changes: applying a
+suggestion elsewhere on the page, or the refresh after an edit, can add a proposal.
 -}
-slugChanged : String -> Model -> Cmd Msg
-slugChanged slug model =
+reload : String -> Model -> Cmd Msg
+reload slug model =
     if model.open then
         Api.chat slug GotChat
 

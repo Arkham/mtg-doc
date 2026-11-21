@@ -1,6 +1,4 @@
 import { randomUUID } from "node:crypto";
-import fs from "node:fs/promises";
-import path from "node:path";
 import { z } from "zod";
 import type {
   Card,
@@ -30,29 +28,31 @@ import {
   structuralProblem,
 } from "./analysis/edits.ts";
 import {
+  applicableManaSuggestions,
   fallbackCombos,
   onSubmittedList,
+  provisionalEstimate,
   realizedSwaps,
   rebaseSwaps,
   refreshBracketLists,
   reconcileSwaps,
 } from "./analysis/reconcile.ts";
-import { worsenedGaps } from "./analysis/reoptimize.ts";
 import { CARD_REFS_RULE, CardNameSchema, indexResolver } from "./analysis/prose.ts";
 import { refsIn, resolveRefs } from "../shared/card-refs.ts";
 import { makeRerun } from "./analysis/rerun.ts";
 import { makeViolation } from "./analysis/search.ts";
-import { config, llmEnabled } from "./config.ts";
-import { enqueueEdit, pendingEdits } from "./edit-queue.ts";
+import { llmEnabled } from "./config.ts";
+import { enqueueEdit } from "./edit-queue.ts";
+import { originalStats, scheduleRefresh } from "./refresh.ts";
+import { patchMessage, readChat, updateChat } from "./chat-history.ts";
 import { chatJson, chatJsonStream, decide } from "./llm.ts";
 import { partialStringField } from "./analysis/partial-json.ts";
 import { loadDeck, snapshot, startOptimize, twoCardCombos } from "./pipeline.ts";
 import { buildCardIndex, isNamedCard, looksLikeNickname } from "./card-index.ts";
-import { suggestManaFixes } from "./mana-advice.ts";
 import { findSynergies, keepPresentSynergies } from "./synergies.ts";
-import { keepGuidesTo, writeGuides } from "./play-guide.ts";
+import { keepGuidesTo } from "./play-guide.ts";
 import { lookupExact, lookupFuzzy } from "./sources/scryfall.ts";
-import { estimateBracket, findCombos } from "./sources/spellbook.ts";
+import { estimateBracket } from "./sources/spellbook.ts";
 import {
   HttpError,
   readMeta,
@@ -61,56 +61,11 @@ import {
   writeInitial,
   writeMeta,
   writeResults,
-  writeAtomic,
 } from "./storage.ts";
 
-const HISTORY_FILE = "chat.json";
 const SIMPLE_COMMANDS_HELP =
   "Simple edits always work: “add [[Arcane Signet]]”, “remove [[Sol Ring]]” or “swap [[Sol Ring]] for [[Mind Stone]]”.";
 const HISTORY_FOR_MODEL = 12;
-
-const chatPath = (slug: string) => path.join(config.decksDir, slug, HISTORY_FILE);
-
-export async function readChat(slug: string): Promise<DeckChatMessage[]> {
-  await readMeta(slug);
-  const messages = await fs.readFile(chatPath(slug), "utf8").then(
-    (t) => JSON.parse(t) as DeckChatMessage[],
-    () => [],
-  );
-  // Applies run in this process's queue: one still marked as applying with nothing queued was
-  // cut short by a restart.
-  if (!pendingEdits(slug).length)
-    for (const m of messages)
-      if (m.applying) {
-        delete m.applying;
-        m.applyError = "Interrupted before it finished; apply it again.";
-      }
-  return messages;
-}
-
-const chatLocks = new Map<string, Promise<unknown>>();
-
-/**
- * Read-modify-write of a deck's chat, one at a time: a reply and a background apply can finish at
- * the same moment, and neither may drop the other's messages.
- */
-export function updateChat(
-  slug: string,
-  fn: (messages: DeckChatMessage[]) => DeckChatMessage[],
-): Promise<DeckChatMessage[]> {
-  const next = (chatLocks.get(slug) ?? Promise.resolve())
-    .catch(() => {})
-    .then(async () => {
-      const messages = fn(await readChat(slug));
-      await writeAtomic(chatPath(slug), JSON.stringify(messages, null, 2));
-      return messages;
-    });
-  chatLocks.set(slug, next);
-  return next;
-}
-
-const patchMessage = (slug: string, id: string, patch: (m: DeckChatMessage) => DeckChatMessage) =>
-  updateChat(slug, (ms) => ms.map((m) => (m.id === id ? patch(m) : m)));
 
 const ReplySchema = z.object({
   reply: z.string(),
@@ -566,10 +521,13 @@ export async function startChatRerun(slug: string, messageId: string): Promise<s
 }
 
 /**
- * Validates and applies changes to the current list, then brings every section that names cards up
- * to date: stats, simulation, bracket, combos, mana suggestions, swaps, synergies and card previews.
- * With `fromSuggested`, changes to the submitted list are written against the suggested deck (like
- * a mana suggestion) and carried over to it.
+ * Validates and applies changes to the current list, and brings every section that names cards up
+ * to date with it at once: stats, simulation, bracket (from the last estimate), combos and
+ * synergies that still hold, land swaps that still apply, swaps and card previews. What needs a
+ * fresh look (bracket estimate, combo search, land suggestions, synergies with new cards, guides,
+ * the contradiction check) is scheduled for when the edits stop (`scheduleRefresh`). With
+ * `fromSuggested`, changes to the submitted list are written against the suggested deck (like a
+ * mana suggestion) and carried over to it.
  */
 export async function applyDeckChanges(
   slug: string,
@@ -577,7 +535,7 @@ export async function applyDeckChanges(
   request: string,
   target: EditTarget = "optimized",
   { fromSuggested = false }: { fromSuggested?: boolean } = {},
-): Promise<{ report: Report; changes: DeckChange[]; reoptimize: string | null }> {
+): Promise<{ report: Report; changes: DeckChange[] }> {
   const meta = await readMeta(slug);
   const report = await readReport(slug);
   if (!report) throw new HttpError(409, "Optimize the deck before editing it.");
@@ -642,55 +600,27 @@ export async function applyDeckChanges(
   const next = rebased.deck;
 
   const commanders = next.commanders.map((c) => c.name);
-  const identity = identityOf(next.commanders);
-  const legalMain = (d: Deck) =>
-    d.slots
-      .filter((s) => s.card.colorIdentity.every((c) => identity.includes(c)))
-      .map((s) => s.card.name);
   const isCommander = meta.format === "commander";
-  const [est, found, before] = await Promise.all([
-    estimateBracket(commanders, legalMain(next)).catch(() => null),
-    findCombos(commanders, legalMain(next), identity).catch(() => null),
-    editsOriginal ? recomputeOriginal(report, initial, legalMain(initial), isCommander) : null,
-  ]);
-  const avgLands = report.edhrec?.avgLands ?? null;
-  const after = snapshot(next, avgLands, isCommander, twoCardCombos(est));
+  const est = provisionalEstimate(report.bracket?.after, next);
+  const before = editsOriginal
+    ? originalStats(
+        report,
+        initial,
+        isCommander,
+        provisionalEstimate(report.bracket?.before, initial),
+        null,
+      )
+    : null;
+  const after = snapshot(next, report.edhrec?.avgLands ?? null, isCommander, twoCardCombos(est));
   const assessed = report.bracket && assessBracket(next, est, after.sim, report.bracket.target);
-  // Edits can complete or break combos; if the search fails, keep only those that still hold.
-  const combos =
-    found ??
-    fallbackCombos(
-      { present: report.combosPresent, oneAway: report.combosOneAway },
-      next,
-      assessed?.combos,
-    );
-  const bracketTarget = report.bracket?.target ?? 4;
-  const manaSuggestions = isCommander
-    ? await suggestManaFixes({
-        deck: next,
-        identity,
-        avgLands,
-        budgetPerCard: budget.perCard,
-        violation: makeViolation({
-          rules: BRACKETS[bracketTarget],
-          target: bracketTarget,
-          flagOf: (c) => flagsFor(c, est),
-          budgetTotal: budget.total,
-        }),
-        locked: new Set([...meta.options.locked, ...commanders]),
-      }).catch(() => report.manaSuggestions ?? [])
-    : [];
-  const present = keepPresentSynergies(report.synergies, next);
-  const added = valid
-    .filter((c) => c.action === "add" && next.slots.some((s) => s.card.name === c.name))
-    .map((c) => c.name);
-  const newSynergies =
-    llmEnabled() && added.length && present
-      ? await findSynergies(next, combos.present, present, added).catch(() => [])
-      : [];
+  const combos = fallbackCombos(
+    { present: report.combosPresent, oneAway: report.combosOneAway },
+    next,
+    assessed?.combos,
+  );
   const bracket = report.bracket && {
     ...report.bracket,
-    ...(before ? { before: before.bracket } : {}),
+    ...(before ? { before: before.bracket! } : {}),
     after: assessed!,
   };
   const updated: Report = {
@@ -701,73 +631,32 @@ export async function applyDeckChanges(
     combosOneAway: combos.oneAway.slice(0, 20),
     decklist: toDecklist(next, initial),
     bracket: bracket && refreshBracketLists(bracket, next),
-    manaSuggestions,
+    manaSuggestions: applicableManaSuggestions(report.manaSuggestions, next),
     swaps: reconcileSwaps(
       rebased.swaps,
       initial,
       next,
       edits.filter((e) => e.target !== "original"),
     ),
-    synergies: present && [...present, ...newSynergies],
+    synergies: keepPresentSynergies(report.synergies, next),
+    howToPlay: keepGuidesTo(report.howToPlay, { original: initial, optimized: next }),
     edits,
   };
-  // The guides follow the lists they describe: an edit to the submitted list rebuilds both.
-  updated.howToPlay = llmEnabled()
-    ? await writeGuides(
-        updated,
-        { original: initial, optimized: next },
-        editsOriginal ? ["original", "optimized"] : ["optimized"],
-      )
-    : keepGuidesTo(report.howToPlay, { original: initial, optimized: next });
   updated.cardIndex = await buildCardIndex(
     updated,
     valid.flatMap((c) => (c.card ? [c.card] : [])),
   );
   await writeResults(slug, updated, { commanders, entries: toEntries(next) });
   if (editsOriginal) await writeInitial(slug, commanders, toEntries(initial));
-  const reoptimize = await reoptimizeReason(
-    report,
-    updated,
-    report.swaps.length - settled.length - rebased.swaps.length,
-    valid,
-  );
-  return { report: updated, changes, reoptimize };
-}
-
-/** Stats, bracket and combos of an edited submitted list, as the pipeline computes them. */
-async function recomputeOriginal(
-  report: Report,
-  initial: Deck,
-  legalMain: string[],
-  isCommander: boolean,
-) {
-  const commanders = initial.commanders.map((c) => c.name);
-  const identity = identityOf(initial.commanders);
-  const [est, found] = await Promise.all([
-    estimateBracket(commanders, legalMain).catch(() => null),
-    findCombos(commanders, legalMain, identity).catch(() => null),
-  ]);
-  const snap = snapshot(initial, report.edhrec?.avgLands ?? null, isCommander, twoCardCombos(est));
-  const bracket = report.bracket
-    ? assessBracket(initial, est, snap.sim, report.bracket.target)
-    : undefined;
-  const o = report.original!;
-  const combos =
-    found ??
-    fallbackCombos(
-      { present: o.combosPresent, oneAway: o.combosOneAway },
-      initial,
-      bracket?.combos,
-    );
-  return {
-    snapshot: snap,
-    bracket,
-    original: {
-      decklist: toDecklist(initial, initial),
-      combosPresent: combos.present,
-      combosOneAway: combos.oneAway.slice(0, 20),
-    },
-  };
+  await scheduleRefresh(slug, report, {
+    droppedSwaps: report.swaps.length - settled.length - rebased.swaps.length,
+    added: valid
+      .filter((c) => c.action === "add" && next.slots.some((s) => s.card.name === c.name))
+      .map((c) => c.name),
+    original: editsOriginal,
+    changes: valid,
+  });
+  return { report: updated, changes };
 }
 
 /** Starts applying the changes a chat message proposed; the message says when they're in. */
@@ -781,8 +670,8 @@ export async function applyChatChanges(
 }
 
 /**
- * Queues applying an assistant message's proposed changes, marking it as applying. When they're
- * in, it's marked applied, with an offer to re-run if the changes opened gaps.
+ * Queues applying an assistant message's proposed changes, marking it as applying, and applied
+ * once they're in. An offer to re-run, if they opened gaps, follows with the refresh.
  */
 async function queueProposal(slug: string, messageId: string): Promise<string> {
   const history = await readChat(slug);
@@ -801,15 +690,13 @@ async function queueProposal(slug: string, messageId: string): Promise<string> {
   const { status } = enqueueEdit(slug, "Apply chat changes", async () => {
     try {
       const result = await applyDeckChanges(slug, message.changes!, request, message.target);
-      const offer = result.reoptimize ? [rerunProposal(result.reoptimize)] : [];
-      await updateChat(slug, (ms) => [
-        ...ms.map((m) => {
+      await updateChat(slug, (ms) =>
+        ms.map((m) => {
           if (m.id !== messageId) return m;
           const { applying: _, applyError: __, ...rest } = m;
           return { ...rest, changes: result.changes, applied: true };
         }),
-        ...offer,
-      ]);
+      );
     } catch (err) {
       await patchMessage(slug, messageId, (m) => {
         const { applying: _, ...rest } = m;
@@ -858,16 +745,15 @@ export async function applyManaSuggestion(slug: string, id: string): Promise<str
   const report = await readReport(slug);
   const suggestion = report?.manaSuggestions?.find((m) => m.id === id);
   if (!suggestion) throw new HttpError(404, "That suggestion is no longer available.");
-  return enqueueEdit(slug, "Apply a land swap", async () => {
-    const { reoptimize } = await applyDeckChanges(
+  return enqueueEdit(slug, "Apply a land swap", () =>
+    applyDeckChanges(
       slug,
       suggestion.changes,
       `Mana base: ${suggestion.reason}`,
       report!.original ? "original" : "optimized",
       { fromSuggested: true },
-    );
-    if (reoptimize) await offerRerun(slug, reoptimize);
-  }).status.id;
+    ),
+  ).status.id;
 }
 
 /**
@@ -888,71 +774,12 @@ export async function applySwap(slug: string, out: string, add: string): Promise
     ok: true,
     ...(card ? { card } : {}),
   });
-  return enqueueEdit(slug, "Apply a swap", async () => {
-    const { reoptimize } = await applyDeckChanges(
+  return enqueueEdit(slug, "Apply a swap", () =>
+    applyDeckChanges(
       slug,
       [change("remove", swap.out, swap.outCard), change("add", swap.in, swap.inCard)],
       `Swap: ${swap.out} → ${swap.in}`,
       "original",
-    );
-    if (reoptimize) await offerRerun(slug, reoptimize);
-  }).status.id;
-}
-
-const offerRerun = (slug: string, reason: string) =>
-  updateChat(slug, (ms) => [...ms, rerunProposal(reason)]);
-
-/** A probability the change warrants a fresh run must clear before the doc offers one. */
-const REOPTIMIZE_THRESHOLD = 0.6;
-
-/**
- * Why the doc should offer to re-optimize after a change, or null when it shouldn't. Only gaps the
- * change opened count; the decision model then judges whether they matter enough to be worth a
- * fresh run. Without an LLM, any such gap is enough.
- */
-export async function reoptimizeReason(
-  before: Report,
-  after: Report,
-  droppedSwaps: number,
-  changes: DeckChange[],
-): Promise<string | null> {
-  const reasons = worsenedGaps(before, after).map((g) => g.text);
-  if (droppedSwaps > 0)
-    reasons.push(
-      `${droppedSwaps} of the doc's suggested ${droppedSwaps === 1 ? "swap no longer applies" : "swaps no longer apply"}`,
-    );
-  if (!reasons.length) return null;
-  if (llmEnabled()) {
-    const m = after.after.mana;
-    const context = [
-      `A Commander deck (${after.commanders.join(" + ")}) was just changed: ${changes.map((c) => `${c.action} ${c.qty > 1 ? `${c.qty} ` : ""}${c.name}`).join(", ")}.`,
-      `What the change made worse: ${reasons.join("; ")}.`,
-      `The deck now: ${m.landCount} lands (recommended ${m.recommendedLands}), average mana value ${m.avgCmc}, roles ${after.after.roles.map((r) => `${r.role} ${r.count}${r.target !== null ? `/${r.target}` : ""}`).join(", ")}${after.bracket ? `, target bracket ${after.bracket.target} (${after.bracket.after.checks.every((c) => c.ok) ? "all checks pass" : "some checks fail"})` : ""}.`,
-    ].join("\n");
-    const answers = await decide(
-      context,
-      [],
-      [
-        {
-          name: "reoptimize",
-          instructions:
-            "Re-running the deck optimizer now, keeping the user's changes, would clearly improve how this deck plays: what the change made worse matters in games, rather than being a small or deliberate trade-off.",
-        },
-      ],
-    ).catch(() => null);
-    const p = answers?.get("reoptimize");
-    if (p !== undefined && p < REOPTIMIZE_THRESHOLD) return null;
-  }
-  return reasons.join("; ");
-}
-
-/** The doc's offer to re-optimize, keeping the user's edits; it starts only once they confirm. */
-function rerunProposal(reason: string): DeckChatMessage {
-  return {
-    id: randomUUID(),
-    role: "assistant",
-    content: `That change left the deck with ${reason}. I can re-run the optimizer to rebalance the rest of the deck around your changes, keeping your edits. Want me to?`,
-    at: new Date().toISOString(),
-    rerun: { options: {}, summary: "the current settings, keeping your edits", keepEdits: true },
-  };
+    ),
+  ).status.id;
 }

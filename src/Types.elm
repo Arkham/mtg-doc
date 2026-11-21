@@ -26,6 +26,7 @@ module Types exposing
     , DeckEditTarget(..)
     , DeckEntry
     , DeckSnapshot
+    , DeckStatus
     , DeckSummary
     , DecklistCard
     , EditStatus
@@ -109,6 +110,7 @@ module Types exposing
     , deckEditTargetToString
     , deckEntryDecoder
     , deckSnapshotDecoder
+    , deckStatusDecoder
     , deckSummaryDecoder
     , decklistCardDecoder
     , editStatusDecoder
@@ -145,6 +147,7 @@ module Types exposing
     , encodeDeckEditTarget
     , encodeDeckEntry
     , encodeDeckSnapshot
+    , encodeDeckStatus
     , encodeDeckSummary
     , encodeDecklistCard
     , encodeEditStatus
@@ -1080,32 +1083,48 @@ encodeDeckChatMessageRole =
 
 
 {-| updating: Edits are still being made in the background; the report updates when they're in.
+
+refreshInMs: Edits are in; their slower parts (combos, synergies...) are worked out in this long.
+
+refreshing: Those slower parts are being worked out now.
+
+savedAt: When the report was last saved (ms since the epoch): it changed if this did.
+
 -}
 type alias DeckDetail =
-    { meta : DeckDetailMeta
+    { updating : Maybe Bool
+    , refreshInMs : Maybe Float
+    , refreshing : Maybe Bool
+    , savedAt : Maybe Float
+    , meta : DeckDetailMeta
     , report : Maybe Report
     , initial : String
-    , updating : Maybe Bool
     }
 
 
 deckDetailDecoder : Decoder DeckDetail
 deckDetailDecoder =
     D.succeed DeckDetail
+        |> P.optional "updating" (D.map Just D.bool) Nothing
+        |> P.optional "refreshInMs" (D.map Just D.float) Nothing
+        |> P.optional "refreshing" (D.map Just D.bool) Nothing
+        |> P.optional "savedAt" (D.map Just D.float) Nothing
         |> P.required "meta" deckDetailMetaDecoder
         |> P.required "report" (D.nullable reportDecoder)
         |> P.required "initial" D.string
-        |> P.optional "updating" (D.map Just D.bool) Nothing
 
 
 encodeDeckDetail : DeckDetail -> E.Value
 encodeDeckDetail value =
     E.object
         (List.filterMap identity
-            [ Just ( "meta", encodeDeckDetailMeta value.meta )
+            [ Maybe.map (\v -> ( "updating", E.bool v )) value.updating
+            , Maybe.map (\v -> ( "refreshInMs", E.float v )) value.refreshInMs
+            , Maybe.map (\v -> ( "refreshing", E.bool v )) value.refreshing
+            , Maybe.map (\v -> ( "savedAt", E.float v )) value.savedAt
+            , Just ( "meta", encodeDeckDetailMeta value.meta )
             , Just ( "report", Maybe.withDefault E.null (Maybe.map encodeReport value.report) )
             , Just ( "initial", E.string value.initial )
-            , Maybe.map (\v -> ( "updating", E.bool v )) value.updating
             ]
         )
 
@@ -1392,6 +1411,44 @@ encodeDeckSnapshot value =
             , Just ( "roles", E.list encodeRoleCount value.roles )
             , Just ( "totalCards", E.float value.totalCards )
             , Just ( "totalPriceUsd", E.float value.totalPriceUsd )
+            ]
+        )
+
+
+{-| updating: Edits are still being made in the background; the report updates when they're in.
+
+refreshInMs: Edits are in; their slower parts (combos, synergies...) are worked out in this long.
+
+refreshing: Those slower parts are being worked out now.
+
+savedAt: When the report was last saved (ms since the epoch): it changed if this did.
+
+-}
+type alias DeckStatus =
+    { updating : Maybe Bool
+    , refreshInMs : Maybe Float
+    , refreshing : Maybe Bool
+    , savedAt : Maybe Float
+    }
+
+
+deckStatusDecoder : Decoder DeckStatus
+deckStatusDecoder =
+    D.succeed DeckStatus
+        |> P.optional "updating" (D.map Just D.bool) Nothing
+        |> P.optional "refreshInMs" (D.map Just D.float) Nothing
+        |> P.optional "refreshing" (D.map Just D.bool) Nothing
+        |> P.optional "savedAt" (D.map Just D.float) Nothing
+
+
+encodeDeckStatus : DeckStatus -> E.Value
+encodeDeckStatus value =
+    E.object
+        (List.filterMap identity
+            [ Maybe.map (\v -> ( "updating", E.bool v )) value.updating
+            , Maybe.map (\v -> ( "refreshInMs", E.float v )) value.refreshInMs
+            , Maybe.map (\v -> ( "refreshing", E.bool v )) value.refreshing
+            , Maybe.map (\v -> ( "savedAt", E.float v )) value.savedAt
             ]
         )
 

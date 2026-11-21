@@ -3,7 +3,15 @@ import { describe, test } from "node:test";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { editStatus, enqueueEdit, pendingEdits, whenIdle } from "../../server/edit-queue.ts";
+import {
+  debounce,
+  debouncedAt,
+  debouncedRunning,
+  editStatus,
+  enqueueEdit,
+  pendingEdits,
+  whenIdle,
+} from "../../server/edit-queue.ts";
 import { writeAtomic } from "../../server/storage.ts";
 
 const tick = (ms = 5) => new Promise((r) => setTimeout(r, ms));
@@ -41,6 +49,28 @@ describe("edit queue", () => {
       { state: "failed", error: "no such card" },
     );
     assert.equal(await next.done, "ok");
+  });
+});
+
+describe("debounce", () => {
+  test("runs once after the calls stop; each call pushes it back, and idle waits for it", async () => {
+    const runs: number[] = [];
+    const call = (n: number) =>
+      debounce("deck-d", 40, async () => {
+        await tick(10);
+        runs.push(n);
+      });
+    call(1);
+    const first = debouncedAt("deck-d")!;
+    await tick(25);
+    call(2);
+    assert.ok(debouncedAt("deck-d")! > first, "the second call pushed it back");
+    await tick(25);
+    assert.deepEqual(runs, [], "not run while calls keep coming");
+    await whenIdle("deck-d");
+    assert.deepEqual(runs, [2], "run once, by the last call");
+    assert.equal(debouncedAt("deck-d"), null);
+    assert.equal(debouncedRunning("deck-d"), false);
   });
 });
 

@@ -10,4 +10,6 @@ process.env.LLM_BASE_URL = stub.url;
 process.env.LLM_API_KEY = "stub-key";
 const { optimizeFixtureDeck } = await import("./sample.ts");
 await optimizeFixtureDeck("lathril.txt", { bracket: 3, tone: "balanced", maxSwaps: 4 });
+// A second deck, for tests that edit it.
+await optimizeFixtureDeck("lathril-overpowered.txt", { bracket: 3, tone: "max", budgetTotal: 300 });
 await import("../../server/index.ts");

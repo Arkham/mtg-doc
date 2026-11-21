@@ -3,7 +3,8 @@
  * without an LLM, on a decks folder seeded with two optimized decks and a chat history.
  */
 import "./env.ts";
-import { chatAboutDeck, updateChat } from "../../server/chat.ts";
+import { chatAboutDeck } from "../../server/chat.ts";
+import { updateChat } from "../../server/chat-history.ts";
 import { optimizeFixtureDeck } from "./sample.ts";
 import { PINNED_AT, pinReport } from "./visual-seed.ts";
 

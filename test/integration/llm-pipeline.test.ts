@@ -355,7 +355,8 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
   });
 
   test("the decision model confirms replies and judges when a change is worth re-optimizing", async () => {
-    const { applyDeckChanges, chatAboutDeck, readChat } = await import("../../server/chat.ts");
+    const { applyDeckChanges, chatAboutDeck } = await import("../../server/chat.ts");
+    const { readChat } = await import("../../server/chat-history.ts");
     const { readReport } = await import("../../server/storage.ts");
     const { slug } = await optimizeFixtureDeck("lathril.txt", {
       bracket: 3,
@@ -380,17 +381,23 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     const forests = (qty: number) => [
       { action: "remove" as const, name: "Forest", qty, reason: "", ok: true },
     ];
-    const big = await applyDeckChanges(slug, forests(3), "cut three Forests");
-    assert.match(big.reoptimize!, /lands, under the recommended/);
+    // The offer comes once the edit's refresh is in.
+    const offers = async () => (await readChat(slug)).filter((m) => m.rerun);
+    await applyDeckChanges(slug, forests(3), "cut three Forests");
+    await whenIdle(slug);
+    assert.equal((await offers()).length, 1);
+    assert.match((await offers())[0].content, /lands, under the recommended/);
     const asked = stub.requests.findLast((r) => JSON.stringify(r.body).includes('"reoptimize"'))!;
     assert.match(asked.text, /just changed: remove 3 Forest/);
     assert.match(asked.text, /What the change made worse: .*lands/);
-    const small = await applyDeckChanges(slug, forests(2), "cut two more");
-    assert.equal(small.reoptimize, null, "the model judged this one not worth a re-run");
+    await applyDeckChanges(slug, forests(2), "cut two more");
+    await whenIdle(slug);
+    assert.equal((await offers()).length, 1, "the model judged this one not worth a re-run");
   });
 
   test("deck chat streams the model's reply as it's written, and over the API", async () => {
-    const { chatAboutDeck, readChat } = await import("../../server/chat.ts");
+    const { chatAboutDeck } = await import("../../server/chat.ts");
+    const { readChat } = await import("../../server/chat-history.ts");
     const { createApp } = await import("../../server/app.ts");
     const { slug } = await optimizeFixtureDeck("lathril.txt", {
       bracket: 3,

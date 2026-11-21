@@ -12,3 +12,4 @@ decks/*/chat.json
 .direnv
 public/elm
 elm-stuff
+decks/*/refresh.json

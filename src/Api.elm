@@ -21,6 +21,7 @@ module Api exposing
     , resolve
     , save
     , setPublishing
+    , status
     )
 
 {-| The server's API, or on the static site the JSON the build exported. Errors are the server's
@@ -136,6 +137,13 @@ fileUrl isStatic slug file =
 
     else
         "/api/decks/" ++ slug ++ "/files/" ++ file
+
+
+{-| Where a deck's changes stand, without its whole report.
+-}
+status : String -> (Result_ DeckStatus -> msg) -> Cmd msg
+status slug =
+    get ("/api/decks/" ++ slug ++ "/status") deckStatusDecoder
 
 
 {-| A deck file's text, or Nothing when it isn't there.

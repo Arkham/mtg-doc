@@ -541,14 +541,30 @@ view model =
                         chrome =
                             Report.chrome env route report
                     in
-                    ( [ if chrome.updating then
-                            p [ class "updating-note", attribute "role" "status" ]
-                                [ span [ class "spinner", attribute "aria-hidden" "true" ] []
-                                , text " Updating the report with your changes…"
-                                ]
+                    ( [ case chrome.note of
+                            Just Report.Updating ->
+                                p [ class "updating-note", attribute "role" "status" ]
+                                    [ span [ class "spinner", attribute "aria-hidden" "true" ] []
+                                    , text " Updating the report with your changes…"
+                                    ]
 
-                        else
-                            text ""
+                            Just Report.Refreshing ->
+                                p [ class "updating-note", attribute "role" "status" ]
+                                    [ span [ class "spinner", attribute "aria-hidden" "true" ] []
+                                    , text " Updating the rest of the report…"
+                                    ]
+
+                            Just (Report.RefreshIn ms) ->
+                                p [ class "updating-note", attribute "role" "status" ]
+                                    [ text
+                                        ("Saved · the rest of the report updates in "
+                                            ++ String.fromInt (ceiling (ms / 1000))
+                                            ++ "s"
+                                        )
+                                    ]
+
+                            Nothing ->
+                                text ""
                       , Html.map ReportMsg (Html.Lazy.lazy3 Report.view env route report)
                       ]
                     , Maybe.map (Html.map ReportMsg) chrome.toggle
