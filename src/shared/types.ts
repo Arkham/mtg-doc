@@ -112,6 +112,8 @@ export interface DeckSummary {
   targetBracket?: number;
   /** Every card in the deck as submitted, commanders included, for the card search. */
   cards: string[];
+  /** The commanders' cards, so the deck list can show what they do. */
+  commanderPreviews?: Record<string, CardPreview>;
 }
 
 export interface Swap {

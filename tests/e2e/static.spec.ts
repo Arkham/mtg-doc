@@ -68,9 +68,26 @@ test.describe("static site", () => {
       await expect(page.locator(".hero")).toBeVisible();
       // A deck opens at its top.
       expect(await page.evaluate(() => scrollY)).toBe(0);
+      await page.evaluate(() => window.scrollTo({ top: 300, behavior: "instant" }));
+      // Every frame from here: whether the list shows anywhere but where it was left, or its loader.
+      await page.evaluate((y) => {
+        const w = window as unknown as { flashed: string[] };
+        w.flashed = [];
+        let frames = 0;
+        const look = () => {
+          if (document.querySelector(".loading")) w.flashed.push("loading");
+          else if (document.querySelector(".deck-grid") && scrollY !== y)
+            w.flashed.push(`at ${scrollY}`);
+          if (++frames < 90) requestAnimationFrame(look);
+        };
+        requestAnimationFrame(look);
+      }, y);
       await back();
       await expect(last).toBeVisible();
       await expect.poll(() => page.evaluate(() => scrollY)).toBe(y);
+      expect(
+        await page.evaluate(() => (window as unknown as { flashed: string[] }).flashed),
+      ).toEqual([]);
     }
     // Forward again, the deck is where it was left too.
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
@@ -83,6 +100,55 @@ test.describe("static site", () => {
     await page.goForward();
     await expect(page.locator(".hero")).toBeVisible();
     await expect.poll(() => page.evaluate(() => scrollY)).toBe(600);
+  });
+
+  test("the deck list fetches the decks on screen ahead of a tap, as their pages will ask", async ({
+    page,
+  }) => {
+    // Routing turns off the HTTP cache these requests warm, so this checks they are the ones the
+    // deck's page makes.
+    const requested: string[] = [];
+    page.on("request", (r) => requested.push(r.url()));
+    await page.goto(STATIC_URL);
+    const own = (url: string) => url.replace(STATIC_URL, "");
+    const ahead = [
+      `data/decks/${OVERPOWERED}/detail.json`,
+      `data/decks/${OVERPOWERED}/optimized.txt`,
+    ];
+    await expect.poll(() => ahead.filter((u) => requested.map(own).includes(u))).toEqual(ahead);
+    const before = requested.length;
+    await page.locator(".deck-card").first().locator(".deck-card-body").click({ force: true });
+    await expect(page.locator(".hero")).toBeVisible();
+    const opened = requested.slice(before).map(own);
+    for (const url of ahead) expect(opened).toContain(url);
+  });
+
+  test("the commander's name on a deck card previews the card; the rest of it opens the deck", async ({
+    page,
+    isMobile,
+  }) => {
+    await page.goto(STATIC_URL);
+    const card = page.locator(".deck-card").first();
+    const name = card.locator(".deck-art-name .card-name a");
+    await expect(name).toHaveText("Lathril, Blade of the Elves");
+    if (isMobile) {
+      await name.tap();
+      await expect(page.locator(".card-sheet img")).toHaveAttribute(
+        "src",
+        /cards\.scryfall\.io\/normal/,
+      );
+      await page.getByRole("button", { name: "Close" }).click();
+      await expect(page.locator(".card-sheet")).toHaveCount(0);
+    } else {
+      await name.hover();
+      await expect(page.locator(".card-preview")).toHaveAttribute(
+        "src",
+        /cards\.scryfall\.io\/normal/,
+      );
+    }
+    expect(page.url()).toBe(STATIC_URL);
+    await card.locator(".deck-card-body").click({ force: true });
+    await expect(page.locator(".hero")).toBeVisible();
   });
 
   test("on a phone the view toggle sits in the middle of the top bar", async ({ page }) => {

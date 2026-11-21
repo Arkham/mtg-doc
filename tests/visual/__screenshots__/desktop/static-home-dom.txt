@@ -30,7 +30,8 @@
             <h2 class="home-section-title">
               "Decks"
           <div class="deck-grid">
-            <a class="deck-card" href="decks/lathril-blade-of-the-elves/" style="--aura-1: #8f5bd8; --aura-2: #3dbb6c; --aura-3: #3dbb6c">
+            <div class="deck-card" style="--aura-1: #8f5bd8; --aura-2: #3dbb6c; --aura-3: #3dbb6c">
+              <a aria-label="Lathril, Blade of the Elves" class="deck-card-link" href="decks/lathril-blade-of-the-elves/">
               <div class="deck-art">
                 <span>
                   "🃏"
@@ -42,14 +43,17 @@
                   <span class="bracket-badge b4 sm" title="Bracket 4: Optimized">
                     "4"
                 <strong class="deck-art-name">
-                  "Lathril, Blade of the Elves"
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/fdn/242/lathril-blade-of-the-elves?utm_source=api" rel="noreferrer" target="_blank">
+                      "Lathril, Blade of the Elves"
               <div class="deck-card-body">
                 <span class="muted small">
                   "Bracket 4 · 35 lands · $2279"
                 <span class="deck-suggest">
                   <img alt="" height="18" src="./icon-64.png" width="18">
                   "14 suggested swaps for bracket 3"
-            <a class="deck-card" href="decks/lathril-blade-of-the-elves-2/" style="--aura-1: #8f5bd8; --aura-2: #3dbb6c; --aura-3: #3dbb6c">
+            <div class="deck-card" style="--aura-1: #8f5bd8; --aura-2: #3dbb6c; --aura-3: #3dbb6c">
+              <a aria-label="Lathril, Blade of the Elves" class="deck-card-link" href="decks/lathril-blade-of-the-elves-2/">
               <div class="deck-art">
                 <span>
                   "🃏"
@@ -61,7 +65,9 @@
                   <span class="bracket-badge b2 sm" title="Bracket 2: Core">
                     "2"
                 <strong class="deck-art-name">
-                  "Lathril, Blade of the Elves"
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/fdn/242/lathril-blade-of-the-elves?utm_source=api" rel="noreferrer" target="_blank">
+                      "Lathril, Blade of the Elves"
               <div class="deck-card-body">
                 <span class="muted small">
                   "Bracket 2 · 34 lands · $382"

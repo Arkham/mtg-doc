@@ -192,7 +192,6 @@ class OutsideClose extends Controller {
   }
 }
 
-/** Loads images ahead of time (space-separated `srcs`), so the next card in a gallery is ready. */
 /** Images any preloader on the page has asked for. */
 const preloaded = new Set<string>();
 
@@ -233,6 +232,55 @@ class Preload extends Controller {
         image.src = src;
       }
     });
+  }
+}
+
+/** Data any prefetcher on the page has asked for. */
+const prefetched = new Set<string>();
+
+/**
+ * Once its parent is on screen (or nearly), fetches what opening it will need (`urls`, separated
+ * by spaces) at low priority while the browser is idle, so the page it links to opens from the
+ * browser's HTTP cache. `images` are loaded the same way.
+ */
+class Prefetch extends Controller {
+  #observer: IntersectionObserver | null = null;
+  connectedCallback() {
+    super.connectedCallback();
+    const host = this.host;
+    if (!host) return;
+    this.#observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        this.#observer?.disconnect();
+        const idle = window.requestIdleCallback ?? ((f: () => void) => setTimeout(f, 150));
+        idle(() => this.#fetch());
+      },
+      { rootMargin: "200px" },
+    );
+    this.#observer.observe(host);
+  }
+  disconnectedCallback() {
+    this.#observer?.disconnect();
+  }
+  #fetch() {
+    const fresh = (attr: string) =>
+      (this.getAttribute(attr) ?? "").split(" ").filter((u) => u && !prefetched.has(u));
+    // XHR, like Elm's requests: WebKit reuses an XHR's cached response for another, not a fetch's.
+    for (const url of fresh("urls")) {
+      prefetched.add(url);
+      const request = new XMLHttpRequest();
+      request.open("GET", url);
+      request.onerror = () => prefetched.delete(url);
+      request.send();
+    }
+    for (const src of fresh("images")) {
+      prefetched.add(src);
+      const image = new Image();
+      image.fetchPriority = "low";
+      image.decoding = "async";
+      image.src = src;
+    }
   }
 }
 
@@ -501,6 +549,7 @@ export function defineElements() {
     ["mtg-copy", Copy],
     ["mtg-outside-close", OutsideClose],
     ["mtg-preload", Preload],
+    ["mtg-prefetch", Prefetch],
     ["mtg-section-nav", SectionNav],
     ["mtg-paste", Paste],
     ["mtg-hotkey", Hotkey],

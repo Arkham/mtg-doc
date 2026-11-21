@@ -408,8 +408,15 @@ button.back svg {
   color: var(--muted);
   text-align: center;
 }
+/* Shown only when the wait is long enough to notice, so a quick load doesn't flash it. */
 .loading {
   flex-direction: row;
+  animation: loading-in 0.2s ease 0.5s both;
+}
+@keyframes loading-in {
+  from {
+    opacity: 0;
+  }
 }
 
 .spinner {
@@ -1106,9 +1113,20 @@ textarea.decklist {
   justify-content: space-between;
   align-items: center;
 }
+/* Over the whole card, so all of it opens the deck; only the commanders' names sit above it. */
+.deck-card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+}
+.deck-card-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 .deck-art-name {
   position: absolute;
-  z-index: 1;
+  z-index: 3;
   left: 16px;
   right: 16px;
   bottom: 8px;
@@ -1117,6 +1135,20 @@ textarea.decklist {
   letter-spacing: -0.015em;
   line-height: 1.2;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+.deck-art-name .card-name > a {
+  pointer-events: auto;
+  color: var(--text);
+  text-decoration: underline dotted rgba(255, 255, 255, 0.45);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.5px;
+}
+.deck-art-name .card-name > a:hover {
+  text-decoration-color: var(--accent-hi);
+}
+.deck-art-name .muted {
+  color: var(--text-2);
 }
 .deck-card-body {
   padding: 4px 16px 16px;

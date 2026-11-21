@@ -1,6 +1,7 @@
 module Page.Home exposing (Mode, Model, Msg, Out(..), Photo, init, update, view)
 
 import Api
+import Dict
 import Env exposing (Env)
 import File exposing (File)
 import File.Select
@@ -14,6 +15,7 @@ import Task
 import Types exposing (..)
 import Ui.Attr exposing (alt, class, href, placeholder, src, type_)
 import Ui.Bracket as Bracket
+import Ui.Card as Card
 import Ui.Icons as Icons
 import Ui.Mana as Mana
 import Ui.Style exposing (ariaSelected, aura)
@@ -43,6 +45,7 @@ type alias Model =
 
 type Msg
     = GotDecks (Result String (List DeckSummary))
+    | CardMsg Card.Msg
     | SetMode Mode
     | Browse
     | AddFiles (List File)
@@ -65,11 +68,15 @@ type Msg
 -}
 type Out
     = Recognized Recognition (List String)
+    | Preview Card.Msg
 
 
-init : Env -> ( Model, Cmd Msg )
-init env =
-    ( { decks = Nothing
+{-| `decks` is the list as last loaded, drawn at once (coming back keeps the reader's place in it)
+while it's fetched again.
+-}
+init : Env -> Maybe (List DeckSummary) -> ( Model, Cmd Msg )
+init env decks =
+    ( { decks = decks
       , photos = []
       , text = ""
       , preferredMode = Image
@@ -102,8 +109,11 @@ mode config model =
 update : Maybe AppConfig -> Msg -> Model -> ( Model, Cmd Msg, Maybe Out )
 update config msg model =
     case msg of
+        CardMsg m ->
+            ( model, Cmd.none, Just (Preview m) )
+
         GotDecks result ->
-            ( { model | decks = Just (Result.withDefault [] result) }, Cmd.none, Nothing )
+            ( { model | decks = Just (Result.withDefault (Maybe.withDefault [] model.decks) result) }, Cmd.none, Nothing )
 
         SetMode m ->
             ( { model | preferredMode = m }, Cmd.none, Nothing )
@@ -318,10 +328,33 @@ deckGallery env filter decks =
         ]
 
 
-deckCard : Env -> DeckSummary -> Html msg
+{-| The whole card opens the deck, through a link stretched over it; the commanders' names over
+the art preview their cards, so a reader can see what a deck does before opening it.
+-}
+deckCard : Env -> DeckSummary -> Html Msg
 deckCard env d =
-    a [ class "deck-card", href (Route.deckHref env.isStatic d.slug Route.Current), aura d.colorIdentity ]
-        [ div [ class "deck-art" ]
+    let
+        title =
+            if List.isEmpty d.commanders then
+                d.slug
+
+            else
+                String.join " + " d.commanders
+    in
+    div [ class "deck-card", aura d.colorIdentity ]
+        [ a [ class "deck-card-link", href (Route.deckHref env.isStatic d.slug Route.Current), attribute "aria-label" title ] []
+
+        -- What the deck's page loads first: its report, the list it copies, the commanders' cards.
+        , node "mtg-prefetch"
+            [ attribute "urls" (Api.deckUrl env.isStatic d.slug ++ " " ++ Api.fileUrl env.isStatic d.slug "optimized.txt")
+            , attribute "images"
+                (d.commanderPreviews
+                    |> Maybe.map (Dict.values >> List.filterMap .image >> String.join " ")
+                    |> Maybe.withDefault ""
+                )
+            ]
+            []
+        , div [ class "deck-art" ]
             [ case d.image of
                 Just image ->
                     img [ src image, alt "", attribute "loading" "lazy" ] []
@@ -342,14 +375,20 @@ deckCard env d =
                         text ""
                 ]
             , strong [ class "deck-art-name" ]
-                [ text
-                    (if List.isEmpty d.commanders then
-                        d.slug
+                (if List.isEmpty d.commanders then
+                    [ text d.slug ]
 
-                     else
-                        String.join " + " d.commanders
-                    )
-                ]
+                 else
+                    let
+                        ctx =
+                            { index = Maybe.withDefault Dict.empty d.commanderPreviews
+                            , gallery = Nothing
+                            , canHover = env.canHover
+                            , lift = CardMsg
+                            }
+                    in
+                    Card.list ctx " + " d.commanders
+                )
             ]
         , div [ class "deck-card-body" ]
             [ span [ class "muted small" ]

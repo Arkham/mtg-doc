@@ -247,6 +247,14 @@ export async function listDecks(): Promise<DeckSummary[]> {
         cards: list
           ? [...new Set([...list.commanders, ...list.entries.map((e) => e.name)])].sort()
           : [],
+        commanderPreviews: report
+          ? Object.fromEntries(
+              report.commanderCards.map((c) => [
+                c.name,
+                { image: c.image, scryfallUri: c.scryfallUri },
+              ]),
+            )
+          : undefined,
       });
     } catch {
       // Folders without deck.json aren't managed by the app.

@@ -9,6 +9,7 @@ module Api exposing
     , clearChat
     , config
     , deck
+    , deckUrl
     , decks
     , edit
     , fileText
@@ -122,14 +123,18 @@ decks isStatic =
 
 deck : Bool -> String -> (Result_ DeckDetail -> msg) -> Cmd msg
 deck isStatic slug =
-    get
-        (if isStatic then
-            "data/decks/" ++ slug ++ "/detail.json"
+    get (deckUrl isStatic slug) deckDetailDecoder
 
-         else
-            "/api/decks/" ++ slug
-        )
-        deckDetailDecoder
+
+{-| Where a deck's page gets its report, so the deck list can fetch it ahead of a tap.
+-}
+deckUrl : Bool -> String -> String
+deckUrl isStatic slug =
+    if isStatic then
+        "data/decks/" ++ slug ++ "/detail.json"
+
+    else
+        "/api/decks/" ++ slug
 
 
 {-| A deck's saved last optimizer run, to replay.

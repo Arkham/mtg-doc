@@ -10,6 +10,7 @@ import {
   ROUTE_CHANGE,
 } from "./nav.ts";
 import { IS_STATIC } from "./static.ts";
+import { routeHref } from "./routes.ts";
 import { captureAnchor, restoreAnchor, whenDrawn } from "./scroll-anchor.ts";
 import type { DeckSummary } from "../shared/types.ts";
 
@@ -90,11 +91,20 @@ function keyEntry(): string {
 }
 let current = keyEntry();
 
-/** Back to `y` once the page is long enough to scroll there; the top until then. */
-function scrollBackTo(y: number) {
-  const ready = () => document.documentElement.scrollHeight >= y + innerHeight;
-  if (!ready()) window.scrollTo(0, 0);
-  whenDrawn(ready, () => window.scrollTo({ top: y, behavior: "instant" }));
+/**
+ * Sets the scroll for a page the moment Elm has drawn it, before it's painted: back to `y` (top
+ * until the page is long enough to scroll there), or the top.
+ */
+function scrollWhenDrawn(next: Route, y: number | null) {
+  const drawn = () =>
+    document.querySelector(".app")?.getAttribute("data-mtg-route") === routeHref(next, IS_STATIC);
+  const tall = () => y !== null && document.documentElement.scrollHeight >= y + innerHeight;
+  const back = () => window.scrollTo({ top: y ?? 0, behavior: "instant" });
+  whenDrawn(drawn, () => {
+    if (y === null || tall()) return back();
+    window.scrollTo(0, 0);
+    whenDrawn(tall, back);
+  });
 }
 
 const onRoute = () => {
@@ -124,8 +134,7 @@ const onRoute = () => {
     const saved = sessionStorage.getItem(
       next.page === "home" ? HOME_Y : revisit ? entryY(current) : "",
     );
-    // Elm draws in the next animation frame; this one runs right after it, before the paint.
-    requestAnimationFrame(() => (saved ? scrollBackTo(Number(saved)) : window.scrollTo(0, 0)));
+    scrollWhenDrawn(next, saved ? Number(saved) : null);
     return;
   }
   if (!anchor) return;

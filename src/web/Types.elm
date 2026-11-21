@@ -1491,6 +1491,8 @@ targetBracket: Bracket the suggested swaps aim for.
 
 cards: Every card in the deck as submitted, commanders included, for the card search.
 
+commanderPreviews: The commanders' cards, so the deck list can show what they do.
+
 -}
 type alias DeckSummary =
     { slug : String
@@ -1506,6 +1508,7 @@ type alias DeckSummary =
     , swapCount : Maybe Float
     , targetBracket : Maybe Float
     , cards : List String
+    , commanderPreviews : Maybe (Dict String CardPreview)
     }
 
 
@@ -1525,6 +1528,7 @@ deckSummaryDecoder =
         |> P.optional "swapCount" (D.map Just D.float) Nothing
         |> P.optional "targetBracket" (D.map Just D.float) Nothing
         |> P.required "cards" (D.list D.string)
+        |> P.optional "commanderPreviews" (D.map Just (D.dict cardPreviewDecoder)) Nothing
 
 
 encodeDeckSummary : DeckSummary -> E.Value
@@ -1544,6 +1548,7 @@ encodeDeckSummary value =
             , Maybe.map (\v -> ( "swapCount", E.float v )) value.swapCount
             , Maybe.map (\v -> ( "targetBracket", E.float v )) value.targetBracket
             , Just ( "cards", E.list E.string value.cards )
+            , Maybe.map (\v -> ( "commanderPreviews", E.dict identity encodeCardPreview v )) value.commanderPreviews
             ]
         )
 

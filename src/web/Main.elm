@@ -16,7 +16,7 @@ import Page.Progress as Progress
 import Page.Report as Report
 import Page.Review as Review
 import Route exposing (Route(..))
-import Types exposing (AppConfig, Recognition)
+import Types exposing (AppConfig, DeckSummary, Recognition)
 import Ui.Attr exposing (alt, class, href, id, src, title)
 import Ui.Card as Card
 import Ui.Icons as Icons
@@ -61,6 +61,9 @@ type alias Model =
     , hovers : List Card.Hover
     , sheet : Maybe Sheet.Model
     , decklistView : String
+
+    -- The deck list as Home last had it, for Home to draw at once when it's back.
+    , decks : Maybe (List DeckSummary)
     }
 
 
@@ -115,7 +118,7 @@ init value =
                     }
 
         ( home, homeCmd ) =
-            Home.init flags.env
+            Home.init flags.env Nothing
 
         model =
             { env = flags.env
@@ -127,6 +130,7 @@ init value =
             , hovers = []
             , sheet = Nothing
             , decklistView = flags.decklistView
+            , decks = Nothing
             }
 
         ( routed, routeCmd ) =
@@ -146,7 +150,23 @@ enter : Route -> Model -> ( Model, Cmd Msg )
 enter route model =
     let
         cleared =
-            { model | route = route, hovers = [], sheet = Nothing }
+            { model
+                | route = route
+                , hovers = []
+                , sheet = Nothing
+                , decks =
+                    case model.page of
+                        HomePage home ->
+                            case home.decks of
+                                Just decks ->
+                                    Just decks
+
+                                Nothing ->
+                                    model.decks
+
+                        _ ->
+                            model.decks
+            }
     in
     case route of
         Home ->
@@ -162,7 +182,7 @@ enter route model =
                 Nothing ->
                     let
                         ( home, cmd ) =
-                            Home.init model.env
+                            Home.init model.env model.decks
                     in
                     ( { cleared | page = HomePage home }, Cmd.map HomeMsg cmd )
 
@@ -256,6 +276,9 @@ update msg model =
                             , Cmd.map HomeMsg cmd
                             )
 
+                        Just (Home.Preview cm) ->
+                            card cm updated
+
                         Nothing ->
                             ( updated, Cmd.map HomeMsg cmd )
 
@@ -282,7 +305,7 @@ update msg model =
                         Just Review.StartOver ->
                             let
                                 ( home, homeCmd ) =
-                                    Home.init model.env
+                                    Home.init model.env model.decks
                             in
                             ( { updated | recognition = Nothing, page = HomePage home }
                             , Cmd.batch [ mapped, Cmd.map HomeMsg homeCmd ]
@@ -592,7 +615,8 @@ view model =
                     )
     in
     div [ id "root" ]
-        (div [ class "app" ]
+        -- Which route is drawn, so the page can set its scroll the moment it is.
+        (div [ class "app", attribute "data-mtg-route" (Route.href env.isStatic model.route) ]
             [ header [ class "topbar" ]
                 [ if inner then
                     button [ class "back", onClick GoBack, attribute "aria-label" "Back" ]
