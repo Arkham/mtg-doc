@@ -9,9 +9,10 @@ import Dict exposing (Dict)
 import Env exposing (Env)
 import Format exposing (toFixed)
 import Html exposing (Html, a, aside, button, div, form, header, img, li, node, p, span, strong, text, textarea, ul)
-import Html.Attributes exposing (attribute, disabled, height, rows, value, width)
-import Html.Events exposing (onClick, onInput, preventDefaultOn)
+import Html.Attributes exposing (attribute, disabled, height, property, rows, value, width)
+import Html.Events exposing (on, onClick, onInput, preventDefaultOn)
 import Json.Decode as D
+import Json.Encode as E
 import Process
 import Route
 import Task
@@ -36,6 +37,10 @@ type alias Model =
     , messages : Maybe (List DeckChatMessage)
     , text : String
     , sending : Bool
+
+    -- The doc's reply as it's written, while a message is answered.
+    , streamed : String
+    , pendingTarget : EditTarget
     , applying : Maybe String
     , error : Maybe String
     , focus : Int
@@ -50,6 +55,7 @@ type Msg
     | SetText String
     | SendIn EditTarget String
     | GotReply String (Result String DeckChatMessage)
+    | Streamed Piece
     | GotDeck (Result String DeckDetail)
     | Apply String
     | GotApply String (Result String ( DeckChatMessage, String ))
@@ -59,6 +65,18 @@ type Msg
     | GotWaited String (Result String (List DeckChatMessage))
     | CardMsg Card.Msg
     | Ignore
+
+
+{-| A piece of a reply as it's written: more text, or the whole of it when it starts over.
+-}
+type Piece
+    = More String
+    | Whole String
+
+
+pieceDecoder : D.Decoder Piece
+pieceDecoder =
+    D.oneOf [ D.field "delta" D.string |> D.map More, D.field "text" D.string |> D.map Whole ]
 
 
 type Out
@@ -73,6 +91,8 @@ init =
     , messages = Nothing
     , text = ""
     , sending = False
+    , streamed = ""
+    , pendingTarget = EditTargetOptimized
     , applying = Nothing
     , error = Nothing
     , focus = 0
@@ -137,7 +157,16 @@ update env slug msg model =
             ( { model | open = False }, Cmd.none, Nothing )
 
         GotChat (Ok messages) ->
-            plain (withMessages (Just messages) model)
+            -- The message being answered is saved with its answer, so the history doesn't have it yet.
+            let
+                answering =
+                    if model.sending then
+                        List.filter (\m -> m.id == "pending") (Maybe.withDefault [] model.messages)
+
+                    else
+                        []
+            in
+            plain (withMessages (Just (messages ++ answering)) model)
 
         GotChat (Err _) ->
             plain (withMessages (Just (Maybe.withDefault [] model.messages)) model)
@@ -172,18 +201,41 @@ update env slug msg model =
                     ( m, cmd ) =
                         withMessages (Just (Maybe.withDefault [] model.messages ++ [ pending ])) model
                 in
-                ( { m | error = Nothing, sending = True, text = "" }
-                , Cmd.batch [ cmd, Api.sendChat slug content target (GotReply content) ]
+                -- The message is sent by the stream element the view draws while it's answered.
+                ( { m | error = Nothing, sending = True, streamed = "", text = "", pendingTarget = target }
+                , cmd
                 , Nothing
                 )
 
         GotReply _ (Ok reply) ->
             let
+                current =
+                    Maybe.withDefault [] model.messages
+
+                -- Reopening the chat while it was answered may have brought the saved message and
+                -- its question already.
+                messages =
+                    if List.any (\x -> x.id == reply.id) current then
+                        List.filter (\x -> x.id /= "pending") current
+
+                    else
+                        -- The question stays, no longer waiting for an answer.
+                        List.map
+                            (\x ->
+                                if x.id == "pending" then
+                                    { x | id = "asked:" ++ reply.id }
+
+                                else
+                                    x
+                            )
+                            current
+                            ++ [ reply ]
+
                 ( m, cmd ) =
-                    withMessages (Just (Maybe.withDefault [] model.messages ++ [ reply ])) model
+                    withMessages (Just messages) model
 
                 done =
-                    { m | sending = False, focus = m.focus + 1 }
+                    { m | sending = False, streamed = "", focus = m.focus + 1 }
             in
             -- A "yes" to a proposed re-run starts it right away.
             case reply.rerun |> Maybe.andThen .jobId of
@@ -211,7 +263,21 @@ update env slug msg model =
                 ( m, cmd ) =
                     withMessages (Maybe.map (List.filter (\x -> x.id /= "pending")) model.messages) model
             in
-            ( { m | error = Just e, text = content, sending = False, focus = m.focus + 1 }, cmd, Nothing )
+            ( { m | error = Just e, text = content, sending = False, streamed = "", focus = m.focus + 1 }, cmd, Nothing )
+
+        Streamed piece ->
+            ( { model
+                | streamed =
+                    case piece of
+                        More delta ->
+                            model.streamed ++ delta
+
+                        Whole text ->
+                            text
+              }
+            , Cmd.none
+            , Nothing
+            )
 
         GotDeck (Ok detail) ->
             case detail.report of
@@ -311,6 +377,30 @@ subscriptions model =
 
     else
         Sub.none
+
+
+{-| Sends the message being answered and streams the reply back (see `mtg-chat-stream` in
+src/elements.ts).
+-}
+streamElement : Config -> Model -> Html Msg
+streamElement config model =
+    let
+        content =
+            model.messages
+                |> Maybe.withDefault []
+                |> List.filter (\m -> m.id == "pending")
+                |> List.head
+                |> Maybe.map .content
+                |> Maybe.withDefault ""
+    in
+    node "mtg-chat-stream"
+        [ attribute "url" ("/api/decks/" ++ config.slug ++ "/chat")
+        , property "body" (E.object [ ( "message", E.string content ), ( "view", encodeEditTarget model.pendingTarget ) ])
+        , on "reply" (D.field "detail" pieceDecoder |> D.map Streamed)
+        , on "message" (D.field "detail" deckChatMessageDecoder |> D.map (Ok >> GotReply content))
+        , on "failure" (D.field "detail" D.string |> D.map (Err >> GotReply content))
+        ]
+        []
 
 
 type alias Config =
@@ -481,8 +571,22 @@ rerunView config message r busy =
         ]
 
 
-view : Config -> Model -> Html Msg
+{-| The chat button or panel, and while a message is answered, the stream that answers it: outside
+the panel, so closing the chat doesn't cancel it.
+-}
+view : Config -> Model -> List (Html Msg)
 view config model =
+    panel config model
+        :: (if model.sending then
+                [ streamElement config model ]
+
+            else
+                []
+           )
+
+
+panel : Config -> Model -> Html Msg
+panel config model =
     if not model.open then
         button [ class "chat-fab primary", onClick Open, attribute "aria-label" "Ask the doc about this deck" ]
             [ img [ class "doc-avatar", src "./icon-96.png", alt "", width 30, height 30 ] []
@@ -549,7 +653,12 @@ view config model =
                         (Maybe.withDefault [] model.messages)
                     ++ (if model.sending then
                             [ div [ class "chat-msg assistant" ]
-                                [ div [ class "chat-bubble typing", attribute "aria-label" "Thinking" ] [ span [] [], span [] [], span [] [] ] ]
+                                [ if model.streamed == "" then
+                                    div [ class "chat-bubble typing", attribute "aria-label" "Thinking" ] [ span [] [], span [] [], span [] [] ]
+
+                                  else
+                                    div [ class "chat-bubble streaming" ] (Card.proseSoFar ctx model.streamed)
+                                ]
                             ]
 
                         else

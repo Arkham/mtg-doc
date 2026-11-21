@@ -309,7 +309,25 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
   return message("{}");
 }
 
-export async function startLlmStub(): Promise<LlmStub> {
+/** Characters per streamed piece: small, so a reply arrives in many. */
+const STREAM_PIECE = 7;
+
+/** Streams a response the way the Responses API does: text deltas, then the whole response. */
+async function stream(res: http.ServerResponse, out: ReturnType<typeof message>, delayMs: number) {
+  res.writeHead(200, { "content-type": "text/event-stream" });
+  const send = (data: Record<string, unknown>) =>
+    res.write(`event: ${data.type}\ndata: ${JSON.stringify(data)}\n\n`);
+  const text = out.output[0].content[0].text;
+  for (let i = 0; i < text.length; i += STREAM_PIECE) {
+    send({ type: "response.output_text.delta", delta: text.slice(i, i + STREAM_PIECE) });
+    await new Promise((r) => setTimeout(r, delayMs));
+  }
+  send({ type: "response.completed", response: out });
+  res.end();
+}
+
+/** `streamDelayMs`: the pause between streamed pieces, long enough to watch a reply grow. */
+export async function startLlmStub({ streamDelayMs = 2 } = {}): Promise<LlmStub> {
   const requests: LlmStub["requests"] = [];
   const server = http.createServer((req, res) => {
     let raw = "";
@@ -322,12 +340,15 @@ export async function startLlmStub(): Promise<LlmStub> {
       const text = parts.map((p: { text?: string }) => p.text ?? "").join("\n");
       requests.push({ body, text });
       const hasImage = parts.some((p: { type: string }) => p.type === "input_image");
-      res.setHeader("content-type", "application/json");
       const out = req.url?.endsWith("/decisions") ? decisions(body) : answer(body, text, hasImage);
       if (out === CONTENT_FILTER) {
-        res.statusCode = CONTENT_FILTER.status;
+        res.writeHead(CONTENT_FILTER.status, { "content-type": "application/json" });
         res.end(JSON.stringify(CONTENT_FILTER.body));
-      } else res.end(JSON.stringify(out));
+      } else if (body.stream) void stream(res, out as ReturnType<typeof message>, streamDelayMs);
+      else {
+        res.setHeader("content-type", "application/json");
+        res.end(JSON.stringify(out));
+      }
     });
   });
   await new Promise<void>((r) => server.listen(0, "127.0.0.1", r));

@@ -327,6 +327,59 @@ class Hotkey extends Controller {
   }
 }
 
+/**
+ * Sends a chat message (`url`, and the request's JSON as the `body` property) when it appears,
+ * and streams the doc's answer back: `reply` events as it's written (`{ delta }` to add, or
+ * `{ text }` when it starts over), then `message` with the saved message, or `failure`. Leaving
+ * the page cancels the stream; the server still saves the answer to the chat.
+ */
+class ChatStream extends Controller {
+  body: unknown = null;
+  #abort = new AbortController();
+  connectedCallback() {
+    super.connectedCallback();
+    void this.#send();
+  }
+  disconnectedCallback() {
+    this.#abort.abort();
+  }
+  #emit(type: string, detail: unknown) {
+    if (!this.#abort.signal.aborted) this.dispatchEvent(new CustomEvent(type, { detail }));
+  }
+  async #send() {
+    try {
+      const res = await fetch(this.getAttribute("url")!, {
+        method: "POST",
+        headers: { "content-type": "application/json", accept: "text/event-stream" },
+        body: JSON.stringify(this.body),
+        signal: this.#abort.signal,
+      });
+      if (!res.ok || !res.body) {
+        const body = await res.json().catch(() => ({}));
+        return this.#emit("failure", body.error ?? `Request failed (${res.status})`);
+      }
+      const decoder = new TextDecoder();
+      let buffer = "";
+      for await (const chunk of res.body) {
+        buffer += decoder.decode(chunk, { stream: true });
+        let end: number;
+        while ((end = buffer.indexOf("\n\n")) >= 0) {
+          const block = buffer.slice(0, end);
+          buffer = buffer.slice(end + 2);
+          const event = /^event: (.*)$/m.exec(block)?.[1];
+          const data = JSON.parse(/^data: (.*)$/m.exec(block)?.[1] ?? "null");
+          if (event === "reply") this.#emit("reply", data);
+          else if (event === "message") return this.#emit("message", data);
+          else if (event === "error") return this.#emit("failure", data.error);
+        }
+      }
+      this.#emit("failure", "The reply was cut off. Try again.");
+    } catch (err) {
+      this.#emit("failure", err instanceof Error ? err.message : String(err));
+    }
+  }
+}
+
 /** Text that the browser formats for the reader's locale: a date (`date`) or a number (`number`). */
 class LocalText extends HTMLElement {
   static observedAttributes = ["date", "number"];
@@ -367,6 +420,7 @@ export function defineElements() {
     ["mtg-paste", Paste],
     ["mtg-hotkey", Hotkey],
     ["mtg-local-text", LocalText],
+    ["mtg-chat-stream", ChatStream],
   ];
   for (const [name, element] of elements)
     if (!customElements.get(name)) customElements.define(name, element);

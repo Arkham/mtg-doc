@@ -42,11 +42,8 @@ export function toResponsesInput(messages: ChatMessage[]) {
   });
 }
 
-async function post<T>(
-  path: string,
-  body: Record<string, unknown>,
-  timeoutMs = 300_000,
-): Promise<T> {
+/** A successful response, after retrying rate limits and server errors. */
+async function request(path: string, body: Record<string, unknown>, timeoutMs: number) {
   if (!config.llm.apiKey) throw new LlmError("LLM_API_KEY is not configured");
   for (let attempt = 0; ; attempt++) {
     const res = await fetch(`${config.llm.baseUrl}/${path}`, {
@@ -58,11 +55,7 @@ async function post<T>(
       body: JSON.stringify(body),
       signal: AbortSignal.timeout(timeoutMs),
     });
-    if (res.ok) {
-      const data = (await res.json()) as T & { error?: { message?: string } | null };
-      if (data.error?.message) throw new LlmError(`LLM error: ${data.error.message}`);
-      return data;
-    }
+    if (res.ok) return res;
     const text = await res.text();
     const retryable = res.status === 429 || res.status >= 500;
     if (!retryable || attempt >= 2) {
@@ -70,6 +63,18 @@ async function post<T>(
     }
     await new Promise((r) => setTimeout(r, config.llm.retryDelayMs * (attempt + 1)));
   }
+}
+
+async function post<T>(
+  path: string,
+  body: Record<string, unknown>,
+  timeoutMs = 300_000,
+): Promise<T> {
+  const data = (await (await request(path, body, timeoutMs)).json()) as T & {
+    error?: { message?: string } | null;
+  };
+  if (data.error?.message) throw new LlmError(`LLM error: ${data.error.message}`);
+  return data;
 }
 
 const respond = (body: Record<string, unknown>) => post<ResponsesResult>("responses", body);
@@ -125,6 +130,86 @@ export async function chatJson<T extends z.ZodType>(
     }
   }
   throw new LlmError(`LLM returned invalid JSON: ${String(lastError)}`);
+}
+
+/** The events of a server-sent event stream, as the JSON each one carries. */
+async function* streamEvents(body: ReadableStream<Uint8Array>) {
+  const decoder = new TextDecoder();
+  let buffer = "";
+  for await (const chunk of body) {
+    buffer += decoder.decode(chunk, { stream: true });
+    let end: number;
+    while ((end = buffer.indexOf("\n\n")) >= 0) {
+      const block = buffer.slice(0, end);
+      buffer = buffer.slice(end + 2);
+      const data = block
+        .split("\n")
+        .filter((line) => line.startsWith("data:"))
+        .map((line) => line.slice(5).trimStart())
+        .join("\n");
+      if (data && data !== "[DONE]") yield JSON.parse(data) as Record<string, unknown>;
+    }
+  }
+}
+
+/**
+ * Like `chatJson`, with the model's answer streamed: `onText` gets its text so far as it arrives,
+ * for showing the reply while the rest is written. Providers that don't stream answer all at once.
+ */
+export async function chatJsonStream<T extends z.ZodType>(
+  schema: T,
+  messages: ChatMessage[],
+  onText: (text: string) => void,
+  opts: { model?: string; reasoning?: ReasoningEffort } = {},
+): Promise<z.infer<T>> {
+  const res = await request(
+    "responses",
+    {
+      model: opts.model ?? config.llm.model,
+      input: toResponsesInput(messages),
+      text: { format: { type: "json_object" } },
+      stream: true,
+      ...(opts.reasoning ? { reasoning: { effort: opts.reasoning } } : {}),
+    },
+    300_000,
+  );
+  let content = "";
+  if (res.headers.get("content-type")?.includes("text/event-stream") && res.body) {
+    for await (const event of streamEvents(res.body)) {
+      if (event.type === "response.output_text.delta" && typeof event.delta === "string") {
+        content += event.delta;
+        onText(content);
+      } else if (event.type === "response.completed") {
+        content = outputText(event.response as ResponsesResult) || content;
+      } else if (event.type === "response.failed" || event.type === "error") {
+        const failed = event.response as ResponsesResult | undefined;
+        const message = failed?.error?.message ?? (event.message as string | undefined);
+        throw new LlmError(`LLM error: ${message ?? "the response failed"}`);
+      }
+    }
+  } else {
+    const data = (await res.json()) as ResponsesResult;
+    if (data.error?.message) throw new LlmError(`LLM error: ${data.error.message}`);
+    content = outputText(data);
+    onText(content);
+  }
+  try {
+    return schema.parse(extractJson(content));
+  } catch (err) {
+    // The same second chance `chatJson` gives, without streaming: the reply shown so far is replaced.
+    return chatJson(
+      schema,
+      [
+        ...messages,
+        { role: "assistant", content },
+        {
+          role: "user",
+          content: `That response did not match the required JSON shape: ${String(err).slice(0, 800)}. Reply again with only the corrected JSON object.`,
+        },
+      ],
+      opts,
+    );
+  }
 }
 
 /** Runs a prompt with the built-in web_search tool and returns the answer with its cited sources. */

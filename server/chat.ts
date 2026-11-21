@@ -44,7 +44,8 @@ import { makeRerun } from "./analysis/rerun.ts";
 import { makeViolation } from "./analysis/search.ts";
 import { config, llmEnabled } from "./config.ts";
 import { enqueueEdit, pendingEdits } from "./edit-queue.ts";
-import { chatJson, decide } from "./llm.ts";
+import { chatJson, chatJsonStream, decide } from "./llm.ts";
+import { partialStringField } from "./analysis/partial-json.ts";
 import { loadDeck, snapshot, startOptimize, twoCardCombos } from "./pipeline.ts";
 import { buildCardIndex, isNamedCard, looksLikeNickname } from "./card-index.ts";
 import { suggestManaFixes } from "./mana-advice.ts";
@@ -220,6 +221,7 @@ async function proposeWithLlm(
   history: DeckChatMessage[],
   target: EditTarget,
   suggestionsHidden: boolean,
+  onReply?: (reply: string) => void,
 ) {
   const recent = history.slice(-HISTORY_FOR_MODEL).map((m) => ({
     role: m.role,
@@ -230,13 +232,19 @@ async function proposeWithLlm(
           ? `${m.content}\n[Proposed re-run: ${m.rerun.summary}${m.rerun.jobId ? " — started" : " — awaiting confirmation"}]`
           : m.content,
   }));
-  return chatJson(ReplySchema, [
+  const messages = [
     {
-      role: "system",
+      role: "system" as const,
       content: `${SYSTEM}\n\n${deckSummary(deck, report, target, suggestionsHidden)}`,
     },
     ...recent,
-  ]);
+  ];
+  if (!onReply) return chatJson(ReplySchema, messages);
+  let shown = "";
+  return chatJsonStream(ReplySchema, messages, (text) => {
+    const reply = partialStringField(text, "reply");
+    if (reply !== null && reply !== shown) onReply((shown = reply));
+  });
 }
 
 /**
@@ -333,10 +341,15 @@ export async function validateChanges(
   return out;
 }
 
+/**
+ * Answers a message about a deck and saves both to its chat. With `onReply`, the model's reply is
+ * passed along as it's written (unsettled: its card references are checked once it's done).
+ */
 export async function chatAboutDeck(
   slug: string,
   message: string,
   view: EditTarget = "optimized",
+  { onReply }: { onReply?: (reply: string) => void } = {},
 ): Promise<DeckChatMessage> {
   const meta = await readMeta(slug);
   const report = await readReport(slug);
@@ -395,9 +408,14 @@ export async function chatAboutDeck(
   let editTarget = target;
   const parsed = parseCommand(message);
   const llm = llmEnabled()
-    ? await proposeWithLlm(deck, report, history, target, Boolean(meta.hideSuggestions)).catch(
-        (err: unknown) => ({ error: err }),
-      )
+    ? await proposeWithLlm(
+        deck,
+        report,
+        history,
+        target,
+        Boolean(meta.hideSuggestions),
+        onReply,
+      ).catch((err: unknown) => ({ error: err }))
     : null;
   if (llm && !("error" in llm)) {
     reply = llm.reply;

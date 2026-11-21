@@ -2,6 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 const STATIC_PORT = 4174;
 const APP_PORT = 5199;
+const LLM_APP_PORT = 5198;
 const record = process.env.FIXTURES === "record" || process.env.FIXTURES === "missing";
 
 export default defineConfig({
@@ -35,6 +36,15 @@ export default defineConfig({
       url: `http://127.0.0.1:${APP_PORT}/api/config`,
       env: { PORT: String(APP_PORT), HOST: "127.0.0.1" },
       timeout: 120_000,
+      reuseExistingServer: !process.env.CI,
+    },
+    {
+      // The same, with a stand-in model that streams its replies.
+      command:
+        "node --import tsx scripts/elm.ts && node --import tsx test/support/serve-llm-app.ts",
+      url: `http://127.0.0.1:${LLM_APP_PORT}/api/config`,
+      env: { PORT: String(LLM_APP_PORT), HOST: "127.0.0.1" },
+      timeout: 180_000,
       reuseExistingServer: !process.env.CI,
     },
   ],

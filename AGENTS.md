@@ -74,7 +74,7 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
 ### LLM usage
 
 - All LLM calls go through `server/llm.ts`: `chatJson` (Responses API, zod-validated structured
-  output), `webSearch` (Responses API `web_search` tool, with citations) and `decide` (Decisions API:
+  output; `chatJsonStream` is the same with the answer streamed as it's written), `webSearch` (Responses API `web_search` tool, with citations) and `decide` (Decisions API:
   calibrated yes/no probabilities, e.g. "is this card in this crop?"). No other module calls the LLM.
 - Use `decide` for any yes/no judgement (is this real, does the user agree, is this worth doing)
   rather than asking `chatJson` for a boolean. It falls back to the regular model when the
@@ -171,7 +171,10 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
     nicknames like "Rift" must not resolve to some other card.
   - A new copy field goes in `mapProse` (`server/analysis/prose.ts`), so it's settled, indexed,
     checked and shown as plain words in `report.md`.
-  - Chat replies are settled when written (`refSettler` in `server/chat.ts`).
+  - Chat replies are settled when written (`refSettler` in `server/chat.ts`). While a reply
+    streams in (`POST /api/decks/:slug/chat` with `Accept: text/event-stream`), it isn't settled
+    yet, so the chat previews only references the card index already knows
+    (`Card.proseSoFar`); the saved, settled message replaces it when it's done.
 - Mobile first: the static site is mainly read on iPhone and iPad. Touch targets ≥ 44px, inputs ≥ 16px
   (no iOS zoom), respect safe areas, card previews must work on tap (no hover dependency).
 - The static build is read-only: relative asset paths and a real page for every route, so it works

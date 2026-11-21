@@ -2415,7 +2415,7 @@ viewReport env requested model detail full =
             List.length r.swaps
     in
     div [ class "stack report" ]
-        [ section [ class "hero", cssVars (auraOfCards r.commanderCards) ]
+        ([ section [ class "hero", cssVars (auraOfCards r.commanderCards) ]
             [ maybeHtml (cmdr |> Maybe.andThen .imageArt)
                 (\art ->
                     div [ class "hero-backdrop", attribute "aria-hidden" "true" ]
@@ -2575,8 +2575,8 @@ viewReport env requested model detail full =
                     )
                 ]
             ]
-        , sectionNav model sections
-        , if optimized then
+         , sectionNav model sections
+         , if optimized then
             let
                 ins =
                     List.sum (List.map (\s -> s.inCard |> Maybe.andThen .priceUsd |> Maybe.withDefault 0) r.swaps)
@@ -2651,9 +2651,9 @@ viewReport env requested model detail full =
                     ]
                 ]
 
-          else
+           else
             overview env r full slug
-        , maybeHtml r.bracket
+         , maybeHtml r.bracket
             (\b ->
                 section [ class "panel", id "bracket" ]
                     [ Bracket.panel ctx
@@ -2666,7 +2666,7 @@ viewReport env requested model detail full =
                         )
                     ]
             )
-        , maybeHtml r.decklist
+         , maybeHtml r.decklist
             (\cards ->
                 section [ class "panel", id "decklist" ]
                     (decklist env
@@ -2682,7 +2682,7 @@ viewReport env requested model detail full =
                         )
                     )
             )
-        , section [ class "panel", id "mana" ]
+         , section [ class "panel", id "mana" ]
             [ panelHead
                 { title = "Mana base"
                 , desc = Just [ text "How many of your lands make each color, against how many a deck leaning on that color this much needs to cast its spells on time." ]
@@ -2702,7 +2702,7 @@ viewReport env requested model detail full =
                     ]
                 ]
             ]
-        , section [ class "panel", id "sim" ]
+         , section [ class "panel", id "sim" ]
             [ panelHead
                 { title = "Goldfish simulation"
                 , desc =
@@ -2724,9 +2724,9 @@ viewReport env requested model detail full =
                     ]
                 ]
             ]
-        , when hasCombos (section [ class "panel", id "combos" ] (combos ctx model r))
-        , when showSynergies (section [ class "panel", id "synergies" ] (synergies env ctx model r optimized))
-        , maybeHtml r.research
+         , when hasCombos (section [ class "panel", id "combos" ] (combos ctx model r))
+         , when showSynergies (section [ class "panel", id "synergies" ] (synergies env ctx model r optimized))
+         , maybeHtml r.research
             (\research ->
                 section [ class "panel", id "research" ]
                     [ panelHead
@@ -2752,42 +2752,45 @@ viewReport env requested model detail full =
                         )
                     ]
             )
-        , when (not env.isStatic && not (List.isEmpty r.warnings))
+         , when (not env.isStatic && not (List.isEmpty r.warnings))
             (section [ class "panel" ]
                 [ h2 [] [ text "Warnings" ]
                 , ul [ class "notes" ] (List.map (\w -> li [] [ text w ]) r.warnings)
                 ]
             )
-        , if env.isStatic then
-            text ""
+         ]
+            ++ (if env.isStatic then
+                    []
 
-          else
-            Html.map ChatMsg
-                (Chat.view
-                    { env = env
-                    , slug = slug
-                    , commander = String.join " + " r.commanders
-                    , target =
-                        if optimized then
-                            EditTargetOptimized
+                else
+                    List.map (Html.map ChatMsg)
+                        (Chat.view
+                            { env = env
+                            , slug = slug
+                            , commander = String.join " + " r.commanders
+                            , target =
+                                if optimized then
+                                    EditTargetOptimized
 
-                        else
-                            EditTargetOriginal
-                    , index = ctx.index
-                    }
-                    model.chat
-                )
-        , section [ class "panel" ]
-            [ div [ class "row between" ]
-                [ details [ class "disclosure" ]
-                    [ summary [] [ text "Original list" ]
-                    , pre [] [ text detail.initial ]
+                                else
+                                    EditTargetOriginal
+                            , index = ctx.index
+                            }
+                            model.chat
+                        )
+               )
+            ++ [ section [ class "panel" ]
+                    [ div [ class "row between" ]
+                        [ details [ class "disclosure" ]
+                            [ summary [] [ text "Original list" ]
+                            , pre [] [ text detail.initial ]
+                            ]
+                        , when (not env.isStatic) (rerun model r.options)
+                        , when (not env.isStatic) (publishToggle model (detail.meta.hideSuggestions == Just True))
+                        ]
                     ]
-                , when (not env.isStatic) (rerun model r.options)
-                , when (not env.isStatic) (publishToggle model (detail.meta.hideSuggestions == Just True))
-                ]
-            ]
-        ]
+               ]
+        )
 
 
 nonEmptyMaybe : Maybe String -> Bool

@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { APP_URL, expect, test } from "./fixtures.ts";
+import { APP_URL, LLM_APP_URL, expect, test } from "./fixtures.ts";
 
 const deckText = fs.readFileSync(
   path.resolve(import.meta.dirname, "../fixtures/decks/lathril-overpowered.txt"),
@@ -189,5 +189,45 @@ test.describe("local app", () => {
     await page.getByRole("button", { name: "Commander" }).click();
     await expect(page.getByText("Pick a commander to continue")).toBeVisible();
     await expect(page.getByRole("button", { name: "Save & optimize" })).toBeDisabled();
+  });
+});
+
+test.describe("local app with a model", () => {
+  test("the doc's chat reply appears as it's written, then becomes the full message", async ({
+    page,
+  }) => {
+    await page.goto(`${LLM_APP_URL}#/deck/lathril-blade-of-the-elves/optimized`);
+    await page.getByRole("button", { name: /Ask the doc/ }).click();
+    const message = page.getByLabel("Message");
+    await message.fill("Give me a fairer mana rock");
+    await message.press("Enter");
+
+    // Part of the reply, still being written, before the rest of the answer arrives.
+    const streaming = page.locator(".chat-bubble.streaming");
+    await expect(streaming).toContainText("Stub chat");
+    const partial = await streaming.textContent();
+    expect("Stub chat: trade Sol Ring for a fairer rock.".startsWith(partial!)).toBe(true);
+    expect(partial!.length).toBeLessThan("Stub chat: trade Sol Ring for a fairer rock.".length);
+    await expect(page.locator(".chat-changes")).toHaveCount(0);
+
+    // Then the saved message, with the changes it proposes.
+    await expect(streaming).toHaveCount(0, { timeout: 30_000 });
+    const reply = page.locator(".chat-msg.assistant").last();
+    await expect(reply.locator(".chat-bubble")).toHaveText(
+      "Stub chat: trade Sol Ring for a fairer rock.",
+    );
+    await expect(reply.locator(".chat-changes")).toContainText("Mind Stone");
+    await expect(reply.getByRole("button", { name: "Apply 2 changes" })).toBeVisible();
+
+    // Closing the chat mid-reply doesn't lose it: it's in the history when the chat opens again.
+    await message.fill("Give me a fairer mana rock");
+    await message.press("Enter");
+    await expect(streaming).toBeVisible();
+    await page.getByRole("button", { name: "Close chat" }).click();
+    await page.getByRole("button", { name: /Ask the doc/ }).click();
+    await expect(page.locator(".chat-msg.assistant .chat-changes")).toHaveCount(2, {
+      timeout: 30_000,
+    });
+    await expect(page.locator(".chat-msg.user")).toHaveCount(2);
   });
 });

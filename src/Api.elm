@@ -20,7 +20,6 @@ module Api exposing
     , rerunFromChat
     , resolve
     , save
-    , sendChat
     , setPublishing
     )
 
@@ -248,13 +247,6 @@ refreshSynergies slug mode =
 chat : String -> (Result_ (List DeckChatMessage) -> msg) -> Cmd msg
 chat slug =
     get ("/api/decks/" ++ slug ++ "/chat") (D.list deckChatMessageDecoder)
-
-
-sendChat : String -> String -> EditTarget -> (Result_ DeckChatMessage -> msg) -> Cmd msg
-sendChat slug message view =
-    post ("/api/decks/" ++ slug ++ "/chat")
-        (E.object [ ( "message", E.string message ), ( "view", encodeEditTarget view ) ])
-        deckChatMessageDecoder
 
 
 rerunFromChat : String -> String -> (Result_ ( String, String ) -> msg) -> Cmd msg

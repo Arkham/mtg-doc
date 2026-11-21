@@ -3295,6 +3295,27 @@ pre {
     transform: translateY(-3px);
   }
 }
+/* A reply still being written ends in a caret. */
+.chat-bubble.streaming::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--muted);
+  animation: caret 1s steps(1) infinite;
+}
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chat-bubble.streaming::after {
+    animation: none;
+  }
+}
 .chat-changes {
   background: var(--bg);
   border: 1px solid var(--line);

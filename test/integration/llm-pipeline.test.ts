@@ -1,5 +1,6 @@
 import "../support/env.ts";
 import assert from "node:assert/strict";
+import type { AddressInfo } from "node:net";
 import fs from "node:fs";
 import path from "node:path";
 import { after, describe, test } from "node:test";
@@ -386,6 +387,63 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     assert.match(asked.text, /What the change made worse: .*lands/);
     const small = await applyDeckChanges(slug, forests(2), "cut two more");
     assert.equal(small.reoptimize, null, "the model judged this one not worth a re-run");
+  });
+
+  test("deck chat streams the model's reply as it's written, and over the API", async () => {
+    const { chatAboutDeck, readChat } = await import("../../server/chat.ts");
+    const { createApp } = await import("../../server/app.ts");
+    const { slug } = await optimizeFixtureDeck("lathril.txt", {
+      bracket: 3,
+      tone: "balanced",
+      maxSwaps: 4,
+    });
+
+    const pieces: string[] = [];
+    const reply = await chatAboutDeck(slug, "Give me a fairer mana rock", "optimized", {
+      onReply: (text) => pieces.push(text),
+    });
+    assert.ok(pieces.length > 3, `in many pieces, not one (${pieces.length})`);
+    pieces.forEach((p, i) => i && assert.ok(p.startsWith(pieces[i - 1]), "each one grows"));
+    assert.equal(pieces.at(-1), reply.content, "ends as the saved reply");
+    assert.equal(reply.changes?.length, 2, "the changes come with the finished message");
+
+    const server = createApp().listen(0, "127.0.0.1");
+    await new Promise((r) => server.once("listening", r));
+    const url = `http://127.0.0.1:${(server.address() as AddressInfo).port}/api/decks/${slug}/chat`;
+    const post = (message: string, accept: string) =>
+      fetch(url, {
+        method: "POST",
+        headers: { "content-type": "application/json", accept },
+        body: JSON.stringify({ message, view: "optimized" }),
+      });
+    try {
+      const res = await post("Give me a fairer mana rock", "text/event-stream");
+      assert.match(res.headers.get("content-type")!, /^text\/event-stream/);
+      const events = (await res.text())
+        .split("\n\n")
+        .filter(Boolean)
+        .map((block) => ({
+          event: /^event: (.+)$/m.exec(block)![1],
+          data: JSON.parse(/^data: (.+)$/m.exec(block)![1]),
+        }));
+      const deltas = events.filter((e) => e.event === "reply");
+      assert.ok(deltas.length > 3);
+      const last = events.at(-1)!;
+      assert.equal(last.event, "message");
+      assert.equal(deltas.map((d) => d.data.delta).join(""), last.data.content);
+      assert.deepEqual(last.data, (await readChat(slug)).at(-1), "the saved message");
+
+      // A reply the doc writes without the model (a yes to its proposal) comes whole.
+      const yes = await post("yes please", "text/event-stream");
+      assert.match(await yes.text(), /^event: message\ndata: \{[^\n]*"On it: applying 2 changes/);
+      await whenIdle(slug);
+      // Clients that don't ask for a stream get JSON, as before.
+      const json = await post("what does this deck do?", "application/json");
+      assert.match(json.headers.get("content-type")!, /^application\/json/);
+      assert.equal(((await json.json()) as { role: string }).role, "assistant");
+    } finally {
+      server.close();
+    }
   });
 
   test("deck chat: model proposals, and a content-filter refusal falls back to simple commands", async () => {

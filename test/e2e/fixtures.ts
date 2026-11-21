@@ -2,6 +2,8 @@ import { test as base, expect, type Page } from "@playwright/test";
 
 export const STATIC_URL = "http://127.0.0.1:4174/mtg-doc/";
 export const APP_URL = "http://127.0.0.1:5199/";
+/** The local app with a stand-in model (see serve-llm-app.ts). */
+export const LLM_APP_URL = "http://127.0.0.1:5198/";
 
 /** Blocks third-party requests (card images, mana symbols) so UI tests are offline and stable. */
 export const test = base.extend({

@@ -256,7 +256,32 @@ export function createApp() {
           view: z.enum(["original", "optimized"]).default("optimized"),
         })
         .parse(req.body);
-      res.json(await chatAboutDeck(String(req.params.slug), message, view));
+      const slug = String(req.params.slug);
+      if (req.accepts(["json", "text/event-stream"]) !== "text/event-stream")
+        return res.json(await chatAboutDeck(slug, message, view));
+      // Streamed: the reply as the model writes it (`reply` events with what's new, or the whole
+      // text when it starts over), then the saved message, settled and validated.
+      res.writeHead(200, {
+        "content-type": "text/event-stream",
+        "cache-control": "no-cache",
+        connection: "keep-alive",
+      });
+      const send = (event: string, data: unknown) =>
+        res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+      let shown = "";
+      try {
+        const reply = await chatAboutDeck(slug, message, view, {
+          onReply: (text) => {
+            send("reply", text.startsWith(shown) ? { delta: text.slice(shown.length) } : { text });
+            shown = text;
+          },
+        });
+        send("message", reply);
+      } catch (err) {
+        send("error", { error: err instanceof Error ? err.message : String(err) });
+        if (!(err instanceof HttpError)) console.error(err);
+      }
+      res.end();
     }),
   );
 

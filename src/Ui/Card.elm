@@ -10,6 +10,7 @@ module Ui.Card exposing
     , nameWith
     , previews
     , prose
+    , proseSoFar
     , updateHovers
     , withGallery
     )
@@ -382,4 +383,41 @@ prose ctx value =
 
                     CardRefs.CardRef c ->
                         nameWith ctx { name = resolve c, card = Nothing, label = Just [ text c ], class = Nothing, key = Nothing }
+            )
+
+
+{-| Copy that's still being written: only references the card index knows become previews (the
+rest are checked once the text is done), and a reference still being typed isn't shown yet.
+-}
+proseSoFar : Ctx msg -> String -> List (Html msg)
+proseSoFar ctx value =
+    let
+        resolve =
+            indexName ctx.index
+
+        finished =
+            case List.reverse (String.indexes "[[" value) of
+                last :: _ ->
+                    if String.contains "]]" (String.dropLeft last value) then
+                        value
+
+                    else
+                        String.left last value
+
+                [] ->
+                    value
+    in
+    CardRefs.parts finished
+        |> List.map
+            (\part ->
+                case part of
+                    CardRefs.Words w ->
+                        text w
+
+                    CardRefs.CardRef c ->
+                        if Dict.member (resolve c) ctx.index then
+                            nameWith ctx { name = resolve c, card = Nothing, label = Just [ text c ], class = Nothing, key = Nothing }
+
+                        else
+                            text c
             )
