@@ -83,12 +83,20 @@ const onRoute = () => {
   // Switching between a deck's two views keeps the reader on the same section.
   const sameDeck = prev.page === "deck" && next.page === "deck" && prev.slug === next.slug;
   const anchor = sameDeck ? captureAnchor() : null;
+  // The page puts the section back itself: the browser's own scroll anchoring (Safari has it since
+  // 27) would move it first, to some other element, and iOS can paint that in between.
+  const html = document.documentElement;
+  if (anchor) html.style.overflowAnchor = "none";
   route = next;
   app.ports.routeChanged.send(next);
   // Elm draws in the next animation frame; this one runs right after it, before the paint.
   requestAnimationFrame(() => {
     if (!sameDeck) window.scrollTo(0, 0);
     else if (anchor) restoreAnchor(anchor);
+    // Anchoring back on once the switch is painted, for content that loads in later.
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => html.style.removeProperty("overflow-anchor")),
+    );
   });
 };
 for (const ev of ["hashchange", "popstate", ROUTE_CHANGE]) window.addEventListener(ev, onRoute);
