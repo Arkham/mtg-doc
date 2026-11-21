@@ -26,8 +26,11 @@ export function stateAt(task: TraceTask, t: number): State {
   return "running";
 }
 
-/** The chain of tasks that set how long the run took, as pairs (need → task). */
-export function criticalEdges(tasks: TraceTask[]): Set<string> {
+/**
+ * The chain of tasks that set how long the run took, first to last: back from the task that ended
+ * last, through whatever each waited for longest.
+ */
+export function criticalChain(tasks: TraceTask[]): string[] {
   const byName = new Map(tasks.map((t) => [t.name, t]));
   const latest = (names: string[]) =>
     names
@@ -36,14 +39,15 @@ export function criticalEdges(tasks: TraceTask[]): Set<string> {
         (a, b) => (!a || (b.end ?? 0) > (a.end ?? 0) ? b : a),
         undefined,
       );
-  const edges = new Set<string>();
-  let at = latest(tasks.map((t) => t.name));
-  while (at) {
-    const before = latest(at.needs);
-    if (before) edges.add(`${before.name}>${at.name}`);
-    at = before;
-  }
-  return edges;
+  const chain: string[] = [];
+  for (let at = latest(tasks.map((t) => t.name)); at; at = latest(at.needs)) chain.unshift(at.name);
+  return chain;
+}
+
+/** The same chain, as pairs (need → task). */
+export function criticalEdges(tasks: TraceTask[]): Set<string> {
+  const chain = criticalChain(tasks);
+  return new Set(chain.slice(1).map((name, i) => `${chain[i]}>${name}`));
 }
 
 /**

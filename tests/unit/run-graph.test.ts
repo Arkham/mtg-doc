@@ -3,7 +3,13 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { describe, test } from "node:test";
-import { criticalEdges, depths, directNeeds, stateAt } from "../../src/web/run-graph.ts";
+import {
+  criticalChain,
+  criticalEdges,
+  depths,
+  directNeeds,
+  stateAt,
+} from "../../src/web/run-graph.ts";
 import type { Trace, TraceTask } from "../../src/shared/types.ts";
 
 const task = (name: string, needs: string[], start?: number, end?: number): TraceTask => ({
@@ -33,6 +39,7 @@ describe("a run's graph, for drawing", () => {
   });
 
   test("the critical chain runs back from the last task through whatever ended latest", () => {
+    assert.deepEqual(criticalChain(diamond), ["a", "b", "d"]);
     assert.deepEqual([...criticalEdges(diamond)].sort(), ["a>b", "b>d"]);
   });
 
@@ -55,8 +62,8 @@ describe("a run's graph, for drawing", () => {
     const all = new Map(done.tasks.map((t) => [t.name, t.needs]));
     for (const t of done.tasks) assert.deepEqual(reach(t.name, direct), reach(t.name, all), t.name);
     assert.ok([...direct.values()].flat().length < [...all.values()].flat().length);
-    const chain = [...criticalEdges(done.tasks)].map((e) => e.split(">"));
-    assert.equal(chain[0][1], "saved");
-    assert.equal(chain.at(-1)![0], "start");
+    const chain = criticalChain(done.tasks);
+    assert.equal(chain[0], "start");
+    assert.equal(chain.at(-1), "saved");
   });
 });

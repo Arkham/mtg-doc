@@ -12,30 +12,6 @@
           <circle cx="11" cy="11" r="7">
           <path d="m20 20-3.5-3.5">
     <main>
-      <section class="panel run">
-        <div class="run-head">
-          <div class="run-title">
-            <span class="run-kicker finished">
-              "Finished"
-            <h1>
-              "Optimizing your deck"
-          <div aria-label="Show the run as" class="run-looks" role="group">
-            <button aria-pressed="true" class="run-look">
-              "Map"
-            <button aria-pressed="false" class="run-look">
-              "Timeline"
-        <div class="run-chart">
-          <div class="run-stage">
-            <div class="run-overlays">
-              <p aria-live="polite" class="run-pill">
-                "GG!"
-          <div class="run-summary">
-            <p class="run-total">
-              <strong>
-                "54.6 s"
-              ", 11.0 s saved by running steps side by side."
-            <div class="run-actions">
-              <a class="button primary" href="#/deck/lathril-blade-of-the-elves/optimized">
-                "See the optimized deck"
-              <button class="ghost">
-                "Replay the run"
+      <div class="loading">
+        <span aria-hidden="true" class="spinner">
+        " Loading deck…"

@@ -33,12 +33,13 @@ lingerMs =
     4000
 
 
-{-| How long past its end a run plays, so the map can finish: its last comets come home, then all
-but the golden path fades (`OUTRO_*` in src/web/run-map.ts).
+{-| How long past its end a run plays, for the map's finale: its last comets come home, all
+but the golden path fades, a spark races down it and the last step bursts (`OUTRO_*`, `RACE_*`
+and `BURST_MS` in src/web/run-map.ts add up to this).
 -}
 outroMs : Float
 outroMs =
-    1200
+    2600
 
 
 {-| How far the clock moves on past the latest trace (the server sends one every second).
@@ -802,7 +803,18 @@ chart env model full =
         [ div [ class "run-stage" ]
             [ -- Over the corner of the map or timeline: what the doc is doing.
               div [ class "run-overlays" ]
-                [ p [ class "run-pill", attribute "aria-live" "polite" ] [ text (nowSentence model full) ] ]
+                [ p
+                    [ class
+                        (if atEnd model full && runStatus model == JobStatusDone then
+                            "run-pill gg"
+
+                         else
+                            "run-pill"
+                        )
+                    , attribute "aria-live" "polite"
+                    ]
+                    [ text (nowSentence model full) ]
+                ]
             , case model.look of
                 Map ->
                     runMap model full

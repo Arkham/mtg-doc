@@ -13,7 +13,7 @@
  */
 import type { Service, Trace, TraceRequest, TraceTask } from "../shared/types.ts";
 import { taskLabel } from "../shared/run-copy.ts";
-import { criticalEdges, depths, directNeeds, stateAt } from "./run-graph.ts";
+import { criticalChain, depths, directNeeds, stateAt } from "./run-graph.ts";
 
 const SERVICES: { id: Service; name: string; color: string }[] = [
   { id: "scryfall", name: "Scryfall", color: "#8fc8e8" },
@@ -29,17 +29,40 @@ const LIVE = "#f06272";
 const FONT = '-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif';
 const MONO = 'ui-monospace, "SF Mono", Menlo, monospace';
 /**
- * The end of a run on the map: the last comets come home, then everything but the golden path
- * fades. The page plays this long past the run's end (`outroMs` in Page/Progress.elm).
+ * The end of a run on the map, a finale: the last comets come home and everything else fades; a
+ * spark races down the golden path, each of its steps popping as it passes; and the last one
+ * bursts. The page plays this long past the run's end (`outroMs` in Page/Progress.elm).
  */
 const OUTRO_FROM_MS = 300;
 const OUTRO_FADE_MS = 800;
+const RACE_FROM_MS = 500;
+const RACE_MS = 1100;
+const BURST_MS = 1000;
+/** How long a step's pop lasts once the spark reaches it. */
+const POP_MS = 420;
+/** How long after a drag or a wheel the map leaves the page alone. */
+const FOLLOW_AFTER_TOUCH_MS = 1200;
 /** How long a comet takes to reach its service, or to come back. */
 const FLIGHT_MS = 420;
 
 interface Point {
   x: number;
   y: number;
+}
+
+/** The golden path's finale at a moment (see RunMap's #race). */
+interface Race {
+  /** The path, as points along it, and how far along it each one is. */
+  points: Point[];
+  lengths: number[];
+  /** How far along it the spark has got. */
+  head: number;
+  done: boolean;
+  /** For each step the spark has passed, how long ago (ms). */
+  popped: Map<string, number>;
+  end: Point;
+  /** How long since the spark reached the end (ms; negative before). */
+  burst: number;
 }
 
 type Side = "below" | "above" | "right" | "left";
@@ -175,6 +198,12 @@ function edgePoint(a: Point, b: Point, p: number, vertical: boolean): Point {
   };
 }
 
+/** A number in [0, 1) that's the same for the same `i` and `k`, and unrelated for neighbours. */
+const noise = (i: number, k: number) => {
+  const x = Math.sin(i * 12.9898 + k * 78.233) * 43758.5453;
+  return x - Math.floor(x);
+};
+
 const hash = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7);
 
 export class RunMap extends HTMLElement {
@@ -185,6 +214,14 @@ export class RunMap extends HTMLElement {
   #layout: Layout | null = null;
   #pending = false;
   #resize = new ResizeObserver(() => this.#relayout());
+  // Following the run down a map taller than the screen (see #follow).
+  #followedAt = -1;
+  #touchedAt = 0;
+  #following = true;
+  #touched = () => {
+    this.#touchedAt = performance.now();
+    this.#following = false;
+  };
 
   set trace(trace: Trace) {
     const first = !this.#trace || this.#trace.tasks.length !== trace.tasks.length;
@@ -204,11 +241,15 @@ export class RunMap extends HTMLElement {
     this.#resize.observe(this);
     this.#canvas.addEventListener("pointermove", this.#move);
     this.#canvas.addEventListener("pointerup", this.#up);
+    for (const e of ["touchstart", "touchmove", "wheel"])
+      window.addEventListener(e, this.#touched, { passive: true });
     this.#relayout();
   }
 
   disconnectedCallback() {
     this.#resize.disconnect();
+    for (const e of ["touchstart", "touchmove", "wheel"])
+      window.removeEventListener(e, this.#touched);
   }
 
   attributeChangedCallback() {
@@ -255,8 +296,34 @@ export class RunMap extends HTMLElement {
     // After whatever else the page changes in this frame, and before it's painted.
     queueMicrotask(() => {
       this.#pending = false;
-      if (this.#trace && this.#layout) this.#draw(this.#now());
+      if (!this.#trace || !this.#layout) return;
+      const t = this.#now();
+      this.#draw(t);
+      this.#follow(t);
     });
+  }
+
+  /**
+   * On a map taller than the screen (a phone's, top to bottom), keeps the lowest step running in
+   * view while the run moves: a little above the middle, clear of the player. A drag or a wheel
+   * takes over; once it stops and that step is back on screen, following picks up again.
+   */
+  #follow(t: number) {
+    const l = this.#layout!;
+    const moving = t !== this.#followedAt;
+    this.#followedAt = t;
+    const box = this.getBoundingClientRect();
+    if (!l.vertical || !moving || box.height <= innerHeight) return;
+    const running = this.#trace!.tasks.filter((task) => stateAt(task, t) === "running");
+    if (!running.length || performance.now() - this.#touchedAt < FOLLOW_AFTER_TOUCH_MS) return;
+    const y = box.top + Math.max(...running.map((task) => l.nodes.get(task.name)!.y));
+    if (!this.#following) {
+      if (y < innerHeight * 0.15 || y > innerHeight * 0.75) return;
+      this.#following = true;
+    }
+    const off = y - innerHeight * 0.45;
+    // Eased, a little each frame, so the page glides rather than jumps from step to step.
+    if (Math.abs(off) > 1) window.scrollBy(0, off * 0.12);
   }
 
   #point(e: PointerEvent): Point {
@@ -289,9 +356,9 @@ export class RunMap extends HTMLElement {
     const l = this.#layout!;
     const tasks = new Map(trace.tasks.map((task) => [task.name, task]));
     const selected = this.getAttribute("selected");
-    const critical = this.#running ? new Set<string>() : criticalEdges(trace.tasks);
     // Past the end, once the last comets are home, everything else fades for the golden path.
     const outro = this.#running ? 0 : clamp((t - trace.elapsed - OUTRO_FROM_MS) / OUTRO_FADE_MS);
+    const race = this.#running ? null : this.#race(criticalChain(trace.tasks), t - trace.elapsed);
 
     ctx.clearRect(0, 0, l.width, l.height);
     this.#backdrop(l);
@@ -303,7 +370,6 @@ export class RunMap extends HTMLElement {
       for (const need of l.direct.get(task.name)!) {
         const a = l.nodes.get(need)!;
         const needDone = stateAt(tasks.get(need)!, t) === "done";
-        const key = `${need}>${task.name}`;
         let color = "rgba(255,255,255,0.06)";
         let width = 1;
         let dash: number[] = [];
@@ -334,10 +400,6 @@ export class RunMap extends HTMLElement {
           ctx.restore();
         };
         line(color, width, lit ? 1 : 1 - outro, false);
-        if (!lit && critical.has(key)) {
-          dash = [];
-          line(GOLD, 2.5, outro, !selected);
-        }
         // The handoff: a spark runs down the line as the task starts.
         const since = t - (task.start ?? Infinity);
         if (since >= 0 && since < 600) {
@@ -350,9 +412,155 @@ export class RunMap extends HTMLElement {
     this.#paths(trace.requests, t, l, 1 - outro);
     this.#stations(trace.requests, t, l);
     this.#comets(trace.requests, t, l);
+    if (race) this.#golden(race);
 
-    for (const task of trace.tasks)
-      this.#node(task, t, l, selected, outro > 0.5 && critical, tasks);
+    for (const task of trace.tasks) this.#node(task, t, l, selected, race?.popped, tasks);
+    if (race) this.#burst(race);
+  }
+
+  /**
+   * The golden path's finale at `since` ms past the run's end: the path as points along it, how far
+   * along the spark is, and how long since it passed each step and reached the end.
+   */
+  #race(chain: string[], since: number): Race {
+    const l = this.#layout!;
+    const points: Point[] = [];
+    const at: number[] = [];
+    const reached = new Map<string, number>();
+    let length = 0;
+    const lengths = [0];
+    chain.forEach((name, i) => {
+      if (i === 0) {
+        points.push(l.nodes.get(name)!);
+        at.push(0);
+        return;
+      }
+      const a = l.nodes.get(chain[i - 1])!;
+      const b = l.nodes.get(name)!;
+      for (let k = 1; k <= 24; k++) {
+        const p = edgePoint(a, b, k / 24, l.vertical);
+        length += Math.hypot(p.x - points.at(-1)!.x, p.y - points.at(-1)!.y);
+        points.push(p);
+        lengths.push(length);
+      }
+      at.push(length);
+    });
+    // Picks up speed, like something let go: an ease in, then a dash to the end.
+    const progress = clamp((since - RACE_FROM_MS) / RACE_MS);
+    const head = progress ** 1.6 * length;
+    // When the spark passed each step (ms since): inverting the ease, from where each one sits.
+    chain.forEach((name, i) => {
+      const passedAt = RACE_FROM_MS + (length ? (at[i] / length) ** (1 / 1.6) : 0) * RACE_MS;
+      if (since >= passedAt) reached.set(name, since - passedAt);
+    });
+    return {
+      points,
+      lengths,
+      head,
+      done: progress >= 1,
+      popped: reached,
+      end: l.nodes.get(chain.at(-1)!)!,
+      burst: since - RACE_FROM_MS - RACE_MS,
+    };
+  }
+
+  /** The golden path, drawn as far as the spark has got, and the spark itself. */
+  #golden(race: Race) {
+    const ctx = this.#ctx;
+    const { points, lengths, head } = race;
+    if (head <= 0 || points.length < 2) return;
+    const upTo = (d: number) => {
+      const i = lengths.findIndex((x) => x >= d);
+      if (i <= 0)
+        return { i: i === 0 ? 0 : points.length - 1, p: points[i === 0 ? 0 : points.length - 1] };
+      const f = (d - lengths[i - 1]) / (lengths[i] - lengths[i - 1] || 1);
+      const a = points[i - 1];
+      const b = points[i];
+      return { i, p: { x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f } };
+    };
+    const tip = upTo(head);
+    ctx.save();
+    ctx.strokeStyle = GOLD;
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = "round";
+    ctx.shadowColor = GOLD;
+    ctx.shadowBlur = 12;
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    for (let k = 1; k < tip.i; k++) ctx.lineTo(points[k].x, points[k].y);
+    ctx.lineTo(tip.p.x, tip.p.y);
+    ctx.stroke();
+    ctx.restore();
+    if (race.done) return;
+    // The spark: a bright head with a tail along the path behind it.
+    for (let k = 10; k >= 1; k--) {
+      const { p } = upTo(Math.max(0, head - k * 7));
+      this.#glow(p, 4 * (1 - k / 12), "#fff4d6", 0.6 * (1 - k / 11));
+    }
+    this.#glow(tip.p, 5, "#fffaf0");
+    this.#glow(tip.p, 11, "rgba(235,200,118,0.35)");
+  }
+
+  /** The last step's burst: a flash, two shockwaves and a shower of sparks that fall away. */
+  #burst(race: Race) {
+    const age = race.burst;
+    if (age < 0 || age > BURST_MS) return;
+    const ctx = this.#ctx;
+    const l = this.#layout!;
+    const { end } = race;
+    const fade = 1 - age / BURST_MS;
+    ctx.save();
+    const flash = ctx.createRadialGradient(
+      end.x,
+      end.y,
+      0,
+      end.x,
+      end.y,
+      Math.max(l.width, l.height),
+    );
+    flash.addColorStop(0, `rgba(235,200,118,${0.28 * clamp(1 - age / 450)})`);
+    flash.addColorStop(1, "rgba(235,200,118,0)");
+    ctx.fillStyle = flash;
+    ctx.fillRect(0, 0, l.width, l.height);
+    for (const [delay, reach] of [
+      [0, 0.32],
+      [120, 0.22],
+    ]) {
+      const a = age - delay;
+      if (a <= 0) continue;
+      ctx.strokeStyle = GOLD;
+      ctx.globalAlpha = clamp(1 - a / 700);
+      ctx.lineWidth = 2.5 * clamp(1 - a / 700) + 0.5;
+      ctx.beginPath();
+      ctx.arc(end.x, end.y, 14 + ease(clamp(a / 700)) * reach * 600, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+    const SPARKS = 44;
+    for (let i = 0; i < SPARKS; i++) {
+      // Each its own way and pace (seeded, so a replay bursts the same), kicked up, then falling.
+      const angle = noise(i, 1) * Math.PI * 2;
+      const speed = 0.06 + noise(i, 2) ** 1.5 * 0.4;
+      const lift = 0.1 + noise(i, 3) * 0.12;
+      const at = (ms: number) => ({
+        x: end.x + Math.cos(angle) * speed * ms,
+        y: end.y + (Math.sin(angle) * speed - lift) * ms + 0.0005 * ms * ms,
+      });
+      const p = at(age);
+      const color = i % 3 ? GOLD : "#fff4d6";
+      const trail = at(Math.max(0, age - 40));
+      ctx.save();
+      ctx.globalAlpha = fade;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.5;
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(trail.x, trail.y);
+      ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+      ctx.restore();
+      this.#glow(p, 1 + noise(i, 4) * 1.5, color, fade);
+    }
   }
 
   #backdrop(l: Layout) {
@@ -524,17 +732,29 @@ export class RunMap extends HTMLElement {
     t: number,
     l: Layout,
     selected: string | null,
-    critical: false | Set<string>,
+    popped: Map<string, number> | undefined,
     tasks: Map<string, TraceTask>,
   ) {
     const ctx = this.#ctx;
     const at = l.nodes.get(task.name)!;
     const state = stateAt(task, t);
     const ran = state === "waiting" ? 0 : Math.min(t, task.end ?? t) - task.start!;
-    const r = state === "waiting" ? 6 : nodeRadius(ran);
-    const onPath =
-      critical &&
-      [...critical].some((e) => e.startsWith(`${task.name}>`) || e.endsWith(`>${task.name}`));
+    // On the golden path once the spark has passed it: it pops, swells and settles, and rings out.
+    const pop = popped?.get(task.name);
+    const onPath = pop !== undefined;
+    const swell = onPath ? 1 + 0.5 * Math.sin(Math.PI * clamp(pop / POP_MS)) : 1;
+    const r = (state === "waiting" ? 6 : nodeRadius(ran)) * swell;
+    if (onPath && pop < POP_MS * 1.6) {
+      const f = clamp(pop / (POP_MS * 1.6));
+      ctx.save();
+      ctx.strokeStyle = GOLD;
+      ctx.globalAlpha = 1 - f;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(at.x, at.y, r + 4 + ease(f) * 26, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
     const related =
       selected &&
       (selected === task.name ||

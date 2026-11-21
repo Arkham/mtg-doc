@@ -336,8 +336,9 @@ test.describe("local app", () => {
         })
         .toBe(true);
     const still = async (name: string) => {
-      // Past how far the page moves the clock on from the latest trace, so it's always as far.
-      await page.clock.runFor(2000);
+      // Past how far the page moves the clock on from the latest trace, so it's always as far, and
+      // past a finished run's finale, so it's over.
+      await page.clock.runFor(5000);
       await checkDom(page, name);
       await expect(page).toHaveScreenshot(`${name}.png`, { fullPage: true });
     };

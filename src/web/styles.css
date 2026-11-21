@@ -1511,6 +1511,38 @@ textarea.decklist {
   gap: var(--sp-2);
   pointer-events: none;
 }
+/* The win: GG! bounces in, golden. */
+.run-pill.gg {
+  color: var(--accent-ink);
+  background: linear-gradient(135deg, var(--accent-hi), var(--accent));
+  border-color: transparent;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 0 0 0 rgba(235, 200, 118, 0.6);
+  animation:
+    gg-pop 0.6s cubic-bezier(0.2, 1.6, 0.4, 1) both,
+    gg-ring 1.2s ease-out 0.15s;
+}
+@keyframes gg-pop {
+  0% {
+    transform: scale(0.4) rotate(-8deg);
+    opacity: 0;
+  }
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes gg-ring {
+  to {
+    box-shadow: 0 0 0 18px rgba(235, 200, 118, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .run-pill.gg {
+    animation: none;
+  }
+}
 .run-overlays > * {
   flex-shrink: 0;
   max-width: min(380px, 100%);

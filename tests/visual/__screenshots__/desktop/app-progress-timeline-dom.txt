@@ -60,11 +60,11 @@
                 <div aria-hidden="true" class="run-axis">
                   <span class="run-tick" style="left: 0%">
                     "0s"
-                  <span class="run-tick" style="left: 31.5944%">
+                  <span class="run-tick" style="left: 31.2625%">
                     "10s"
-                  <span class="run-tick" style="left: 63.1888%">
+                  <span class="run-tick" style="left: 62.525%">
                     "20s"
-                  <span class="run-tick" style="left: 94.7831%">
+                  <span class="run-tick" style="left: 93.7875%">
                     "30s"
                 <ul class="run-rows">
                   <li class="run-row done needed">
@@ -72,10 +72,10 @@
                       <span class="run-label">
                         "Load the deck"
                       <span class="run-track">
-                        <span class="run-bar" style="left: 0%; width: 7.70903%">
-                        <span class="run-req svc-scryfall" style="left: 0%; width: 5.97134%">
-                        <span class="run-req svc-scryfall" style="left: 6.00293%; width: 0.663482%">
-                        <span class="run-req svc-scryfall" style="left: 7.61425%; width: 0.4%">
+                        <span class="run-bar" style="left: 0%; width: 7.62805%">
+                        <span class="run-req svc-scryfall" style="left: 0%; width: 5.90861%">
+                        <span class="run-req svc-scryfall" style="left: 5.93988%; width: 0.656513%">
+                        <span class="run-req svc-scryfall" style="left: 7.53426%; width: 0.4%">
                       <span class="run-duration">
                         "2.4 s"
                   <li class="run-row done needed">
@@ -83,9 +83,9 @@
                       <span class="run-label">
                         "Combos & bracket"
                       <span class="run-track">
-                        <span class="run-bar" style="left: 7.70903%; width: 4.26524%">
-                        <span class="run-req svc-spellbook" style="left: 7.70903%; width: 4.26524%">
-                        <span class="run-req svc-spellbook" style="left: 7.70903%; width: 4.20205%">
+                        <span class="run-bar" style="left: 7.62805%; width: 4.22044%">
+                        <span class="run-req svc-spellbook" style="left: 7.62805%; width: 4.22044%">
+                        <span class="run-req svc-spellbook" style="left: 7.62805%; width: 4.15791%">
                       <span class="run-duration">
                         "1.4 s"
                   <li class="run-row done needed">
@@ -93,7 +93,7 @@
                       <span class="run-label">
                         "Goldfish"
                       <span class="run-track">
-                        <span class="run-bar" style="left: 11.9743%; width: 0.6%">
+                        <span class="run-bar" style="left: 11.8485%; width: 0.6%">
                       <span class="run-duration">
                         "0.1 s"
                   <li class="run-row done needed">
@@ -101,9 +101,9 @@
                       <span class="run-label">
                         "EDHREC"
                       <span class="run-track">
-                        <span class="run-bar" style="left: 12.3218%; width: 0.6%">
-                        <span class="run-req svc-edhrec" style="left: 12.3218%; width: 0.4%">
-                        <span class="run-req svc-edhrec" style="left: 12.3534%; width: 0.4%">
+                        <span class="run-bar" style="left: 12.1924%; width: 0.6%">
+                        <span class="run-req svc-edhrec" style="left: 12.1924%; width: 0.4%">
+                        <span class="run-req svc-edhrec" style="left: 12.2236%; width: 0.4%">
                       <span class="run-duration">
                         "0.1 s"
                   <li class="run-row done needed">
@@ -111,7 +111,7 @@
                       <span class="run-label">
                         "Mana base"
                       <span class="run-track">
-                        <span class="run-bar" style="left: 12.6378%; width: 0.6%">
+                        <span class="run-bar" style="left: 12.505%; width: 0.6%">
                       <span class="run-duration">
                         "0.0 s"
                   <li class="run-row done needed">
@@ -119,8 +119,8 @@
                       <span class="run-label">
                         "Web research"
                       <span class="run-track">
-                        <span class="run-bar" style="left: 7.70903%; width: 48.2446%">
-                        <span class="run-req svc-model" style="left: 7.70903%; width: 48.2446%">
+                        <span class="run-bar" style="left: 7.62805%; width: 47.7378%">
+                        <span class="run-req svc-model" style="left: 7.62805%; width: 47.7378%">
                       <span class="run-duration">
                         "15.3 s"
                   <li class="run-row done dim">
@@ -128,10 +128,10 @@
                       <span class="run-label">
                         "Land options"
                       <span class="run-track">
-                        <span class="run-bar" style="left: 7.70903%; width: 4.96032%">
-                        <span class="run-req svc-scryfall" style="left: 9.25715%; width: 0.4%">
-                        <span class="run-req svc-scryfall" style="left: 10.9317%; width: 0.4%">
-                        <span class="run-req svc-scryfall" style="left: 12.543%; width: 0.4%">
+                        <span class="run-bar" style="left: 7.62805%; width: 4.90821%">
+                        <span class="run-req svc-scryfall" style="left: 9.15991%; width: 0.4%">
+                        <span class="run-req svc-scryfall" style="left: 10.8168%; width: 0.4%">
+                        <span class="run-req svc-scryfall" style="left: 12.4112%; width: 0.4%">
                       <span class="run-duration">
                         "1.6 s"
                   <li class="run-row done dim">
@@ -139,8 +139,8 @@
                       <span class="run-label">
                         "Game Changers"
                       <span class="run-track">
-                        <span class="run-bar" style="left: 12.3534%; width: 1.95885%">
-                        <span class="run-req svc-scryfall" style="left: 14.2175%; width: 0.4%">
+                        <span class="run-bar" style="left: 12.2236%; width: 1.93828%">
+                        <span class="run-req svc-scryfall" style="left: 14.0681%; width: 0.4%">
                       <span class="run-duration">
                         "0.6 s"
                   <li class="run-row done dim">
@@ -148,13 +148,13 @@
                       <span class="run-label">
                         "Look up candidates"
                       <span class="run-track">
-                        <span class="run-bar" style="left: 12.6378%; width: 24.2645%">
-                        <span class="run-req svc-scryfall" style="left: 15.8604%; width: 4.01249%">
-                        <span class="run-req svc-scryfall" style="left: 19.9045%; width: 4.04408%">
-                        <span class="run-req svc-scryfall" style="left: 23.9801%; width: 5.08669%">
-                        <span class="run-req svc-scryfall" style="left: 29.0668%; width: 1.80088%">
-                        <span class="run-req svc-scryfall" style="left: 30.8677%; width: 0.4%">
-                        <span class="run-req svc-spellbook" style="left: 30.9625%; width: 5.93974%">
+                        <span class="run-bar" style="left: 12.505%; width: 24.0096%">
+                        <span class="run-req svc-scryfall" style="left: 15.6938%; width: 3.97034%">
+                        <span class="run-req svc-scryfall" style="left: 19.6954%; width: 4.0016%">
+                        <span class="run-req svc-scryfall" style="left: 23.7282%; width: 5.03326%">
+                        <span class="run-req svc-scryfall" style="left: 28.7615%; width: 1.78196%">
+                        <span class="run-req svc-scryfall" style="left: 30.5435%; width: 0.4%">
+                        <span class="run-req svc-spellbook" style="left: 30.6373%; width: 5.87735%">
                       <span class="run-duration">
                         "7.7 s"
                   <li class="run-row done needed">
@@ -162,9 +162,9 @@
                       <span class="run-label">
                         "Find upgrades"
                       <span class="run-track">
-                        <span class="run-bar" style="left: 55.9536%; width: 2.52755%">
-                        <span class="run-req svc-scryfall" style="left: 55.9536%; width: 0.979426%">
-                        <span class="run-req svc-scryfall" style="left: 57.5966%; width: 0.50551%">
+                        <span class="run-bar" style="left: 55.3659%; width: 2.501%">
+                        <span class="run-req svc-scryfall" style="left: 55.3659%; width: 0.969138%">
+                        <span class="run-req svc-scryfall" style="left: 56.9915%; width: 0.5002%">
                       <span class="run-duration">
                         "0.8 s"
                   <li class="run-row running selected">
@@ -172,10 +172,10 @@
                       <span class="run-label">
                         "Review swaps"
                       <span class="run-track">
-                        <span class="run-bar" style="left: 58.4812%; width: 30.8045%">
-                        <span class="run-req svc-model live" style="left: 58.4812%; width: 30.8045%">
+                        <span class="run-bar" style="left: 57.8669%; width: 31.4188%">
+                        <span class="run-req svc-model live" style="left: 57.8669%; width: 31.4188%">
                       <span class="run-duration">
-                        "9.8 s"
+                        "10.1 s"
                   <li class="run-row waiting feeds">
                     <button aria-pressed="false" class="run-row-button">
                       <span class="run-label">
@@ -188,7 +188,7 @@
                       <span class="run-label">
                         "Your list as submitted"
                       <span class="run-track">
-                        <span class="run-bar" style="left: 7.70903%; width: 0.6%">
+                        <span class="run-bar" style="left: 7.62805%; width: 0.6%">
                       <span class="run-duration">
                         "0.0 s"
                   <li class="run-row waiting dim">
