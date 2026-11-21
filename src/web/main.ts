@@ -78,6 +78,8 @@ for (const list of [canHover, isTouch])
 const onRoute = () => {
   const prev = route;
   const next = currentRoute();
+  // A hash change fires both popstate and hashchange: the second finds the route already moved.
+  if (JSON.stringify(next) === JSON.stringify(prev)) return;
   // Switching between a deck's two views keeps the reader on the same section.
   const sameDeck = prev.page === "deck" && next.page === "deck" && prev.slug === next.slug;
   const anchor = sameDeck ? captureAnchor() : null;

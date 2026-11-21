@@ -8,11 +8,17 @@ interface ScrollAnchor {
 
 const sections = () => [...document.querySelectorAll<HTMLElement>("main section.panel[id]")];
 
+/**
+ * How far below the sticky bars a section can start and still be the one being read: scrolling
+ * lands on whole pixels, so a section put back where it was can sit a fraction lower.
+ */
+const SLACK = 2;
+
 /** The section being read: the last one whose top has passed the sticky bars (as SectionNav). */
 export function captureAnchor(): ScrollAnchor | null {
   const passed = sections().filter((el) => {
     const margin = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
-    return el.getBoundingClientRect().top <= margin + 1;
+    return el.getBoundingClientRect().top <= margin + SLACK;
   });
   const current = passed.at(-1);
   return current
@@ -32,5 +38,7 @@ export function restoreAnchor(anchor: ScrollAnchor) {
   if (!el) return;
   const rect = el.getBoundingClientRect();
   const top = Math.max(anchor.top, -(rect.height - window.innerHeight / 3));
-  window.scrollTo({ top: rect.top + window.scrollY - top, behavior: "instant" });
+  // Rounded, or the browser rounds it down, and the section creeps down a pixel a switch until it
+  // no longer counts as the one being read.
+  window.scrollTo({ top: Math.round(rect.top + window.scrollY - top), behavior: "instant" });
 }

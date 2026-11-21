@@ -344,6 +344,36 @@ test.describe("static site", () => {
     expect(await page.evaluate(() => window.scrollY)).toBe(0);
   });
 
+  test("a section jumped to stays put, under the sticky bars, however often the views switch", async ({
+    page,
+  }) => {
+    await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/`);
+    const nav = page.locator(".section-nav");
+    const combos = page.locator("#combos");
+    const top = () => combos.evaluate((el) => el.getBoundingClientRect().top);
+    // The jump scrolls smoothly: wait for it to land.
+    await nav.getByRole("button", { name: "Combos" }).click();
+    let at = NaN;
+    await expect
+      .poll(async () => {
+        const was = at;
+        at = await top();
+        return Math.abs(at - was) < 0.5;
+      })
+      .toBe(true);
+    const toggle = page.getByRole("tablist", { name: "Which deck" });
+    // Back and forth, each time landing where it was: not a pixel lower each time until another
+    // section counts as the one being read.
+    for (let i = 0; i < 6; i++) {
+      await toggle.getByRole("tab", { name: i % 2 ? "Your deck" : /Optimized/ }).click();
+      await expect(toggle.getByRole("tab", { selected: true })).toContainText(
+        i % 2 ? "Your deck" : "Optimized",
+      );
+      expect(Math.abs((await top()) - at), `switch ${i + 1}`).toBeLessThanOrEqual(1);
+      await expect(nav.locator("button.active")).toHaveText("Combos");
+    }
+  });
+
   test("combos list shows those in the deck and one card away together", async ({ page }) => {
     await page.goto(`${STATIC_URL}#/deck/${OPTIMIZED}`);
     const combos = page.locator("#combos");
