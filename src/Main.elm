@@ -307,7 +307,7 @@ update msg model =
                                         _ ->
                                             ""
                             in
-                            go (Deck slug Route.Current) model
+                            go (Deck slug Route.Optimized) model
 
                           else
                             Cmd.none
@@ -507,6 +507,9 @@ subscriptions model =
             ReportPage report ->
                 Sub.map ReportMsg (Report.subscriptions report)
 
+            ProgressPage progress ->
+                Sub.map ProgressMsg (Progress.subscriptions progress)
+
             _ ->
                 Sub.none
         ]
@@ -531,7 +534,7 @@ view model =
                     ( [ Html.map ReviewMsg (Html.Lazy.lazy3 Review.view env model.config review) ], Nothing, [] )
 
                 ProgressPage progress ->
-                    ( [ Progress.view env progress ], Nothing, [] )
+                    ( [ Html.map ProgressMsg (Progress.view env progress) ], Nothing, [] )
 
                 ReportPage report ->
                     let

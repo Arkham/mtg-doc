@@ -4,6 +4,8 @@
  * on (`this.parentElement`), so the page's markup and its CSS selectors stay as they are.
  */
 
+import { RunMap } from "./run-map.ts";
+
 /** Invisible element whose behaviour applies to its parent. */
 class Controller extends HTMLElement {
   connectedCallback() {
@@ -380,6 +382,24 @@ class ChatStream extends Controller {
   }
 }
 
+/**
+ * Listens to a server-sent event stream (`url`) for as long as it's on the page, and fires each
+ * event named `event` as a `data` event with the event's JSON. The browser reconnects by itself.
+ */
+class EventStream extends Controller {
+  #source: EventSource | null = null;
+  connectedCallback() {
+    super.connectedCallback();
+    this.#source = new EventSource(this.getAttribute("url")!);
+    this.#source.addEventListener(this.getAttribute("event") ?? "message", (e) =>
+      this.dispatchEvent(new CustomEvent("data", { detail: JSON.parse((e as MessageEvent).data) })),
+    );
+  }
+  disconnectedCallback() {
+    this.#source?.close();
+  }
+}
+
 /** Text that the browser formats for the reader's locale: a date (`date`) or a number (`number`). */
 class LocalText extends HTMLElement {
   static observedAttributes = ["date", "number"];
@@ -421,6 +441,8 @@ export function defineElements() {
     ["mtg-hotkey", Hotkey],
     ["mtg-local-text", LocalText],
     ["mtg-chat-stream", ChatStream],
+    ["mtg-event-stream", EventStream],
+    ["mtg-run-map", RunMap],
   ];
   for (const [name, element] of elements)
     if (!customElements.get(name)) customElements.define(name, element);

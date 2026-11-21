@@ -38,10 +38,16 @@ test.describe("local app", () => {
 
     await page.getByRole("button", { name: "Save & optimize" }).click();
     await expect(page.getByRole("heading", { name: "Optimizing your deck" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Your deck", level: 2 })).toBeVisible({
-      timeout: 180_000,
-    });
-    await page.getByRole("tab", { name: /Optimized/ }).click();
+    // The run, live on its map, then a link to what it made, which opens by itself.
+    await expect(page.getByRole("button", { name: "Map", exact: true })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await expect(page.locator("mtg-run-map")).toBeVisible();
+    const link = page.getByRole("link", { name: "See the optimized deck" });
+    await expect(link).toBeVisible({ timeout: 180_000 });
+    await expect(link).toHaveAttribute("href", /\/optimized$/);
+    await expect(page.getByRole("heading", { name: "Optimized deck" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Bracket 3: Upgraded" })).toBeVisible();
     await expect(page.locator(".checks li.bad")).toHaveCount(0);
     await expect(page.getByRole("button", { name: /Re-run with different options/ })).toBeVisible();

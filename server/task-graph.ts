@@ -11,10 +11,18 @@
  *     .all();
  *
  * A failed task fails the tasks that need it, and `all()`; tasks that don't need it still run.
+ * `watch` sees each task added and wraps each run, e.g. to time it or trace what it does.
  */
+export interface GraphWatcher {
+  added?: (name: string, needs: readonly string[]) => void;
+  run?: <T>(name: string, run: () => Promise<T>) => Promise<T>;
+}
+
 export class TaskGraph<Results extends Record<string, unknown> = Record<never, never>> {
   private readonly running = new Map<string, Promise<unknown>>();
   private readonly needs = new Map<string, readonly string[]>();
+
+  constructor(private readonly watch: GraphWatcher = {}) {}
 
   /** Adds a task; it starts as soon as the tasks it `needs` are done. */
   task<const Name extends string, const Needs extends readonly (keyof Results & string)[], Result>(
@@ -23,13 +31,15 @@ export class TaskGraph<Results extends Record<string, unknown> = Record<never, n
     run: (inputs: { [N in Needs[number]]: Results[N] }) => Promise<Result> | Result,
   ): TaskGraph<Results & { [N in Name]: Awaited<Result> }> {
     const inputs = Promise.all(needs.map((n) => this.running.get(n)!));
+    const wrap = this.watch.run ?? (<T>(_: string, go: () => Promise<T>) => go());
     const promise = inputs.then((values) =>
-      run(Object.fromEntries(needs.map((n, i) => [n, values[i]])) as never),
+      wrap(name, async () => run(Object.fromEntries(needs.map((n, i) => [n, values[i]])) as never)),
     );
     // Whoever needs the result sees the failure; this stops it counting as unhandled meanwhile.
     promise.catch(() => {});
     this.running.set(name, promise);
     this.needs.set(name, needs);
+    this.watch.added?.(name, needs);
     return this as never;
   }
 

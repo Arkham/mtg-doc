@@ -1,0 +1,977 @@
+{
+ "running": {
+  "elapsed": 27060,
+  "tasks": [
+   {
+    "name": "start",
+    "label": "Load the deck",
+    "doing": "reading your list from Scryfall",
+    "needs": [],
+    "state": "done",
+    "start": 0,
+    "end": 2440
+   },
+   {
+    "name": "spellbook",
+    "label": "Combos & bracket",
+    "doing": "asking Commander Spellbook for combos and a bracket",
+    "needs": [
+     "start"
+    ],
+    "state": "done",
+    "start": 2440,
+    "end": 3790
+   },
+   {
+    "name": "baseline",
+    "label": "Goldfish",
+    "doing": "playing 10,000 solo games",
+    "needs": [
+     "start",
+     "spellbook"
+    ],
+    "state": "done",
+    "start": 3790,
+    "end": 3900
+   },
+   {
+    "name": "edhrec",
+    "label": "EDHREC",
+    "doing": "reading what EDHREC players put in Nekusar, the Mindrazer",
+    "needs": [
+     "start",
+     "baseline"
+    ],
+    "state": "done",
+    "start": 3900,
+    "end": 4000
+   },
+   {
+    "name": "baseline mana",
+    "label": "Mana base",
+    "doing": "weighing the mana base",
+    "needs": [
+     "start",
+     "baseline",
+     "edhrec"
+    ],
+    "state": "done",
+    "start": 4000,
+    "end": 4000
+   },
+   {
+    "name": "research",
+    "label": "Web research",
+    "doing": "searching the web for how people build Nekusar, the Mindrazer",
+    "needs": [
+     "start"
+    ],
+    "state": "done",
+    "start": 2440,
+    "end": 17710
+   },
+   {
+    "name": "land pool",
+    "label": "Land options",
+    "doing": "finding lands in your colors",
+    "needs": [
+     "start"
+    ],
+    "state": "done",
+    "start": 2440,
+    "end": 4010
+   },
+   {
+    "name": "game changers",
+    "label": "Game Changers",
+    "doing": "listing Game Changers",
+    "needs": [
+     "start",
+     "baseline"
+    ],
+    "state": "done",
+    "start": 3910,
+    "end": 4530
+   },
+   {
+    "name": "known upgrades",
+    "label": "Look up candidates",
+    "doing": "looking up the cards EDHREC and combos suggest",
+    "needs": [
+     "start",
+     "spellbook",
+     "edhrec"
+    ],
+    "state": "done",
+    "start": 4000,
+    "end": 11680
+   },
+   {
+    "name": "upgrades",
+    "label": "Find upgrades",
+    "doing": "scoring every candidate and solving for the best swaps",
+    "needs": [
+     "start",
+     "spellbook",
+     "baseline",
+     "edhrec",
+     "research",
+     "game changers",
+     "known upgrades"
+    ],
+    "state": "done",
+    "start": 17710,
+    "end": 18510
+   },
+   {
+    "name": "review",
+    "label": "Review swaps",
+    "doing": "reviewing the swaps",
+    "needs": [
+     "start",
+     "spellbook",
+     "baseline",
+     "baseline mana",
+     "edhrec",
+     "research",
+     "upgrades"
+    ],
+    "state": "running",
+    "start": 18510
+   },
+   {
+    "name": "verified",
+    "label": "Fix mana & verify",
+    "doing": "fixing the mana base and checking the bracket again",
+    "needs": [
+     "start",
+     "spellbook",
+     "baseline",
+     "edhrec",
+     "land pool",
+     "upgrades",
+     "review"
+    ],
+    "state": "waiting"
+   },
+   {
+    "name": "submitted checks",
+    "label": "Your list as submitted",
+    "doing": "checking your list as you submitted it",
+    "needs": [
+     "start"
+    ],
+    "state": "done",
+    "start": 2440,
+    "end": 2440
+   },
+   {
+    "name": "synergies",
+    "label": "Synergies",
+    "doing": "finding synergies",
+    "needs": [
+     "verified"
+    ],
+    "state": "waiting"
+   },
+   {
+    "name": "draft",
+    "label": "How-to-play guides",
+    "doing": "writing the how-to-play guides",
+    "needs": [
+     "start",
+     "spellbook",
+     "baseline",
+     "baseline mana",
+     "edhrec",
+     "research",
+     "upgrades",
+     "review",
+     "verified",
+     "submitted checks",
+     "synergies"
+    ],
+    "state": "waiting"
+   },
+   {
+    "name": "checked",
+    "label": "Contradictions",
+    "doing": "checking what the report says against the facts",
+    "needs": [
+     "draft"
+    ],
+    "state": "waiting"
+   },
+   {
+    "name": "saved",
+    "label": "Save",
+    "doing": "saving the report",
+    "needs": [
+     "start",
+     "upgrades",
+     "verified",
+     "checked"
+    ],
+    "state": "waiting"
+   }
+  ],
+  "requests": [
+   {
+    "service": "scryfall",
+    "what": "look up 75 cards",
+    "task": "start",
+    "start": 0,
+    "end": 1890,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "look up 10 cards",
+    "task": "start",
+    "start": 1900,
+    "end": 2110,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "find cheaper printings",
+    "task": "start",
+    "start": 2410,
+    "end": 2440,
+    "ok": true
+   },
+   {
+    "service": "spellbook",
+    "what": "find combos",
+    "task": "spellbook",
+    "start": 2440,
+    "end": 3790,
+    "ok": true
+   },
+   {
+    "service": "spellbook",
+    "what": "check 84 cards",
+    "task": "spellbook",
+    "start": 2440,
+    "end": 3770,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "search the web",
+    "task": "research",
+    "start": 2440,
+    "end": 17710,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "search cards",
+    "task": "land pool",
+    "start": 2930,
+    "end": 2980,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "search cards",
+    "task": "land pool",
+    "start": 3460,
+    "end": 3490,
+    "ok": true
+   },
+   {
+    "service": "edhrec",
+    "what": "read a commander page",
+    "task": "edhrec",
+    "start": 3900,
+    "end": 4000,
+    "ok": true
+   },
+   {
+    "service": "edhrec",
+    "what": "read a commander page",
+    "task": "edhrec",
+    "start": 3910,
+    "end": 3990,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "search cards",
+    "task": "land pool",
+    "start": 3970,
+    "end": 4010,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "search cards",
+    "task": "game changers",
+    "start": 4500,
+    "end": 4520,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "look up 75 cards",
+    "task": "known upgrades",
+    "start": 5020,
+    "end": 6290,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "look up 75 cards",
+    "task": "known upgrades",
+    "start": 6300,
+    "end": 7580,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "look up 75 cards",
+    "task": "known upgrades",
+    "start": 7590,
+    "end": 9200,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "look up 33 cards",
+    "task": "known upgrades",
+    "start": 9200,
+    "end": 9770,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "find cheaper printings",
+    "task": "known upgrades",
+    "start": 9770,
+    "end": 9800,
+    "ok": true
+   },
+   {
+    "service": "spellbook",
+    "what": "check 250 cards",
+    "task": "known upgrades",
+    "start": 9800,
+    "end": 11680,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "look up 2 cards",
+    "task": "upgrades",
+    "start": 17710,
+    "end": 18020,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "find cheaper printings",
+    "task": "upgrades",
+    "start": 18230,
+    "end": 18390,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "review",
+    "start": 18510
+   }
+  ]
+ },
+ "done": {
+  "elapsed": 54560,
+  "tasks": [
+   {
+    "name": "start",
+    "label": "Load the deck",
+    "doing": "reading your list from Scryfall",
+    "needs": [],
+    "state": "done",
+    "start": 0,
+    "end": 2440
+   },
+   {
+    "name": "spellbook",
+    "label": "Combos & bracket",
+    "doing": "asking Commander Spellbook for combos and a bracket",
+    "needs": [
+     "start"
+    ],
+    "state": "done",
+    "start": 2440,
+    "end": 3790
+   },
+   {
+    "name": "baseline",
+    "label": "Goldfish",
+    "doing": "playing 10,000 solo games",
+    "needs": [
+     "start",
+     "spellbook"
+    ],
+    "state": "done",
+    "start": 3790,
+    "end": 3900
+   },
+   {
+    "name": "edhrec",
+    "label": "EDHREC",
+    "doing": "reading what EDHREC players put in Nekusar, the Mindrazer",
+    "needs": [
+     "start",
+     "baseline"
+    ],
+    "state": "done",
+    "start": 3900,
+    "end": 4000
+   },
+   {
+    "name": "baseline mana",
+    "label": "Mana base",
+    "doing": "weighing the mana base",
+    "needs": [
+     "start",
+     "baseline",
+     "edhrec"
+    ],
+    "state": "done",
+    "start": 4000,
+    "end": 4000
+   },
+   {
+    "name": "research",
+    "label": "Web research",
+    "doing": "searching the web for how people build Nekusar, the Mindrazer",
+    "needs": [
+     "start"
+    ],
+    "state": "done",
+    "start": 2440,
+    "end": 17710
+   },
+   {
+    "name": "land pool",
+    "label": "Land options",
+    "doing": "finding lands in your colors",
+    "needs": [
+     "start"
+    ],
+    "state": "done",
+    "start": 2440,
+    "end": 4010
+   },
+   {
+    "name": "game changers",
+    "label": "Game Changers",
+    "doing": "listing Game Changers",
+    "needs": [
+     "start",
+     "baseline"
+    ],
+    "state": "done",
+    "start": 3910,
+    "end": 4530
+   },
+   {
+    "name": "known upgrades",
+    "label": "Look up candidates",
+    "doing": "looking up the cards EDHREC and combos suggest",
+    "needs": [
+     "start",
+     "spellbook",
+     "edhrec"
+    ],
+    "state": "done",
+    "start": 4000,
+    "end": 11680
+   },
+   {
+    "name": "upgrades",
+    "label": "Find upgrades",
+    "doing": "scoring every candidate and solving for the best swaps",
+    "needs": [
+     "start",
+     "spellbook",
+     "baseline",
+     "edhrec",
+     "research",
+     "game changers",
+     "known upgrades"
+    ],
+    "state": "done",
+    "start": 17710,
+    "end": 18510
+   },
+   {
+    "name": "review",
+    "label": "Review swaps",
+    "doing": "reviewing the swaps",
+    "needs": [
+     "start",
+     "spellbook",
+     "baseline",
+     "baseline mana",
+     "edhrec",
+     "research",
+     "upgrades"
+    ],
+    "state": "done",
+    "start": 18510,
+    "end": 31220
+   },
+   {
+    "name": "verified",
+    "label": "Fix mana & verify",
+    "doing": "fixing the mana base and checking the bracket again",
+    "needs": [
+     "start",
+     "spellbook",
+     "baseline",
+     "edhrec",
+     "land pool",
+     "upgrades",
+     "review"
+    ],
+    "state": "done",
+    "start": 31220,
+    "end": 34700
+   },
+   {
+    "name": "submitted checks",
+    "label": "Your list as submitted",
+    "doing": "checking your list as you submitted it",
+    "needs": [
+     "start"
+    ],
+    "state": "done",
+    "start": 2440,
+    "end": 2440
+   },
+   {
+    "name": "synergies",
+    "label": "Synergies",
+    "doing": "finding synergies",
+    "needs": [
+     "verified"
+    ],
+    "state": "done",
+    "start": 34700,
+    "end": 43310
+   },
+   {
+    "name": "draft",
+    "label": "How-to-play guides",
+    "doing": "writing the how-to-play guides",
+    "needs": [
+     "start",
+     "spellbook",
+     "baseline",
+     "baseline mana",
+     "edhrec",
+     "research",
+     "upgrades",
+     "review",
+     "verified",
+     "submitted checks",
+     "synergies"
+    ],
+    "state": "done",
+    "start": 43310,
+    "end": 49530
+   },
+   {
+    "name": "checked",
+    "label": "Contradictions",
+    "doing": "checking what the report says against the facts",
+    "needs": [
+     "draft"
+    ],
+    "state": "done",
+    "start": 49530,
+    "end": 53760
+   },
+   {
+    "name": "saved",
+    "label": "Save",
+    "doing": "saving the report",
+    "needs": [
+     "start",
+     "upgrades",
+     "verified",
+     "checked"
+    ],
+    "state": "done",
+    "start": 53760,
+    "end": 54120
+   }
+  ],
+  "requests": [
+   {
+    "service": "scryfall",
+    "what": "look up 75 cards",
+    "task": "start",
+    "start": 0,
+    "end": 1890,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "look up 10 cards",
+    "task": "start",
+    "start": 1900,
+    "end": 2110,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "find cheaper printings",
+    "task": "start",
+    "start": 2410,
+    "end": 2440,
+    "ok": true
+   },
+   {
+    "service": "spellbook",
+    "what": "find combos",
+    "task": "spellbook",
+    "start": 2440,
+    "end": 3790,
+    "ok": true
+   },
+   {
+    "service": "spellbook",
+    "what": "check 84 cards",
+    "task": "spellbook",
+    "start": 2440,
+    "end": 3770,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "search the web",
+    "task": "research",
+    "start": 2440,
+    "end": 17710,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "search cards",
+    "task": "land pool",
+    "start": 2930,
+    "end": 2980,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "search cards",
+    "task": "land pool",
+    "start": 3460,
+    "end": 3490,
+    "ok": true
+   },
+   {
+    "service": "edhrec",
+    "what": "read a commander page",
+    "task": "edhrec",
+    "start": 3900,
+    "end": 4000,
+    "ok": true
+   },
+   {
+    "service": "edhrec",
+    "what": "read a commander page",
+    "task": "edhrec",
+    "start": 3910,
+    "end": 3990,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "search cards",
+    "task": "land pool",
+    "start": 3970,
+    "end": 4010,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "search cards",
+    "task": "game changers",
+    "start": 4500,
+    "end": 4520,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "look up 75 cards",
+    "task": "known upgrades",
+    "start": 5020,
+    "end": 6290,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "look up 75 cards",
+    "task": "known upgrades",
+    "start": 6300,
+    "end": 7580,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "look up 75 cards",
+    "task": "known upgrades",
+    "start": 7590,
+    "end": 9200,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "look up 33 cards",
+    "task": "known upgrades",
+    "start": 9200,
+    "end": 9770,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "find cheaper printings",
+    "task": "known upgrades",
+    "start": 9770,
+    "end": 9800,
+    "ok": true
+   },
+   {
+    "service": "spellbook",
+    "what": "check 250 cards",
+    "task": "known upgrades",
+    "start": 9800,
+    "end": 11680,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "look up 2 cards",
+    "task": "upgrades",
+    "start": 17710,
+    "end": 18020,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "find cheaper printings",
+    "task": "upgrades",
+    "start": 18230,
+    "end": 18390,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "review",
+    "start": 18510,
+    "end": 31210,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "look up 3 cards",
+    "task": "verified",
+    "start": 31220,
+    "end": 31820,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "look up 3 cards",
+    "task": "verified",
+    "start": 31820,
+    "end": 32270,
+    "ok": true
+   },
+   {
+    "service": "spellbook",
+    "what": "find combos",
+    "task": "verified",
+    "start": 33470,
+    "end": 34700,
+    "ok": true
+   },
+   {
+    "service": "spellbook",
+    "what": "check 84 cards",
+    "task": "verified",
+    "start": 33470,
+    "end": 34450,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "synergies",
+    "start": 34700,
+    "end": 43000,
+    "ok": true
+   },
+   {
+    "service": "decisions",
+    "what": "8 yes/no questions",
+    "task": "synergies",
+    "start": 43010,
+    "end": 43310,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "draft",
+    "start": 43320,
+    "end": 49530,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "draft",
+    "start": 43320,
+    "end": 49430,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "checked",
+    "start": 49540,
+    "end": 50620,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "checked",
+    "start": 49540,
+    "end": 50510,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "checked",
+    "start": 49540,
+    "end": 53090,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "checked",
+    "start": 49540,
+    "end": 52550,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "checked",
+    "start": 49540,
+    "end": 50740,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "checked",
+    "start": 49540,
+    "end": 50530,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "checked",
+    "start": 49540,
+    "end": 50620,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "checked",
+    "start": 49540,
+    "end": 50660,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "checked",
+    "start": 49540,
+    "end": 50500,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "checked",
+    "start": 49540,
+    "end": 51470,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "checked",
+    "start": 49540,
+    "end": 50330,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "checked",
+    "start": 49540,
+    "end": 50400,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "checked",
+    "start": 49540,
+    "end": 50450,
+    "ok": true
+   },
+   {
+    "service": "model",
+    "what": "ask the model",
+    "task": "checked",
+    "start": 49540,
+    "end": 50480,
+    "ok": true
+   },
+   {
+    "service": "decisions",
+    "what": "6 yes/no questions",
+    "task": "checked",
+    "start": 53090,
+    "end": 53760,
+    "ok": true
+   },
+   {
+    "service": "scryfall",
+    "what": "look up 1 card",
+    "task": "saved",
+    "start": 53760,
+    "end": 54080,
+    "ok": true
+   }
+  ]
+ }
+}

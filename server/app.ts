@@ -17,7 +17,7 @@ import { clearChat, readChat } from "./chat-history.ts";
 import { editStatus, pendingEdits } from "./edit-queue.ts";
 import { recognizeImages, recognizeText } from "./ocr.ts";
 import { refreshStatus } from "./refresh.ts";
-import { getJob, startOptimize } from "./pipeline.ts";
+import { getJob, startOptimize, watchJob } from "./pipeline.ts";
 import { autocomplete, lookupExact, resolveNames } from "./sources/scryfall.ts";
 import {
   HttpError,
@@ -32,6 +32,9 @@ import {
   writeDeck,
   writeMeta,
 } from "./storage.ts";
+
+/** How often a job's events go out at most, while it changes. */
+const TRACE_EVERY_MS = 100;
 
 interface RecognitionJob {
   id: string;
@@ -371,6 +374,41 @@ export function createApp() {
     const job = getJob(req.params.id);
     if (!job) return res.status(404).json({ error: "Job not found" });
     res.json(job);
+  });
+
+  /**
+   * The job as it runs, as server-sent events: the whole job (with its trace) after every change,
+   * at most every TRACE_EVERY_MS, and at least every second, until it's over. The page moves the
+   * clock on between events by at most a little more than that.
+   */
+  app.get("/api/jobs/:id/events", (req, res) => {
+    const id = req.params.id;
+    if (!getJob(id)) return res.status(404).json({ error: "Job not found" });
+    res.writeHead(200, {
+      "content-type": "text/event-stream",
+      "cache-control": "no-cache",
+      connection: "keep-alive",
+    });
+    let timer: NodeJS.Timeout | null = null;
+    const send = () => {
+      timer = null;
+      const job = getJob(id)!;
+      res.write(`event: job\ndata: ${JSON.stringify(job)}\n\n`);
+      if (job.status !== "running") stop();
+    };
+    const changed = () => {
+      timer ??= setTimeout(send, TRACE_EVERY_MS);
+    };
+    const unwatch = watchJob(id, changed);
+    const beat = setInterval(changed, 1000);
+    const stop = () => {
+      unwatch();
+      clearInterval(beat);
+      if (timer) clearTimeout(timer);
+      res.end();
+    };
+    req.on("close", stop);
+    send();
   });
 
   app.use("/api", (err: unknown, _req: Request, res: Response, _next: NextFunction) => {

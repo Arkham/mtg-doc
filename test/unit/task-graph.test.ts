@@ -50,6 +50,30 @@ describe("TaskGraph", () => {
     ]);
   });
 
+  test("a watcher sees each task added and wraps each run", async () => {
+    const seen: string[] = [];
+    const graph = new TaskGraph({
+      added: (name, needs) => seen.push(`added ${name} after [${needs.join(", ")}]`),
+      run: async (name, run) => {
+        seen.push(`start ${name}`);
+        const result = await run();
+        seen.push(`end ${name}`);
+        return result;
+      },
+    })
+      .task(Task.Deck, [], () => 1)
+      .task(Task.Fast, [Task.Deck], (done) => done[Task.Deck] + 1);
+    assert.equal((await graph.all())[Task.Fast], 2);
+    assert.deepEqual(seen, [
+      "added deck after []",
+      "added fast after [deck]",
+      "start deck",
+      "end deck",
+      "start fast",
+      "end fast",
+    ]);
+  });
+
   test("a failure fails what needs it and the whole graph, but not unrelated tasks", async () => {
     let unrelated = false;
     const graph = new TaskGraph()

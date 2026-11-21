@@ -409,6 +409,43 @@ export interface Job {
   status: "running" | "done" | "error";
   steps: JobStep[];
   error?: string;
+  /** What the run is doing, task by task and request by request. */
+  trace?: Trace;
+}
+
+/** An outside service a run calls. */
+export type Service = "scryfall" | "spellbook" | "edhrec" | "model" | "decisions";
+
+/** One task in a run's graph. Times are in ms since the run started. */
+export interface TraceTask {
+  name: string;
+  /** What it is, in a few words: "Web research". */
+  label: string;
+  /** What it's doing while it runs: "searching the web for how people build Nekusar". */
+  doing: string;
+  /** The tasks it waits for. */
+  needs: string[];
+  state: "waiting" | "running" | "done" | "failed";
+  start?: number;
+  end?: number;
+}
+
+/** A request to an outside service, and the task that made it. Times as in `TraceTask`. */
+export interface TraceRequest {
+  service: Service;
+  /** What it asked, briefly: "look up 75 cards". */
+  what: string;
+  task?: string;
+  start: number;
+  end?: number;
+  ok?: boolean;
+}
+
+/** A run so far: its tasks and requests, taken `elapsed` ms after it started. */
+export interface Trace {
+  elapsed: number;
+  tasks: TraceTask[];
+  requests: TraceRequest[];
 }
 
 /** What the client needs to know about the server (`GET /api/config`). */

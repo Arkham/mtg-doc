@@ -309,27 +309,61 @@ test.describe("local app", () => {
     await shot(page, "app-review-issues");
   });
 
-  test("optimizing", async ({ page }) => {
+  test("optimizing", async ({ page, isMobile }) => {
+    const traces = JSON.parse(
+      fs.readFileSync(path.resolve(import.meta.dirname, "../fixtures/trace.json"), "utf8"),
+    );
+    let which: "running" | "done" = "running";
+    // The map moves on with the clock: stopped, every frame is the same.
+    await page.clock.install({ time: new Date("2025-01-01T12:00:00Z") });
+    await page.clock.pauseAt(new Date("2025-01-01T12:00:01Z"));
+    // No stream: a 204 tells the browser not to reconnect.
+    await page.route("**/api/jobs/visual-job/events", (route) => route.fulfill({ status: 204 }));
     await page.route("**/api/jobs/visual-job", (route) =>
       route.fulfill({
-        json: {
-          id: "visual-job",
-          slug: DECK,
-          status: "running",
-          steps: [
-            { label: "Load card data", status: "done", detail: "100 cards" },
-            { label: "Find combos & check bracket", status: "done" },
-            { label: "Fetch EDHREC recommendations", status: "skipped" },
-            { label: "Search for upgrades", status: "running" },
-            { label: "Review swaps", status: "pending" },
-            { label: "Write report", status: "pending" },
-          ],
-        },
+        json: { id: "visual-job", slug: DECK, status: which, steps: [], trace: traces[which] },
       }),
     );
+    // Elm draws on animation frames, which only come as the stopped clock is moved on.
+    const until = async (check: () => Promise<unknown>) =>
+      expect
+        .poll(async () => {
+          await page.clock.runFor(100);
+          return check().then(
+            () => true,
+            () => false,
+          );
+        })
+        .toBe(true);
+    const still = async (name: string) => {
+      // Past how far the page moves the clock on from the latest trace, so it's always as far.
+      await page.clock.runFor(2000);
+      await checkDom(page, name);
+      await expect(page).toHaveScreenshot(`${name}.png`, { fullPage: true });
+    };
+
     await page.goto(`${APP_URL}#/job/${DECK}/visual-job`);
-    await expect(page.locator(".steps li")).toHaveCount(6);
-    await shot(page, "app-progress");
+    await until(() => expect(page.locator("mtg-run-map")).toBeVisible({ timeout: 1 }));
+    await expect(page.locator(".run-now")).toHaveText("The doc is reviewing the swaps.");
+    await still("app-progress");
+
+    await tap(page.getByRole("button", { name: "Timeline", exact: true }), isMobile);
+    await until(() => expect(page.locator(".run-row").first()).toBeVisible({ timeout: 1 }));
+    await tap(page.locator(".run-row-button", { hasText: "Review swaps" }), isMobile);
+    await until(() =>
+      expect(page.locator(".run-detail")).toContainText("It waits for", { timeout: 1 }),
+    );
+    await still("app-progress-timeline");
+
+    which = "done";
+    await page.goto("about:blank");
+    await page.goto(`${APP_URL}#/job/${DECK}/visual-job`);
+    await until(() => expect(page.locator(".run-summary")).toBeVisible({ timeout: 1 }));
+    await expect(page.getByRole("link", { name: "See the optimized deck" })).toHaveAttribute(
+      "href",
+      /optimized$/,
+    );
+    await still("app-progress-done");
   });
 
   test("deck and optimized deck", async ({ page }) => {

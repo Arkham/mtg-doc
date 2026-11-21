@@ -71,6 +71,9 @@ import {
   findCombos,
 } from "./sources/spellbook.ts";
 import { TaskGraph } from "./task-graph.ts";
+import { type TaskCopy, Tracer, traceFetch } from "./trace.ts";
+
+traceFetch();
 import {
   clearPendingRefresh,
   readDeckFile,
@@ -81,8 +84,18 @@ import {
 } from "./storage.ts";
 
 const jobs = new Map<string, Job>();
+const tracers = new Map<string, Tracer>();
 
-export const getJob = (id: string) => jobs.get(id);
+/** A job as it stands, with what it's doing so far. */
+export function getJob(id: string): Job | undefined {
+  const job = jobs.get(id);
+  const tracer = tracers.get(id);
+  return job && tracer ? { ...job, trace: tracer.snapshot() } : job;
+}
+
+/** Calls `listener` whenever a job's trace changes, until the returned function is called. */
+export const watchJob = (id: string, listener: () => void) =>
+  tracers.get(id)?.onChange(listener) ?? (() => {});
 
 /** Land swaps the optimizer applies on its own to fix the mana base, beyond the spell swaps. */
 const MANA_FIXES = 4;
@@ -121,6 +134,7 @@ export function startOptimize(slug: string, opts: RunOptions = {}): Job {
     job.error = err instanceof Error ? err.message : String(err);
     const running = job.steps.find((s) => s.status === "running");
     if (running) running.status = "error";
+    tracers.get(job.id)?.touch();
     console.error(`[job ${job.id}]`, err);
   });
   return job;
@@ -240,6 +254,48 @@ enum Task {
   Saved = "saved",
 }
 
+/** Each task, for the reader: what it is, and what it's doing while it runs. */
+const TASK_COPY: Record<Task, (commander: string) => TaskCopy> = {
+  [Task.Start]: () => ({ label: "Load the deck", doing: "reading your list from Scryfall" }),
+  [Task.Spellbook]: () => ({
+    label: "Combos & bracket",
+    doing: "asking Commander Spellbook for combos and a bracket",
+  }),
+  [Task.Baseline]: () => ({ label: "Goldfish", doing: "playing 10,000 solo games" }),
+  [Task.Edhrec]: (c) => ({ label: "EDHREC", doing: `reading what EDHREC players put in ${c}` }),
+  [Task.BaselineMana]: () => ({ label: "Mana base", doing: "weighing the mana base" }),
+  [Task.Research]: (c) => ({
+    label: "Web research",
+    doing: `searching the web for how people build ${c}`,
+  }),
+  [Task.LandPool]: () => ({ label: "Land options", doing: "finding lands in your colors" }),
+  [Task.GameChangers]: () => ({ label: "Game Changers", doing: "listing Game Changers" }),
+  [Task.KnownUpgrades]: () => ({
+    label: "Look up candidates",
+    doing: "looking up the cards EDHREC and combos suggest",
+  }),
+  [Task.Upgrades]: () => ({
+    label: "Find upgrades",
+    doing: "scoring every candidate and solving for the best swaps",
+  }),
+  [Task.Review]: () => ({ label: "Review swaps", doing: "reviewing the swaps" }),
+  [Task.Verified]: () => ({
+    label: "Fix mana & verify",
+    doing: "fixing the mana base and checking the bracket again",
+  }),
+  [Task.SubmittedChecks]: () => ({
+    label: "Your list as submitted",
+    doing: "checking your list as you submitted it",
+  }),
+  [Task.Synergies]: () => ({ label: "Synergies", doing: "finding synergies" }),
+  [Task.Draft]: () => ({ label: "How-to-play guides", doing: "writing the how-to-play guides" }),
+  [Task.Checked]: () => ({
+    label: "Contradictions",
+    doing: "checking what the report says against the facts",
+  }),
+  [Task.Saved]: () => ({ label: "Save", doing: "saving the report" }),
+};
+
 async function run(job: Job, opts: RunOptions) {
   const meta = await readMeta(job.slug);
   const settings: OptimizeOptions = {
@@ -253,7 +309,10 @@ async function run(job: Job, opts: RunOptions) {
   const warn = (at: Step, message: string) => warned.set(at, [...(warned.get(at) ?? []), message]);
   const warnings = () => STEPS.flatMap((label) => warned.get(label) ?? []);
 
-  const graph = new TaskGraph()
+  const commander = meta.commanders.join(" + ") || "this deck";
+  const tracer = new Tracer((task) => TASK_COPY[task as Task](commander));
+  tracers.set(job.id, tracer);
+  const graph = new TaskGraph(tracer)
     .task(Task.Start, [], () =>
       inStep(job, Step.LoadCards, async (s) => {
         const { deck: submitted, warnings: w } = await loadDeck(job.slug);
@@ -706,6 +765,7 @@ async function run(job: Job, opts: RunOptions) {
     );
   await graph.all();
   job.status = "done";
+  tracer.touch();
 }
 
 type Start = {
