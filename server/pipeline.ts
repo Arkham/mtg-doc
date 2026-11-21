@@ -91,7 +91,7 @@ const tracers = new Map<string, Tracer>();
 export function getJob(id: string): Job | undefined {
   const job = jobs.get(id);
   const tracer = tracers.get(id);
-  return job && tracer ? { ...job, trace: tracer.snapshot() } : job;
+  return job && tracer?.hasStarted ? { ...job, trace: tracer.snapshot() } : job;
 }
 
 /** Calls `listener` whenever a job's trace changes, until the returned function is called. */
@@ -129,6 +129,8 @@ export function startOptimize(slug: string, opts: RunOptions = {}): Job {
     steps: STEPS.map((label) => ({ label, status: "pending" })),
   };
   jobs.set(job.id, job);
+  // Made with the job, so whatever watches it (the page's event stream) hears every change.
+  tracers.set(job.id, new Tracer());
   // In the deck's edit queue, so a run never writes the report while an edit does.
   enqueueEdit(slug, "Optimize", () => run(job, opts)).done.catch((err) => {
     job.status = "error";
@@ -268,8 +270,7 @@ async function run(job: Job, opts: RunOptions) {
   const warn = (at: Step, message: string) => warned.set(at, [...(warned.get(at) ?? []), message]);
   const warnings = () => STEPS.flatMap((label) => warned.get(label) ?? []);
 
-  const tracer = new Tracer();
-  tracers.set(job.id, tracer);
+  const tracer = tracers.get(job.id)!;
   const graph = new TaskGraph(tracer)
     .task(Task.Start, [], () =>
       inStep(job, Step.LoadCards, async (s) => {

@@ -14,13 +14,22 @@ import type { GraphWatcher } from "./task-graph.ts";
 const current = new AsyncLocalStorage<{ tracer: Tracer; task: string }>();
 
 export class Tracer implements GraphWatcher {
-  private readonly started = Date.now();
-  readonly startedAt = new Date(this.started).toISOString();
+  // Set by the run's first task: a tracer is made with its job, so the job can be watched while it
+  // still waits in the deck's queue, but the run's times start when the run does.
+  private started = 0;
+
+  get hasStarted() {
+    return this.started > 0;
+  }
+
+  get startedAt() {
+    return new Date(this.started || Date.now()).toISOString();
+  }
   private readonly tasks = new Map<string, TraceTask>();
   private readonly requests: TraceRequest[] = [];
   private readonly listeners = new Set<() => void>();
 
-  private since = () => Date.now() - this.started;
+  private since = () => (this.started ? Date.now() - this.started : 0);
 
   private changed() {
     for (const listener of this.listeners) listener();
@@ -38,6 +47,7 @@ export class Tracer implements GraphWatcher {
   }
 
   added = (name: string, needs: readonly string[]) => {
+    this.started ||= Date.now();
     this.tasks.set(name, { name, needs: [...needs], state: "waiting" });
     this.changed();
   };

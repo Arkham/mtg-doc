@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import type { AddressInfo } from "node:net";
 import { describe, test } from "node:test";
 import { createApp } from "../../server/app.ts";
-import { getJob, startOptimize } from "../../server/pipeline.ts";
+import { getJob, startOptimize, watchJob } from "../../server/pipeline.ts";
 import { TASK_LABELS } from "../../shared/run-copy.ts";
 import type { Job, RunRecord } from "../../shared/types.ts";
 import { optimizeFixtureDeck, waitForJob } from "../support/sample.ts";
@@ -43,6 +43,9 @@ describe("a run's trace", () => {
     await new Promise((r) => server.once("listening", r));
     try {
       const job = startOptimize(slug);
+      // Watched as soon as it's started, as the page's stream does, before its run begins.
+      let changes = 0;
+      const unwatch = watchJob(job.id, () => changes++);
       const base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
       const res = await fetch(`${base}/api/jobs/${job.id}/events`);
       assert.match(res.headers.get("content-type")!, /^text\/event-stream/);
@@ -54,6 +57,8 @@ describe("a run's trace", () => {
         .filter((e) => e.trace);
       await waitForJob(job.id);
       assert.equal(events[0].status, "running", "from while it ran, not only the end");
+      unwatch();
+      assert.ok(changes > 10, `heard every change, not only the heartbeat (${changes})`);
       assert.equal(events.at(-1)!.status, "done");
       const done = events.at(-1)!.trace!;
       assert.ok(done.tasks.every((t) => t.state === "done"));

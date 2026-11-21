@@ -23,11 +23,29 @@ describe("TaskGraph", () => {
         log.push(`${name} end`);
         return value;
       };
+    // The slow task waits for the fast branch to finish, which it only can if they run side by side:
+    // no race between timers, so it holds however busy the machine is.
+    let fastBranchDone = () => {};
+    const fastBranch = new Promise<void>((r) => (fastBranchDone = r));
     const graph = new TaskGraph()
       .task(Task.Deck, [], timed("deck", 5, 100))
-      .task(Task.Slow, [Task.Deck], timed("slow", 40, "s"))
+      .task(Task.Slow, [Task.Deck], async () => {
+        log.push("slow start");
+        await Promise.race([
+          fastBranch,
+          tick(2000).then(() => {
+            throw new Error("the fast branch didn't run beside the slow one");
+          }),
+        ]);
+        log.push("slow end");
+        return "s";
+      })
       .task(Task.Fast, [Task.Deck], timed("fast", 5, "f"))
-      .task(Task.AfterFast, [Task.Fast], timed("after fast", 5, "af"))
+      .task(Task.AfterFast, [Task.Fast], async () => {
+        const value = await timed("after fast", 5, "af")();
+        fastBranchDone();
+        return value;
+      })
       .task(Task.Sum, [Task.Deck, Task.Slow, Task.AfterFast], (done) => {
         log.push("sum");
         // Typed by the task that made each: a number, then strings.
