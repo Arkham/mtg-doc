@@ -40,8 +40,8 @@ const RACE_MS = 1100;
 const BURST_MS = 1000;
 /** How long a step's pop lasts once the spark reaches it. */
 const POP_MS = 420;
-/** How long after a drag or a wheel the map leaves the page alone. */
-const FOLLOW_AFTER_TOUCH_MS = 1200;
+/** How long after a drag or a wheel stops the map leaves the page alone, before following again. */
+const FOLLOW_AFTER_DRAG_MS = 2500;
 /** How long a comet takes to reach its service, or to come back. */
 const FLIGHT_MS = 420;
 
@@ -216,11 +216,9 @@ export class RunMap extends HTMLElement {
   #resize = new ResizeObserver(() => this.#relayout());
   // Following the run down a map taller than the screen (see #follow).
   #followedAt = -1;
-  #touchedAt = 0;
-  #following = true;
-  #touched = () => {
-    this.#touchedAt = performance.now();
-    this.#following = false;
+  #draggedAt = -Infinity;
+  #dragged = () => {
+    this.#draggedAt = performance.now();
   };
 
   set trace(trace: Trace) {
@@ -241,15 +239,15 @@ export class RunMap extends HTMLElement {
     this.#resize.observe(this);
     this.#canvas.addEventListener("pointermove", this.#move);
     this.#canvas.addEventListener("pointerup", this.#up);
-    for (const e of ["touchstart", "touchmove", "wheel"])
-      window.addEventListener(e, this.#touched, { passive: true });
+    // Only what moves the page: a tap on a control (play, speed) isn't taking over.
+    for (const e of ["touchmove", "wheel"])
+      window.addEventListener(e, this.#dragged, { passive: true });
     this.#relayout();
   }
 
   disconnectedCallback() {
     this.#resize.disconnect();
-    for (const e of ["touchstart", "touchmove", "wheel"])
-      window.removeEventListener(e, this.#touched);
+    for (const e of ["touchmove", "wheel"]) window.removeEventListener(e, this.#dragged);
   }
 
   attributeChangedCallback() {
@@ -304,9 +302,10 @@ export class RunMap extends HTMLElement {
   }
 
   /**
-   * On a map taller than the screen (a phone's, top to bottom), keeps the lowest step running in
-   * view while the run moves: a little above the middle, clear of the player. A drag or a wheel
-   * takes over; once it stops and that step is back on screen, following picks up again.
+   * On a map taller than the screen (a phone's, top to bottom), keeps the step started last (the
+   * one the pill names) in view while the run moves: a little above the middle, clear of the player.
+   * A drag or a wheel takes over; a moment after it stops, following picks up again from wherever
+   * the run has got to.
    */
   #follow(t: number) {
     const l = this.#layout!;
@@ -314,16 +313,14 @@ export class RunMap extends HTMLElement {
     this.#followedAt = t;
     const box = this.getBoundingClientRect();
     if (!l.vertical || !moving || box.height <= innerHeight) return;
-    const running = this.#trace!.tasks.filter((task) => stateAt(task, t) === "running");
-    if (!running.length || performance.now() - this.#touchedAt < FOLLOW_AFTER_TOUCH_MS) return;
-    const y = box.top + Math.max(...running.map((task) => l.nodes.get(task.name)!.y));
-    if (!this.#following) {
-      if (y < innerHeight * 0.15 || y > innerHeight * 0.75) return;
-      this.#following = true;
-    }
-    const off = y - innerHeight * 0.45;
-    // Eased, a little each frame, so the page glides rather than jumps from step to step.
-    if (Math.abs(off) > 1) window.scrollBy(0, off * 0.12);
+    if (performance.now() - this.#draggedAt < FOLLOW_AFTER_DRAG_MS) return;
+    const latest = this.#trace!.tasks.filter((task) => stateAt(task, t) === "running").sort(
+      (a, b) => b.start! - a.start!,
+    )[0];
+    if (!latest) return;
+    const off = box.top + l.nodes.get(latest.name)!.y - innerHeight * 0.4;
+    // Eased, a little each frame, so the page glides; a whole pixel at least, or WebKit won't move.
+    if (Math.abs(off) > 1) window.scrollBy(0, Math.sign(off) * Math.max(1, Math.abs(off) * 0.15));
   }
 
   #point(e: PointerEvent): Point {

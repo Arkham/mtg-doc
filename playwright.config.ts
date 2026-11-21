@@ -19,8 +19,8 @@ export default defineConfig({
     screenshot: "only-on-failure",
   },
   projects: [
-    { name: "desktop", use: { ...devices["Desktop Chrome"] } },
-    { name: "iphone", use: { ...devices["iPhone 14"] }, testMatch: /static\.spec\.ts/ },
+    { name: "desktop", use: { ...devices["Desktop Chrome"] }, testIgnore: /phone\.spec\.ts/ },
+    { name: "iphone", use: { ...devices["iPhone 14"] }, testMatch: /(static|phone)\.spec\.ts/ },
     { name: "ipad", use: { ...devices["iPad Pro 11"] }, testMatch: /static\.spec\.ts/ },
   ],
   webServer: [

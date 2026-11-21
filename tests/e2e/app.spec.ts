@@ -221,40 +221,6 @@ test.describe("local app", () => {
   });
 });
 
-test.describe("local app on a phone", () => {
-  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true });
-
-  test("a replay follows the run down the map, and a drag takes over", async ({ page }) => {
-    // A real run's trace (54s, so there's a way to go), as the deck's saved run.
-    const { done } = JSON.parse(
-      fs.readFileSync(path.resolve(import.meta.dirname, "../fixtures/trace.json"), "utf8"),
-    );
-    await page.route("**/api/decks/phone-deck/run", (route) =>
-      route.fulfill({ json: { startedAt: "2025-01-01T11:00:00Z", status: "done", trace: done } }),
-    );
-    await page.goto(`${APP_URL}#/deck/phone-deck/run`);
-    await page.getByRole("button", { name: "4×" }).click();
-    const scrolled = () => page.evaluate(() => window.scrollY);
-
-    // On its own, the page goes down with the run.
-    await expect.poll(scrolled, { timeout: 15_000 }).toBeGreaterThan(300);
-
-    // Scrolling back up takes over: the page stays where the reader put it while the run goes on
-    // below, off screen.
-    await page.mouse.move(195, 400);
-    await page.mouse.wheel(0, -5000);
-    await expect.poll(scrolled).toBeLessThan(50);
-    await page.waitForTimeout(2_000);
-    expect(await scrolled()).toBeLessThan(50);
-
-    // Back to where the run is, and it follows again.
-    await page.getByRole("button", { name: "Pause" }).click();
-    await page.getByRole("button", { name: "Back to the start" }).click();
-    await page.getByRole("button", { name: "Play" }).click();
-    await expect.poll(scrolled, { timeout: 15_000 }).toBeGreaterThan(300);
-  });
-});
-
 test.describe("local app with a model", () => {
   test("the doc's chat reply appears as it's written, then becomes the full message", async ({
     page,
