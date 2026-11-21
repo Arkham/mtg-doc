@@ -14,6 +14,8 @@ import type {
 import { BRACKETS, assessBracket, comboViolates, flagsFor, isTwoCard } from "./analysis/bracket.ts";
 import {
   type Deck,
+  byName,
+  cardsOf,
   countRoles,
   identityOf,
   toDecklist,
@@ -79,7 +81,9 @@ import {
   readDeckFile,
   readInitial,
   readMeta,
+  readCards,
   readReport,
+  writeCards,
   writeRun,
   writeResults,
 } from "./storage.ts";
@@ -177,18 +181,24 @@ export function snapshot(
   };
 }
 
+/**
+ * A deck's list with its cards: the ones saved with the deck (see `readCards`), and Scryfall's for
+ * any it doesn't have. `fresh` fetches all of them, as a run does.
+ */
 export async function loadDeck(
   slug: string,
   file: "initial.txt" | "optimized.txt" = "initial.txt",
+  { fresh = false }: { fresh?: boolean } = {},
 ): Promise<{ deck: Deck; warnings: string[] }> {
   const parsed = parseDecklist(
     file === "initial.txt" ? await readInitial(slug) : await readDeckFile(slug, file),
   );
   const names = [...parsed.commanders, ...parsed.entries.map((e) => e.name)];
-  const found = await lookupExact(names);
+  const saved = fresh ? new Map<string, Card>() : byName((await readCards(slug)).values());
+  const found = await lookupExact(names.filter((n) => !saved.has(n)));
   const warnings: string[] = [];
   const get = async (n: string): Promise<Card | null> => {
-    const hit = found.get(n) ?? (await lookupFuzzy(n));
+    const hit = saved.get(n) ?? found.get(n) ?? (await lookupFuzzy(n));
     if (!hit) warnings.push(`Unknown card "${n}" was ignored.`);
     return hit;
   };
@@ -218,7 +228,7 @@ async function pinnedStart(slug: string, submitted: Deck) {
   const previous = await readReport(slug);
   if (!previous) return null;
   const chatEdits = (previous.edits ?? []).filter((e) => e.target !== "original");
-  const { deck: current } = await loadDeck(slug, "optimized.txt");
+  const { deck: current } = await loadDeck(slug, "optimized.txt", { fresh: true });
   const cards = new Map(current.slots.map((s) => [s.card.name, s.card]));
   return {
     ...pinEdits(submitted, previous.swaps, cards, chatEdits),
@@ -274,7 +284,9 @@ async function run(job: Job, opts: RunOptions) {
   const graph = new TaskGraph(tracer)
     .task(Task.Start, [], () =>
       inStep(job, Step.LoadCards, async (s) => {
-        const { deck: submitted, warnings: w } = await loadDeck(job.slug);
+        const { deck: submitted, warnings: w } = await loadDeck(job.slug, "initial.txt", {
+          fresh: true,
+        });
         for (const m of w) warn(Step.LoadCards, m);
         s.detail = `${totalCards(submitted)} cards`;
         const pinned = opts.keepEdits ? await pinnedStart(job.slug, submitted) : null;
@@ -717,6 +729,7 @@ async function run(job: Job, opts: RunOptions) {
           commanders: commanderNames,
           entries: toEntries(finalDeck),
         });
+        await writeCards(job.slug, cardsOf(submitted, finalDeck));
         // A run works out everything afresh, so edits still waiting for a refresh are covered.
         cancelDebounced(job.slug);
         await clearPendingRefresh(job.slug);

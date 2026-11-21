@@ -2569,9 +2569,13 @@ button.hero-card:active:not(:disabled) {
 .hero-actions > * {
   white-space: nowrap;
 }
-.hero-actions .primary {
+/* One height for every action in the row, whatever element draws it. */
+.hero-actions > button,
+.hero-actions .menu > summary {
   min-height: 44px;
-  padding: 10px 20px;
+}
+.hero-actions .primary {
+  padding-inline: 20px;
 }
 .hero-meta {
   margin: 0;

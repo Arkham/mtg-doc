@@ -12,6 +12,23 @@ export interface Deck {
   slots: DeckSlot[];
 }
 
+/** Every distinct card in some decks, commanders included. */
+export function cardsOf(...decks: Deck[]): Card[] {
+  const byName = new Map<string, Card>();
+  for (const d of decks)
+    for (const card of [...d.commanders, ...d.slots.map((s) => s.card)])
+      byName.set(card.name, card);
+  return [...byName.values()];
+}
+
+/** Cards by name, and a double-faced card by each face's name too (lists often name only the front). */
+export function byName(cards: Iterable<Card>, key = (name: string) => name): Map<string, Card> {
+  const out = new Map<string, Card>();
+  for (const card of cards)
+    for (const name of [card.name, ...card.name.split(" // ")]) out.set(key(name), card);
+  return out;
+}
+
 export const identityOf = (commanders: Card[]): Color[] => {
   const set = new Set(commanders.flatMap((c) => c.colorIdentity));
   return COLORS.filter((c) => set.has(c));

@@ -12,6 +12,8 @@ import type {
 import { BRACKETS, assessBracket, flagsFor } from "./analysis/bracket.ts";
 import {
   type Deck,
+  byName,
+  cardsOf,
   countRoles,
   identityOf,
   toDecklist,
@@ -51,13 +53,15 @@ import { loadDeck, snapshot, startOptimize, twoCardCombos } from "./pipeline.ts"
 import { buildCardIndex, isNamedCard, looksLikeNickname } from "./card-index.ts";
 import { findSynergies, keepPresentSynergies } from "./synergies.ts";
 import { keepGuidesTo } from "./play-guide.ts";
-import { lookupExact, lookupFuzzy } from "./sources/scryfall.ts";
+import { isBasicLand, lookupExact, lookupFuzzy } from "./sources/scryfall.ts";
 import { estimateBracket } from "./sources/spellbook.ts";
 import {
   HttpError,
   readMeta,
+  readCards,
   readReport,
   setHideSuggestions,
+  writeCards,
   writeInitial,
   writeMeta,
   writeResults,
@@ -206,12 +210,19 @@ async function proposeWithLlm(
  * Resolves and checks proposed changes in application order. The suggested deck must also fit the
  * bracket and budget; the deck as submitted is the user's own, so only Commander's rules apply.
  */
+/**
+ * Checks proposed changes against the deck and its rules. `known` are cards already at hand (the
+ * deck's saved ones, those a change carries): adding one of them needs no lookup, and its bracket
+ * flags come from the report's own assessments, so only cards new to the deck reach Scryfall and
+ * Commander Spellbook.
+ */
 async function validateChanges(
   deck: Deck,
   report: Report | null,
   proposed: ProposedChange[],
   budget: { total: number | null; perCard: number | null },
   target: EditTarget = "optimized",
+  known: Map<string, Card> = new Map(),
 ): Promise<DeckChange[]> {
   const identity = identityOf(deck.commanders);
   // Card names can contain commas; re-join pieces of a split name before resolving anything.
@@ -232,21 +243,35 @@ async function validateChanges(
   // user never named. Additions resolve against all of Magic.
   const removeCard = (name: string) => matchInDeck(name, deck);
   const addNames = [...new Set(proposed.filter((p) => p.action === "add").map((p) => p.name))];
-  const exact = await lookupExact(addNames);
+  const lower = (n: string) => n.toLowerCase();
+  const inDeck = byName(cardsOf(deck), lower);
+  const knownByName = byName(known.values(), lower);
+  const atHand = (n: string) => inDeck.get(lower(n)) ?? knownByName.get(lower(n));
+  const unknown = addNames.filter((n) => !atHand(n));
+  const exact = await lookupExact(unknown);
   const cards = new Map<string, Card | null>();
-  for (const n of addNames) cards.set(n, exact.get(n) ?? (await lookupFuzzy(n)));
+  for (const n of addNames) cards.set(n, atHand(n) ?? exact.get(n) ?? (await lookupFuzzy(n)));
 
-  const adds = [...cards.values()].filter((c): c is Card => !!c);
-  const est = adds.length
+  const fresh = unknown
+    .map((n) => cards.get(n))
+    .filter((c): c is Card => !!c && !isBasicLand(c.name));
+  const est = fresh.length
     ? await estimateBracket(
         deck.commanders.map((c) => c.name),
-        adds.map((c) => c.name),
+        fresh.map((c) => c.name),
       ).catch(() => null)
     : null;
+  // What the report already knows about the cards in its lists.
+  const assessed = [report?.bracket?.before, report?.bracket?.after].flatMap((a) =>
+    a ? [provisionalEstimate(a, deck)] : [],
+  );
   const bracketTarget = report?.bracket?.target ?? 4;
   const flagCache = new Map<string, ReturnType<typeof flagsFor>>();
   const flagOf = (c: Card) => {
-    if (!flagCache.has(c.name)) flagCache.set(c.name, flagsFor(c, est));
+    if (!flagCache.has(c.name)) {
+      const listed = assessed.find((e) => e?.cards.has(c.name));
+      flagCache.set(c.name, flagsFor(c, est?.cards.has(c.name) ? est : (listed ?? est)));
+    }
     return flagCache.get(c.name)!;
   };
   const violation = makeViolation({
@@ -421,6 +446,7 @@ export async function chatAboutDeck(
           perCard: meta.options.budgetPerCard ?? null,
         },
         editTarget,
+        await readCards(slug),
       )
     : [];
   const settle = await (
@@ -554,12 +580,15 @@ export async function applyDeckChanges(
           report.swaps,
         )
       : { changes: proposed.filter((c) => c.ok), spent: [] as Swap[] };
+  const known = await readCards(slug);
+  for (const c of proposed) if (c.card) known.set(c.card.name, c.card);
   const changes = await validateChanges(
     editsOriginal ? submitted : deck,
     report,
     carried.changes,
     budget,
     editsOriginal ? "original" : "optimized",
+    known,
   );
   const valid = changes.filter((c) => c.ok);
   if (!valid.length) throw new HttpError(409, "None of those changes are valid any more.");
@@ -648,6 +677,7 @@ export async function applyDeckChanges(
   );
   await writeResults(slug, updated, { commanders, entries: toEntries(next) });
   if (editsOriginal) await writeInitial(slug, commanders, toEntries(initial));
+  await writeCards(slug, cardsOf(initial, next));
   await scheduleRefresh(slug, report, {
     droppedSwaps: report.swaps.length - settled.length - rebased.swaps.length,
     added: valid

@@ -3,6 +3,7 @@ import fsSync from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import {
+  type Card,
   COLORS,
   type DeckEntry,
   type DeckSummary,
@@ -137,6 +138,25 @@ export async function writeResults(
     formatDecklist(optimized.commanders, optimized.entries),
   );
   return report;
+}
+
+/**
+ * Every card in a deck's two lists, as Scryfall had them when the deck was last optimized or
+ * edited, keyed by name. Edits work from these instead of fetching the whole deck again: what
+ * they work out then follows from the same cards as the report they change.
+ */
+export async function readCards(slug: string): Promise<Map<string, Card>> {
+  const text = await fs.readFile(path.join(deckDir(slug), "cards.json"), "utf8").catch(() => null);
+  if (!text) return new Map();
+  return new Map(Object.entries(JSON.parse(text) as Record<string, Card>));
+}
+
+/** Saves the cards of the deck's lists (exactly these: cards no list has any more are dropped). */
+export async function writeCards(slug: string, cards: Iterable<Card>) {
+  const byName = Object.fromEntries(
+    [...cards].sort((a, b) => a.name.localeCompare(b.name)).map((c) => [c.name, c]),
+  );
+  await writeAtomic(path.join(deckDir(slug), "cards.json"), JSON.stringify(byName));
 }
 
 export async function readReport(slug: string): Promise<Report | null> {

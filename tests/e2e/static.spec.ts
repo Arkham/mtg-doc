@@ -151,6 +151,17 @@ test.describe("static site", () => {
     await expect(page.locator(".hero")).toBeVisible();
   });
 
+  test("the deck's actions are all the same height", async ({ page }) => {
+    await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/`);
+    const actions = page.locator(".hero-actions > button, .hero-actions .menu > summary");
+    await expect(actions).toHaveCount(3);
+    const heights = await actions.evaluateAll((els) =>
+      els.map((el) => el.getBoundingClientRect().height),
+    );
+    expect(heights).toHaveLength(3);
+    expect(new Set(heights).size).toBe(1);
+  });
+
   test("on a phone the view toggle sits in the middle of the top bar", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/`);

@@ -48,7 +48,7 @@ src/
 tests/             *Test.elm (Elm unit tests); unit/, integration/, e2e/ and visual/ (Playwright);
                    fixtures/ (recorded HTTP, sample decks) and support/ (helpers, test servers)
 scripts/           build-static.ts, gen-elm.ts, elm.ts (builds the Elm app), benchmarks
-decks/             user decks, one folder per commander (initial.txt, optimized.txt, report.*, run.json)
+decks/             user decks, one folder per commander (initial.txt, optimized.txt, report.*, cards.json, run.json)
 ```
 
 ## Development practices
@@ -118,9 +118,13 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   that writes a report must go through it too, and write files with `writeAtomic`.
 - An edit is quick: the list and everything that follows from it alone (stats, simulation,
   bracket from the last estimate, combos and synergies that still hold, land swaps that still
-  apply) go in at once. What needs Commander Spellbook, Scryfall searches or the model (bracket
-  estimate, combo search, land suggestions, synergies with new cards, guides, the contradiction
-  check) is a refresh (`src/server/refresh.ts`) that runs once edits stop for `REFRESH_DELAY_MS`
+  apply) go in at once, with no request out: it works from the deck's saved cards (`cards.json`,
+  every card in both lists, written by each run and edit through `writeCards`; `loadDeck` reads it
+  and fetches only what's missing), and a card it adds that the deck already knows takes its
+  bracket flags from the report's assessments. Only cards new to the deck reach Scryfall and
+  Spellbook; a run fetches everything afresh (`fresh`). What needs Commander Spellbook,
+  Scryfall searches or the model (bracket estimate, combo search, land suggestions, synergies
+  with new cards, guides, the contradiction check) is a refresh (`src/server/refresh.ts`) that runs once edits stop for `REFRESH_DELAY_MS`
   (30s); every edit pushes it back, so a run of edits is worked out once. It computes outside the
   queue and saves only if no edit came in meanwhile, so edits never wait for it. Pending
   refreshes are kept in the deck's `refresh.json` and resume after a restart; a full re-run
