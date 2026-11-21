@@ -365,8 +365,16 @@ button.back svg {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 14px;
-  align-items: end;
+  align-items: start;
   margin-top: 14px;
+}
+/* In the settings grid, a segmented control fills its field, its options sharing the width. */
+.grid4 .field .segmented {
+  display: flex;
+}
+.grid4 .field .segmented button {
+  flex: 1 0 auto;
+  padding-inline: 10px;
 }
 
 .loading,
@@ -3391,21 +3399,34 @@ pre {
   margin: 12px 0 0;
   color: var(--text-2);
 }
-.rerun {
+.rerun-panel .grid4 {
+  margin-top: 0;
+}
+.rerun-panel .panel-head:last-child {
+  margin-bottom: 0;
+}
+/* The floating Ask button covers the page's last few lines: room for it below the report. */
+.stack.report:has(~ .chat-fab) {
+  padding-bottom: 76px;
+}
+.rerun-actions {
   display: flex;
-  gap: 12px;
-  align-items: flex-end;
+  justify-content: flex-end;
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--line);
+}
+.report-footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4);
   flex-wrap: wrap;
 }
-.rerun label {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: var(--fs-xs);
-  color: var(--muted);
-}
-.rerun input {
-  width: 90px;
+.report-footer .disclosure {
+  flex: 1 1 260px;
+  min-width: 0;
 }
 
 /* ---------- brackets ---------- */

@@ -421,9 +421,8 @@ test.describe("local app", () => {
 
   test("re-run options and target bracket", async ({ page, isMobile }) => {
     await page.goto(`${APP_URL}#/deck/${DECK}/optimized`);
-    await tap(page.getByRole("button", { name: "Re-run with different options" }), isMobile);
-    const rerun = page.locator(".panel", { has: page.locator(".rerun") });
-    await shotOf(rerun, "app-rerun", ".panel:has(.rerun)");
+    await tap(page.getByRole("button", { name: "Change and re-run" }), isMobile);
+    await shotOf(page.locator(".rerun-panel"), "app-rerun", ".rerun-panel");
     await page.locator("#bracket").getByLabel("Target bracket").selectOption("2");
     await expect(page.getByRole("button", { name: "Re-run for bracket 2" })).toBeVisible();
     await shotOf(page.locator("#bracket"), "app-target-bracket", "#bracket");

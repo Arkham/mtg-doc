@@ -193,10 +193,46 @@ class OutsideClose extends Controller {
 }
 
 /** Loads images ahead of time (space-separated `srcs`), so the next card in a gallery is ready. */
+/** Images any preloader on the page has asked for. */
+const preloaded = new Set<string>();
+
+/**
+ * Fetches images (`srcs`, separated by spaces) in the background, so they show at once when the
+ * page needs them: a few at a time, at low priority, when the browser is idle, each kept until it
+ * has loaded.
+ */
 class Preload extends Controller {
   static observedAttributes = ["srcs"];
+  #queue: string[] = [];
+  #waiting = false;
   attributeChangedCallback(_name: string, _old: string | null, value: string | null) {
-    for (const src of (value ?? "").split(" ")) if (src) new Image().src = src;
+    this.#queue = (value ?? "").split(" ").filter((src) => src && !preloaded.has(src));
+    this.#next();
+  }
+  disconnectedCallback() {
+    this.#queue = [];
+  }
+  #next() {
+    if (this.#waiting || !this.#queue.length) return;
+    this.#waiting = true;
+    // Safari has no requestIdleCallback.
+    const idle = window.requestIdleCallback ?? ((f: () => void) => setTimeout(f, 150));
+    idle(() => {
+      this.#waiting = false;
+      const batch = this.#queue.splice(0, 4).filter((src) => !preloaded.has(src));
+      let pending = batch.length;
+      if (!pending) return this.#next();
+      for (const src of batch) {
+        preloaded.add(src);
+        const image = new Image();
+        image.fetchPriority = "low";
+        image.decoding = "async";
+        image.onload = image.onerror = () => {
+          if (--pending === 0) this.#next();
+        };
+        image.src = src;
+      }
+    });
   }
 }
 

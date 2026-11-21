@@ -5,8 +5,8 @@ import Cards
 import Dict
 import Env exposing (Env)
 import Html exposing (Html, aside, button, datalist, details, div, form, h1, img, input, label, li, node, option, p, section, select, span, strong, summary, text, ul)
-import Html.Attributes exposing (attribute, checked, disabled, selected, value)
-import Html.Events exposing (on, onCheck, onClick, onFocus, onInput, preventDefaultOn)
+import Html.Attributes exposing (attribute, disabled, selected, value)
+import Html.Events exposing (on, onClick, onFocus, onInput, preventDefaultOn)
 import Html.Keyed as Keyed
 import Json.Decode as D
 import Json.Encode as E
@@ -19,6 +19,7 @@ import Ui.Attr exposing (alt, class, id, placeholder, src, title, type_)
 import Ui.Card as Card
 import Ui.Icons as Icons
 import Ui.Mana as Mana
+import Ui.Settings as Settings
 import Ui.Sheet as Sheet
 import Ui.Style exposing (ariaSelected)
 
@@ -633,50 +634,6 @@ numberValue s =
     String.toFloat s |> Maybe.withDefault 0
 
 
-optionsSummary : OptimizeOptions -> String
-optionsSummary o =
-    [ Just ("up to " ++ String.fromFloat o.maxSwaps ++ " swaps")
-    , o.budgetTotal |> Maybe.andThen nonZero |> Maybe.map (\b -> "deck ≤ $" ++ String.fromFloat b)
-    , o.budgetPerCard |> Maybe.andThen nonZero |> Maybe.map (\b -> "≤ $" ++ String.fromFloat b ++ "/card")
-    , if (o.budgetTotal |> Maybe.andThen nonZero) == Nothing && (o.budgetPerCard |> Maybe.andThen nonZero) == Nothing then
-        Just "any budget"
-
-      else
-        Nothing
-    , Just
-        (case o.bracket |> Maybe.andThen nonZero of
-            Just b ->
-                "bracket " ++ String.fromFloat b
-
-            Nothing ->
-                "current bracket"
-        )
-    , Just
-        (if o.tone == ToneMax then
-            "max power"
-
-         else
-            toneToString o.tone
-        )
-    , if o.webResearch then
-        Just "web research"
-
-      else
-        Nothing
-    ]
-        |> List.filterMap identity
-        |> String.join " · "
-
-
-nonZero : Float -> Maybe Float
-nonZero n =
-    if n == 0 then
-        Nothing
-
-    else
-        Just n
-
-
 view : Env -> Maybe AppConfig -> Model -> Html Msg
 view env config model =
     let
@@ -885,9 +842,13 @@ view env config model =
                 , details [ class "panel disclosure" ]
                     [ summary []
                         [ span [] [ text "Optimization settings" ]
-                        , span [ class "muted small" ] [ text (optionsSummary model.options) ]
+                        , span [ class "muted small" ] [ text (Settings.summary model.options) ]
                         ]
-                    , settings config model.options
+                    , Settings.view
+                        { webResearch = config |> Maybe.map .webResearch |> Maybe.withDefault False
+                        , onChange = SetOptions
+                        }
+                        model.options
                     ]
                 ]
             ]
@@ -1303,93 +1264,3 @@ photoPane photos =
                 photos
                 ++ [ span [ class "muted small" ] [ text "Tap a photo to zoom and compare." ] ]
             )
-
-
-settings : Maybe AppConfig -> OptimizeOptions -> Html Msg
-settings config o =
-    let
-        webResearch =
-            config |> Maybe.map .webResearch |> Maybe.withDefault False
-
-        optional s =
-            if s == "" then
-                Nothing
-
-            else
-                Just (numberValue s)
-    in
-    div [ class "grid4" ]
-        [ label [ class "field" ]
-            [ span [] [ text "Max swaps" ]
-            , input
-                [ type_ "number"
-                , attribute "inputmode" "numeric"
-                , Ui.Attr.min "1"
-                , Ui.Attr.max "40"
-                , value (String.fromFloat o.maxSwaps)
-                , Ui.Attr.valueAttr (String.fromFloat o.maxSwaps)
-                , onInput (\v -> SetOptions { o | maxSwaps = numberValue v })
-                ]
-                []
-            ]
-        , label [ class "field" ]
-            [ span [] [ text "Deck budget ($)" ]
-            , input
-                [ type_ "number"
-                , attribute "inputmode" "decimal"
-                , Ui.Attr.min "0"
-                , placeholder "No limit"
-                , value (o.budgetTotal |> Maybe.map String.fromFloat |> Maybe.withDefault "")
-                , Ui.Attr.valueAttr (o.budgetTotal |> Maybe.map String.fromFloat |> Maybe.withDefault "")
-                , onInput (\v -> SetOptions { o | budgetTotal = optional v })
-                ]
-                []
-            ]
-        , label [ class "field" ]
-            [ span [] [ text "Max per card ($)" ]
-            , input
-                [ type_ "number"
-                , attribute "inputmode" "decimal"
-                , Ui.Attr.min "0"
-                , placeholder "No limit"
-                , value (o.budgetPerCard |> Maybe.map String.fromFloat |> Maybe.withDefault "")
-                , Ui.Attr.valueAttr (o.budgetPerCard |> Maybe.map String.fromFloat |> Maybe.withDefault "")
-                , onInput (\v -> SetOptions { o | budgetPerCard = optional v })
-                ]
-                []
-            ]
-        , label [ class "field" ]
-            [ span [] [ text "Target bracket" ]
-            , select [ on "change" (D.map (\v -> SetOptions { o | bracket = optional v }) (D.at [ "target", "value" ] D.string)) ]
-                (List.map
-                    (\( v, l ) -> option [ Ui.Attr.optionValue v, selected ((o.bracket |> Maybe.map String.fromFloat |> Maybe.withDefault "") == v) ] [ text l ])
-                    [ ( "", "Stay in current bracket" )
-                    , ( "1", "1: Exhibition" )
-                    , ( "2", "2: Core" )
-                    , ( "3", "3: Upgraded" )
-                    , ( "4", "4: Optimized" )
-                    , ( "5", "5: cEDH" )
-                    ]
-                )
-            ]
-        , div [ class "field" ]
-            [ span [] [ text "Push" ]
-            , div [ class "segmented" ]
-                (List.map
-                    (\( t, l ) -> button [ ariaSelected (o.tone == t), onClick (SetOptions { o | tone = t }) ] [ text l ])
-                    [ ( ToneMax, "Max" ), ( ToneBalanced, "Balanced" ), ( ToneCasual, "Casual" ) ]
-                )
-            ]
-        , label [ class "field checkbox" ]
-            [ input [ type_ "checkbox", checked o.webResearch, disabled (not webResearch), onCheck (\c -> SetOptions { o | webResearch = c }) ] []
-            , span []
-                (text "Web research"
-                    :: (if webResearch then
-                            []
-
-                        else
-                            [ span [ class "muted small" ] [ text " (needs an LLM)" ] ]
-                       )
-                )
-            ]
-        ]

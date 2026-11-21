@@ -73,7 +73,14 @@ test.describe("local app", () => {
     await page.getByRole("button", { name: "Back", exact: true }).click();
     await expect(page.getByRole("heading", { name: "Optimized deck" })).toBeVisible();
     await expect(page.locator(".checks li.bad")).toHaveCount(0);
-    await expect(page.getByRole("button", { name: /Re-run with different options/ })).toBeVisible();
+    // Running it again starts from this run's settings, and can be called off.
+    await expect(page.locator(".rerun-panel")).toContainText(
+      "up to 15 swaps · deck ≤ $300 · bracket 3",
+    );
+    await page.getByRole("button", { name: "Change and re-run" }).click();
+    await expect(page.getByLabel("Deck budget ($)")).toHaveValue("300");
+    await page.getByRole("button", { name: "Cancel" }).click();
+    await expect(page.getByRole("button", { name: "Change and re-run" })).toBeVisible();
 
     // The target bracket can be changed from the bracket panel; it only re-runs on a second tap.
     const aim = page.locator("#bracket").getByLabel("Target bracket");

@@ -171,7 +171,7 @@ enter route model =
                 ReportPage report ->
                     let
                         ( next, cmd ) =
-                            if report.slug == slug then
+                            if report.page.slug == slug then
                                 ( report, Cmd.none )
 
                             else
@@ -468,7 +468,7 @@ withHowToPlayClosed : ( Model, Cmd Msg ) -> ( Model, Cmd Msg )
 withHowToPlayClosed ( model, cmd ) =
     case model.page of
         ReportPage report ->
-            if report.howToPlay then
+            if report.page.howToPlay then
                 let
                     ( next, c2 ) =
                         update (ReportMsg Report.closeHowToPlay) model
@@ -555,7 +555,7 @@ view model =
                             deckView model.route
 
                         chrome =
-                            Report.chrome env route report
+                            Report.chrome env route report.page
                     in
                     ( [ case chrome.note of
                             Just Report.Updating ->
@@ -581,8 +581,12 @@ view model =
 
                             Nothing ->
                                 text ""
-                      , Html.map ReportMsg (Html.Lazy.lazy3 Report.view env route report)
+
+                      -- Lazy on the page, which the chat isn't part of: typing in the chat, or a reply
+                      -- streaming in, doesn't render the report again.
+                      , Html.map ReportMsg (Html.Lazy.lazy3 Report.view env route report.page)
                       ]
+                        ++ List.map (Html.map ReportMsg) (Report.viewChat env route report)
                     , Maybe.map (Html.map ReportMsg) chrome.toggle
                     , List.map (Html.map ReportMsg) chrome.overlays
                     )

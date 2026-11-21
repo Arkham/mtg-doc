@@ -1,4 +1,4 @@
-module Page.Report exposing (ApplierState, Chrome, ComboFilter, DecklistView, Model, Msg, Note(..), Out(..), chrome, closeHowToPlay, init, load, subscriptions, update, view)
+module Page.Report exposing (ApplierState, Chrome, ComboFilter, DecklistView, Model, Msg, Note(..), Out(..), Page, chrome, closeHowToPlay, init, load, subscriptions, update, view, viewChat)
 
 import Api
 import Chat
@@ -8,10 +8,11 @@ import Dict
 import Env exposing (Env)
 import Format exposing (money, toFixed)
 import HowToPlay
-import Html exposing (Html, a, article, button, dd, details, div, dl, dt, figcaption, figure, h1, h2, h3, header, img, input, label, li, nav, node, option, p, pre, section, select, span, strong, summary, table, tbody, td, text, th, thead, tr, ul)
-import Html.Attributes exposing (attribute, checked, disabled, selected, style, value)
-import Html.Events exposing (on, onCheck, onClick, onInput, preventDefaultOn)
+import Html exposing (Html, a, article, button, dd, details, div, dl, dt, figcaption, figure, h1, h2, h3, header, img, label, li, nav, node, option, p, pre, section, select, span, strong, summary, table, tbody, td, text, th, thead, tr, ul)
+import Html.Attributes exposing (attribute, disabled, selected, style)
+import Html.Events exposing (on, onClick, preventDefaultOn)
 import Html.Keyed as Keyed
+import Html.Lazy
 import Json.Decode as D
 import Json.Encode
 import List.Extra
@@ -19,11 +20,12 @@ import Process
 import Route exposing (DeckView(..))
 import Task
 import Types exposing (..)
-import Ui.Attr exposing (alt, class, href, id, placeholder, rel, src, target, title, type_)
+import Ui.Attr exposing (alt, class, href, id, rel, src, target, title)
 import Ui.Bracket as Bracket
 import Ui.Card as Card
 import Ui.Mana as Mana
 import Ui.Markdown as Markdown
+import Ui.Settings as Settings
 import Ui.Sheet as Sheet
 import Ui.Style exposing (ariaSelected, auraOfCards, cssVars)
 import Url
@@ -55,7 +57,10 @@ type alias ApplierState =
     { busy : Maybe Swap, error : Maybe String }
 
 
-type alias Model =
+{-| Everything the report shows, but the chat: the report renders lazily on this, so typing in
+the chat (or a reply streaming in) doesn't render it again.
+-}
+type alias Page =
     { slug : String
     , detail : Maybe DeckDetail
     , error : Maybe String
@@ -84,8 +89,18 @@ type alias Model =
     , exportCopied : Bool
     , exportClose : Int
     , active : Maybe String
+    }
+
+
+type alias Model =
+    { page : Page
     , chat : Chat.Model
     }
+
+
+setPage : (Page -> Page) -> Model -> Model
+setPage f model =
+    { model | page = f model.page }
 
 
 type Msg
@@ -114,6 +129,7 @@ type Msg
     | SetTarget Float
     | RunTarget Float
     | OpenRerun
+    | CloseRerun
     | SetRerun OptimizeOptions
     | RunRerun OptimizeOptions
     | Started (Result String ( String, String ))
@@ -142,40 +158,42 @@ init : Env -> String -> String -> ( Model, Cmd Msg )
 init env decklistView slug =
     load env
         slug
-        { slug = slug
-        , detail = Nothing
-        , error = Nothing
-        , pollToken = 0
-        , status = idle
-        , copied = False
-        , copyToken = 0
-        , optimizedText = Nothing
-        , howToPlay = False
-        , modalCount = 0
-        , showSwaps = False
-        , decklistView =
-            if decklistView == "images" then
-                ImagesView
+        { chat = Chat.init
+        , page =
+            { slug = slug
+            , detail = Nothing
+            , error = Nothing
+            , pollToken = 0
+            , status = idle
+            , copied = False
+            , copyToken = 0
+            , optimizedText = Nothing
+            , howToPlay = False
+            , modalCount = 0
+            , showSwaps = False
+            , decklistView =
+                if decklistView == "images" then
+                    ImagesView
 
-            else
-                ListView
-        , comboFilter = AllCombos
-        , allCombos = False
-        , synergiesBusy = Nothing
-        , synergiesError = Nothing
-        , swapApplier = { busy = Nothing, error = Nothing }
-        , manaApplier = { busy = Nothing, error = Nothing }
-        , manaBusy = Nothing
-        , manaError = Nothing
-        , target = Nothing
-        , targetBusy = False
-        , rerunOpen = False
-        , rerunOpts = Nothing
-        , publishBusy = False
-        , exportCopied = False
-        , exportClose = 0
-        , active = Nothing
-        , chat = Chat.init
+                else
+                    ListView
+            , comboFilter = AllCombos
+            , allCombos = False
+            , synergiesBusy = Nothing
+            , synergiesError = Nothing
+            , swapApplier = { busy = Nothing, error = Nothing }
+            , manaApplier = { busy = Nothing, error = Nothing }
+            , manaBusy = Nothing
+            , manaError = Nothing
+            , target = Nothing
+            , targetBusy = False
+            , rerunOpen = False
+            , rerunOpts = Nothing
+            , publishBusy = False
+            , exportCopied = False
+            , exportClose = 0
+            , active = Nothing
+            }
         }
 
 
@@ -184,11 +202,11 @@ between decks, like the old UI did).
 -}
 load : Env -> String -> Model -> ( Model, Cmd Msg )
 load env slug model =
-    ( { model | slug = slug }
+    ( setPage (\p -> { p | slug = slug }) model
     , Cmd.batch
         [ Api.deck env.isStatic slug GotDetail
         , loadList env slug
-        , if model.slug /= slug then
+        , if model.page.slug /= slug then
             Cmd.map ChatMsg (Chat.reload slug model.chat)
 
           else
@@ -215,13 +233,13 @@ applied env report model =
 
         Nothing ->
             model
-    , Cmd.batch [ Api.deck env.isStatic model.slug GotDetail, loadList env model.slug ]
+    , Cmd.batch [ Api.deck env.isStatic model.page.slug GotDetail, loadList env model.page.slug ]
     )
 
 
 withReport : Report -> Model -> Model
 withReport r model =
-    { model | detail = Maybe.map (\d -> { d | report = Just r }) model.detail }
+    setPage (\p -> { p | detail = Maybe.map (\d -> { d | report = Just r }) model.page.detail }) model
 
 
 none : Model -> ( Model, Cmd Msg, Maybe Out )
@@ -239,82 +257,87 @@ update env msg model =
     case msg of
         GotDetail (Ok detail) ->
             watch
-                { model
-                    | detail = Just detail
-                    , status =
-                        { updating = detail.updating
-                        , refreshInMs = detail.refreshInMs
-                        , refreshing = detail.refreshing
-                        , savedAt = detail.savedAt
+                (setPage
+                    (\p ->
+                        { p
+                            | detail = Just detail
+                            , status =
+                                { updating = detail.updating
+                                , refreshInMs = detail.refreshInMs
+                                , refreshing = detail.refreshing
+                                , savedAt = detail.savedAt
+                                }
                         }
-                }
+                    )
+                    model
+                )
 
         GotDetail (Err e) ->
-            if model.detail == Nothing then
-                none { model | error = Just e }
+            if model.page.detail == Nothing then
+                none (setPage (\p -> { p | error = Just e }) model)
 
             else
                 none model
 
         Poll token ->
-            if token == model.pollToken then
-                ( model, Api.status model.slug (GotStatus token), Nothing )
+            if token == model.page.pollToken then
+                ( model, Api.status model.page.slug (GotStatus token), Nothing )
 
             else
                 none model
 
         GotStatus token (Ok status) ->
-            if token /= model.pollToken then
+            if token /= model.page.pollToken then
                 none model
 
-            else if status.savedAt /= model.status.savedAt then
+            else if status.savedAt /= model.page.status.savedAt then
                 -- The report changed: an edit went in, or its refresh. The chat may have an offer.
-                ( { model | status = status }
+                ( setPage (\p -> { p | status = status }) model
                 , Cmd.batch
-                    [ Api.deck env.isStatic model.slug GotDetail
-                    , loadList env model.slug
-                    , Cmd.map ChatMsg (Chat.reload model.slug model.chat)
+                    [ Api.deck env.isStatic model.page.slug GotDetail
+                    , loadList env model.page.slug
+                    , Cmd.map ChatMsg (Chat.reload model.page.slug model.chat)
                     ]
                 , Nothing
                 )
 
             else
-                watch { model | status = status }
+                watch (setPage (\p -> { p | status = status }) model)
 
         GotStatus _ (Err _) ->
             none model
 
         GotList text ->
-            none { model | optimizedText = text }
+            none (setPage (\p -> { p | optimizedText = text }) model)
 
         Copied ->
             let
                 token =
-                    model.copyToken + 1
+                    model.page.copyToken + 1
             in
-            ( { model | copied = True, copyToken = token }
+            ( setPage (\p -> { p | copied = True, copyToken = token }) model
             , Process.sleep 1500 |> Task.perform (\_ -> Uncopy token)
             , Nothing
             )
 
         Uncopy token ->
-            if token == model.copyToken then
-                none { model | copied = False }
+            if token == model.page.copyToken then
+                none (setPage (\p -> { p | copied = False }) model)
 
             else
                 none model
 
         OpenHowToPlay ->
-            none { model | howToPlay = True }
+            none (setPage (\p -> { p | howToPlay = True }) model)
 
         CloseHowToPlay ->
-            none { model | howToPlay = False, modalCount = model.modalCount + 1 }
+            none (setPage (\p -> { p | howToPlay = False, modalCount = model.page.modalCount + 1 }) model)
 
         ToggleSwaps ->
-            none { model | showSwaps = not model.showSwaps }
+            none (setPage (\p -> { p | showSwaps = not model.page.showSwaps }) model)
 
         SetDecklistView v ->
-            ( { model | decklistView = v }
+            ( setPage (\p -> { p | decklistView = v }) model
             , Cmd.none
             , Just
                 (SaveDecklistView
@@ -328,26 +351,26 @@ update env msg model =
             )
 
         SetComboFilter f ->
-            none { model | comboFilter = f }
+            none (setPage (\p -> { p | comboFilter = f }) model)
 
         ToggleAllCombos ->
-            none { model | allCombos = not model.allCombos }
+            none (setPage (\p -> { p | allCombos = not model.page.allCombos }) model)
 
         RefreshSynergies mode ->
-            ( { model | synergiesBusy = Just mode, synergiesError = Nothing }
-            , Api.refreshSynergies model.slug mode GotSynergies
+            ( setPage (\p -> { p | synergiesBusy = Just mode, synergiesError = Nothing }) model
+            , Api.refreshSynergies model.page.slug mode GotSynergies
             , Nothing
             )
 
         GotSynergies (Ok r) ->
-            none (withReport r { model | synergiesBusy = Nothing })
+            none (withReport r (setPage (\p -> { p | synergiesBusy = Nothing }) model))
 
         GotSynergies (Err e) ->
-            none { model | synergiesBusy = Nothing, synergiesError = Just e }
+            none (setPage (\p -> { p | synergiesBusy = Nothing, synergiesError = Just e }) model)
 
         ApplySwap which swap ->
             ( setApplier which { busy = Just swap, error = Nothing } model
-            , Api.applySwap model.slug swap (GotSwapEdit which)
+            , Api.applySwap model.page.slug swap (GotSwapEdit which)
             , Nothing
             )
 
@@ -379,8 +402,8 @@ update env msg model =
             none (setApplier which { busy = Nothing, error = Just e } model)
 
         ApplyMana id ->
-            ( { model | manaBusy = Just id, manaError = Nothing }
-            , Api.applyManaSuggestion model.slug id GotManaEdit
+            ( setPage (\p -> { p | manaBusy = Just id, manaError = Nothing }) model
+            , Api.applyManaSuggestion model.page.slug id GotManaEdit
             , Nothing
             )
 
@@ -392,7 +415,7 @@ update env msg model =
             ( m, Cmd.batch [ cmd, Api.edit id (GotManaEditStatus id) ], Nothing )
 
         GotManaEdit (Err e) ->
-            none { model | manaBusy = Nothing, manaError = Just e }
+            none (setPage (\p -> { p | manaBusy = Nothing, manaError = Just e }) model)
 
         PollManaEdit id ->
             ( model, Api.edit id (GotManaEditStatus id), Nothing )
@@ -400,29 +423,29 @@ update env msg model =
         GotManaEditStatus id (Ok status) ->
             case status.state of
                 EditStatusStateDone ->
-                    plain (applied env Nothing { model | manaBusy = Nothing })
+                    plain (applied env Nothing (setPage (\p -> { p | manaBusy = Nothing }) model))
 
                 EditStatusStateFailed ->
-                    none { model | manaBusy = Nothing, manaError = Just (Maybe.withDefault "That change failed." status.error) }
+                    none (setPage (\p -> { p | manaBusy = Nothing, manaError = Just (Maybe.withDefault "That change failed." status.error) }) model)
 
                 _ ->
                     ( model, Process.sleep pollMs |> Task.perform (\_ -> PollManaEdit id), Nothing )
 
         GotManaEditStatus _ (Err e) ->
-            none { model | manaBusy = Nothing, manaError = Just e }
+            none (setPage (\p -> { p | manaBusy = Nothing, manaError = Just e }) model)
 
         SetTarget t ->
-            none { model | target = Just t }
+            none (setPage (\p -> { p | target = Just t }) model)
 
         RunTarget t ->
-            case model.detail |> Maybe.andThen .report of
+            case model.page.detail |> Maybe.andThen .report of
                 Just r ->
                     let
                         o =
                             r.options
                     in
-                    ( { model | targetBusy = True }
-                    , Api.reoptimize model.slug { o | bracket = Just t } Started
+                    ( setPage (\p -> { p | targetBusy = True }) model
+                    , Api.reoptimize model.page.slug { o | bracket = Just t } Started
                     , Nothing
                     )
 
@@ -430,37 +453,40 @@ update env msg model =
                     none model
 
         OpenRerun ->
-            none { model | rerunOpen = True }
+            none (setPage (\p -> { p | rerunOpen = True }) model)
+
+        CloseRerun ->
+            none (setPage (\p -> { p | rerunOpen = False, rerunOpts = Nothing }) model)
 
         SetRerun o ->
-            none { model | rerunOpts = Just o }
+            none (setPage (\p -> { p | rerunOpts = Just o }) model)
 
         RunRerun o ->
-            ( model, Api.reoptimize model.slug o Started, Nothing )
+            ( model, Api.reoptimize model.page.slug o Started, Nothing )
 
         Started (Ok ( slug, jobId )) ->
             ( model, Cmd.none, Just (Navigate (Route.href env.isStatic (Route.Job slug jobId))) )
 
         Started (Err _) ->
-            none { model | targetBusy = False }
+            none (setPage (\p -> { p | targetBusy = False }) model)
 
         TogglePublish suggestions ->
-            ( { model | publishBusy = True }, Api.setPublishing model.slug suggestions GotPublish, Nothing )
+            ( setPage (\p -> { p | publishBusy = True }) model, Api.setPublishing model.page.slug suggestions GotPublish, Nothing )
 
         GotPublish (Ok meta) ->
-            none { model | publishBusy = False, detail = Maybe.map (\d -> { d | meta = meta }) model.detail }
+            none (setPage (\p -> { p | publishBusy = False, detail = Maybe.map (\d -> { d | meta = meta }) model.page.detail }) model)
 
         GotPublish (Err _) ->
-            none { model | publishBusy = False }
+            none (setPage (\p -> { p | publishBusy = False }) model)
 
         ExportCopied ->
-            ( { model | exportCopied = True }, Process.sleep 1000 |> Task.perform (\_ -> ExportDone), Nothing )
+            ( setPage (\p -> { p | exportCopied = True }) model, Process.sleep 1000 |> Task.perform (\_ -> ExportDone), Nothing )
 
         ExportDone ->
-            none { model | exportCopied = False, exportClose = model.exportClose + 1 }
+            none (setPage (\p -> { p | exportCopied = False, exportClose = model.page.exportClose + 1 }) model)
 
         Activate id ->
-            none { model | active = Just id }
+            none (setPage (\p -> { p | active = Just id }) model)
 
         ZoomCommander c ->
             case c.image of
@@ -474,7 +500,7 @@ update env msg model =
                                 , alt = c.name
                                 , link = { href = c.scryfallUri, label = "Scryfall ↗" }
                                 , wide = False
-                                , foil = Just (auraOfCards (model.detail |> Maybe.andThen .report |> Maybe.map .commanderCards |> Maybe.withDefault []))
+                                , foil = Just (auraOfCards (model.page.detail |> Maybe.andThen .report |> Maybe.map .commanderCards |> Maybe.withDefault []))
                                 }
                             )
                         )
@@ -489,7 +515,7 @@ update env msg model =
         ChatMsg m ->
             let
                 ( chat, cmd, out ) =
-                    Chat.update env model.slug m model.chat
+                    Chat.update env model.page.slug m model.chat
 
                 next =
                     { model | chat = chat }
@@ -542,10 +568,10 @@ watch : Model -> ( Model, Cmd Msg, Maybe Out )
 watch model =
     let
         token =
-            model.pollToken + 1
+            model.page.pollToken + 1
     in
-    ( { model | pollToken = token }
-    , if changing model.status then
+    ( setPage (\p -> { p | pollToken = token }) model
+    , if changing model.page.status then
         Process.sleep pollMs |> Task.perform (\_ -> Poll token)
 
       else
@@ -558,20 +584,20 @@ applierOf : Applier -> Model -> ApplierState
 applierOf which model =
     case which of
         SwapApplier ->
-            model.swapApplier
+            model.page.swapApplier
 
         ManaApplier ->
-            model.manaApplier
+            model.page.manaApplier
 
 
 setApplier : Applier -> ApplierState -> Model -> Model
 setApplier which state model =
     case which of
         SwapApplier ->
-            { model | swapApplier = state }
+            setPage (\p -> { p | swapApplier = state }) model
 
         ManaApplier ->
-            { model | manaApplier = state }
+            setPage (\p -> { p | manaApplier = state }) model
 
 
 subscriptions : Model -> Sub Msg
@@ -832,10 +858,12 @@ swapGroup env ctx state title swaps =
     else
         div [ class "swap-group" ]
             [ h3 [] [ text (title ++ " "), muted ("· " ++ String.fromInt (List.length swaps)) ]
-            , div [ class "swaps" ]
+            , Keyed.node "div"
+                [ class "swaps" ]
                 (List.map
                     (\s ->
-                        article [ class "swap" ]
+                        ( s.out ++ ">" ++ s.in_
+                        , article [ class "swap" ]
                             [ div [ class "swap-head" ]
                                 [ span [ class "badge" ] [ text (categoryLabel s) ]
                                 , applyButton env SwapApplier state s
@@ -872,13 +900,14 @@ swapGroup env ctx state title swaps =
                                        )
                                 )
                             ]
+                        )
                     )
                     swaps
                 )
             ]
 
 
-swapList : Env -> Card.Ctx Msg -> Model -> List Swap -> List (Html Msg)
+swapList : Env -> Card.Ctx Msg -> Page -> List Swap -> List (Html Msg)
 swapList env ctx model swaps =
     if List.isEmpty swaps then
         [ p [ class "muted" ] [ text "No swaps suggested. The deck already looks tight." ] ]
@@ -1058,7 +1087,7 @@ colorBars env ctx before after =
         )
 
 
-synergies : Env -> Card.Ctx Msg -> Model -> Report -> Bool -> List (Html Msg)
+synergies : Env -> Card.Ctx Msg -> Page -> Report -> Bool -> List (Html Msg)
 synergies env ctx model r canRefresh =
     let
         items =
@@ -1117,10 +1146,11 @@ synergies env ctx model r canRefresh =
         p [ class "muted" ] [ text "No synergies yet." ]
 
       else
-        ul [ class "synergies" ]
+        Keyed.ul [ class "synergies" ]
             (List.map
                 (\syn ->
-                    li [ class "synergy" ]
+                    ( String.join "+" syn.cards
+                    , li [ class "synergy" ]
                         [ div [ class "synergy-cards" ]
                             (List.map
                                 (\n ->
@@ -1145,13 +1175,14 @@ synergies env ctx model r canRefresh =
                             , p [ class "small" ] (Card.prose ctx syn.explanation)
                             ]
                         ]
+                    )
                 )
                 items
             )
     ]
 
 
-manaAdvice : Env -> Card.Ctx Msg -> Model -> Report -> Html Msg
+manaAdvice : Env -> Card.Ctx Msg -> Page -> Report -> Html Msg
 manaAdvice env ctx model r =
     let
         changed =
@@ -1168,10 +1199,11 @@ manaAdvice env ctx model r =
 
           else
             [ h3 [] [ text "What we changed" ]
-            , ul [ class "mana-changes" ]
+            , Keyed.ul [ class "mana-changes" ]
                 (List.map
                     (\s ->
-                        li []
+                        ( s.out ++ ">" ++ s.in_
+                        , li []
                             [ div [ class "mana-swap" ]
                                 [ span [ class "mana-swap-chips" ]
                                     [ span [ class "edit-chip remove" ]
@@ -1184,6 +1216,7 @@ manaAdvice env ctx model r =
                                 ]
                             , div [ class "muted small" ] (Card.prose ctx s.reason)
                             ]
+                        )
                     )
                     changed
                 )
@@ -1473,7 +1506,7 @@ roles single before after =
 
 {-| Pick another target bracket; the re-run only starts after an explicit second tap.
 -}
-targetBracket : Model -> Float -> Html Msg
+targetBracket : Page -> Float -> Html Msg
 targetBracket model current =
     let
         target =
@@ -1505,74 +1538,39 @@ targetBracket model current =
         ]
 
 
-rerun : Model -> OptimizeOptions -> Html Msg
+{-| Running the optimizer again: the settings of the run that made this report, and a way to
+change them. Opened, the settings are the review's, with Cancel and Run beneath.
+-}
+rerun : Page -> OptimizeOptions -> Html Msg
 rerun model initial =
-    if not model.rerunOpen then
-        button [ onClick OpenRerun ] [ text "Re-run with different options" ]
-
-    else
-        let
-            opts =
-                Maybe.withDefault initial model.rerunOpts
-
-            number s =
-                String.toFloat s |> Maybe.withDefault 0
-
-            optional s =
-                if s == "" then
+    section [ class "panel rerun-panel" ]
+        (panelHead
+            { title = "Run it again"
+            , desc = Just [ text (Settings.summary initial) ]
+            , actions =
+                if model.rerunOpen then
                     Nothing
 
                 else
-                    Just (number s)
-
-            onValue toOpts =
-                on "change" (D.at [ "target", "value" ] D.string |> D.map (toOpts >> SetRerun))
-
-            orEmpty =
-                Maybe.map String.fromFloat >> Maybe.withDefault ""
-        in
-        div [ class "rerun" ]
-            [ label []
-                [ text "Max swaps "
-                , input
-                    [ type_ "number"
-                    , value (String.fromFloat opts.maxSwaps)
-                    , Ui.Attr.valueAttr (String.fromFloat opts.maxSwaps)
-                    , Ui.Attr.min "1"
-                    , Ui.Attr.max "40"
-                    , onInput (\v -> SetRerun { opts | maxSwaps = number v })
+                    Just [ button [ onClick OpenRerun ] [ text "Change and re-run" ] ]
+            , compact = False
+            }
+            :: (if model.rerunOpen then
+                    let
+                        opts =
+                            Maybe.withDefault initial model.rerunOpts
+                    in
+                    [ Settings.view { webResearch = True, onChange = SetRerun } opts
+                    , div [ class "rerun-actions" ]
+                        [ button [ class "ghost", onClick CloseRerun ] [ text "Cancel" ]
+                        , button [ class "primary", onClick (RunRerun opts) ] [ text "Run" ]
+                        ]
                     ]
+
+                else
                     []
-                ]
-            , label []
-                [ text "Deck budget $ "
-                , input [ type_ "number", placeholder "none", value (orEmpty opts.budgetTotal), Ui.Attr.valueAttr (orEmpty opts.budgetTotal), onInput (\v -> SetRerun { opts | budgetTotal = optional v }) ] []
-                ]
-            , label []
-                [ text "Budget/card $ "
-                , input [ type_ "number", placeholder "none", value (orEmpty opts.budgetPerCard), Ui.Attr.valueAttr (orEmpty opts.budgetPerCard), onInput (\v -> SetRerun { opts | budgetPerCard = optional v }) ] []
-                ]
-            , label []
-                [ text "Bracket "
-                , select [ onValue (\v -> { opts | bracket = optional v }) ]
-                    (option [ Ui.Attr.optionValue "", selected (opts.bracket == Nothing) ] [ text "current" ]
-                        :: List.map (\b -> option [ selected (opts.bracket == Just (toFloat b)) ] [ text (String.fromInt b) ]) [ 1, 2, 3, 4, 5 ]
-                    )
-                ]
-            , label []
-                [ text "Tone "
-                , select [ onValue (\v -> { opts | tone = toneFromString v |> Maybe.withDefault ToneMax }) ]
-                    (List.map
-                        (\( t, l ) -> option [ Ui.Attr.optionValue (toneToString t), selected (opts.tone == t) ] [ text l ])
-                        [ ( ToneMax, "max power" ), ( ToneBalanced, "balanced" ), ( ToneCasual, "casual" ) ]
-                    )
-                ]
-            , label [ class "checkbox" ]
-                [ input [ type_ "checkbox", checked opts.webResearch, onCheck (\c -> SetRerun { opts | webResearch = c }) ] []
-                , text " web research"
-                ]
-            , button [ class "primary", onClick (RunRerun opts) ] [ text "Run" ]
-            ]
+               )
+        )
 
 
 groupOrder : List String
@@ -1634,15 +1632,18 @@ deckImages ctx groups showNew =
                 Nothing ->
                     Ignore
     in
-    div [ class "deck-images" ]
+    Keyed.node "div"
+        [ class "deck-images" ]
         (List.map
             (\( group, cards ) ->
-                section []
+                ( group
+                , section []
                     [ h3 [] [ text (group ++ " "), muted ("(" ++ String.fromFloat (List.sum (List.map .qty cards)) ++ ")") ]
-                    , ul []
+                    , Keyed.ul []
                         (List.map
                             (\c ->
-                                li
+                                ( c.name
+                                , li
                                     [ class
                                         ("deck-image "
                                             ++ (if showNew && (c.isNew || c.delta > 0) then
@@ -1685,10 +1686,12 @@ deckImages ctx groups showNew =
                                                )
                                         )
                                     ]
+                                )
                             )
                             cards
                         )
                     ]
+                )
             )
             groups
         )
@@ -1696,7 +1699,7 @@ deckImages ctx groups showNew =
 
 {-| The deck's cards as a list or images and, on the optimized view, the swaps that made it.
 -}
-decklist : Env -> Card.Ctx Msg -> Model -> List DecklistCard -> Bool -> Maybe ( Int, List (Html Msg) ) -> List (Html Msg)
+decklist : Env -> Card.Ctx Msg -> Page -> List DecklistCard -> Bool -> Maybe ( Int, List (Html Msg) ) -> List (Html Msg)
 decklist env ctx model cards compare swaps =
     let
         swapsShown =
@@ -1769,15 +1772,20 @@ decklist env ctx model cards compare swaps =
                 deckImages galleryCtx groups showNew
 
               else
-                div [ class "decklist-groups" ]
+                -- Keyed by group and card, so a card in both lists keeps its row (and its loaded images)
+                -- when the view changes, and only what's added or cut is made or removed.
+                Keyed.node "div"
+                    [ class "decklist-groups" ]
                     (List.map
                         (\( group, cs ) ->
-                            div [ class "deck-group" ]
+                            ( group
+                            , div [ class "deck-group" ]
                                 [ h3 [] [ text (group ++ " "), muted ("(" ++ String.fromFloat (List.sum (List.map .qty cs)) ++ ")") ]
-                                , ul []
+                                , Keyed.ul []
                                     (List.map
                                         (\c ->
-                                            li
+                                            ( c.name
+                                            , li
                                                 [ class
                                                     (if showNew && (c.isNew || c.delta > 0) then
                                                         "new"
@@ -1795,17 +1803,47 @@ decklist env ctx model cards compare swaps =
                                                     text ""
                                                 , Mana.cost env.base 13 c.manaCost
                                                 ]
+                                            )
                                         )
                                         cs
                                     )
                                 ]
+                            )
                         )
                         groups
                     )
             ]
 
 
-sectionNav : Model -> List ( String, String ) -> Html Msg
+{-| What either view shows that has to load (the thumbnails of their combos and synergies, and
+the mana symbols of both lists), fetched in the background once the page is up: switching views
+finds them ready. Lazy on the report, which the model keeps, so it's worked out once.
+-}
+preloadImages : String -> Report -> Html msg
+preloadImages base r =
+    let
+        index =
+            Maybe.withDefault Dict.empty r.cardIndex
+
+        allCombos =
+            r.combosPresent
+                ++ r.combosOneAway
+                ++ (r.original |> Maybe.map (\o -> o.combosPresent ++ o.combosOneAway) |> Maybe.withDefault [])
+
+        thumbs =
+            (List.concatMap (\c -> c.cards ++ c.missing) allCombos ++ List.concatMap .cards (Maybe.withDefault [] r.synergies))
+                |> List.filterMap (\n -> Dict.get n index |> Maybe.andThen .image)
+
+        manaSymbols =
+            (Maybe.withDefault [] r.decklist ++ (r.original |> Maybe.map .decklist |> Maybe.withDefault []))
+                |> List.filterMap .manaCost
+                |> List.concatMap Mana.costSymbols
+                |> List.map (Mana.symbolUrl base)
+    in
+    node "mtg-preload" [ attribute "srcs" (String.join " " (List.Extra.unique (manaSymbols ++ thumbs))) ] []
+
+
+sectionNav : Page -> List ( String, String ) -> Html Msg
 sectionNav model sections =
     let
         active =
@@ -1980,12 +2018,14 @@ overview env r full slug =
 
 comboThumbs : Card.Ctx Msg -> List String -> Html Msg
 comboThumbs ctx names =
-    div [ class "combo-thumbs" ]
+    Keyed.node "div"
+        [ class "combo-thumbs" ]
         (names
             |> List.take 3
             |> List.map
                 (\n ->
-                    case Dict.get n ctx.index |> Maybe.andThen .image of
+                    ( n
+                    , case Dict.get n ctx.index |> Maybe.andThen .image of
                         Just image ->
                             Card.nameWith ctx
                                 { name = n
@@ -1997,6 +2037,7 @@ comboThumbs ctx names =
 
                         Nothing ->
                             text ""
+                    )
                 )
         )
 
@@ -2016,7 +2057,7 @@ spellbookLink combo =
 
 {-| Combos in the deck and one card away in one list; a badge and accent tell them apart.
 -}
-combos : Card.Ctx Msg -> Model -> Report -> List (Html Msg)
+combos : Card.Ctx Msg -> Page -> Report -> List (Html Msg)
 combos ctx model r =
     let
         groups =
@@ -2078,10 +2119,11 @@ combos ctx model r =
                 ]
         , compact = False
         }
-    , ul [ class "combo-rows" ]
+    , Keyed.ul [ class "combo-rows" ]
         (List.map
             (\c ->
-                li [ class "combo-row present" ]
+                ( "in " ++ String.join "+" c.cards
+                , li [ class "combo-row present" ]
                     [ comboThumbs ctx c.cards
                     , div [ class "combo-body" ]
                         [ div [ class "combo-title" ] (Card.list ctx " + " c.cards ++ [ text " ", spellbookLink c ])
@@ -2091,6 +2133,7 @@ combos ctx model r =
                             ]
                         ]
                     ]
+                )
             )
             shownPresent
             ++ List.map
@@ -2102,7 +2145,8 @@ combos ctx model r =
                         price =
                             Dict.get g.name ctx.index |> Maybe.andThen .priceUsd
                     in
-                    li [ class "combo-row away" ]
+                    ( "away " ++ g.name
+                    , li [ class "combo-row away" ]
                         [ comboThumbs ctx [ g.name ]
                         , div [ class "combo-body" ]
                             [ div [ class "combo-title" ]
@@ -2141,6 +2185,7 @@ combos ctx model r =
                                 )
                             ]
                         ]
+                    )
                 )
                 shownAway
         )
@@ -2161,7 +2206,7 @@ combos ctx model r =
 
 {-| Whether the published site shows the doc's suggestions or only the deck as submitted.
 -}
-publishToggle : Model -> Bool -> Html Msg
+publishToggle : Page -> Bool -> Html Msg
 publishToggle model hidden =
     let
         published =
@@ -2197,7 +2242,7 @@ publishToggle model hidden =
         [ text "Publish suggestions" ]
 
 
-exportMenu : Env -> Model -> String -> Maybe String -> List Swap -> Bool -> Html Msg
+exportMenu : Env -> Page -> String -> Maybe String -> List Swap -> Bool -> Html Msg
 exportMenu env model slug edhrecUrl swaps optimized =
     let
         adds =
@@ -2302,7 +2347,7 @@ noteOf status =
         Maybe.map RefreshIn status.refreshInMs
 
 
-chrome : Env -> DeckView -> Model -> Chrome
+chrome : Env -> DeckView -> Page -> Chrome
 chrome env requested model =
     case model.detail of
         Just detail ->
@@ -2368,7 +2413,7 @@ chrome env requested model =
 
 {-| The page itself. Drawn lazily: hovering a card elsewhere doesn't redraw the report.
 -}
-view : Env -> DeckView -> Model -> Html Msg
+view : Env -> DeckView -> Page -> Html Msg
 view env requested model =
     case ( model.error, model.detail ) of
         ( Just e, _ ) ->
@@ -2380,17 +2425,19 @@ view env requested model =
         ( Nothing, Just detail ) ->
             case detail.report of
                 Nothing ->
-                    section [ class "panel" ]
-                        [ h1 []
-                            [ text
-                                (if List.isEmpty detail.meta.commanders then
-                                    model.slug
+                    div [ class "stack report" ]
+                        [ section [ class "panel" ]
+                            [ h1 []
+                                [ text
+                                    (if List.isEmpty detail.meta.commanders then
+                                        model.slug
 
-                                 else
-                                    String.join " + " detail.meta.commanders
-                                )
+                                     else
+                                        String.join " + " detail.meta.commanders
+                                    )
+                                ]
+                            , p [] [ text "No report yet." ]
                             ]
-                        , p [] [ text "No report yet." ]
                         , when (not env.isStatic) (rerun model detail.meta.options)
                         ]
 
@@ -2398,7 +2445,34 @@ view env requested model =
                     viewReport env requested model detail full
 
 
-viewReport : Env -> DeckView -> Model -> DeckDetail -> Report -> Html Msg
+{-| The chat, beside the report rather than in it (its button and panel float over the page):
+it changes with every key and every word of a reply, and the report mustn't render again for that.
+-}
+viewChat : Env -> DeckView -> Model -> List (Html Msg)
+viewChat env requested model =
+    case ( env.isStatic, model.page.detail |> Maybe.andThen .report ) of
+        ( False, Just full ) ->
+            List.map (Html.map ChatMsg)
+                (Chat.view
+                    { env = env
+                    , slug = model.page.slug
+                    , commander = String.join " + " full.commanders
+                    , target =
+                        if viewOf full requested == Optimized then
+                            EditTargetOptimized
+
+                        else
+                            EditTargetOriginal
+                    , index = Maybe.withDefault Dict.empty full.cardIndex
+                    }
+                    model.chat
+                )
+
+        _ ->
+            []
+
+
+viewReport : Env -> DeckView -> Page -> DeckDetail -> Report -> Html Msg
 viewReport env requested model detail full =
     let
         shownView =
@@ -2472,7 +2546,7 @@ viewReport env requested model detail full =
             List.length r.swaps
     in
     div [ class "stack report" ]
-        ([ section [ class "hero", cssVars (auraOfCards r.commanderCards) ]
+        [ section [ class "hero", cssVars (auraOfCards r.commanderCards) ]
             [ maybeHtml (cmdr |> Maybe.andThen .imageArt)
                 (\art ->
                     div [ class "hero-backdrop", attribute "aria-hidden" "true" ]
@@ -2641,8 +2715,9 @@ viewReport env requested model detail full =
                     )
                 ]
             ]
-         , sectionNav model sections
-         , if optimized then
+        , Html.Lazy.lazy2 preloadImages env.base full
+        , sectionNav model sections
+        , if optimized then
             let
                 ins =
                     List.sum (List.map (\s -> s.inCard |> Maybe.andThen .priceUsd |> Maybe.withDefault 0) r.swaps)
@@ -2717,9 +2792,9 @@ viewReport env requested model detail full =
                     ]
                 ]
 
-           else
+          else
             overview env r full slug
-         , maybeHtml r.bracket
+        , maybeHtml r.bracket
             (\b ->
                 section [ class "panel", id "bracket" ]
                     [ Bracket.panel ctx
@@ -2732,7 +2807,7 @@ viewReport env requested model detail full =
                         )
                     ]
             )
-         , maybeHtml r.decklist
+        , maybeHtml r.decklist
             (\cards ->
                 section [ class "panel", id "decklist" ]
                     (decklist env
@@ -2748,7 +2823,7 @@ viewReport env requested model detail full =
                         )
                     )
             )
-         , section [ class "panel", id "mana" ]
+        , section [ class "panel", id "mana" ]
             [ panelHead
                 { title = "Mana base"
                 , desc = Just [ text "How many of your lands make each color, against how many a deck leaning on that color this much needs to cast its spells on time." ]
@@ -2768,7 +2843,7 @@ viewReport env requested model detail full =
                     ]
                 ]
             ]
-         , section [ class "panel", id "sim" ]
+        , section [ class "panel", id "sim" ]
             [ panelHead
                 { title = "Goldfish simulation"
                 , desc =
@@ -2790,9 +2865,9 @@ viewReport env requested model detail full =
                     ]
                 ]
             ]
-         , when hasCombos (section [ class "panel", id "combos" ] (combos ctx model r))
-         , when showSynergies (section [ class "panel", id "synergies" ] (synergies env ctx model r optimized))
-         , maybeHtml r.research
+        , when hasCombos (section [ class "panel", id "combos" ] (combos ctx model r))
+        , when showSynergies (section [ class "panel", id "synergies" ] (synergies env ctx model r optimized))
+        , maybeHtml r.research
             (\research ->
                 section [ class "panel", id "research" ]
                     [ panelHead
@@ -2818,45 +2893,21 @@ viewReport env requested model detail full =
                         )
                     ]
             )
-         , when (not env.isStatic && not (List.isEmpty r.warnings))
+        , when (not env.isStatic && not (List.isEmpty r.warnings))
             (section [ class "panel" ]
                 [ h2 [] [ text "Warnings" ]
                 , ul [ class "notes" ] (List.map (\w -> li [] [ text w ]) r.warnings)
                 ]
             )
-         ]
-            ++ (if env.isStatic then
-                    []
-
-                else
-                    List.map (Html.map ChatMsg)
-                        (Chat.view
-                            { env = env
-                            , slug = slug
-                            , commander = String.join " + " r.commanders
-                            , target =
-                                if optimized then
-                                    EditTargetOptimized
-
-                                else
-                                    EditTargetOriginal
-                            , index = ctx.index
-                            }
-                            model.chat
-                        )
-               )
-            ++ [ section [ class "panel" ]
-                    [ div [ class "row between" ]
-                        [ details [ class "disclosure" ]
-                            [ summary [] [ text "Original list" ]
-                            , pre [] [ text detail.initial ]
-                            ]
-                        , when (not env.isStatic) (rerun model r.options)
-                        , when (not env.isStatic) (publishToggle model (detail.meta.hideSuggestions == Just True))
-                        ]
-                    ]
-               ]
-        )
+        , when (not env.isStatic) (rerun model r.options)
+        , section [ class "panel report-footer" ]
+            [ details [ class "disclosure" ]
+                [ summary [] [ text "Original list" ]
+                , pre [] [ text detail.initial ]
+                ]
+            , when (not env.isStatic) (publishToggle model (detail.meta.hideSuggestions == Just True))
+            ]
+        ]
 
 
 nonEmptyMaybe : Maybe String -> Bool

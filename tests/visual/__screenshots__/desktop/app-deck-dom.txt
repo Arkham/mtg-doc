@@ -1945,19 +1945,26 @@
                 "Elves in Commander"
               <span class="source-host">
                 "guides.example.test"
-        <button aria-label="Ask the doc about this deck" class="chat-fab primary">
-          <img alt="" class="doc-avatar" height="30" src="./icon-96.png" width="30">
-          " Ask"
-          <span class="chat-fab-long">
-            " the doc"
-        <section class="panel">
-          <div class="row between">
-            <details class="disclosure" .open=false>
-              <summary>
-                "Original list"
-              <pre>
-                "Commander\n1 Lathril, Blade of the Elves\n\nDeck\n1 Abomination of Llanowar\n1 Arcane Signet\n1 Assassin's Trophy\n1 Banner of Kinship\n1 Beast Whisperer\n1 Beast Within\n1 Canopy Tactician\n1 Casualties of War\n1 Champions of the Perfect\n1 Circle of Dreams Druid\n1 Command Tower\n1 Craterhoof Behemoth\n1 Crown of Skemfar\n1 Cultivate\n1 Deathcap Glade\n1 Demonic Tutor\n1 Dionus, Elvish Archdruid\n1 Divination\n1 Doubling Season\n1 Dwynen, Gilt-Leaf Daen\n1 Elderfang Venom\n1 Elven Ambush\n1 Elves of Deep Shadow\n1 Elvish Archdruid\n1 Elvish Champion\n1 Elvish Harbinger\n1 Elvish Mystic\n1 Elvish Warmaster\n1 Ezuri, Renegade Leader\n1 Finale of Devastation\n12 Forest\n1 Fyndhorn Elves\n1 Gaea's Cradle\n1 Galadhrim Ambush\n1 Golgari Charm\n1 Golgari Guildgate\n1 Gray Merchant of Asphodel\n1 Grizzly Bears\n1 Growing Rites of Itlimoc\n1 Heroic Intervention\n1 High Perfect Morcant\n1 Immaculate Magistrate\n1 Imperious Perfect\n1 Jungle Hollow\n1 Leaf-Crowned Visionary\n1 Llanowar Elves\n1 Llanowar Wastes\n1 Lys Alana Huntmaster\n1 Marwyn, the Nurturer\n1 Moldervine Reclamation\n1 Morcant's Loyalist\n1 Natural Order\n1 Necroblossom Snarl\n1 Overgrown Tomb\n1 Pact of the Serpent\n1 Path of Ancestry\n1 Poison-Tip Archer\n1 Priest of Titania\n1 Prowess of the Fair\n1 Putrefy\n1 Reclamation Sage\n1 Rogue's Passage\n1 Ruthless Winnower\n1 Seedtime\n1 Shaman of the Pack\n1 Skemfar Shadowsage\n1 Skullclamp\n1 Sol Ring\n1 Survival of the Fittest\n8 Swamp\n1 Thornwood Falls\n1 Timberwatch Elf\n1 Tyvar Kell\n1 Undergrowth Stadium\n1 Vampiric Tutor\n1 Vitalize\n1 Wirewood Channeler\n1 Wirewood Lodge\n1 Woodland Cemetery\n1 Worldly Tutor\n1 Yavimaya, Cradle of Growth\n"
-            <button>
-              "Re-run with different options"
-            <button aria-pressed="true" class="toggle on" title="The published site shows the doc's suggestions too">
-              "Publish suggestions"
+        <section class="panel rerun-panel">
+          <header class="panel-head">
+            <div class="panel-head-text">
+              <h2>
+                "Run it again"
+              <p class="panel-desc">
+                "up to 12 swaps · deck ≤ $300 · bracket 3 · max power"
+            <div class="panel-actions">
+              <button>
+                "Change and re-run"
+        <section class="panel report-footer">
+          <details class="disclosure" .open=false>
+            <summary>
+              "Original list"
+            <pre>
+              "Commander\n1 Lathril, Blade of the Elves\n\nDeck\n1 Abomination of Llanowar\n1 Arcane Signet\n1 Assassin's Trophy\n1 Banner of Kinship\n1 Beast Whisperer\n1 Beast Within\n1 Canopy Tactician\n1 Casualties of War\n1 Champions of the Perfect\n1 Circle of Dreams Druid\n1 Command Tower\n1 Craterhoof Behemoth\n1 Crown of Skemfar\n1 Cultivate\n1 Deathcap Glade\n1 Demonic Tutor\n1 Dionus, Elvish Archdruid\n1 Divination\n1 Doubling Season\n1 Dwynen, Gilt-Leaf Daen\n1 Elderfang Venom\n1 Elven Ambush\n1 Elves of Deep Shadow\n1 Elvish Archdruid\n1 Elvish Champion\n1 Elvish Harbinger\n1 Elvish Mystic\n1 Elvish Warmaster\n1 Ezuri, Renegade Leader\n1 Finale of Devastation\n12 Forest\n1 Fyndhorn Elves\n1 Gaea's Cradle\n1 Galadhrim Ambush\n1 Golgari Charm\n1 Golgari Guildgate\n1 Gray Merchant of Asphodel\n1 Grizzly Bears\n1 Growing Rites of Itlimoc\n1 Heroic Intervention\n1 High Perfect Morcant\n1 Immaculate Magistrate\n1 Imperious Perfect\n1 Jungle Hollow\n1 Leaf-Crowned Visionary\n1 Llanowar Elves\n1 Llanowar Wastes\n1 Lys Alana Huntmaster\n1 Marwyn, the Nurturer\n1 Moldervine Reclamation\n1 Morcant's Loyalist\n1 Natural Order\n1 Necroblossom Snarl\n1 Overgrown Tomb\n1 Pact of the Serpent\n1 Path of Ancestry\n1 Poison-Tip Archer\n1 Priest of Titania\n1 Prowess of the Fair\n1 Putrefy\n1 Reclamation Sage\n1 Rogue's Passage\n1 Ruthless Winnower\n1 Seedtime\n1 Shaman of the Pack\n1 Skemfar Shadowsage\n1 Skullclamp\n1 Sol Ring\n1 Survival of the Fittest\n8 Swamp\n1 Thornwood Falls\n1 Timberwatch Elf\n1 Tyvar Kell\n1 Undergrowth Stadium\n1 Vampiric Tutor\n1 Vitalize\n1 Wirewood Channeler\n1 Wirewood Lodge\n1 Woodland Cemetery\n1 Worldly Tutor\n1 Yavimaya, Cradle of Growth\n"
+          <button aria-pressed="true" class="toggle on" title="The published site shows the doc's suggestions too">
+            "Publish suggestions"
+      <button aria-label="Ask the doc about this deck" class="chat-fab primary">
+        <img alt="" class="doc-avatar" height="30" src="./icon-96.png" width="30">
+        " Ask"
+        <span class="chat-fab-long">
+          " the doc"

@@ -1,4 +1,4 @@
-module Ui.Mana exposing (colorIdentity, cost, oracleText, symbolUrl)
+module Ui.Mana exposing (colorIdentity, cost, costSymbols, oracleText, symbolUrl)
 
 import Html exposing (Html, div, em, img, p, span, text)
 import Html.Attributes exposing (attribute, height, width)
@@ -23,6 +23,13 @@ symbolUrl base sym =
 symbolRe : Regex
 symbolRe =
     Regex.fromString "\\{([^}]+)\\}" |> Maybe.withDefault Regex.never
+
+
+{-| The symbols in a mana cost: "{2}{G}{B/P}" is "2", "G" and "B/P".
+-}
+costSymbols : String -> List String
+costSymbols manaCost =
+    Regex.find symbolRe manaCost |> List.filterMap (.submatches >> List.head >> Maybe.andThen identity)
 
 
 {-| A mana cost like "{2}{G}{B/P}" in Scryfall's symbols.
