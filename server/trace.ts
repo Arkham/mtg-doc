@@ -92,10 +92,7 @@ const identifiers = (body: unknown) => {
 const cards = (n: number) => `${n} ${n === 1 ? "card" : "cards"}`;
 
 /** Which service a request goes to, and what it asks, in a few words; null if it isn't one. */
-export function describeRequest(
-  url: URL,
-  body: unknown,
-): { service: Service; what: string } | null {
+function describeRequest(url: URL, body: unknown): { service: Service; what: string } | null {
   const llm = new URL(config.llm.baseUrl);
   if (url.host === llm.host) {
     if (url.pathname.endsWith("/decisions")) {

@@ -1,6 +1,6 @@
 import type { DeckEntry } from "../shared/types.ts";
 
-export interface ParsedList {
+interface ParsedList {
   commanders: string[];
   entries: DeckEntry[];
 }

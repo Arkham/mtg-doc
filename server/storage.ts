@@ -27,7 +27,7 @@ export class HttpError extends Error {
   }
 }
 
-export interface DeckMeta {
+interface DeckMeta {
   slug: string;
   format: "commander" | "other";
   commanders: string[];

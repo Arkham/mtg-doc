@@ -1,6 +1,6 @@
 import type { DeckSummary } from "../shared/types.ts";
 
-export interface CardHit {
+interface CardHit {
   name: string;
   decks: DeckSummary[];
 }
@@ -15,7 +15,7 @@ const fold = (s: string) =>
     .trim();
 
 /** Below this many characters a query matches too much to be useful. */
-export const MIN_QUERY = 2;
+const MIN_QUERY = 2;
 
 /**
  * Cards whose name contains the query, with the decks that run them: exact names first, then

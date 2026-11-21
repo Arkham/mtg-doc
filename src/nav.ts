@@ -1,13 +1,11 @@
 import { IS_STATIC } from "./static.ts";
-import { type DeckView, type Route, hashRoute, isAppPath, pathRoute, routeHref } from "./routes.ts";
+import { type Route, hashRoute, isAppPath, pathRoute, routeHref } from "./routes.ts";
 
 export type { Route };
 
 export const ROUTE_CHANGE = "routechange";
 
-export const hrefOf = (route: Route) => routeHref(route, IS_STATIC);
-
-export const deckHref = (slug: string, view: DeckView) => hrefOf({ page: "deck", slug, view });
+const hrefOf = (route: Route) => routeHref(route, IS_STATIC);
 
 /** The static build pins the site root with a <base> element, so pages at any depth share it. */
 const sitePath = (url: URL) => {
@@ -35,8 +33,6 @@ export function navigate(href: string) {
   history.pushState(null, "", new URL(href, document.baseURI));
   window.dispatchEvent(new Event(ROUTE_CHANGE));
 }
-
-export const go = (route: Route) => navigate(hrefOf(route));
 
 /** Whether a link on the static site points at one of the app's own pages. */
 export function isAppLink(a: HTMLAnchorElement) {

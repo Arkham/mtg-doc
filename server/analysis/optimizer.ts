@@ -50,7 +50,7 @@ const PlanSchema = z.object({
 
 export type Plan = z.infer<typeof PlanSchema>;
 
-export interface PlanInput {
+interface PlanInput {
   deck: Deck;
   identity: Color[];
   scored: SolverCard[];
@@ -216,9 +216,9 @@ export function planHeuristic(input: PlanInput): Plan {
 }
 
 /** Returns why a card can't be added (bracket rules etc.), or null. */
-export type Violation = (card: Card, deck: Deck, out?: Card) => string | null;
+type Violation = (card: Card, deck: Deck, out?: Card) => string | null;
 
-export interface ApplyResult {
+interface ApplyResult {
   deck: Deck;
   swaps: Swap[];
   warnings: string[];

@@ -104,7 +104,7 @@ const MANA_FIXES = 4;
 const LAND_REPAIRS = 4;
 
 /** What a run reports doing, in the order the progress page lists it. */
-export enum Step {
+enum Step {
   LoadCards = "Load card data",
   Combos = "Find combos & check bracket",
   Mana = "Analyze mana base & simulate",

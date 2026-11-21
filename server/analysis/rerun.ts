@@ -10,10 +10,7 @@ const TONES: Record<OptimizeOptions["tone"], string> = {
 const money = (n: number | null | undefined) => (n ? `$${n}` : "none");
 
 /** Keeps only valid settings that differ from the current ones; empty means "same settings again". */
-export function normalizeRerun(
-  raw: RerunOptions | null,
-  current: OptimizeOptions,
-): RerunOptions | null {
+function normalizeRerun(raw: RerunOptions | null, current: OptimizeOptions): RerunOptions | null {
   if (!raw) return null;
   const out: RerunOptions = {};
   if (
@@ -34,7 +31,7 @@ export function normalizeRerun(
 }
 
 /** Plain-language list of what a re-run changes, e.g. "bracket 2 (Core), deck budget $300". */
-export function describeRerun(o: RerunOptions): string {
+function describeRerun(o: RerunOptions): string {
   const parts: string[] = [];
   if (o.bracket !== undefined)
     parts.push(

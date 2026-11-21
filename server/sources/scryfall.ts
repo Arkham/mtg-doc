@@ -207,7 +207,7 @@ export async function autocomplete(q: string): Promise<string[]> {
   return ((await res.json()) as { data: string[] }).data;
 }
 
-export interface Resolved {
+interface Resolved {
   requested: string;
   card: Card | null;
   status: "exact" | "fuzzy" | "unresolved";

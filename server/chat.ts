@@ -206,7 +206,7 @@ async function proposeWithLlm(
  * Resolves and checks proposed changes in application order. The suggested deck must also fit the
  * bracket and budget; the deck as submitted is the user's own, so only Commander's rules apply.
  */
-export async function validateChanges(
+async function validateChanges(
   deck: Deck,
   report: Report | null,
   proposed: ProposedChange[],

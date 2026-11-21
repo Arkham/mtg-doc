@@ -49,7 +49,7 @@ const ROLE_WEIGHT = 0.12;
 /** Gain cost of spending the whole budget on one swap; keeps upgrades value-for-money. */
 const PRICE_WEIGHT = 0.5;
 
-export const priceOf = (c: Card) => c.priceUsd ?? 0;
+const priceOf = (c: Card) => c.priceUsd ?? 0;
 const MIN_GAIN = 0.04;
 
 const clamp = (x: number, lo = -1, hi = 1) => Math.max(lo, Math.min(hi, x));

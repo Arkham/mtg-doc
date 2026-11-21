@@ -19,7 +19,7 @@ const GuideSchema = z.object({
 });
 
 /** Writes an easy-to-read guide to playing this exact list. */
-export async function writePlayGuide(
+async function writePlayGuide(
   deck: Deck,
   context: {
     combos: Combo[];

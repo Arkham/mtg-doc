@@ -1,5 +1,5 @@
 /** The report section being read and where it sits, so switching views can keep it in place. */
-export interface ScrollAnchor {
+interface ScrollAnchor {
   /** Sections from the top of the page down to the one being read. */
   ids: string[];
   /** Where the section being read starts, relative to the top of the viewport. */

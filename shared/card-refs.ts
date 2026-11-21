@@ -6,7 +6,7 @@
 
 const REF = /\[\[([^[\]]+)\]\]/g;
 
-export type ProsePart = string | { card: string };
+type ProsePart = string | { card: string };
 
 /** A reference to a card, for code that writes copy. */
 export const ref = (name: string) => `[[${name}]]`;

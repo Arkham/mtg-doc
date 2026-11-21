@@ -1,12 +1,10 @@
 import { z } from "zod";
 import { type ReasoningEffort, config } from "./config.ts";
 
-export type { ReasoningEffort };
-
-export type ContentPart =
+type ContentPart =
   { type: "text"; text: string } | { type: "image"; url: string; detail?: "low" | "high" | "auto" };
 
-export interface ChatMessage {
+interface ChatMessage {
   role: "system" | "user" | "assistant";
   content: string | ContentPart[];
 }
@@ -26,7 +24,7 @@ interface ResponsesResult {
   error?: { message?: string } | null;
 }
 
-export class LlmError extends Error {}
+class LlmError extends Error {}
 
 /** Converts our provider-neutral messages to OpenAI Responses API input items. */
 export function toResponsesInput(messages: ChatMessage[]) {
@@ -246,7 +244,7 @@ export async function webSearch(
   };
 }
 
-export interface Predicate {
+interface Predicate {
   name: string;
   instructions: string;
 }

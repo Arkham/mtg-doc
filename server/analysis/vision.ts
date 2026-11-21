@@ -1,6 +1,6 @@
 /** Pure helpers for multi-pass card recognition: tiling, vote counting and quantity estimates. */
 
-export interface Rect {
+interface Rect {
   left: number;
   top: number;
   width: number;

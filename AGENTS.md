@@ -167,8 +167,6 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   on a background job. They serve an Elm build of their own (`ELM_OUTPUT`, built once per run by
   `scripts/elm.ts --to`), and the static build makes one too: neither touches `public/elm/`,
   which `pnpm dev` serves.
-- Keep e2e tests short and independent so they run side by side: a test that starts from a report
-  uses a deck the e2e server seeds (`test/support/serve-e2e-app.ts`), one per test that changes it.
 - Bug fixes come with a test that would have caught them.
 
 ### UI

@@ -66,7 +66,7 @@ export const BRACKETS: Record<number, BracketRules> = {
 };
 
 /** A two-card combo counts as "early" when assembled this often before the bracket's minimum game length. */
-export const EARLY_COMBO_PCT = 15;
+const EARLY_COMBO_PCT = 15;
 
 const SPELLBOOK_TAG_BRACKET: Record<string, number> = { E: 1, C: 2, O: 2, P: 3, S: 3, R: 4, B: 4 };
 

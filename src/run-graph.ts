@@ -17,7 +17,7 @@ export function depths(tasks: TraceTask[]): Map<string, number> {
   return depth;
 }
 
-export type State = "waiting" | "running" | "done" | "failed";
+type State = "waiting" | "running" | "done" | "failed";
 
 /** A task's state at a moment: from its times, so a replay shows it as it was then. */
 export function stateAt(task: TraceTask, t: number): State {

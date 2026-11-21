@@ -34,7 +34,7 @@ export default defineConfig({
     {
       // The real dev server, with outbound HTTP replayed from fixtures and no LLM.
       command:
-        "node --import tsx scripts/elm.ts --to elm-stuff/builds/test/main.js && node --import tsx test/support/serve-e2e-app.ts",
+        "node --import tsx scripts/elm.ts --to elm-stuff/builds/test/main.js && node --import tsx --import ./test/support/env.ts server/index.ts",
       url: `http://127.0.0.1:${APP_PORT}/api/config`,
       env: {
         FIXTURES_FATAL: "1",

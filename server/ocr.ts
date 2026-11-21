@@ -24,13 +24,13 @@ import {
   resolveNames,
 } from "./sources/scryfall.ts";
 
-export interface RecognizeProgress {
+interface RecognizeProgress {
   phase: string;
   done: number;
   total: number;
 }
 
-export interface RecognizeOptions {
+interface RecognizeOptions {
   onProgress?: (p: RecognizeProgress) => void;
 }
 

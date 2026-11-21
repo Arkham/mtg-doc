@@ -70,7 +70,7 @@ const GROUPS = [
   "Land",
 ];
 
-export function typeGroup(card: Card): string {
+function typeGroup(card: Card): string {
   const front = card.typeLine.split(" // ")[0];
   return GROUPS.find((g) => new RegExp(`\\b${g}\\b`).test(front)) ?? "Other";
 }

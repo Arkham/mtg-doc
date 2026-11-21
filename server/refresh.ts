@@ -39,7 +39,7 @@ import {
 } from "./storage.ts";
 
 /** What one edit leaves for the refresh. */
-export interface EditBatch {
+interface EditBatch {
   droppedSwaps: number;
   added: string[];
   original: boolean;
@@ -249,7 +249,7 @@ export function originalStats(
   };
 }
 
-export const offerRerun = (slug: string, reason: string) =>
+const offerRerun = (slug: string, reason: string) =>
   updateChat(slug, (ms) => [...ms, rerunProposal(reason)]);
 
 /** A probability the change warrants a fresh run must clear before the doc offers one. */
@@ -260,7 +260,7 @@ const REOPTIMIZE_THRESHOLD = 0.6;
  * changes opened count (against `before`, the gaps the deck had before them); the decision model
  * then judges whether they matter enough to be worth a fresh run. Without an LLM, any is enough.
  */
-export async function reoptimizeReason(
+async function reoptimizeReason(
   before: PendingRefresh["gaps"],
   after: Report,
   droppedSwaps: number,
