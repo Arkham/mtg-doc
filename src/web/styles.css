@@ -4583,6 +4583,20 @@ pre {
   .topbar {
     gap: 6px;
   }
+  /* Back, the view toggle and search: equal outer columns keep the toggle on the screen's centre. */
+  .topbar:has(.view-toggle) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+  .topbar:has(.view-toggle) > .back {
+    justify-self: start;
+  }
+  .topbar:has(.view-toggle) .topbar-slot {
+    margin-left: 0;
+  }
+  .topbar:has(.view-toggle) > .topbar-search {
+    justify-self: end;
+  }
   .view-toggle button {
     padding-inline: 10px;
   }

@@ -51,6 +51,47 @@ test.describe("static site", () => {
     await expectNoHorizontalOverflow(page);
   });
 
+  test("back from a deck, the deck list is where it was left, by the browser or the Back button", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 480 });
+    await page.goto(STATIC_URL);
+    const last = page.locator(".deck-card").last();
+    await last.scrollIntoViewIfNeeded();
+    const y = await page.evaluate(() => scrollY);
+    expect(y).toBeGreaterThan(100);
+    for (const back of [
+      () => page.goBack(),
+      () => page.getByRole("button", { name: "Back" }).click(),
+    ]) {
+      await last.click();
+      await expect(page.locator(".hero")).toBeVisible();
+      // A deck opens at its top.
+      expect(await page.evaluate(() => scrollY)).toBe(0);
+      await back();
+      await expect(last).toBeVisible();
+      await expect.poll(() => page.evaluate(() => scrollY)).toBe(y);
+    }
+    // Forward again, the deck is where it was left too.
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+    await last.click();
+    await expect(page.locator(".hero")).toBeVisible();
+    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+    await page.evaluate(() => window.scrollTo({ top: 600, behavior: "instant" }));
+    await page.goBack();
+    await expect(last).toBeVisible();
+    await page.goForward();
+    await expect(page.locator(".hero")).toBeVisible();
+    await expect.poll(() => page.evaluate(() => scrollY)).toBe(600);
+  });
+
+  test("on a phone the view toggle sits in the middle of the top bar", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/`);
+    const box = (await page.getByRole("tablist", { name: "Which deck" }).boundingBox())!;
+    expect(Math.abs(box.x + box.width / 2 - 195)).toBeLessThanOrEqual(1);
+  });
+
   test("the top bar's search shows which decks run a card, from any page", async ({
     page,
     isMobile,

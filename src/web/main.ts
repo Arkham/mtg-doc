@@ -75,11 +75,38 @@ app.ports.searchCards.subscribe(({ decks, query }) => {
 for (const list of [canHover, isTouch])
   list.addEventListener("change", () => app.ports.mediaChanged.send(media()));
 
+/*
+ * Where the reader was on each page they left, so going back puts them there again (the page
+ * restores scrolls itself: see `scrollRestoration` below). Each history entry carries a key in its
+ * state; the deck list remembers its place however it's reached, its Back button included.
+ */
+const HOME_Y = "mtg-doc:scroll:home";
+const entryY = (key: string) => `mtg-doc:scroll:entry:${key}`;
+const entryKey = () => (history.state as { scrollKey?: string } | null)?.scrollKey;
+function keyEntry(): string {
+  const key = entryKey() ?? `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+  if (!entryKey()) history.replaceState({ ...history.state, scrollKey: key }, "");
+  return key;
+}
+let current = keyEntry();
+
+/** Back to `y` once the page is long enough to scroll there; the top until then. */
+function scrollBackTo(y: number) {
+  const ready = () => document.documentElement.scrollHeight >= y + innerHeight;
+  if (!ready()) window.scrollTo(0, 0);
+  whenDrawn(ready, () => window.scrollTo({ top: y, behavior: "instant" }));
+}
+
 const onRoute = () => {
   const prev = route;
   const next = currentRoute();
   // A hash change fires both popstate and hashchange: the second finds the route already moved.
   if (JSON.stringify(next) === JSON.stringify(prev)) return;
+  sessionStorage.setItem(entryY(current), String(scrollY));
+  if (prev.page === "home") sessionStorage.setItem(HOME_Y, String(scrollY));
+  // An entry with a key has been visited before: this is back or forward, not a new page.
+  const revisit = entryKey() !== undefined;
+  current = keyEntry();
   // Switching between a deck's two views keeps the reader on the same section.
   const sameDeck = prev.page === "deck" && next.page === "deck" && prev.slug === next.slug;
   const anchor = sameDeck ? captureAnchor() : null;
@@ -94,8 +121,11 @@ const onRoute = () => {
   route = next;
   app.ports.routeChanged.send(next);
   if (!sameDeck) {
+    const saved = sessionStorage.getItem(
+      next.page === "home" ? HOME_Y : revisit ? entryY(current) : "",
+    );
     // Elm draws in the next animation frame; this one runs right after it, before the paint.
-    requestAnimationFrame(() => window.scrollTo(0, 0));
+    requestAnimationFrame(() => (saved ? scrollBackTo(Number(saved)) : window.scrollTo(0, 0)));
     return;
   }
   if (!anchor) return;
