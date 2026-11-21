@@ -3199,6 +3199,35 @@ pre {
   padding: 12px 12px 12px 18px;
   border-bottom: 1px solid var(--line);
 }
+/* Asked before clearing the chat: there's no undo. */
+.chat-confirm {
+  padding: 10px 14px 12px 18px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bad-soft);
+}
+.chat-confirm p {
+  margin: 0 0 6px;
+  color: var(--text-2);
+}
+.chat-confirm .row {
+  gap: 8px;
+}
+.chat-confirm button {
+  min-height: 40px;
+  padding: 4px 14px;
+}
+.chat-confirm button.danger {
+  color: var(--bad);
+  border-color: rgba(240, 98, 114, 0.4);
+}
+.chat-confirm button.danger:hover:not(:disabled) {
+  background: var(--bad-soft);
+}
+@media (pointer: coarse) {
+  .chat-confirm button {
+    min-height: 44px;
+  }
+}
 .chat-messages {
   flex: 1;
   overflow-y: auto;

@@ -17,8 +17,9 @@ import Process
 import Route
 import Task
 import Types exposing (..)
-import Ui.Attr exposing (alt, class, href, placeholder, src, type_)
+import Ui.Attr exposing (alt, class, href, placeholder, src, title, type_)
 import Ui.Card as Card
+import Ui.Icons as Icons
 import Ui.Mana as Mana
 
 
@@ -41,6 +42,9 @@ type alias Model =
     -- The doc's reply as it's written, while a message is answered.
     , streamed : String
     , pendingTarget : EditTarget
+
+    -- Asked whether to clear the chat, waiting for a yes.
+    , confirmingClear : Bool
     , applying : Maybe String
     , error : Maybe String
     , focus : Int
@@ -56,6 +60,10 @@ type Msg
     | SendIn EditTarget String
     | GotReply String (Result String DeckChatMessage)
     | Streamed Piece
+    | AskClear
+    | CancelClear
+    | Clear
+    | Cleared (Result String (List DeckChatMessage))
     | GotDeck (Result String DeckDetail)
     | Apply String
     | GotApply String (Result String ( DeckChatMessage, String ))
@@ -93,6 +101,7 @@ init =
     , sending = False
     , streamed = ""
     , pendingTarget = EditTargetOptimized
+    , confirmingClear = False
     , applying = Nothing
     , error = Nothing
     , focus = 0
@@ -264,6 +273,21 @@ update env slug msg model =
                     withMessages (Maybe.map (List.filter (\x -> x.id /= "pending")) model.messages) model
             in
             ( { m | error = Just e, text = content, sending = False, streamed = "", focus = m.focus + 1 }, cmd, Nothing )
+
+        AskClear ->
+            ( { model | confirmingClear = True }, Cmd.none, Nothing )
+
+        CancelClear ->
+            ( { model | confirmingClear = False }, Cmd.none, Nothing )
+
+        Clear ->
+            ( model, Api.clearChat slug Cleared, Nothing )
+
+        Cleared (Ok messages) ->
+            plain (withMessages (Just messages) { model | confirmingClear = False, error = Nothing })
+
+        Cleared (Err e) ->
+            ( { model | confirmingClear = False, error = Just e }, Cmd.none, Nothing )
 
         Streamed piece ->
             ( { model
@@ -617,8 +641,32 @@ panel config model =
                             )
                         ]
                     ]
+                , if List.isEmpty (Maybe.withDefault [] model.messages) || model.sending then
+                    text ""
+
+                  else
+                    button
+                        [ class "icon"
+                        , attribute "aria-label" "Clear chat"
+                        , title "Clear chat"
+                        , onClick AskClear
+                        , disabled model.confirmingClear
+                        ]
+                        [ Icons.trash ]
                 , button [ class "icon", attribute "aria-label" "Close chat", onClick Close ] [ text "✕" ]
                 ]
+            , if model.confirmingClear then
+                div [ class "chat-confirm", attribute "role" "alertdialog", attribute "aria-label" "Clear chat" ]
+                    [ p [ class "small" ] [ text "Clear this chat? Your deck and its report stay as they are." ]
+                    , div [ class "row end" ]
+                        [ button [ class "small-btn", onClick CancelClear ] [ text "Cancel" ]
+                        , button [ class "small-btn danger", onClick Clear ] [ text "Clear chat" ]
+                        ]
+                    , node "mtg-focus" [ attribute "target" "button.danger" ] []
+                    ]
+
+              else
+                text ""
             , div [ class "chat-messages" ]
                 ((if model.messages == Just [] then
                     [ div [ class "chat-empty" ]

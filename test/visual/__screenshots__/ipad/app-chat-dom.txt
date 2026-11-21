@@ -2334,6 +2334,9 @@
                 "The mtg doc"
               <div class="muted small">
                 "Lathril, Blade of the Elves · suggested deck"
+            <button aria-label="Clear chat" class="icon" title="Clear chat">
+              <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
             <button aria-label="Close chat" class="icon">
               "✕"
           <div class="chat-messages">

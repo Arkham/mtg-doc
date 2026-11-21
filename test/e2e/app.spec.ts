@@ -246,6 +246,36 @@ test.describe("local app with a model", () => {
 });
 
 test.describe("local app, editing a deck", () => {
+  test("the chat can be cleared, after a yes", async ({ page }) => {
+    await page.goto(`${LLM_APP_URL}#/deck/lathril-blade-of-the-elves-3`);
+    await page.getByRole("button", { name: /Ask the doc/ }).click();
+    const message = page.getByLabel("Message");
+    await message.fill("Give me a fairer mana rock");
+    await message.press("Enter");
+    await expect(page.locator(".chat-msg.assistant .chat-changes")).toBeVisible({
+      timeout: 30_000,
+    });
+
+    const clear = page.getByRole("button", { name: "Clear chat" });
+    await clear.click();
+    const confirm = page.getByRole("alertdialog", { name: "Clear chat" });
+    await expect(confirm).toContainText("Your deck and its report stay as they are.");
+    await confirm.getByRole("button", { name: "Cancel" }).click();
+    await expect(confirm).toHaveCount(0);
+    await expect(page.locator(".chat-msg")).toHaveCount(2);
+
+    await clear.click();
+    await confirm.getByRole("button", { name: "Clear chat" }).click();
+    await expect(page.locator(".chat-empty")).toBeVisible();
+    await expect(page.locator(".chat-msg")).toHaveCount(0);
+    await expect(clear).toHaveCount(0, { timeout: 1_000 });
+
+    // Still empty when the chat opens again.
+    await page.getByRole("button", { name: "Close chat" }).click();
+    await page.getByRole("button", { name: /Ask the doc/ }).click();
+    await expect(page.locator(".chat-empty")).toBeVisible();
+  });
+
   test("edits show in the list at once; the rest of the report follows once they stop", async ({
     page,
   }) => {

@@ -365,6 +365,22 @@ describe("deck chat without an LLM", () => {
     assert.equal((await fetch(`${base}/api/decks/no-such-deck/chat`)).status, 404);
     assert.equal((await apply("nope")).status, 404);
   });
+
+  test("clearing the chat empties it, and the deck and its report stay as they are", async () => {
+    const report = async () =>
+      ((await (await fetch(`${base}/api/decks/${slug}`)).json()) as { report: Report }).report;
+    const before = await report();
+    await say("what are this deck's weaknesses?");
+    const res = await fetch(`${base}/api/decks/${slug}/chat`, { method: "DELETE" });
+    assert.equal(res.status, 200);
+    assert.deepEqual(await res.json(), []);
+    assert.deepEqual(await (await fetch(`${base}/api/decks/${slug}/chat`)).json(), []);
+    assert.deepEqual(await report(), before);
+    assert.equal(
+      (await fetch(`${base}/api/decks/no-such-deck/chat`, { method: "DELETE" })).status,
+      404,
+    );
+  });
 });
 
 describe("re-optimizing after a change", () => {

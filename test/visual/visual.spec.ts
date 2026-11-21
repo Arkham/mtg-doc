@@ -362,6 +362,9 @@ test.describe("local app", () => {
       .locator(".chat-msg.assistant .chat-bubble", { hasText: "Simple edits always work" })
       .evaluate((el) => el.scrollIntoView({ block: "center" }));
     await shot(page, "app-chat-earlier", { fullPage: false });
+    await page.getByRole("button", { name: "Clear chat" }).click();
+    await expect(page.getByRole("alertdialog", { name: "Clear chat" })).toBeVisible();
+    await shot(page, "app-chat-clear", { fullPage: false });
   });
 
   test("empty chat", async ({ page }) => {

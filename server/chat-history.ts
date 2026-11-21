@@ -51,3 +51,8 @@ export const patchMessage = (
   id: string,
   patch: (m: DeckChatMessage) => DeckChatMessage,
 ) => updateChat(slug, (ms) => ms.map((m) => (m.id === id ? patch(m) : m)));
+
+/** Empties a deck's chat; the deck and its report stay as they are. */
+export async function clearChat(slug: string) {
+  await updateChat(slug, () => []);
+}

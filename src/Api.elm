@@ -6,6 +6,7 @@ module Api exposing
     , applySwap
     , autocomplete
     , chat
+    , clearChat
     , config
     , deck
     , decks
@@ -255,6 +256,19 @@ refreshSynergies slug mode =
 chat : String -> (Result_ (List DeckChatMessage) -> msg) -> Cmd msg
 chat slug =
     get ("/api/decks/" ++ slug ++ "/chat") (D.list deckChatMessageDecoder)
+
+
+{-| Empties a deck's chat; the deck and its report stay as they are.
+-}
+clearChat : String -> (Result_ (List DeckChatMessage) -> msg) -> Cmd msg
+clearChat slug toMsg =
+    request
+        { method = "DELETE"
+        , url = "/api/decks/" ++ slug ++ "/chat"
+        , body = Http.emptyBody
+        , decoder = D.list deckChatMessageDecoder
+        , toMsg = toMsg
+        }
 
 
 rerunFromChat : String -> String -> (Result_ ( String, String ) -> msg) -> Cmd msg

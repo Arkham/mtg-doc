@@ -13,7 +13,7 @@ import {
   refreshSynergies,
   startChatRerun,
 } from "./chat.ts";
-import { readChat } from "./chat-history.ts";
+import { clearChat, readChat } from "./chat-history.ts";
 import { editStatus, pendingEdits } from "./edit-queue.ts";
 import { recognizeImages, recognizeText } from "./ocr.ts";
 import { refreshStatus } from "./refresh.ts";
@@ -266,6 +266,14 @@ export function createApp() {
   app.get(
     "/api/decks/:slug/chat",
     wrap(async (req, res) => res.json(await readChat(String(req.params.slug)))),
+  );
+
+  app.delete(
+    "/api/decks/:slug/chat",
+    wrap(async (req, res) => {
+      await clearChat(String(req.params.slug));
+      res.json([]);
+    }),
   );
 
   app.post(
