@@ -4,7 +4,7 @@ import type { AddressInfo } from "node:net";
 import { describe, test } from "node:test";
 import { createApp } from "../../server/app.ts";
 import { getJob, startOptimize } from "../../server/pipeline.ts";
-import type { Job } from "../../shared/types.ts";
+import type { Job, RunRecord } from "../../shared/types.ts";
 import { optimizeFixtureDeck, waitForJob } from "../support/sample.ts";
 
 describe("a run's trace", () => {
@@ -47,7 +47,9 @@ describe("a run's trace", () => {
       const events = (await res.text())
         .split("\n\n")
         .filter(Boolean)
-        .map((block) => JSON.parse(/^data: (.+)$/m.exec(block)![1]) as Job);
+        .map((block) => JSON.parse(/^data: (.+)$/m.exec(block)![1]) as Job)
+        // Until the run starts (it waits in the deck's queue) the job has no trace yet.
+        .filter((e) => e.trace);
       await waitForJob(job.id);
       assert.equal(events[0].status, "running", "from while it ran, not only the end");
       assert.equal(events.at(-1)!.status, "done");
@@ -60,6 +62,16 @@ describe("a run's trace", () => {
         "in order",
       );
       assert.equal((await fetch(`${base}/api/jobs/nope/events`)).status, 404);
+
+      // Saved with the deck, to replay.
+      const saved = (await (await fetch(`${base}/api/decks/${slug}/run`)).json()) as RunRecord;
+      assert.equal(saved.status, "done");
+      assert.deepEqual(saved.trace.tasks, done.tasks);
+      assert.deepEqual(saved.trace.requests, done.requests);
+      assert.ok(!Number.isNaN(Date.parse(saved.startedAt)));
+      const detail = await (await fetch(`${base}/api/decks/${slug}`)).json();
+      assert.equal(detail.hasRun, true);
+      assert.equal((await fetch(`${base}/api/decks/nope/run`)).status, 404);
     } finally {
       server.close();
     }

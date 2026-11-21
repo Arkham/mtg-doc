@@ -114,7 +114,9 @@
                   <a href="https://edhrec.com/commanders/lathril-blade-of-the-elves/upgraded" rel="noreferrer" target="_blank">
                     "View on EDHREC ↗"
             <p class="hero-meta">
-              "Updated Jan 15, 2026 · based on 36,498 decks on EDHREC"
+              "Updated Jan 15, 2026 · based on 36,498 decks on EDHREC · "
+              <a class="hero-replay" href="decks/lathril-blade-of-the-elves/run/">
+                "▶ Replay how the doc made it"
         <nav aria-label="Report sections" class="section-nav">
           <button class="active" data-id="bracket">
             "Bracket"

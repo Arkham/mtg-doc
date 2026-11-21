@@ -1,0 +1,394 @@
+<div id="root">
+  <div class="app">
+    <header class="topbar">
+      <button aria-label="Back" class="back">
+        <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="18">
+          <path d="m15 5-7 7 7 7">
+        <span class="back-label">
+          "Deck"
+      <div class="topbar-slot" id="topbar-slot">
+      <button aria-label="Find a card" class="icon topbar-search" title="Find a card (/)">
+        <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+          <circle cx="11" cy="11" r="7">
+          <path d="m20 20-3.5-3.5">
+    <main>
+      <section class="panel run">
+        <div class="run-head">
+          <div class="run-title">
+            <span class="run-kicker replay">
+              "Paused"
+            <h1>
+              "How the doc optimized this deck"
+          <strong aria-hidden="true" class="run-clock">
+            "00:23.0"
+          <p aria-live="polite" class="run-now">
+            "The doc is reviewing the swaps."
+        <div class="run-chart">
+          <div aria-label="Show the run as" class="run-looks" role="group">
+            <button aria-pressed="false" class="run-look">
+              "Map"
+            <button aria-pressed="true" class="run-look">
+              "Timeline"
+          <div>
+            <ul aria-label="Requests by service" class="run-legend">
+              <li class="svc-scryfall">
+                <span aria-hidden="true" class="svc-dot">
+                "Scryfall"
+                <strong>
+                  "14"
+              <li class="svc-spellbook">
+                <span aria-hidden="true" class="svc-dot">
+                "Commander Spellbook"
+                <strong>
+                  "3"
+              <li class="svc-edhrec">
+                <span aria-hidden="true" class="svc-dot">
+                "EDHREC"
+                <strong>
+                  "2"
+              <li class="svc-model busy">
+                <span aria-hidden="true" class="svc-dot">
+                "The model"
+                <strong>
+                  "2"
+              <li class="svc-decisions">
+                <span aria-hidden="true" class="svc-dot">
+                "Decisions"
+                <strong>
+                  "0"
+            <div class="run-grid">
+              <div aria-hidden="true" class="run-axis">
+                <span class="run-tick" style="left: 0%">
+                  "0s"
+                <span class="run-tick" style="left: 18.3284%">
+                  "10s"
+                <span class="run-tick" style="left: 36.6569%">
+                  "20s"
+                <span class="run-tick" style="left: 54.9853%">
+                  "30s"
+                <span class="run-tick" style="left: 73.3138%">
+                  "40s"
+                <span class="run-tick" style="left: 91.6422%">
+                  "50s"
+              <ul class="run-rows">
+                <li class="run-row done">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "Load the deck"
+                    <span class="run-track">
+                      <span class="run-bar" style="left: 0%; width: 4.47214%">
+                      <span class="run-req svc-scryfall" style="left: 0%; width: 3.46408%">
+                      <span class="run-req svc-scryfall" style="left: 3.4824%; width: 0.4%">
+                      <span class="run-req svc-scryfall" style="left: 4.41716%; width: 0.4%">
+                    <span class="run-duration">
+                      "2.4 s"
+                <li class="run-row done">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "Combos & bracket"
+                    <span class="run-track">
+                      <span class="run-bar" style="left: 4.47214%; width: 2.47434%">
+                      <span class="run-req svc-spellbook" style="left: 4.47214%; width: 2.47434%">
+                      <span class="run-req svc-spellbook" style="left: 4.47214%; width: 2.43768%">
+                    <span class="run-duration">
+                      "1.4 s"
+                <li class="run-row done">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "Goldfish"
+                    <span class="run-track">
+                      <span class="run-bar" style="left: 6.94648%; width: 0.6%">
+                    <span class="run-duration">
+                      "0.1 s"
+                <li class="run-row done">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "EDHREC"
+                    <span class="run-track">
+                      <span class="run-bar" style="left: 7.14809%; width: 0.6%">
+                      <span class="run-req svc-edhrec" style="left: 7.14809%; width: 0.4%">
+                      <span class="run-req svc-edhrec" style="left: 7.16642%; width: 0.4%">
+                    <span class="run-duration">
+                      "0.1 s"
+                <li class="run-row done">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "Mana base"
+                    <span class="run-track">
+                      <span class="run-bar" style="left: 7.33138%; width: 0.6%">
+                    <span class="run-duration">
+                      "0.0 s"
+                <li class="run-row done">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "Web research"
+                    <span class="run-track">
+                      <span class="run-bar" style="left: 4.47214%; width: 27.9875%">
+                      <span class="run-req svc-model" style="left: 4.47214%; width: 27.9875%">
+                    <span class="run-duration">
+                      "15.3 s"
+                <li class="run-row done">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "Land options"
+                    <span class="run-track">
+                      <span class="run-bar" style="left: 4.47214%; width: 2.87757%">
+                      <span class="run-req svc-scryfall" style="left: 5.37023%; width: 0.4%">
+                      <span class="run-req svc-scryfall" style="left: 6.34164%; width: 0.4%">
+                      <span class="run-req svc-scryfall" style="left: 7.27639%; width: 0.4%">
+                    <span class="run-duration">
+                      "1.6 s"
+                <li class="run-row done">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "Game Changers"
+                    <span class="run-track">
+                      <span class="run-bar" style="left: 7.16642%; width: 1.13636%">
+                      <span class="run-req svc-scryfall" style="left: 8.2478%; width: 0.4%">
+                    <span class="run-duration">
+                      "0.6 s"
+                <li class="run-row done">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "Look up candidates"
+                    <span class="run-track">
+                      <span class="run-bar" style="left: 7.33138%; width: 14.0762%">
+                      <span class="run-req svc-scryfall" style="left: 9.20088%; width: 2.32771%">
+                      <span class="run-req svc-scryfall" style="left: 11.5469%; width: 2.34604%">
+                      <span class="run-req svc-scryfall" style="left: 13.9113%; width: 2.95088%">
+                      <span class="run-req svc-scryfall" style="left: 16.8622%; width: 1.04472%">
+                      <span class="run-req svc-scryfall" style="left: 17.9069%; width: 0.4%">
+                      <span class="run-req svc-spellbook" style="left: 17.9619%; width: 3.44575%">
+                    <span class="run-duration">
+                      "7.7 s"
+                <li class="run-row done">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "Find upgrades"
+                    <span class="run-track">
+                      <span class="run-bar" style="left: 32.4597%; width: 1.46628%">
+                      <span class="run-req svc-scryfall" style="left: 32.4597%; width: 0.568182%">
+                      <span class="run-req svc-scryfall" style="left: 33.4128%; width: 0.4%">
+                    <span class="run-duration">
+                      "0.8 s"
+                <li class="run-row running">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "Review swaps"
+                    <span class="run-track">
+                      <span class="run-bar" style="left: 33.926%; width: 8.22947%">
+                      <span class="run-req svc-model live" style="left: 33.926%; width: 8.22947%">
+                    <span class="run-duration">
+                      "4.5 s"
+                <li class="run-row waiting">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "Fix mana & verify"
+                    <span class="run-track">
+                    <span class="run-duration">
+                      "waiting"
+                <li class="run-row done">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "Your list as submitted"
+                    <span class="run-track">
+                      <span class="run-bar" style="left: 4.47214%; width: 0.6%">
+                    <span class="run-duration">
+                      "0.0 s"
+                <li class="run-row waiting">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "Synergies"
+                    <span class="run-track">
+                    <span class="run-duration">
+                      "waiting"
+                <li class="run-row waiting">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "How-to-play guides"
+                    <span class="run-track">
+                    <span class="run-duration">
+                      "waiting"
+                <li class="run-row waiting">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "Contradictions"
+                    <span class="run-track">
+                    <span class="run-duration">
+                      "waiting"
+                <li class="run-row waiting">
+                  <button aria-pressed="false" class="run-row-button">
+                    <span class="run-label">
+                      "Save"
+                    <span class="run-track">
+                    <span class="run-duration">
+                      "waiting"
+              <div aria-hidden="true" class="run-overlay">
+                <div class="run-now-line" style="left: 42.1554%">
+          <div class="run-player">
+            <div class="run-ctls">
+              <button aria-label="Back to the start" class="run-ctl" title="Home">
+                <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                  <path d="M5 5v14M19 5 9 12l10 7z">
+              <button aria-label="Back a second" class="run-ctl" title="←">
+                <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                  <path d="M11 6 5 12l6 6M19 6l-6 6 6 6">
+              <button aria-label="Play" class="run-ctl run-play" title="Space">
+                <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                  <path d="M7 4.5v15l12-7.5z" fill="currentColor">
+              <button aria-label="On a second" class="run-ctl" title="→">
+                <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                  <path d="m13 6 6 6-6 6M5 6l6 6-6 6">
+              <span class="run-time">
+                "00:23.0"
+                <span class="muted">
+                  " / 00:54.5"
+              <div aria-label="Speed" class="run-speeds" role="group">
+                <button aria-pressed="false" class="run-speed">
+                  "1×"
+                <button aria-pressed="false" class="run-speed">
+                  "2×"
+                <button aria-pressed="true" class="run-speed">
+                  "4×"
+                <button aria-pressed="false" class="run-speed">
+                  "8×"
+                <button aria-pressed="false" class="run-speed">
+                  "16×"
+            <div class="run-scrub">
+              <svg aria-hidden="true" class="run-histogram" preserveAspectRatio="none" viewBox="0 0 120 30">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="0" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="1" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="2" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="3" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="4" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="6" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="11" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="12" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="13" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="14" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="15" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="16" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="17" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="18" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="19" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="20" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="21" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="39" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="69" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="70" y="27.857142857142858">
+                <rect class="svc-scryfall" height="2.142857142857143" width="0.8" x="118" y="27.857142857142858">
+                <rect class="svc-spellbook" height="4.285714285714286" width="0.8" x="5" y="25.714285714285715">
+                <rect class="svc-spellbook" height="4.285714285714286" width="0.8" x="6" y="23.571428571428573">
+                <rect class="svc-spellbook" height="4.285714285714286" width="0.8" x="7" y="25.714285714285715">
+                <rect class="svc-spellbook" height="2.142857142857143" width="0.8" x="22" y="27.857142857142858">
+                <rect class="svc-spellbook" height="2.142857142857143" width="0.8" x="23" y="27.857142857142858">
+                <rect class="svc-spellbook" height="2.142857142857143" width="0.8" x="24" y="27.857142857142858">
+                <rect class="svc-spellbook" height="2.142857142857143" width="0.8" x="25" y="27.857142857142858">
+                <rect class="svc-spellbook" height="4.285714285714286" width="0.8" x="74" y="25.714285714285715">
+                <rect class="svc-spellbook" height="4.285714285714286" width="0.8" x="75" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="5" y="23.571428571428573">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="6" y="21.42857142857143">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="7" y="23.571428571428573">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="8" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="9" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="10" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="11" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="12" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="13" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="14" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="15" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="16" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="17" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="18" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="19" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="20" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="21" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="22" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="23" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="24" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="25" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="26" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="27" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="28" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="29" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="30" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="31" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="32" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="33" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="34" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="35" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="36" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="37" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="38" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="41" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="42" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="43" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="44" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="45" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="46" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="47" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="48" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="49" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="50" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="51" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="52" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="53" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="54" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="55" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="56" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="57" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="58" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="59" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="60" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="61" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="62" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="63" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="64" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="65" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="66" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="67" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="68" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="76" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="77" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="78" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="79" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="80" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="81" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="82" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="83" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="84" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="85" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="86" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="87" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="88" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="89" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="90" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="91" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="92" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="93" y="27.857142857142858">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="94" y="27.857142857142858">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="95" y="25.714285714285715">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="96" y="25.714285714285715">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="97" y="25.714285714285715">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="98" y="25.714285714285715">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="99" y="25.714285714285715">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="100" y="25.714285714285715">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="101" y="25.714285714285715">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="102" y="25.714285714285715">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="103" y="25.714285714285715">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="104" y="25.714285714285715">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="105" y="25.714285714285715">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="106" y="25.714285714285715">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="107" y="25.714285714285715">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="108" y="25.714285714285715">
+                <rect class="svc-model" height="30" width="0.8" x="109" y="0">
+                <rect class="svc-model" height="30" width="0.8" x="110" y="0">
+                <rect class="svc-model" height="8.571428571428571" width="0.8" x="111" y="21.42857142857143">
+                <rect class="svc-model" height="6.428571428571428" width="0.8" x="112" y="23.571428571428573">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="113" y="25.714285714285715">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="114" y="25.714285714285715">
+                <rect class="svc-model" height="4.285714285714286" width="0.8" x="115" y="25.714285714285715">
+                <rect class="svc-model" height="2.142857142857143" width="0.8" x="116" y="27.857142857142858">
+                <rect class="svc-decisions" height="2.142857142857143" width="0.8" x="117" y="27.857142857142858">
+              <div class="run-scrub-played" style="width: 42.1554%">
+              <input aria-label="Moment in the run" max="54560" min="0" step="10" style="" type="range" .value="23000">

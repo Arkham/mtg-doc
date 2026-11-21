@@ -9,12 +9,19 @@ import { parseArgs } from "node:util";
 import { build } from "vite";
 import { buildElm } from "./elm.ts";
 import { config } from "../server/config.ts";
-import { appPage, deckPage, indexFallback, llmsTxt } from "../server/agent-pages.ts";
-import { deckPaths } from "../src/routes.ts";
+import { appPage, deckPage, indexFallback, llmsTxt, runPage } from "../server/agent-pages.ts";
+import { deckPaths, runPath } from "../src/routes.ts";
 import { withoutSuggestionCounts, withoutSuggestions } from "../server/publish.ts";
 import { renderMarkdown } from "../server/report.ts";
 import type { DeckSummary } from "../shared/types.ts";
-import { listDecks, readDeckFile, readInitial, readMeta, readReport } from "../server/storage.ts";
+import {
+  listDecks,
+  readDeckFile,
+  readInitial,
+  readMeta,
+  readReport,
+  readRun,
+} from "../server/storage.ts";
 
 const { values } = parseArgs({
   options: {
@@ -56,7 +63,21 @@ for (const listedDeck of listed) {
   const report = saved && hide ? withoutSuggestions(saved) : saved;
   const d = hide ? withoutSuggestionCounts(listedDeck) : listedDeck;
   decks.push(d);
-  await fs.writeFile(path.join(dir, "detail.json"), JSON.stringify({ meta, report, initial }));
+  // The run is part of what the doc suggested: kept private along with the suggestions.
+  const run = hide ? null : await readRun(listedDeck.slug);
+  await fs.writeFile(
+    path.join(dir, "detail.json"),
+    JSON.stringify({ meta, report, initial, hasRun: Boolean(run) }),
+  );
+  if (run) {
+    await fs.writeFile(path.join(dir, "run.json"), JSON.stringify(run));
+    const page = path.join(outDir, runPath(d.slug));
+    await fs.mkdir(page, { recursive: true });
+    await fs.writeFile(
+      path.join(page, "index.html"),
+      runPage(shell, "../".repeat(runPath(d.slug).split("/").filter(Boolean).length), d, run),
+    );
+  }
   for (const file of hide
     ? (["initial.txt"] as const)
     : (["initial.txt", "optimized.txt"] as const)) {

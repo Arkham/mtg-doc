@@ -20,6 +20,7 @@ module Api exposing
     , reoptimize
     , rerunFromChat
     , resolve
+    , run
     , save
     , setPublishing
     , status
@@ -129,6 +130,20 @@ deck isStatic slug =
             "/api/decks/" ++ slug
         )
         deckDetailDecoder
+
+
+{-| A deck's saved last optimizer run, to replay.
+-}
+run : Bool -> String -> (Result_ RunRecord -> msg) -> Cmd msg
+run isStatic slug =
+    get
+        (if isStatic then
+            "data/decks/" ++ slug ++ "/run.json"
+
+         else
+            "/api/decks/" ++ slug ++ "/run"
+        )
+        runRecordDecoder
 
 
 fileUrl : Bool -> String -> String -> String

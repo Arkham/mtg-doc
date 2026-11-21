@@ -49,6 +49,28 @@ test.describe("local app", () => {
     await expect(link).toHaveAttribute("href", /\/optimized$/);
     await expect(page.getByRole("heading", { name: "Optimized deck" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Bracket 3: Upgraded" })).toBeVisible();
+
+    // The run is saved with the deck, and replays: it plays by itself, pauses, and moves to any
+    // moment by button or key.
+    await page.getByRole("link", { name: "▶ Replay how the doc made it" }).click();
+    await expect(
+      page.getByRole("heading", { name: "How the doc optimized this deck" }),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "Pause" }).click();
+    await expect(page.locator(".run-kicker")).toHaveText("Paused");
+    const time = page.locator(".run-time");
+    await page.getByRole("button", { name: "Back to the start" }).click();
+    await expect(time).toContainText("00:00.0");
+    // The recorded run takes well under a second: step a tenth at a time.
+    await page.keyboard.press(".");
+    await expect(time).toContainText("00:00.1 /");
+    await page.keyboard.press("Space");
+    await expect(page.locator(".run-kicker")).toHaveText("Replay");
+    await page.getByRole("button", { name: "16×" }).click();
+    await expect(page.locator(".run-summary")).toBeVisible();
+    await expect(page.getByRole("link", { name: "See the optimized deck" })).toBeVisible();
+    await page.getByRole("button", { name: "Back", exact: true }).click();
+    await expect(page.getByRole("heading", { name: "Optimized deck" })).toBeVisible();
     await expect(page.locator(".checks li.bad")).toHaveCount(0);
     await expect(page.getByRole("button", { name: /Re-run with different options/ })).toBeVisible();
 

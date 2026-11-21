@@ -4,11 +4,12 @@
  * task to its service, circles there while it waits and flies back with the answer.
  *
  * Everything on it is a function of the trace and a moment, so the same drawing goes live (the
- * moment moves on between snapshots by itself), replays a finished run, and scrubs through it.
+ * moment moves on between snapshots by itself) and shows any moment of a finished run.
  *
- * Set `trace` (a `Trace`) as a property; attributes: `running` while the run goes on, `selected`
- * (a task's name) to light up what it waits for and what waits for it, and `replay`, which replays
- * the run whenever it changes. Fires `select` (detail: a task's name) when a task is tapped.
+ * Set `trace` (a `Trace`) as a property; attributes: `running` while the run goes on, `at` (ms) to
+ * show a moment of a finished run rather than its end, and `selected` (a task's name) to light up
+ * what it waits for and what waits for it. Fires `select` (detail: a task's name) when a task is
+ * tapped.
  */
 import type { Service, Trace, TraceRequest, TraceTask } from "../shared/types.ts";
 import { criticalEdges, depths, directNeeds, stateAt } from "./run-graph.ts";
@@ -28,9 +29,6 @@ const FONT = '-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui
 const MONO = 'ui-monospace, "SF Mono", Menlo, monospace';
 /** How long a comet takes to reach its service, or to come back. */
 const FLIGHT_MS = 420;
-/** How long a replay of the whole run takes. */
-const REPLAY_MS = 9000;
-const SCRUB_H = 64;
 const DRIFT_MS = 1500;
 
 interface Point {
@@ -49,18 +47,12 @@ interface Layout {
   vertical: boolean;
   nodes: Map<string, Point>;
   stations: Map<Service, Point>;
-  scrub: { x: number; y: number; w: number };
 }
 
 const clamp = (v: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
 const ease = (p: number) => 1 - (1 - p) ** 3;
 
-function layout(
-  tasks: TraceTask[],
-  width: number,
-  running: boolean,
-  measure: (label: string) => number,
-): Layout {
+function layout(tasks: TraceTask[], width: number, measure: (label: string) => number): Layout {
   const vertical = width < 640;
   const depth = depths(tasks);
   const columns: string[][] = [];
@@ -84,13 +76,17 @@ function layout(
   const span = Math.max(1, columns.length - 1);
   let graphBottom: number;
   if (vertical) {
-    const step = 86;
+    const step = 96;
     const top = 40;
-    for (const [name, d] of depth)
-      nodes.set(name, { x: pad + slot.get(name)! * (width - 2 * pad), y: top + d * step });
+    // A crowded row zigzags, so its labels have room.
+    for (const [name, d] of depth) {
+      const column = columns[d];
+      const zig = column.length > 2 && column.indexOf(name) % 2 ? 34 : 0;
+      nodes.set(name, { x: pad + slot.get(name)! * (width - 2 * pad), y: top + d * step + zig });
+    }
     graphBottom = top + span * step;
   } else {
-    const top = 56;
+    const top = 36;
     const h = Math.max(260, Math.max(...columns.map((c) => c.length)) * 78);
     for (const [name, d] of depth)
       nodes.set(name, { x: pad + (d / span) * (width - 2 * pad), y: top + slot.get(name)! * h });
@@ -132,16 +128,14 @@ function layout(
       y: stationY + (vertical && i % 2 ? 36 : 0),
     }),
   );
-  const scrubY = stationY + (vertical ? 110 : 96);
   return {
     width,
     labels,
     direct: directNeeds(tasks),
-    height: running ? scrubY - 24 : scrubY + SCRUB_H,
+    height: stationY + (vertical ? 86 : 72),
     vertical,
     nodes,
     stations,
-    scrub: { x: pad, y: scrubY, w: width - 2 * pad },
   };
 }
 
@@ -159,16 +153,13 @@ function edgePoint(a: Point, b: Point, p: number, vertical: boolean): Point {
 const hash = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7);
 
 export class RunMap extends HTMLElement {
-  static observedAttributes = ["running", "selected", "replay"];
+  static observedAttributes = ["running", "selected", "at"];
   #trace: Trace | null = null;
   #received = 0;
   #canvas = document.createElement("canvas");
   #ctx = this.#canvas.getContext("2d")!;
   #layout: Layout | null = null;
   #frame = 0;
-  #replayFrom: number | null = null;
-  #scrubAt: number | null = null;
-  #dragging = false;
   #resize = new ResizeObserver(() => this.#relayout());
 
   set trace(trace: Trace) {
@@ -188,10 +179,8 @@ export class RunMap extends HTMLElement {
       root.append(style, this.#canvas);
     }
     this.#resize.observe(this);
-    this.#canvas.addEventListener("pointerdown", this.#down);
     this.#canvas.addEventListener("pointermove", this.#move);
     this.#canvas.addEventListener("pointerup", this.#up);
-    this.#canvas.addEventListener("pointercancel", this.#up);
     this.#relayout();
   }
 
@@ -201,12 +190,7 @@ export class RunMap extends HTMLElement {
     this.#frame = 0;
   }
 
-  attributeChangedCallback(name: string, old: string | null, value: string | null) {
-    if (name === "replay" && old !== null && value !== old) {
-      this.#replayFrom = performance.now();
-      this.#scrubAt = null;
-    }
-    if (name === "running" && old !== value) this.#relayout();
+  attributeChangedCallback() {
     this.#wake();
   }
 
@@ -217,12 +201,8 @@ export class RunMap extends HTMLElement {
   /** The moment the map shows. */
   #now(): number {
     const trace = this.#trace!;
-    if (this.#scrubAt !== null) return this.#scrubAt;
-    if (this.#replayFrom !== null) {
-      const t = ((performance.now() - this.#replayFrom) / REPLAY_MS) * trace.elapsed;
-      if (t < trace.elapsed) return t;
-      this.#replayFrom = null;
-    }
+    const at = this.getAttribute("at");
+    if (at !== null) return Number(at);
     // Only so far past the latest trace: the server sends one every second.
     const drift = Math.min(DRIFT_MS, performance.now() - this.#received);
     return this.#running ? trace.elapsed + drift : trace.elapsed;
@@ -232,12 +212,7 @@ export class RunMap extends HTMLElement {
     const width = this.clientWidth;
     if (!width || !this.#trace) return;
     this.#ctx.font = `500 ${width < 640 ? 11 : 12.5}px ${FONT}`;
-    this.#layout = layout(
-      this.#trace.tasks,
-      width,
-      this.#running,
-      (label) => this.#ctx.measureText(label).width,
-    );
+    this.#layout = layout(this.#trace.tasks, width, (label) => this.#ctx.measureText(label).width);
     const dpr = window.devicePixelRatio || 1;
     this.#canvas.width = Math.round(width * dpr);
     this.#canvas.height = Math.round(this.#layout.height * dpr);
@@ -253,7 +228,7 @@ export class RunMap extends HTMLElement {
       this.#frame = 0;
       if (!this.#trace || !this.#layout) return;
       this.#draw(this.#now());
-      if (this.#running || this.#replayFrom !== null) this.#wake();
+      if (this.#running) this.#wake();
     });
   }
 
@@ -262,38 +237,11 @@ export class RunMap extends HTMLElement {
     return { x: e.clientX - box.left, y: e.clientY - box.top };
   }
 
-  #scrubTo(p: Point) {
-    const { scrub } = this.#layout!;
-    this.#scrubAt = clamp((p.x - scrub.x) / scrub.w) * this.#trace!.elapsed;
-    this.#replayFrom = null;
-    this.#wake();
-  }
-
-  #onScrub(p: Point) {
-    const l = this.#layout;
-    return !!l && !this.#running && p.y > l.scrub.y - 16 && p.y < l.scrub.y + SCRUB_H;
-  }
-
-  #down = (e: PointerEvent) => {
-    const p = this.#point(e);
-    if (!this.#onScrub(p)) return;
-    this.#dragging = true;
-    this.#canvas.setPointerCapture(e.pointerId);
-    this.#scrubTo(p);
-  };
-
   #move = (e: PointerEvent) => {
-    const p = this.#point(e);
-    if (this.#dragging) return this.#scrubTo(p);
-    this.#canvas.style.cursor = this.#onScrub(p) || this.#hit(p) ? "pointer" : "";
+    this.#canvas.style.cursor = this.#hit(this.#point(e)) ? "pointer" : "";
   };
 
   #up = (e: PointerEvent) => {
-    if (this.#dragging) {
-      this.#dragging = false;
-      return;
-    }
-    if (e.type !== "pointerup") return;
     const hit = this.#hit(this.#point(e));
     if (hit) this.dispatchEvent(new CustomEvent("select", { detail: hit }));
   };
@@ -367,9 +315,6 @@ export class RunMap extends HTMLElement {
     this.#comets(trace.requests, t, l);
 
     for (const task of trace.tasks) this.#node(task, t, l, selected, finished && critical, tasks);
-
-    if (this.#replayFrom !== null || this.#scrubAt !== null) this.#stamp(t, l);
-    if (!this.#running) this.#scrubber(trace, t, l);
   }
 
   #backdrop(l: Layout) {
@@ -388,7 +333,7 @@ export class RunMap extends HTMLElement {
     ctx.fillRect(0, 0, l.width, l.height);
     ctx.fillStyle = "rgba(255,255,255,0.045)";
     for (let x = 12; x < l.width; x += 24)
-      for (let y = 12; y < l.height - SCRUB_H; y += 24) ctx.fillRect(x, y, 1, 1);
+      for (let y = 12; y < l.height; y += 24) ctx.fillRect(x, y, 1, 1);
   }
 
   #glow(p: Point, r: number, color: string, alpha = 1) {
@@ -662,64 +607,5 @@ export class RunMap extends HTMLElement {
       ctx.fillText(words, x, y);
     });
     ctx.restore();
-  }
-
-  /** The moment shown, big, while a replay or scrub shows a moment that isn't now. */
-  #stamp(t: number, l: Layout) {
-    const ctx = this.#ctx;
-    ctx.textAlign = "left";
-    ctx.textBaseline = "top";
-    ctx.fillStyle = LIVE;
-    ctx.font = `700 11px ${FONT}`;
-    ctx.fillText(this.#replayFrom !== null ? "REPLAY" : "REWOUND", 16, 12);
-    ctx.fillStyle = "#eceef4";
-    ctx.font = `500 ${l.vertical ? 18 : 22}px ${MONO}`;
-    ctx.fillText(`${(t / 1000).toFixed(1)}s`, 16, 28);
-  }
-
-  /** A strip of the whole run: how many requests each service had in flight, and a handle. */
-  #scrubber(trace: Trace, t: number, l: Layout) {
-    const ctx = this.#ctx;
-    const { x, y, w } = l.scrub;
-    const h = 30;
-    const bins = Math.max(40, Math.floor(w / 4));
-    const total = trace.elapsed || 1;
-    const counts = SERVICES.map((s) => {
-      const mine = trace.requests.filter((r) => r.service === s.id);
-      return Array.from({ length: bins }, (_, i) => {
-        const at = ((i + 0.5) / bins) * total;
-        return mine.filter((r) => r.start <= at && at < (r.end ?? total)).length;
-      });
-    });
-    const peak = Math.max(
-      1,
-      ...Array.from({ length: bins }, (_, i) => counts.reduce((n, c) => n + c[i], 0)),
-    );
-    for (let i = 0; i < bins; i++) {
-      let base = y + h;
-      SERVICES.forEach((s, k) => {
-        const bh = (counts[k][i] / peak) * h;
-        if (!bh) return;
-        ctx.fillStyle = s.color;
-        ctx.globalAlpha = (i + 0.5) / bins <= t / total ? 0.85 : 0.3;
-        ctx.fillRect(x + (i / bins) * w, base - bh, w / bins - 1, bh);
-        base -= bh;
-      });
-    }
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = "rgba(255,255,255,0.12)";
-    ctx.fillRect(x, y + h + 3, w, 2);
-    const hx = x + clamp(t / total) * w;
-    ctx.fillStyle = LIVE;
-    ctx.fillRect(x, y + h + 3, hx - x, 2);
-    ctx.fillRect(hx - 0.75, y - 4, 1.5, h + 10);
-    this.#glow({ x: hx, y: y + h + 4 }, 6, LIVE);
-    ctx.fillStyle = "#868da3";
-    ctx.font = `11px ${FONT}`;
-    ctx.textBaseline = "top";
-    ctx.textAlign = "left";
-    ctx.fillText("0s", x, y + h + 12);
-    ctx.textAlign = "right";
-    ctx.fillText(`${(total / 1000).toFixed(1)}s`, x + w, y + h + 12);
   }
 }

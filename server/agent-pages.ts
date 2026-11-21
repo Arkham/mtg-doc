@@ -4,7 +4,7 @@
  * content in plain HTML.
  */
 import { Marked } from "marked";
-import type { DeckSummary, Report } from "../shared/types.ts";
+import type { DeckSummary, Report, RunRecord, Service } from "../shared/types.ts";
 
 const escapeHtml = (s: string) =>
   s.replace(
@@ -83,6 +83,49 @@ export function appPage(
   if (page.title)
     html = html.replace("<title>mtg doc</title>", `<title>${escapeHtml(page.title)}</title>`);
   return head ? html.replace("</head>", `  ${head}\n  </head>`) : html;
+}
+
+const SERVICE_NAMES: Record<Service, string> = {
+  scryfall: "Scryfall",
+  spellbook: "Commander Spellbook",
+  edhrec: "EDHREC",
+  model: "the model",
+  decisions: "Decisions",
+};
+
+const secs = (ms: number) => `${(ms / 1000).toFixed(1)}s`;
+
+/**
+ * The page replaying a deck's last optimizer run (decks/<slug>/run/): in plain HTML, each step
+ * with when it ran and what it waited for, and the requests it made to each service.
+ */
+export function runPage(shell: string, base: string, summary: DeckSummary, run: RunRecord): string {
+  const name = title(summary);
+  const { trace } = run;
+  const labels = new Map(trace.tasks.map((t) => [t.name, t.label]));
+  const steps = trace.tasks
+    .map((t) => {
+      const asked = trace.requests.filter((r) => r.task === t.name);
+      const services = [...new Set(asked.map((r) => r.service))]
+        .map((s) => `${asked.filter((r) => r.service === s).length} to ${SERVICE_NAMES[s]}`)
+        .join(", ");
+      const when =
+        t.start !== undefined && t.end !== undefined
+          ? `from ${secs(t.start)} to ${secs(t.end)} (${secs(t.end - t.start)})`
+          : "didn't run";
+      const needs = t.needs.length
+        ? ` after ${t.needs.map((n) => escapeHtml(labels.get(n) ?? n)).join(", ")}`
+        : "";
+      return `<li><strong>${escapeHtml(t.label)}</strong>: ${when}${needs}${services ? `; requests: ${services}` : ""}</li>`;
+    })
+    .join("");
+  const outcome = run.status === "done" ? "finished" : "stopped with an error";
+  return appPage(shell, {
+    base,
+    title: `How the doc optimized ${name} · mtg doc`,
+    description: `A replay of the optimizer run for ${name}: ${trace.tasks.length} steps and ${trace.requests.length} requests in ${secs(trace.elapsed)}.`,
+    body: `<main class="agent-fallback"><p><a href="./">mtg doc</a> · <a href="decks/${summary.slug}/optimized/">${escapeHtml(name)}</a></p><h1>How the doc optimized ${escapeHtml(name)}</h1><p>The run ${outcome} in ${secs(trace.elapsed)}, with ${trace.requests.length} requests to outside services. Times are from the start of the run.</p><ol>${steps}</ol></main>`,
+  });
 }
 
 /** The page at one of a deck's URLs (decks/<slug>/...): its full report, from the markdown. */

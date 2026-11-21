@@ -400,6 +400,35 @@ class EventStream extends Controller {
   }
 }
 
+/**
+ * Claims some keys while it's on the page (`keys`, their `KeyboardEvent.key` names separated by
+ * spaces, with "Space" for the space bar), so they don't also scroll the page, and fires each as a
+ * `key` event. Keys typed into a field are left alone.
+ */
+class Keys extends Controller {
+  #off = () => {};
+  connectedCallback() {
+    super.connectedCallback();
+    const onKey = (e: KeyboardEvent) => {
+      const keys = (this.getAttribute("keys") ?? "").split(" ");
+      const key = e.key === " " ? "Space" : e.key;
+      const t = e.target;
+      const typing =
+        t instanceof HTMLElement &&
+        (t.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(t.tagName)) &&
+        !(t instanceof HTMLInputElement && t.type === "range");
+      if (typing || e.metaKey || e.ctrlKey || e.altKey || !keys.includes(key)) return;
+      e.preventDefault();
+      this.dispatchEvent(new CustomEvent("key", { detail: key }));
+    };
+    window.addEventListener("keydown", onKey);
+    this.#off = () => window.removeEventListener("keydown", onKey);
+  }
+  disconnectedCallback() {
+    this.#off();
+  }
+}
+
 /** Text that the browser formats for the reader's locale: a date (`date`) or a number (`number`). */
 class LocalText extends HTMLElement {
   static observedAttributes = ["date", "number"];
@@ -443,6 +472,7 @@ export function defineElements() {
     ["mtg-chat-stream", ChatStream],
     ["mtg-event-stream", EventStream],
     ["mtg-run-map", RunMap],
+    ["mtg-keys", Keys],
   ];
   for (const [name, element] of elements)
     if (!customElements.get(name)) customElements.define(name, element);

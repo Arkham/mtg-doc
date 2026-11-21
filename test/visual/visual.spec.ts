@@ -366,6 +366,48 @@ test.describe("local app", () => {
     await still("app-progress-done");
   });
 
+  test("replaying a saved run", async ({ page, isMobile }) => {
+    const { done } = JSON.parse(
+      fs.readFileSync(path.resolve(import.meta.dirname, "../fixtures/trace.json"), "utf8"),
+    );
+    await page.clock.install({ time: new Date("2025-01-01T12:00:00Z") });
+    await page.clock.pauseAt(new Date("2025-01-01T12:00:01Z"));
+    await page.route(`**/api/decks/${DECK}/run`, (route) =>
+      route.fulfill({ json: { startedAt: "2025-01-01T11:00:00Z", status: "done", trace: done } }),
+    );
+    const until = async (check: () => Promise<unknown>) =>
+      expect
+        .poll(async () => {
+          await page.clock.runFor(100);
+          return check().then(
+            () => true,
+            () => false,
+          );
+        })
+        .toBe(true);
+    const still = async (name: string) => {
+      await page.clock.runFor(500);
+      await checkDom(page, name);
+      await expect(page).toHaveScreenshot(`${name}.png`, { fullPage: true });
+    };
+
+    await page.goto(`${APP_URL}#/deck/${DECK}/run`);
+    await until(() => expect(page.locator(".run-player")).toBeVisible({ timeout: 1 }));
+    // Paused while the doc reviews the swaps, with a model request in flight.
+    await tap(page.getByRole("button", { name: "Pause" }), isMobile);
+    await page.locator(".run-scrub input").evaluate((el: HTMLInputElement) => {
+      el.value = "23000";
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    await until(() => expect(page.locator(".run-time")).toContainText("00:23.0", { timeout: 1 }));
+    await expect(page.locator(".run-now")).toHaveText("The doc is reviewing the swaps.");
+    await still("app-replay");
+
+    await tap(page.getByRole("button", { name: "Timeline", exact: true }), isMobile);
+    await until(() => expect(page.locator(".run-row").first()).toBeVisible({ timeout: 1 }));
+    await still("app-replay-timeline");
+  });
+
   test("deck and optimized deck", async ({ page }) => {
     await page.goto(`${APP_URL}#/deck/${DECK}`);
     await expect(page.getByRole("heading", { name: "Your deck", level: 2 })).toBeVisible();

@@ -1,4 +1,4 @@
-module Ui.Icons exposing (chevronLeft, lock, search, trash)
+module Ui.Icons exposing (back, chevronLeft, forward, lock, pause, play, restart, search, trash)
 
 import Html exposing (Html)
 import Html.Attributes
@@ -68,3 +68,31 @@ search =
 chevronLeft : Html msg
 chevronLeft =
     icon "2.5" [ Svg.path [ A.d "m15 5-7 7 7 7" ] [] ]
+
+
+play : Html msg
+play =
+    icon "2" [ Svg.path [ A.d "M7 4.5v15l12-7.5z", A.fill "currentColor" ] [] ]
+
+
+pause : Html msg
+pause =
+    icon "2"
+        [ Svg.rect [ A.x "6", A.y "5", A.width "4", A.height "14", A.rx "1", A.fill "currentColor" ] []
+        , Svg.rect [ A.x "14", A.y "5", A.width "4", A.height "14", A.rx "1", A.fill "currentColor" ] []
+        ]
+
+
+restart : Html msg
+restart =
+    icon "2" [ Svg.path [ A.d "M5 5v14M19 5 9 12l10 7z" ] [] ]
+
+
+back : Html msg
+back =
+    icon "2" [ Svg.path [ A.d "M11 6 5 12l6 6M19 6l-6 6 6 6" ] [] ]
+
+
+forward : Html msg
+forward =
+    icon "2" [ Svg.path [ A.d "m13 6 6 6-6 6M5 6l6 6-6 6" ] [] ]

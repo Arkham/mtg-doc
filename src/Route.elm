@@ -16,6 +16,7 @@ type Route
     = Home
     | Deck String DeckView
     | Job String String
+    | Run String
 
 
 {-| Where a route lives. The published site uses real paths (decks/<slug>/), each one a page with
@@ -34,6 +35,13 @@ href isStatic route =
 
             else
                 "#/"
+
+        Run slug ->
+            if isStatic then
+                "decks/" ++ slug ++ "/run/"
+
+            else
+                "#/deck/" ++ slug ++ "/run"
 
         Deck slug view ->
             let
@@ -81,6 +89,9 @@ decoder =
 
                     "job" ->
                         D.map2 Job (D.field "slug" D.string) (D.field "jobId" D.string)
+
+                    "run" ->
+                        D.map Run (D.field "slug" D.string)
 
                     _ ->
                         D.succeed Home

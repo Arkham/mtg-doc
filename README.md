@@ -85,6 +85,7 @@ decks/lathril-blade-of-the-elves/
   report.md       # human-readable report
   report.json     # data behind the UI
   deck.json       # metadata and optimization options
+  run.json        # the last optimizer run, step by step, to replay
   uploads/        # original photos (gitignored)
 ```
 

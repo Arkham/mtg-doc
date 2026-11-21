@@ -8,6 +8,7 @@ import {
   type DeckSummary,
   type OptimizeOptions,
   type Report,
+  type RunRecord,
 } from "../shared/types.ts";
 import type { Gap } from "./analysis/reoptimize.ts";
 import { checkReport } from "./analysis/consistency.ts";
@@ -196,6 +197,20 @@ export async function decksWithPendingRefresh(): Promise<string[]> {
         d.isDirectory() && fsSync.existsSync(path.join(config.decksDir, d.name, "refresh.json")),
     )
     .map((d) => d.name);
+}
+
+/** The deck's last optimizer run, as it went, for replaying. */
+export async function writeRun(slug: string, run: RunRecord) {
+  await writeAtomic(path.join(deckDir(slug), "run.json"), JSON.stringify(run));
+}
+
+export async function readRun(slug: string): Promise<RunRecord | null> {
+  const p = path.join(deckDir(slug), "run.json");
+  return (await exists(p)) ? JSON.parse(await fs.readFile(p, "utf8")) : null;
+}
+
+export async function hasRun(slug: string) {
+  return exists(path.join(deckDir(slug), "run.json"));
 }
 
 export async function readDeckFile(

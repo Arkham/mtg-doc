@@ -21,6 +21,7 @@ export interface TaskCopy {
 
 export class Tracer implements GraphWatcher {
   private readonly started = Date.now();
+  readonly startedAt = new Date(this.started).toISOString();
   private readonly tasks = new Map<string, TraceTask>();
   private readonly requests: TraceRequest[] = [];
   private readonly listeners = new Set<() => void>();

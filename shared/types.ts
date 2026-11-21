@@ -441,6 +441,13 @@ export interface TraceRequest {
   ok?: boolean;
 }
 
+/** A finished run, saved with its deck (`run.json`) so it can be replayed. */
+export interface RunRecord {
+  startedAt: string;
+  status: "done" | "error";
+  trace: Trace;
+}
+
 /** A run so far: its tasks and requests, taken `elapsed` ms after it started. */
 export interface Trace {
   elapsed: number;
@@ -506,4 +513,6 @@ export interface DeckDetail extends DeckStatus {
   meta: DeckDetailMeta;
   report: Report | null;
   initial: string;
+  /** The deck's last optimizer run is saved, and can be replayed. */
+  hasRun?: boolean;
 }

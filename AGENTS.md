@@ -47,7 +47,7 @@ src/               Elm UI (local app + static site, switched by the isStatic fla
 tests/             Elm unit tests
 scripts/           build-static.ts, gen-elm.ts, elm.ts (builds the Elm app)
 test/              unit, integration, e2e (Playwright), fixtures and support helpers
-decks/             user decks, one folder per commander (initial.txt, optimized.txt, report.*)
+decks/             user decks, one folder per commander (initial.txt, optimized.txt, report.*, run.json)
 ```
 
 ## Development practices
@@ -231,6 +231,9 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   set from the report's toggle or chat). The static build then publishes `withoutSuggestions`
   (`server/publish.ts`): only the deck as submitted. When you add a report field derived from the
   suggestions, strip it there, and keep the static test that checks no suggested card leaks.
+- Every optimizer run is traced (`server/trace.ts`) and saved as the deck's `run.json`, which
+  replays at `decks/<slug>/run/`. The run is part of the suggestions: a deck published without
+  them publishes no run.
 
 ### The optimizer pipeline
 

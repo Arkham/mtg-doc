@@ -82,6 +82,18 @@ describe("static site export", () => {
       "photos are never published",
     );
 
+    // The run that made the report replays at its own page, readable without JavaScript too.
+    const run = JSON.parse(fs.readFileSync(path.join(out, "data/decks", slug, "run.json"), "utf8"));
+    assert.equal(run.status, "done");
+    assert.equal(
+      JSON.parse(fs.readFileSync(path.join(out, "data/decks", slug, "detail.json"), "utf8")).hasRun,
+      true,
+    );
+    const runHtml = fs.readFileSync(path.join(out, "decks", slug, "run/index.html"), "utf8");
+    assert.match(runHtml, /<base href="..\/..\/..\/" \/>/);
+    assert.match(runHtml, /<h1>How the doc optimized Lathril, Blade of the Elves<\/h1>/);
+    assert.match(runHtml, /<strong>Find upgrades<\/strong>: from [\d.]+s to [\d.]+s/);
+    assert.match(runHtml, /requests: \d+ to Scryfall/);
     const js = fs.readdirSync(path.join(out, "assets")).find((f) => f.endsWith(".js"))!;
     assert.ok(
       !fs.readFileSync(path.join(out, "assets", js), "utf8").includes('/api/recognize"'),
@@ -126,6 +138,9 @@ describe("static site export", () => {
       ])
         assert.ok(!text.includes(JSON.stringify(name).slice(1, -1)), `${name} leaks in ${file}`);
     assert.ok(!fs.existsSync(path.join(dir, "optimized.txt")));
+    assert.ok(!fs.existsSync(path.join(dir, "run.json")), "the run is kept with the suggestions");
+    assert.ok(!fs.existsSync(path.join(out, "decks", slug, "run")));
+    assert.equal(JSON.parse(raw).hasRun, false);
     assert.ok(fs.existsSync(path.join(dir, "initial.txt")));
 
     assert.match(markdown, /^### Decklist \(100 cards\)$/m);

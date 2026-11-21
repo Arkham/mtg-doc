@@ -2629,6 +2629,15 @@ viewReport env requested model detail full =
                                 Nothing ->
                                     []
                            )
+                        ++ (if detail.hasRun == Just True then
+                                [ text " · "
+                                , Html.a [ class "hero-replay", href (Route.href env.isStatic (Route.Run slug)) ]
+                                    [ text "▶ Replay how the doc made it" ]
+                                ]
+
+                            else
+                                []
+                           )
                     )
                 ]
             ]

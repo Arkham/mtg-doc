@@ -193,6 +193,13 @@ enter route model =
             in
             ( { cleared | page = ProgressPage progress }, Cmd.map ProgressMsg cmd )
 
+        Run slug ->
+            let
+                ( progress, cmd ) =
+                    Progress.initSaved model.env slug
+            in
+            ( { cleared | page = ProgressPage progress }, Cmd.map ProgressMsg cmd )
+
 
 go : Route -> Model -> Cmd Msg
 go route model =
@@ -214,15 +221,21 @@ update msg model =
             ( { model | config = config }, Cmd.none )
 
         GoBack ->
-            let
-                ( next, cmd ) =
-                    if model.route == Home then
-                        enter Home { model | recognition = Nothing }
+            case model.route of
+                -- A replay is of a deck's run: back is to that deck.
+                Run slug ->
+                    ( model, go (Deck slug Route.Optimized) model )
 
-                    else
-                        ( { model | recognition = Nothing }, Cmd.none )
-            in
-            ( next, Cmd.batch [ cmd, go Home model ] )
+                _ ->
+                    let
+                        ( next, cmd ) =
+                            if model.route == Home then
+                                enter Home { model | recognition = Nothing }
+
+                            else
+                                ( { model | recognition = Nothing }, Cmd.none )
+                    in
+                    ( next, Cmd.batch [ cmd, go Home model ] )
 
         HomeMsg m ->
             case model.page of
@@ -579,7 +592,18 @@ view model =
             [ header [ class "topbar" ]
                 [ if inner then
                     button [ class "back", onClick GoBack, attribute "aria-label" "Back" ]
-                        [ Icons.chevronLeft, span [ class "back-label" ] [ text "Decks" ] ]
+                        [ Icons.chevronLeft
+                        , span [ class "back-label" ]
+                            [ text
+                                (case model.route of
+                                    Run _ ->
+                                        "Deck"
+
+                                    _ ->
+                                        "Decks"
+                                )
+                            ]
+                        ]
 
                   else
                     a [ href (Route.href env.isStatic Home), class "brand" ]

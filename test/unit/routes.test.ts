@@ -1,6 +1,13 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
-import { deckPaths, hashRoute, isAppPath, pathRoute, routeHref } from "../../src/routes.ts";
+import {
+  deckPaths,
+  hashRoute,
+  isAppPath,
+  pathRoute,
+  routeHref,
+  runPath,
+} from "../../src/routes.ts";
 
 describe("routes", () => {
   test("routes for each view: hashes locally, real paths on the published site", () => {
@@ -24,6 +31,12 @@ describe("routes", () => {
       assert.equal(routeHref(pathRoute(path), true), path);
     }
     assert.equal(deckPaths("x").length, 2);
+    // A deck's saved run replays at its own page, there and locally.
+    assert.equal(runPath("x"), "decks/x/run/");
+    assert.ok(isAppPath(runPath("x")));
+    assert.deepEqual(pathRoute(runPath("x")), { page: "run", slug: "x" });
+    assert.deepEqual(hashRoute("#/deck/x/run"), { page: "run", slug: "x" });
+    assert.equal(routeHref({ page: "run", slug: "x" }, false), "#/deck/x/run");
     assert.ok(!isAppPath("data/decks/x/report.md"));
   });
 });

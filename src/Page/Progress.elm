@@ -1,4 +1,4 @@
-module Page.Progress exposing (Look, Model, Msg, init, subscriptions, update, view)
+module Page.Progress exposing (Look, Model, Msg, Playback, Source, init, initSaved, subscriptions, update, view)
 
 {-| An optimizer run, drawn live from the server's trace: every task of its graph on a shared
 timeline, the requests each one makes to outside services, and what's happening right now, in
@@ -12,13 +12,17 @@ import Env exposing (Env)
 import Html exposing (Html, button, code, div, h1, li, node, p, section, span, strong, text, ul)
 import Html.Attributes exposing (attribute, property, style)
 import Html.Events exposing (on, onClick)
+import Html.Lazy
 import Json.Decode as D
 import Process
 import Route
+import Svg
+import Svg.Attributes as SA
 import Task
 import Time
 import Types exposing (..)
-import Ui.Attr exposing (class, href)
+import Ui.Attr exposing (class, href, title, type_)
+import Ui.Icons as Icons
 
 
 {-| How long the finished chart stays before the deck opens.
@@ -35,9 +39,26 @@ driftMs =
     1500
 
 
+{-| Where the run comes from: one going on now (a job), or a deck's saved last run.
+-}
+type Source
+    = Live String
+    | Saved String
+
+
+{-| A replay's playhead: where it is in the run (ms), whether it's moving, and how fast.
+-}
+type alias Playback =
+    { at : Float
+    , playing : Bool
+    , speed : Float
+    }
+
+
 type alias Model =
-    { jobId : String
+    { source : Source
     , job : Maybe Job
+    , run : Maybe RunRecord
     , error : Maybe String
 
     -- The page's clock (ms), and what it read when the latest trace arrived: the chart moves on
@@ -47,9 +68,7 @@ type alias Model =
     , selected : Maybe String
     , finished : Bool
     , look : Look
-
-    -- Bumped to replay the run on the map.
-    , replays : Int
+    , playback : Maybe Playback
 
     -- Set once the reader does something here, so the deck doesn't open under them.
     , stay : Bool
@@ -65,18 +84,45 @@ type Look
 
 type Msg
     = Got (Result String Job)
+    | GotRun (Result String RunRecord)
     | Streamed Job
     | Frame Time.Posix
     | Select String
     | Show Look
     | Replay
+    | Toggle
+    | Seek Float
+    | Nudge Float
+    | Speed Float
+    | Key String
     | Linger
 
 
+speeds : List Float
+speeds =
+    [ 1, 2, 4, 8, 16 ]
+
+
+blank : Source -> Model
+blank source =
+    { source = source, job = Nothing, run = Nothing, error = Nothing, now = 0, received = 0, selected = Nothing, finished = False, look = Map, playback = Nothing, stay = False }
+
+
+{-| A run going on now.
+-}
 init : String -> ( Model, Cmd Msg )
 init jobId =
-    ( { jobId = jobId, job = Nothing, error = Nothing, now = 0, received = 0, selected = Nothing, finished = False, look = Map, replays = 0, stay = False }
+    ( blank (Live jobId)
     , Cmd.batch [ Api.job jobId Got, Task.perform Frame Time.now ]
+    )
+
+
+{-| A deck's saved last run, replaying from the start.
+-}
+initSaved : Env -> String -> ( Model, Cmd Msg )
+initSaved env slug =
+    ( blank (Saved slug)
+    , Cmd.batch [ Api.run env.isStatic slug GotRun, Task.perform Frame Time.now ]
     )
 
 
@@ -91,11 +137,41 @@ update msg model =
         Got (Err e) ->
             ( { model | error = Just e }, Cmd.none, False )
 
+        GotRun (Ok run) ->
+            ( { model | run = Just run, playback = Just { at = 0, playing = True, speed = 4 } }, Cmd.none, False )
+
+        GotRun (Err e) ->
+            ( { model | error = Just e }, Cmd.none, False )
+
         Streamed job ->
             arrived job model
 
         Frame time ->
-            ( { model | now = toFloat (Time.posixToMillis time) }, Cmd.none, False )
+            let
+                now =
+                    toFloat (Time.posixToMillis time)
+            in
+            ( { model
+                | now = now
+                , playback =
+                    model.playback
+                        |> Maybe.map
+                            (\pb ->
+                                if pb.playing then
+                                    let
+                                        -- A frame after the tab was away doesn't jump the replay ahead.
+                                        dt =
+                                            clamp 0 100 (now - model.now)
+                                    in
+                                    seekTo model { pb | at = pb.at + dt * pb.speed }
+
+                                else
+                                    pb
+                            )
+              }
+            , Cmd.none
+            , False
+            )
 
         Select name ->
             ( { model
@@ -115,15 +191,139 @@ update msg model =
             ( { model | look = look, stay = True }, Cmd.none, False )
 
         Replay ->
-            ( { model | replays = model.replays + 1, stay = True }, Cmd.none, False )
+            let
+                speed =
+                    model.playback |> Maybe.map .speed |> Maybe.withDefault 4
+            in
+            ( { model | stay = True, playback = Just { at = 0, playing = True, speed = speed } }, Cmd.none, False )
+
+        Toggle ->
+            ( { model
+                | stay = True
+                , playback =
+                    model.playback
+                        |> Maybe.map
+                            (\pb ->
+                                if pb.playing then
+                                    { pb | playing = False }
+
+                                else if pb.at >= runLength model then
+                                    -- At the end, playing again starts over.
+                                    { pb | at = 0, playing = True }
+
+                                else
+                                    { pb | playing = True }
+                            )
+              }
+            , Cmd.none
+            , False
+            )
+
+        Seek at ->
+            ( { model | stay = True, playback = model.playback |> Maybe.map (\pb -> seekTo model { pb | at = at }) }, Cmd.none, False )
+
+        Nudge by ->
+            ( { model | stay = True, playback = model.playback |> Maybe.map (\pb -> seekTo model { pb | at = pb.at + by, playing = False }) }, Cmd.none, False )
+
+        Speed speed ->
+            ( { model | playback = model.playback |> Maybe.map (\pb -> { pb | speed = speed }) }, Cmd.none, False )
+
+        Key key ->
+            case key of
+                "Space" ->
+                    update Toggle model
+
+                "k" ->
+                    update Toggle model
+
+                "ArrowLeft" ->
+                    update (Nudge -1000) model
+
+                "ArrowRight" ->
+                    update (Nudge 1000) model
+
+                "," ->
+                    update (Nudge -100) model
+
+                "." ->
+                    update (Nudge 100) model
+
+                "Home" ->
+                    update (Seek 0) model
+
+                _ ->
+                    ( model, Cmd.none, False )
 
         Linger ->
             ( model, Cmd.none, isDone model && not model.stay )
 
 
+{-| The playhead kept inside the run; reaching the end stops it there.
+-}
+seekTo : Model -> Playback -> Playback
+seekTo model pb =
+    let
+        length =
+            runLength model
+
+        at =
+            clamp 0 length pb.at
+    in
+    { pb | at = at, playing = pb.playing && at < length }
+
+
+runLength : Model -> Float
+runLength model =
+    fullTrace model |> Maybe.map .elapsed |> Maybe.withDefault 0
+
+
+fullTrace : Model -> Maybe Trace
+fullTrace model =
+    case model.run of
+        Just run ->
+            Just run.trace
+
+        Nothing ->
+            model.job |> Maybe.andThen .trace
+
+
+{-| How the run went (or is going), live or saved.
+-}
+runStatus : Model -> JobStatus
+runStatus model =
+    case ( model.run, model.job ) of
+        ( Just run, _ ) ->
+            if run.status == RunRecordStatusDone then
+                JobStatusDone
+
+            else
+                JobStatusError
+
+        ( Nothing, Just job ) ->
+            job.status
+
+        ( Nothing, Nothing ) ->
+            JobStatusRunning
+
+
+isLive : Model -> Bool
+isLive model =
+    runStatus model == JobStatusRunning && model.run == Nothing
+
+
 isDone : Model -> Bool
 isDone model =
     model.job |> Maybe.map (\j -> j.status == JobStatusDone) |> Maybe.withDefault False
+
+
+slugOf : Model -> String
+slugOf model =
+    case model.source of
+        Saved slug ->
+            slug
+
+        Live _ ->
+            model.job |> Maybe.map .slug |> Maybe.withDefault ""
 
 
 arrived : Job -> Model -> ( Model, Cmd Msg, Bool )
@@ -158,7 +358,7 @@ arrived job model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    if model.job |> Maybe.map (\j -> j.status == JobStatusRunning) |> Maybe.withDefault True then
+    if isLive model || (model.playback |> Maybe.map .playing |> Maybe.withDefault False) then
         Browser.Events.onAnimationFrame Frame
 
     else
@@ -257,6 +457,88 @@ services =
     [ ServiceScryfall, ServiceSpellbook, ServiceEdhrec, ServiceModel, ServiceDecisions ]
 
 
+{-| The run as it stood at a moment: what had started, what had ended, what was in flight. A
+replay draws this, so every view of it shows that moment.
+-}
+traceAt : Float -> Trace -> Trace
+traceAt t trace =
+    let
+        past m =
+            case m of
+                Just v ->
+                    if v <= t then
+                        Just v
+
+                    else
+                        Nothing
+
+                Nothing ->
+                    Nothing
+    in
+    { elapsed = t
+    , tasks =
+        List.map
+            (\task ->
+                let
+                    start =
+                        past task.start
+
+                    end =
+                        past task.end
+                in
+                { task
+                    | start = start
+                    , end = end
+                    , state =
+                        case ( start, end ) of
+                            ( Nothing, _ ) ->
+                                TraceTaskStateWaiting
+
+                            ( Just _, Nothing ) ->
+                                TraceTaskStateRunning
+
+                            ( Just _, Just _ ) ->
+                                if task.state == TraceTaskStateFailed then
+                                    TraceTaskStateFailed
+
+                                else
+                                    TraceTaskStateDone
+                }
+            )
+            trace.tasks
+    , requests =
+        trace.requests
+            |> List.filter (\r -> r.start <= t)
+            |> List.map
+                (\r ->
+                    if past r.end == Nothing then
+                        { r | end = Nothing, ok = Nothing }
+
+                    else
+                        r
+                )
+    }
+
+
+{-| The moment shown: the playhead in a replay, now in a live run.
+-}
+moment : Model -> Trace -> Float
+moment model trace =
+    case model.playback of
+        Just pb ->
+            pb.at
+
+        Nothing ->
+            elapsed model trace (isLive model)
+
+
+{-| Whether the moment shown is the run's end, with everything it did.
+-}
+atEnd : Model -> Trace -> Bool
+atEnd model trace =
+    not (isLive model) && moment model trace >= trace.elapsed
+
+
 
 -- VIEW
 
@@ -278,51 +560,53 @@ view env model =
 
         stream =
             -- Live while it runs; a finished job has nothing more to say.
-            if model.job |> Maybe.map (\j -> j.status == JobStatusRunning) |> Maybe.withDefault True then
-                [ node "mtg-event-stream"
-                    [ attribute "url" ("/api/jobs/" ++ model.jobId ++ "/events")
-                    , attribute "event" "job"
-                    , on "data" (D.field "detail" jobDecoder |> D.map Streamed)
-                    ]
-                    []
-                ]
+            case model.source of
+                Live jobId ->
+                    if isLive model then
+                        [ node "mtg-event-stream"
+                            [ attribute "url" ("/api/jobs/" ++ jobId ++ "/events")
+                            , attribute "event" "job"
+                            , on "data" (D.field "detail" jobDecoder |> D.map Streamed)
+                            ]
+                            []
+                        ]
 
-            else
-                []
+                    else
+                        []
+
+                Saved _ ->
+                    []
     in
     section [ class "panel run" ]
         ([ header model
-         , case model.job |> Maybe.andThen (\j -> Maybe.map (Tuple.pair j) j.trace) of
-            Just ( job, trace ) ->
-                chart env model job trace
+         , case fullTrace model of
+            Just trace ->
+                chart env model trace
 
             Nothing ->
-                p [ class "muted" ] [ text "Usually under a minute. Your list is already saved in ", code [] [ text ("decks/" ++ (model.job |> Maybe.map .slug |> Maybe.withDefault "…") ++ "/") ], text "." ]
-         , if model.job |> Maybe.andThen .trace |> (==) Nothing then
-            let
-                steps =
-                    model.job |> Maybe.map .steps |> Maybe.withDefault []
-            in
-            ul [ class "steps" ] (List.map step steps)
+                case model.source of
+                    Live _ ->
+                        p [ class "muted" ] [ text "Usually under a minute. Your list is already saved in ", code [] [ text ("decks/" ++ slugOf model ++ "/") ], text "." ]
 
-           else
-            text ""
+                    Saved _ ->
+                        text ""
+         , case ( model.job, fullTrace model ) of
+            ( Just job, Nothing ) ->
+                ul [ class "steps" ] (List.map step job.steps)
+
+            _ ->
+                text ""
          , case error of
             Just e ->
                 p [ class "error" ] [ text e ]
 
             Nothing ->
                 text ""
-         , case model.job of
-            Just job ->
-                if job.status == JobStatusError then
-                    Html.a [ href (Route.deckHref env.isStatic job.slug Route.Current) ] [ text "Open deck anyway →" ]
+         , if model.job /= Nothing && runStatus model == JobStatusError then
+            Html.a [ href (Route.deckHref env.isStatic (slugOf model) Route.Current) ] [ text "Open deck anyway →" ]
 
-                else
-                    text ""
-
-            Nothing ->
-                text ""
+           else
+            text ""
          ]
             ++ stream
         )
@@ -349,79 +633,101 @@ header : Model -> Html Msg
 header model =
     let
         trace =
-            model.job |> Maybe.andThen .trace
-
-        status =
-            model.job |> Maybe.map .status |> Maybe.withDefault JobStatusRunning
-
-        running =
-            status == JobStatusRunning
+            fullTrace model
 
         t =
-            trace |> Maybe.map (\tr -> elapsed model tr running) |> Maybe.withDefault 0
+            trace |> Maybe.map (moment model) |> Maybe.withDefault 0
 
         doing =
-            trace |> Maybe.map (.tasks >> List.filter isRunning >> List.map .doing) |> Maybe.withDefault []
+            trace |> Maybe.map (traceAt t >> .tasks >> List.filter isRunning >> List.map .doing) |> Maybe.withDefault []
+
+        ended =
+            trace |> Maybe.map (atEnd model) |> Maybe.withDefault False
 
         now =
-            case ( status, doing ) of
-                ( JobStatusDone, _ ) ->
-                    if model.stay then
+            case ( ended, runStatus model, doing ) of
+                ( True, JobStatusDone, _ ) ->
+                    if model.stay || model.run /= Nothing then
                         "Done."
 
                     else
                         "Done. Opening your deck…"
 
-                ( JobStatusError, _ ) ->
+                ( True, JobStatusError, _ ) ->
                     "Something went wrong."
 
-                ( _, [] ) ->
-                    "Getting started…"
+                ( _, _, [] ) ->
+                    if t == 0 || trace == Nothing then
+                        "Getting started…"
 
-                ( _, first :: rest ) ->
+                    else
+                        "The doc is between steps."
+
+                ( _, _, first :: rest ) ->
                     "The doc is " ++ sentence (first :: rest) ++ "."
+
+        ( kicker, kickerClass ) =
+            case model.playback of
+                Just pb ->
+                    ( if pb.playing then
+                        "Replay"
+
+                      else
+                        "Paused"
+                    , "run-kicker replay"
+                    )
+
+                Nothing ->
+                    if isLive model then
+                        ( "Live", "run-kicker" )
+
+                    else
+                        ( "Finished", "run-kicker finished" )
     in
     div [ class "run-head" ]
         [ div [ class "run-title" ]
-            [ span
-                [ class
-                    (if running then
-                        "run-kicker"
-
-                     else
-                        "run-kicker finished"
-                    )
-                ]
+            [ span [ class kickerClass ] [ text kicker ]
+            , h1 []
                 [ text
-                    (if running then
-                        "Live"
+                    (case model.source of
+                        Live _ ->
+                            "Optimizing your deck"
 
-                     else
-                        "Finished"
+                        Saved _ ->
+                            "How the doc optimized this deck"
                     )
                 ]
-            , h1 [] [ text "Optimizing your deck" ]
             ]
         , strong [ class "run-clock", attribute "aria-hidden" "true" ] [ text (clock t) ]
         , p [ class "run-now", attribute "aria-live" "polite" ] [ text now ]
         ]
 
 
-chart : Env -> Model -> Job -> Trace -> Html Msg
-chart env model job trace =
+chart : Env -> Model -> Trace -> Html Msg
+chart env model full =
     let
-        running =
-            job.status == JobStatusRunning
+        live =
+            isLive model
 
         t =
-            elapsed model trace running
+            moment model full
+
+        trace =
+            if model.playback == Nothing then
+                full
+
+            else
+                traceAt t full
+
+        ended =
+            atEnd model full
 
         span_ =
-            if running then
+            if live then
                 domain t
 
             else
-                max 1 trace.elapsed
+                max 1 full.elapsed
 
         x ms =
             clamp 0 100 (ms / span_ * 100)
@@ -446,27 +752,33 @@ chart env model job trace =
         [ looks model.look
         , case model.look of
             Map ->
-                runMap model job trace
+                runMap model full
 
             Timeline ->
                 let
                     critical =
-                        if running then
-                            []
+                        if ended then
+                            criticalPath tasksByName trace.tasks
 
                         else
-                            criticalPath tasksByName trace.tasks
+                            []
 
                     related =
                         relations model.selected trace.tasks
                 in
                 div [] [ legend trace, timeline model x span_ t byTask critical related trace ]
+        , case model.playback of
+            Just pb ->
+                player pb full
+
+            Nothing ->
+                text ""
         , detail model t byTask tasksByName
-        , if running then
-            text ""
+        , if ended then
+            summary env model full
 
           else
-            summary env model job trace
+            text ""
         ]
 
 
@@ -492,20 +804,26 @@ looks current =
         )
 
 
-runMap : Model -> Job -> Trace -> Html Msg
-runMap model job trace =
+runMap : Model -> Trace -> Html Msg
+runMap model trace =
     node "mtg-run-map"
         ([ property "trace" (encodeTrace trace)
-         , attribute "replay" (String.fromInt model.replays)
          , attribute "role" "img"
          , attribute "aria-label" "A map of the run: each step, what it waits for, and its requests to outside services"
          , on "select" (D.field "detail" D.string |> D.map Select)
          ]
-            ++ (if job.status == JobStatusRunning then
+            ++ (if isLive model then
                     [ attribute "running" "" ]
 
                 else
                     []
+               )
+            ++ (case model.playback of
+                    Just pb ->
+                        [ attribute "at" (String.fromFloat pb.at) ]
+
+                    Nothing ->
+                        []
                )
             ++ (case model.selected of
                     Just name ->
@@ -516,6 +834,162 @@ runMap model job trace =
                )
         )
         []
+
+
+{-| A replay's controls: play and pause, step, speed, and a strip of the whole run to scrub,
+showing how many requests each service had in flight.
+-}
+player : Playback -> Trace -> Html Msg
+player pb trace =
+    let
+        length =
+            max 1 trace.elapsed
+
+        iconButton label hint msg glyph =
+            button [ class "run-ctl", attribute "aria-label" label, title hint, onClick msg ] [ glyph ]
+    in
+    div [ class "run-player" ]
+        [ node "mtg-keys"
+            [ attribute "keys" "Space k ArrowLeft ArrowRight , . Home"
+            , on "key" (D.field "detail" D.string |> D.map Key)
+            ]
+            []
+        , div [ class "run-ctls" ]
+            [ iconButton "Back to the start" "Home" (Seek 0) Icons.restart
+            , iconButton "Back a second" "←" (Nudge -1000) Icons.back
+            , button
+                [ class "run-ctl run-play"
+                , attribute "aria-label"
+                    (if pb.playing then
+                        "Pause"
+
+                     else
+                        "Play"
+                    )
+                , title "Space"
+                , onClick Toggle
+                ]
+                [ if pb.playing then
+                    Icons.pause
+
+                  else
+                    Icons.play
+                ]
+            , iconButton "On a second" "→" (Nudge 1000) Icons.forward
+            , span [ class "run-time" ] [ text (clock pb.at), span [ class "muted" ] [ text (" / " ++ clock trace.elapsed) ] ]
+            , div [ class "run-speeds", attribute "role" "group", attribute "aria-label" "Speed" ]
+                (List.map
+                    (\sp ->
+                        button
+                            [ class "run-speed"
+                            , attribute "aria-pressed"
+                                (if sp == pb.speed then
+                                    "true"
+
+                                 else
+                                    "false"
+                                )
+                            , onClick (Speed sp)
+                            ]
+                            [ text (String.fromFloat sp ++ "×") ]
+                    )
+                    speeds
+                )
+            ]
+        , div [ class "run-scrub" ]
+            [ Html.Lazy.lazy histogram trace
+            , div [ class "run-scrub-played", style "width" (String.fromFloat (pb.at / length * 100) ++ "%") ] []
+            , Html.input
+                [ type_ "range"
+                , Ui.Attr.min "0"
+                , Ui.Attr.max (String.fromFloat length)
+                , attribute "step" "10"
+                , Html.Attributes.value (String.fromFloat pb.at)
+                , attribute "aria-label" "Moment in the run"
+                , Html.Events.onInput (String.toFloat >> Maybe.withDefault 0 >> Seek)
+                ]
+                []
+            ]
+        ]
+
+
+{-| How many requests each service had in flight across the run, stacked.
+-}
+histogram : Trace -> Html msg
+histogram trace =
+    let
+        bins =
+            120
+
+        length =
+            max 1 trace.elapsed
+
+        counts =
+            List.map
+                (\svc ->
+                    let
+                        mine =
+                            List.filter (\r -> r.service == svc) trace.requests
+                    in
+                    ( svc
+                    , List.map
+                        (\i ->
+                            let
+                                t =
+                                    (toFloat i + 0.5) / bins * length
+                            in
+                            mine |> List.filter (\r -> r.start <= t && t < Maybe.withDefault length r.end) |> List.length
+                        )
+                        (List.range 0 (bins - 1))
+                    )
+                )
+                services
+
+        totals =
+            List.foldl (\( _, cs ) acc -> List.map2 (+) cs acc) (List.repeat bins 0) counts
+
+        peak =
+            toFloat (Maybe.withDefault 1 (List.maximum (1 :: totals)))
+
+        bars =
+            List.foldl
+                (\( svc, cs ) ( base, acc ) ->
+                    ( List.map2 (+) base cs
+                    , acc
+                        ++ List.concat
+                            (List.map3
+                                (\i below n ->
+                                    if n == 0 then
+                                        []
+
+                                    else
+                                        [ Svg.rect
+                                            [ SA.x (String.fromInt i)
+                                            , SA.y (String.fromFloat (30 - toFloat (below + n) / peak * 30))
+                                            , SA.width "0.8"
+                                            , SA.height (String.fromFloat (toFloat n / peak * 30))
+                                            , SA.class ("svc-" ++ serviceToString svc)
+                                            ]
+                                            []
+                                        ]
+                                )
+                                (List.range 0 (bins - 1))
+                                base
+                                cs
+                            )
+                    )
+                )
+                ( List.repeat bins 0, [] )
+                counts
+                |> Tuple.second
+    in
+    Svg.svg
+        [ SA.class "run-histogram"
+        , SA.viewBox ("0 0 " ++ String.fromInt bins ++ " 30")
+        , SA.preserveAspectRatio "none"
+        , attribute "aria-hidden" "true"
+        ]
+        bars
 
 
 timeline :
@@ -529,15 +1003,11 @@ timeline :
     -> Trace
     -> Html Msg
 timeline model x span_ t byTask critical related trace =
-    let
-        running =
-            model.job |> Maybe.map (\j -> j.status == JobStatusRunning) |> Maybe.withDefault True
-    in
     div [ class "run-grid", style "--tick" (String.fromFloat (tickMs span_ / span_ * 100) ++ "%") ]
         [ div [ class "run-axis", attribute "aria-hidden" "true" ] (axis span_)
         , ul [ class "run-rows" ] (List.map (row model x t byTask critical related) trace.tasks)
         , div [ class "run-overlay", attribute "aria-hidden" "true" ]
-            [ if running then
+            [ if isLive model || model.playback /= Nothing then
                 div [ class "run-now-line", style "left" (String.fromFloat (x t) ++ "%") ] []
 
               else
@@ -863,11 +1333,10 @@ detail model t byTask tasksByName =
                 )
 
 
-{-| The finished run in a few lines: how long it took, how much sooner than one step after the
-other, and the chain of steps that set the time.
+{-| The finished run in a line, with where to go from it.
 -}
-summary : Env -> Model -> Job -> Trace -> Html Msg
-summary env model job trace =
+summary : Env -> Model -> Trace -> Html Msg
+summary env model trace =
     let
         work =
             trace.tasks |> List.map (\tk -> Maybe.withDefault 0 tk.end - Maybe.withDefault 0 tk.start) |> List.sum
@@ -887,16 +1356,12 @@ summary env model job trace =
                 )
             ]
         , div [ class "run-actions" ]
-            [ if job.status == JobStatusDone then
-                Html.a [ class "button primary", href (Route.deckHref env.isStatic job.slug Route.Optimized) ]
+            [ if runStatus model == JobStatusDone then
+                Html.a [ class "button primary", href (Route.deckHref env.isStatic (slugOf model) Route.Optimized) ]
                     [ text "See the optimized deck" ]
 
               else
                 text ""
-            , if model.look == Map then
-                button [ class "ghost", onClick Replay ] [ text "Replay the run" ]
-
-              else
-                text ""
+            , button [ class "ghost", onClick Replay ] [ text "Replay the run" ]
             ]
         ]

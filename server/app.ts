@@ -28,6 +28,8 @@ import {
   readMeta,
   setHideSuggestions,
   readReport,
+  readRun,
+  hasRun,
   reportSavedAt,
   writeDeck,
   writeMeta,
@@ -219,13 +221,14 @@ export function createApp() {
     "/api/decks/:slug",
     wrap(async (req, res) => {
       const slug = String(req.params.slug);
-      const [meta, report, initial, status] = await Promise.all([
+      const [meta, report, initial, status, run] = await Promise.all([
         readMeta(slug),
         readReport(slug),
         readInitial(slug),
         deckStatus(slug),
+        hasRun(slug),
       ]);
-      res.json({ meta, report, initial, ...status });
+      res.json({ meta, report, initial, ...status, hasRun: run });
     }),
   );
 
@@ -264,6 +267,15 @@ export function createApp() {
     wrap(async (req, res) => {
       const file = z.enum(["initial.txt", "optimized.txt", "report.md"]).parse(req.params.file);
       res.type("text/plain").send(await readDeckFile(String(req.params.slug), file));
+    }),
+  );
+
+  app.get(
+    "/api/decks/:slug/run",
+    wrap(async (req, res) => {
+      const run = await readRun(String(req.params.slug));
+      if (!run) return res.status(404).json({ error: "This deck has no saved run" });
+      res.json(run);
     }),
   );
 

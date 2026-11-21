@@ -80,6 +80,7 @@ import {
   readInitial,
   readMeta,
   readReport,
+  writeRun,
   writeResults,
 } from "./storage.ts";
 
@@ -763,9 +764,18 @@ async function run(job: Job, opts: RunOptions) {
         await clearPendingRefresh(job.slug);
       }),
     );
-  await graph.all();
-  job.status = "done";
-  tracer.touch();
+  try {
+    await graph.all();
+    job.status = "done";
+  } finally {
+    // Saved as it went, done or not, so it can be replayed.
+    await writeRun(job.slug, {
+      startedAt: tracer.startedAt,
+      status: job.status === "done" ? "done" : "error",
+      trace: tracer.snapshot(),
+    }).catch((err) => console.error(`[job ${job.id}] couldn't save the run`, err));
+    tracer.touch();
+  }
 }
 
 type Start = {

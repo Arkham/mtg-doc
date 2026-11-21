@@ -60,6 +60,8 @@ module Types exposing
     , ResolvedNameStatus(..)
     , Role(..)
     , RoleCount
+    , RunRecord
+    , RunRecordStatus(..)
     , SaveDeckRequest
     , SaveDeckRequestFormat(..)
     , Service(..)
@@ -186,6 +188,8 @@ module Types exposing
     , encodeResolvedNameStatus
     , encodeRole
     , encodeRoleCount
+    , encodeRunRecord
+    , encodeRunRecordStatus
     , encodeSaveDeckRequest
     , encodeSaveDeckRequestFormat
     , encodeService
@@ -242,6 +246,10 @@ module Types exposing
     , roleDecoder
     , roleFromString
     , roleToString
+    , runRecordDecoder
+    , runRecordStatusDecoder
+    , runRecordStatusFromString
+    , runRecordStatusToString
     , saveDeckRequestDecoder
     , saveDeckRequestFormatDecoder
     , saveDeckRequestFormatFromString
@@ -1109,6 +1117,8 @@ refreshing: Those slower parts are being worked out now.
 
 savedAt: When the report was last saved (ms since the epoch): it changed if this did.
 
+hasRun: The deck's last optimizer run is saved, and can be replayed.
+
 -}
 type alias DeckDetail =
     { updating : Maybe Bool
@@ -1118,6 +1128,7 @@ type alias DeckDetail =
     , meta : DeckDetailMeta
     , report : Maybe Report
     , initial : String
+    , hasRun : Maybe Bool
     }
 
 
@@ -1131,6 +1142,7 @@ deckDetailDecoder =
         |> P.required "meta" deckDetailMetaDecoder
         |> P.required "report" (D.nullable reportDecoder)
         |> P.required "initial" D.string
+        |> P.optional "hasRun" (D.map Just D.bool) Nothing
 
 
 encodeDeckDetail : DeckDetail -> E.Value
@@ -1144,6 +1156,7 @@ encodeDeckDetail value =
             , Just ( "meta", encodeDeckDetailMeta value.meta )
             , Just ( "report", Maybe.withDefault E.null (Maybe.map encodeReport value.report) )
             , Just ( "initial", E.string value.initial )
+            , Maybe.map (\v -> ( "hasRun", E.bool v )) value.hasRun
             ]
         )
 
@@ -2910,6 +2923,79 @@ encodeRoleCount value =
             , Just ( "target", Maybe.withDefault E.null (Maybe.map E.float value.target) )
             ]
         )
+
+
+type alias RunRecord =
+    { startedAt : String
+    , status : RunRecordStatus
+    , trace : Trace
+    }
+
+
+runRecordDecoder : Decoder RunRecord
+runRecordDecoder =
+    D.succeed RunRecord
+        |> P.required "startedAt" D.string
+        |> P.required "status" runRecordStatusDecoder
+        |> P.required "trace" traceDecoder
+
+
+encodeRunRecord : RunRecord -> E.Value
+encodeRunRecord value =
+    E.object
+        (List.filterMap identity
+            [ Just ( "startedAt", E.string value.startedAt )
+            , Just ( "status", encodeRunRecordStatus value.status )
+            , Just ( "trace", encodeTrace value.trace )
+            ]
+        )
+
+
+type RunRecordStatus
+    = RunRecordStatusDone
+    | RunRecordStatusError
+
+
+runRecordStatusToString : RunRecordStatus -> String
+runRecordStatusToString value =
+    case value of
+        RunRecordStatusDone ->
+            "done"
+
+        RunRecordStatusError ->
+            "error"
+
+
+runRecordStatusFromString : String -> Maybe RunRecordStatus
+runRecordStatusFromString value =
+    case value of
+        "done" ->
+            Just RunRecordStatusDone
+
+        "error" ->
+            Just RunRecordStatusError
+
+        _ ->
+            Nothing
+
+
+runRecordStatusDecoder : Decoder RunRecordStatus
+runRecordStatusDecoder =
+    D.string
+        |> D.andThen
+            (\value ->
+                case runRecordStatusFromString value of
+                    Just v ->
+                        D.succeed v
+
+                    Nothing ->
+                        D.fail ("Unknown RunRecordStatus: " ++ value)
+            )
+
+
+encodeRunRecordStatus : RunRecordStatus -> E.Value
+encodeRunRecordStatus =
+    runRecordStatusToString >> E.string
 
 
 type alias SaveDeckRequest =
