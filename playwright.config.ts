@@ -12,6 +12,8 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
   timeout: record ? 240_000 : 60_000,
+  // Recording fetches for real, spaced out to Scryfall's limits.
+  expect: { timeout: record ? 30_000 : 5_000 },
   use: {
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
@@ -25,25 +27,37 @@ export default defineConfig({
     {
       command: "node --import tsx test/support/serve-static.ts",
       url: `http://127.0.0.1:${STATIC_PORT}/mtg-doc/`,
-      env: { STATIC_PORT: String(STATIC_PORT) },
+      env: { FIXTURES_FATAL: "1", STATIC_PORT: String(STATIC_PORT) },
       timeout: 180_000,
       reuseExistingServer: !process.env.CI,
     },
     {
       // The real dev server, with outbound HTTP replayed from fixtures and no LLM.
       command:
-        "node --import tsx scripts/elm.ts && node --import tsx --import ./test/support/env.ts server/index.ts",
+        "node --import tsx scripts/elm.ts --to elm-stuff/builds/test/main.js && node --import tsx test/support/serve-e2e-app.ts",
       url: `http://127.0.0.1:${APP_PORT}/api/config`,
-      env: { PORT: String(APP_PORT), HOST: "127.0.0.1", REFRESH_DELAY_MS: "1500" },
+      env: {
+        FIXTURES_FATAL: "1",
+        ELM_OUTPUT: "elm-stuff/builds/test/main.js",
+        PORT: String(APP_PORT),
+        HOST: "127.0.0.1",
+        REFRESH_DELAY_MS: "1500",
+      },
       timeout: 120_000,
       reuseExistingServer: !process.env.CI,
     },
     {
       // The same, with a stand-in model that streams its replies.
       command:
-        "node --import tsx scripts/elm.ts && node --import tsx test/support/serve-llm-app.ts",
+        "node --import tsx scripts/elm.ts --to elm-stuff/builds/test/main.js && node --import tsx test/support/serve-llm-app.ts",
       url: `http://127.0.0.1:${LLM_APP_PORT}/api/config`,
-      env: { PORT: String(LLM_APP_PORT), HOST: "127.0.0.1", REFRESH_DELAY_MS: "1500" },
+      env: {
+        FIXTURES_FATAL: "1",
+        ELM_OUTPUT: "elm-stuff/builds/test/main.js",
+        PORT: String(LLM_APP_PORT),
+        HOST: "127.0.0.1",
+        REFRESH_DELAY_MS: "1500",
+      },
       timeout: 180_000,
       reuseExistingServer: !process.env.CI,
     },

@@ -162,6 +162,13 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
 - `pnpm test:visual` compares every page and state with committed baselines: the rendered DOM
   exactly, and screenshots. A UI change that's meant to change them updates the baselines in the
   same change (`pnpm test:visual --update-snapshots`), and the diff shows what moved.
+- The browser suites' servers (`playwright*.config.ts`) stop on an unrecorded request
+  (`FIXTURES_FATAL`), so a missing fixture fails the run at once instead of leaving a page waiting
+  on a background job. They serve an Elm build of their own (`ELM_OUTPUT`, built once per run by
+  `scripts/elm.ts --to`), and the static build makes one too: neither touches `public/elm/`,
+  which `pnpm dev` serves.
+- Keep e2e tests short and independent so they run side by side: a test that starts from a report
+  uses a deck the e2e server seeds (`test/support/serve-e2e-app.ts`), one per test that changes it.
 - Bug fixes come with a test that would have caught them.
 
 ### UI

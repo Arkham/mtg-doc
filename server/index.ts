@@ -13,6 +13,9 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(dist));
   app.get(/^(?!\/api).*/, (_req, res) => res.sendFile(path.join(dist, "index.html")));
 } else {
+  // The test servers serve an Elm build of their own, not the one `pnpm dev` keeps in public/elm/.
+  const elm = process.env.ELM_OUTPUT;
+  if (elm) app.get("/elm/main.js", (_req, res) => res.sendFile(path.resolve(elm)));
   const { createServer } = await import("vite");
   const vite = await createServer({
     root: config.root,

@@ -24,11 +24,11 @@ for (const key of [
 ]) {
   process.env[key] = "";
 }
-// Replayed responses need no rate limiting; recording uses the real limits.
-if (process.env.FIXTURES !== "record" && process.env.FIXTURES !== "missing") {
-  process.env.SCRYFALL_MIN_INTERVAL_MS = "0";
+// Replayed responses need no rate limiting: the fixture layer spaces out only what it fetches for
+// real. A recording run keeps the real back-off after a 429.
+process.env.SCRYFALL_MIN_INTERVAL_MS = "0";
+if (process.env.FIXTURES !== "record" && process.env.FIXTURES !== "missing")
   process.env.SCRYFALL_LIMITED_INTERVAL_MS = "0";
-}
 process.env.DECKS_DIR ??= fs.mkdtempSync(path.join(os.tmpdir(), "mtg-doc-test-"));
 
 installHttpFixtures();

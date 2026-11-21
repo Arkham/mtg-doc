@@ -33,11 +33,28 @@ export const fixtureMode = (): FixtureMode =>
     ? process.env.FIXTURES
     : "replay";
 
+/** Scryfall's limit (2 a second for search, named and collection): the strictest of its limits. */
+const LIVE_INTERVAL_MS = 500;
+
 export function installHttpFixtures(mode: FixtureMode = fixtureMode()) {
-  const real = globalThis.fetch;
+  const original = globalThis.fetch;
+  // Only what's fetched for real is spaced out: what's replayed needs no limit, however much of it
+  // a recording run replays on its way to what it records.
+  let nextLive = 0;
+  const real: typeof fetch = async (input, init) => {
+    const host = new URL(
+      typeof input === "string" ? input : input instanceof URL ? input : input.url,
+    ).host;
+    if (host === "api.scryfall.com") {
+      const wait = nextLive - Date.now();
+      nextLive = Math.max(nextLive, Date.now()) + LIVE_INTERVAL_MS;
+      if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+    }
+    return original(input, init);
+  };
   globalThis.fetch = async (input: string | URL | Request, init?: RequestInit) => {
     const url = typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
-    if (isLocal(url)) return real(input, init);
+    if (isLocal(url)) return original(input, init);
     const method = (init?.method ?? "GET").toUpperCase();
     const body = typeof init?.body === "string" ? init.body : "";
     const file = path.join(FIXTURE_DIR, `${fixtureKey(method, url, body)}.json.gz`);
@@ -61,9 +78,16 @@ export function installHttpFixtures(mode: FixtureMode = fixtureMode()) {
     }
 
     if (!fs.existsSync(file)) {
-      throw new Error(
+      const error = new Error(
         `No HTTP fixture for ${method} ${url} (${path.basename(file)}). Run: pnpm test:record:missing`,
       );
+      // A server the browser suites drive would only log this from some background job, and the
+      // page would wait on it until the test times out: stop instead, so every test fails at once.
+      if (process.env.FIXTURES_FATAL) {
+        console.error(error.message);
+        process.exit(1);
+      }
+      throw error;
     }
     const rec = JSON.parse(zlib.gunzipSync(fs.readFileSync(file)).toString()) as Recording;
     return new Response(rec.text, {

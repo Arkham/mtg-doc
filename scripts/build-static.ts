@@ -7,7 +7,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import { build } from "vite";
-import { buildElm } from "./elm.ts";
+import { buildElmTo } from "./elm.ts";
 import { config } from "../server/config.ts";
 import { appPage, deckPage, indexFallback, llmsTxt, runPage } from "../server/agent-pages.ts";
 import { deckPaths, runPath } from "../src/routes.ts";
@@ -34,13 +34,12 @@ const outDir = path.resolve(config.root, values.out!);
 const only = values.only ? new Set(values.only.split(",").map((s) => s.trim())) : null;
 
 process.env.VITE_STATIC = "1";
-await buildElm(true, () =>
-  build({
-    root: config.root,
-    logLevel: "warn",
-    build: { outDir, emptyOutDir: true },
-  }),
-);
+// Its own optimized Elm build, copied in over whatever public/elm/ holds (`pnpm dev`'s, say).
+const elm = path.join(config.root, "elm-stuff", "builds", "optimize", "main.js");
+await buildElmTo(elm, true);
+await build({ root: config.root, logLevel: "warn", build: { outDir, emptyOutDir: true } });
+await fs.mkdir(path.join(outDir, "elm"), { recursive: true });
+await fs.copyFile(elm, path.join(outDir, "elm", "main.js"));
 
 const indexPath = path.join(outDir, "index.html");
 const shell = await fs.readFile(indexPath, "utf8");

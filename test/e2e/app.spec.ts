@@ -49,9 +49,16 @@ test.describe("local app", () => {
     await expect(link).toHaveAttribute("href", /\/optimized$/);
     await expect(page.getByRole("heading", { name: "Optimized deck" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Bracket 3: Upgraded" })).toBeVisible();
+    await expect(page.locator(".checks li.bad")).toHaveCount(0);
 
-    // The run is saved with the deck, and replays: it plays by itself, pauses, and moves to any
-    // moment by button or key.
+    await page.getByRole("button", { name: "Back", exact: true }).click();
+    await expect(page.locator(".deck-card")).toContainText(["Lathril, Blade of the Elves"]);
+  });
+
+  // The decks below are seeded optimized, as the flow above makes them (serve-e2e-app.ts).
+
+  test("a deck's run replays: it plays, pauses and moves to any moment", async ({ page }) => {
+    await page.goto(`${APP_URL}#/deck/lathril-blade-of-the-elves/optimized`);
     await page.getByRole("link", { name: "▶ Replay how the doc made it" }).click();
     await expect(
       page.getByRole("heading", { name: "How the doc optimized this deck" }),
@@ -72,18 +79,26 @@ test.describe("local app", () => {
     await expect(page.locator(".run-summary")).toHaveCount(0);
     await page.getByRole("button", { name: "Back", exact: true }).click();
     await expect(page.getByRole("heading", { name: "Optimized deck" })).toBeVisible();
-    await expect(page.locator(".checks li.bad")).toHaveCount(0);
-    await expect(page.getByRole("button", { name: /Re-run with different options/ })).toBeVisible();
+  });
 
-    // The target bracket can be changed from the bracket panel; it only re-runs on a second tap.
+  test("the target bracket changes from the bracket panel, and re-runs only on a second tap", async ({
+    page,
+  }) => {
+    await page.goto(`${APP_URL}#/deck/lathril-blade-of-the-elves/optimized`);
+    await expect(page.getByRole("button", { name: /Re-run with different options/ })).toBeVisible();
     const aim = page.locator("#bracket").getByLabel("Target bracket");
     await expect(aim).toHaveValue("3");
     await expect(page.getByRole("button", { name: /Re-run for bracket/ })).toHaveCount(0);
     await aim.selectOption("2");
     await expect(page.getByRole("button", { name: "Re-run for bracket 2" })).toBeVisible();
     await aim.selectOption("3");
+    await expect(page.getByRole("button", { name: /Re-run for bracket/ })).toHaveCount(0);
+  });
 
-    // Chat: propose a swap, apply it, and see the report update.
+  test("chat: a proposed swap applies, and a gap it opens offers a re-run that keeps it", async ({
+    page,
+  }) => {
+    await page.goto(`${APP_URL}#/deck/lathril-blade-of-the-elves-2/optimized`);
     await page.getByRole("button", { name: /Ask the doc/ }).click();
     await expect(page.getByRole("complementary", { name: "Deck chat" })).toBeVisible();
     const message = page.getByLabel("Message");
@@ -128,8 +143,11 @@ test.describe("local app", () => {
     await expect(page.locator(".deck-group li.new").filter({ hasText: "Mind Stone" })).toHaveCount(
       1,
     );
+  });
 
-    // Any swap the doc suggests can be made in the deck as submitted.
+  test("any swap the doc suggests can be made in the deck as submitted", async ({ page }) => {
+    await page.goto(`${APP_URL}#/deck/lathril-blade-of-the-elves-3/optimized`);
+    const decklist = page.locator("#decklist");
     await decklist.getByRole("button", { name: /^Show swaps/ }).click();
     const swaps = decklist.locator(".swap");
     await expect(swaps.first()).toBeVisible();
@@ -140,10 +158,6 @@ test.describe("local app", () => {
     await expect(swaps).toHaveCount(before - 1, { timeout: 30_000 });
     await page.getByRole("tab", { name: "Your deck" }).click();
     await expect(page.locator(".deck-group li").filter({ hasText: added })).not.toHaveCount(0);
-    await page.getByRole("tab", { name: /Optimized/ }).click();
-
-    await page.getByRole("button", { name: "Back" }).click();
-    await expect(page.locator(".deck-card")).toContainText(["Lathril, Blade of the Elves"]);
   });
 
   test("review groups cards by type, adds cards with Enter and previews on hover", async ({

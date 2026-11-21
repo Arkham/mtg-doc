@@ -39,14 +39,20 @@ export default defineConfig({
     {
       command: "node --import tsx test/support/serve-static.ts",
       url: `http://127.0.0.1:${STATIC_PORT}/mtg-doc/`,
-      env: { STATIC_PORT: String(STATIC_PORT), VISUAL: "1" },
+      env: { FIXTURES_FATAL: "1", STATIC_PORT: String(STATIC_PORT), VISUAL: "1" },
       timeout: 180_000,
       reuseExistingServer: false,
     },
     {
-      command: "node --import tsx scripts/elm.ts && node --import tsx test/support/serve-app.ts",
+      command:
+        "node --import tsx scripts/elm.ts --to elm-stuff/builds/test/main.js && node --import tsx test/support/serve-app.ts",
       url: `http://127.0.0.1:${APP_PORT}/api/config`,
-      env: { PORT: String(APP_PORT), HOST: "127.0.0.1" },
+      env: {
+        FIXTURES_FATAL: "1",
+        ELM_OUTPUT: "elm-stuff/builds/test/main.js",
+        PORT: String(APP_PORT),
+        HOST: "127.0.0.1",
+      },
       timeout: 180_000,
       reuseExistingServer: false,
     },
