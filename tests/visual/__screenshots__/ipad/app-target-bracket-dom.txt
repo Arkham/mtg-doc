@@ -121,55 +121,10 @@
             <span class="muted">
               " + "
             <span class="card-name ">
-              <a href="https://scryfall.com/card/mh3/286/priest-of-titania?utm_source=api" rel="noreferrer" target="_blank">
-                "Priest of Titania"
-            " "
-            <a aria-label="View combo on Commander Spellbook" class="small" href="https://commanderspellbook.com/combo/1376-2645/" rel="noreferrer" target="_blank">
-              "↗"
-          <span class="small muted">
-            "3.1% of games assembled before turn 6"
-        <li>
-          <span>
-            <span class="card-name ">
-              <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
-                "Staff of Domination"
-            <span class="muted">
-              " + "
-            <span class="card-name ">
-              <a href="https://scryfall.com/card/hoc/204/elvish-archdruid?utm_source=api" rel="noreferrer" target="_blank">
-                "Elvish Archdruid"
-            " "
-            <a aria-label="View combo on Commander Spellbook" class="small" href="https://commanderspellbook.com/combo/2645-3151/" rel="noreferrer" target="_blank">
-              "↗"
-          <span class="small muted">
-            "2.7% of games assembled before turn 6"
-        <li>
-          <span>
-            <span class="card-name ">
-              <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
-                "Staff of Domination"
-            <span class="muted">
-              " + "
-            <span class="card-name ">
-              <a href="https://scryfall.com/card/khc/79/wirewood-channeler?utm_source=api" rel="noreferrer" target="_blank">
-                "Wirewood Channeler"
-            " "
-            <a aria-label="View combo on Commander Spellbook" class="small" href="https://commanderspellbook.com/combo/1902-2645/" rel="noreferrer" target="_blank">
-              "↗"
-          <span class="small muted">
-            "3% of games assembled before turn 6"
-        <li>
-          <span>
-            <span class="card-name ">
-              <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
-                "Staff of Domination"
-            <span class="muted">
-              " + "
-            <span class="card-name ">
               <a href="https://scryfall.com/card/j25/687/marwyn-the-nurturer?utm_source=api" rel="noreferrer" target="_blank">
                 "Marwyn, the Nurturer"
-            " "
-            <a aria-label="View combo on Commander Spellbook" class="small" href="https://commanderspellbook.com/combo/2436-2645/" rel="noreferrer" target="_blank">
+            " "
+            <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2436-2645/" rel="noreferrer" target="_blank">
               "↗"
           <span class="small muted">
             "3.2% of games assembled before turn 6"
@@ -181,13 +136,30 @@
             <span class="muted">
               " + "
             <span class="card-name ">
-              <a href="https://scryfall.com/card/afr/176/circle-of-dreams-druid?utm_source=api" rel="noreferrer" target="_blank">
-                "Circle of Dreams Druid"
-            " "
-            <a aria-label="View combo on Commander Spellbook" class="small" href="https://commanderspellbook.com/combo/1526-2645/" rel="noreferrer" target="_blank">
+              <a href="https://scryfall.com/card/mh3/286/priest-of-titania?utm_source=api" rel="noreferrer" target="_blank">
+                "Priest of Titania"
+            " "
+            <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1376-2645/" rel="noreferrer" target="_blank">
               "↗"
           <span class="small muted">
-            "2.9% of games assembled before turn 6"
+            "3.1% of games assembled before turn 6"
+        <li>
+          <span>
+            <span class="card-name ">
+              <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                "Staff of Domination"
+            <span class="muted">
+              " + "
+            <span class="card-name ">
+              <a href="https://scryfall.com/card/khc/79/wirewood-channeler?utm_source=api" rel="noreferrer" target="_blank">
+                "Wirewood Channeler"
+            " "
+            <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1902-2645/" rel="noreferrer" target="_blank">
+              "↗"
+          <span class="small muted">
+            "3% of games assembled before turn 6"
+      <a class="small combo-speed-more" href="#combos">
+        "See all 5 in Combos ↓"
   <details class="excluded" .open=false>
     <summary>
       "8 strong cards skipped to stay within your limits"

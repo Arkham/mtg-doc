@@ -11,9 +11,10 @@
           <button aria-selected="true" role="tab">
             "Your deck"
           <button aria-selected="false" role="tab">
-            "Optimized "
-            <span class="count">
-              "14"
+            <span>
+              "Optimized "
+              <span class="count">
+                "14"
       <button aria-label="Find a card" class="icon topbar-search" title="Find a card (/)">
         <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
           <circle cx="11" cy="11" r="7">
@@ -300,11 +301,6 @@
                     <span class="card-name ">
                       <a href="https://scryfall.com/card/cmm/150/demonic-tutor?utm_source=api" rel="noreferrer" target="_blank">
                         "Demonic Tutor"
-              <div>
-                <h3>
-                  "Two-card combos"
-                <p class="muted small">
-                  "None in the deck."
         <section class="panel" id="decklist">
           <header class="panel-head compact">
             <div class="panel-head-text">
@@ -1474,17 +1470,20 @@
             <div class="panel-actions">
               <div aria-label="Which combos" class="segmented" role="tablist">
                 <button aria-selected="true" role="tab">
-                  "All "
-                  <span class="count">
-                    "7"
+                  <span>
+                    "All "
+                    <span class="count">
+                      "7"
                 <button aria-selected="false" role="tab">
-                  "In deck "
-                  <span class="count">
-                    "0"
+                  <span>
+                    "In deck "
+                    <span class="count">
+                      "0"
                 <button aria-selected="false" role="tab">
-                  "1 card away "
-                  <span class="count">
-                    "7"
+                  <span>
+                    "1 card away "
+                    <span class="count">
+                      "7"
           <ul class="combo-rows">
             <li class="combo-row away">
               <div class="combo-thumbs">
@@ -1519,7 +1518,7 @@
                         "Priest of Titania"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1376-2645/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite untap of creatures you control · Infinite mana creatures you control can produce · Infinite green mana">
                       "↗"
                   <li>
@@ -1531,7 +1530,7 @@
                         "Elvish Archdruid"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2645-3151/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite untap of creatures you control · Infinite mana creatures you control can produce · Infinite green mana">
                       "↗"
                   <li>
@@ -1543,7 +1542,7 @@
                         "Marwyn, the Nurturer"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2436-2645/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
                       "↗"
                   <li>
@@ -1555,7 +1554,7 @@
                         "Circle of Dreams Druid"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1526-2645/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
                       "↗"
                   <li>
@@ -1567,7 +1566,7 @@
                         "Wirewood Channeler"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1902-2645/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite colored mana · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite mana creatures you control can produce · Infinite untap of creatures you control">
                       "↗"
             <li class="combo-row away">
@@ -1603,7 +1602,7 @@
                         "Priest of Titania"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1376-2816/" rel="noreferrer" target="_blank" title="Infinite green mana · Infinitely large creature until end of turn · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
                       "↗"
                   <li>
@@ -1615,7 +1614,7 @@
                         "Elvish Archdruid"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2816-3151/" rel="noreferrer" target="_blank" title="Infinite green mana · Infinitely large creature until end of turn · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
                       "↗"
                   <li>
@@ -1627,7 +1626,7 @@
                         "Marwyn, the Nurturer"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2436-2816/" rel="noreferrer" target="_blank" title="Infinite green mana · Infinitely large creature until end of turn · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
                       "↗"
                   <li>
@@ -1639,7 +1638,7 @@
                         "Circle of Dreams Druid"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1526-2816/" rel="noreferrer" target="_blank" title="Infinite green mana · Infinitely large creature until end of turn · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
                       "↗"
                   <li>
@@ -1651,7 +1650,7 @@
                         "Wirewood Channeler"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1902-2816/" rel="noreferrer" target="_blank" title="Infinite colored mana · Infinitely large creature until end of turn · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
                       "↗"
             <li class="combo-row away">
@@ -1687,7 +1686,7 @@
                         "Priest of Titania"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1376-5200/" rel="noreferrer" target="_blank" title="Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
                       "↗"
                   <li>
@@ -1699,7 +1698,7 @@
                         "Elvish Archdruid"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/3151-5200/" rel="noreferrer" target="_blank" title="Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
                       "↗"
                   <li>
@@ -1711,7 +1710,7 @@
                         "Marwyn, the Nurturer"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2436-5200/" rel="noreferrer" target="_blank" title="Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
                       "↗"
                   <li>
@@ -1723,7 +1722,7 @@
                         "Circle of Dreams Druid"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1526-5200/" rel="noreferrer" target="_blank" title="Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
                       "↗"
                   <li>
@@ -1735,7 +1734,7 @@
                         "Wirewood Channeler"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1902-5200/" rel="noreferrer" target="_blank" title="Infinite colored mana · Infinite mana creatures you control can produce · Infinite untap of creatures you control">
                       "↗"
             <li class="combo-row away">
@@ -1776,7 +1775,7 @@
                         "Gaea's Cradle"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1399-2404-3814/" rel="noreferrer" target="_blank" title="Infinite mana lands you control can produce">
                       "↗"
                   <li>
@@ -1793,7 +1792,7 @@
                         "Growing Rites of Itlimoc // Itlimoc, Cradle of the Sun"
                     <span class="muted small">
                       " · Infinite mana"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1399-3814-4915/" rel="noreferrer" target="_blank" title="Infinite green mana · Infinite mana lands you control can produce · Infinite untap of lands you control">
                       "↗"
             <li class="combo-row away">
@@ -1825,7 +1824,7 @@
                     <span class="card-name ">
                       <a href="https://scryfall.com/card/ecl/229/high-perfect-morcant?utm_source=api" rel="noreferrer" target="_blank">
                         "High Perfect Morcant"
-                    " "
+                    " "
                     <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1084-7151/" rel="noreferrer" target="_blank" title="Near-infinite creature ETB · Near-infinite creature tokens · Near-infinite proliferate · Reduce any number of opposing creatures' toughness to 0 whenever an Elf enters under your control · Reduce the toughness of creatures opponents control to 0">
                       "↗"
           <button class="ghost small-btn">

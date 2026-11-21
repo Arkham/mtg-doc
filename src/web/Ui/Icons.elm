@@ -1,4 +1,4 @@
-module Ui.Icons exposing (back, chevronLeft, forward, lock, pause, play, restart, search, trash)
+module Ui.Icons exposing (back, chevronLeft, close, forward, lock, pause, play, restart, search, trash)
 
 import Html exposing (Html)
 import Html.Attributes
@@ -63,6 +63,13 @@ search =
         [ Svg.circle [ A.cx "11", A.cy "11", A.r "7" ] []
         , Svg.path [ A.d "m20 20-3.5-3.5" ] []
         ]
+
+
+{-| Drawn, not the ✕ character, which some system fonts set much smaller than others.
+-}
+close : Html msg
+close =
+    icon "2" [ Svg.path [ A.d "M6 6l12 12M18 6 6 18" ] [] ]
 
 
 chevronLeft : Html msg

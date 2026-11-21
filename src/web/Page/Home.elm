@@ -14,6 +14,7 @@ import Task
 import Types exposing (..)
 import Ui.Attr exposing (alt, class, href, placeholder, src, type_)
 import Ui.Bracket as Bracket
+import Ui.Icons as Icons
 import Ui.Mana as Mana
 import Ui.Style exposing (ariaSelected, aura)
 
@@ -577,7 +578,7 @@ dropzone env model =
                     (\i photo ->
                         figure [ stopPropagationOn "click" (D.succeed ( Ignore, True )) ]
                             [ img [ src photo.url, alt (File.name photo.file) ] []
-                            , button [ class "icon remove", attribute "aria-label" "Remove photo", onClick (RemovePhoto i) ] [ text "✕" ]
+                            , button [ class "icon remove", attribute "aria-label" "Remove photo", onClick (RemovePhoto i) ] [ Icons.close ]
                             ]
                     )
                     model.photos

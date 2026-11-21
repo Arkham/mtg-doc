@@ -614,8 +614,7 @@ panel config model =
     if not model.open then
         button [ class "chat-fab primary", onClick Open, attribute "aria-label" "Ask the doc about this deck" ]
             [ img [ class "doc-avatar", src "./icon-96.png", alt "", width 30, height 30 ] []
-            , text " Ask"
-            , span [ class "chat-fab-long" ] [ text " the doc" ]
+            , text "Ask the doc"
             ]
 
     else
@@ -653,7 +652,7 @@ panel config model =
                         , disabled model.confirmingClear
                         ]
                         [ Icons.trash ]
-                , button [ class "icon", attribute "aria-label" "Close chat", onClick Close ] [ text "✕" ]
+                , button [ class "icon", attribute "aria-label" "Close chat", onClick Close ] [ Icons.close ]
                 ]
             , if model.confirmingClear then
                 div [ class "chat-confirm", attribute "role" "alertdialog", attribute "aria-label" "Clear chat" ]

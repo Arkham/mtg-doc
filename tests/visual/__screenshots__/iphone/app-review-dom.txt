@@ -56,7 +56,8 @@
                             <img alt="{B}" height="14" src="/symbols/B.svg" width="14">
                             <img alt="{G}" height="14" src="/symbols/G.svg" width="14">
                       <button aria-label="Remove Lathril, Blade of the Elves" class="icon">
-                        "✕"
+                        <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                          <path d="M6 6l12 12M18 6 6 18">
                     <div class="commander-add">
                       <select .value="">
                         <option>
@@ -91,13 +92,15 @@
               <div class="list-toolbar">
                 <div class="segmented">
                   <button aria-selected="true">
-                    "All "
-                    <span class="count">
-                      "81"
+                    <span>
+                      "All "
+                      <span class="count">
+                        "81"
                   <button aria-selected="false">
-                    "Needs attention "
-                    <span class="count">
-                      "2"
+                    <span>
+                      "Needs attention "
+                      <span class="count">
+                        "2"
                 <input placeholder="Find a card" type="search" .value="">
               <datalist id="name-ac">
               <ul class="card-rows">

@@ -275,6 +275,7 @@ button.back svg {
   flex-wrap: nowrap;
 }
 .panel-head .count {
+  margin-left: 0.25em;
   font-size: 0.8em;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
@@ -361,20 +362,39 @@ button.back svg {
   gap: 16px;
   align-items: start;
 }
+/* The optimizer's settings share a row, the segmented control never narrower than its options. */
 .grid4 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 14px;
-  align-items: start;
+  align-items: flex-start;
   margin-top: 14px;
 }
-/* In the settings grid, a segmented control fills its field, its options sharing the width. */
+.grid4 > .field {
+  flex: 1 1 150px;
+}
+.grid4 > .field:has(> select) {
+  flex-basis: 220px;
+}
+.grid4 > .field:has(> .segmented) {
+  flex: 0 0 auto;
+}
+.grid4 > .field.checkbox {
+  flex-basis: 100%;
+}
 .grid4 .field .segmented {
   display: flex;
 }
 .grid4 .field .segmented button {
   flex: 1 0 auto;
-  padding-inline: 10px;
+  padding-inline: 12px;
+}
+@media (max-width: 520px) {
+  .grid4 > .field,
+  .grid4 > .field:has(> select),
+  .grid4 > .field:has(> .segmented) {
+    flex-basis: 100%;
+  }
 }
 
 .loading,
@@ -511,6 +531,39 @@ textarea {
   font: inherit;
   transition: border-color 0.15s;
 }
+/* WebKit draws native selects (ignoring height, border and background), so draw our own chevron. */
+select {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 34px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23868da3' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 11px center;
+  background-size: 16px;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+/* Steppers crowd short number fields, and phones never show them; arrow keys still step. */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Search fields' clear button, the same quiet circle in every browser. */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-left: 6px;
+  background: var(--muted);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0Zm-2.6 4.3-1.1 1.1L6.9 8l-2.6 2.6 1.1 1.1L8 9.1l2.6 2.6 1.1-1.1L9.1 8l2.6-2.6-1.1-1.1L8 6.9Z'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  cursor: pointer;
+}
 input::placeholder,
 textarea::placeholder {
   color: #5d647a;
@@ -573,7 +626,12 @@ input[type="checkbox"] {
   color: var(--text);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
+/* A label and its count are one phrase: never a count alone on a second line. */
+.segmented button > span:has(> .count) {
+  white-space: nowrap;
+}
 .segmented .count {
+  margin-left: 0.25em;
   font-size: 0.8em;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
@@ -641,6 +699,29 @@ details > summary {
 }
 details > summary::-webkit-details-marker {
   display: none;
+}
+/* A quiet expander: a drawn chevron that turns as it opens, the same in every font. */
+.ai-notes > summary,
+.excluded > summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ai-notes > summary::before,
+.excluded > summary::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin-left: 2px;
+  border-right: 1.5px solid var(--muted);
+  border-bottom: 1.5px solid var(--muted);
+  transform: rotate(-45deg);
+  transition: transform 0.2s;
+}
+.ai-notes[open] > summary::before,
+.excluded[open] > summary::before {
+  transform: translateY(-2px) rotate(45deg);
 }
 
 /* ---------- home ---------- */
@@ -1176,13 +1257,6 @@ textarea.decklist {
   color: var(--text-2);
   font-size: var(--fs-sm);
 }
-.ai-notes summary::before {
-  content: "▸ ";
-  color: var(--muted);
-}
-.ai-notes[open] summary::before {
-  content: "▾ ";
-}
 .ai-notes ul {
   margin: 8px 0 0;
   padding-left: 20px;
@@ -1299,6 +1373,7 @@ textarea.decklist {
 }
 .card-row .name {
   width: 100%;
+  text-overflow: ellipsis;
   background: transparent;
   border-color: transparent;
   padding-left: 6px;
@@ -1343,26 +1418,23 @@ textarea.decklist {
 }
 
 .disclosure > summary {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 2px 12px;
-  font-weight: 650;
   font-size: var(--fs-base);
 }
-.disclosure > summary::after {
-  content: "▾";
-  grid-row: 1;
-  grid-column: 2;
-  color: var(--muted);
-  transition: transform 0.2s;
-}
-.disclosure[open] > summary::after {
-  transform: rotate(180deg);
-}
 .disclosure > summary > span:nth-child(2) {
-  grid-column: 1 / -1;
   font-weight: 450;
+}
+/* On a phone a title and its summary stack, the chevron beside both, so neither breaks mid-phrase. */
+@media (max-width: 520px) {
+  details.disclosure > summary:has(> span + span) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2px 12px;
+    padding-block: 10px;
+  }
+  details.disclosure > summary:has(> span + span)::after {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+  }
 }
 
 .action-bar {
@@ -1883,9 +1955,11 @@ mtg-run-map {
   grid-template-areas: "label track dur";
   align-items: center;
   gap: var(--col-gap);
-  width: 100%;
+  /* Bleeds past the chart's edges, so a highlighted row's tint doesn't start at its label's first letter. */
+  width: calc(100% + 2 * var(--sp-2));
+  margin-inline: calc(-1 * var(--sp-2));
   min-height: 44px;
-  padding: 0;
+  padding: 0 var(--sp-2);
   border: 0;
   border-top: 1px solid var(--line);
   background: none;
@@ -2121,7 +2195,7 @@ mtg-run-map {
       "label dur"
       "track track";
     gap: 2px var(--sp-2);
-    padding: 7px 0 3px;
+    padding: 7px var(--sp-2) 3px;
   }
   .run-track {
     height: 20px;
@@ -2506,6 +2580,7 @@ button.hero-card:active:not(:disabled) {
   padding: 10px 12px;
   border-radius: 7px;
   display: flex;
+  align-items: baseline;
   justify-content: space-between;
   gap: 12px;
 }
@@ -3109,6 +3184,15 @@ td {
   padding: 8px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.045);
 }
+/* Text lines up with the heading above the table; the rules still run edge to edge. */
+th:first-child,
+td:first-child {
+  padding-left: 0;
+}
+th:last-child,
+td:last-child {
+  padding-right: 0;
+}
 table.data td:first-child {
   color: var(--text-2);
 }
@@ -3215,6 +3299,11 @@ table.data th:not(:first-child) {
 .combo-row.present {
   border-left-color: var(--ok);
 }
+/* One card to add, so its thumb's column is no wider than the thumb. */
+.combo-row.away {
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 14px;
+}
 .combo-thumbs {
   display: flex;
 }
@@ -3229,6 +3318,10 @@ table.data th:not(:first-child) {
   }
   .combo-row .card-thumb {
     width: 44px;
+  }
+  .combo-row.away {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 12px;
   }
   .combo-thumbs .card-name + .card-name {
     margin-left: -28px;
@@ -3269,15 +3362,22 @@ table.data th:not(:first-child) {
 .combo-partners li {
   padding: 2px 0;
 }
+/* Inline, after a no-break space, so the arrow never wraps onto a line of its own; the padding
+   still widens what a finger can hit. */
 .spellbook-link {
-  display: inline-block;
   padding: 6px 8px;
-  margin: -6px -4px;
+  margin: 0 -4px;
 }
 @media (max-width: 520px) {
   table.data th,
   table.data td {
     padding: 8px 5px;
+  }
+  table.data :is(th, td):first-child {
+    padding-left: 0;
+  }
+  table.data :is(th, td):last-child {
+    padding-right: 0;
   }
   table.data td:first-child {
     font-size: var(--fs-sm);
@@ -3610,6 +3710,12 @@ pre {
   padding: 8px 0;
   border-bottom: 1px solid var(--line);
 }
+.combo-speed-more {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 550;
+}
 .excluded {
   margin-top: 14px;
   border-top: 1px solid var(--line);
@@ -3617,13 +3723,6 @@ pre {
 }
 .excluded summary {
   color: var(--text-2);
-}
-.excluded summary::before {
-  content: "▸ ";
-  color: var(--muted);
-}
-.excluded[open] summary::before {
-  content: "▾ ";
 }
 .excluded ul {
   margin: 8px 0 0;
@@ -3797,7 +3896,10 @@ pre {
   flex-direction: column;
   line-height: 1.45;
 }
-.play-cards li > span {
+.play-cards li > .card-name {
+  font-weight: 600;
+}
+.play-cards li > span:not(.card-name) {
   color: var(--text-2);
   font-size: var(--fs-sm);
 }

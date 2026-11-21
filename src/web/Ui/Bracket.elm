@@ -3,6 +3,8 @@ module Ui.Bracket exposing (badge, names, panel)
 import Dict
 import Html exposing (Html, a, details, div, h2, h3, li, p, span, strong, summary, text, ul)
 import Html.Attributes exposing (attribute, style)
+import Html.Events exposing (preventDefaultOn)
+import Json.Decode as D
 import Types exposing (BracketAssessmentPosition(..), BracketReport, Tone(..))
 import Ui.Attr exposing (class, href, rel, target, title)
 import Ui.Card as Card
@@ -100,10 +102,11 @@ powerMeter power position =
 
 
 {-| The bracket a deck fits, its checks, Game Changers and two-card combos. `actions` go in the
-header, e.g. changing the target bracket.
+header, e.g. changing the target bracket; `toCombos` jumps to the report's combos section, which
+lists them all (none when the page has no such section).
 -}
-panel : Card.Ctx msg -> BracketReport -> Maybe (Html msg) -> Html msg
-panel ctx b actions =
+panel : Card.Ctx msg -> BracketReport -> { actions : Maybe (Html msg), toCombos : Maybe msg } -> Html msg
+panel ctx b { actions, toCombos } =
     let
         a_ =
             b.after
@@ -268,24 +271,31 @@ panel ctx b actions =
                             []
                        )
                 )
-            , div []
-                [ h3 [] [ text "Two-card combos" ]
-                , if List.isEmpty twoCard then
-                    p [ class "muted small" ] [ text "None in the deck." ]
+            , if List.isEmpty twoCard then
+                text ""
 
-                  else
-                    ul [ class "combo-speed" ]
+              else
+                let
+                    -- The ones most often assembled early matter most to the bracket; the combos section has the rest.
+                    shownTwoCard =
+                        twoCard
+                            |> List.sortBy (\c -> -(Maybe.withDefault -1 c.earlyPct))
+                            |> List.take 3
+                in
+                div []
+                    [ h3 [] [ text "Two-card combos" ]
+                    , ul [ class "combo-speed" ]
                         (List.map
                             (\c ->
                                 li []
                                     (span []
                                         (Card.list ctx " + " c.cards
-                                            ++ [ text " "
+                                            ++ [ text "\u{00A0}"
                                                , a
                                                     [ href c.url
                                                     , target "_blank"
                                                     , rel "noreferrer"
-                                                    , class "small"
+                                                    , class "small spellbook-link"
                                                     , attribute "aria-label" "View combo on Commander Spellbook"
                                                     ]
                                                     [ text "↗" ]
@@ -312,9 +322,23 @@ panel ctx b actions =
                                            )
                                     )
                             )
-                            twoCard
+                            shownTwoCard
                         )
-                ]
+                    , case toCombos of
+                        Just jump ->
+                            a [ class "small combo-speed-more", href "#combos", preventDefaultOn "click" (D.succeed ( jump, True )) ]
+                                [ text
+                                    (if List.length twoCard > List.length shownTwoCard then
+                                        "See all " ++ String.fromInt (List.length twoCard) ++ " in Combos ↓"
+
+                                     else
+                                        "See them in Combos ↓"
+                                    )
+                                ]
+
+                        Nothing ->
+                            text ""
+                    ]
             ]
         , if List.isEmpty b.excluded then
             text ""

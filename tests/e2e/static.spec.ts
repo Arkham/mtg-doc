@@ -351,14 +351,16 @@ test.describe("static site", () => {
     const nav = page.locator(".section-nav");
     const combos = page.locator("#combos");
     const top = () => combos.evaluate((el) => el.getBoundingClientRect().top);
-    // The jump scrolls smoothly: wait for it to land.
+    const margin = await combos.evaluate((el) => parseFloat(getComputedStyle(el).scrollMarginTop));
+    // The jump scrolls smoothly, and may start a few frames later: wait until it has landed, under
+    // the sticky bars and still.
     await nav.getByRole("button", { name: "Combos" }).click();
     let at = NaN;
     await expect
       .poll(async () => {
         const was = at;
         at = await top();
-        return Math.abs(at - was) < 0.5;
+        return Math.abs(at - was) < 0.5 && Math.abs(at - margin) <= 2;
       })
       .toBe(true);
     const toggle = page.getByRole("tablist", { name: "Which deck" });
@@ -428,6 +430,37 @@ test.describe("static site", () => {
     await combos.getByRole("tab", { name: /1 card away/ }).click();
     await expect(present).toHaveCount(0);
     await expect(away.first()).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+  });
+
+  test("the bracket shows the top three two-card combos, links to the rest, and none when there are none", async ({
+    page,
+  }) => {
+    await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/optimized/`);
+    const bracket = page.locator("#bracket");
+    await expect(bracket.locator(".combo-speed li")).toHaveCount(3);
+    await bracket.getByRole("link", { name: /See all \d+ in Combos/ }).click();
+    await expect(page.locator("#combos")).toBeInViewport();
+    await expect(page.locator(".section-nav button.active")).toHaveText("Combos");
+    expect(page.url()).not.toContain("#");
+    // The deck as submitted has none: no heading over an empty list.
+    await page
+      .getByRole("tablist", { name: "Which deck" })
+      .getByRole("tab", { name: "Your deck" })
+      .click();
+    await expect(bracket.getByRole("heading", { name: "Two-card combos" })).toHaveCount(0);
+  });
+
+  test("a tab's count stays on its label's line, even with wider fonts", async ({ page }) => {
+    await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/`);
+    await expect(page.locator("#combos")).toBeAttached();
+    // Linux and larger text settings render wider than macOS; Verdana stands in for them.
+    await page.addStyleTag({ content: "* { font-family: Verdana, sans-serif !important; }" });
+    const lines = await page
+      .locator(".segmented button > span:has(> .count)")
+      .evaluateAll((spans) => spans.map((s) => s.getClientRects().length));
+    expect(lines.length).toBeGreaterThan(0);
+    expect(lines.every((n) => n === 1)).toBe(true);
     await expectNoHorizontalOverflow(page);
   });
 

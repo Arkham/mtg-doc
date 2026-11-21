@@ -82,6 +82,8 @@ type Side = "below" | "above" | "right" | "left";
 
 interface Layout {
   width: number;
+  /** The labels' font size (px). */
+  labelPx: number;
   /** Where each task's label goes, so labels don't run into each other. */
   labels: Map<string, Side>;
   direct: Map<string, string[]>;
@@ -93,6 +95,9 @@ interface Layout {
 
 /** A task's size: bigger the longer it ran. */
 const nodeRadius = (ranMs: number) => 6 + Math.min(13, Math.sqrt(Math.max(0, ranMs) / 1000) * 3.2);
+
+/** Smaller where columns are close, so neighbouring labels on the same side keep apart. */
+const labelPx = (width: number) => (width < 640 ? 11 : width < 960 ? 11.5 : 12.5);
 
 const clamp = (v: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
 const ease = (p: number) => 1 - (1 - p) ** 3;
@@ -168,7 +173,7 @@ function layout(
   }
   for (const t of tasks) {
     const at = nodes.get(t.name)!;
-    const w = measure(taskLabel(t.name)) / 2 + 4;
+    const w = measure(taskLabel(t.name)) / 2 + 7;
     const r = nodeRadius((t.end ?? 0) - (t.start ?? 0)) + 4;
     const sides: [Side, Box][] = [
       ["below", { x0: at.x - w, x1: at.x + w, y0: at.y + r, y1: at.y + r + 35 }],
@@ -191,6 +196,7 @@ function layout(
   );
   return {
     width,
+    labelPx: labelPx(width),
     labels,
     direct: directNeeds(tasks),
     height: fit ?? stationY + (vertical ? 86 : 72),
@@ -284,7 +290,7 @@ export class RunMap extends HTMLElement {
     // The page says (`--map-fit: 1`) when the map should fill the height it's given.
     const fits = getComputedStyle(this).getPropertyValue("--map-fit").trim() === "1";
     const fit = fits && this.clientHeight > 200 ? this.clientHeight : null;
-    this.#ctx.font = `500 ${width < 640 ? 11 : 12.5}px ${FONT}`;
+    this.#ctx.font = `500 ${labelPx(width)}px ${FONT}`;
     this.#layout = layout(
       this.#trace.tasks,
       width,
@@ -852,7 +858,7 @@ export class RunMap extends HTMLElement {
     const lines: [string, string, string][] = [
       [
         taskLabel(task.name),
-        `${state === "running" ? 600 : 500} ${l.vertical ? 11 : 12.5}px ${FONT}`,
+        `${state === "running" ? 600 : 500} ${l.labelPx}px ${FONT}`,
         state === "waiting" ? "#868da3" : state === "running" ? "#fff" : "#b9bfd0",
       ],
     ];

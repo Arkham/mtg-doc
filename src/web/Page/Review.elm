@@ -805,9 +805,9 @@ view env config model =
                     , div [ class "list-toolbar" ]
                         [ div [ class "segmented" ]
                             [ button [ ariaSelected (model.view == All), onClick (SetView All) ]
-                                [ text "All ", span [ class "count" ] [ text (String.fromInt (List.length rows)) ] ]
+                                [ span [] [ text "All ", span [ class "count" ] [ text (String.fromInt (List.length rows)) ] ] ]
                             , button [ ariaSelected (model.view == Issues), onClick (SetView Issues) ]
-                                [ text "Needs attention ", span [ class "count" ] [ text (String.fromInt (List.length issues)) ] ]
+                                [ span [] [ text "Needs attention ", span [ class "count" ] [ text (String.fromInt (List.length issues)) ] ] ]
                             ]
                         , input [ type_ "search", placeholder "Find a card", value model.search, Ui.Attr.valueAttr model.search, onInput SetSearch ] []
                         ]
@@ -929,7 +929,7 @@ commanderField env ctx model =
                             [ Card.nameWith ctx { name = c.name, card = Just { image = c.image, scryfallUri = c.scryfallUri }, label = Nothing, class = Nothing, key = Nothing }
                             , Mana.cost env.base 14 (Just c.manaCost)
                             ]
-                        , button [ class "icon", attribute "aria-label" ("Remove " ++ c.name), onClick (RemoveCommander c.name) ] [ text "✕" ]
+                        , button [ class "icon", attribute "aria-label" ("Remove " ++ c.name), onClick (RemoveCommander c.name) ] [ Icons.close ]
                         ]
                 )
                 (commanderCards model)

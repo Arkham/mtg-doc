@@ -7,17 +7,20 @@
   <div class="panel-actions">
     <div aria-label="Which combos" class="segmented" role="tablist">
       <button aria-selected="false" role="tab">
-        "All "
-        <span class="count">
-          "17"
+        <span>
+          "All "
+          <span class="count">
+            "17"
       <button aria-selected="false" role="tab">
-        "In deck "
-        <span class="count">
-          "5"
+        <span>
+          "In deck "
+          <span class="count">
+            "5"
       <button aria-selected="true" role="tab">
-        "1 card away "
-        <span class="count">
-          "12"
+        <span>
+          "1 card away "
+          <span class="count">
+            "12"
 <ul class="combo-rows">
   <li class="combo-row away">
     <div class="combo-thumbs">
@@ -54,7 +57,7 @@
               "Priest of Titania"
           <span class="muted small">
             " · Infinite mana"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1376-2816/" rel="noreferrer" target="_blank" title="Infinite green mana · Infinitely large creature until end of turn · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
             "↗"
         <li>
@@ -66,7 +69,7 @@
               "Elvish Archdruid"
           <span class="muted small">
             " · Infinite mana"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2816-3151/" rel="noreferrer" target="_blank" title="Infinite green mana · Infinitely large creature until end of turn · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
             "↗"
         <li>
@@ -78,7 +81,7 @@
               "Marwyn, the Nurturer"
           <span class="muted small">
             " · Infinite mana"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2436-2816/" rel="noreferrer" target="_blank" title="Infinite green mana · Infinitely large creature until end of turn · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
             "↗"
         <li>
@@ -90,7 +93,7 @@
               "Circle of Dreams Druid"
           <span class="muted small">
             " · Infinite mana"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1526-2816/" rel="noreferrer" target="_blank" title="Infinite green mana · Infinitely large creature until end of turn · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
             "↗"
         <li>
@@ -102,7 +105,7 @@
               "Wirewood Channeler"
           <span class="muted small">
             " · Infinite mana"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1902-2816/" rel="noreferrer" target="_blank" title="Infinite colored mana · Infinitely large creature until end of turn · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
             "↗"
   <li class="combo-row away">
@@ -138,7 +141,7 @@
               "Priest of Titania"
           <span class="muted small">
             " · Infinite mana"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1376-5200/" rel="noreferrer" target="_blank" title="Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
             "↗"
         <li>
@@ -150,7 +153,7 @@
               "Elvish Archdruid"
           <span class="muted small">
             " · Infinite mana"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/3151-5200/" rel="noreferrer" target="_blank" title="Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
             "↗"
         <li>
@@ -162,7 +165,7 @@
               "Marwyn, the Nurturer"
           <span class="muted small">
             " · Infinite mana"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2436-5200/" rel="noreferrer" target="_blank" title="Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
             "↗"
         <li>
@@ -174,7 +177,7 @@
               "Circle of Dreams Druid"
           <span class="muted small">
             " · Infinite mana"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1526-5200/" rel="noreferrer" target="_blank" title="Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
             "↗"
   <li class="combo-row away">
@@ -220,7 +223,7 @@
               "Llanowar Elves"
           <span class="muted small">
             " · Infinite mana"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/215-1526-1627-1909/" rel="noreferrer" target="_blank" title="Infinite blinking of some creatures · Infinite green mana">
             "↗"
         <li>
@@ -242,7 +245,7 @@
               "Elvish Mystic"
           <span class="muted small">
             " · Infinite mana"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/215-1526-1909-4852/" rel="noreferrer" target="_blank" title="Infinite blinking of some creatures · Infinite green mana">
             "↗"
   <li class="combo-row away">
@@ -274,7 +277,7 @@
           <span class="card-name ">
             <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
               "Staff of Domination"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/527-2645/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite colored mana · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite mana creatures you control can produce · Infinite untap of creatures you control">
             "↗"
   <li class="combo-row away">
@@ -306,7 +309,7 @@
           <span class="card-name ">
             <a href="https://scryfall.com/card/ecl/229/high-perfect-morcant?utm_source=api" rel="noreferrer" target="_blank">
               "High Perfect Morcant"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1084-7151/" rel="noreferrer" target="_blank" title="Near-infinite creature ETB · Near-infinite creature tokens · Near-infinite proliferate · Reduce any number of opposing creatures' toughness to 0 whenever an Elf enters under your control · Reduce the toughness of creatures opponents control to 0">
             "↗"
   <li class="combo-row away">
@@ -338,7 +341,7 @@
           <span class="card-name ">
             <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
               "Staff of Domination"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2645-5168/" rel="noreferrer" target="_blank" title="Infinite lifegain triggers · Infinite lifegain · Infinite card draw · Infinite untap of creatures you control · Infinite draw triggers · Infinite mana creatures you control can produce · Infinite colored mana">
             "↗"
   <li class="combo-row away">
@@ -370,7 +373,7 @@
           <span class="card-name ">
             <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
               "Staff of Domination"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/578-2645/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite colorless mana · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite untap of creatures you control · Infinite mana creatures you control can produce">
             "↗"
   <li class="combo-row away">
@@ -402,7 +405,7 @@
           <span class="card-name ">
             <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
               "Staff of Domination"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2645-3291/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
             "↗"
   <li class="combo-row away">
@@ -434,7 +437,7 @@
           <span class="card-name ">
             <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
               "Staff of Domination"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/81-2645/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite colored mana · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite mana creatures you control can produce · Infinite untap of creatures you control">
             "↗"
   <li class="combo-row away">
@@ -466,7 +469,7 @@
           <span class="card-name ">
             <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
               "Staff of Domination"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/1597-2645/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite green mana">
             "↗"
   <li class="combo-row away">
@@ -503,7 +506,7 @@
           <span class="card-name ">
             <a href="https://scryfall.com/card/trc/499/sol-ring?utm_source=api" rel="noreferrer" target="_blank">
               "Sol Ring"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/132-2645-5034/" rel="noreferrer" target="_blank" title="Infinite card draw · Infinite draw triggers · Infinite lifegain · Infinite lifegain triggers · Infinite mana creatures you control can produce · Infinite untap of creatures you control · Infinite colorless mana">
             "↗"
   <li class="combo-row away">
@@ -535,7 +538,7 @@
           <span class="card-name ">
             <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
               "Staff of Domination"
-          " "
+          " "
           <a aria-label="View combo on Commander Spellbook" class="small spellbook-link" href="https://commanderspellbook.com/combo/2645-3717/" rel="noreferrer" target="_blank" title="Infinite lifegain triggers · Infinite lifegain · Infinite card draw · Infinite untap of creatures you control · Infinite draw triggers · Infinite mana creatures you control can produce · Infinite green mana">
             "↗"
 <button class="ghost small-btn">

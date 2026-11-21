@@ -139,7 +139,7 @@ type Msg
     | ExportDone
     | Activate String
     | ZoomCommander Card
-    | ScrollToBracket
+    | JumpTo String
     | ChatMsg Chat.Msg
     | CardMsg Card.Msg
     | NavigateTo String
@@ -509,8 +509,8 @@ update env msg model =
                 Nothing ->
                     none model
 
-        ScrollToBracket ->
-            ( model, Cmd.none, Just (ScrollTo "bracket") )
+        JumpTo section ->
+            ( model, Cmd.none, Just (ScrollTo section) )
 
         ChatMsg m ->
             let
@@ -1722,7 +1722,7 @@ decklist env ctx model cards compare swaps =
                                     [ text "Show decklist" ]
 
                                  else
-                                    [ text "Show swaps ", span [ class "count" ] [ text (String.fromInt count) ] ]
+                                    [ span [] [ text "Show swaps ", span [ class "count" ] [ text (String.fromInt count) ] ] ]
                                 )
                             ]
                         )
@@ -2112,7 +2112,7 @@ combos ctx model r =
                     (List.map
                         (\( f, label, n ) ->
                             button [ attribute "role" "tab", ariaSelected (model.comboFilter == f), onClick (SetComboFilter f) ]
-                                [ text (label ++ " "), span [ class "count" ] [ text (String.fromInt n) ] ]
+                                [ span [] [ text (label ++ " "), span [ class "count" ] [ text (String.fromInt n) ] ] ]
                         )
                         tabs
                     )
@@ -2126,7 +2126,7 @@ combos ctx model r =
                 , li [ class "combo-row present" ]
                     [ comboThumbs ctx c.cards
                     , div [ class "combo-body" ]
-                        [ div [ class "combo-title" ] (Card.list ctx " + " c.cards ++ [ text " ", spellbookLink c ])
+                        [ div [ class "combo-title" ] (Card.list ctx " + " c.cards ++ [ text "\u{00A0}", spellbookLink c ])
                         , div [ class "combo-tags" ]
                             [ span [ class "badge new" ] [ text "✓ In your deck" ]
                             , span [ class "outcome" ] [ text (Combos.outcome c.produces) ]
@@ -2176,7 +2176,7 @@ combos ctx model r =
                                             ([ span [ class "muted small" ] [ text "with" ], text " " ]
                                                 ++ Card.list ctx " + " entry.partners
                                                 ++ [ when (List.length g.combos > 1) (span [ class "muted small" ] [ text (" · " ++ entry.outcome) ])
-                                                   , text " "
+                                                   , text "\u{00A0}"
                                                    , spellbookLink entry.combo
                                                    ]
                                             )
@@ -2306,14 +2306,16 @@ viewToggle env slug v swaps =
     div [ class "segmented view-toggle", attribute "role" "tablist", attribute "aria-label" "Which deck" ]
         [ button [ attribute "role" "tab", ariaSelected (v == Current), onClick (NavigateTo (Route.deckHref env.isStatic slug Current)) ] [ text "Your deck" ]
         , button [ attribute "role" "tab", ariaSelected (v == Optimized), onClick (NavigateTo (Route.deckHref env.isStatic slug Optimized)) ]
-            (text "Optimized "
-                :: (if swaps > 0 then
-                        [ span [ class "count" ] [ text (String.fromInt swaps) ] ]
+            [ span []
+                (text "Optimized "
+                    :: (if swaps > 0 then
+                            [ span [ class "count" ] [ text (String.fromInt swaps) ] ]
 
-                    else
-                        []
-                   )
-            )
+                        else
+                            []
+                       )
+                )
+            ]
         ]
 
 
@@ -2592,7 +2594,7 @@ viewReport env requested model detail full =
                             a
                                 [ class "bracket-link"
                                 , href "#bracket"
-                                , preventDefaultOn "click" (D.succeed ( ScrollToBracket, True ))
+                                , preventDefaultOn "click" (D.succeed ( JumpTo "bracket", True ))
                                 ]
                                 [ Bracket.badge b.after.bracket "sm"
                                 , text ("Bracket " ++ String.fromFloat b.after.bracket ++ " · " ++ b.name)
@@ -2799,12 +2801,19 @@ viewReport env requested model detail full =
                 section [ class "panel", id "bracket" ]
                     [ Bracket.panel ctx
                         b
-                        (if env.isStatic then
-                            Nothing
+                        { actions =
+                            if env.isStatic then
+                                Nothing
 
-                         else
-                            Just (targetBracket model b.target)
-                        )
+                            else
+                                Just (targetBracket model b.target)
+                        , toCombos =
+                            if hasCombos then
+                                Just (JumpTo "combos")
+
+                            else
+                                Nothing
+                        }
                     ]
             )
         , maybeHtml r.decklist

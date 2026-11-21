@@ -35,6 +35,16 @@ test.describe("local app", () => {
     await page.getByLabel("Target bracket").selectOption("3");
     await page.getByLabel("Deck budget ($)").fill("300");
     await expect(page.locator(".disclosure summary")).toContainText("deck ≤ $300");
+    // The settings share a row, but the Push control's options never spill out of its box.
+    const spill = await page.locator(".grid4 .segmented").evaluate((el) => {
+      const box = el.getBoundingClientRect();
+      return Math.max(
+        ...[...el.querySelectorAll("button")].map(
+          (b) => b.getBoundingClientRect().right - box.right,
+        ),
+      );
+    });
+    expect(spill).toBeLessThanOrEqual(0);
 
     await page.getByRole("button", { name: "Save & optimize" }).click();
     await expect(page.getByRole("heading", { name: "Optimizing your deck" })).toBeVisible();
