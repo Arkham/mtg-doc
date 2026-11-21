@@ -10,7 +10,7 @@ import {
   ROUTE_CHANGE,
 } from "./nav.ts";
 import { IS_STATIC } from "./static.ts";
-import { captureAnchor, restoreAnchor } from "./scroll-anchor.ts";
+import { captureAnchor, restoreAnchor, whenDrawn } from "./scroll-anchor.ts";
 import type { DeckSummary } from "../shared/types.ts";
 
 interface ElmApp {
@@ -86,20 +86,68 @@ const onRoute = () => {
   // The page puts the section back itself: the browser's own scroll anchoring (Safari has it since
   // 27) would move it first, to some other element, and iOS can paint that in between.
   const html = document.documentElement;
-  if (anchor) html.style.overflowAnchor = "none";
+  if (anchor) {
+    html.style.overflowAnchor = "none";
+    // And back on even if the other view never draws.
+    setTimeout(() => html.style.removeProperty("overflow-anchor"), 3000);
+  }
   route = next;
   app.ports.routeChanged.send(next);
-  // Elm draws in the next animation frame; this one runs right after it, before the paint.
-  requestAnimationFrame(() => {
-    if (!sameDeck) window.scrollTo(0, 0);
-    else if (anchor) restoreAnchor(anchor);
-    // Anchoring back on once the switch is painted, for content that loads in later.
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => html.style.removeProperty("overflow-anchor")),
-    );
-  });
+  if (!sameDeck) {
+    // Elm draws in the next animation frame; this one runs right after it, before the paint.
+    requestAnimationFrame(() => window.scrollTo(0, 0));
+    return;
+  }
+  if (!anchor) return;
+  // Right after Elm draws the other view, before it's painted, whatever frame that is.
+  const view = next.page === "deck" ? next.view : null;
+  whenDrawn(
+    () => shownView() === view,
+    () => {
+      restoreAnchor(anchor);
+      // Anchoring back on once the switch is painted, for content that loads in later.
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => html.style.removeProperty("overflow-anchor")),
+      );
+    },
+  );
 };
 for (const ev of ["hashchange", "popstate", ROUTE_CHANGE]) window.addEventListener(ev, onRoute);
+
+/** Which of a deck's views the page shows: its "Which deck" switch says. */
+function shownView(): string | null {
+  const tab = document.querySelector(
+    '[role="tablist"][aria-label="Which deck"] [aria-selected="true"]',
+  );
+  if (!tab) return null;
+  return tab.textContent?.trim().startsWith("Optimized") ? "optimized" : "current";
+}
+
+// After a reload (or coming back to the page), the page puts the reader back where they were
+// itself, the moment the report is drawn: the browser would restore the scroll while the report
+// is still loading, paint the top of it, then jump down.
+history.scrollRestoration = "manual";
+const scrollKey = () => `mtg-doc:scroll:${location.href}`;
+addEventListener("pagehide", () => {
+  sessionStorage.setItem(scrollKey(), JSON.stringify({ anchor: captureAnchor(), y: scrollY }));
+});
+const entry = performance.getEntriesByType("navigation")[0] as
+  PerformanceNavigationTiming | undefined;
+const saved = sessionStorage.getItem(scrollKey());
+if (saved && (entry?.type === "reload" || entry?.type === "back_forward")) {
+  const { anchor, y } = JSON.parse(saved) as {
+    anchor: ReturnType<typeof captureAnchor>;
+    y: number;
+  };
+  whenDrawn(
+    () =>
+      anchor
+        ? anchor.ids.some((id) => document.getElementById(id))
+        : document.documentElement.scrollHeight >= y + innerHeight,
+    () => (anchor ? restoreAnchor(anchor) : window.scrollTo({ top: y, behavior: "instant" })),
+    10_000,
+  );
+}
 
 // Links between the static site's pages switch views in place instead of reloading.
 document.addEventListener("click", (e) => {

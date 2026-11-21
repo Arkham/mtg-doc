@@ -374,6 +374,41 @@ test.describe("static site", () => {
     }
   });
 
+  test("a reload comes back to the section being read, without showing the top first", async ({
+    page,
+  }) => {
+    await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/`);
+    await page.locator("#combos").evaluate((el) => {
+      const margin = parseFloat(getComputedStyle(el).scrollMarginTop);
+      window.scrollTo({
+        top: el.getBoundingClientRect().top + scrollY - margin + 40,
+        behavior: "instant",
+      });
+    });
+    const at = await page.locator("#combos").evaluate((el) => el.getBoundingClientRect().top);
+    // Every frame of the reloaded page, from its first: whether the top of the report (the hero,
+    // with the commander's art) is on screen.
+    await page.addInitScript(() => {
+      const w = window as unknown as { heroShown: boolean; frames: number };
+      w.heroShown = false;
+      w.frames = 0;
+      const look = () => {
+        const hero = document.querySelector(".hero")?.getBoundingClientRect();
+        if (hero && hero.bottom > 0 && hero.top < innerHeight) w.heroShown = true;
+        if (++w.frames < 180) requestAnimationFrame(look);
+      };
+      requestAnimationFrame(look);
+    });
+    await page.reload();
+    await expect(page.locator("#combos")).toBeAttached();
+    await expect
+      .poll(() => page.locator("#combos").evaluate((el) => el.getBoundingClientRect().top))
+      .toBeCloseTo(at, 0);
+    expect(await page.evaluate(() => (window as unknown as { heroShown: boolean }).heroShown)).toBe(
+      false,
+    );
+  });
+
   test("combos list shows those in the deck and one card away together", async ({ page }) => {
     await page.goto(`${STATIC_URL}#/deck/${OPTIMIZED}`);
     const combos = page.locator("#combos");

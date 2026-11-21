@@ -42,3 +42,27 @@ export function restoreAnchor(anchor: ScrollAnchor) {
   // no longer counts as the one being read.
   window.scrollTo({ top: Math.round(rect.top + window.scrollY - top), behavior: "instant" });
 }
+
+/**
+ * Runs `act` as soon as `ready` holds: now, or right after the change to the page that makes it
+ * so, before the browser paints it (a MutationObserver's callback runs once Elm has patched the
+ * page, whichever frame that is). Gives up after `timeoutMs`.
+ */
+export function whenDrawn(ready: () => boolean, act: () => void, timeoutMs = 3000) {
+  if (ready()) return act();
+  const observer = new MutationObserver(() => {
+    if (!ready()) return;
+    stop();
+    act();
+  });
+  const timer = setTimeout(() => stop(), timeoutMs);
+  const stop = () => {
+    observer.disconnect();
+    clearTimeout(timer);
+  };
+  observer.observe(document.getElementById("root") ?? document.body, {
+    subtree: true,
+    childList: true,
+    attributes: true,
+  });
+}
