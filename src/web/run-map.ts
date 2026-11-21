@@ -50,6 +50,17 @@ interface Point {
   y: number;
 }
 
+/** The point `d` along a path of `points` (with `lengths`, how far along each one is). */
+function along(points: Point[], lengths: number[], d: number): { i: number; p: Point } {
+  const i = lengths.findIndex((x) => x >= d);
+  if (i <= 0)
+    return { i: i === 0 ? 0 : points.length - 1, p: points[i === 0 ? 0 : points.length - 1] };
+  const f = (d - lengths[i - 1]) / (lengths[i] - lengths[i - 1] || 1);
+  const a = points[i - 1];
+  const b = points[i];
+  return { i, p: { x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f } };
+}
+
 /** The golden path's finale at a moment (see RunMap's #race). */
 interface Race {
   /** The path, as points along it, and how far along it each one is. */
@@ -63,6 +74,8 @@ interface Race {
   end: Point;
   /** How long since the spark reached the end (ms; negative before). */
   burst: number;
+  /** How long since the run ended (ms). */
+  since: number;
 }
 
 type Side = "below" | "above" | "right" | "left";
@@ -217,6 +230,7 @@ export class RunMap extends HTMLElement {
   // Following the run down a map taller than the screen (see #follow).
   #followedAt = -1;
   #draggedAt = -Infinity;
+  #finale: Race | null = null;
   #dragged = () => {
     this.#draggedAt = performance.now();
   };
@@ -304,8 +318,9 @@ export class RunMap extends HTMLElement {
   /**
    * On a map taller than the screen (a phone's, top to bottom), keeps the step started last (the
    * one the pill names) in view while the run moves: a little above the middle, clear of the player.
-   * A drag or a wheel takes over; a moment after it stops, following picks up again from wherever
-   * the run has got to.
+   * Through the finale it goes up to the start of the golden path, rides down it with the spark and
+   * stays on the burst. A drag or a wheel takes over; a moment after it stops, following picks up
+   * again from wherever the run has got to.
    */
   #follow(t: number) {
     const l = this.#layout!;
@@ -317,10 +332,22 @@ export class RunMap extends HTMLElement {
     const latest = this.#trace!.tasks.filter((task) => stateAt(task, t) === "running").sort(
       (a, b) => b.start! - a.start!,
     )[0];
-    if (!latest) return;
-    const off = box.top + l.nodes.get(latest.name)!.y - innerHeight * 0.4;
-    // Eased, a little each frame, so the page glides; a whole pixel at least, or WebKit won't move.
-    if (Math.abs(off) > 1) window.scrollBy(0, Math.sign(off) * Math.max(1, Math.abs(off) * 0.15));
+    const race = this.#finale;
+    // The spark's on its way: ride with it, not after it, or it gets away.
+    const riding = !!race && race.head > 0 && !race.done;
+    const y = latest
+      ? l.nodes.get(latest.name)!.y
+      : race
+        ? race.done
+          ? race.end.y
+          : along(race.points, race.lengths, race.head).p.y
+        : null;
+    if (y === null) return;
+    const off = box.top + y - innerHeight * 0.4;
+    if (Math.abs(off) <= 1) return;
+    // Otherwise eased, a little each frame, so the page glides; a whole pixel at least, or WebKit
+    // won't move.
+    window.scrollBy(0, riding ? off : Math.sign(off) * Math.max(1, Math.abs(off) * 0.15));
   }
 
   #point(e: PointerEvent): Point {
@@ -356,6 +383,7 @@ export class RunMap extends HTMLElement {
     // Past the end, once the last comets are home, everything else fades for the golden path.
     const outro = this.#running ? 0 : clamp((t - trace.elapsed - OUTRO_FROM_MS) / OUTRO_FADE_MS);
     const race = this.#running ? null : this.#race(criticalChain(trace.tasks), t - trace.elapsed);
+    this.#finale = race && race.since >= 0 ? race : null;
 
     ctx.clearRect(0, 0, l.width, l.height);
     this.#backdrop(l);
@@ -458,6 +486,7 @@ export class RunMap extends HTMLElement {
       popped: reached,
       end: l.nodes.get(chain.at(-1)!)!,
       burst: since - RACE_FROM_MS - RACE_MS,
+      since,
     };
   }
 
@@ -466,15 +495,7 @@ export class RunMap extends HTMLElement {
     const ctx = this.#ctx;
     const { points, lengths, head } = race;
     if (head <= 0 || points.length < 2) return;
-    const upTo = (d: number) => {
-      const i = lengths.findIndex((x) => x >= d);
-      if (i <= 0)
-        return { i: i === 0 ? 0 : points.length - 1, p: points[i === 0 ? 0 : points.length - 1] };
-      const f = (d - lengths[i - 1]) / (lengths[i] - lengths[i - 1] || 1);
-      const a = points[i - 1];
-      const b = points[i];
-      return { i, p: { x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f } };
-    };
+    const upTo = (d: number) => along(points, lengths, d);
     const tip = upTo(head);
     ctx.save();
     ctx.strokeStyle = GOLD;

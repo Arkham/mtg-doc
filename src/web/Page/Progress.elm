@@ -30,7 +30,7 @@ import Ui.Icons as Icons
 -}
 lingerMs : Float
 lingerMs =
-    4000
+    5000
 
 
 {-| How long past its end a run plays, for the map's finale: its last comets come home, all
@@ -189,8 +189,16 @@ update msg model =
                                         -- A frame after the tab was away doesn't jump the replay ahead.
                                         dt =
                                             clamp 0 100 (now - model.now)
+
+                                        -- The finale at its own pace, whatever the replay's.
+                                        speed =
+                                            if pb.at >= runLength model - outroMs then
+                                                1
+
+                                            else
+                                                pb.speed
                                     in
-                                    seekTo model { pb | at = pb.at + dt * pb.speed }
+                                    seekTo model { pb | at = pb.at + dt * speed }
 
                                 else
                                     pb

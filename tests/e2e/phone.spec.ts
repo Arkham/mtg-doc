@@ -32,5 +32,23 @@ test.describe("local app on a phone", () => {
     expect(await scrolled()).toBeLessThan(50);
     // ...then it picks up again, from wherever the run has got to.
     await expect.poll(scrolled, { timeout: 10_000 }).toBeGreaterThan(300);
+
+    // Through the finale: up to where the golden path starts, then down it with the spark, to
+    // the burst at its end.
+    await page.locator(".run-scrub input").evaluate((el: HTMLInputElement) => {
+      el.value = String(Number(el.max) - 1500);
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    const path: number[] = [];
+    for (let i = 0; i < 50; i++) {
+      path.push(await scrolled());
+      await page.waitForTimeout(100);
+    }
+    await expect(page.locator(".run-pill")).toHaveText("GG!");
+    const top = Math.min(...path);
+    const trail = path.join(" ");
+    expect(top, trail).toBeLessThan(path[0] - 300);
+    expect(path.at(-1)!, trail).toBeGreaterThan(top + 300);
+    expect(path.indexOf(top), trail).toBeLessThan(path.length - 5);
   });
 });
