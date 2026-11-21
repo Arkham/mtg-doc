@@ -9,7 +9,7 @@ const STATIC_PORT = 4184;
 const APP_PORT = 5219;
 
 export default defineConfig({
-  testDir: "test/visual",
+  testDir: "tests/visual",
   fullyParallel: true,
   reporter: "list",
   timeout: 90_000,
@@ -22,7 +22,7 @@ export default defineConfig({
       maxDiffPixelRatio: 0.002,
       animations: "disabled",
       caret: "hide",
-      stylePath: "test/visual/stable.css",
+      stylePath: "tests/visual/stable.css",
     },
   },
   use: {
@@ -37,7 +37,7 @@ export default defineConfig({
   ],
   webServer: [
     {
-      command: "node --import tsx test/support/serve-static.ts",
+      command: "node --import tsx tests/support/serve-static.ts",
       url: `http://127.0.0.1:${STATIC_PORT}/mtg-doc/`,
       env: { FIXTURES_FATAL: "1", STATIC_PORT: String(STATIC_PORT), VISUAL: "1" },
       timeout: 180_000,
@@ -45,7 +45,7 @@ export default defineConfig({
     },
     {
       command:
-        "node --import tsx scripts/elm.ts --to elm-stuff/builds/test/main.js && node --import tsx test/support/serve-app.ts",
+        "node --import tsx scripts/elm.ts --to elm-stuff/builds/test/main.js && node --import tsx tests/support/serve-app.ts",
       url: `http://127.0.0.1:${APP_PORT}/api/config`,
       env: {
         FIXTURES_FATAL: "1",

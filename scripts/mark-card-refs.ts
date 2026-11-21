@@ -7,17 +7,17 @@
  */
 import { parseArgs } from "node:util";
 import { z } from "zod";
-import { plainText, refsIn } from "../shared/card-refs.ts";
-import { toEntries } from "../server/analysis/deck.ts";
-import { CARD_REFS_RULE, mapProse } from "../server/analysis/prose.ts";
-import { buildCardIndex } from "../server/card-index.ts";
-import { llmEnabled } from "../server/config.ts";
-import { chatJson } from "../server/llm.ts";
-import { loadDeck } from "../server/pipeline.ts";
-import { listDecks, readReport, writeResults } from "../server/storage.ts";
-import { refSettler } from "../server/chat.ts";
-import { readChat, updateChat } from "../server/chat-history.ts";
-import type { DeckChatMessage } from "../shared/types.ts";
+import { plainText, refsIn } from "../src/shared/card-refs.ts";
+import { toEntries } from "../src/server/analysis/deck.ts";
+import { CARD_REFS_RULE, mapProse } from "../src/server/analysis/prose.ts";
+import { buildCardIndex } from "../src/server/card-index.ts";
+import { llmEnabled } from "../src/server/config.ts";
+import { chatJson } from "../src/server/llm.ts";
+import { loadDeck } from "../src/server/pipeline.ts";
+import { listDecks, readReport, writeResults } from "../src/server/storage.ts";
+import { refSettler } from "../src/server/chat.ts";
+import { readChat, updateChat } from "../src/server/chat-history.ts";
+import type { DeckChatMessage } from "../src/shared/types.ts";
 
 const { values } = parseArgs({ options: { only: { type: "string" } } });
 if (!llmEnabled()) {

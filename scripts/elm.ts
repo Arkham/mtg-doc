@@ -74,7 +74,7 @@ export async function buildElmTo(output: string, optimize: boolean) {
     fs.mkdirSync(path.dirname(output), { recursive: true });
     execFileSync(
       path.join(ROOT, "node_modules/.bin/elm"),
-      ["make", "src/Main.elm", "--output", tmp, ...(optimize ? ["--optimize"] : [])],
+      ["make", "src/web/Main.elm", "--output", tmp, ...(optimize ? ["--optimize"] : [])],
       { cwd: ROOT, stdio: ["ignore", "ignore", "inherit"] },
     );
     if (optimize) {

@@ -5,8 +5,8 @@
  */
 import fs from "node:fs/promises";
 import path from "node:path";
-import { config } from "../server/config.ts";
-import { checkSavedDeck } from "../server/storage.ts";
+import { config } from "../src/server/config.ts";
+import { checkSavedDeck } from "../src/server/storage.ts";
 
 const wanted = process.argv.slice(2);
 const slugs = wanted.length

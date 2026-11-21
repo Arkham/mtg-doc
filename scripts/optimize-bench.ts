@@ -11,8 +11,8 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { parseArgs } from "node:util";
-import { taskLabel } from "../shared/run-copy.ts";
-import type { Trace } from "../shared/types.ts";
+import { taskLabel } from "../src/shared/run-copy.ts";
+import type { Trace } from "../src/shared/types.ts";
 
 const { values, positionals } = parseArgs({
   allowPositionals: true,
@@ -28,8 +28,8 @@ for (const file of ["deck.json", "initial.txt"])
   fs.copyFileSync(path.join(root, "decks", slug, file), path.join(dir, slug, file));
 process.env.DECKS_DIR = dir;
 
-const { startOptimize, getJob } = await import("../server/pipeline.ts");
-const { readReport } = await import("../server/storage.ts");
+const { startOptimize, getJob } = await import("../src/server/pipeline.ts");
+const { readReport } = await import("../src/server/storage.ts");
 const job = startOptimize(slug);
 const snapshots: Trace[] = [];
 for (;;) {

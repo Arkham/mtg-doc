@@ -5,8 +5,8 @@
  */
 import fs from "node:fs";
 import { parseArgs } from "node:util";
-import { parseDecklist } from "../server/decklist.ts";
-import { recognizeImages } from "../server/ocr.ts";
+import { parseDecklist } from "../src/server/decklist.ts";
+import { recognizeImages } from "../src/server/ocr.ts";
 
 const { values, positionals } = parseArgs({
   allowPositionals: true,

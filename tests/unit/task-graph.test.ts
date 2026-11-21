@@ -1,0 +1,111 @@
+import assert from "node:assert/strict";
+import { describe, test } from "node:test";
+import { TaskGraph } from "../../src/server/task-graph.ts";
+
+const tick = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+enum Task {
+  Deck = "deck",
+  Slow = "slow",
+  Fast = "fast",
+  AfterFast = "after fast",
+  Sum = "sum",
+}
+
+describe("TaskGraph", () => {
+  test("each task starts once what it needs is done, with those results; the rest run together", async () => {
+    const log: string[] = [];
+    const timed =
+      <T>(name: string, ms: number, value: T) =>
+      async () => {
+        log.push(`${name} start`);
+        await tick(ms);
+        log.push(`${name} end`);
+        return value;
+      };
+    // The slow task waits for the fast branch to finish, which it only can if they run side by side:
+    // no race between timers, so it holds however busy the machine is.
+    let fastBranchDone = () => {};
+    const fastBranch = new Promise<void>((r) => (fastBranchDone = r));
+    const graph = new TaskGraph()
+      .task(Task.Deck, [], timed("deck", 5, 100))
+      .task(Task.Slow, [Task.Deck], async () => {
+        log.push("slow start");
+        await Promise.race([
+          fastBranch,
+          tick(2000).then(() => {
+            throw new Error("the fast branch didn't run beside the slow one");
+          }),
+        ]);
+        log.push("slow end");
+        return "s";
+      })
+      .task(Task.Fast, [Task.Deck], timed("fast", 5, "f"))
+      .task(Task.AfterFast, [Task.Fast], async () => {
+        const value = await timed("after fast", 5, "af")();
+        fastBranchDone();
+        return value;
+      })
+      .task(Task.Sum, [Task.Deck, Task.Slow, Task.AfterFast], (done) => {
+        log.push("sum");
+        // Typed by the task that made each: a number, then strings.
+        const deck: number = done[Task.Deck];
+        return `${deck} ${done[Task.Slow]} ${done[Task.AfterFast]}`;
+      });
+    const results = await graph.all();
+    assert.equal(results[Task.Sum], "100 s af");
+    assert.equal(await graph.get(Task.Fast), "f");
+    // Independent tasks overlapped: the fast branch finished while the slow one ran.
+    assert.ok(log.indexOf("after fast end") < log.indexOf("slow end"));
+    assert.ok(log.indexOf("slow start") < log.indexOf("fast end"));
+    assert.equal(log.at(-1), "sum");
+    assert.deepEqual(graph.edges(), [
+      ["deck", []],
+      ["slow", ["deck"]],
+      ["fast", ["deck"]],
+      ["after fast", ["fast"]],
+      ["sum", ["deck", "slow", "after fast"]],
+    ]);
+  });
+
+  test("a watcher sees each task added and wraps each run", async () => {
+    const seen: string[] = [];
+    const graph = new TaskGraph({
+      added: (name, needs) => seen.push(`added ${name} after [${needs.join(", ")}]`),
+      run: async (name, run) => {
+        seen.push(`start ${name}`);
+        const result = await run();
+        seen.push(`end ${name}`);
+        return result;
+      },
+    })
+      .task(Task.Deck, [], () => 1)
+      .task(Task.Fast, [Task.Deck], (done) => done[Task.Deck] + 1);
+    assert.equal((await graph.all())[Task.Fast], 2);
+    assert.deepEqual(seen, [
+      "added deck after []",
+      "added fast after [deck]",
+      "start deck",
+      "end deck",
+      "start fast",
+      "end fast",
+    ]);
+  });
+
+  test("a failure fails what needs it and the whole graph, but not unrelated tasks", async () => {
+    let unrelated = false;
+    const graph = new TaskGraph()
+      .task("broken", [], async () => {
+        throw new Error("no such card");
+      })
+      .task("needs broken", ["broken"], () => "never")
+      .task("unrelated", [], async () => {
+        await tick(5);
+        unrelated = true;
+      });
+    await assert.rejects(graph.get("needs broken"), /no such card/);
+    await assert.rejects(graph.all(), /no such card/);
+    await graph.get("unrelated");
+    assert.ok(unrelated);
+  });
+});

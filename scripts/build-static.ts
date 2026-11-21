@@ -8,12 +8,12 @@ import path from "node:path";
 import { parseArgs } from "node:util";
 import { build } from "vite";
 import { buildElmTo } from "./elm.ts";
-import { config } from "../server/config.ts";
-import { appPage, deckPage, indexFallback, llmsTxt, runPage } from "../server/agent-pages.ts";
-import { deckPaths, runPath } from "../src/routes.ts";
-import { withoutSuggestionCounts, withoutSuggestions } from "../server/publish.ts";
-import { renderMarkdown } from "../server/report.ts";
-import type { DeckSummary } from "../shared/types.ts";
+import { config } from "../src/server/config.ts";
+import { appPage, deckPage, indexFallback, llmsTxt, runPage } from "../src/server/agent-pages.ts";
+import { deckPaths, runPath } from "../src/web/routes.ts";
+import { withoutSuggestionCounts, withoutSuggestions } from "../src/server/publish.ts";
+import { renderMarkdown } from "../src/server/report.ts";
+import type { DeckSummary } from "../src/shared/types.ts";
 import {
   listDecks,
   readDeckFile,
@@ -21,7 +21,7 @@ import {
   readMeta,
   readReport,
   readRun,
-} from "../server/storage.ts";
+} from "../src/server/storage.ts";
 
 const { values } = parseArgs({
   options: {

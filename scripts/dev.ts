@@ -13,9 +13,10 @@ const server = run("node_modules/.bin/tsx", [
   "--clear-screen=false",
   "--ignore",
   "decks/**",
+  // The frontend is elm-watch's and Vite's to reload; only the server's own files restart it.
   "--ignore",
-  "src/**",
-  "server/index.ts",
+  "src/**/*.elm",
+  "src/server/index.ts",
 ]);
 const stop = () => {
   elm.kill();

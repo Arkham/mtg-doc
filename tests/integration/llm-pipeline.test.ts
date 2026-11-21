@@ -1,0 +1,519 @@
+import "../support/env.ts";
+import assert from "node:assert/strict";
+import type { AddressInfo } from "node:net";
+import fs from "node:fs";
+import path from "node:path";
+import { after, describe, test } from "node:test";
+import sharp from "sharp";
+import type { RecognitionResult, Report } from "../../src/shared/types.ts";
+import { startLlmStub } from "../support/llm-stub.ts";
+
+// Point the app at the stub before any server module reads its config.
+const stub = await startLlmStub();
+process.env.LLM_BASE_URL = stub.url;
+process.env.LLM_API_KEY = "stub-key";
+process.env.LLM_MODEL = "test-model";
+process.env.LLM_DECISION_MODEL = "test-decision-model";
+process.env.LLM_WEB_SEARCH = "true";
+const { recognizeImages } = await import("../../src/server/ocr.ts");
+const { whenIdle } = await import("../../src/server/edit-queue.ts");
+const { readDeckFile } = await import("../../src/server/storage.ts");
+const { optimizeFixtureDeck } = await import("../support/sample.ts");
+
+after(() => stub.close());
+
+describe("pipeline with an LLM (stubbed Responses API)", () => {
+  test("web research, solver review and validation of LLM swaps", async () => {
+    const { report, job } = await optimizeFixtureDeck("lathril-overpowered.txt", {
+      bracket: 3,
+      tone: "max",
+      budgetTotal: 300,
+      webResearch: true,
+    });
+    assert.equal(job.steps.find((s) => s.label === "Web research")!.status, "done");
+    assert.ok(report.research);
+    assert.deepEqual(report.research.sources, [
+      { url: "https://edhrec.com/commanders/lathril-blade-of-the-elves", title: "EDHREC" },
+    ]);
+    assert.deepEqual(report.research.cardsMentioned, ["Elvish Archdruid", "Priest of Titania"]);
+    for (const name of report.research.cardsMentioned)
+      assert.ok(report.cardIndex![name]?.image, `${name} from the research has a preview`);
+
+    assert.equal(report.model, "test-model");
+    // A how-to-play guide for each deck, kept to its cards and a quick read.
+    for (const which of ["original", "optimized"] as const) {
+      const guide = report.howToPlay![which]!;
+      assert.equal(guide.summary, "Go wide with elves, then drain the table with Lathril.");
+      assert.equal(guide.early.length, 3, "cut to three bullets");
+      assert.deepEqual(
+        guide.keyCards.map((k) => k.name),
+        ["Lathril, Blade of the Elves", "Forest"],
+        "names resolved to the deck, invented cards dropped",
+      );
+    }
+    assert.equal(job.steps.find((s) => s.label === "Write how-to-play guides")!.status, "done");
+    const md = await readDeckFile(report.slug, "report.md");
+    assert.match(md, /### How to play\n\nGo wide with elves/);
+    assert.match(md, /### How to play the suggested deck\n/);
+    assert.match(
+      md,
+      /\*\*Key cards\*\*\n\n- Lathril, Blade of the Elves: The engine and the finisher\./,
+    );
+    // Contradictions between the model's texts and the facts are fixed, once a second check
+    // agrees; the invented one (on the strategy) and one about a text that doesn't exist aren't.
+    const contradictions = job.steps.find((s) => s.label === "Check for contradictions")!;
+    assert.deepEqual([contradictions.status, contradictions.detail], ["done", "1 fixed"]);
+    assert.equal(
+      report.synergies!.find((x) => x.title === "Lands matter")!.explanation,
+      "Stub synergy two, corrected.",
+    );
+    assert.equal(report.strategy, "Stub strategy: go wide with elves.");
+    const reads = stub.requests.filter((r) => r.text.includes("for contradictions"));
+    for (const id of ["strategy", ...report.swaps.map((_, i) => `swap-${i}`)])
+      assert.equal(
+        reads.filter((r) => r.text.includes(`[${id}] `)).length,
+        2,
+        `${id} gets two independent reads`,
+      );
+    const [factCheck] = reads;
+    assert.match(factCheck.text, /Deck as submitted \(what the owner plays today\): /);
+    assert.match(factCheck.text, /\[swap-0\] \(reason for the swap cut /);
+    assert.ok(
+      reads.some((r) =>
+        r.text.includes("[guide-original-summary] (how-to-play guide for the deck as submitted"),
+      ),
+      "the guides are checked too, against the deck each describes",
+    );
+    assert.ok(
+      report.warnings.some((w) => w.includes("Card Not In Deck")),
+      "invalid LLM swap was rejected",
+    );
+    assert.ok(report.swaps.some((s) => s.reason.startsWith("Stub reason: ")));
+    // Reasons are written for the owner, who never sees the solver's proposals.
+    const planRequest = stub.requests.find((r) =>
+      r.text.includes("constraint solver has proposed"),
+    )!;
+    assert.match(planRequest.text, /## Writing for the owner\n[^]*never sees the solver/);
+    // Every prompt that writes copy marks the cards it names, so none are guessed from words.
+    for (const marker of [
+      "constraint solver has proposed",
+      "most notable synergies",
+      "friendly guide to playing",
+      "Search the web",
+    ])
+      assert.match(
+        stub.requests.find((r) => r.text.includes(marker))!.text,
+        /Write every Magic card you name as \[\[Exact Card Name\]\]/,
+        marker,
+      );
+    assert.match(planRequest.text, /no "Keep the proposal"/);
+    assert.ok(report.bracket!.after.bracket <= 3);
+    assert.deepEqual(
+      report.synergies!.map((x) => x.cards),
+      [
+        ["Sol Ring", "Lathril, Blade of the Elves"],
+        ["Lathril, Blade of the Elves", "Forest"],
+      ],
+      "names normalized to the deck, invented cards dropped",
+    );
+    const check = stub.requests.find((r) => JSON.stringify(r.body).includes("synergy-0"))!;
+    assert.match(
+      check.text,
+      /Lathril, Blade of the Elves: /,
+      "verified from the cards' rules text",
+    );
+    assert.ok(
+      !report.synergies!.some((x) => x.title === "Made up"),
+      "a second check drops interactions that don't hold",
+    );
+    assert.equal(job.steps.find((s) => s.label === "Find synergies")!.status, "done");
+    assert.ok(report.after.totalPriceUsd <= 300);
+
+    const review = stub.requests.find((r) =>
+      r.text.includes("constraint solver has proposed swaps"),
+    )!;
+    assert.deepEqual(review.body.text, { format: { type: "json_object" } });
+    assert.match(review.text, /Target: Bracket 3 \(Upgraded\), tone "max"/);
+    assert.match(review.text, /DECK BUDGET/);
+    assert.match(review.text, /Game Changer slots/);
+  });
+
+  test("a screenshot-sized image is read twice and both reads must agree", async () => {
+    const photo = await sharp({
+      create: { width: 600, height: 400, channels: 3, background: "#2b4a2b" },
+    })
+      .jpeg()
+      .toBuffer();
+    const before = stub.requests.length;
+    const r = await recognizeImages([photo]);
+    const calls = stub.requests.slice(before);
+    assert.equal(calls.filter((c) => c.text.includes("reading a photo or screenshot")).length, 2);
+    assert.deepEqual(r.commanders, ["Lathril, Blade of the Elves"]);
+    const elves = r.entries.find((e) => e.raw === "Llanowar Elfs")!;
+    assert.equal(elves.name, "Llanowar Elves");
+    assert.equal(elves.status, "fuzzy", "a misspelled read is flagged for review");
+    const boots = r.entries.find((e) => e.name === "Swiftfoot Boots")!;
+    assert.equal(boots.lang, "it");
+    assert.equal(boots.raw, "Stivali Piedelesto");
+    assert.ok(r.notes.includes("Read from a test photo."));
+    assert.ok(r.notes.some((n) => n.includes("Divination") && n.includes("color identity")));
+  });
+
+  test("a deck photo: tiled passes, voting, verification and progress via the API job", async () => {
+    const { createApp } = await import("../../src/server/app.ts");
+    const server = createApp().listen(0, "127.0.0.1");
+    await new Promise((r) => server.once("listening", r));
+    const base = `http://127.0.0.1:${(server.address() as { port: number }).port}`;
+    try {
+      const photo = await sharp({
+        create: { width: 4032, height: 3024, channels: 3, background: "#2b2b4a" },
+      })
+        .jpeg()
+        .toBuffer();
+      const form = new FormData();
+      form.append("images", new Blob([new Uint8Array(photo)], { type: "image/jpeg" }), "deck.jpg");
+      const started = await fetch(`${base}/api/recognize`, { method: "POST", body: form });
+      assert.equal(started.status, 202);
+      const { jobId } = (await started.json()) as { jobId: string };
+
+      const phases = new Set<string>();
+      let job: {
+        status: string;
+        phase: string;
+        result?: RecognitionResult & { uploadToken: string };
+        error?: string;
+      };
+      for (;;) {
+        job = await (await fetch(`${base}/api/recognize/${jobId}`)).json();
+        phases.add(job.phase);
+        if (job.status !== "running") break;
+        await new Promise((r) => setTimeout(r, 20));
+      }
+      assert.equal(job.status, "done", job.error ?? "");
+      const r = job.result!;
+      assert.ok(r.uploadToken);
+      assert.ok(
+        [...phases].some(
+          (p) =>
+            p === "Reading cards" ||
+            p === "Double-checking uncertain cards" ||
+            p === "Matching card names",
+        ),
+      );
+
+      const byName = new Map(r.entries.map((e) => [e.name, e]));
+      assert.equal(byName.get("Llanowar Elves")!.votes, 3, "whole photo + both tilings");
+      assert.equal(
+        byName.get("Llanowar Elves")!.status,
+        "exact",
+        "an exact printed-name match outweighs one misspelled read",
+      );
+      assert.equal(byName.get("Swiftfoot Boots")!.votes, 3);
+      assert.equal(byName.get("Lightning Greaves")!.confidence, 0.92, "confirmed by verification");
+      assert.equal(byName.get("Lightning Greaves")!.status, "exact");
+      assert.equal(
+        byName.get("Divination")!.status,
+        "fuzzy",
+        "verified but unsure: flagged for review",
+      );
+      assert.equal(byName.has("Counterspell"), false, "a hallucination is rejected");
+      assert.ok(r.notes.some((n) => n.includes("Ignored 1 card") && n.includes("Counterspell")));
+      assert.ok(r.notes.some((n) => n.includes("aren't in English")));
+
+      const verify = stub.requests.filter((x) => Array.isArray(x.body.questions));
+      assert.ok(verify.length > 0);
+      assert.ok(verify.every((x) => x.body.model === "test-decision-model"));
+      const tiles = stub.requests.filter((x) => x.text.includes("This is a crop of a photo"));
+      assert.equal(tiles.length, 6 + 12, "3x2 and 4x3 tilings of a 12MP photo");
+    } finally {
+      server.close();
+    }
+  });
+
+  test("deck chat proposes a re-run, and only starts it once the user confirms", async () => {
+    const { chatAboutDeck, startChatRerun } = await import("../../src/server/chat.ts");
+    const { readMeta } = await import("../../src/server/storage.ts");
+    const { getJob } = await import("../../src/server/pipeline.ts");
+    const { slug } = await optimizeFixtureDeck("lathril.txt", { bracket: 3, maxSwaps: 4 });
+
+    const proposal = await chatAboutDeck(slug, "can you make it bracket 2?");
+    assert.deepEqual(proposal.rerun?.options, { bracket: 2 });
+    assert.match(proposal.rerun!.summary, /bracket 2 \(Core\)/);
+    assert.equal(proposal.rerun!.jobId, undefined, "nothing starts before confirming");
+    assert.equal(proposal.changes, undefined, "a re-run replaces card changes");
+    assert.equal((await readMeta(slug)).options.bracket, 3);
+
+    const unsure = await chatAboutDeck(slug, "hmm, what would that cut?");
+    assert.equal(unsure.rerun, undefined, "a question isn't a confirmation");
+
+    await chatAboutDeck(slug, "can you make it bracket 2?");
+    const confirmed = await chatAboutDeck(slug, "yes please");
+    assert.ok(confirmed.rerun?.jobId);
+    assert.equal((await readMeta(slug)).options.bracket, 2);
+    await new Promise<void>((resolve) => {
+      const wait = () =>
+        getJob(confirmed.rerun!.jobId!)?.status === "running" ? setTimeout(wait, 100) : resolve();
+      wait();
+    });
+    assert.equal(getJob(confirmed.rerun!.jobId!)!.status, "done");
+    await assert.rejects(startChatRerun(slug, confirmed.id), /already started/);
+  });
+
+  test("everything the report UI can change, the chat can too", async () => {
+    const { chatAboutDeck } = await import("../../src/server/chat.ts");
+    const { readReport } = await import("../../src/server/storage.ts");
+    const { slug } = await optimizeFixtureDeck("lathril.txt", { bracket: 3, maxSwaps: 4 });
+
+    // Re-run with the same settings (the "Re-run" form without changes).
+    const again = await chatAboutDeck(slug, "run it again please");
+    assert.deepEqual(again.rerun, { options: {}, summary: "the current settings" });
+
+    // Find synergies again (the Synergies panel button).
+    const before = (await readReport(slug))!;
+    const refreshed = await chatAboutDeck(slug, "find the synergies again");
+    assert.equal(refreshed.reportUpdated, true);
+    const after = (await readReport(slug))!;
+    assert.ok(after.synergies!.length > 0);
+    assert.deepEqual(after.decklist, before.decklist, "the list itself doesn't change");
+
+    // Find more synergies: keeps the current ones and adds only new card groups.
+    const more = await chatAboutDeck(slug, "can you find more synergies?");
+    assert.equal(more.reportUpdated, true);
+    const withMore = (await readReport(slug))!;
+    const titles = withMore.synergies!.map((x) => x.title);
+    assert.deepEqual(
+      titles.slice(0, after.synergies!.length),
+      after.synergies!.map((x) => x.title),
+    );
+    assert.ok(
+      withMore.decklist!.some((c) => c.name === "Arcane Signet"),
+      "fixture keeps the Signet",
+    );
+    assert.ok(titles.includes("Signet into the commander"));
+    assert.ok(!titles.includes("Repeat of a known one"), "duplicates are skipped");
+    assert.match(more.content, /new synerg|didn't find any new/);
+    const prompt = stub.requests.findLast((q) => q.text.includes("more notable synergies"))!.text;
+    assert.match(prompt, /different from the ones already found/);
+
+    // Hide or show the doc's suggestions on the published site (the "Publish suggestions" toggle).
+    const { readMeta } = await import("../../src/server/storage.ts");
+    const hide = await chatAboutDeck(
+      slug,
+      "don't show suggestions for this deck on the published report",
+    );
+    assert.match(stub.requests.at(-1)!.text, /suggestions for this deck are published\./);
+    assert.equal(hide.reportUpdated, true);
+    assert.match(hide.content, /only your deck as submitted/);
+    assert.equal((await readMeta(slug)).hideSuggestions, true);
+    assert.deepEqual((await readReport(slug))!.decklist, after.decklist, "the list doesn't change");
+    await chatAboutDeck(slug, "put the suggestions back on the published site again");
+    assert.match(stub.requests.at(-1)!.text, /suggestions for this deck are hidden/);
+    assert.equal((await readMeta(slug)).hideSuggestions, undefined);
+
+    // Apply a suggested land swap (the Mana panel button): the doc sees the suggestions.
+    const { config } = await import("../../src/server/config.ts");
+    const file = path.join(config.decksDir, slug, "report.json");
+    const withSuggestion = {
+      ...after,
+      manaSuggestions: [
+        {
+          id: "s1",
+          reason: "Stub reason.",
+          changes: [
+            { action: "remove", name: "Forest", qty: 1, reason: "", ok: true },
+            { action: "add", name: "Llanowar Wastes", qty: 1, reason: "", ok: true },
+          ],
+        },
+      ],
+    };
+    fs.writeFileSync(file, JSON.stringify(withSuggestion));
+    await chatAboutDeck(slug, "apply the suggested land swaps");
+    const context = stub.requests.at(-1)!.text;
+    assert.match(context, /Suggested land swaps[^]*remove Forest, add Llanowar Wastes/);
+    assert.match(context, /web research (on|off)/);
+
+    // Apply one of the doc's swaps (the Apply button on a swap), asked from the suggested deck:
+    // it edits the deck as submitted, not the list on screen.
+    const { applyChatChanges } = await import("../../src/server/chat.ts");
+    const { parseDecklist } = await import("../../src/server/decklist.ts");
+    const current = (await readReport(slug))!;
+    const [swap] = current.swaps;
+    const made = await chatAboutDeck(slug, "apply the first swap to my deck", "optimized");
+    assert.match(stub.requests.at(-1)!.text, /Their deck as submitted is this list with the swaps/);
+    assert.equal(made.target, "original");
+    assert.ok(
+      made.changes!.every((c) => c.ok),
+      JSON.stringify(made.changes),
+    );
+    await applyChatChanges(slug, made.id);
+    await whenIdle(slug);
+    const applied = (await readReport(slug))!;
+    const submitted = parseDecklist(await readDeckFile(slug, "initial.txt")).entries;
+    assert.ok(submitted.some((e) => e.name === swap.in));
+    assert.ok(!applied.swaps.some((s) => s.out === swap.out && s.in === swap.in));
+    assert.equal(applied.swaps.length, current.swaps.length - 1);
+    const list = (r: Report) => r.decklist!.map((c) => `${c.qty} ${c.name}`).sort();
+    assert.deepEqual(list(applied), list(current), "the suggested deck stays as it was");
+  });
+
+  test("the decision model confirms replies and judges when a change is worth re-optimizing", async () => {
+    const { applyDeckChanges, chatAboutDeck } = await import("../../src/server/chat.ts");
+    const { readChat } = await import("../../src/server/chat-history.ts");
+    const { readReport } = await import("../../src/server/storage.ts");
+    const { slug } = await optimizeFixtureDeck("lathril.txt", {
+      bracket: 3,
+      tone: "balanced",
+      maxSwaps: 4,
+    });
+
+    // A yes to proposed changes applies them, like the Apply button.
+    const proposal = await chatAboutDeck(slug, "Give me a fairer mana rock");
+    const yes = await chatAboutDeck(slug, "yes please");
+    assert.match(yes.content, /^On it: applying 2 changes\./);
+    assert.equal(yes.reportUpdated, true);
+    await whenIdle(slug);
+    assert.equal((await readChat(slug)).find((m) => m.id === proposal.id)!.applied, true);
+    assert.ok((await readReport(slug))!.decklist!.some((c) => c.name === "Mind Stone"));
+    assert.ok(
+      !stub.requests.some((r) => JSON.stringify(r.body).includes('"reoptimize"')),
+      "a like-for-like swap opens no gap, so there's nothing to ask",
+    );
+
+    // A change that opens a gap goes to the decision model, which judges whether it matters.
+    const forests = (qty: number) => [
+      { action: "remove" as const, name: "Forest", qty, reason: "", ok: true },
+    ];
+    // The offer comes once the edit's refresh is in.
+    const offers = async () => (await readChat(slug)).filter((m) => m.rerun);
+    await applyDeckChanges(slug, forests(3), "cut three Forests");
+    await whenIdle(slug);
+    assert.equal((await offers()).length, 1);
+    assert.match((await offers())[0].content, /lands, under the recommended/);
+    const asked = stub.requests.findLast((r) => JSON.stringify(r.body).includes('"reoptimize"'))!;
+    assert.match(asked.text, /just changed: remove 3 Forest/);
+    assert.match(asked.text, /What the change made worse: .*lands/);
+    await applyDeckChanges(slug, forests(2), "cut two more");
+    await whenIdle(slug);
+    assert.equal((await offers()).length, 1, "the model judged this one not worth a re-run");
+  });
+
+  test("deck chat streams the model's reply as it's written, and over the API", async () => {
+    const { chatAboutDeck } = await import("../../src/server/chat.ts");
+    const { readChat } = await import("../../src/server/chat-history.ts");
+    const { createApp } = await import("../../src/server/app.ts");
+    const { slug } = await optimizeFixtureDeck("lathril.txt", {
+      bracket: 3,
+      tone: "balanced",
+      maxSwaps: 4,
+    });
+
+    const pieces: string[] = [];
+    const reply = await chatAboutDeck(slug, "Give me a fairer mana rock", "optimized", {
+      onReply: (text) => pieces.push(text),
+    });
+    assert.ok(pieces.length > 3, `in many pieces, not one (${pieces.length})`);
+    pieces.forEach((p, i) => i && assert.ok(p.startsWith(pieces[i - 1]), "each one grows"));
+    assert.equal(pieces.at(-1), reply.content, "ends as the saved reply");
+    assert.equal(reply.changes?.length, 2, "the changes come with the finished message");
+
+    const server = createApp().listen(0, "127.0.0.1");
+    await new Promise((r) => server.once("listening", r));
+    const url = `http://127.0.0.1:${(server.address() as AddressInfo).port}/api/decks/${slug}/chat`;
+    const post = (message: string, accept: string) =>
+      fetch(url, {
+        method: "POST",
+        headers: { "content-type": "application/json", accept },
+        body: JSON.stringify({ message, view: "optimized" }),
+      });
+    try {
+      const res = await post("Give me a fairer mana rock", "text/event-stream");
+      assert.match(res.headers.get("content-type")!, /^text\/event-stream/);
+      const events = (await res.text())
+        .split("\n\n")
+        .filter(Boolean)
+        .map((block) => ({
+          event: /^event: (.+)$/m.exec(block)![1],
+          data: JSON.parse(/^data: (.+)$/m.exec(block)![1]),
+        }));
+      const deltas = events.filter((e) => e.event === "reply");
+      assert.ok(deltas.length > 3);
+      const last = events.at(-1)!;
+      assert.equal(last.event, "message");
+      assert.equal(deltas.map((d) => d.data.delta).join(""), last.data.content);
+      assert.deepEqual(last.data, (await readChat(slug)).at(-1), "the saved message");
+
+      // A reply the doc writes without the model (a yes to its proposal) comes whole.
+      const yes = await post("yes please", "text/event-stream");
+      assert.match(await yes.text(), /^event: message\ndata: \{[^\n]*"On it: applying 2 changes/);
+      await whenIdle(slug);
+      // Clients that don't ask for a stream get JSON, as before.
+      const json = await post("what does this deck do?", "application/json");
+      assert.match(json.headers.get("content-type")!, /^application\/json/);
+      assert.equal(((await json.json()) as { role: string }).role, "assistant");
+    } finally {
+      server.close();
+    }
+  });
+
+  test("deck chat: model proposals, and a content-filter refusal falls back to simple commands", async () => {
+    const { chatAboutDeck } = await import("../../src/server/chat.ts");
+    const { slug } = await optimizeFixtureDeck("lathril.txt", {
+      bracket: 3,
+      tone: "balanced",
+      maxSwaps: 4,
+    });
+
+    const proposal = await chatAboutDeck(slug, "Give me a fairer mana rock");
+    assert.equal(proposal.content, "Stub chat: trade Sol Ring for a fairer rock.");
+    assert.deepEqual(
+      proposal.changes!.map((c) => [c.action, c.name, c.ok]),
+      [
+        ["remove", "Sol Ring", true],
+        ["add", "Mind Stone", true],
+      ],
+    );
+    const chatCall = stub.requests.at(-1)!;
+    assert.match(chatCall.text, /Lathril, Blade of the Elves/, "deck context is sent");
+    assert.match(chatCall.text, /Give me a fairer mana rock/);
+    assert.match(chatCall.text, /looking at the doc's suggested \(optimized\) deck/);
+    assert.equal(proposal.target, "optimized");
+
+    // On "Your deck" the doc sees the list as submitted, without the bracket and budget limits.
+    await chatAboutDeck(slug, "What are this deck's weaknesses?", "original");
+    const original = stub.requests.at(-1)!.text;
+    assert.match(original, /looking at their deck as submitted/);
+    assert.match(original, /target bracket and budget don't limit changes to it/);
+
+    const fallback = await chatAboutDeck(slug, "swap Sol Ring for Fellwar Stone");
+    assert.deepEqual(
+      fallback.changes!.map((c) => [c.action, c.name, c.ok]),
+      [
+        ["remove", "Sol Ring", true],
+        ["add", "Fellwar Stone", true],
+      ],
+    );
+
+    const refused = await chatAboutDeck(slug, "tell me something risky");
+    assert.match(refused.content, /content filter/);
+    assert.equal(refused.changes, undefined);
+
+    // Applying the proposal looks for synergies with the card that came in, and lists the swap.
+    const { applyChatChanges } = await import("../../src/server/chat.ts");
+    const { readReport } = await import("../../src/server/storage.ts");
+    await applyChatChanges(slug, proposal.id);
+    await whenIdle(slug);
+    const report = (await readReport(slug))!;
+    const found = report.synergies!.filter((x) => x.cards.includes("Mind Stone"));
+    assert.deepEqual(
+      found.map((x) => x.title),
+      ["Rock into the commander"],
+    );
+    assert.ok(!report.synergies!.some((x) => x.title === "Doesn't involve the new card"));
+    assert.match(
+      stub.requests.findLast((q) => q.text.includes("were just added"))!.text,
+      /were just added to this Commander deck: Mind Stone\./,
+    );
+    const swap = report.swaps.find((x) => x.in === "Mind Stone")!;
+    assert.deepEqual([swap.out, swap.fromChat], ["Sol Ring", true]);
+  });
+});

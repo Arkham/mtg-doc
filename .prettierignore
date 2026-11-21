@@ -1,6 +1,6 @@
 decks
 pnpm-lock.yaml
-test/fixtures
+tests/fixtures
 test-results
 playwright-report
 site
@@ -9,4 +9,4 @@ site
 .direnv
 public/elm
 elm-stuff
-test/visual/__screenshots__
+tests/visual/__screenshots__

@@ -3,11 +3,11 @@
  * written. Needs an LLM. `--only a,b` limits it to some decks. Run `pnpm fix:contradictions` after.
  */
 import { parseArgs } from "node:util";
-import { toEntries } from "../server/analysis/deck.ts";
-import { llmEnabled } from "../server/config.ts";
-import { loadDeck } from "../server/pipeline.ts";
-import { writeGuides } from "../server/play-guide.ts";
-import { listDecks, readReport, writeResults } from "../server/storage.ts";
+import { toEntries } from "../src/server/analysis/deck.ts";
+import { llmEnabled } from "../src/server/config.ts";
+import { loadDeck } from "../src/server/pipeline.ts";
+import { writeGuides } from "../src/server/play-guide.ts";
+import { listDecks, readReport, writeResults } from "../src/server/storage.ts";
 
 const { values } = parseArgs({ options: { only: { type: "string" } } });
 if (!llmEnabled()) {

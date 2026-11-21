@@ -37,7 +37,7 @@ encoder, used or not.
 -}
 generated : List String
 generated =
-    [ "src/Types.elm", "src/Symbols.elm" ]
+    [ "src/web/Types.elm", "src/web/Symbols.elm" ]
 
 
 config : List Rule

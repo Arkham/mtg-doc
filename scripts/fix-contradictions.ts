@@ -4,11 +4,11 @@
  * `--dry-run` only prints what it would fix.
  */
 import { parseArgs } from "node:util";
-import { toEntries } from "../server/analysis/deck.ts";
-import { llmEnabled } from "../server/config.ts";
-import { checkContradictions } from "../server/contradictions.ts";
-import { loadDeck } from "../server/pipeline.ts";
-import { listDecks, readReport, writeResults } from "../server/storage.ts";
+import { toEntries } from "../src/server/analysis/deck.ts";
+import { llmEnabled } from "../src/server/config.ts";
+import { checkContradictions } from "../src/server/contradictions.ts";
+import { loadDeck } from "../src/server/pipeline.ts";
+import { listDecks, readReport, writeResults } from "../src/server/storage.ts";
 
 const { values } = parseArgs({
   options: { only: { type: "string" }, "dry-run": { type: "boolean", default: false } },

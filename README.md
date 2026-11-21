@@ -139,13 +139,13 @@ pnpm dev            # server + Vite, with the Elm UI hot-reloaded by elm-watch
 pnpm check          # format check, lint (oxlint, elm-review), typecheck, unit + integration + Elm tests
 pnpm test:e2e       # Playwright: local app flow + static site on desktop, iPhone and iPad (WebKit)
 pnpm test:visual    # every page and state: exact DOM and screenshots against committed baselines
-pnpm test:coverage  # tests with a coverage report for server/
+pnpm test:coverage  # tests with a coverage report for src/server/
 pnpm test:record    # re-record the HTTP fixtures against the live APIs
 pnpm symbols        # refresh the bundled mana symbols in public/symbols from Scryfall
 pnpm build && pnpm start
 ```
 
 Tests never touch the network: Scryfall, EDHREC and Commander Spellbook responses are recorded once
-into `test/fixtures/http` and replayed, and LLM calls go to a local Responses API stub. CI runs
+into `tests/fixtures/http` and replayed, and LLM calls go to a local Responses API stub. CI runs
 everything above on every push and pull request. See [AGENTS.md](AGENTS.md) for the development
 practices this project follows.
