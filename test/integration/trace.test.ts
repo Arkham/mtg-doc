@@ -4,6 +4,7 @@ import type { AddressInfo } from "node:net";
 import { describe, test } from "node:test";
 import { createApp } from "../../server/app.ts";
 import { getJob, startOptimize } from "../../server/pipeline.ts";
+import { TASK_LABELS } from "../../shared/run-copy.ts";
 import type { Job, RunRecord } from "../../shared/types.ts";
 import { optimizeFixtureDeck, waitForJob } from "../support/sample.ts";
 
@@ -15,11 +16,12 @@ describe("a run's trace", () => {
     assert.ok(tasks.size > 10);
     for (const t of trace.tasks) {
       assert.equal(t.state, "done", t.name);
-      assert.ok(t.label && t.doing, `${t.name} reads to a person`);
+      // Ids only: the words are the frontend's, and each id has them.
+      assert.deepEqual(Object.keys(t).sort(), ["end", "name", "needs", "start", "state"]);
+      assert.ok(TASK_LABELS[t.name], `${t.name} has a name`);
       for (const need of t.needs)
         assert.ok(tasks.get(need)!.end! <= t.start!, `${t.name} starts after ${need} ends`);
     }
-    assert.match(tasks.get("research")!.doing, /Lathril, Blade of the Elves/);
 
     const services = new Set(trace.requests.map((r) => r.service));
     for (const s of ["scryfall", "spellbook", "edhrec"] as const) assert.ok(services.has(s), s);
@@ -32,7 +34,7 @@ describe("a run's trace", () => {
     }
     assert.ok(trace.requests.some((r) => /^look up \d+ cards$/.test(r.what)));
     // Independent work overlapped: the candidate lookups started before the solver needed them.
-    assert.ok(tasks.get("land pool")!.start! < tasks.get("upgrades")!.start!);
+    assert.ok(tasks.get("landPool")!.start! < tasks.get("upgrades")!.start!);
   });
 
   test("streams over the API as it runs, to the end", async () => {

@@ -12,13 +12,14 @@
  * waits for and what waits for it. Fires `select` (detail: a task's name) when a task is tapped.
  */
 import type { Service, Trace, TraceRequest, TraceTask } from "../shared/types.ts";
+import { taskLabel } from "../shared/run-copy.ts";
 import { criticalEdges, depths, directNeeds, stateAt } from "./run-graph.ts";
 
 const SERVICES: { id: Service; name: string; color: string }[] = [
   { id: "scryfall", name: "Scryfall", color: "#8fc8e8" },
-  { id: "spellbook", name: "Commander Spellbook", color: "#c4a3f2" },
+  { id: "spellbook", name: "Spellbook", color: "#c4a3f2" },
   { id: "edhrec", name: "EDHREC", color: "#f29a5a" },
-  { id: "model", name: "The model", color: "#ebc876" },
+  { id: "model", name: "LLM", color: "#ebc876" },
   { id: "decisions", name: "Decisions", color: "#7fd49b" },
 ];
 const GOLD = "#ebc876";
@@ -27,6 +28,12 @@ const FEEDS = "#7fd49b";
 const LIVE = "#f06272";
 const FONT = '-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif';
 const MONO = 'ui-monospace, "SF Mono", Menlo, monospace';
+/**
+ * The end of a run on the map: the last comets come home, then everything but the golden path
+ * fades. The page plays this long past the run's end (`outroMs` in Page/Progress.elm).
+ */
+const OUTRO_FROM_MS = 300;
+const OUTRO_FADE_MS = 800;
 /** How long a comet takes to reach its service, or to come back. */
 const FLIGHT_MS = 420;
 
@@ -48,10 +55,22 @@ interface Layout {
   stations: Map<Service, Point>;
 }
 
+/** A task's size: bigger the longer it ran. */
+const nodeRadius = (ranMs: number) => 6 + Math.min(13, Math.sqrt(Math.max(0, ranMs) / 1000) * 3.2);
+
 const clamp = (v: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
 const ease = (p: number) => 1 - (1 - p) ** 3;
 
-function layout(tasks: TraceTask[], width: number, measure: (label: string) => number): Layout {
+/**
+ * Where everything goes. With `fit` (a height), the map fills it; without, it's as tall as its
+ * graph needs (on a phone, where it runs top to bottom, that's taller than the screen).
+ */
+function layout(
+  tasks: TraceTask[],
+  width: number,
+  fit: number | null,
+  measure: (label: string) => number,
+): Layout {
   const vertical = width < 640;
   const depth = depths(tasks);
   const columns: string[][] = [];
@@ -85,8 +104,10 @@ function layout(tasks: TraceTask[], width: number, measure: (label: string) => n
     }
     graphBottom = top + span * step;
   } else {
-    const top = 36;
-    const h = Math.max(260, Math.max(...columns.map((c) => c.length)) * 78);
+    const top = 64;
+    const h = fit
+      ? Math.max(160, fit - top - 192)
+      : Math.max(260, Math.max(...columns.map((c) => c.length)) * 78);
     for (const [name, d] of depth)
       nodes.set(name, { x: pad + (d / span) * (width - 2 * pad), y: top + slot.get(name)! * h });
     graphBottom = top + h;
@@ -103,16 +124,21 @@ function layout(tasks: TraceTask[], width: number, measure: (label: string) => n
           Math.max(0, Math.min(b.y1, o.y1) - Math.max(b.y0, o.y0)),
       0,
     );
-  for (const at of nodes.values())
-    placed.push({ x0: at.x - 12, x1: at.x + 12, y0: at.y - 12, y1: at.y + 12 });
+  // Each task as big as it's drawn once it's done, so no label covers one.
   for (const t of tasks) {
     const at = nodes.get(t.name)!;
-    const w = measure(t.label) / 2 + 4;
+    const r = nodeRadius((t.end ?? 0) - (t.start ?? 0)) + 3;
+    placed.push({ x0: at.x - r, x1: at.x + r, y0: at.y - r, y1: at.y + r });
+  }
+  for (const t of tasks) {
+    const at = nodes.get(t.name)!;
+    const w = measure(taskLabel(t.name)) / 2 + 4;
+    const r = nodeRadius((t.end ?? 0) - (t.start ?? 0)) + 4;
     const sides: [Side, Box][] = [
-      ["below", { x0: at.x - w, x1: at.x + w, y0: at.y + 13, y1: at.y + 48 }],
-      ["above", { x0: at.x - w, x1: at.x + w, y0: at.y - 48, y1: at.y - 13 }],
-      ["right", { x0: at.x + 16, x1: at.x + 20 + 2 * w, y0: at.y - 16, y1: at.y + 16 }],
-      ["left", { x0: at.x - 20 - 2 * w, x1: at.x - 16, y0: at.y - 16, y1: at.y + 16 }],
+      ["below", { x0: at.x - w, x1: at.x + w, y0: at.y + r, y1: at.y + r + 35 }],
+      ["above", { x0: at.x - w, x1: at.x + w, y0: at.y - r - 35, y1: at.y - r }],
+      ["right", { x0: at.x + r, x1: at.x + r + 4 + 2 * w, y0: at.y - 16, y1: at.y + 16 }],
+      ["left", { x0: at.x - r - 4 - 2 * w, x1: at.x - r, y0: at.y - 16, y1: at.y + 16 }],
     ];
     const fits = sides.filter(([, b]) => b.x0 >= 0 && b.x1 <= width);
     const [side, box] = fits.reduce((best, s) => (overlap(s[1]) < overlap(best[1]) ? s : best));
@@ -131,7 +157,7 @@ function layout(tasks: TraceTask[], width: number, measure: (label: string) => n
     width,
     labels,
     direct: directNeeds(tasks),
-    height: stationY + (vertical ? 86 : 72),
+    height: fit ?? stationY + (vertical ? 86 : 72),
     vertical,
     nodes,
     stations,
@@ -172,7 +198,7 @@ export class RunMap extends HTMLElement {
     if (!root.firstChild) {
       const style = document.createElement("style");
       style.textContent =
-        ":host{display:block;position:relative;touch-action:pan-y}canvas{display:block;width:100%}";
+        ":host{display:block;position:relative;touch-action:pan-y}canvas{display:block;width:100%;top:0;left:0}";
       root.append(style, this.#canvas);
     }
     this.#resize.observe(this);
@@ -202,12 +228,22 @@ export class RunMap extends HTMLElement {
   #relayout() {
     const width = this.clientWidth;
     if (!width || !this.#trace) return;
+    // The page says (`--map-fit: 1`) when the map should fill the height it's given.
+    const fits = getComputedStyle(this).getPropertyValue("--map-fit").trim() === "1";
+    const fit = fits && this.clientHeight > 200 ? this.clientHeight : null;
     this.#ctx.font = `500 ${width < 640 ? 11 : 12.5}px ${FONT}`;
-    this.#layout = layout(this.#trace.tasks, width, (label) => this.#ctx.measureText(label).width);
+    this.#layout = layout(
+      this.#trace.tasks,
+      width,
+      fit,
+      (label) => this.#ctx.measureText(label).width,
+    );
     const dpr = window.devicePixelRatio || 1;
     this.#canvas.width = Math.round(width * dpr);
     this.#canvas.height = Math.round(this.#layout.height * dpr);
     this.#canvas.style.height = `${this.#layout.height}px`;
+    // Filling the host, the canvas mustn't size it too.
+    this.#canvas.style.position = fit ? "absolute" : "";
     this.#ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     this.#wake();
   }
@@ -253,8 +289,9 @@ export class RunMap extends HTMLElement {
     const l = this.#layout!;
     const tasks = new Map(trace.tasks.map((task) => [task.name, task]));
     const selected = this.getAttribute("selected");
-    const finished = !this.#running && t >= trace.elapsed;
     const critical = this.#running ? new Set<string>() : criticalEdges(trace.tasks);
+    // Past the end, once the last comets are home, everything else fades for the golden path.
+    const outro = this.#running ? 0 : clamp((t - trace.elapsed - OUTRO_FROM_MS) / OUTRO_FADE_MS);
 
     ctx.clearRect(0, 0, l.width, l.height);
     this.#backdrop(l);
@@ -270,28 +307,37 @@ export class RunMap extends HTMLElement {
         let color = "rgba(255,255,255,0.06)";
         let width = 1;
         let dash: number[] = [];
+        const lit = selected === task.name || selected === need;
         if (selected === task.name) [color, width] = [NEEDS, 2];
         else if (selected === need) [color, width] = [FEEDS, 2];
-        else if (finished && critical.has(key)) [color, width] = [GOLD, 2.5];
         else if (state !== "waiting") color = "rgba(255,255,255,0.17)";
         else if (needDone) [color, dash] = ["rgba(235,200,118,0.45)", [3, 5]];
-        ctx.save();
-        if (finished && critical.has(key) && !selected) {
-          ctx.shadowColor = GOLD;
-          ctx.shadowBlur = 10;
+        const line = (style: string, w: number, alpha: number, glow: boolean) => {
+          if (alpha <= 0) return;
+          ctx.save();
+          ctx.globalAlpha = alpha;
+          if (glow) {
+            ctx.shadowColor = GOLD;
+            ctx.shadowBlur = 10;
+          }
+          ctx.strokeStyle = style;
+          ctx.lineWidth = w;
+          ctx.setLineDash(dash);
+          ctx.lineDashOffset = -t / 40;
+          ctx.beginPath();
+          for (let i = 0; i <= 24; i++) {
+            const p = edgePoint(a, b, i / 24, l.vertical);
+            if (i) ctx.lineTo(p.x, p.y);
+            else ctx.moveTo(p.x, p.y);
+          }
+          ctx.stroke();
+          ctx.restore();
+        };
+        line(color, width, lit ? 1 : 1 - outro, false);
+        if (!lit && critical.has(key)) {
+          dash = [];
+          line(GOLD, 2.5, outro, !selected);
         }
-        ctx.strokeStyle = color;
-        ctx.lineWidth = width;
-        ctx.setLineDash(dash);
-        ctx.lineDashOffset = -t / 40;
-        ctx.beginPath();
-        for (let i = 0; i <= 24; i++) {
-          const p = edgePoint(a, b, i / 24, l.vertical);
-          if (i) ctx.lineTo(p.x, p.y);
-          else ctx.moveTo(p.x, p.y);
-        }
-        ctx.stroke();
-        ctx.restore();
         // The handoff: a spark runs down the line as the task starts.
         const since = t - (task.start ?? Infinity);
         if (since >= 0 && since < 600) {
@@ -301,11 +347,12 @@ export class RunMap extends HTMLElement {
       }
     }
 
-    this.#paths(trace.requests, t, l);
+    this.#paths(trace.requests, t, l, 1 - outro);
     this.#stations(trace.requests, t, l);
     this.#comets(trace.requests, t, l);
 
-    for (const task of trace.tasks) this.#node(task, t, l, selected, finished && critical, tasks);
+    for (const task of trace.tasks)
+      this.#node(task, t, l, selected, outro > 0.5 && critical, tasks);
   }
 
   #backdrop(l: Layout) {
@@ -380,8 +427,7 @@ export class RunMap extends HTMLElement {
       ctx.font = `500 ${l.vertical ? 10 : 12}px ${FONT}`;
       ctx.fillStyle = s.color;
       ctx.textBaseline = "top";
-      const name = l.vertical && s.id === "spellbook" ? "Spellbook" : s.name;
-      ctx.fillText(name, at.x, at.y + r + 8);
+      ctx.fillText(s.name, at.x, at.y + r + 8);
       if (busy) {
         ctx.fillStyle = "#868da3";
         ctx.font = `${l.vertical ? 10 : 11}px ${FONT}`;
@@ -406,15 +452,16 @@ export class RunMap extends HTMLElement {
   }
 
   /** Every flight so far, faintly: over the run they build up into who asked whom, how often. */
-  #paths(requests: TraceRequest[], t: number, l: Layout) {
+  #paths(requests: TraceRequest[], t: number, l: Layout, fade: number) {
     const ctx = this.#ctx;
+    if (fade <= 0) return;
     ctx.save();
     ctx.lineWidth = 1;
     requests.forEach((r, i) => {
       if (r.start > t) return;
       const color = SERVICES.find((s) => s.id === r.service)!.color;
       ctx.strokeStyle = color;
-      ctx.globalAlpha = 0.03 + 0.09 * clamp((t - r.start) / 1500);
+      ctx.globalAlpha = (0.03 + 0.09 * clamp((t - r.start) / 1500)) * fade;
       ctx.beginPath();
       for (let k = 0; k <= 20; k++) {
         const p = this.#flight(r, i, k / 20, l);
@@ -484,7 +531,7 @@ export class RunMap extends HTMLElement {
     const at = l.nodes.get(task.name)!;
     const state = stateAt(task, t);
     const ran = state === "waiting" ? 0 : Math.min(t, task.end ?? t) - task.start!;
-    const r = state === "waiting" ? 6 : 6 + Math.min(13, Math.sqrt(ran / 1000) * 3.2);
+    const r = state === "waiting" ? 6 : nodeRadius(ran);
     const onPath =
       critical &&
       [...critical].some((e) => e.startsWith(`${task.name}>`) || e.endsWith(`>${task.name}`));
@@ -566,7 +613,7 @@ export class RunMap extends HTMLElement {
     const side = l.labels.get(task.name)!;
     const lines: [string, string, string][] = [
       [
-        task.label,
+        taskLabel(task.name),
         `${state === "running" ? 600 : 500} ${l.vertical ? 11 : 12.5}px ${FONT}`,
         state === "waiting" ? "#868da3" : state === "running" ? "#fff" : "#b9bfd0",
       ],

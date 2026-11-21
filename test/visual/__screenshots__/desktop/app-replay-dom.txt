@@ -19,16 +19,16 @@
               "Paused"
             <h1>
               "How the doc optimized this deck"
-          <strong aria-hidden="true" class="run-clock">
-            "00:23.0"
-          <p aria-live="polite" class="run-now">
-            "The doc is reviewing the swaps."
-        <div class="run-chart">
           <div aria-label="Show the run as" class="run-looks" role="group">
             <button aria-pressed="true" class="run-look">
               "Map"
             <button aria-pressed="false" class="run-look">
               "Timeline"
+        <div class="run-chart">
+          <div class="run-stage">
+            <div class="run-overlays">
+              <p aria-live="polite" class="run-pill">
+                "Second-guessing the swaps…"
           <div class="run-player">
             <div class="run-ctls">
               <button aria-label="Back to the start" class="run-ctl" title="Home">
@@ -190,5 +190,5 @@
                 <rect class="svc-model" height="4.285714285714286" width="0.8" x="115" y="25.714285714285715">
                 <rect class="svc-model" height="2.142857142857143" width="0.8" x="116" y="27.857142857142858">
                 <rect class="svc-decisions" height="2.142857142857143" width="0.8" x="117" y="27.857142857142858">
-              <div class="run-scrub-played" style="width: 42.1554%">
-              <input aria-label="Moment in the run" max="54560" min="0" step="10" type="range" .value="23000">
+              <div class="run-scrub-played" style="width: calc(42.1554% + 1.25513px)">
+              <input aria-label="Moment in the run" max="54560" min="0" step="any" type="range" .value="23000">

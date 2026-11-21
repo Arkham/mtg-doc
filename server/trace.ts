@@ -13,20 +13,12 @@ import type { GraphWatcher } from "./task-graph.ts";
 
 const current = new AsyncLocalStorage<{ tracer: Tracer; task: string }>();
 
-/** How a task reads to a person: a label, and what it's doing while it runs. */
-export interface TaskCopy {
-  label: string;
-  doing: string;
-}
-
 export class Tracer implements GraphWatcher {
   private readonly started = Date.now();
   readonly startedAt = new Date(this.started).toISOString();
   private readonly tasks = new Map<string, TraceTask>();
   private readonly requests: TraceRequest[] = [];
   private readonly listeners = new Set<() => void>();
-
-  constructor(private readonly copy: (task: string) => TaskCopy) {}
 
   private since = () => Date.now() - this.started;
 
@@ -46,7 +38,7 @@ export class Tracer implements GraphWatcher {
   }
 
   added = (name: string, needs: readonly string[]) => {
-    this.tasks.set(name, { name, ...this.copy(name), needs: [...needs], state: "waiting" });
+    this.tasks.set(name, { name, needs: [...needs], state: "waiting" });
     this.changed();
   };
 

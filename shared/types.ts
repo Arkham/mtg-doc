@@ -416,13 +416,12 @@ export interface Job {
 /** An outside service a run calls. */
 export type Service = "scryfall" | "spellbook" | "edhrec" | "model" | "decisions";
 
-/** One task in a run's graph. Times are in ms since the run started. */
+/**
+ * One task in a run's graph, by id ("landPool"): what it's called is the frontend's
+ * (shared/run-copy.ts). Times are in ms since the run started.
+ */
 export interface TraceTask {
   name: string;
-  /** What it is, in a few words: "Web research". */
-  label: string;
-  /** What it's doing while it runs: "searching the web for how people build Nekusar". */
-  doing: string;
   /** The tasks it waits for. */
   needs: string[];
   state: "waiting" | "running" | "done" | "failed";

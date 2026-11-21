@@ -9,6 +9,7 @@ import Format
 import Json.Decode as D
 import Json.Encode as E
 import Route
+import RunCopy
 import Types
 
 
@@ -69,6 +70,11 @@ run value =
                 (\isStatic routes -> E.list (Route.href isStatic >> E.string) routes)
                 (field "isStatic" D.bool)
                 (field "routes" (D.list Route.decoder))
+                |> Result.withDefault E.null
+
+        Ok "taskLabels" ->
+            field "ids" (D.list D.string)
+                |> Result.map (List.map (\id -> ( id, E.string (RunCopy.label id) )) >> E.object)
                 |> Result.withDefault E.null
 
         _ ->

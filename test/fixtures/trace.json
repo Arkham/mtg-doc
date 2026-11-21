@@ -4,8 +4,6 @@
   "tasks": [
    {
     "name": "start",
-    "label": "Load the deck",
-    "doing": "reading your list from Scryfall",
     "needs": [],
     "state": "done",
     "start": 0,
@@ -13,8 +11,6 @@
    },
    {
     "name": "spellbook",
-    "label": "Combos & bracket",
-    "doing": "asking Commander Spellbook for combos and a bracket",
     "needs": [
      "start"
     ],
@@ -24,8 +20,6 @@
    },
    {
     "name": "baseline",
-    "label": "Goldfish",
-    "doing": "playing 10,000 solo games",
     "needs": [
      "start",
      "spellbook"
@@ -36,8 +30,6 @@
    },
    {
     "name": "edhrec",
-    "label": "EDHREC",
-    "doing": "reading what EDHREC players put in Nekusar, the Mindrazer",
     "needs": [
      "start",
      "baseline"
@@ -47,9 +39,7 @@
     "end": 4000
    },
    {
-    "name": "baseline mana",
-    "label": "Mana base",
-    "doing": "weighing the mana base",
+    "name": "baselineMana",
     "needs": [
      "start",
      "baseline",
@@ -61,8 +51,6 @@
    },
    {
     "name": "research",
-    "label": "Web research",
-    "doing": "searching the web for how people build Nekusar, the Mindrazer",
     "needs": [
      "start"
     ],
@@ -71,9 +59,7 @@
     "end": 17710
    },
    {
-    "name": "land pool",
-    "label": "Land options",
-    "doing": "finding lands in your colors",
+    "name": "landPool",
     "needs": [
      "start"
     ],
@@ -82,9 +68,7 @@
     "end": 4010
    },
    {
-    "name": "game changers",
-    "label": "Game Changers",
-    "doing": "listing Game Changers",
+    "name": "gameChangers",
     "needs": [
      "start",
      "baseline"
@@ -94,9 +78,7 @@
     "end": 4530
    },
    {
-    "name": "known upgrades",
-    "label": "Look up candidates",
-    "doing": "looking up the cards EDHREC and combos suggest",
+    "name": "knownUpgrades",
     "needs": [
      "start",
      "spellbook",
@@ -108,16 +90,14 @@
    },
    {
     "name": "upgrades",
-    "label": "Find upgrades",
-    "doing": "scoring every candidate and solving for the best swaps",
     "needs": [
      "start",
      "spellbook",
      "baseline",
      "edhrec",
      "research",
-     "game changers",
-     "known upgrades"
+     "gameChangers",
+     "knownUpgrades"
     ],
     "state": "done",
     "start": 17710,
@@ -125,13 +105,11 @@
    },
    {
     "name": "review",
-    "label": "Review swaps",
-    "doing": "reviewing the swaps",
     "needs": [
      "start",
      "spellbook",
      "baseline",
-     "baseline mana",
+     "baselineMana",
      "edhrec",
      "research",
      "upgrades"
@@ -141,23 +119,19 @@
    },
    {
     "name": "verified",
-    "label": "Fix mana & verify",
-    "doing": "fixing the mana base and checking the bracket again",
     "needs": [
      "start",
      "spellbook",
      "baseline",
      "edhrec",
-     "land pool",
+     "landPool",
      "upgrades",
      "review"
     ],
     "state": "waiting"
    },
    {
-    "name": "submitted checks",
-    "label": "Your list as submitted",
-    "doing": "checking your list as you submitted it",
+    "name": "submittedChecks",
     "needs": [
      "start"
     ],
@@ -167,8 +141,6 @@
    },
    {
     "name": "synergies",
-    "label": "Synergies",
-    "doing": "finding synergies",
     "needs": [
      "verified"
     ],
@@ -176,27 +148,23 @@
    },
    {
     "name": "draft",
-    "label": "How-to-play guides",
-    "doing": "writing the how-to-play guides",
     "needs": [
      "start",
      "spellbook",
      "baseline",
-     "baseline mana",
+     "baselineMana",
      "edhrec",
      "research",
      "upgrades",
      "review",
      "verified",
-     "submitted checks",
+     "submittedChecks",
      "synergies"
     ],
     "state": "waiting"
    },
    {
     "name": "checked",
-    "label": "Contradictions",
-    "doing": "checking what the report says against the facts",
     "needs": [
      "draft"
     ],
@@ -204,8 +172,6 @@
    },
    {
     "name": "saved",
-    "label": "Save",
-    "doing": "saving the report",
     "needs": [
      "start",
      "upgrades",
@@ -267,7 +233,7 @@
    {
     "service": "scryfall",
     "what": "search cards",
-    "task": "land pool",
+    "task": "landPool",
     "start": 2930,
     "end": 2980,
     "ok": true
@@ -275,7 +241,7 @@
    {
     "service": "scryfall",
     "what": "search cards",
-    "task": "land pool",
+    "task": "landPool",
     "start": 3460,
     "end": 3490,
     "ok": true
@@ -299,7 +265,7 @@
    {
     "service": "scryfall",
     "what": "search cards",
-    "task": "land pool",
+    "task": "landPool",
     "start": 3970,
     "end": 4010,
     "ok": true
@@ -307,7 +273,7 @@
    {
     "service": "scryfall",
     "what": "search cards",
-    "task": "game changers",
+    "task": "gameChangers",
     "start": 4500,
     "end": 4520,
     "ok": true
@@ -315,7 +281,7 @@
    {
     "service": "scryfall",
     "what": "look up 75 cards",
-    "task": "known upgrades",
+    "task": "knownUpgrades",
     "start": 5020,
     "end": 6290,
     "ok": true
@@ -323,7 +289,7 @@
    {
     "service": "scryfall",
     "what": "look up 75 cards",
-    "task": "known upgrades",
+    "task": "knownUpgrades",
     "start": 6300,
     "end": 7580,
     "ok": true
@@ -331,7 +297,7 @@
    {
     "service": "scryfall",
     "what": "look up 75 cards",
-    "task": "known upgrades",
+    "task": "knownUpgrades",
     "start": 7590,
     "end": 9200,
     "ok": true
@@ -339,7 +305,7 @@
    {
     "service": "scryfall",
     "what": "look up 33 cards",
-    "task": "known upgrades",
+    "task": "knownUpgrades",
     "start": 9200,
     "end": 9770,
     "ok": true
@@ -347,7 +313,7 @@
    {
     "service": "scryfall",
     "what": "find cheaper printings",
-    "task": "known upgrades",
+    "task": "knownUpgrades",
     "start": 9770,
     "end": 9800,
     "ok": true
@@ -355,7 +321,7 @@
    {
     "service": "spellbook",
     "what": "check 250 cards",
-    "task": "known upgrades",
+    "task": "knownUpgrades",
     "start": 9800,
     "end": 11680,
     "ok": true
@@ -389,8 +355,6 @@
   "tasks": [
    {
     "name": "start",
-    "label": "Load the deck",
-    "doing": "reading your list from Scryfall",
     "needs": [],
     "state": "done",
     "start": 0,
@@ -398,8 +362,6 @@
    },
    {
     "name": "spellbook",
-    "label": "Combos & bracket",
-    "doing": "asking Commander Spellbook for combos and a bracket",
     "needs": [
      "start"
     ],
@@ -409,8 +371,6 @@
    },
    {
     "name": "baseline",
-    "label": "Goldfish",
-    "doing": "playing 10,000 solo games",
     "needs": [
      "start",
      "spellbook"
@@ -421,8 +381,6 @@
    },
    {
     "name": "edhrec",
-    "label": "EDHREC",
-    "doing": "reading what EDHREC players put in Nekusar, the Mindrazer",
     "needs": [
      "start",
      "baseline"
@@ -432,9 +390,7 @@
     "end": 4000
    },
    {
-    "name": "baseline mana",
-    "label": "Mana base",
-    "doing": "weighing the mana base",
+    "name": "baselineMana",
     "needs": [
      "start",
      "baseline",
@@ -446,8 +402,6 @@
    },
    {
     "name": "research",
-    "label": "Web research",
-    "doing": "searching the web for how people build Nekusar, the Mindrazer",
     "needs": [
      "start"
     ],
@@ -456,9 +410,7 @@
     "end": 17710
    },
    {
-    "name": "land pool",
-    "label": "Land options",
-    "doing": "finding lands in your colors",
+    "name": "landPool",
     "needs": [
      "start"
     ],
@@ -467,9 +419,7 @@
     "end": 4010
    },
    {
-    "name": "game changers",
-    "label": "Game Changers",
-    "doing": "listing Game Changers",
+    "name": "gameChangers",
     "needs": [
      "start",
      "baseline"
@@ -479,9 +429,7 @@
     "end": 4530
    },
    {
-    "name": "known upgrades",
-    "label": "Look up candidates",
-    "doing": "looking up the cards EDHREC and combos suggest",
+    "name": "knownUpgrades",
     "needs": [
      "start",
      "spellbook",
@@ -493,16 +441,14 @@
    },
    {
     "name": "upgrades",
-    "label": "Find upgrades",
-    "doing": "scoring every candidate and solving for the best swaps",
     "needs": [
      "start",
      "spellbook",
      "baseline",
      "edhrec",
      "research",
-     "game changers",
-     "known upgrades"
+     "gameChangers",
+     "knownUpgrades"
     ],
     "state": "done",
     "start": 17710,
@@ -510,13 +456,11 @@
    },
    {
     "name": "review",
-    "label": "Review swaps",
-    "doing": "reviewing the swaps",
     "needs": [
      "start",
      "spellbook",
      "baseline",
-     "baseline mana",
+     "baselineMana",
      "edhrec",
      "research",
      "upgrades"
@@ -527,14 +471,12 @@
    },
    {
     "name": "verified",
-    "label": "Fix mana & verify",
-    "doing": "fixing the mana base and checking the bracket again",
     "needs": [
      "start",
      "spellbook",
      "baseline",
      "edhrec",
-     "land pool",
+     "landPool",
      "upgrades",
      "review"
     ],
@@ -543,9 +485,7 @@
     "end": 34700
    },
    {
-    "name": "submitted checks",
-    "label": "Your list as submitted",
-    "doing": "checking your list as you submitted it",
+    "name": "submittedChecks",
     "needs": [
      "start"
     ],
@@ -555,8 +495,6 @@
    },
    {
     "name": "synergies",
-    "label": "Synergies",
-    "doing": "finding synergies",
     "needs": [
      "verified"
     ],
@@ -566,19 +504,17 @@
    },
    {
     "name": "draft",
-    "label": "How-to-play guides",
-    "doing": "writing the how-to-play guides",
     "needs": [
      "start",
      "spellbook",
      "baseline",
-     "baseline mana",
+     "baselineMana",
      "edhrec",
      "research",
      "upgrades",
      "review",
      "verified",
-     "submitted checks",
+     "submittedChecks",
      "synergies"
     ],
     "state": "done",
@@ -587,8 +523,6 @@
    },
    {
     "name": "checked",
-    "label": "Contradictions",
-    "doing": "checking what the report says against the facts",
     "needs": [
      "draft"
     ],
@@ -598,8 +532,6 @@
    },
    {
     "name": "saved",
-    "label": "Save",
-    "doing": "saving the report",
     "needs": [
      "start",
      "upgrades",
@@ -663,7 +595,7 @@
    {
     "service": "scryfall",
     "what": "search cards",
-    "task": "land pool",
+    "task": "landPool",
     "start": 2930,
     "end": 2980,
     "ok": true
@@ -671,7 +603,7 @@
    {
     "service": "scryfall",
     "what": "search cards",
-    "task": "land pool",
+    "task": "landPool",
     "start": 3460,
     "end": 3490,
     "ok": true
@@ -695,7 +627,7 @@
    {
     "service": "scryfall",
     "what": "search cards",
-    "task": "land pool",
+    "task": "landPool",
     "start": 3970,
     "end": 4010,
     "ok": true
@@ -703,7 +635,7 @@
    {
     "service": "scryfall",
     "what": "search cards",
-    "task": "game changers",
+    "task": "gameChangers",
     "start": 4500,
     "end": 4520,
     "ok": true
@@ -711,7 +643,7 @@
    {
     "service": "scryfall",
     "what": "look up 75 cards",
-    "task": "known upgrades",
+    "task": "knownUpgrades",
     "start": 5020,
     "end": 6290,
     "ok": true
@@ -719,7 +651,7 @@
    {
     "service": "scryfall",
     "what": "look up 75 cards",
-    "task": "known upgrades",
+    "task": "knownUpgrades",
     "start": 6300,
     "end": 7580,
     "ok": true
@@ -727,7 +659,7 @@
    {
     "service": "scryfall",
     "what": "look up 75 cards",
-    "task": "known upgrades",
+    "task": "knownUpgrades",
     "start": 7590,
     "end": 9200,
     "ok": true
@@ -735,7 +667,7 @@
    {
     "service": "scryfall",
     "what": "look up 33 cards",
-    "task": "known upgrades",
+    "task": "knownUpgrades",
     "start": 9200,
     "end": 9770,
     "ok": true
@@ -743,7 +675,7 @@
    {
     "service": "scryfall",
     "what": "find cheaper printings",
-    "task": "known upgrades",
+    "task": "knownUpgrades",
     "start": 9770,
     "end": 9800,
     "ok": true
@@ -751,7 +683,7 @@
    {
     "service": "spellbook",
     "what": "check 250 cards",
-    "task": "known upgrades",
+    "task": "knownUpgrades",
     "start": 9800,
     "end": 11680,
     "ok": true

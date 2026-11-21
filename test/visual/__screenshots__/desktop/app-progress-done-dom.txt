@@ -19,16 +19,16 @@
               "Finished"
             <h1>
               "Optimizing your deck"
-          <strong aria-hidden="true" class="run-clock">
-            "00:54.5"
-          <p aria-live="polite" class="run-now">
-            "Done. Opening your deck…"
-        <div class="run-chart">
           <div aria-label="Show the run as" class="run-looks" role="group">
             <button aria-pressed="true" class="run-look">
               "Map"
             <button aria-pressed="false" class="run-look">
               "Timeline"
+        <div class="run-chart">
+          <div class="run-stage">
+            <div class="run-overlays">
+              <p aria-live="polite" class="run-pill">
+                "GG!"
           <div class="run-summary">
             <p class="run-total">
               <strong>

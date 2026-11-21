@@ -67,8 +67,9 @@ test.describe("local app", () => {
     await page.keyboard.press("Space");
     await expect(page.locator(".run-kicker")).toHaveText("Replay");
     await page.getByRole("button", { name: "4×" }).click();
-    await expect(page.locator(".run-summary")).toBeVisible();
-    await expect(page.getByRole("link", { name: "See the optimized deck" })).toBeVisible();
+    // At the end a replay just says so: it has its own controls, and the deck is a tap on Back.
+    await expect(page.locator(".run-pill")).toHaveText("GG!");
+    await expect(page.locator(".run-summary")).toHaveCount(0);
     await page.getByRole("button", { name: "Back", exact: true }).click();
     await expect(page.getByRole("heading", { name: "Optimized deck" })).toBeVisible();
     await expect(page.locator(".checks li.bad")).toHaveCount(0);

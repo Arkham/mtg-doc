@@ -3528,17 +3528,10 @@ encodeTraceRequest value =
         )
 
 
-{-| label: What it is, in a few words: "Web research".
-
-doing: What it's doing while it runs: "searching the web for how people build Nekusar".
-
-needs: The tasks it waits for.
-
+{-| needs: The tasks it waits for.
 -}
 type alias TraceTask =
     { name : String
-    , label : String
-    , doing : String
     , needs : List String
     , state : TraceTaskState
     , start : Maybe Float
@@ -3550,8 +3543,6 @@ traceTaskDecoder : Decoder TraceTask
 traceTaskDecoder =
     D.succeed TraceTask
         |> P.required "name" D.string
-        |> P.required "label" D.string
-        |> P.required "doing" D.string
         |> P.required "needs" (D.list D.string)
         |> P.required "state" traceTaskStateDecoder
         |> P.optional "start" (D.map Just D.float) Nothing
@@ -3563,8 +3554,6 @@ encodeTraceTask value =
     E.object
         (List.filterMap identity
             [ Just ( "name", E.string value.name )
-            , Just ( "label", E.string value.label )
-            , Just ( "doing", E.string value.doing )
             , Just ( "needs", E.list E.string value.needs )
             , Just ( "state", encodeTraceTaskState value.state )
             , Maybe.map (\v -> ( "start", E.float v )) value.start

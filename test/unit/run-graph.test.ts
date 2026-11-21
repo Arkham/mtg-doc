@@ -8,8 +8,6 @@ import type { Trace, TraceTask } from "../../shared/types.ts";
 
 const task = (name: string, needs: string[], start?: number, end?: number): TraceTask => ({
   name,
-  label: name,
-  doing: name,
   needs,
   state: end !== undefined ? "done" : start !== undefined ? "running" : "waiting",
   start,

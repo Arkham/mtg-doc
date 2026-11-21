@@ -4,6 +4,7 @@
  * content in plain HTML.
  */
 import { Marked } from "marked";
+import { taskLabel } from "../shared/run-copy.ts";
 import type { DeckSummary, Report, RunRecord, Service } from "../shared/types.ts";
 
 const escapeHtml = (s: string) =>
@@ -89,7 +90,7 @@ const SERVICE_NAMES: Record<Service, string> = {
   scryfall: "Scryfall",
   spellbook: "Commander Spellbook",
   edhrec: "EDHREC",
-  model: "the model",
+  model: "the LLM",
   decisions: "Decisions",
 };
 
@@ -102,7 +103,6 @@ const secs = (ms: number) => `${(ms / 1000).toFixed(1)}s`;
 export function runPage(shell: string, base: string, summary: DeckSummary, run: RunRecord): string {
   const name = title(summary);
   const { trace } = run;
-  const labels = new Map(trace.tasks.map((t) => [t.name, t.label]));
   const steps = trace.tasks
     .map((t) => {
       const asked = trace.requests.filter((r) => r.task === t.name);
@@ -114,9 +114,9 @@ export function runPage(shell: string, base: string, summary: DeckSummary, run: 
           ? `from ${secs(t.start)} to ${secs(t.end)} (${secs(t.end - t.start)})`
           : "didn't run";
       const needs = t.needs.length
-        ? ` after ${t.needs.map((n) => escapeHtml(labels.get(n) ?? n)).join(", ")}`
+        ? ` after ${t.needs.map((n) => escapeHtml(taskLabel(n))).join(", ")}`
         : "";
-      return `<li><strong>${escapeHtml(t.label)}</strong>: ${when}${needs}${services ? `; requests: ${services}` : ""}</li>`;
+      return `<li><strong>${escapeHtml(taskLabel(t.name))}</strong>: ${when}${needs}${services ? `; requests: ${services}` : ""}</li>`;
     })
     .join("");
   const outcome = run.status === "done" ? "finished" : "stopped with an error";

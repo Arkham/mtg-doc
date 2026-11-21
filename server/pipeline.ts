@@ -71,7 +71,7 @@ import {
   findCombos,
 } from "./sources/spellbook.ts";
 import { TaskGraph } from "./task-graph.ts";
-import { type TaskCopy, Tracer, traceFetch } from "./trace.ts";
+import { Tracer, traceFetch } from "./trace.ts";
 
 traceFetch();
 import {
@@ -235,67 +235,25 @@ enum Task {
   Baseline = "baseline",
   Edhrec = "edhrec",
   /** The baseline's mana analysis with EDHREC's average land count. */
-  BaselineMana = "baseline mana",
+  BaselineMana = "baselineMana",
   Research = "research",
   /** Lands to consider for the mana base, looked up while the rest runs. */
-  LandPool = "land pool",
-  GameChangers = "game changers",
+  LandPool = "landPool",
+  GameChangers = "gameChangers",
   /** Upgrade candidates from EDHREC and combos, looked up and classified. */
-  KnownUpgrades = "known upgrades",
+  KnownUpgrades = "knownUpgrades",
   /** All candidates (web research and Game Changers added), scored and solved. */
   Upgrades = "upgrades",
   Review = "review",
   /** The final deck: swaps applied, mana fixed, bracket verified, combos found. */
   Verified = "verified",
   /** Commander Spellbook on the deck as submitted, when the run started from the user's edits. */
-  SubmittedChecks = "submitted checks",
+  SubmittedChecks = "submittedChecks",
   Synergies = "synergies",
   Draft = "draft",
   Checked = "checked",
   Saved = "saved",
 }
-
-/** Each task, for the reader: what it is, and what it's doing while it runs. */
-const TASK_COPY: Record<Task, (commander: string) => TaskCopy> = {
-  [Task.Start]: () => ({ label: "Load the deck", doing: "reading your list from Scryfall" }),
-  [Task.Spellbook]: () => ({
-    label: "Combos & bracket",
-    doing: "asking Commander Spellbook for combos and a bracket",
-  }),
-  [Task.Baseline]: () => ({ label: "Goldfish", doing: "playing 10,000 solo games" }),
-  [Task.Edhrec]: (c) => ({ label: "EDHREC", doing: `reading what EDHREC players put in ${c}` }),
-  [Task.BaselineMana]: () => ({ label: "Mana base", doing: "weighing the mana base" }),
-  [Task.Research]: (c) => ({
-    label: "Web research",
-    doing: `searching the web for how people build ${c}`,
-  }),
-  [Task.LandPool]: () => ({ label: "Land options", doing: "finding lands in your colors" }),
-  [Task.GameChangers]: () => ({ label: "Game Changers", doing: "listing Game Changers" }),
-  [Task.KnownUpgrades]: () => ({
-    label: "Look up candidates",
-    doing: "looking up the cards EDHREC and combos suggest",
-  }),
-  [Task.Upgrades]: () => ({
-    label: "Find upgrades",
-    doing: "scoring every candidate and solving for the best swaps",
-  }),
-  [Task.Review]: () => ({ label: "Review swaps", doing: "reviewing the swaps" }),
-  [Task.Verified]: () => ({
-    label: "Fix mana & verify",
-    doing: "fixing the mana base and checking the bracket again",
-  }),
-  [Task.SubmittedChecks]: () => ({
-    label: "Your list as submitted",
-    doing: "checking your list as you submitted it",
-  }),
-  [Task.Synergies]: () => ({ label: "Synergies", doing: "finding synergies" }),
-  [Task.Draft]: () => ({ label: "How-to-play guides", doing: "writing the how-to-play guides" }),
-  [Task.Checked]: () => ({
-    label: "Contradictions",
-    doing: "checking what the report says against the facts",
-  }),
-  [Task.Saved]: () => ({ label: "Save", doing: "saving the report" }),
-};
 
 async function run(job: Job, opts: RunOptions) {
   const meta = await readMeta(job.slug);
@@ -310,8 +268,7 @@ async function run(job: Job, opts: RunOptions) {
   const warn = (at: Step, message: string) => warned.set(at, [...(warned.get(at) ?? []), message]);
   const warnings = () => STEPS.flatMap((label) => warned.get(label) ?? []);
 
-  const commander = meta.commanders.join(" + ") || "this deck";
-  const tracer = new Tracer((task) => TASK_COPY[task as Task](commander));
+  const tracer = new Tracer();
   tracers.set(job.id, tracer);
   const graph = new TaskGraph(tracer)
     .task(Task.Start, [], () =>

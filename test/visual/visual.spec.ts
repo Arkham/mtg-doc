@@ -344,14 +344,14 @@ test.describe("local app", () => {
 
     await page.goto(`${APP_URL}#/job/${DECK}/visual-job`);
     await until(() => expect(page.locator("mtg-run-map")).toBeVisible({ timeout: 1 }));
-    await expect(page.locator(".run-now")).toHaveText("The doc is reviewing the swaps.");
+    await expect(page.locator(".run-pill")).toHaveText("Second-guessing the swaps…");
     await still("app-progress");
 
     await tap(page.getByRole("button", { name: "Timeline", exact: true }), isMobile);
     await until(() => expect(page.locator(".run-row").first()).toBeVisible({ timeout: 1 }));
     await tap(page.locator(".run-row-button", { hasText: "Review swaps" }), isMobile);
     await until(() =>
-      expect(page.locator(".run-detail")).toContainText("It waits for", { timeout: 1 }),
+      expect(page.locator(".run-row.selected")).toContainText("Review swaps", { timeout: 1 }),
     );
     await still("app-progress-timeline");
 
@@ -400,7 +400,7 @@ test.describe("local app", () => {
       el.dispatchEvent(new Event("input", { bubbles: true }));
     });
     await until(() => expect(page.locator(".run-time")).toContainText("00:23.0", { timeout: 1 }));
-    await expect(page.locator(".run-now")).toHaveText("The doc is reviewing the swaps.");
+    await expect(page.locator(".run-pill")).toHaveText("Second-guessing the swaps…");
     await still("app-replay");
 
     await tap(page.getByRole("button", { name: "Timeline", exact: true }), isMobile);

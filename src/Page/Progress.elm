@@ -16,6 +16,7 @@ import Html.Lazy
 import Json.Decode as D
 import Process
 import Route
+import RunCopy
 import Svg
 import Svg.Attributes as SA
 import Task
@@ -30,6 +31,14 @@ import Ui.Icons as Icons
 lingerMs : Float
 lingerMs =
     4000
+
+
+{-| How long past its end a run plays, so the map can finish: its last comets come home, then all
+but the golden path fades (`OUTRO_*` in src/run-map.ts).
+-}
+outroMs : Float
+outroMs =
+    1200
 
 
 {-| How far the clock moves on past the latest trace (the server sends one every second).
@@ -289,9 +298,11 @@ seekTo model pb =
     { pb | at = at, playing = pb.playing && at < length }
 
 
+{-| How far a playhead goes: the run, and its outro.
+-}
 runLength : Model -> Float
 runLength model =
-    fullTrace model |> Maybe.map .elapsed |> Maybe.withDefault 0
+    fullTrace model |> Maybe.map (\t -> t.elapsed + outroMs) |> Maybe.withDefault 0
 
 
 fullTrace : Model -> Maybe Trace
@@ -400,7 +411,7 @@ liveClock model now =
                         model.reported + driftMs
 
                     else
-                        trace.elapsed
+                        trace.elapsed + outroMs
 
                 target =
                     min limit (now - origin - delayMs)
@@ -429,7 +440,7 @@ liveClock model now =
 -}
 catchingUp : Model -> Bool
 catchingUp model =
-    model.playback == Nothing && model.run == Nothing && (fullTrace model |> Maybe.map (\t -> model.liveAt < t.elapsed) |> Maybe.withDefault False)
+    model.playback == Nothing && model.run == Nothing && (fullTrace model |> Maybe.map (\t -> model.liveAt < t.elapsed + outroMs) |> Maybe.withDefault False)
 
 
 subscriptions : Model -> Sub Msg
@@ -482,21 +493,6 @@ clock ms =
     String.padLeft 2 '0' (String.fromInt minutes) ++ ":" ++ String.padLeft 2 '0' (String.fromInt seconds) ++ "." ++ String.fromInt (modBy 10 total)
 
 
-{-| A list in words: "a", "a and b", "a, b and c".
--}
-sentence : List String -> String
-sentence items =
-    case List.reverse items of
-        [] ->
-            ""
-
-        [ only ] ->
-            only
-
-        last :: rest ->
-            String.join ", " (List.reverse rest) ++ " and " ++ last
-
-
 serviceName : Service -> String
 serviceName s =
     case s of
@@ -504,13 +500,13 @@ serviceName s =
             "Scryfall"
 
         ServiceSpellbook ->
-            "Commander Spellbook"
+            "Spellbook"
 
         ServiceEdhrec ->
             "EDHREC"
 
         ServiceModel ->
-            "The model"
+            "LLM"
 
         ServiceDecisions ->
             "Decisions"
@@ -594,7 +590,7 @@ moment model trace =
 
         Nothing ->
             if model.run == Nothing then
-                min trace.elapsed model.liveAt
+                min (trace.elapsed + outroMs) model.liveAt
 
             else
                 trace.elapsed
@@ -697,43 +693,49 @@ step s =
         ]
 
 
+{-| What the pill over the map says at the moment shown: what the step started last is up to,
+and how many more run beside it.
+-}
+nowSentence : Model -> Trace -> String
+nowSentence model trace =
+    let
+        t =
+            moment model trace
+
+        running =
+            traceAt t trace
+                |> .tasks
+                |> List.filter isRunning
+                |> List.sortBy (\task -> negate (Maybe.withDefault 0 task.start))
+    in
+    case ( atEnd model trace, runStatus model, running ) of
+        ( True, JobStatusDone, _ ) ->
+            "GG!"
+
+        ( True, JobStatusError, _ ) ->
+            "Took a misstep"
+
+        ( _, _, [] ) ->
+            if t == 0 then
+                "Shuffling up…"
+
+            else
+                "Thinking…"
+
+        ( _, _, latest :: others ) ->
+            RunCopy.pill latest.name
+                ++ "…"
+                ++ (if List.isEmpty others then
+                        ""
+
+                    else
+                        " +" ++ String.fromInt (List.length others)
+                   )
+
+
 header : Model -> Html Msg
 header model =
     let
-        trace =
-            fullTrace model
-
-        t =
-            trace |> Maybe.map (moment model) |> Maybe.withDefault 0
-
-        doing =
-            trace |> Maybe.map (traceAt t >> .tasks >> List.filter isRunning >> List.map .doing) |> Maybe.withDefault []
-
-        ended =
-            trace |> Maybe.map (atEnd model) |> Maybe.withDefault False
-
-        now =
-            case ( ended, runStatus model, doing ) of
-                ( True, JobStatusDone, _ ) ->
-                    if model.stay || model.run /= Nothing then
-                        "Done."
-
-                    else
-                        "Done. Opening your deck…"
-
-                ( True, JobStatusError, _ ) ->
-                    "Something went wrong."
-
-                ( _, _, [] ) ->
-                    if t == 0 || trace == Nothing then
-                        "Getting started…"
-
-                    else
-                        "The doc is between steps."
-
-                ( _, _, first :: rest ) ->
-                    "The doc is " ++ sentence (first :: rest) ++ "."
-
         ( kicker, kickerClass ) =
             case model.playback of
                 Just pb ->
@@ -766,8 +768,11 @@ header model =
                     )
                 ]
             ]
-        , strong [ class "run-clock", attribute "aria-hidden" "true" ] [ text (clock t) ]
-        , p [ class "run-now", attribute "aria-live" "polite" ] [ text now ]
+        , if fullTrace model == Nothing then
+            text ""
+
+          else
+            looks model.look
         ]
 
 
@@ -779,10 +784,6 @@ chart env model full =
 
         t =
             moment model full
-
-        -- Live too: the run is shown a little behind the events, which may already say what's next.
-        trace =
-            traceAt t full
 
         ended =
             atEnd model full
@@ -796,54 +797,63 @@ chart env model full =
 
         x ms =
             clamp 0 100 (ms / span_ * 100)
-
-        byTask =
-            List.foldr
-                (\r acc ->
-                    case r.task of
-                        Just name ->
-                            Dict.update name (\rs -> Just (r :: Maybe.withDefault [] rs)) acc
-
-                        Nothing ->
-                            acc
-                )
-                Dict.empty
-                trace.requests
-
-        tasksByName =
-            trace.tasks |> List.map (\r -> ( r.name, r )) |> Dict.fromList
     in
     div [ class "run-chart" ]
-        [ looks model.look
-        , case model.look of
-            Map ->
-                runMap model full
+        [ div [ class "run-stage" ]
+            [ -- Over the corner of the map or timeline: what the doc is doing.
+              div [ class "run-overlays" ]
+                [ p [ class "run-pill", attribute "aria-live" "polite" ] [ text (nowSentence model full) ] ]
+            , case model.look of
+                Map ->
+                    runMap model full
 
-            Timeline ->
-                let
-                    critical =
-                        if ended then
-                            criticalPath tasksByName trace.tasks
+                Timeline ->
+                    let
+                        -- Live too: the run is shown a little behind the events, which may already say what's next.
+                        trace =
+                            traceAt t full
 
-                        else
-                            []
+                        byTask =
+                            List.foldr
+                                (\r acc ->
+                                    case r.task of
+                                        Just name ->
+                                            Dict.update name (\rs -> Just (r :: Maybe.withDefault [] rs)) acc
 
-                    related =
-                        relations model.selected trace.tasks
-                in
-                div [] [ legend trace, timeline model x span_ t byTask critical related trace ]
+                                        Nothing ->
+                                            acc
+                                )
+                                Dict.empty
+                                trace.requests
+
+                        critical =
+                            if ended then
+                                let
+                                    tasksByName =
+                                        trace.tasks |> List.map (\r -> ( r.name, r )) |> Dict.fromList
+                                in
+                                criticalPath tasksByName trace.tasks
+
+                            else
+                                []
+
+                        related =
+                            relations model.selected trace.tasks
+                    in
+                    div [ class "run-timeline" ] [ legend trace, timeline model x span_ t byTask critical related trace ]
+            ]
+        , -- A replay has its own controls and its own clock.
+          if ended && model.playback == Nothing then
+            summary env model full
+
+          else
+            text ""
         , case model.playback of
             Just pb ->
                 player pb full
 
             Nothing ->
                 text ""
-        , detail model t byTask tasksByName
-        , if ended then
-            summary env model full
-
-          else
-            text ""
         ]
 
 
@@ -904,6 +914,11 @@ player pb trace =
         length =
             max 1 trace.elapsed
 
+        -- Where the thumb's centre sits for a fraction of the run: a range input keeps its thumb
+        -- inside the track, half a thumb from either end.
+        along f =
+            "calc(8px + (100% - 16px) * " ++ String.fromFloat (clamp 0 1 f) ++ ")"
+
         iconButton label hint msg glyph =
             button [ class "run-ctl", attribute "aria-label" label, title hint, onClick msg ] [ glyph ]
     in
@@ -935,7 +950,7 @@ player pb trace =
                     Icons.play
                 ]
             , iconButton "On a second" "→" (Nudge 1000) Icons.forward
-            , span [ class "run-time" ] [ text (clock pb.at), span [ class "muted" ] [ text (" / " ++ clock trace.elapsed) ] ]
+            , span [ class "run-time" ] [ text (clock (min pb.at trace.elapsed)), span [ class "muted" ] [ text (" / " ++ clock trace.elapsed) ] ]
             , div [ class "run-speeds", attribute "role" "group", attribute "aria-label" "Speed" ]
                 (List.map
                     (\sp ->
@@ -957,15 +972,28 @@ player pb trace =
             ]
         , div [ class "run-scrub" ]
             [ Html.Lazy.lazy histogram trace
-            , div [ class "run-scrub-played", style "width" (String.fromFloat (pb.at / length * 100) ++ "%") ] []
+            , div [ class "run-scrub-played", style "width" (along (pb.at / length)) ] []
             , Html.input
                 [ type_ "range"
                 , Ui.Attr.min "0"
                 , Ui.Attr.max (String.fromFloat length)
-                , attribute "step" "10"
-                , Html.Attributes.value (String.fromFloat pb.at)
+                , attribute "step" "any"
+                , Html.Attributes.value (String.fromFloat (min pb.at trace.elapsed))
                 , attribute "aria-label" "Moment in the run"
-                , Html.Events.onInput (String.toFloat >> Maybe.withDefault 0 >> Seek)
+
+                -- All the way to the end is the end of the outro, so a still there is a clean one.
+                , Html.Events.onInput
+                    (String.toFloat
+                        >> Maybe.withDefault 0
+                        >> (\v ->
+                                if v >= trace.elapsed then
+                                    trace.elapsed + outroMs
+
+                                else
+                                    v
+                           )
+                        >> Seek
+                    )
                 ]
                 []
             ]
@@ -1235,7 +1263,7 @@ row model x t byTask critical related task =
                     "false"
                 )
             ]
-            [ span [ class "run-label" ] [ text task.label ]
+            [ span [ class "run-label" ] [ text (RunCopy.label task.name) ]
             , span [ class "run-track" ]
                 (case task.start of
                     Just start ->
@@ -1295,101 +1323,6 @@ request x t i r =
         , style "--lane" (String.fromInt (modBy 3 i))
         ]
         []
-
-
-{-| What a tapped task did, or what it's waiting for.
--}
-detail : Model -> Float -> Dict String (List TraceRequest) -> Dict String TraceTask -> Html Msg
-detail model t byTask tasksByName =
-    case model.selected |> Maybe.andThen (\n -> Dict.get n tasksByName) of
-        Nothing ->
-            text ""
-
-        Just task ->
-            let
-                requests =
-                    Dict.get task.name byTask |> Maybe.withDefault []
-
-                labels names =
-                    names |> List.filterMap (\n -> Dict.get n tasksByName) |> List.map .label
-
-                feeds =
-                    Dict.values tasksByName |> List.filter (\tk -> List.member task.name tk.needs) |> List.map .label
-
-                said =
-                    case task.state of
-                        TraceTaskStateWaiting ->
-                            let
-                                waitingFor =
-                                    task.needs
-                                        |> List.filterMap (\n -> Dict.get n tasksByName)
-                                        |> List.filter (\n -> n.state /= TraceTaskStateDone)
-                                        |> List.map .label
-                            in
-                            "Waiting for " ++ sentence waitingFor ++ "."
-
-                        TraceTaskStateRunning ->
-                            "Now " ++ task.doing ++ ", " ++ secs (t - Maybe.withDefault t task.start) ++ " so far."
-
-                        TraceTaskStateDone ->
-                            "Took " ++ secs (Maybe.withDefault 0 task.end - Maybe.withDefault 0 task.start) ++ "."
-
-                        TraceTaskStateFailed ->
-                            "Failed."
-
-                graph =
-                    [ if List.isEmpty task.needs then
-                        "It starts the run."
-
-                      else
-                        "It waits for " ++ sentence (labels task.needs) ++ "."
-                    , if List.isEmpty feeds then
-                        ""
-
-                      else
-                        sentence feeds
-                            ++ " "
-                            ++ (if List.length feeds == 1 then
-                                    "waits"
-
-                                else
-                                    "wait"
-                               )
-                            ++ " for it."
-                    ]
-                        |> List.filter ((/=) "")
-                        |> String.join " "
-            in
-            div [ class "run-detail", attribute "aria-live" "polite" ]
-                (strong [] [ text task.label ]
-                    :: p [ class "small" ] [ text (said ++ " " ++ graph) ]
-                    :: (if List.isEmpty requests then
-                            []
-
-                        else
-                            [ ul [ class "run-detail-reqs" ]
-                                (List.map
-                                    (\r ->
-                                        li [ class ("svc-" ++ serviceToString r.service) ]
-                                            [ span [ class "svc-dot", attribute "aria-hidden" "true" ] []
-                                            , span [] [ strong [] [ text (serviceName r.service) ], text (" " ++ r.what) ]
-                                            , span [ class "muted" ]
-                                                [ text
-                                                    (case r.end of
-                                                        Just e ->
-                                                            secs (e - r.start)
-
-                                                        Nothing ->
-                                                            "in flight"
-                                                    )
-                                                ]
-                                            ]
-                                    )
-                                    requests
-                                )
-                            ]
-                       )
-                )
 
 
 {-| The finished run in a line, with where to go from it.

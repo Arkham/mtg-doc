@@ -11,6 +11,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { parseArgs } from "node:util";
+import { taskLabel } from "../shared/run-copy.ts";
 import type { Trace } from "../shared/types.ts";
 
 const { values, positionals } = parseArgs({
@@ -56,7 +57,7 @@ console.log(`\n${slug}: ${secs(total)} in total\n\nTasks`);
 for (const t of trace.tasks)
   if (t.start !== undefined && t.end !== undefined)
     console.log(
-      `${t.label.padEnd(26)} ${bar(t.start, t.end)} ${secs(t.end - t.start).padStart(6)}`,
+      `${taskLabel(t.name).padEnd(26)} ${bar(t.start, t.end)} ${secs(t.end - t.start).padStart(6)}`,
     );
 const work = trace.tasks.reduce((n, t) => n + ((t.end ?? 0) - (t.start ?? 0)), 0);
 console.log(`\nIts tasks add up to ${secs(work)}; side by side they took ${secs(total)}.`);

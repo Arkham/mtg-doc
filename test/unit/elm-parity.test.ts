@@ -13,6 +13,7 @@ import vm from "node:vm";
 import { config } from "../../server/config.ts";
 import { listDecks } from "../../server/storage.ts";
 import { type Route, routeHref } from "../../src/routes.ts";
+import { TASK_LABELS } from "../../shared/run-copy.ts";
 
 const ROOT = path.resolve(import.meta.dirname, "../..");
 const DECKS = path.join(ROOT, "decks");
@@ -133,5 +134,15 @@ describe("Elm routes", () => {
         [...((await ask({ kind: "href", isStatic, routes })) as string[])],
         routes.map((r) => routeHref(r, isStatic)),
       );
+  });
+});
+
+describe("Elm run copy", () => {
+  test("calls each task of a run what shared/run-copy.ts does", async () => {
+    // An id the Elm app doesn't know would come back as itself.
+    const ids = Object.keys(TASK_LABELS);
+    // From the worker's own context: compared as data.
+    const elm = JSON.parse(JSON.stringify(await ask({ kind: "taskLabels", ids })));
+    assert.deepEqual(elm, TASK_LABELS);
   });
 });

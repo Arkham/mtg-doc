@@ -19,219 +19,205 @@
               "Live"
             <h1>
               "Optimizing your deck"
-          <strong aria-hidden="true" class="run-clock">
-            "00:27.0"
-          <p aria-live="polite" class="run-now">
-            "The doc is reviewing the swaps."
-        <div class="run-chart">
           <div aria-label="Show the run as" class="run-looks" role="group">
             <button aria-pressed="false" class="run-look">
               "Map"
             <button aria-pressed="true" class="run-look">
               "Timeline"
-          <div>
-            <ul aria-label="Requests by service" class="run-legend">
-              <li class="svc-scryfall">
-                <span aria-hidden="true" class="svc-dot">
-                "Scryfall"
-                <strong>
-                  "14"
-              <li class="svc-spellbook">
-                <span aria-hidden="true" class="svc-dot">
-                "Commander Spellbook"
-                <strong>
-                  "3"
-              <li class="svc-edhrec">
-                <span aria-hidden="true" class="svc-dot">
-                "EDHREC"
-                <strong>
-                  "2"
-              <li class="svc-model busy">
-                <span aria-hidden="true" class="svc-dot">
-                "The model"
-                <strong>
-                  "2"
-              <li class="svc-decisions">
-                <span aria-hidden="true" class="svc-dot">
-                "Decisions"
-                <strong>
-                  "0"
-            <div class="run-grid">
-              <div aria-hidden="true" class="run-axis">
-                <span class="run-tick" style="left: 0%">
-                  "0s"
-                <span class="run-tick" style="left: 32.9955%">
-                  "10s"
-                <span class="run-tick" style="left: 65.9909%">
-                  "20s"
-                <span class="run-tick" style="left: 98.9864%">
-                  "30s"
-              <ul class="run-rows">
-                <li class="run-row done needed">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "Load the deck"
-                    <span class="run-track">
-                      <span class="run-bar" style="left: 0%; width: 8.05089%">
-                      <span class="run-req svc-scryfall" style="left: 0%; width: 6.23614%">
-                      <span class="run-req svc-scryfall" style="left: 6.26914%; width: 0.692905%">
-                      <span class="run-req svc-scryfall" style="left: 7.95191%; width: 0.4%">
-                    <span class="run-duration">
-                      "2.4 s"
-                <li class="run-row done needed">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "Combos & bracket"
-                    <span class="run-track">
-                      <span class="run-bar" style="left: 8.05089%; width: 4.45439%">
-                      <span class="run-req svc-spellbook" style="left: 8.05089%; width: 4.45439%">
-                      <span class="run-req svc-spellbook" style="left: 8.05089%; width: 4.3884%">
-                    <span class="run-duration">
-                      "1.4 s"
-                <li class="run-row done needed">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "Goldfish"
-                    <span class="run-track">
-                      <span class="run-bar" style="left: 12.5053%; width: 0.6%">
-                    <span class="run-duration">
-                      "0.1 s"
-                <li class="run-row done needed">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "EDHREC"
-                    <span class="run-track">
-                      <span class="run-bar" style="left: 12.8682%; width: 0.6%">
-                      <span class="run-req svc-edhrec" style="left: 12.8682%; width: 0.4%">
-                      <span class="run-req svc-edhrec" style="left: 12.9012%; width: 0.4%">
-                    <span class="run-duration">
-                      "0.1 s"
-                <li class="run-row done needed">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "Mana base"
-                    <span class="run-track">
-                      <span class="run-bar" style="left: 13.1982%; width: 0.6%">
-                    <span class="run-duration">
-                      "0.0 s"
-                <li class="run-row done needed">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "Web research"
-                    <span class="run-track">
-                      <span class="run-bar" style="left: 8.05089%; width: 50.3841%">
-                      <span class="run-req svc-model" style="left: 8.05089%; width: 50.3841%">
-                    <span class="run-duration">
-                      "15.3 s"
-                <li class="run-row done dim">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "Land options"
-                    <span class="run-track">
-                      <span class="run-bar" style="left: 8.05089%; width: 5.18029%">
-                      <span class="run-req svc-scryfall" style="left: 9.66767%; width: 0.4%">
-                      <span class="run-req svc-scryfall" style="left: 11.4164%; width: 0.4%">
-                      <span class="run-req svc-scryfall" style="left: 13.0992%; width: 0.4%">
-                    <span class="run-duration">
-                      "1.6 s"
-                <li class="run-row done dim">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "Game Changers"
-                    <span class="run-track">
-                      <span class="run-bar" style="left: 12.9012%; width: 2.04572%">
-                      <span class="run-req svc-scryfall" style="left: 14.848%; width: 0.4%">
-                    <span class="run-duration">
-                      "0.6 s"
-                <li class="run-row done dim">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "Look up candidates"
-                    <span class="run-track">
-                      <span class="run-bar" style="left: 13.1982%; width: 25.3405%">
-                      <span class="run-req svc-scryfall" style="left: 16.5637%; width: 4.19042%">
-                      <span class="run-req svc-scryfall" style="left: 20.7871%; width: 4.22342%">
-                      <span class="run-req svc-scryfall" style="left: 25.0436%; width: 5.31227%">
-                      <span class="run-req svc-scryfall" style="left: 30.3558%; width: 1.88074%">
-                      <span class="run-req svc-scryfall" style="left: 32.2366%; width: 0.4%">
-                      <span class="run-req svc-spellbook" style="left: 32.3356%; width: 6.20315%">
-                    <span class="run-duration">
-                      "7.7 s"
-                <li class="run-row done needed">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "Find upgrades"
-                    <span class="run-track">
-                      <span class="run-bar" style="left: 58.435%; width: 2.63964%">
-                      <span class="run-req svc-scryfall" style="left: 58.435%; width: 1.02286%">
-                      <span class="run-req svc-scryfall" style="left: 60.1507%; width: 0.527927%">
-                    <span class="run-duration">
-                      "0.8 s"
-                <li class="run-row running selected">
-                  <button aria-pressed="true" class="run-row-button">
-                    <span class="run-label">
-                      "Review swaps"
-                    <span class="run-track">
-                      <span class="run-bar" style="left: 61.0746%; width: 28.2111%">
-                      <span class="run-req svc-model live" style="left: 61.0746%; width: 28.2111%">
-                    <span class="run-duration">
-                      "8.6 s"
-                <li class="run-row waiting feeds">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "Fix mana & verify"
-                    <span class="run-track">
-                    <span class="run-duration">
-                      "waiting"
-                <li class="run-row done dim">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "Your list as submitted"
-                    <span class="run-track">
-                      <span class="run-bar" style="left: 8.05089%; width: 0.6%">
-                    <span class="run-duration">
-                      "0.0 s"
-                <li class="run-row waiting dim">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "Synergies"
-                    <span class="run-track">
-                    <span class="run-duration">
-                      "waiting"
-                <li class="run-row waiting feeds">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "How-to-play guides"
-                    <span class="run-track">
-                    <span class="run-duration">
-                      "waiting"
-                <li class="run-row waiting dim">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "Contradictions"
-                    <span class="run-track">
-                    <span class="run-duration">
-                      "waiting"
-                <li class="run-row waiting dim">
-                  <button aria-pressed="false" class="run-row-button">
-                    <span class="run-label">
-                      "Save"
-                    <span class="run-track">
-                    <span class="run-duration">
-                      "waiting"
-              <div aria-hidden="true" class="run-overlay">
-                <div class="run-now-line" style="left: 89.2857%">
-          <div aria-live="polite" class="run-detail">
-            <strong>
-              "Review swaps"
-            <p class="small">
-              "Now reviewing the swaps, 8.6 s so far. It waits for Load the deck, Combos & bracket, Goldfish, Mana base, EDHREC, Web research and Find upgrades. How-to-play guides and Fix mana & verify wait for it."
-            <ul class="run-detail-reqs">
-              <li class="svc-model">
-                <span aria-hidden="true" class="svc-dot">
-                <span>
+        <div class="run-chart">
+          <div class="run-stage">
+            <div class="run-overlays">
+              <p aria-live="polite" class="run-pill">
+                "Second-guessing the swaps…"
+            <div class="run-timeline">
+              <ul aria-label="Requests by service" class="run-legend">
+                <li class="svc-scryfall">
+                  <span aria-hidden="true" class="svc-dot">
+                  "Scryfall"
                   <strong>
-                    "The model"
-                  " ask the model"
-                <span class="muted">
-                  "in flight"
+                    "14"
+                <li class="svc-spellbook">
+                  <span aria-hidden="true" class="svc-dot">
+                  "Spellbook"
+                  <strong>
+                    "3"
+                <li class="svc-edhrec">
+                  <span aria-hidden="true" class="svc-dot">
+                  "EDHREC"
+                  <strong>
+                    "2"
+                <li class="svc-model busy">
+                  <span aria-hidden="true" class="svc-dot">
+                  "LLM"
+                  <strong>
+                    "2"
+                <li class="svc-decisions">
+                  <span aria-hidden="true" class="svc-dot">
+                  "Decisions"
+                  <strong>
+                    "0"
+              <div class="run-grid">
+                <div aria-hidden="true" class="run-axis">
+                  <span class="run-tick" style="left: 0%">
+                    "0s"
+                  <span class="run-tick" style="left: 31.5944%">
+                    "10s"
+                  <span class="run-tick" style="left: 63.1888%">
+                    "20s"
+                  <span class="run-tick" style="left: 94.7831%">
+                    "30s"
+                <ul class="run-rows">
+                  <li class="run-row done needed">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "Load the deck"
+                      <span class="run-track">
+                        <span class="run-bar" style="left: 0%; width: 7.70903%">
+                        <span class="run-req svc-scryfall" style="left: 0%; width: 5.97134%">
+                        <span class="run-req svc-scryfall" style="left: 6.00293%; width: 0.663482%">
+                        <span class="run-req svc-scryfall" style="left: 7.61425%; width: 0.4%">
+                      <span class="run-duration">
+                        "2.4 s"
+                  <li class="run-row done needed">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "Combos & bracket"
+                      <span class="run-track">
+                        <span class="run-bar" style="left: 7.70903%; width: 4.26524%">
+                        <span class="run-req svc-spellbook" style="left: 7.70903%; width: 4.26524%">
+                        <span class="run-req svc-spellbook" style="left: 7.70903%; width: 4.20205%">
+                      <span class="run-duration">
+                        "1.4 s"
+                  <li class="run-row done needed">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "Goldfish"
+                      <span class="run-track">
+                        <span class="run-bar" style="left: 11.9743%; width: 0.6%">
+                      <span class="run-duration">
+                        "0.1 s"
+                  <li class="run-row done needed">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "EDHREC"
+                      <span class="run-track">
+                        <span class="run-bar" style="left: 12.3218%; width: 0.6%">
+                        <span class="run-req svc-edhrec" style="left: 12.3218%; width: 0.4%">
+                        <span class="run-req svc-edhrec" style="left: 12.3534%; width: 0.4%">
+                      <span class="run-duration">
+                        "0.1 s"
+                  <li class="run-row done needed">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "Mana base"
+                      <span class="run-track">
+                        <span class="run-bar" style="left: 12.6378%; width: 0.6%">
+                      <span class="run-duration">
+                        "0.0 s"
+                  <li class="run-row done needed">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "Web research"
+                      <span class="run-track">
+                        <span class="run-bar" style="left: 7.70903%; width: 48.2446%">
+                        <span class="run-req svc-model" style="left: 7.70903%; width: 48.2446%">
+                      <span class="run-duration">
+                        "15.3 s"
+                  <li class="run-row done dim">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "Land options"
+                      <span class="run-track">
+                        <span class="run-bar" style="left: 7.70903%; width: 4.96032%">
+                        <span class="run-req svc-scryfall" style="left: 9.25715%; width: 0.4%">
+                        <span class="run-req svc-scryfall" style="left: 10.9317%; width: 0.4%">
+                        <span class="run-req svc-scryfall" style="left: 12.543%; width: 0.4%">
+                      <span class="run-duration">
+                        "1.6 s"
+                  <li class="run-row done dim">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "Game Changers"
+                      <span class="run-track">
+                        <span class="run-bar" style="left: 12.3534%; width: 1.95885%">
+                        <span class="run-req svc-scryfall" style="left: 14.2175%; width: 0.4%">
+                      <span class="run-duration">
+                        "0.6 s"
+                  <li class="run-row done dim">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "Look up candidates"
+                      <span class="run-track">
+                        <span class="run-bar" style="left: 12.6378%; width: 24.2645%">
+                        <span class="run-req svc-scryfall" style="left: 15.8604%; width: 4.01249%">
+                        <span class="run-req svc-scryfall" style="left: 19.9045%; width: 4.04408%">
+                        <span class="run-req svc-scryfall" style="left: 23.9801%; width: 5.08669%">
+                        <span class="run-req svc-scryfall" style="left: 29.0668%; width: 1.80088%">
+                        <span class="run-req svc-scryfall" style="left: 30.8677%; width: 0.4%">
+                        <span class="run-req svc-spellbook" style="left: 30.9625%; width: 5.93974%">
+                      <span class="run-duration">
+                        "7.7 s"
+                  <li class="run-row done needed">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "Find upgrades"
+                      <span class="run-track">
+                        <span class="run-bar" style="left: 55.9536%; width: 2.52755%">
+                        <span class="run-req svc-scryfall" style="left: 55.9536%; width: 0.979426%">
+                        <span class="run-req svc-scryfall" style="left: 57.5966%; width: 0.50551%">
+                      <span class="run-duration">
+                        "0.8 s"
+                  <li class="run-row running selected">
+                    <button aria-pressed="true" class="run-row-button">
+                      <span class="run-label">
+                        "Review swaps"
+                      <span class="run-track">
+                        <span class="run-bar" style="left: 58.4812%; width: 30.8045%">
+                        <span class="run-req svc-model live" style="left: 58.4812%; width: 30.8045%">
+                      <span class="run-duration">
+                        "9.8 s"
+                  <li class="run-row waiting feeds">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "Fix mana & verify"
+                      <span class="run-track">
+                      <span class="run-duration">
+                        "waiting"
+                  <li class="run-row done dim">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "Your list as submitted"
+                      <span class="run-track">
+                        <span class="run-bar" style="left: 7.70903%; width: 0.6%">
+                      <span class="run-duration">
+                        "0.0 s"
+                  <li class="run-row waiting dim">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "Synergies"
+                      <span class="run-track">
+                      <span class="run-duration">
+                        "waiting"
+                  <li class="run-row waiting feeds">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "How-to-play guides"
+                      <span class="run-track">
+                      <span class="run-duration">
+                        "waiting"
+                  <li class="run-row waiting dim">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "Contradictions"
+                      <span class="run-track">
+                      <span class="run-duration">
+                        "waiting"
+                  <li class="run-row waiting dim">
+                    <button aria-pressed="false" class="run-row-button">
+                      <span class="run-label">
+                        "Save"
+                      <span class="run-track">
+                      <span class="run-duration">
+                        "waiting"
+                <div aria-hidden="true" class="run-overlay">
+                  <div class="run-now-line" style="left: 89.2857%">
