@@ -10,3 +10,5 @@ playwright-report
 .vite
 decks/*/chat.json
 .direnv
+public/elm
+elm-stuff

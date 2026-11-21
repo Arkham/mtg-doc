@@ -7,3 +7,6 @@ site
 .shots
 .vite
 .direnv
+public/elm
+elm-stuff
+test/visual/__screenshots__

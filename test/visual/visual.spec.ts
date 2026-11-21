@@ -53,7 +53,9 @@ const test = base.extend({
 
 /** Waits until nothing on the page is still loading or moving. */
 async function settle(page: Page) {
-  await page.evaluate(() => {
+  // After a frame: the app may still be drawing what the last click changed.
+  await page.evaluate(async () => {
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
     for (const img of document.querySelectorAll<HTMLImageElement>("img[loading=lazy]"))
       img.loading = "eager";
   });
@@ -365,10 +367,11 @@ test.describe("local app", () => {
   });
 
   test("updating after a change", async ({ page }) => {
-    await page.route(`**/api/decks/${DECK}`, async (route) => {
-      const res = await route.fetch();
-      route.fulfill({ response: res, json: { ...(await res.json()), updating: true } });
-    });
+    // While it's updating the page polls; every poll gets the same answer.
+    const detail = await (await page.request.get(`${APP_URL}api/decks/${DECK}`)).json();
+    await page.route(`**/api/decks/${DECK}`, (route) =>
+      route.fulfill({ json: { ...detail, updating: true } }),
+    );
     await page.goto(`${APP_URL}#/deck/${DECK}`);
     await expect(page.locator(".updating-note")).toBeVisible();
     await shot(page, "app-updating", { fullPage: false });

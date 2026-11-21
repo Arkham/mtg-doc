@@ -131,9 +131,10 @@ to `main`. Enable it once in the repo under **Settings → Pages → Source: Git
 ## Development
 
 ```bash
-pnpm dev            # server + Vite with HMR
-pnpm check          # format check, lint (oxlint), typecheck, unit + integration tests
+pnpm dev            # server + Vite, with the Elm UI hot-reloaded by elm-watch
+pnpm check          # format check, lint (oxlint, elm-review), typecheck, unit + integration + Elm tests
 pnpm test:e2e       # Playwright: local app flow + static site on desktop, iPhone and iPad (WebKit)
+pnpm test:visual    # every page and state: exact DOM and screenshots against committed baselines
 pnpm test:coverage  # tests with a coverage report for server/
 pnpm test:record    # re-record the HTTP fixtures against the live APIs
 pnpm symbols        # refresh the bundled mana symbols in public/symbols from Scryfall

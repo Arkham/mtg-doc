@@ -44,7 +44,7 @@ export default defineConfig({
       reuseExistingServer: false,
     },
     {
-      command: "node --import tsx test/support/serve-app.ts",
+      command: "node --import tsx scripts/elm.ts && node --import tsx test/support/serve-app.ts",
       url: `http://127.0.0.1:${APP_PORT}/api/config`,
       env: { PORT: String(APP_PORT), HOST: "127.0.0.1" },
       timeout: 180_000,

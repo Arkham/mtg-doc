@@ -30,7 +30,8 @@ export default defineConfig({
     },
     {
       // The real dev server, with outbound HTTP replayed from fixtures and no LLM.
-      command: "node --import tsx --import ./test/support/env.ts server/index.ts",
+      command:
+        "node --import tsx scripts/elm.ts && node --import tsx --import ./test/support/env.ts server/index.ts",
       url: `http://127.0.0.1:${APP_PORT}/api/config`,
       env: { PORT: String(APP_PORT), HOST: "127.0.0.1" },
       timeout: 120_000,

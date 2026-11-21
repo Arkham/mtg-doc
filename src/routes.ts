@@ -1,4 +1,5 @@
-import type { DeckView } from "./views.ts";
+/** The deck as submitted, or the doc's suggested version of it. */
+export type DeckView = "current" | "optimized";
 
 export type Route =
   | { page: "home" }

@@ -7,6 +7,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import { build } from "vite";
+import { buildElm } from "./elm.ts";
 import { config } from "../server/config.ts";
 import { appPage, deckPage, indexFallback, llmsTxt } from "../server/agent-pages.ts";
 import { deckPaths } from "../src/routes.ts";
@@ -26,11 +27,13 @@ const outDir = path.resolve(config.root, values.out!);
 const only = values.only ? new Set(values.only.split(",").map((s) => s.trim())) : null;
 
 process.env.VITE_STATIC = "1";
-await build({
-  root: config.root,
-  logLevel: "warn",
-  build: { outDir, emptyOutDir: true },
-});
+await buildElm(true, () =>
+  build({
+    root: config.root,
+    logLevel: "warn",
+    build: { outDir, emptyOutDir: true },
+  }),
+);
 
 const indexPath = path.join(outDir, "index.html");
 const shell = await fs.readFile(indexPath, "utf8");

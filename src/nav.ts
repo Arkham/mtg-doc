@@ -1,6 +1,5 @@
-import { IS_STATIC } from "./api.ts";
-import type { DeckView } from "./views.ts";
-import { type Route, hashRoute, isAppPath, pathRoute, routeHref } from "./routes.ts";
+import { IS_STATIC } from "./static.ts";
+import { type DeckView, type Route, hashRoute, isAppPath, pathRoute, routeHref } from "./routes.ts";
 
 export type { Route };
 

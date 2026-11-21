@@ -1,13 +1,10 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["typescript", "react", "import", "unicorn", "oxc"],
+  "plugins": ["typescript", "import", "unicorn", "oxc"],
   "categories": {
     "correctness": "error"
   },
   "rules": {
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
-    "react/react-in-jsx-scope": "off",
     "no-unused-vars": "error",
     "typescript/no-explicit-any": "error",
     "eqeqeq": ["error", "smart"],
@@ -21,6 +18,8 @@
     "test-results",
     "playwright-report",
     ".vite",
-    ".direnv"
+    ".direnv",
+    "public/elm",
+    "elm-stuff"
   ]
 }

@@ -410,3 +410,53 @@ export interface Job {
   steps: JobStep[];
   error?: string;
 }
+
+/** What the client needs to know about the server (`GET /api/config`). */
+export interface AppConfig {
+  llm: boolean;
+  model: string;
+  visionModel: string;
+  webResearch: boolean;
+}
+
+/** A recognized deck, with the token that saves its photos alongside it. */
+export interface Recognition extends RecognitionResult {
+  uploadToken?: string;
+}
+
+/** Photo recognition running in the background (`GET /api/recognize/:id`). */
+export interface RecognitionJob {
+  id: string;
+  status: "running" | "done" | "error";
+  phase: string;
+  done: number;
+  total: number;
+  result?: Recognition;
+  error?: string;
+}
+
+/** One name looked up for the review screen (`POST /api/cards/resolve`). */
+export interface ResolvedName {
+  requested: string;
+  card: Card | null;
+  status: "exact" | "fuzzy" | "unresolved";
+}
+
+/** A deck's settings as the client sees them. */
+export interface DeckDetailMeta {
+  slug: string;
+  format: string;
+  commanders: string[];
+  options: OptimizeOptions;
+  createdAt: string;
+  hideSuggestions?: boolean;
+}
+
+/** A deck with its report (`GET /api/decks/:slug`, or `detail.json` on the static site). */
+export interface DeckDetail {
+  meta: DeckDetailMeta;
+  report: Report | null;
+  initial: string;
+  /** Edits are still being made in the background; the report updates when they're in. */
+  updating?: boolean;
+}

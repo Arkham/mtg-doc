@@ -382,8 +382,11 @@ test.describe("static site", () => {
     const thumb = page.locator("#combos .combo-thumbs .card-name:last-child .card-thumb").first();
     await thumb.evaluate((el) => el.scrollIntoView({ block: "center" }));
     await thumb.hover();
-    // Portaled to <body> so thumbnail styles can't shrink it (external images are blocked here).
-    const preview = page.locator("body > .card-preview");
+    // Drawn outside the thumbnail so its styles can't shrink it (external images are blocked here).
+    const preview = page.locator(".card-preview");
+    await expect(preview.locator("xpath=ancestor::*[contains(@class, 'card-name')]")).toHaveCount(
+      0,
+    );
     await expect(preview).toHaveAttribute("src", /cards\.scryfall\.io/);
     expect(await preview.evaluate((el) => getComputedStyle(el).width)).toBe("244px");
   });

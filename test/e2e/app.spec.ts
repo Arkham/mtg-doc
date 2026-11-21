@@ -71,7 +71,7 @@ test.describe("local app", () => {
     const mentioned = reply.getByRole("link", { name: "Sol Ring" }).first();
     await expect(mentioned).toBeVisible();
     await mentioned.hover();
-    await expect(page.locator("body > .card-preview")).toHaveAttribute("src", /^https:/);
+    await expect(page.locator(".card-preview")).toHaveAttribute("src", /^https:/);
     // The change is made in the background: the request returns at once, the UI shows progress.
     const queued = page.waitForResponse((r) => /\/chat\/[^/]+\/apply$/.test(r.url()));
     await proposal.getByRole("button", { name: "Apply 2 changes" }).click();
@@ -103,6 +103,7 @@ test.describe("local app", () => {
     // Any swap the doc suggests can be made in the deck as submitted.
     await decklist.getByRole("button", { name: /^Show swaps/ }).click();
     const swaps = decklist.locator(".swap");
+    await expect(swaps.first()).toBeVisible();
     const before = await swaps.count();
     const first = swaps.first();
     const added = await first.locator(".mini-card.in .mini-card-name").innerText();

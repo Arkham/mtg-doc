@@ -25,7 +25,9 @@ jobs:
       - run: pnpm format:check
       - run: pnpm lint
       - run: pnpm typecheck
+      - run: pnpm gen:elm --check
       - run: pnpm test:coverage
+      - run: pnpm test:elm
       - run: pnpm build
 
   e2e:

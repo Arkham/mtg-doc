@@ -1,0 +1,586 @@
+module Page.Home exposing (Mode, Model, Msg, Out(..), Photo, init, update, view)
+
+import Api
+import Env exposing (Env)
+import File exposing (File)
+import File.Select
+import Html exposing (Html, a, button, div, figure, h1, h2, img, input, node, p, section, span, strong, text, textarea)
+import Html.Attributes exposing (accept, attribute, disabled, height, hidden, multiple, style, value, width)
+import Html.Events exposing (on, onClick, onInput, preventDefaultOn, stopPropagationOn)
+import Json.Decode as D
+import Process
+import Route
+import Task
+import Types exposing (..)
+import Ui.Attr exposing (alt, class, href, placeholder, src, type_)
+import Ui.Bracket as Bracket
+import Ui.Mana as Mana
+import Ui.Style exposing (ariaSelected, aura)
+
+
+type Mode
+    = Image
+    | TextList
+
+
+type alias Photo =
+    { file : File, url : String }
+
+
+type alias Model =
+    { decks : Maybe (List DeckSummary)
+    , photos : List Photo
+    , text : String
+    , preferredMode : Mode
+    , busy : Bool
+    , progress : Maybe RecognitionJob
+    , error : Maybe String
+    , drag : Bool
+    , filter : String
+    }
+
+
+type Msg
+    = GotDecks (Result String (List DeckSummary))
+    | SetMode Mode
+    | Browse
+    | AddFiles (List File)
+    | Dropped (List File)
+    | Pasted (List File)
+    | GotPhotos (List Photo)
+    | RemovePhoto Int
+    | DragOver
+    | DragLeave
+    | SetText String
+    | Analyze
+    | Started (Result String Api.Started)
+    | Poll String
+    | GotJob String (Result String RecognitionJob)
+    | SetFilter String
+    | Ignore
+
+
+{-| A deck read from photos or a list, ready for review.
+-}
+type Out
+    = Recognized Recognition (List String)
+
+
+init : Env -> ( Model, Cmd Msg )
+init env =
+    ( { decks = Nothing
+      , photos = []
+      , text = ""
+      , preferredMode = Image
+      , busy = False
+      , progress = Nothing
+      , error = Nothing
+      , drag = False
+      , filter = ""
+      }
+    , Api.decks env.isStatic GotDecks
+    )
+
+
+{-| Photo recognition needs an LLM; fall back to text input when none is configured.
+-}
+mode : Maybe AppConfig -> Model -> Mode
+mode config model =
+    case config of
+        Just c ->
+            if c.llm then
+                model.preferredMode
+
+            else
+                TextList
+
+        Nothing ->
+            model.preferredMode
+
+
+update : Maybe AppConfig -> Msg -> Model -> ( Model, Cmd Msg, Maybe Out )
+update config msg model =
+    case msg of
+        GotDecks result ->
+            ( { model | decks = Just (Result.withDefault [] result) }, Cmd.none, Nothing )
+
+        SetMode m ->
+            ( { model | preferredMode = m }, Cmd.none, Nothing )
+
+        Browse ->
+            ( model, File.Select.files [ "image/*" ] (\f fs -> AddFiles (f :: fs)), Nothing )
+
+        AddFiles files ->
+            let
+                images =
+                    List.filter (\f -> String.startsWith "image/" (File.mime f)) files
+            in
+            ( model
+            , images
+                |> List.map (\f -> File.toUrl f |> Task.map (Photo f))
+                |> Task.sequence
+                |> Task.perform GotPhotos
+            , Nothing
+            )
+
+        Pasted files ->
+            update config (AddFiles files) { model | preferredMode = Image }
+
+        Dropped files ->
+            update config (AddFiles files) { model | drag = False }
+
+        GotPhotos photos ->
+            ( { model | photos = model.photos ++ photos }, Cmd.none, Nothing )
+
+        RemovePhoto i ->
+            ( { model | photos = List.take i model.photos ++ List.drop (i + 1) model.photos }, Cmd.none, Nothing )
+
+        DragOver ->
+            ( { model | drag = True }, Cmd.none, Nothing )
+
+        DragLeave ->
+            ( { model | drag = False }, Cmd.none, Nothing )
+
+        SetText t ->
+            ( { model | text = t }, Cmd.none, Nothing )
+
+        Analyze ->
+            let
+                m =
+                    mode config model
+            in
+            ( { model | busy = True, error = Nothing }
+            , Api.recognize
+                (if m == Image then
+                    List.map .file model.photos
+
+                 else
+                    []
+                )
+                (if m == TextList then
+                    model.text
+
+                 else
+                    ""
+                )
+                Started
+            , Nothing
+            )
+
+        Started (Ok (Api.Recognized result)) ->
+            done config result model
+
+        Started (Ok (Api.RecognitionStarted id)) ->
+            ( model, Api.recognitionJob id (GotJob id), Nothing )
+
+        Started (Err e) ->
+            failed e model
+
+        Poll id ->
+            ( model, Api.recognitionJob id (GotJob id), Nothing )
+
+        GotJob id (Ok job) ->
+            let
+                withProgress =
+                    { model | progress = Just job }
+            in
+            case ( job.status, job.result ) of
+                ( RecognitionJobStatusError, _ ) ->
+                    failed (Maybe.withDefault "Recognition failed" job.error) withProgress
+
+                ( RecognitionJobStatusDone, Just result ) ->
+                    done config result withProgress
+
+                _ ->
+                    ( withProgress, Process.sleep 600 |> Task.perform (\_ -> Poll id), Nothing )
+
+        GotJob _ (Err e) ->
+            failed e model
+
+        SetFilter f ->
+            ( { model | filter = f }, Cmd.none, Nothing )
+
+        Ignore ->
+            ( model, Cmd.none, Nothing )
+
+
+done : Maybe AppConfig -> Recognition -> Model -> ( Model, Cmd Msg, Maybe Out )
+done config result model =
+    ( { model | busy = False, progress = Nothing }
+    , Cmd.none
+    , Just
+        (Recognized result
+            (if mode config model == Image then
+                List.map .url model.photos
+
+             else
+                []
+            )
+        )
+    )
+
+
+failed : String -> Model -> ( Model, Cmd Msg, Maybe Out )
+failed e model =
+    ( { model | error = Just e, busy = False, progress = Nothing }, Cmd.none, Nothing )
+
+
+welcome : Env -> Maybe (List DeckSummary) -> Html msg
+welcome env decks =
+    let
+        examined =
+            decks |> Maybe.map (List.filter .hasReport >> List.length) |> Maybe.withDefault 0
+    in
+    section [ class "home-hero" ]
+        [ div [ class "home-hero-text" ]
+            [ span [ class "hero-role" ]
+                [ span [ attribute "aria-hidden" "true" ] [ text "♛" ], text " The mtg doc" ]
+            , h1 [] [ text "The doc will see your deck now." ]
+            , p []
+                [ text
+                    (if env.isStatic then
+                        "Check-ups for Commander decks: what each one does today, its bracket and combos, and the swaps the doc prescribes."
+
+                     else
+                        "Snap a photo of your Commander deck. The doc reads every card, works out its bracket and prescribes swaps that fit your budget."
+                    )
+                ]
+            , if examined > 0 then
+                p [ class "home-hero-count" ]
+                    [ text
+                        (String.fromInt examined
+                            ++ " "
+                            ++ (if examined == 1 then
+                                    "deck"
+
+                                else
+                                    "decks"
+                               )
+                            ++ " examined so far"
+                        )
+                    ]
+
+              else
+                text ""
+            ]
+        , div [ class "home-hero-doc", attribute "aria-hidden" "true" ]
+            [ img [ src "./doc.webp", alt "", width 360, height 360 ] [] ]
+        ]
+
+
+deckGallery : Env -> String -> List DeckSummary -> Html Msg
+deckGallery env filter decks =
+    let
+        shown =
+            List.filter
+                (\d -> String.contains (String.toLower filter) (String.toLower (d.slug ++ " " ++ String.join " " d.commanders)))
+                decks
+    in
+    section []
+        [ div [ class "section-head" ]
+            [ h2 [ class "home-section-title" ]
+                [ text
+                    (if env.isStatic then
+                        "Decks"
+
+                     else
+                        "Your decks"
+                    )
+                ]
+            , if List.length decks > 6 then
+                input
+                    [ type_ "search"
+                    , class "deck-filter"
+                    , placeholder "Search commanders…"
+                    , value filter
+                    , Ui.Attr.valueAttr filter
+                    , onInput SetFilter
+                    ]
+                    []
+
+              else
+                text ""
+            ]
+        , if List.isEmpty decks then
+            div [ class "empty" ]
+                [ p [] [ text "No decks yet." ]
+                , if env.isStatic then
+                    p [ class "muted small" ] [ text "Run pnpm build:static after analyzing a deck." ]
+
+                  else
+                    text ""
+                ]
+
+          else
+            text ""
+        , div [ class "deck-grid" ] (List.map (deckCard env) shown)
+        ]
+
+
+deckCard : Env -> DeckSummary -> Html msg
+deckCard env d =
+    a [ class "deck-card", href (Route.deckHref env.isStatic d.slug Route.Current), aura d.colorIdentity ]
+        [ div [ class "deck-art" ]
+            [ case d.image of
+                Just image ->
+                    img [ src image, alt "", attribute "loading" "lazy" ] []
+
+                Nothing ->
+                    span [] [ text "🃏" ]
+            , div [ class "deck-art-top" ]
+                [ Mana.colorIdentity env.base 20 d.colorIdentity
+                , case d.bracket of
+                    Just b ->
+                        if b /= 0 then
+                            Bracket.badge b "sm"
+
+                        else
+                            text ""
+
+                    Nothing ->
+                        text ""
+                ]
+            , strong [ class "deck-art-name" ]
+                [ text
+                    (if List.isEmpty d.commanders then
+                        d.slug
+
+                     else
+                        String.join " + " d.commanders
+                    )
+                ]
+            ]
+        , div [ class "deck-card-body" ]
+            [ span [ class "muted small" ]
+                [ text
+                    (if d.hasReport then
+                        [ Maybe.map (\b -> "Bracket " ++ String.fromFloat b) d.bracket
+                        , Maybe.map (\n -> String.fromFloat n ++ " lands") d.landCount
+                        , Maybe.map (\p -> "$" ++ String.fromInt (round p)) d.priceUsd
+                        ]
+                            |> List.filterMap identity
+                            |> String.join " · "
+
+                     else
+                        "Not analyzed yet"
+                    )
+                ]
+            , case d.swapCount of
+                Just n ->
+                    if n /= 0 then
+                        span [ class "deck-suggest" ]
+                            [ img [ src "./icon-64.png", alt "", width 18, height 18 ] []
+                            , text
+                                (String.fromFloat n
+                                    ++ " suggested "
+                                    ++ (if n == 1 then
+                                            "swap"
+
+                                        else
+                                            "swaps"
+                                       )
+                                    ++ (case d.targetBracket of
+                                            Just t ->
+                                                if t /= 0 then
+                                                    " for bracket " ++ String.fromFloat t
+
+                                                else
+                                                    ""
+
+                                            Nothing ->
+                                                ""
+                                       )
+                                )
+                            ]
+
+                    else
+                        text ""
+
+                Nothing ->
+                    text ""
+            ]
+        ]
+
+
+filesDecoder : D.Decoder (List File)
+filesDecoder =
+    D.list File.decoder
+
+
+view : Env -> Maybe AppConfig -> Model -> Html Msg
+view env config model =
+    div [ class "stack" ]
+        [ welcome env model.decks
+        , if env.isStatic then
+            text ""
+
+          else
+            let
+                m =
+                    mode config model
+
+                canSubmit =
+                    case m of
+                        Image ->
+                            not (List.isEmpty model.photos)
+
+                        TextList ->
+                            String.trim model.text /= ""
+            in
+            section [ class "panel analyze" ]
+                [ div [ class "section-head" ]
+                    [ h2 [ class "home-section-title" ] [ text "Analyze a deck" ]
+                    , div [ class "segmented", attribute "role" "tablist" ]
+                        [ button
+                            [ attribute "role" "tab"
+                            , ariaSelected (m == Image)
+                            , onClick (SetMode Image)
+                            , disabled (config |> Maybe.map (not << .llm) |> Maybe.withDefault False)
+                            ]
+                            [ text "Photo" ]
+                        , button [ attribute "role" "tab", ariaSelected (m == TextList), onClick (SetMode TextList) ] [ text "Text list" ]
+                        ]
+                    ]
+                , case m of
+                    Image ->
+                        dropzone env model
+
+                    TextList ->
+                        textarea
+                            [ class "decklist"
+                            , placeholder "Commander\n1 Atraxa, Praetors' Voice\n\nDeck\n1 Sol Ring\n1 Arcane Signet\n..."
+                            , value model.text
+                            , onInput SetText
+                            ]
+                            []
+                , case model.progress of
+                    Just progress ->
+                        div [ class "scan-progress", attribute "role" "status" ]
+                            [ div [ class "row between small" ]
+                                [ span [] [ text progress.phase ]
+                                , span [ class "muted" ]
+                                    [ text
+                                        (if progress.total > 1 then
+                                            String.fromFloat progress.done ++ " / " ++ String.fromFloat progress.total
+
+                                         else
+                                            ""
+                                        )
+                                    ]
+                                ]
+                            , div [ class "progress" ]
+                                [ div [ style "width" (String.fromFloat (max 4 (progress.done / max 1 progress.total * 100)) ++ "%") ] [] ]
+                            , span [ class "muted small" ]
+                                [ text "Reading the photo several times in overlapping crops, then double-checking anything only one pass saw." ]
+                            ]
+
+                    Nothing ->
+                        text ""
+                , case model.error of
+                    Just e ->
+                        p [ class "error" ] [ text e ]
+
+                    Nothing ->
+                        text ""
+                , div [ class "row end" ]
+                    [ button [ class "primary big", disabled (not canSubmit || model.busy), onClick Analyze ]
+                        (if model.busy then
+                            [ span [ class "spinner", attribute "aria-hidden" "true" ] []
+                            , text
+                                (if m == Image then
+                                    "Reading cards…"
+
+                                 else
+                                    "Checking cards…"
+                                )
+                            ]
+
+                         else
+                            [ text "Analyze deck" ]
+                        )
+                    ]
+                , node "mtg-paste" [ on "images" (D.map Pasted (D.at [ "detail" ] filesDecoder)) ] []
+                ]
+        , case model.decks of
+            Nothing ->
+                div [ class "loading" ] [ span [ class "spinner", attribute "aria-hidden" "true" ] [], text " Loading decks…" ]
+
+            Just decks ->
+                if not (List.isEmpty decks) || env.isStatic then
+                    deckGallery env model.filter decks
+
+                else
+                    text ""
+        ]
+
+
+dropzone : Env -> Model -> Html Msg
+dropzone env model =
+    div
+        [ class
+            ("dropzone "
+                ++ (if model.drag then
+                        "drag"
+
+                    else
+                        ""
+                   )
+                ++ " "
+                ++ (if List.isEmpty model.photos then
+                        ""
+
+                    else
+                        "has-files"
+                   )
+            )
+        , onClick Browse
+        , preventDefaultOn "dragover" (D.succeed ( DragOver, True ))
+        , on "dragleave" (D.succeed DragLeave)
+        , preventDefaultOn "drop" (D.map (\fs -> ( Dropped fs, True )) (D.at [ "dataTransfer", "files" ] filesDecoder))
+        ]
+        [ input
+            [ type_ "file"
+            , accept "image/*"
+            , multiple True
+            , hidden True
+            , on "change" (D.map AddFiles (D.at [ "target", "files" ] filesDecoder))
+            ]
+            []
+        , if List.isEmpty model.photos then
+            div [ class "dropzone-empty" ]
+                [ div [ class "dropzone-icon", attribute "aria-hidden" "true" ] [ text "📷" ]
+                , strong []
+                    [ text
+                        (if env.isTouch then
+                            "Take a photo or choose from your library"
+
+                         else
+                            "Drop deck photos here"
+                        )
+                    ]
+                , span [ class "muted small" ]
+                    [ text
+                        ((if env.isTouch then
+                            ""
+
+                          else
+                            "or click to browse · paste a screenshot with ⌘V · "
+                         )
+                            ++ "Lay cards out so the names are readable; several photos are fine."
+                        )
+                    ]
+                ]
+
+          else
+            div [ class "thumbs" ]
+                (List.indexedMap
+                    (\i photo ->
+                        figure [ stopPropagationOn "click" (D.succeed ( Ignore, True )) ]
+                            [ img [ src photo.url, alt (File.name photo.file) ] []
+                            , button [ class "icon remove", attribute "aria-label" "Remove photo", onClick (RemovePhoto i) ] [ text "✕" ]
+                            ]
+                    )
+                    model.photos
+                    ++ [ button [ class "add-more", stopPropagationOn "click" (D.succeed ( Browse, True )) ] [ text "+ Add photo" ] ]
+                )
+        ]

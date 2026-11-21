@@ -51,7 +51,7 @@ export function llmsTxt(decks: DeckSummary[]): string {
   ].join("\n");
 }
 
-/** Readable content placed inside the app's root element; React replaces it once it starts. */
+/** Readable content placed inside the app's root element; the app replaces it once it starts. */
 export function indexFallback(decks: DeckSummary[]): string {
   const items = decks
     .map(
