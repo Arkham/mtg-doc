@@ -22,6 +22,8 @@ loadEnv(path.join(ROOT, ".env"));
 
 const env = (k: string) => process.env[k]?.trim() || undefined;
 
+export type ReasoningEffort = "low" | "medium" | "high";
+
 export const config = {
   root: ROOT,
   port: Number(env("PORT") ?? 5173),
@@ -30,16 +32,24 @@ export const config = {
   llm: {
     baseUrl: (env("LLM_BASE_URL") ?? "https://api.openai.com/v1").replace(/\/$/, ""),
     apiKey: env("LLM_API_KEY"),
-    model: env("LLM_MODEL") ?? "gpt-6.1-sol",
-    visionModel: env("LLM_VISION_MODEL") ?? env("LLM_MODEL") ?? "gpt-6.1-sol",
+    /** The model that does all the work; there's no AI without one. */
+    model: env("LLM_MODEL"),
+    /** How hard the model thinks, on every request. */
+    reasoning: (env("LLM_REASONING") ?? "low") as ReasoningEffort,
+    visionModel: env("LLM_VISION_MODEL") ?? env("LLM_MODEL"),
     /** Model used with the Responses API web_search tool. */
-    searchModel: env("LLM_SEARCH_MODEL") ?? env("LLM_MODEL") ?? "gpt-6.1-sol",
+    searchModel: env("LLM_SEARCH_MODEL") ?? env("LLM_MODEL"),
     webSearch: (env("LLM_WEB_SEARCH") ?? "true") !== "false",
     /** Classifier for yes/no checks via the Decisions API (POST /decisions). */
-    decisionModel: env("LLM_DECISION_MODEL") ?? "gpt-6-luna",
-    /** Providers without a Decisions API set LLM_DECISIONS=false; `decide` then asks LLM_MODEL. */
-    decisions: (env("LLM_DECISIONS") ?? "true") !== "false",
+    decisionModel: env("LLM_DECISION_MODEL"),
+    /**
+     * Whether yes/no checks go to the Decisions API: only with a model for it, and not for
+     * providers without one (LLM_DECISIONS=false). Otherwise `decide` asks LLM_MODEL.
+     */
+    decisions: Boolean(env("LLM_DECISION_MODEL")) && (env("LLM_DECISIONS") ?? "true") !== "false",
     retryDelayMs: Number(env("LLM_RETRY_DELAY_MS") ?? 2000),
+    /** Sent as `service_tier` with every Responses API request when set (e.g. "fast"). */
+    serviceTier: env("LLM_SERVICE_TIER"),
   },
   userAgent: "mtg-doc/0.1 (local)",
   /** How long edits must stop before their slower consequences are worked out (see refresh.ts). */
@@ -51,4 +61,4 @@ export const config = {
   },
 };
 
-export const llmEnabled = () => Boolean(config.llm.apiKey);
+export const llmEnabled = () => Boolean(config.llm.apiKey && config.llm.model);

@@ -1,5 +1,7 @@
 import { z } from "zod";
-import { config } from "./config.ts";
+import { type ReasoningEffort, config } from "./config.ts";
+
+export type { ReasoningEffort };
 
 export type ContentPart =
   { type: "text"; text: string } | { type: "image"; url: string; detail?: "low" | "high" | "auto" };
@@ -51,8 +53,14 @@ async function request(path: string, body: Record<string, unknown>, timeoutMs: n
       headers: {
         authorization: `Bearer ${config.llm.apiKey}`,
         "content-type": "application/json",
+        // A gateway may answer a repeated prompt from its cache; "find again" means a new answer.
+        "cache-control": "no-cache",
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(
+        path === "responses" && config.llm.serviceTier
+          ? { ...body, service_tier: config.llm.serviceTier }
+          : body,
+      ),
       signal: AbortSignal.timeout(timeoutMs),
     });
     if (res.ok) return res;
@@ -98,8 +106,6 @@ export function extractJson(text: string): unknown {
   return JSON.parse(candidate.slice(start, end + 1));
 }
 
-export type ReasoningEffort = "low" | "medium" | "high";
-
 export async function chatJson<T extends z.ZodType>(
   schema: T,
   messages: ChatMessage[],
@@ -113,7 +119,7 @@ export async function chatJson<T extends z.ZodType>(
       model,
       input: toResponsesInput(convo),
       text: { format: { type: "json_object" } },
-      ...(opts.reasoning ? { reasoning: { effort: opts.reasoning } } : {}),
+      reasoning: { effort: opts.reasoning ?? config.llm.reasoning },
     });
     const content = outputText(res);
     try {
@@ -169,7 +175,7 @@ export async function chatJsonStream<T extends z.ZodType>(
       input: toResponsesInput(messages),
       text: { format: { type: "json_object" } },
       stream: true,
-      ...(opts.reasoning ? { reasoning: { effort: opts.reasoning } } : {}),
+      reasoning: { effort: opts.reasoning ?? config.llm.reasoning },
     },
     300_000,
   );
@@ -221,6 +227,7 @@ export async function webSearch(
     model,
     tools: [{ type: "web_search" }],
     input: toResponsesInput([{ role: "user", content: prompt }]),
+    reasoning: { effort: config.llm.reasoning },
   });
   const citations = new Map<string, string>();
   for (const o of res.output ?? []) {
@@ -332,7 +339,7 @@ async function decideWithModel(context: string, images: string[], batch: Predica
         ],
       },
     ],
-    { model: images.length ? config.llm.visionModel : config.llm.model, reasoning: "low" },
+    { model: images.length ? config.llm.visionModel : config.llm.model },
   );
   const names = new Set(batch.map((p) => p.name));
   const out = new Map<string, number>();

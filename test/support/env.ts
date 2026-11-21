@@ -14,7 +14,14 @@ process.env.LLM_RETRY_DELAY_MS = "0";
 process.env.REFRESH_DELAY_MS ??= "0";
 process.env.LLM_BASE_URL = "https://llm.test/v1";
 // Blank rather than unset: server/config.ts only reads `.env` for keys missing from the environment.
-for (const key of ["LLM_MODEL", "LLM_VISION_MODEL", "LLM_SEARCH_MODEL", "LLM_DECISION_MODEL"]) {
+for (const key of [
+  "LLM_MODEL",
+  "LLM_VISION_MODEL",
+  "LLM_SEARCH_MODEL",
+  "LLM_DECISION_MODEL",
+  "LLM_SERVICE_TIER",
+  "LLM_REASONING",
+]) {
   process.env[key] = "";
 }
 // Replayed responses need no rate limiting; recording uses the real limits.

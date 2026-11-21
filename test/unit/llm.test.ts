@@ -4,6 +4,8 @@ import { afterEach, before, describe, test } from "node:test";
 import { z } from "zod";
 
 process.env.LLM_API_KEY = "test-key";
+process.env.LLM_MODEL = "test-model";
+process.env.LLM_DECISION_MODEL = "test-decision-model";
 const llm = await import("../../server/llm.ts");
 
 type Handler = (
@@ -83,7 +85,21 @@ describe("chatJson", () => {
     assert.equal(calls[0].url, "https://llm.test/v1/responses");
     assert.equal(calls[0].auth, "Bearer test-key");
     assert.deepEqual(calls[0].body.text, { format: { type: "json_object" } });
-    assert.equal(calls[0].body.model, "gpt-6.1-sol");
+    assert.equal(calls[0].body.model, "test-model");
+  });
+
+  test("sends the service tier when one is configured, and only to the Responses API", async () => {
+    const { config } = await import("../../server/config.ts");
+    stub(() => ({ json: message('{"n": 7}') }));
+    await llm.chatJson(schema, [{ role: "user", content: "go" }]);
+    assert.equal(calls[0].body.service_tier, undefined, "nothing by default");
+    config.llm.serviceTier = "fast";
+    try {
+      await llm.chatJson(schema, [{ role: "user", content: "go" }]);
+      assert.equal(calls[1].body.service_tier, "fast");
+    } finally {
+      config.llm.serviceTier = undefined;
+    }
   });
 
   test("asks again with the validation error when the shape is wrong", async () => {
@@ -169,7 +185,7 @@ describe("decide", () => {
     const answers = await llm.decide("context", ["data:image/jpeg;base64,x"], predicates);
     assert.equal(calls.length, 2, "20 questions per request");
     assert.equal(calls[0].url, "https://llm.test/v1/decisions");
-    assert.equal(calls[0].body.model, "gpt-6-luna");
+    assert.equal(calls[0].body.model, "test-decision-model");
     const input = calls[0].body.input as { content: { type: string }[] }[];
     assert.deepEqual(
       input[0].content.map((c) => c.type),
@@ -209,7 +225,7 @@ describe("decide without the Decisions API", () => {
       calls.map((c) => c.url.split("/").at(-1)),
       ["decisions", "responses"],
     );
-    assert.equal(calls[1].body.model, "gpt-6.1-sol", "the regular model, not the classifier");
+    assert.equal(calls[1].body.model, "test-model", "the regular model, not the classifier");
     const prompt = JSON.stringify(calls[1].body.input);
     assert.match(prompt, /in-deck: Is Sol Ring in the list\?/);
     assert.deepEqual(
@@ -267,5 +283,36 @@ describe("reasoning effort", () => {
       reasoning: "low",
     });
     assert.deepEqual(calls[0].body.reasoning, { effort: "low" });
+  });
+});
+
+describe("reasoning effort", () => {
+  test("every request thinks at LLM_REASONING, unless a call asks otherwise", async () => {
+    const { config } = await import("../../server/config.ts");
+    const schema = z.object({ n: z.number() });
+    stub(() => ({ json: message('{"n": 7}') }));
+    await llm.chatJson(schema, [{ role: "user", content: "go" }]);
+    assert.deepEqual(calls[0].body.reasoning, { effort: "low" });
+    config.llm.reasoning = "medium";
+    try {
+      await llm.chatJson(schema, [{ role: "user", content: "go" }]);
+      assert.deepEqual(calls[1].body.reasoning, { effort: "medium" });
+    } finally {
+      config.llm.reasoning = "low";
+    }
+  });
+});
+
+describe("configuration", () => {
+  test("there's no AI without a model, and no Decisions API without a model for it", async () => {
+    const { config, llmEnabled } = await import("../../server/config.ts");
+    assert.equal(llmEnabled(), true);
+    const saved = { ...config.llm };
+    try {
+      config.llm.model = undefined;
+      assert.equal(llmEnabled(), false, "a key alone isn't enough");
+    } finally {
+      Object.assign(config.llm, saved);
+    }
   });
 });

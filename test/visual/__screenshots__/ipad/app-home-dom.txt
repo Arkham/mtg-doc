@@ -6,7 +6,7 @@
         "mtg doc"
       <div class="topbar-slot" id="topbar-slot">
       <span class="muted small topbar-meta">
-        "AI disabled (set LLM_API_KEY)"
+        "AI disabled (set LLM_API_KEY and LLM_MODEL)"
       <button aria-label="Find a card" class="icon topbar-search" title="Find a card (/)">
         <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
           <circle cx="11" cy="11" r="7">

@@ -598,7 +598,7 @@ view model =
                                            )
 
                                  else
-                                    "AI disabled (set LLM_API_KEY)"
+                                    "AI disabled (set LLM_API_KEY and LLM_MODEL)"
                                 )
                             ]
 

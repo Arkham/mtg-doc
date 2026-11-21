@@ -8,7 +8,7 @@ import type {
   Tone,
 } from "../../shared/types.ts";
 import { type EdhrecData, edhrecKey } from "../sources/edhrec.ts";
-import { isBasicLand, lookupExact, searchCards } from "../sources/scryfall.ts";
+import { isBasicLand } from "../sources/scryfall.ts";
 import type { CardFlags } from "../sources/spellbook.ts";
 import { BRACKETS, type BracketRules } from "./bracket.ts";
 import type { ScoredCard } from "./candidates.ts";
@@ -112,7 +112,81 @@ function deltaRoles(counts: Map<Role, number>, out: Card, inCard: Card) {
   return next;
 }
 
-export async function buildSolverContext(opts: {
+/** Upgrade candidates looked up on Scryfall at most, and classified by Commander Spellbook. */
+export const CANDIDATE_LOOKUPS = 260;
+export const CANDIDATE_CLASSIFIED = 250;
+
+const namesIn = (deck: Deck) =>
+  new Set(
+    [...deck.commanders, ...deck.slots.map((s) => s.card)].flatMap((c) => [
+      c.name,
+      c.name.split(" // ")[0],
+    ]),
+  );
+
+/**
+ * Names suggested as upgrades and where each was suggested, in the order they're tried (EDHREC's
+ * bracket page, its overall page, combos one card away, web research, Game Changers). Cards the
+ * deck plays and basics aren't upgrades. Extends `pool` when given, so sources can arrive in
+ * turn and keep that order.
+ */
+export function upgradePool(
+  deck: Deck,
+  suggested: [name: string, source: string][],
+  pool = new Map<string, string[]>(),
+): Map<string, string[]> {
+  const inDeck = namesIn(deck);
+  const out = new Map([...pool].map(([n, sources]) => [n, [...sources]]));
+  for (const [name, source] of suggested) {
+    if (inDeck.has(name) || isBasicLand(name)) continue;
+    out.set(name, [...(out.get(name) ?? []), source]);
+  }
+  return out;
+}
+
+/** What EDHREC suggests, as named sources for `upgradePool`. */
+export function edhrecSuggestions(
+  edhBracket: EdhrecData | null,
+  edhAll: EdhrecData | null,
+): [string, string][] {
+  return [
+    ["edhrec-bracket", edhBracket],
+    ["edhrec", edhAll],
+  ].flatMap(([label, data]) =>
+    [...((data as EdhrecData | null)?.cards.values() ?? [])]
+      .filter((e) => e.list !== "New Cards")
+      .map((e): [string, string] => [e.name, `${label as string}:${e.list}`]),
+  );
+}
+
+/** Whether Game Changers are worth suggesting for this bracket and tone. */
+export const wantsGameChangers = (target: number, tone: Tone) =>
+  BRACKETS[target].gameChangers > 0 && tone !== "casual";
+
+/** Looked-up candidates that can go in the deck: Commander-legal, in its colors, within budget. */
+export function eligibleCandidates(
+  cards: Card[],
+  deck: Deck,
+  identity: Color[],
+  options: OptimizeOptions,
+): Card[] {
+  const inDeck = namesIn(deck);
+  const ok = cards.filter(
+    (c) =>
+      !inDeck.has(c.name) &&
+      c.legalCommander &&
+      c.colorIdentity.every((x) => identity.includes(x)) &&
+      (options.budgetPerCard === null || (c.priceUsd ?? 0) <= options.budgetPerCard),
+  );
+  return [...new Map(ok.map((c) => [c.name, c])).values()];
+}
+
+/**
+ * Scores the deck's cards and the candidates, and sets up the rules every swap must pass. The
+ * candidates come looked up and classified (`spellbookFlags`, Commander Spellbook's flags by name);
+ * `sources` says where each was suggested.
+ */
+export function buildSolverContext(opts: {
   deck: Deck;
   identity: Color[];
   target: number;
@@ -121,20 +195,15 @@ export async function buildSolverContext(opts: {
   edhBracket: EdhrecData | null;
   combosPresent: Combo[];
   oneAway: Combo[];
-  researchCards: string[];
+  candidates: Card[];
+  sources: Map<string, string[]>;
+  spellbookFlags: Map<string, CardFlags>;
   flagsFor: (card: Card) => CardFlags;
-  classifyNames: (names: string[]) => Promise<Map<string, CardFlags>>;
-}): Promise<SolverContext> {
+}): SolverContext {
   const { deck, identity, target, options } = opts;
   const rules = BRACKETS[target];
   const tone = options.tone ?? "max";
   const edh = { bracket: opts.edhBracket, all: opts.edhAll };
-  const inDeck = new Set(
-    [...deck.commanders, ...deck.slots.map((s) => s.card)].flatMap((c) => [
-      c.name,
-      c.name.split(" // ")[0],
-    ]),
-  );
   const presentComboCards = new Set(opts.combosPresent.flatMap((c) => c.cards));
   // Two-card combos are what bracket rules restrict; only reward completing ones the bracket allows.
   const comboAllowed = (c: Combo) => {
@@ -168,37 +237,9 @@ export async function buildSolverContext(opts: {
     };
   });
 
-  const pool = new Map<string, string[]>();
-  const add = (name: string, src: string) => {
-    if (inDeck.has(name) || isBasicLand(name)) return;
-    pool.set(name, [...(pool.get(name) ?? []), src]);
-  };
-  for (const [label, data] of [
-    ["edhrec-bracket", opts.edhBracket],
-    ["edhrec", opts.edhAll],
-  ] as const) {
-    for (const e of data?.cards.values() ?? [])
-      if (e.list !== "New Cards") add(e.name, `${label}:${e.list}`);
-  }
-  for (const c of opts.oneAway.slice(0, 40)) add(c.missing[0], "combo");
-  for (const n of opts.researchCards) add(n, "web-research");
-  if (rules.gameChangers > 0 && tone !== "casual") {
-    const gcs = await searchCards(`is:gamechanger id<=${identity.join("") || "c"} legal:commander`);
-    for (const c of gcs) add(c.name, "game-changer");
-  }
-
-  const cards = await lookupExact([...pool.keys()].slice(0, 260));
-  const resolved = [...cards.values()].filter(
-    (c) =>
-      !inDeck.has(c.name) &&
-      c.legalCommander &&
-      c.colorIdentity.every((x) => identity.includes(x)) &&
-      (options.budgetPerCard === null || (c.priceUsd ?? 0) <= options.budgetPerCard),
-  );
-  const unique = [...new Map(resolved.map((c) => [c.name, c])).values()];
-  const spellbookFlags = await opts.classifyNames(unique.map((c) => c.name)).catch(() => new Map());
-  const candidates: SolverCard[] = unique.map((card) => {
-    const sf = spellbookFlags.get(card.name) ?? spellbookFlags.get(card.name.split(" // ")[0]);
+  const candidates: SolverCard[] = opts.candidates.map((card) => {
+    const sf =
+      opts.spellbookFlags.get(card.name) ?? opts.spellbookFlags.get(card.name.split(" // ")[0]);
     const flags: CardFlags = {
       gameChanger: card.gameChanger || Boolean(sf?.gameChanger),
       massLandDenial: Boolean(sf?.massLandDenial),
@@ -214,7 +255,7 @@ export async function buildSolverContext(opts: {
       synergy: v.synergy,
       comboPiece: oneAwayBonus.has(card.name),
       offIdentity: false,
-      source: [...new Set(pool.get(card.name) ?? [])],
+      source: [...new Set(opts.sources.get(card.name) ?? [])],
     };
   });
   candidates.sort((a, b) => b.score - a.score);

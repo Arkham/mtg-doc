@@ -76,6 +76,9 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
 - All LLM calls go through `server/llm.ts`: `chatJson` (Responses API, zod-validated structured
   output; `chatJsonStream` is the same with the answer streamed as it's written), `webSearch` (Responses API `web_search` tool, with citations) and `decide` (Decisions API:
   calibrated yes/no probabilities, e.g. "is this card in this crop?"). No other module calls the LLM.
+- One model (`LLM_MODEL`) does every task, at `LLM_REASONING` (low by default). Don't pick models
+  per task in code, and never write a model's name in the codebase (code, tests, docs): models are
+  configuration. `LLM_SERVICE_TIER`, when set, goes with every Responses API request.
 - Use `decide` for any yes/no judgement (is this real, does the user agree, is this worth doing)
   rather than asking `chatJson` for a boolean. It falls back to the regular model when the
   Decisions API is off (`LLM_DECISIONS=false`) or fails, so callers never handle that themselves.
@@ -228,6 +231,18 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   set from the report's toggle or chat). The static build then publishes `withoutSuggestions`
   (`server/publish.ts`): only the deck as submitted. When you add a report field derived from the
   suggestions, strip it there, and keep the static test that checks no suggested card leaks.
+
+### The optimizer pipeline
+
+- `run` in `server/pipeline.ts` is a `TaskGraph` (`server/task-graph.ts`): each task names the tasks
+  it needs (`Task` enum) and starts as soon as they're done, so independent work overlaps (web
+  research runs while Spellbook, EDHREC and the candidate lookups do). A new step declares its
+  needs there rather than awaiting in sequence, and reports progress through its `Step`.
+- Splitting or merging requests changes their recorded fixtures, and newly recorded data can
+  differ from the old (prices move), which shows up as test changes that aren't the code's. Check
+  that results stay the same against the same live data, old code against new.
+- Time a real run with `node --import tsx scripts/optimize-bench.ts <slug>`: when each step runs,
+  every request by service, and what the run produced, on a copy of the deck.
 
 ### Code style
 

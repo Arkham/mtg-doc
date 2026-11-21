@@ -3,7 +3,7 @@ import path from "node:path";
 import express, { type NextFunction, type Request, type Response } from "express";
 import multer from "multer";
 import { z } from "zod";
-import type { DeckStatus, RecognitionResult } from "../shared/types.ts";
+import type { AppConfig, DeckStatus, RecognitionResult } from "../shared/types.ts";
 import { config, llmEnabled } from "./config.ts";
 import {
   applyChatChanges,
@@ -94,12 +94,13 @@ export function createApp() {
   });
 
   app.get("/api/config", (_req, res) => {
-    res.json({
+    const body: AppConfig = {
       llm: llmEnabled(),
-      model: config.llm.model,
-      visionModel: config.llm.visionModel,
+      model: config.llm.model ?? "",
+      visionModel: config.llm.visionModel ?? "",
       webResearch: llmEnabled() && config.llm.webSearch,
-    });
+    };
+    res.json(body);
   });
 
   app.post(
@@ -113,7 +114,7 @@ export function createApp() {
       if (files.length && !llmEnabled()) {
         return res.status(400).json({
           error:
-            "Image recognition needs LLM_API_KEY configured. You can paste a decklist instead.",
+            "Image recognition needs LLM_API_KEY and LLM_MODEL configured. You can paste a decklist instead.",
         });
       }
       if (!files.length) return res.json(await recognizeText(text));

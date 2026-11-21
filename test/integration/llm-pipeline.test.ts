@@ -12,6 +12,8 @@ import { startLlmStub } from "../support/llm-stub.ts";
 const stub = await startLlmStub();
 process.env.LLM_BASE_URL = stub.url;
 process.env.LLM_API_KEY = "stub-key";
+process.env.LLM_MODEL = "test-model";
+process.env.LLM_DECISION_MODEL = "test-decision-model";
 process.env.LLM_WEB_SEARCH = "true";
 const { recognizeImages } = await import("../../server/ocr.ts");
 const { whenIdle } = await import("../../server/edit-queue.ts");
@@ -37,7 +39,7 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     for (const name of report.research.cardsMentioned)
       assert.ok(report.cardIndex![name]?.image, `${name} from the research has a preview`);
 
-    assert.equal(report.model, "gpt-6.1-sol");
+    assert.equal(report.model, "test-model");
     // A how-to-play guide for each deck, kept to its cards and a quick read.
     for (const which of ["original", "optimized"] as const) {
       const guide = report.howToPlay![which]!;
@@ -220,7 +222,7 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
 
       const verify = stub.requests.filter((x) => Array.isArray(x.body.questions));
       assert.ok(verify.length > 0);
-      assert.ok(verify.every((x) => x.body.model === "gpt-6-luna"));
+      assert.ok(verify.every((x) => x.body.model === "test-decision-model"));
       const tiles = stub.requests.filter((x) => x.text.includes("This is a crop of a photo"));
       assert.equal(tiles.length, 6 + 12, "3x2 and 4x3 tilings of a 12MP photo");
     } finally {

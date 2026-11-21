@@ -27,5 +27,5 @@ app.listen(config.port, config.host, () => {
     `mtg-doc running at http://${config.host === "0.0.0.0" ? "<this-machine-ip>" : "localhost"}:${config.port}`,
   );
   if (!llmEnabled())
-    console.log("LLM_API_KEY not set: image recognition and AI swaps are disabled.");
+    console.log("LLM_API_KEY or LLM_MODEL not set: image recognition and AI swaps are disabled.");
 });
