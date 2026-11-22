@@ -52,6 +52,39 @@ test.describe("local app on a phone", () => {
     expect(path.indexOf(top), trail).toBeLessThan(path.length - 5);
   });
 
+  test("the finale follows the golden path to its end when frames come slowly", async ({
+    page,
+  }) => {
+    await page.route("**/api/decks/phone-deck/run", (route) =>
+      route.fulfill({ json: { startedAt: "2025-01-01T11:00:00Z", status: "done", trace: done } }),
+    );
+    await page.goto(`${APP_URL}#/deck/phone-deck/run`);
+    const scrolled = () => page.evaluate(() => window.scrollY);
+    await expect.poll(scrolled, { timeout: 15_000 }).toBeGreaterThan(300);
+    // A few frames a second, as on a slow phone (or a slow CI runner). The page notes where it
+    // scrolls to, as asking it from here takes too long while it's this busy.
+    await page.evaluate(() => {
+      const trail: number[] = [];
+      Object.assign(window, { trail });
+      addEventListener("scroll", () => trail.push(Math.round(scrollY)));
+      setInterval(() => {
+        const until = performance.now() + 470;
+        while (performance.now() < until);
+      }, 500);
+    });
+    await page.locator(".run-scrub input").evaluate((el: HTMLInputElement) => {
+      el.value = String(Number(el.max) - 1500);
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    await page.waitForTimeout(6_000);
+    const path = await page.evaluate(() => (window as unknown as { trail: number[] }).trail);
+    const top = Math.min(...path);
+    const trail = path.join(" ");
+    expect(top, trail).toBeLessThan(50);
+    // It ends on the burst, as it does when frames come fast.
+    expect(path.at(-1)!, trail).toBeGreaterThan(900);
+  });
+
   test("a replay keeps its speed when frames come slowly, and doesn't jump after a pause in them", async ({
     page,
   }) => {
@@ -65,13 +98,17 @@ test.describe("local app on a phone", () => {
       const [m, s] = (await clock.innerText()).split(" / ")[0].split(":").map(Number);
       return m * 60 + s;
     };
-    // No frames for a while, as when the tab is away: the replay doesn't jump ahead for it.
+    // No frames for a while, as when the tab is away: the replay doesn't jump ahead for it. It
+    // plays on around the stall (the page is slow to answer on a slow runner), but at 2× a jump
+    // would add six seconds.
     const before = await at();
+    const stalledFrom = Date.now();
     await page.evaluate(() => {
       const until = performance.now() + 3_000;
       while (performance.now() < until);
     });
-    expect((await at()) - before).toBeLessThan(1);
+    const around = (Date.now() - stalledFrom) / 1000 - 3;
+    expect((await at()) - before).toBeLessThan(around * 2 + 2);
 
     // A few frames a second: the page is busy for most of every quarter second.
     await page.evaluate(() => {
@@ -82,10 +119,11 @@ test.describe("local app on a phone", () => {
     });
     const from = await at();
     const wall = Date.now();
-    await page.waitForTimeout(3_000);
+    await page.waitForTimeout(5_000);
     const played = (await at()) - from;
     const elapsed = (Date.now() - wall) / 1000;
-    // At 2× (the default), nearly twice the time that passed.
-    expect(played, `${played}s played in ${elapsed}s`).toBeGreaterThan(elapsed * 2 * 0.8);
+    // At 2× (the default), nearly twice the time that passed, give or take the clock's whole
+    // seconds; slow frames counted short would play it at half that or less.
+    expect(played, `${played}s played in ${elapsed}s`).toBeGreaterThan(elapsed * 2 * 0.7);
   });
 });

@@ -42,6 +42,10 @@ const BURST_MS = 1000;
 const POP_MS = 420;
 /** How long after a drag or a wheel stops the map leaves the page alone, before following again. */
 const FOLLOW_AFTER_DRAG_MS = 2500;
+/** How long the page keeps gliding to where the run is once the playhead stops. */
+const SETTLE_MS = 1500;
+/** How much of the way left the glide covers in a 60Hz frame; slower frames cover more. */
+const GLIDE = 0.15;
 /** How long a comet takes to reach its service, or to come back. */
 const FLIGHT_MS = 420;
 
@@ -235,6 +239,10 @@ export class RunMap extends HTMLElement {
   #resize = new ResizeObserver(() => this.#relayout());
   // Following the run down a map taller than the screen (see #follow).
   #followedAt = -1;
+  #movedAt = -Infinity;
+  /** When the page last took a step towards the run; null between glides. */
+  #glidedAt: number | null = null;
+  #settling = 0;
   #draggedAt = -Infinity;
   #finale: Race | null = null;
   #dragged = () => {
@@ -329,18 +337,43 @@ export class RunMap extends HTMLElement {
    * again from wherever the run has got to.
    */
   #follow(t: number) {
+    const now = performance.now();
+    if (t !== this.#followedAt) {
+      this.#followedAt = t;
+      this.#movedAt = now;
+    }
+    const aim = this.#aim(t, now);
+    if (!aim) {
+      this.#glidedAt = null;
+      return;
+    }
+    // Eased so the page glides, by the time since its last step rather than per frame, so it keeps
+    // up when frames come slowly; a whole pixel at least, or WebKit won't move. A new glide (after
+    // a drag, say) starts gently, however long it's been.
+    const frames = this.#glidedAt === null ? 1 : Math.min(now - this.#glidedAt, 1000) / (1000 / 60);
+    this.#glidedAt = now;
+    const glide = 1 - (1 - GLIDE) ** frames;
+    const { off, riding } = aim;
+    window.scrollBy(0, riding ? off : Math.sign(off) * Math.max(1, Math.abs(off) * glide));
+    if (!this.#settling)
+      this.#settling = requestAnimationFrame(() => {
+        this.#settling = 0;
+        if (this.#trace && this.#layout) this.#follow(this.#now());
+      });
+  }
+
+  /** How far the page is from where following wants it, or null when it should stay put. */
+  #aim(t: number, now: number): { off: number; riding: boolean } | null {
     const l = this.#layout!;
-    const moving = t !== this.#followedAt;
-    this.#followedAt = t;
     const box = this.getBoundingClientRect();
-    if (!l.vertical || !moving || box.height <= innerHeight) return;
-    if (performance.now() - this.#draggedAt < FOLLOW_AFTER_DRAG_MS) return;
+    // Once the playhead stops the page still gets where it was going: on a slow phone the last
+    // frames can come before it does. After that, a paused page is the reader's to scroll.
+    if (!l.vertical || now - this.#movedAt > SETTLE_MS || box.height <= innerHeight) return null;
+    if (now - this.#draggedAt < FOLLOW_AFTER_DRAG_MS) return null;
     const latest = this.#trace!.tasks.filter((task) => stateAt(task, t) === "running").sort(
       (a, b) => b.start! - a.start!,
     )[0];
     const race = this.#finale;
-    // The spark's on its way: ride with it, not after it, or it gets away.
-    const riding = !!race && race.head > 0 && !race.done;
     const y = latest
       ? l.nodes.get(latest.name)!.y
       : race
@@ -348,12 +381,11 @@ export class RunMap extends HTMLElement {
           ? race.end.y
           : along(race.points, race.lengths, race.head).p.y
         : null;
-    if (y === null) return;
+    if (y === null) return null;
     const off = box.top + y - innerHeight * 0.4;
-    if (Math.abs(off) <= 1) return;
-    // Otherwise eased, a little each frame, so the page glides; a whole pixel at least, or WebKit
-    // won't move.
-    window.scrollBy(0, riding ? off : Math.sign(off) * Math.max(1, Math.abs(off) * 0.15));
+    if (Math.abs(off) <= 1) return null;
+    // The spark's on its way: ride with it, not after it, or it gets away.
+    return { off, riding: !!race && race.head > 0 && !race.done };
   }
 
   #point(e: PointerEvent): Point {
