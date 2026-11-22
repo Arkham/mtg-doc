@@ -13,7 +13,7 @@
  */
 import type { Service, Trace, TraceRequest, TraceTask } from "../shared/types.ts";
 import { taskLabel } from "../shared/run-copy.ts";
-import { criticalChain, depths, directNeeds, stateAt } from "./run-graph.ts";
+import { completion, criticalChain, depths, directNeeds, stateAt } from "./run-graph.ts";
 
 const SERVICES: { id: Service; name: string; color: string }[] = [
   { id: "scryfall", name: "Scryfall", color: "#8fc8e8" },
@@ -833,12 +833,13 @@ export class RunMap extends HTMLElement {
       ctx.arc(at.x, at.y, r, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
-      // A sweep for every 10 seconds it has run.
+      // How far along it is: when its end is known (a replay, or events ahead of the moment shown)
+      // the ring closes as it ends; while it isn't, a sweep for every 10 seconds it has run.
       ctx.strokeStyle = "#fff4d6";
       ctx.lineWidth = 2.5;
       ctx.lineCap = "round";
       ctx.beginPath();
-      const turn = (ran / 10000) * Math.PI * 2;
+      const turn = completion(task, ran) * Math.PI * 2;
       ctx.arc(at.x, at.y, r + 5, -Math.PI / 2, -Math.PI / 2 + turn);
       ctx.stroke();
     } else if (state === "waiting") {

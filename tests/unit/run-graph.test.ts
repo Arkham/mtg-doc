@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, test } from "node:test";
 import {
+  completion,
   criticalChain,
   criticalEdges,
   depths,
@@ -65,5 +66,19 @@ describe("a run's graph, for drawing", () => {
     const chain = criticalChain(done.tasks);
     assert.equal(chain[0], "start");
     assert.equal(chain.at(-1), "saved");
+  });
+});
+
+describe("completion", () => {
+  test("a task whose end is known fills its ring in proportion, closing as it ends", () => {
+    const review = task("reviewSwaps", [], 1_000, 5_000);
+    assert.deepEqual(
+      [0, 1_000, 2_000, 4_000, 6_000].map((ran) => completion(review, ran)),
+      [0, 0.25, 0.5, 1, 1],
+    );
+  });
+
+  test("a task still going sweeps once every 10 seconds", () => {
+    assert.equal(completion(task("reviewSwaps", [], 1_000), 15_000), 1.5);
   });
 });

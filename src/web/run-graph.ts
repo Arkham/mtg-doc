@@ -26,6 +26,18 @@ export function stateAt(task: TraceTask, t: number): State {
   return "running";
 }
 
+/** How long a running task's ring takes to go round once while its end isn't known. */
+const SWEEP_MS = 10_000;
+
+/**
+ * How far round a running task's ring goes after it has run `ran` ms: its share of the time it
+ * took, when that's known (a replay knows every task's), or a turn for every 10 seconds.
+ */
+export function completion(task: TraceTask, ran: number): number {
+  if (task.end === undefined || task.start === undefined) return ran / SWEEP_MS;
+  return Math.min(1, Math.max(0, ran / Math.max(1, task.end - task.start)));
+}
+
 /**
  * The chain of tasks that set how long the run took, first to last: back from the task that ended
  * last, through whatever each waited for longest.
