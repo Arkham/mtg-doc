@@ -32,14 +32,17 @@ With Nix, `nix develop` (or `direnv allow` with the bundled `.envrc`) gives you 
 pnpm 10 as CI; `nix-shell` works too and reads your `<nixpkgs>` instead of the pinned flake input.
 Run the commands above inside it.
 
+### LLM dependencies
+
 Any endpoint implementing the OpenAI **Responses API** (`POST /responses`) works; it's used for
 photo reading (image input), JSON planning, and web research via the built-in `web_search` tool.
 Yes/no checks (verifying scanned cards and synergies, confirming replies, deciding when to offer a
 re-run) use the **Decisions API** (`POST /decisions`, `LLM_DECISION_MODEL`) for calibrated
 probabilities. Without a decision model, or with `LLM_DECISIONS=false`, `LLM_MODEL` answers them
-instead (it also steps in whenever a Decisions API call fails). One model does all the work, thinking at `LLM_REASONING` (low);
-`LLM_SERVICE_TIER`, if set, is sent with every request (e.g. `fast`). `.env` supports `${VAR}`
-references, so a key already exported in your shell can be used without copying it:
+instead (it also steps in whenever a Decisions API call fails). One model does all the work,
+thinking at `LLM_REASONING` (low); `LLM_SERVICE_TIER`, if set, is sent with every request (e.g.
+`fast`). `.env` supports `${VAR}` references, so a key already exported in your shell can be used
+without copying it:
 
 ```bash
 LLM_BASE_URL=https://your-endpoint/v1
