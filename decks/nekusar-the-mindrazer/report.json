@@ -4574,7 +4574,6 @@
           "name": "Island",
           "qty": 1,
           "reason": "You have plenty of blue sources; [[Sulfur Falls]] makes red and blue untapped, helping red, which is short.",
-          "ok": true,
           "card": {
             "name": "Island",
             "oracleId": "b2c6aa39-2d2a-459c-a555-fb48ba993373",
@@ -4609,7 +4608,6 @@
           "name": "Sulfur Falls",
           "qty": 1,
           "reason": "You have plenty of blue sources; [[Sulfur Falls]] makes red and blue untapped, helping red, which is short.",
-          "ok": true,
           "card": {
             "name": "Sulfur Falls",
             "oracleId": "6a6c5e17-6465-4a1f-9d63-8a3ce2edc522",
@@ -4652,7 +4650,6 @@
           "name": "Island",
           "qty": 1,
           "reason": "You have plenty of blue sources; [[City of Brass]] makes black and red and blue untapped, helping red, which is short.",
-          "ok": true,
           "card": {
             "name": "Island",
             "oracleId": "b2c6aa39-2d2a-459c-a555-fb48ba993373",
@@ -4687,7 +4684,6 @@
           "name": "City of Brass",
           "qty": 1,
           "reason": "You have plenty of blue sources; [[City of Brass]] makes black and red and blue untapped, helping red, which is short.",
-          "ok": true,
           "card": {
             "name": "City of Brass",
             "oracleId": "f25351e3-539b-4bbc-b92d-6480acf4d722",
@@ -4730,7 +4726,6 @@
           "name": "Island",
           "qty": 1,
           "reason": "You have plenty of blue sources; [[Shivan Reef]] makes red and blue untapped, helping red, which is short.",
-          "ok": true,
           "card": {
             "name": "Island",
             "oracleId": "b2c6aa39-2d2a-459c-a555-fb48ba993373",
@@ -4765,7 +4760,6 @@
           "name": "Shivan Reef",
           "qty": 1,
           "reason": "You have plenty of blue sources; [[Shivan Reef]] makes red and blue untapped, helping red, which is short.",
-          "ok": true,
           "card": {
             "name": "Shivan Reef",
             "oracleId": "0fe16212-66c3-4e45-a641-7391e9b2e304",

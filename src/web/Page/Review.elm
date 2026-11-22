@@ -1,4 +1,4 @@
-module Page.Review exposing (ListView, Model, Msg, Out(..), Row, Status, Suggestions, init, update, view)
+module Page.Review exposing (ListView, Match, Model, Msg, Out(..), Row, Suggestions, init, update, view)
 
 import Api
 import Cards
@@ -13,22 +13,59 @@ import Json.Encode as E
 import List.Extra
 import Process
 import Regex
+import Request exposing (Request(..), failure, isBusy)
 import Task
 import Types exposing (..)
 import Ui.Attr exposing (alt, class, id, placeholder, src, title, type_)
 import Ui.Card as Card
 import Ui.Icons as Icons
+import Ui.Keys as Keys
 import Ui.Mana as Mana
 import Ui.Settings as Settings
 import Ui.Sheet as Sheet
 import Ui.Style exposing (ariaSelected)
 
 
-type Status
-    = Exact
-    | Fuzzy
+{-| What a row's name resolved to: a card, exactly or by a close spelling; nothing; or being
+looked up again (with the card it had, shown until the answer comes).
+-}
+type Match
+    = Exact Card
+    | Fuzzy Card
     | Unresolved
-    | Checking
+    | Checking (Maybe Card)
+
+
+cardOf : Match -> Maybe Card
+cardOf match =
+    case match of
+        Exact card ->
+            Just card
+
+        Fuzzy card ->
+            Just card
+
+        Unresolved ->
+            Nothing
+
+        Checking card ->
+            card
+
+
+{-| A name as the server resolved it. A match always has its card: one said to match without one
+didn't.
+-}
+matchOf : NameMatch -> Maybe Card -> Match
+matchOf status card =
+    case ( status, card ) of
+        ( NameMatchExact, Just c ) ->
+            Exact c
+
+        ( NameMatchFuzzy, Just c ) ->
+            Fuzzy c
+
+        _ ->
+            Unresolved
 
 
 type alias Row =
@@ -36,8 +73,7 @@ type alias Row =
     , qty : Float
     , name : String
     , raw : String
-    , status : Status
-    , card : Maybe Card
+    , match : Match
     , locked : Bool
     , lang : Maybe String
     , confidence : Maybe Float
@@ -56,7 +92,7 @@ type ListView
 type alias Model =
     { recognition : Recognition
     , photos : List String
-    , format : RecognitionResultFormat
+    , format : DeckFormat
     , commanders : List String
     , deckName : String
     , rows : List Row
@@ -68,12 +104,13 @@ type alias Model =
     , names : Suggestions
     , adds : Suggestions
     , addQty : Float
-    , adding : Bool
-    , addError : Maybe String
+    , adding : Request ()
     , flash : Maybe ( Int, Int )
     , focusAdd : Int
-    , saving : Bool
-    , error : Maybe String
+    , saving : Request ()
+
+    -- A commander picked by name that couldn't be found.
+    , unknownCommander : Maybe String
     }
 
 
@@ -84,7 +121,7 @@ type Which
 
 
 type Msg
-    = SetFormat RecognitionResultFormat
+    = SetFormat DeckFormat
     | RemoveCommander String
     | AddCommander String
     | GotCommander String (Result String (List ResolvedName))
@@ -125,7 +162,7 @@ init recognition photos config =
     let
         commanderRows =
             List.map
-                (\c -> { qty = 1, name = c.name, raw = c.name, status = Exact, card = Just c, lang = Nothing, confidence = Nothing })
+                (\c -> { qty = 1, name = c.name, raw = c.name, match = Exact c, lang = Nothing, confidence = Nothing })
                 recognition.commanderCards
 
         entryRows =
@@ -134,17 +171,7 @@ init recognition photos config =
                     { qty = e.qty
                     , name = e.name
                     , raw = e.raw
-                    , status =
-                        case e.status of
-                            RecognizedEntryStatusExact ->
-                                Exact
-
-                            RecognizedEntryStatusFuzzy ->
-                                Fuzzy
-
-                            RecognizedEntryStatusUnresolved ->
-                                Unresolved
-                    , card = e.card
+                    , match = matchOf e.status e.card
                     , lang = e.lang
                     , confidence = e.confidence
                     }
@@ -153,7 +180,7 @@ init recognition photos config =
 
         rows =
             List.indexedMap
-                (\i r -> { id = i + 1, qty = r.qty, name = r.name, raw = r.raw, status = r.status, card = r.card, locked = False, lang = r.lang, confidence = r.confidence })
+                (\i r -> { id = i + 1, qty = r.qty, name = r.name, raw = r.raw, match = r.match, locked = False, lang = r.lang, confidence = r.confidence })
                 (commanderRows ++ entryRows)
     in
     { recognition = recognition
@@ -179,12 +206,11 @@ init recognition photos config =
     , names = noSuggestions
     , adds = noSuggestions
     , addQty = 1
-    , adding = False
-    , addError = Nothing
+    , adding = Idle
     , flash = Nothing
     , focusAdd = 0
-    , saving = False
-    , error = Nothing
+    , saving = Idle
+    , unknownCommander = Nothing
     }
 
 
@@ -246,13 +272,13 @@ mainRows model =
 
 commanderCards : Model -> List Card
 commanderCards model =
-    List.filterMap (\c -> List.Extra.find (\r -> r.name == c) model.rows |> Maybe.andThen .card) model.commanders
+    List.filterMap (\c -> List.Extra.find (\r -> r.name == c) model.rows |> Maybe.andThen (.match >> cardOf)) model.commanders
 
 
 isOffColor : Model -> Row -> Bool
 isOffColor model r =
-    case ( model.format, commanderCards model, r.card ) of
-        ( RecognitionResultFormatCommander, (_ :: _) as cards, Just card ) ->
+    case ( model.format, commanderCards model, cardOf r.match ) of
+        ( DeckFormatCommander, (_ :: _) as cards, Just card ) ->
             let
                 identity =
                     List.concatMap .colorIdentity cards
@@ -265,7 +291,7 @@ isOffColor model r =
 
 needsAttention : Model -> Row -> Bool
 needsAttention model r =
-    r.status /= Exact || isOffColor model r
+    not (isExact r) || isOffColor model r
 
 
 updateRow : Int -> (Row -> Row) -> Model -> Model
@@ -284,22 +310,39 @@ updateRow id fn model =
     }
 
 
-statusOf : ResolvedNameStatus -> Status
-statusOf s =
-    case s of
-        ResolvedNameStatusExact ->
-            Exact
+isFuzzy : Row -> Bool
+isFuzzy r =
+    case r.match of
+        Fuzzy _ ->
+            True
 
-        ResolvedNameStatusFuzzy ->
-            Fuzzy
-
-        ResolvedNameStatusUnresolved ->
-            Unresolved
+        _ ->
+            False
 
 
-newRow : Model -> Float -> String -> String -> Status -> Card -> ( Row, Model )
-newRow model qty name raw status card =
-    ( { id = model.nextId, qty = qty, name = name, raw = raw, status = status, card = Just card, locked = False, lang = Nothing, confidence = Nothing }
+isChecking : Row -> Bool
+isChecking r =
+    case r.match of
+        Checking _ ->
+            True
+
+        _ ->
+            False
+
+
+isExact : Row -> Bool
+isExact r =
+    case r.match of
+        Exact _ ->
+            True
+
+        _ ->
+            False
+
+
+newRow : Model -> Float -> String -> String -> Match -> ( Row, Model )
+newRow model qty name raw match =
+    ( { id = model.nextId, qty = qty, name = name, raw = raw, match = match, locked = False, lang = Nothing, confidence = Nothing }
     , { model | nextId = model.nextId + 1 }
     )
 
@@ -333,12 +376,12 @@ update msg model =
                 Just ( res, card ) ->
                     let
                         ( row, m ) =
-                            newRow model 1 card.name raw (statusOf res.status) card
+                            newRow model 1 card.name raw (matchOf res.status (Just card))
                     in
                     none (addedCommander card.name { m | rows = m.rows ++ [ row ] })
 
                 Nothing ->
-                    none { model | error = Just ("Couldn't find \"" ++ raw ++ "\".") }
+                    none { model | unknownCommander = Just raw }
 
         GotCommander _ (Err _) ->
             none model
@@ -380,7 +423,7 @@ update msg model =
         SetName id n ->
             let
                 ( m, cmd ) =
-                    query Names n (updateRow id (\r -> { r | name = n, status = Unresolved, card = Nothing }) model)
+                    query Names n (updateRow id (\r -> { r | name = n, match = Unresolved }) model)
             in
             ( m, cmd, Nothing )
 
@@ -392,7 +435,7 @@ update msg model =
             ( m, cmd, Nothing )
 
         Recheck id n ->
-            ( updateRow id (\r -> { r | status = Checking }) model, Api.resolve [ n ] (Rechecked id n), Nothing )
+            ( updateRow id (\r -> { r | match = Checking (cardOf r.match) }) model, Api.resolve [ n ] (Rechecked id n), Nothing )
 
         Rechecked id n (Ok results) ->
             case List.head results of
@@ -401,8 +444,7 @@ update msg model =
                         (updateRow id
                             (\r ->
                                 { r
-                                    | status = statusOf res.status
-                                    , card = res.card
+                                    | match = matchOf res.status res.card
                                     , name = res.card |> Maybe.map .name |> Maybe.withDefault n
                                 }
                             )
@@ -410,10 +452,10 @@ update msg model =
                         )
 
                 Nothing ->
-                    none (updateRow id (\r -> { r | status = Unresolved }) model)
+                    none (updateRow id (\r -> { r | match = Unresolved }) model)
 
         Rechecked id _ (Err _) ->
-            none (updateRow id (\r -> { r | status = Unresolved }) model)
+            none (updateRow id (\r -> { r | match = Unresolved }) model)
 
         ToggleLock id ->
             none (updateRow id (\r -> { r | locked = not r.locked }) model)
@@ -433,21 +475,21 @@ update msg model =
                 none model
 
             else
-                ( { model | adding = True, addError = Nothing }, Api.resolve [ n ] (Added n), Nothing )
+                ( { model | adding = Busy () }, Api.resolve [ n ] (Added n), Nothing )
 
         Added n result ->
             let
                 finished m =
-                    { m | adding = False, focusAdd = m.focusAdd + 1 }
+                    { m | focusAdd = m.focusAdd + 1 }
             in
             case result of
                 Err e ->
-                    none (finished { model | addError = Just e })
+                    none (finished { model | adding = Failed e })
 
                 Ok results ->
                     case List.head results |> Maybe.andThen .card of
                         Nothing ->
-                            none (finished { model | addError = Just ("Couldn't find “" ++ n ++ "”. Pick a name from the suggestions.") })
+                            none (finished { model | adding = Failed ("Couldn't find “" ++ n ++ "”. Pick a name from the suggestions.") })
 
                         Just card ->
                             let
@@ -459,7 +501,7 @@ update msg model =
                                         Nothing ->
                                             let
                                                 ( row, m ) =
-                                                    newRow model model.addQty card.name card.name Exact card
+                                                    newRow model model.addQty card.name card.name (Exact card)
                                             in
                                             ( row.id, { m | rows = row :: m.rows } )
 
@@ -471,7 +513,8 @@ update msg model =
                             in
                             ( finished
                                 { withRow
-                                    | flash = Just ( flashed, token )
+                                    | adding = Idle
+                                    , flash = Just ( flashed, token )
                                     , view = All
                                     , search = ""
                                     , adds = { adds | query = "", token = adds.token + 1 }
@@ -504,10 +547,10 @@ update msg model =
 
                 body =
                     E.object
-                        ([ ( "format", encodeRecognitionResultFormat model.format )
+                        ([ ( "format", encodeDeckFormat model.format )
                          , ( "commanders"
                            , E.list E.string
-                                (if model.format == RecognitionResultFormatCommander then
+                                (if model.format == DeckFormatCommander then
                                     model.commanders
 
                                  else
@@ -524,7 +567,7 @@ update msg model =
                          , ( "entries"
                            , E.list
                                 (\r -> E.object [ ( "name", E.string r.name ), ( "qty", E.float r.qty ) ])
-                                (List.filter (\r -> r.status /= Unresolved) rows)
+                                (List.filter (\r -> r.match /= Unresolved) rows)
                            )
                          , ( "options"
                            , encodeOptimizeOptions
@@ -545,13 +588,13 @@ update msg model =
                                )
                         )
             in
-            ( { model | saving = True, error = Nothing }, Api.save body Saved, Nothing )
+            ( { model | saving = Busy (), unknownCommander = Nothing }, Api.save body Saved, Nothing )
 
         Saved (Ok ( slug, jobId )) ->
             ( model, Cmd.none, Just (Done slug jobId) )
 
         Saved (Err e) ->
-            none { model | error = Just e, saving = False }
+            none { model | saving = Failed e }
 
         Zoom photo ->
             ( model
@@ -592,7 +635,7 @@ groupOrder =
 
 groupOf : Row -> String
 groupOf r =
-    case r.card of
+    case cardOf r.match of
         Nothing ->
             "Not recognized"
 
@@ -647,10 +690,10 @@ view env config model =
             List.sum (List.map .qty rows) + toFloat (List.length model.commanders)
 
         unresolved =
-            List.filter (\r -> r.status == Unresolved || r.status == Checking) rows
+            List.filter (\r -> r.match == Unresolved || isChecking r) rows
 
         fuzzy =
-            List.filter (\r -> r.status == Fuzzy) rows
+            List.filter isFuzzy rows
 
         offColor =
             List.filter (isOffColor model) rows
@@ -659,7 +702,7 @@ view env config model =
             List.filter (needsAttention model) rows
 
         targetTotal =
-            if model.format == RecognitionResultFormatCommander then
+            if model.format == DeckFormatCommander then
                 Just 100
 
             else
@@ -669,7 +712,7 @@ view env config model =
             rows
                 |> List.filter (\r -> model.view == All || needsAttention model r)
                 |> List.filter (\r -> model.search == "" || String.contains (String.toLower model.search) (String.toLower r.name))
-                |> Cards.sortByManaValue
+                |> Cards.sortByManaValue (.match >> cardOf >> Maybe.map .cmc)
 
         groups =
             groupOrder
@@ -677,10 +720,10 @@ view env config model =
                 |> List.filter (\( _, rs ) -> not (List.isEmpty rs))
 
         canSave =
-            not model.saving && (model.format /= RecognitionResultFormatCommander || not (List.isEmpty model.commanders))
+            not (isBusy model.saving) && (model.format /= DeckFormatCommander || not (List.isEmpty model.commanders))
 
         isCommander =
-            model.format == RecognitionResultFormatCommander
+            model.format == DeckFormatCommander
     in
     div [ class "review" ]
         [ div [ class "page-head" ]
@@ -742,8 +785,8 @@ view env config model =
                         [ div [ class "field" ]
                             [ span [] [ text "Format" ]
                             , div [ class "segmented" ]
-                                [ button [ ariaSelected isCommander, onClick (SetFormat RecognitionResultFormatCommander) ] [ text "Commander" ]
-                                , button [ ariaSelected (model.format == RecognitionResultFormatOther), onClick (SetFormat RecognitionResultFormatOther) ] [ text "Other" ]
+                                [ button [ ariaSelected isCommander, onClick (SetFormat DeckFormatCommander) ] [ text "Commander" ]
+                                , button [ ariaSelected (model.format == DeckFormatOther), onClick (SetFormat DeckFormatOther) ] [ text "Other" ]
                                 ]
                             ]
                         , if isCommander then
@@ -787,8 +830,8 @@ view env config model =
                             ]
                             []
                         , suggestionList "add-ac" model.adds
-                        , button [ type_ "submit", disabled (String.trim model.adds.query == "" || model.adding) ]
-                            [ if model.adding then
+                        , button [ type_ "submit", disabled (String.trim model.adds.query == "" || isBusy model.adding) ]
+                            [ if isBusy model.adding then
                                 span [ class "spinner", attribute "aria-hidden" "true" ] []
 
                               else
@@ -796,7 +839,7 @@ view env config model =
                             ]
                         , node "mtg-focus" [ attribute "target" "input[list=add-ac]", attribute "token" (String.fromInt model.focusAdd), attribute "lazy" "" ] []
                         ]
-                    , case model.addError of
+                    , case failure model.adding of
                         Just e ->
                             p [ class "bad-text small add-error" ] [ text e ]
 
@@ -854,11 +897,14 @@ view env config model =
             ]
         , div [ class "action-bar" ]
             [ div [ class "action-bar-info small" ]
-                [ case model.error of
-                    Just e ->
+                [ case ( failure model.saving, model.unknownCommander ) of
+                    ( Just e, _ ) ->
                         span [ class "bad-text" ] [ text e ]
 
-                    Nothing ->
+                    ( Nothing, Just raw ) ->
+                        span [ class "bad-text" ] [ text ("Couldn't find \"" ++ raw ++ "\".") ]
+
+                    ( Nothing, Nothing ) ->
                         if isCommander && List.isEmpty model.commanders then
                             span [ class "warn" ] [ text "Pick a commander to continue" ]
 
@@ -877,7 +923,7 @@ view env config model =
                                 ]
                 ]
             , button [ class "primary big", disabled (not canSave), onClick Save ]
-                (if model.saving then
+                (if isBusy model.saving then
                     [ span [ class "spinner", attribute "aria-hidden" "true" ] [], text " Saving…" ]
 
                  else
@@ -939,7 +985,7 @@ commanderField env ctx model =
                                 (model.recognition.commanderCandidates
                                     ++ List.filterMap
                                         (\r ->
-                                            if Maybe.map .canBeCommander r.card == Just True then
+                                            if Maybe.map .canBeCommander (cardOf r.match) == Just True then
                                                 Just r.name
 
                                             else
@@ -982,17 +1028,7 @@ commanderField env ctx model =
                                         )
                                     , value model.cmdr.query
                                     , onInput (Query Cmdr)
-                                    , on "keydown"
-                                        (D.field "key" D.string
-                                            |> D.andThen
-                                                (\k ->
-                                                    if k == "Enter" then
-                                                        D.succeed (AddCommander model.cmdr.query)
-
-                                                    else
-                                                        D.fail "not enter"
-                                                )
-                                        )
+                                    , on "keydown" (Keys.onKeys [ ( "Enter", AddCommander model.cmdr.query ) ])
                                     ]
                                     []
                               )
@@ -1014,10 +1050,10 @@ cardRow env ctx model r =
             isOffColor model r
 
         tone =
-            if r.status == Unresolved then
+            if r.match == Unresolved then
                 "bad"
 
-            else if r.status == Fuzzy || off then
+            else if isFuzzy r || off then
                 "warn"
 
             else
@@ -1030,7 +1066,7 @@ cardRow env ctx model r =
             "row:" ++ String.fromInt r.id
 
         hover =
-            case r.card |> Maybe.andThen .image of
+            case cardOf r.match |> Maybe.andThen .image of
                 Just image ->
                     if ctx.canHover then
                         [ on "mousemove"
@@ -1063,7 +1099,7 @@ cardRow env ctx model r =
             ++ hover
         )
         ([ div [ class "thumb" ]
-            [ case r.card of
+            [ case cardOf r.match of
                 Just card ->
                     case card.imageArt of
                         Just art ->
@@ -1106,7 +1142,7 @@ cardRow env ctx model r =
                     (D.at [ "target", "value" ] D.string
                         |> D.andThen
                             (\v ->
-                                if r.status == Unresolved && v /= "" then
+                                if r.match == Unresolved && v /= "" then
                                     D.succeed (Recheck r.id v)
 
                                 else
@@ -1116,17 +1152,17 @@ cardRow env ctx model r =
                 ]
                 []
             , div [ class "card-row-sub small" ]
-                [ if r.status == Unresolved then
+                [ if r.match == Unresolved then
                     span [ class "bad-text" ] [ text "Not recognized. Fix the name or remove it." ]
 
                   else
                     text ""
-                , if r.status == Checking then
+                , if isChecking r then
                     span [ class "muted" ] [ text "Checking…" ]
 
                   else
                     text ""
-                , if r.status == Fuzzy then
+                , if isFuzzy r then
                     span [ class "warn" ]
                         [ text
                             ("Read as “"
@@ -1154,7 +1190,7 @@ cardRow env ctx model r =
 
                   else
                     text ""
-                , if r.status == Exact && not off then
+                , if isExact r && not off then
                     let
                         printed =
                             if r.raw /= "" && r.raw /= r.name then
@@ -1164,7 +1200,7 @@ cardRow env ctx model r =
                                 Nothing
                     in
                     span [ class "muted" ]
-                        [ case r.card |> Maybe.map .manaCost of
+                        [ case cardOf r.match |> Maybe.map .manaCost of
                             Just cost ->
                                 if cost /= "" then
                                     span [ class "card-row-cost-inline" ] [ Mana.cost env.base 13 (Just cost) ]
@@ -1175,7 +1211,7 @@ cardRow env ctx model r =
                             Nothing ->
                                 text ""
                         , text
-                            ((r.card |> Maybe.map .typeLine |> Maybe.withDefault "")
+                            ((cardOf r.match |> Maybe.map .typeLine |> Maybe.withDefault "")
                                 ++ (case printed of
                                         Just p ->
                                             " · printed “"
@@ -1200,7 +1236,7 @@ cardRow env ctx model r =
                 ]
             , node "mtg-blur-on-enter" [] []
             ]
-         , span [ class "card-row-cost" ] [ Mana.cost env.base 15 (r.card |> Maybe.map .manaCost) ]
+         , span [ class "card-row-cost" ] [ Mana.cost env.base 15 (cardOf r.match |> Maybe.map .manaCost) ]
          , button
             [ class
                 ("lock "

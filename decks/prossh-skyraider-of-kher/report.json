@@ -5293,7 +5293,6 @@
           "name": "Forest",
           "qty": 1,
           "reason": "You have plenty of green sources; [[Undergrowth Stadium]] makes black and green untapped, helping black, which is short.",
-          "ok": true,
           "card": {
             "name": "Forest",
             "oracleId": "b34bb2dc-c1af-4d77-b0b3-a0fb342a5fc6",
@@ -5328,7 +5327,6 @@
           "name": "Undergrowth Stadium",
           "qty": 1,
           "reason": "You have plenty of green sources; [[Undergrowth Stadium]] makes black and green untapped, helping black, which is short.",
-          "ok": true,
           "card": {
             "name": "Undergrowth Stadium",
             "oracleId": "7c69f718-acc8-4851-8e5d-0cbaaa86192c",
@@ -5371,7 +5369,6 @@
           "name": "Golgari Guildgate",
           "qty": 1,
           "reason": "[[Golgari Guildgate]] always enters tapped; [[Bayou]] makes black and green untapped.",
-          "ok": true,
           "card": {
             "name": "Golgari Guildgate",
             "oracleId": "fa2da325-6859-45bb-b185-35526b01bcc1",
@@ -5408,7 +5405,6 @@
           "name": "Bayou",
           "qty": 1,
           "reason": "[[Golgari Guildgate]] always enters tapped; [[Bayou]] makes black and green untapped.",
-          "ok": true,
           "card": {
             "name": "Bayou",
             "oracleId": "b76d1ae6-ad1d-4bac-b4c3-2e03e0e84d9b",
@@ -5451,7 +5447,6 @@
           "name": "Savage Lands",
           "qty": 1,
           "reason": "[[Savage Lands]] always enters tapped; [[Reflecting Pool]] makes black and green and red untapped.",
-          "ok": true,
           "card": {
             "name": "Savage Lands",
             "oracleId": "a3292406-3f49-42d6-a547-e43dd5797f84",
@@ -5490,7 +5485,6 @@
           "name": "Reflecting Pool",
           "qty": 1,
           "reason": "[[Savage Lands]] always enters tapped; [[Reflecting Pool]] makes black and green and red untapped.",
-          "ok": true,
           "card": {
             "name": "Reflecting Pool",
             "oracleId": "67f43ac6-2a58-4b53-b5d7-0330e2a252e2",

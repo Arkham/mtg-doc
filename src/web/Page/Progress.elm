@@ -24,6 +24,7 @@ import Time
 import Types exposing (..)
 import Ui.Attr exposing (class, href, title, type_)
 import Ui.Icons as Icons
+import Ui.Keys as Keys
 
 
 {-| How long the finished chart stays before the deck opens.
@@ -156,7 +157,6 @@ type Msg
     | Seek Float
     | Nudge Float
     | Speed Speed
-    | Key String
     | Linger
 
 
@@ -361,32 +361,6 @@ update msg model =
 
         Speed speed ->
             ( withPlayback (\pb -> { pb | speed = speed }) model, Cmd.none, False )
-
-        Key key ->
-            case key of
-                "Space" ->
-                    update Toggle model
-
-                "k" ->
-                    update Toggle model
-
-                "ArrowLeft" ->
-                    update (Nudge -1000) model
-
-                "ArrowRight" ->
-                    update (Nudge 1000) model
-
-                "," ->
-                    update (Nudge -100) model
-
-                "." ->
-                    update (Nudge 100) model
-
-                "Home" ->
-                    update (Seek 0) model
-
-                _ ->
-                    ( model, Cmd.none, False )
 
         Linger ->
             ( model, Cmd.none, isDone model && not model.stay )
@@ -1087,7 +1061,20 @@ player pb trace =
     div [ class "run-player" ]
         [ node "mtg-keys"
             [ attribute "keys" "Space k ArrowLeft ArrowRight , . Home"
-            , on "key" (D.field "detail" D.string |> D.map Key)
+            , on "key"
+                (D.field "detail" D.string
+                    |> D.andThen
+                        (Keys.choose
+                            [ ( "Space", Toggle )
+                            , ( "k", Toggle )
+                            , ( "ArrowLeft", Nudge -1000 )
+                            , ( "ArrowRight", Nudge 1000 )
+                            , ( ",", Nudge -100 )
+                            , ( ".", Nudge 100 )
+                            , ( "Home", Seek 0 )
+                            ]
+                        )
+                )
             ]
             []
         , div [ class "run-ctls" ]

@@ -67,7 +67,7 @@ describe("deck chat without an LLM", () => {
   test("a swap is proposed, validated and applied to the deck and report", async () => {
     const reply = await say("swap Sol Ring for Mind Stone");
     assert.deepEqual(
-      reply.changes!.map((c) => [c.action, c.name, c.ok]),
+      reply.changes!.map((c) => [c.action, c.name, !c.problem]),
       [
         ["remove", "Sol Ring", true],
         ["add", "Mind Stone", true],
@@ -147,7 +147,7 @@ describe("deck chat without an LLM", () => {
     const piece = optimized.combosOneAway[0].missing[0];
     const reply = await say(`swap Forest for ${piece}`);
     assert.deepEqual(
-      reply.changes!.map((c) => [c.action, c.name, c.ok]),
+      reply.changes!.map((c) => [c.action, c.name, !c.problem]),
       [
         ["remove", "Forest", true],
         ["add", piece, true],
@@ -250,7 +250,7 @@ describe("deck chat without an LLM", () => {
 
     const reply = await say(`swap ${filler} for ${undone.out}`);
     assert.ok(
-      reply.changes!.every((c) => c.ok),
+      reply.changes!.every((c) => !c.problem),
       JSON.stringify(reply.changes),
     );
     const { report } = await applied(await apply(reply.id));
@@ -299,7 +299,7 @@ describe("deck chat without an LLM", () => {
     );
     assert.equal(reply.target, "original");
     assert.ok(
-      reply.changes!.every((c) => c.ok),
+      reply.changes!.every((c) => !c.problem),
       JSON.stringify(reply.changes),
     );
     const { report } = await applied(await apply(reply.id));
@@ -407,7 +407,7 @@ describe("re-optimizing after a change", () => {
       })
     ).json()) as DeckChatMessage;
     assert.ok(
-      reply.changes!.every((c) => c.ok),
+      reply.changes!.every((c) => !c.problem),
       JSON.stringify(reply.changes),
     );
     const made = await applied(await post(`/chat/${reply.id}/apply`, {}), fresh.slug);

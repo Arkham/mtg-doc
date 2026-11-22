@@ -229,7 +229,6 @@ describe("applying the doc's swaps to the submitted list", () => {
     name,
     qty,
     reason: "",
-    ok: true,
   });
   const forestToSignet = swap0("Forest", "Arcane Signet");
   const forests = [forestToSignet, swap0("Forest", "Fevered Visions")];
@@ -453,8 +452,8 @@ describe("applicableManaSuggestions", () => {
     id,
     reason: "",
     changes: [
-      { action: "remove", name: out, qty: 1, reason: "", ok: true },
-      { action: "add", name: add, qty: 1, reason: "", ok: true },
+      { action: "remove", name: out, qty: 1, reason: "" },
+      { action: "add", name: add, qty: 1, reason: "" },
     ],
   });
 

@@ -317,8 +317,8 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
           id: "s1",
           reason: "Stub reason.",
           changes: [
-            { action: "remove", name: "Forest", qty: 1, reason: "", ok: true },
-            { action: "add", name: "Llanowar Wastes", qty: 1, reason: "", ok: true },
+            { action: "remove", name: "Forest", qty: 1, reason: "" },
+            { action: "add", name: "Llanowar Wastes", qty: 1, reason: "" },
           ],
         },
       ],
@@ -339,7 +339,7 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     assert.match(stub.requests.at(-1)!.text, /Their deck as submitted is this list with the swaps/);
     assert.equal(made.target, "original");
     assert.ok(
-      made.changes!.every((c) => c.ok),
+      made.changes!.every((c) => !c.problem),
       JSON.stringify(made.changes),
     );
     await applyChatChanges(slug, made.id);
@@ -380,7 +380,7 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
 
     // A change that opens a gap goes to the decision model, which judges whether it matters.
     const forests = (qty: number) => [
-      { action: "remove" as const, name: "Forest", qty, reason: "", ok: true },
+      { action: "remove" as const, name: "Forest", qty, reason: "" },
     ];
     // The offer comes once the edit's refresh is in.
     const offers = async () => (await readChat(slug)).filter((m) => m.rerun);
@@ -465,7 +465,7 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     const proposal = await chatAboutDeck(slug, "Give me a fairer mana rock");
     assert.equal(proposal.content, "Stub chat: trade Sol Ring for a fairer rock.");
     assert.deepEqual(
-      proposal.changes!.map((c) => [c.action, c.name, c.ok]),
+      proposal.changes!.map((c) => [c.action, c.name, !c.problem]),
       [
         ["remove", "Sol Ring", true],
         ["add", "Mind Stone", true],
@@ -485,7 +485,7 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
 
     const fallback = await chatAboutDeck(slug, "swap Sol Ring for Fellwar Stone");
     assert.deepEqual(
-      fallback.changes!.map((c) => [c.action, c.name, c.ok]),
+      fallback.changes!.map((c) => [c.action, c.name, !c.problem]),
       [
         ["remove", "Sol Ring", true],
         ["add", "Fellwar Stone", true],

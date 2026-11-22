@@ -9,13 +9,13 @@ module Types exposing
     , BracketReportGameChangerOption
     , Card
     , CardPreview
+    , ChangeAction(..)
     , Color(..)
     , ColorStat
     , ColorStatHeaviestCard
     , ColorStatTargetReason(..)
     , Combo
     , DeckChange
-    , DeckChangeAction(..)
     , DeckChanges(..)
     , DeckChatMessage
     , DeckChatMessageApply(..)
@@ -24,9 +24,9 @@ module Types exposing
     , DeckDetailMeta
     , DeckEdit
     , DeckEditChange
-    , DeckEditChangeAction(..)
     , DeckEditTarget(..)
     , DeckEntry
+    , DeckFormat(..)
     , DeckSnapshot
     , DeckStatus
     , DeckSummary
@@ -40,6 +40,7 @@ module Types exposing
     , JobStepStatus(..)
     , ManaReport
     , ManaSuggestion
+    , NameMatch(..)
     , OptimizeOptions
     , PlayGuide
     , PlayGuideKeyCard
@@ -47,9 +48,7 @@ module Types exposing
     , RecognitionJob
     , RecognitionJobStatus(..)
     , RecognitionResult
-    , RecognitionResultFormat(..)
     , RecognizedEntry
-    , RecognizedEntryStatus(..)
     , Report
     , ReportEdhrec
     , ReportHowToPlay
@@ -59,13 +58,11 @@ module Types exposing
     , Research
     , ResearchSource
     , ResolvedName
-    , ResolvedNameStatus(..)
     , Role(..)
     , RoleCount
     , RunRecord
     , RunRecordStatus(..)
     , SaveDeckRequest
-    , SaveDeckRequestFormat(..)
     , Service(..)
     , SimResult
     , SimResultCombo
@@ -90,6 +87,9 @@ module Types exposing
     , bracketReportGameChangerOptionDecoder
     , cardDecoder
     , cardPreviewDecoder
+    , changeActionDecoder
+    , changeActionFromString
+    , changeActionToString
     , colorDecoder
     , colorFromString
     , colorStatDecoder
@@ -99,9 +99,6 @@ module Types exposing
     , colorStatTargetReasonToString
     , colorToString
     , comboDecoder
-    , deckChangeActionDecoder
-    , deckChangeActionFromString
-    , deckChangeActionToString
     , deckChangeDecoder
     , deckChangesDecoder
     , deckChatMessageApplyDecoder
@@ -111,15 +108,15 @@ module Types exposing
     , deckChatMessageRoleToString
     , deckDetailDecoder
     , deckDetailMetaDecoder
-    , deckEditChangeActionDecoder
-    , deckEditChangeActionFromString
-    , deckEditChangeActionToString
     , deckEditChangeDecoder
     , deckEditDecoder
     , deckEditTargetDecoder
     , deckEditTargetFromString
     , deckEditTargetToString
     , deckEntryDecoder
+    , deckFormatDecoder
+    , deckFormatFromString
+    , deckFormatToString
     , deckSnapshotDecoder
     , deckStatusDecoder
     , deckSummaryDecoder
@@ -139,13 +136,13 @@ module Types exposing
     , encodeBracketReportGameChangerOption
     , encodeCard
     , encodeCardPreview
+    , encodeChangeAction
     , encodeColor
     , encodeColorStat
     , encodeColorStatHeaviestCard
     , encodeColorStatTargetReason
     , encodeCombo
     , encodeDeckChange
-    , encodeDeckChangeAction
     , encodeDeckChanges
     , encodeDeckChatMessage
     , encodeDeckChatMessageApply
@@ -154,9 +151,9 @@ module Types exposing
     , encodeDeckDetailMeta
     , encodeDeckEdit
     , encodeDeckEditChange
-    , encodeDeckEditChangeAction
     , encodeDeckEditTarget
     , encodeDeckEntry
+    , encodeDeckFormat
     , encodeDeckSnapshot
     , encodeDeckStatus
     , encodeDeckSummary
@@ -170,6 +167,7 @@ module Types exposing
     , encodeJobStepStatus
     , encodeManaReport
     , encodeManaSuggestion
+    , encodeNameMatch
     , encodeOptimizeOptions
     , encodePlayGuide
     , encodePlayGuideKeyCard
@@ -177,9 +175,7 @@ module Types exposing
     , encodeRecognitionJob
     , encodeRecognitionJobStatus
     , encodeRecognitionResult
-    , encodeRecognitionResultFormat
     , encodeRecognizedEntry
-    , encodeRecognizedEntryStatus
     , encodeReport
     , encodeReportEdhrec
     , encodeReportHowToPlay
@@ -189,13 +185,11 @@ module Types exposing
     , encodeResearch
     , encodeResearchSource
     , encodeResolvedName
-    , encodeResolvedNameStatus
     , encodeRole
     , encodeRoleCount
     , encodeRunRecord
     , encodeRunRecordStatus
     , encodeSaveDeckRequest
-    , encodeSaveDeckRequestFormat
     , encodeService
     , encodeSimResult
     , encodeSimResultCombo
@@ -216,6 +210,9 @@ module Types exposing
     , jobStepStatusToString
     , manaReportDecoder
     , manaSuggestionDecoder
+    , nameMatchDecoder
+    , nameMatchFromString
+    , nameMatchToString
     , optimizeOptionsDecoder
     , playGuideDecoder
     , playGuideKeyCardDecoder
@@ -223,13 +220,7 @@ module Types exposing
     , recognitionJobDecoder
     , recognitionJobStatusDecoder
     , recognitionResultDecoder
-    , recognitionResultFormatDecoder
-    , recognitionResultFormatFromString
-    , recognitionResultFormatToString
     , recognizedEntryDecoder
-    , recognizedEntryStatusDecoder
-    , recognizedEntryStatusFromString
-    , recognizedEntryStatusToString
     , reportDecoder
     , reportEdhrecDecoder
     , reportHowToPlayDecoder
@@ -239,9 +230,6 @@ module Types exposing
     , researchDecoder
     , researchSourceDecoder
     , resolvedNameDecoder
-    , resolvedNameStatusDecoder
-    , resolvedNameStatusFromString
-    , resolvedNameStatusToString
     , roleCountDecoder
     , roleDecoder
     , roleFromString
@@ -251,9 +239,6 @@ module Types exposing
     , runRecordStatusFromString
     , runRecordStatusToString
     , saveDeckRequestDecoder
-    , saveDeckRequestFormatDecoder
-    , saveDeckRequestFormatFromString
-    , saveDeckRequestFormatToString
     , serviceDecoder
     , serviceFromString
     , serviceToString
@@ -694,6 +679,53 @@ encodeCardPreview value =
         )
 
 
+type ChangeAction
+    = ChangeActionAdd
+    | ChangeActionRemove
+
+
+changeActionToString : ChangeAction -> String
+changeActionToString value =
+    case value of
+        ChangeActionAdd ->
+            "add"
+
+        ChangeActionRemove ->
+            "remove"
+
+
+changeActionFromString : String -> Maybe ChangeAction
+changeActionFromString value =
+    case value of
+        "add" ->
+            Just ChangeActionAdd
+
+        "remove" ->
+            Just ChangeActionRemove
+
+        _ ->
+            Nothing
+
+
+changeActionDecoder : Decoder ChangeAction
+changeActionDecoder =
+    D.string
+        |> D.andThen
+            (\value ->
+                case changeActionFromString value of
+                    Just v ->
+                        D.succeed v
+
+                    Nothing ->
+                        D.fail ("Unknown ChangeAction: " ++ value)
+            )
+
+
+encodeChangeAction : ChangeAction -> E.Value
+encodeChangeAction =
+    changeActionToString >> E.string
+
+
 type Color
     = ColorW
     | ColorU
@@ -916,14 +948,13 @@ encodeCombo value =
         )
 
 
-{-| problem: Why the change can't be applied, when `ok` is false.
+{-| problem: Why the change can't be applied; a change without one can be.
 -}
 type alias DeckChange =
-    { action : DeckChangeAction
+    { action : ChangeAction
     , name : String
     , qty : Float
     , reason : String
-    , ok : Bool
     , problem : Maybe String
     , card : Maybe Card
     }
@@ -932,11 +963,10 @@ type alias DeckChange =
 deckChangeDecoder : Decoder DeckChange
 deckChangeDecoder =
     D.succeed DeckChange
-        |> P.required "action" deckChangeActionDecoder
+        |> P.required "action" changeActionDecoder
         |> P.required "name" D.string
         |> P.required "qty" D.float
         |> P.required "reason" D.string
-        |> P.required "ok" D.bool
         |> P.optional "problem" (D.map Just D.string) Nothing
         |> P.optional "card" (D.map Just cardDecoder) Nothing
 
@@ -945,62 +975,14 @@ encodeDeckChange : DeckChange -> E.Value
 encodeDeckChange value =
     E.object
         (List.filterMap identity
-            [ Just ( "action", encodeDeckChangeAction value.action )
+            [ Just ( "action", encodeChangeAction value.action )
             , Just ( "name", E.string value.name )
             , Just ( "qty", E.float value.qty )
             , Just ( "reason", E.string value.reason )
-            , Just ( "ok", E.bool value.ok )
             , Maybe.map (\v -> ( "problem", E.string v )) value.problem
             , Maybe.map (\v -> ( "card", encodeCard v )) value.card
             ]
         )
-
-
-type DeckChangeAction
-    = DeckChangeActionAdd
-    | DeckChangeActionRemove
-
-
-deckChangeActionToString : DeckChangeAction -> String
-deckChangeActionToString value =
-    case value of
-        DeckChangeActionAdd ->
-            "add"
-
-        DeckChangeActionRemove ->
-            "remove"
-
-
-deckChangeActionFromString : String -> Maybe DeckChangeAction
-deckChangeActionFromString value =
-    case value of
-        "add" ->
-            Just DeckChangeActionAdd
-
-        "remove" ->
-            Just DeckChangeActionRemove
-
-        _ ->
-            Nothing
-
-
-deckChangeActionDecoder : Decoder DeckChangeAction
-deckChangeActionDecoder =
-    D.string
-        |> D.andThen
-            (\value ->
-                case deckChangeActionFromString value of
-                    Just v ->
-                        D.succeed v
-
-                    Nothing ->
-                        D.fail ("Unknown DeckChangeAction: " ++ value)
-            )
-
-
-encodeDeckChangeAction : DeckChangeAction -> E.Value
-encodeDeckChangeAction =
-    deckChangeActionToString >> E.string
 
 
 type DeckChanges
@@ -1240,7 +1222,7 @@ encodeDeckDetail value =
 
 type alias DeckDetailMeta =
     { slug : String
-    , format : String
+    , format : DeckFormat
     , commanders : List String
     , options : OptimizeOptions
     , createdAt : String
@@ -1252,7 +1234,7 @@ deckDetailMetaDecoder : Decoder DeckDetailMeta
 deckDetailMetaDecoder =
     D.succeed DeckDetailMeta
         |> P.required "slug" D.string
-        |> P.required "format" D.string
+        |> P.required "format" deckFormatDecoder
         |> P.required "commanders" (D.list D.string)
         |> P.required "options" optimizeOptionsDecoder
         |> P.required "createdAt" D.string
@@ -1264,7 +1246,7 @@ encodeDeckDetailMeta value =
     E.object
         (List.filterMap identity
             [ Just ( "slug", E.string value.slug )
-            , Just ( "format", E.string value.format )
+            , Just ( "format", encodeDeckFormat value.format )
             , Just ( "commanders", E.list E.string value.commanders )
             , Just ( "options", encodeOptimizeOptions value.options )
             , Just ( "createdAt", E.string value.createdAt )
@@ -1305,7 +1287,7 @@ encodeDeckEdit value =
 
 
 type alias DeckEditChange =
-    { action : DeckEditChangeAction
+    { action : ChangeAction
     , name : String
     , qty : Float
     , reason : String
@@ -1315,7 +1297,7 @@ type alias DeckEditChange =
 deckEditChangeDecoder : Decoder DeckEditChange
 deckEditChangeDecoder =
     D.succeed DeckEditChange
-        |> P.required "action" deckEditChangeActionDecoder
+        |> P.required "action" changeActionDecoder
         |> P.required "name" D.string
         |> P.required "qty" D.float
         |> P.required "reason" D.string
@@ -1325,59 +1307,12 @@ encodeDeckEditChange : DeckEditChange -> E.Value
 encodeDeckEditChange value =
     E.object
         (List.filterMap identity
-            [ Just ( "action", encodeDeckEditChangeAction value.action )
+            [ Just ( "action", encodeChangeAction value.action )
             , Just ( "name", E.string value.name )
             , Just ( "qty", E.float value.qty )
             , Just ( "reason", E.string value.reason )
             ]
         )
-
-
-type DeckEditChangeAction
-    = DeckEditChangeActionAdd
-    | DeckEditChangeActionRemove
-
-
-deckEditChangeActionToString : DeckEditChangeAction -> String
-deckEditChangeActionToString value =
-    case value of
-        DeckEditChangeActionAdd ->
-            "add"
-
-        DeckEditChangeActionRemove ->
-            "remove"
-
-
-deckEditChangeActionFromString : String -> Maybe DeckEditChangeAction
-deckEditChangeActionFromString value =
-    case value of
-        "add" ->
-            Just DeckEditChangeActionAdd
-
-        "remove" ->
-            Just DeckEditChangeActionRemove
-
-        _ ->
-            Nothing
-
-
-deckEditChangeActionDecoder : Decoder DeckEditChangeAction
-deckEditChangeActionDecoder =
-    D.string
-        |> D.andThen
-            (\value ->
-                case deckEditChangeActionFromString value of
-                    Just v ->
-                        D.succeed v
-
-                    Nothing ->
-                        D.fail ("Unknown DeckEditChangeAction: " ++ value)
-            )
-
-
-encodeDeckEditChangeAction : DeckEditChangeAction -> E.Value
-encodeDeckEditChangeAction =
-    deckEditChangeActionToString >> E.string
 
 
 type DeckEditTarget
@@ -1441,6 +1376,53 @@ encodeDeckEntry value =
             , Just ( "name", E.string value.name )
             ]
         )
+
+
+type DeckFormat
+    = DeckFormatCommander
+    | DeckFormatOther
+
+
+deckFormatToString : DeckFormat -> String
+deckFormatToString value =
+    case value of
+        DeckFormatCommander ->
+            "commander"
+
+        DeckFormatOther ->
+            "other"
+
+
+deckFormatFromString : String -> Maybe DeckFormat
+deckFormatFromString value =
+    case value of
+        "commander" ->
+            Just DeckFormatCommander
+
+        "other" ->
+            Just DeckFormatOther
+
+        _ ->
+            Nothing
+
+
+deckFormatDecoder : Decoder DeckFormat
+deckFormatDecoder =
+    D.string
+        |> D.andThen
+            (\value ->
+                case deckFormatFromString value of
+                    Just v ->
+                        D.succeed v
+
+                    Nothing ->
+                        D.fail ("Unknown DeckFormat: " ++ value)
+            )
+
+
+encodeDeckFormat : DeckFormat -> E.Value
+encodeDeckFormat =
+    deckFormatToString >> E.string
 
 
 {-| delta: Quantity change vs the initial list (basics can go up or down).
@@ -1561,7 +1543,7 @@ commanderPreviews: The commanders' cards, so the deck list can show what they do
 type alias DeckSummary =
     { slug : String
     , commanders : List String
-    , format : String
+    , format : DeckFormat
     , createdAt : String
     , hasReport : Bool
     , image : Maybe String
@@ -1581,7 +1563,7 @@ deckSummaryDecoder =
     D.succeed DeckSummary
         |> P.required "slug" D.string
         |> P.required "commanders" (D.list D.string)
-        |> P.required "format" D.string
+        |> P.required "format" deckFormatDecoder
         |> P.required "createdAt" D.string
         |> P.required "hasReport" D.bool
         |> P.required "image" (D.nullable D.string)
@@ -1601,7 +1583,7 @@ encodeDeckSummary value =
         (List.filterMap identity
             [ Just ( "slug", E.string value.slug )
             , Just ( "commanders", E.list E.string value.commanders )
-            , Just ( "format", E.string value.format )
+            , Just ( "format", encodeDeckFormat value.format )
             , Just ( "createdAt", E.string value.createdAt )
             , Just ( "hasReport", E.bool value.hasReport )
             , Just ( "image", Maybe.withDefault E.null (Maybe.map E.string value.image) )
@@ -1994,6 +1976,60 @@ encodeManaSuggestion value =
         )
 
 
+type NameMatch
+    = NameMatchExact
+    | NameMatchFuzzy
+    | NameMatchUnresolved
+
+
+nameMatchToString : NameMatch -> String
+nameMatchToString value =
+    case value of
+        NameMatchExact ->
+            "exact"
+
+        NameMatchFuzzy ->
+            "fuzzy"
+
+        NameMatchUnresolved ->
+            "unresolved"
+
+
+nameMatchFromString : String -> Maybe NameMatch
+nameMatchFromString value =
+    case value of
+        "exact" ->
+            Just NameMatchExact
+
+        "fuzzy" ->
+            Just NameMatchFuzzy
+
+        "unresolved" ->
+            Just NameMatchUnresolved
+
+        _ ->
+            Nothing
+
+
+nameMatchDecoder : Decoder NameMatch
+nameMatchDecoder =
+    D.string
+        |> D.andThen
+            (\value ->
+                case nameMatchFromString value of
+                    Just v ->
+                        D.succeed v
+
+                    Nothing ->
+                        D.fail ("Unknown NameMatch: " ++ value)
+            )
+
+
+encodeNameMatch : NameMatch -> E.Value
+encodeNameMatch =
+    nameMatchToString >> E.string
+
+
 {-| budgetTotal: Max total price of the final deck (USD), including the commander.
 
 bracket: Target bracket; null keeps the deck in the bracket it already fits.
@@ -2118,7 +2154,7 @@ encodePlayGuideKeyCard value =
 
 
 type alias Recognition =
-    { format : RecognitionResultFormat
+    { format : DeckFormat
     , formatConfidence : Float
     , commanders : List String
     , commanderCards : List Card
@@ -2133,7 +2169,7 @@ type alias Recognition =
 recognitionDecoder : Decoder Recognition
 recognitionDecoder =
     D.succeed Recognition
-        |> P.required "format" recognitionResultFormatDecoder
+        |> P.required "format" deckFormatDecoder
         |> P.required "formatConfidence" D.float
         |> P.required "commanders" (D.list D.string)
         |> P.required "commanderCards" (D.list cardDecoder)
@@ -2148,7 +2184,7 @@ encodeRecognition : Recognition -> E.Value
 encodeRecognition value =
     E.object
         (List.filterMap identity
-            [ Just ( "format", encodeRecognitionResultFormat value.format )
+            [ Just ( "format", encodeDeckFormat value.format )
             , Just ( "formatConfidence", E.float value.formatConfidence )
             , Just ( "commanders", E.list E.string value.commanders )
             , Just ( "commanderCards", E.list encodeCard value.commanderCards )
@@ -2245,7 +2281,7 @@ encodeRecognitionJobStatus value =
 
 
 type alias RecognitionResult =
-    { format : RecognitionResultFormat
+    { format : DeckFormat
     , formatConfidence : Float
     , commanders : List String
     , commanderCards : List Card
@@ -2259,7 +2295,7 @@ type alias RecognitionResult =
 recognitionResultDecoder : Decoder RecognitionResult
 recognitionResultDecoder =
     D.succeed RecognitionResult
-        |> P.required "format" recognitionResultFormatDecoder
+        |> P.required "format" deckFormatDecoder
         |> P.required "formatConfidence" D.float
         |> P.required "commanders" (D.list D.string)
         |> P.required "commanderCards" (D.list cardDecoder)
@@ -2273,7 +2309,7 @@ encodeRecognitionResult : RecognitionResult -> E.Value
 encodeRecognitionResult value =
     E.object
         (List.filterMap identity
-            [ Just ( "format", encodeRecognitionResultFormat value.format )
+            [ Just ( "format", encodeDeckFormat value.format )
             , Just ( "formatConfidence", E.float value.formatConfidence )
             , Just ( "commanders", E.list E.string value.commanders )
             , Just ( "commanderCards", E.list encodeCard value.commanderCards )
@@ -2283,53 +2319,6 @@ encodeRecognitionResult value =
             , Just ( "notes", E.list E.string value.notes )
             ]
         )
-
-
-type RecognitionResultFormat
-    = RecognitionResultFormatCommander
-    | RecognitionResultFormatOther
-
-
-recognitionResultFormatToString : RecognitionResultFormat -> String
-recognitionResultFormatToString value =
-    case value of
-        RecognitionResultFormatCommander ->
-            "commander"
-
-        RecognitionResultFormatOther ->
-            "other"
-
-
-recognitionResultFormatFromString : String -> Maybe RecognitionResultFormat
-recognitionResultFormatFromString value =
-    case value of
-        "commander" ->
-            Just RecognitionResultFormatCommander
-
-        "other" ->
-            Just RecognitionResultFormatOther
-
-        _ ->
-            Nothing
-
-
-recognitionResultFormatDecoder : Decoder RecognitionResultFormat
-recognitionResultFormatDecoder =
-    D.string
-        |> D.andThen
-            (\value ->
-                case recognitionResultFormatFromString value of
-                    Just v ->
-                        D.succeed v
-
-                    Nothing ->
-                        D.fail ("Unknown RecognitionResultFormat: " ++ value)
-            )
-
-
-encodeRecognitionResultFormat : RecognitionResultFormat -> E.Value
-encodeRecognitionResultFormat =
-    recognitionResultFormatToString >> E.string
 
 
 {-| raw: Raw text read from the image, before name resolution.
@@ -2345,7 +2334,7 @@ type alias RecognizedEntry =
     { qty : Float
     , name : String
     , raw : String
-    , status : RecognizedEntryStatus
+    , status : NameMatch
     , card : Maybe Card
     , lang : Maybe String
     , votes : Maybe Float
@@ -2359,7 +2348,7 @@ recognizedEntryDecoder =
         |> P.required "qty" D.float
         |> P.required "name" D.string
         |> P.required "raw" D.string
-        |> P.required "status" recognizedEntryStatusDecoder
+        |> P.required "status" nameMatchDecoder
         |> P.optional "card" (D.map Just cardDecoder) Nothing
         |> P.optional "lang" (D.map Just D.string) Nothing
         |> P.optional "votes" (D.map Just D.float) Nothing
@@ -2373,67 +2362,13 @@ encodeRecognizedEntry value =
             [ Just ( "qty", E.float value.qty )
             , Just ( "name", E.string value.name )
             , Just ( "raw", E.string value.raw )
-            , Just ( "status", encodeRecognizedEntryStatus value.status )
+            , Just ( "status", encodeNameMatch value.status )
             , Maybe.map (\v -> ( "card", encodeCard v )) value.card
             , Maybe.map (\v -> ( "lang", E.string v )) value.lang
             , Maybe.map (\v -> ( "votes", E.float v )) value.votes
             , Maybe.map (\v -> ( "confidence", E.float v )) value.confidence
             ]
         )
-
-
-type RecognizedEntryStatus
-    = RecognizedEntryStatusExact
-    | RecognizedEntryStatusFuzzy
-    | RecognizedEntryStatusUnresolved
-
-
-recognizedEntryStatusToString : RecognizedEntryStatus -> String
-recognizedEntryStatusToString value =
-    case value of
-        RecognizedEntryStatusExact ->
-            "exact"
-
-        RecognizedEntryStatusFuzzy ->
-            "fuzzy"
-
-        RecognizedEntryStatusUnresolved ->
-            "unresolved"
-
-
-recognizedEntryStatusFromString : String -> Maybe RecognizedEntryStatus
-recognizedEntryStatusFromString value =
-    case value of
-        "exact" ->
-            Just RecognizedEntryStatusExact
-
-        "fuzzy" ->
-            Just RecognizedEntryStatusFuzzy
-
-        "unresolved" ->
-            Just RecognizedEntryStatusUnresolved
-
-        _ ->
-            Nothing
-
-
-recognizedEntryStatusDecoder : Decoder RecognizedEntryStatus
-recognizedEntryStatusDecoder =
-    D.string
-        |> D.andThen
-            (\value ->
-                case recognizedEntryStatusFromString value of
-                    Just v ->
-                        D.succeed v
-
-                    Nothing ->
-                        D.fail ("Unknown RecognizedEntryStatus: " ++ value)
-            )
-
-
-encodeRecognizedEntryStatus : RecognizedEntryStatus -> E.Value
-encodeRecognizedEntryStatus =
-    recognizedEntryStatusToString >> E.string
 
 
 {-| edits: Changes applied through chat after optimization, oldest first.
@@ -2748,7 +2683,7 @@ encodeResearchSource value =
 type alias ResolvedName =
     { requested : String
     , card : Maybe Card
-    , status : ResolvedNameStatus
+    , status : NameMatch
     }
 
 
@@ -2757,7 +2692,7 @@ resolvedNameDecoder =
     D.succeed ResolvedName
         |> P.required "requested" D.string
         |> P.required "card" (D.nullable cardDecoder)
-        |> P.required "status" resolvedNameStatusDecoder
+        |> P.required "status" nameMatchDecoder
 
 
 encodeResolvedName : ResolvedName -> E.Value
@@ -2766,63 +2701,9 @@ encodeResolvedName value =
         (List.filterMap identity
             [ Just ( "requested", E.string value.requested )
             , Just ( "card", Maybe.withDefault E.null (Maybe.map encodeCard value.card) )
-            , Just ( "status", encodeResolvedNameStatus value.status )
+            , Just ( "status", encodeNameMatch value.status )
             ]
         )
-
-
-type ResolvedNameStatus
-    = ResolvedNameStatusExact
-    | ResolvedNameStatusFuzzy
-    | ResolvedNameStatusUnresolved
-
-
-resolvedNameStatusToString : ResolvedNameStatus -> String
-resolvedNameStatusToString value =
-    case value of
-        ResolvedNameStatusExact ->
-            "exact"
-
-        ResolvedNameStatusFuzzy ->
-            "fuzzy"
-
-        ResolvedNameStatusUnresolved ->
-            "unresolved"
-
-
-resolvedNameStatusFromString : String -> Maybe ResolvedNameStatus
-resolvedNameStatusFromString value =
-    case value of
-        "exact" ->
-            Just ResolvedNameStatusExact
-
-        "fuzzy" ->
-            Just ResolvedNameStatusFuzzy
-
-        "unresolved" ->
-            Just ResolvedNameStatusUnresolved
-
-        _ ->
-            Nothing
-
-
-resolvedNameStatusDecoder : Decoder ResolvedNameStatus
-resolvedNameStatusDecoder =
-    D.string
-        |> D.andThen
-            (\value ->
-                case resolvedNameStatusFromString value of
-                    Just v ->
-                        D.succeed v
-
-                    Nothing ->
-                        D.fail ("Unknown ResolvedNameStatus: " ++ value)
-            )
-
-
-encodeResolvedNameStatus : ResolvedNameStatus -> E.Value
-encodeResolvedNameStatus =
-    resolvedNameStatusToString >> E.string
 
 
 type Role
@@ -3035,7 +2916,7 @@ encodeRunRecordStatus =
 
 
 type alias SaveDeckRequest =
-    { format : SaveDeckRequestFormat
+    { format : DeckFormat
     , commanders : List String
     , deckName : Maybe String
     , entries : List DeckEntry
@@ -3046,7 +2927,7 @@ type alias SaveDeckRequest =
 saveDeckRequestDecoder : Decoder SaveDeckRequest
 saveDeckRequestDecoder =
     D.succeed SaveDeckRequest
-        |> P.required "format" saveDeckRequestFormatDecoder
+        |> P.required "format" deckFormatDecoder
         |> P.required "commanders" (D.list D.string)
         |> P.required "deckName" (D.nullable D.string)
         |> P.required "entries" (D.list deckEntryDecoder)
@@ -3057,60 +2938,13 @@ encodeSaveDeckRequest : SaveDeckRequest -> E.Value
 encodeSaveDeckRequest value =
     E.object
         (List.filterMap identity
-            [ Just ( "format", encodeSaveDeckRequestFormat value.format )
+            [ Just ( "format", encodeDeckFormat value.format )
             , Just ( "commanders", E.list E.string value.commanders )
             , Just ( "deckName", Maybe.withDefault E.null (Maybe.map E.string value.deckName) )
             , Just ( "entries", E.list encodeDeckEntry value.entries )
             , Just ( "options", encodeOptimizeOptions value.options )
             ]
         )
-
-
-type SaveDeckRequestFormat
-    = SaveDeckRequestFormatCommander
-    | SaveDeckRequestFormatOther
-
-
-saveDeckRequestFormatToString : SaveDeckRequestFormat -> String
-saveDeckRequestFormatToString value =
-    case value of
-        SaveDeckRequestFormatCommander ->
-            "commander"
-
-        SaveDeckRequestFormatOther ->
-            "other"
-
-
-saveDeckRequestFormatFromString : String -> Maybe SaveDeckRequestFormat
-saveDeckRequestFormatFromString value =
-    case value of
-        "commander" ->
-            Just SaveDeckRequestFormatCommander
-
-        "other" ->
-            Just SaveDeckRequestFormatOther
-
-        _ ->
-            Nothing
-
-
-saveDeckRequestFormatDecoder : Decoder SaveDeckRequestFormat
-saveDeckRequestFormatDecoder =
-    D.string
-        |> D.andThen
-            (\value ->
-                case saveDeckRequestFormatFromString value of
-                    Just v ->
-                        D.succeed v
-
-                    Nothing ->
-                        D.fail ("Unknown SaveDeckRequestFormat: " ++ value)
-            )
-
-
-encodeSaveDeckRequestFormat : SaveDeckRequestFormat -> E.Value
-encodeSaveDeckRequestFormat =
-    saveDeckRequestFormatToString >> E.string
 
 
 type Service

@@ -18,7 +18,7 @@ suite =
                 , { name = "Mind Stone", card = Just { cmc = 2 } }
                 , { name = "Typo", card = Nothing }
                 ]
-                    |> Cards.sortByManaValue
+                    |> Cards.sortByManaValue (.card >> Maybe.map .cmc)
                     |> List.map .name
                     |> Expect.equal [ "Typo", "Sol Ring", "Arcane Signet", "Mind Stone", "Wrath" ]
         , test "names sort like localeCompare: case and accents only break ties, punctuation first" <|

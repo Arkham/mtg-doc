@@ -99,7 +99,7 @@ export function applyChanges(deck: Deck, changes: DeckChange[]): Deck {
     ...changes.filter((c) => c.action === "add"),
   ];
   for (const c of ordered) {
-    if (!c.ok || !c.card) continue;
+    if (c.problem || !c.card) continue;
     const slot = next.slots.find((s) => s.card.name === c.card!.name);
     if (c.action === "remove") {
       if (!slot) continue;

@@ -1,4 +1,4 @@
-module Page.Report exposing (Chrome, ComboFilter, DecklistView(..), Loadable, Model, Msg, Note(..), Out(..), Page, Request, chrome, closeHowToPlay, decklistViewDecoder, decklistViewToString, init, load, subscriptions, update, view, viewChat)
+module Page.Report exposing (Chrome, ComboFilter, DecklistView(..), Model, Msg, Note(..), Out(..), Page, chrome, closeHowToPlay, decklistViewDecoder, decklistViewToString, init, load, subscriptions, update, view, viewChat)
 
 import Api
 import Chat
@@ -16,13 +16,16 @@ import Html.Lazy
 import Json.Decode as D
 import Json.Encode
 import List.Extra
+import Loadable exposing (Loadable(..))
 import Process
+import Request exposing (Request(..), busyWith, failure, isBusy)
 import Route exposing (DeckView(..))
 import Task
 import Types exposing (..)
 import Ui.Attr exposing (alt, class, href, id, rel, src, target, title)
 import Ui.Bracket as Bracket
 import Ui.Card as Card
+import Ui.Gallery as Gallery
 import Ui.Mana as Mana
 import Ui.Markdown as Markdown
 import Ui.Settings as Settings
@@ -76,55 +79,6 @@ type ComboFilter
 type Applier
     = SwapApplier
     | ManaApplier
-
-
-{-| A deck from the server: on its way, not to be had (and why), or here.
--}
-type Loadable a
-    = Loading
-    | Unavailable String
-    | Loaded a
-
-
-{-| Something the page asked the server to do: nothing under way, under way (for what: a swap, a
-suggestion, a kind of search), or failed, and why.
--}
-type Request a
-    = Idle
-    | Busy a
-    | Failed String
-
-
-isBusy : Request a -> Bool
-isBusy request =
-    case request of
-        Busy _ ->
-            True
-
-        _ ->
-            False
-
-
-{-| Under way for this one (of a list that each could be).
--}
-busyWith : (a -> Bool) -> Request a -> Bool
-busyWith this request =
-    case request of
-        Busy a ->
-            this a
-
-        _ ->
-            False
-
-
-failure : Request a -> Maybe String
-failure request =
-    case request of
-        Failed e ->
-            Just e
-
-        _ ->
-            Nothing
 
 
 {-| A change the page makes through the deck's edit queue: one of the doc's swaps (to the spells
@@ -314,22 +268,12 @@ withReport r =
 
 detailOf : Page -> Maybe DeckDetail
 detailOf page =
-    case page.deck of
-        Loaded detail ->
-            Just detail
-
-        _ ->
-            Nothing
+    Loadable.toMaybe page.deck
 
 
 mapDetail : (DeckDetail -> DeckDetail) -> Page -> Page
 mapDetail f page =
-    case page.deck of
-        Loaded detail ->
-            { page | deck = Loaded (f detail) }
-
-        _ ->
-            page
+    { page | deck = Loadable.map f page.deck }
 
 
 {-| Starts making an edit: it's sent to the deck's queue.
@@ -1321,9 +1265,9 @@ manaAdvice env ctx model r =
                                         [ span [ class "mana-swap-chips" ]
                                             (List.map
                                                 (\c ->
-                                                    span [ class ("edit-chip " ++ deckChangeActionToString c.action) ]
+                                                    span [ class ("edit-chip " ++ changeActionToString c.action) ]
                                                         ([ text
-                                                            (if c.action == DeckChangeActionAdd then
+                                                            (if c.action == ChangeActionAdd then
                                                                 "+ "
 
                                                              else
@@ -1332,7 +1276,7 @@ manaAdvice env ctx model r =
                                                          , Card.nameWith ctx { name = c.name, card = Maybe.map cardLike c.card, label = Nothing, class = Nothing, key = Nothing }
                                                          ]
                                                             ++ (case ( c.action, c.card |> Maybe.andThen .priceUsd ) of
-                                                                    ( DeckChangeActionAdd, Just price ) ->
+                                                                    ( ChangeActionAdd, Just price ) ->
                                                                         [ span [ class "muted small" ] [ text (" $" ++ toFixed 2 price) ] ]
 
                                                                     _ ->
@@ -1708,9 +1652,9 @@ deckImages ctx groups showNew =
             Maybe.withDefault [] ctx.gallery
 
         open cardName =
-            case List.Extra.findIndex (\it -> it.name == cardName) items of
-                Just i ->
-                    CardMsg (Card.OpenGallery items i)
+            case Gallery.focus (\it -> it.name == cardName) items of
+                Just cards ->
+                    CardMsg (Card.OpenGallery cards)
 
                 Nothing ->
                     Ignore
@@ -3062,9 +3006,9 @@ editLog ctx r =
                             [ div [ class "edit-changes" ]
                                 (List.map
                                     (\c ->
-                                        span [ class ("edit-chip " ++ deckEditChangeActionToString c.action) ]
+                                        span [ class ("edit-chip " ++ changeActionToString c.action) ]
                                             [ text
-                                                ((if c.action == DeckEditChangeActionAdd then
+                                                ((if c.action == ChangeActionAdd then
                                                     "+"
 
                                                   else

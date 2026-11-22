@@ -56,7 +56,7 @@ describe("simple edits work from the deck's saved cards", () => {
     const cut = await requestsDuring(() =>
       applyDeckChanges(
         slug,
-        [{ action: "remove", name: "Forest", qty: 1, reason: "", ok: true }],
+        [{ action: "remove", name: "Forest", qty: 1, reason: "" }],
         "cut a Forest",
       ),
     );
@@ -76,9 +76,8 @@ describe("simple edits work from the deck's saved cards", () => {
             name: report.swaps.find((s) => s.out === out)!.in,
             qty: 1,
             reason: "",
-            ok: true,
           },
-          { action: "add", name: out, qty: 1, reason: "", ok: true },
+          { action: "add", name: out, qty: 1, reason: "" },
         ],
         `put ${out} back`,
       ),

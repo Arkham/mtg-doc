@@ -156,7 +156,7 @@ describe("edits' slower consequences wait for the edits to stop", () => {
     const forest = report.decklist!.find((c) => c.name === "Forest")!;
     await applyDeckChanges(
       slug,
-      [{ action: "remove", name: "Forest", qty: 1, reason: "", ok: true }],
+      [{ action: "remove", name: "Forest", qty: 1, reason: "" }],
       "cut a Forest",
     );
     // As if the process had died before the timer fired.

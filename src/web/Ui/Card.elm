@@ -27,6 +27,7 @@ import Html.Events exposing (on, preventDefaultOn)
 import Json.Decode as D
 import Types exposing (CardPreview)
 import Ui.Attr exposing (alt, class, href, rel, src, target)
+import Ui.Gallery as Gallery exposing (Gallery)
 import Url
 
 
@@ -59,7 +60,7 @@ type Msg
     = Hovered String String Float Float
     | Leave String
     | Open Item
-    | OpenGallery (List Item) Int
+    | OpenGallery (Gallery Item)
 
 
 {-| A floating preview following the pointer, one per element being hovered.
@@ -280,12 +281,7 @@ nameWith ctx opts =
                             open =
                                 case ctx.gallery of
                                     Just items ->
-                                        case indexOf opts.name items of
-                                            Just i ->
-                                                Just (OpenGallery items i)
-
-                                            Nothing ->
-                                                Nothing
+                                        Gallery.focus (\it -> it.name == opts.name) items |> Maybe.map OpenGallery
 
                                     Nothing ->
                                         Maybe.map (\i -> Open { name = opts.name, image = i, href = link }) image
@@ -338,15 +334,6 @@ nonEmpty s =
 
     else
         Just s
-
-
-indexOf : String -> List Item -> Maybe Int
-indexOf cardName items =
-    items
-        |> List.indexedMap Tuple.pair
-        |> List.filter (\( _, it ) -> it.name == cardName)
-        |> List.head
-        |> Maybe.map Tuple.first
 
 
 {-| Several card names, each with its own preview, joined by a separator.

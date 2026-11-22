@@ -186,7 +186,7 @@ async function proposeWithLlm(
     role: m.role,
     content:
       m.role === "assistant" && m.changes?.length
-        ? `${m.content}\n[Proposed: ${m.changes.map((c) => `${c.action} ${c.qty} ${c.name}${c.ok ? "" : ` (rejected: ${c.problem})`}`).join("; ")}${m.apply?.kind === "applied" ? " — applied" : ""}]`
+        ? `${m.content}\n[Proposed: ${m.changes.map((c) => `${c.action} ${c.qty} ${c.name}${c.problem ? ` (rejected: ${c.problem})` : ""}`).join("; ")}${m.apply?.kind === "applied" ? " — applied" : ""}]`
         : m.role === "assistant" && m.rerun
           ? `${m.content}\n[Proposed re-run: ${m.rerun.summary}${m.rerun.jobId ? " — started" : " — awaiting confirmation"}]`
           : m.content,
@@ -293,7 +293,6 @@ async function validateChanges(
     if (!card) {
       out.push({
         ...base,
-        ok: false,
         problem:
           p.action === "remove" ? "not in the deck" : `couldn't find a card named “${p.name}”`,
       });
@@ -314,9 +313,9 @@ async function validateChanges(
               ? `over the $${budget.perCard} per-card budget`
               : null) ?? violation(card, working)));
     }
-    const change: DeckChange = { ...base, ok: !problem, card, ...(problem ? { problem } : {}) };
+    const change: DeckChange = { ...base, card, ...(problem ? { problem } : {}) };
     out.push(change);
-    if (change.ok) working = applyChanges(working, [change]);
+    if (!problem) working = applyChanges(working, [change]);
   }
   return out;
 }
@@ -351,7 +350,7 @@ export async function chatAboutDeck(
   const confirmed = await confirmsPendingProposal(history, message);
   if (confirmed?.changes) {
     // A yes to proposed card changes applies them, like the Apply button.
-    const n = confirmed.changes.filter((c) => c.ok).length;
+    const n = confirmed.changes.filter((c) => !c.problem).length;
     const assistant: DeckChatMessage = {
       id: randomUUID(),
       role: "assistant",
@@ -514,12 +513,12 @@ async function confirmsPendingProposal(history: DeckChatMessage[], message: stri
   const pendingRerun = last.rerun && !last.rerun.jobId;
   // Failed to apply is still on offer: a yes tries again.
   const pendingChanges =
-    (!last.apply || last.apply.kind === "failed") && last.changes?.some((c) => c.ok);
+    (!last.apply || last.apply.kind === "failed") && last.changes?.some((c) => !c.problem);
   if (!pendingRerun && !pendingChanges) return null;
   const proposal = pendingRerun
     ? `re-running a deck optimizer with ${last.rerun!.summary}`
     : `these deck changes: ${last
-        .changes!.filter((c) => c.ok)
+        .changes!.filter((c) => !c.problem)
         .map((c) => `${c.action} ${c.name}`)
         .join(", ")}`;
   const answers = await decide(
@@ -577,11 +576,11 @@ export async function applyDeckChanges(
   const carried =
     editsOriginal && fromSuggested
       ? onSubmittedList(
-          proposed.filter((c) => c.ok),
+          proposed.filter((c) => !c.problem),
           submitted,
           report.swaps,
         )
-      : { changes: proposed.filter((c) => c.ok), spent: [] as Swap[] };
+      : { changes: proposed.filter((c) => !c.problem), spent: [] as Swap[] };
   const known = await readCards(slug);
   for (const c of proposed) if (c.card) known.set(c.card.name, c.card);
   const changes = await validateChanges(
@@ -592,7 +591,7 @@ export async function applyDeckChanges(
     editsOriginal ? "original" : "optimized",
     known,
   );
-  const valid = changes.filter((c) => c.ok);
+  const valid = changes.filter((c) => !c.problem);
   if (!valid.length) throw new HttpError(409, "None of those changes are valid any more.");
   // Swaps the edit made in the submitted list are done, not dropped.
   const settled = editsOriginal
@@ -714,7 +713,7 @@ async function queueProposal(slug: string, messageId: string): Promise<string> {
     throw new HttpError(409, "Those changes were already applied.");
   if (message.apply?.kind === "applying")
     throw new HttpError(409, "Those changes are already being applied.");
-  if (!message.changes.some((c) => c.ok))
+  if (!message.changes.some((c) => !c.problem))
     throw new HttpError(409, "None of those changes are valid any more.");
   const request =
     history
@@ -800,7 +799,6 @@ export async function applySwap(slug: string, out: string, add: string): Promise
     name,
     qty: 1,
     reason: swap.reason,
-    ok: true,
     ...(card ? { card } : {}),
   });
   return enqueueEdit(slug, "Apply a swap", () =>

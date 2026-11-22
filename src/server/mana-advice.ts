@@ -25,8 +25,8 @@ export const toSuggestion = (fix: ManaFix): ManaSuggestion => ({
   id: randomUUID(),
   reason: fix.reason,
   changes: [
-    { action: "remove", name: fix.out.name, qty: 1, reason: fix.reason, ok: true, card: fix.out },
-    { action: "add", name: fix.in.name, qty: 1, reason: fix.reason, ok: true, card: fix.in },
+    { action: "remove", name: fix.out.name, qty: 1, reason: fix.reason, card: fix.out },
+    { action: "add", name: fix.in.name, qty: 1, reason: fix.reason, card: fix.in },
   ],
 });
 

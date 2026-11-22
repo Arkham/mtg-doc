@@ -1,3 +1,12 @@
+/** What a change does to a deck list. */
+export type ChangeAction = "add" | "remove";
+
+/** A Commander deck, or any other kind. */
+export type DeckFormat = "commander" | "other";
+
+/** How a name read off a card matched a real one: exactly, by a close spelling, or not at all. */
+export type NameMatch = "exact" | "fuzzy" | "unresolved";
+
 export type Color = "W" | "U" | "B" | "R" | "G";
 export const COLORS: Color[] = ["W", "U", "B", "R", "G"];
 
@@ -49,7 +58,7 @@ export interface DeckEntry {
 export interface RecognizedEntry extends DeckEntry {
   /** Raw text read from the image, before name resolution. */
   raw: string;
-  status: "exact" | "fuzzy" | "unresolved";
+  status: NameMatch;
   card?: Card;
   /** Language the card is printed in (Scryfall code), from photo recognition. */
   lang?: string;
@@ -60,7 +69,7 @@ export interface RecognizedEntry extends DeckEntry {
 }
 
 export interface RecognitionResult {
-  format: "commander" | "other";
+  format: DeckFormat;
   formatConfidence: number;
   commanders: string[];
   commanderCards: Card[];
@@ -88,7 +97,7 @@ export interface OptimizeOptions {
 }
 
 export interface SaveDeckRequest {
-  format: "commander" | "other";
+  format: DeckFormat;
   commanders: string[];
   deckName: string | null;
   entries: DeckEntry[];
@@ -98,7 +107,7 @@ export interface SaveDeckRequest {
 export interface DeckSummary {
   slug: string;
   commanders: string[];
-  format: string;
+  format: DeckFormat;
   createdAt: string;
   hasReport: boolean;
   image: string | null;
@@ -248,12 +257,11 @@ export interface BracketReport {
 
 /** One add/remove proposed through chat, after validation. */
 export interface DeckChange {
-  action: "add" | "remove";
+  action: ChangeAction;
   name: string;
   qty: number;
   reason: string;
-  ok: boolean;
-  /** Why the change can't be applied, when `ok` is false. */
+  /** Why the change can't be applied; a change without one can be. */
   problem?: string;
   card?: Card;
 }
@@ -346,7 +354,7 @@ export interface DeckEdit {
   request: string;
   /** Set when the edit changed the deck as submitted; the suggestions were rebuilt from it. */
   target?: "original";
-  changes: { action: "add" | "remove"; name: string; qty: number; reason: string }[];
+  changes: { action: ChangeAction; name: string; qty: number; reason: string }[];
 }
 
 export interface Report {
@@ -482,13 +490,13 @@ export interface RecognitionJob {
 export interface ResolvedName {
   requested: string;
   card: Card | null;
-  status: "exact" | "fuzzy" | "unresolved";
+  status: NameMatch;
 }
 
 /** A deck's settings as the client sees them. */
 export interface DeckDetailMeta {
   slug: string;
-  format: string;
+  format: DeckFormat;
   commanders: string[];
   options: OptimizeOptions;
   createdAt: string;

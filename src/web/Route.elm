@@ -65,7 +65,8 @@ deckHref isStatic slug view =
     href isStatic (Deck slug view)
 
 
-{-| A route as src/web/routes.ts describes it: `{ page, slug, view, jobId }`.
+{-| A route exactly as src/web/routes.ts describes it (`{ page, slug, view, jobId }`): any other
+page or view is a mistake there, not a route to guess at.
 -}
 decoder : Decoder Route
 decoder =
@@ -73,19 +74,11 @@ decoder =
         |> D.andThen
             (\page ->
                 case page of
-                    "deck" ->
-                        D.map2 Deck
-                            (D.field "slug" D.string)
-                            (D.field "view" D.string
-                                |> D.map
-                                    (\v ->
-                                        if v == "optimized" then
-                                            Optimized
+                    "home" ->
+                        D.succeed Home
 
-                                        else
-                                            Current
-                                    )
-                            )
+                    "deck" ->
+                        D.map2 Deck (D.field "slug" D.string) (D.field "view" viewDecoder)
 
                     "job" ->
                         D.map2 Job (D.field "slug" D.string) (D.field "jobId" D.string)
@@ -94,5 +87,22 @@ decoder =
                         D.map Run (D.field "slug" D.string)
 
                     _ ->
-                        D.succeed Home
+                        D.fail ("Unknown page: " ++ page)
+            )
+
+
+viewDecoder : Decoder DeckView
+viewDecoder =
+    D.string
+        |> D.andThen
+            (\view ->
+                case view of
+                    "current" ->
+                        D.succeed Current
+
+                    "optimized" ->
+                        D.succeed Optimized
+
+                    _ ->
+                        D.fail ("Unknown deck view: " ++ view)
             )

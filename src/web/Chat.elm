@@ -20,6 +20,7 @@ import Types exposing (..)
 import Ui.Attr exposing (alt, class, href, placeholder, src, title, type_)
 import Ui.Card as Card
 import Ui.Icons as Icons
+import Ui.Keys as Keys
 import Ui.Mana as Mana
 
 
@@ -77,7 +78,6 @@ type Msg
     | Wait Int (List String)
     | GotWaited (List String) (Result String (List DeckChatMessage))
     | CardMsg Card.Msg
-    | Ignore
 
 
 {-| A piece of a reply as it's written: more text, or the whole of it when it starts over.
@@ -372,24 +372,11 @@ update env slug msg model =
         CardMsg m ->
             ( model, Cmd.none, Just (CardPreview m) )
 
-        Ignore ->
-            ( model, Cmd.none, Nothing )
-
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
     if model.open then
-        Browser.Events.onKeyDown
-            (D.field "key" D.string
-                |> D.map
-                    (\k ->
-                        if k == "Escape" then
-                            Close
-
-                        else
-                            Ignore
-                    )
-            )
+        Browser.Events.onKeyDown (Keys.onKeys [ ( "Escape", Close ) ])
 
     else
         Sub.none
@@ -436,19 +423,20 @@ changesView config ctx message busy =
                 (\c ->
                     li
                         [ class
-                            (deckChangeActionToString c.action
+                            (changeActionToString c.action
                                 ++ " "
-                                ++ (if c.ok then
-                                        ""
+                                ++ (case c.problem of
+                                        Nothing ->
+                                            ""
 
-                                    else
-                                        "rejected"
+                                        Just _ ->
+                                            "rejected"
                                    )
                             )
                         ]
-                        [ span [ class "chat-change-sign", attribute "aria-label" (deckChangeActionToString c.action) ]
+                        [ span [ class "chat-change-sign", attribute "aria-label" (changeActionToString c.action) ]
                             [ text
-                                (if c.action == DeckChangeActionAdd then
+                                (if c.action == ChangeActionAdd then
                                     "+"
 
                                  else
@@ -473,7 +461,7 @@ changesView config ctx message busy =
                                                 [ text c.name ]
                                        )
                                     ++ (case ( c.card |> Maybe.andThen .priceUsd, c.action ) of
-                                            ( Just price, DeckChangeActionAdd ) ->
+                                            ( Just price, ChangeActionAdd ) ->
                                                 [ span [ class "muted small" ] [ text ("$" ++ toFixed 2 price) ] ]
 
                                             _ ->
@@ -481,11 +469,12 @@ changesView config ctx message busy =
                                        )
                                 )
                             , div [ class "small muted" ]
-                                (if c.ok then
-                                    Card.prose ctx c.reason
+                                (case c.problem of
+                                    Nothing ->
+                                        Card.prose ctx c.reason
 
-                                 else
-                                    [ text ("Can't: " ++ Maybe.withDefault "undefined" c.problem) ]
+                                    Just problem ->
+                                        [ text ("Can't: " ++ problem) ]
                                 )
                             ]
                         ]
@@ -514,7 +503,7 @@ applyButton : Config -> DeckChatMessage -> Bool -> List DeckChange -> Html Msg
 applyButton config message busy changes =
     let
         valid =
-            List.filter .ok changes
+            List.filter (\c -> c.problem == Nothing) changes
 
         count =
             List.length valid

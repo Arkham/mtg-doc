@@ -20,6 +20,7 @@ import Types exposing (AppConfig, DeckSummary, Recognition)
 import Ui.Attr exposing (alt, class, href, id, src, title)
 import Ui.Card as Card
 import Ui.Icons as Icons
+import Ui.Keys as Keys
 import Ui.Sheet as Sheet
 
 
@@ -79,7 +80,7 @@ type Msg
     | SearchMsg CardSearch.Msg
     | GotHits D.Value
     | SheetMsg Sheet.Msg
-    | Key String
+    | Escape
     | Resized Int Int
     | MediaChanged D.Value
 
@@ -437,29 +438,8 @@ update msg model =
         SheetMsg m ->
             ( { model | sheet = model.sheet |> Maybe.andThen (Sheet.update m) }, Cmd.none )
 
-        Key key ->
-            case model.sheet of
-                Just sheet ->
-                    case Sheet.onKey key of
-                        Just m ->
-                            ( { model | sheet = Sheet.update m sheet }, Cmd.none )
-
-                        Nothing ->
-                            ( model, Cmd.none )
-
-                Nothing ->
-                    -- A card preview's sheet closes first; then the dialogs under it.
-                    if key == "Escape" then
-                        case ( model.search, model.page ) of
-                            ( Just _, _ ) ->
-                                ( { model | search = Nothing }, Cmd.none )
-                                    |> withHowToPlayClosed
-
-                            ( Nothing, _ ) ->
-                                ( model, Cmd.none ) |> withHowToPlayClosed
-
-                    else
-                        ( model, Cmd.none )
+        Escape ->
+            ( { model | search = Nothing }, Cmd.none ) |> withHowToPlayClosed
 
         Resized w h ->
             let
@@ -524,8 +504,8 @@ card msg model =
             , Cmd.none
             )
 
-        Card.OpenGallery items at ->
-            ( { model | sheet = Just (Sheet.gallery items at) }, Cmd.none )
+        Card.OpenGallery cards ->
+            ( { model | sheet = Just (Sheet.gallery cards) }, Cmd.none )
 
         _ ->
             ( { model | hovers = Card.updateHovers msg model.hovers }, Cmd.none )
@@ -538,7 +518,14 @@ subscriptions model =
         , cardHits GotHits
         , mediaChanged MediaChanged
         , Browser.Events.onResize Resized
-        , Browser.Events.onKeyDown (D.map Key (D.field "key" D.string))
+
+        -- A card preview's sheet has the keys while it's open; then Escape closes the dialogs under it.
+        , case model.sheet of
+            Just _ ->
+                Browser.Events.onKeyDown (D.map SheetMsg Sheet.keys)
+
+            Nothing ->
+                Browser.Events.onKeyDown (Keys.onKeys [ ( "Escape", Escape ) ])
         , case model.page of
             ReportPage report ->
                 Sub.map ReportMsg (Report.subscriptions report)

@@ -56,7 +56,6 @@ const ok = (action: "add" | "remove", card: ReturnType<typeof spell>, qty = 1): 
   name: card.name,
   qty,
   reason: "",
-  ok: true,
   card,
 });
 
@@ -66,7 +65,7 @@ describe("applyChanges", () => {
     const next = applyChanges(deck, [
       ok("add", spell("New")),
       ok("remove", spell("Old")),
-      { ...ok("add", spell("Rejected")), ok: false, problem: "nope" },
+      { ...ok("add", spell("Rejected")), problem: "nope" },
       ok("remove", forest, 2),
     ]);
     const names = next.slots.map((s) => s.card.name);

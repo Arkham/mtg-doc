@@ -13,6 +13,7 @@ import Html.Events exposing (on, onClick, onInput)
 import Json.Decode as D
 import Json.Encode as E
 import List.Extra
+import Loadable exposing (Loadable(..))
 import Route
 import Types exposing (..)
 import Ui.Attr exposing (class, href, placeholder, type_)
@@ -50,8 +51,7 @@ hitsDecoder =
 
 
 type alias Model =
-    { decks : Maybe (List DeckSummary)
-    , error : Maybe String
+    { decks : Loadable (List DeckSummary)
     , query : String
     , hits : Hits
     }
@@ -73,7 +73,7 @@ type Out
 
 init : Env -> ( Model, Cmd Msg )
 init env =
-    ( { decks = Nothing, error = Nothing, query = "", hits = { query = "", total = 0, hits = [] } }
+    ( { decks = Loading, query = "", hits = { query = "", total = 0, hits = [] } }
     , Api.decks env.isStatic GotDecks
     )
 
@@ -89,7 +89,7 @@ search model =
                     ]
                 )
         )
-        model.decks
+        (Loadable.toMaybe model.decks)
 
 
 update : Msg -> Model -> ( Model, Maybe Out )
@@ -98,12 +98,12 @@ update msg model =
         GotDecks (Ok decks) ->
             let
                 next =
-                    { model | decks = Just decks }
+                    { model | decks = Loaded decks }
             in
             ( next, search next )
 
         GotDecks (Err e) ->
-            ( { model | error = Just e }, Nothing )
+            ( { model | decks = Unavailable e }, Nothing )
 
         SetQuery q ->
             let
@@ -156,14 +156,14 @@ view env model =
                 , node "mtg-focus" [ attribute "target" "input" ] []
                 ]
             , div [ class "search-results" ]
-                (case ( model.error, model.decks ) of
-                    ( Just e, _ ) ->
+                (case model.decks of
+                    Unavailable e ->
                         [ p [ class "error small" ] [ text e ] ]
 
-                    ( Nothing, Nothing ) ->
+                    Loading ->
                         [ p [ class "muted small" ] [ span [ class "spinner", attribute "aria-hidden" "true" ] [], text " Loading decks…" ] ]
 
-                    ( Nothing, Just decks ) ->
+                    Loaded decks ->
                         let
                             typed =
                                 String.length (String.trim model.query) >= minQuery

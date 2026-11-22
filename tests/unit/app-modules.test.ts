@@ -22,7 +22,7 @@ import {
   readReport,
   writeDeck,
 } from "../../src/server/storage.ts";
-import type { OptimizeOptions } from "../../src/shared/types.ts";
+import type { DeckSummary, OptimizeOptions } from "../../src/shared/types.ts";
 import { forest, solverCard, spell, swamp, testDeck } from "../support/cards.ts";
 
 const OPTIONS: OptimizeOptions = {
@@ -219,7 +219,7 @@ describe("ocr", () => {
 describe("agent pages", () => {
   test("deck pages render the report as plain HTML, never raw HTML from the model", async () => {
     const { deckPage, llmsTxt } = await import("../../src/server/agent-pages.ts");
-    const summary = {
+    const summary: DeckSummary = {
       slug: "x",
       commanders: ["Some <Commander>"],
       format: "commander",

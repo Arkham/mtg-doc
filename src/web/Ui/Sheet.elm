@@ -4,8 +4,9 @@ module Ui.Sheet exposing
     , Drag
     , Model
     , Msg
+    , Shown
     , gallery
-    , onKey
+    , keys
     , open
     , update
     , view
@@ -22,6 +23,8 @@ import Html.Keyed as Keyed
 import Json.Decode as D
 import Ui.Attr exposing (alt, class, href, rel, src, target)
 import Ui.Card exposing (Item)
+import Ui.Gallery as Gallery exposing (Gallery)
+import Ui.Keys as Keys
 import Ui.Style exposing (cssVars)
 
 
@@ -50,9 +53,15 @@ type Dir
     | Prev
 
 
+{-| What the sheet shows: one image, or a gallery's cards with one in view.
+-}
+type Shown
+    = Single Config
+    | Cards (Gallery Item)
+
+
 type alias Model =
-    { config : Config
-    , items : Maybe ( List Item, Int )
+    { shown : Shown
     , dx : Float
     , enter : Maybe Dir
     , drag : Maybe Drag
@@ -71,27 +80,33 @@ type Msg
     | Ignore
 
 
-init : Config -> Maybe ( List Item, Int ) -> Model
-init config items =
-    { config = config, items = items, dx = 0, enter = Nothing, drag = Nothing, swallowClick = False }
+init : Shown -> Model
+init shown =
+    { shown = shown, dx = 0, enter = Nothing, drag = Nothing, swallowClick = False }
 
 
 open : Config -> Model
 open config =
-    init config Nothing
+    init (Single config)
 
 
-gallery : List Item -> Int -> Model
-gallery items at =
-    init (itemConfig items at) (Just ( items, at ))
+gallery : Gallery Item -> Model
+gallery cards =
+    init (Cards cards)
 
 
-itemConfig : List Item -> Int -> Config
-itemConfig items at =
-    let
-        item =
-            List.drop at items |> List.head |> Maybe.withDefault { name = "", image = "", href = "" }
-    in
+configOf : Shown -> Config
+configOf shown =
+    case shown of
+        Single config ->
+            config
+
+        Cards cards ->
+            itemConfig (Gallery.current cards)
+
+
+itemConfig : Item -> Config
+itemConfig item =
     { src = item.image
     , alt = item.name
     , link = { href = item.href, label = "Scryfall ↗" }
@@ -152,7 +167,7 @@ update msg model =
                             let
                                 -- Resist past the ends so there's feedback without implying another card.
                                 blocked =
-                                    (mx < 0 && not (hasNext model)) || (mx > 0 && not (hasPrev model))
+                                    (mx < 0 && step Next model == Nothing) || (mx > 0 && step Prev model == Nothing)
                             in
                             Just
                                 { model
@@ -215,44 +230,28 @@ update msg model =
             Just model
 
 
-hasNext : Model -> Bool
-hasNext model =
-    case model.items of
-        Just ( items, at ) ->
-            at < List.length items - 1
+{-| The gallery moved one card along, if there's one that way.
+-}
+step : Dir -> Model -> Maybe (Gallery Item)
+step dir model =
+    case model.shown of
+        Cards cards ->
+            case dir of
+                Next ->
+                    Gallery.next cards
 
-        Nothing ->
-            False
+                Prev ->
+                    Gallery.prev cards
 
-
-hasPrev : Model -> Bool
-hasPrev model =
-    case model.items of
-        Just ( _, at ) ->
-            at > 0
-
-        Nothing ->
-            False
+        Single _ ->
+            Nothing
 
 
 go : Dir -> Model -> Model
 go dir model =
-    case model.items of
-        Just ( items, at ) ->
-            if (dir == Next && hasNext model) || (dir == Prev && hasPrev model) then
-                let
-                    next =
-                        case dir of
-                            Next ->
-                                at + 1
-
-                            Prev ->
-                                at - 1
-                in
-                { model | enter = Just dir, items = Just ( items, next ), config = itemConfig items next }
-
-            else
-                model
+    case step dir model of
+        Just cards ->
+            { model | enter = Just dir, shown = Cards cards }
 
         Nothing ->
             model
@@ -260,20 +259,9 @@ go dir model =
 
 {-| Escape closes the sheet; the arrow keys move through a gallery.
 -}
-onKey : String -> Maybe Msg
-onKey key =
-    case key of
-        "Escape" ->
-            Just Close
-
-        "ArrowRight" ->
-            Just (Go Next)
-
-        "ArrowLeft" ->
-            Just (Go Prev)
-
-        _ ->
-            Nothing
+keys : D.Decoder Msg
+keys =
+    Keys.onKeys [ ( "Escape", Close ), ( "ArrowRight", Go Next ), ( "ArrowLeft", Go Prev ) ]
 
 
 stop : msg -> Attribute msg
@@ -293,10 +281,15 @@ view : (Msg -> msg) -> Model -> Html msg
 view lift model =
     let
         c =
-            model.config
+            configOf model.shown
 
         isGallery =
-            model.items /= Nothing
+            case model.shown of
+                Cards _ ->
+                    True
+
+                Single _ ->
+                    False
 
         swipe =
             if isGallery then
@@ -384,14 +377,14 @@ view lift model =
                 [ button
                     [ class "sheet-nav prev"
                     , attribute "aria-label" "Previous card"
-                    , disabled (not (hasPrev model))
+                    , disabled (step Prev model == Nothing)
                     , stop (Go Prev)
                     ]
                     [ text "‹" ]
                 , button
                     [ class "sheet-nav next"
                     , attribute "aria-label" "Next card"
-                    , disabled (not (hasNext model))
+                    , disabled (step Next model == Nothing)
                     , stop (Go Next)
                     ]
                     [ text "›" ]
@@ -401,32 +394,29 @@ view lift model =
                 []
 
         position =
-            case model.items of
-                Just ( items, at ) ->
+            case model.shown of
+                Cards cards ->
+                    let
+                        ( at, count ) =
+                            Gallery.position cards
+                    in
                     [ span [ class "sheet-position" ]
-                        [ text (String.fromInt (at + 1) ++ " / " ++ String.fromInt (List.length items)) ]
+                        [ text (String.fromInt at ++ " / " ++ String.fromInt count) ]
                     ]
 
-                Nothing ->
+                Single _ ->
                     []
 
         neighbours =
-            case model.items of
-                Just ( items, at ) ->
+            case model.shown of
+                Cards cards ->
                     -- Warm the neighbours so a swipe lands on a loaded image.
                     [ node "mtg-preload"
-                        [ attribute "srcs"
-                            (items
-                                |> List.indexedMap Tuple.pair
-                                |> List.filter (\( i, _ ) -> i == at - 1 || i == at + 1)
-                                |> List.map (Tuple.second >> .image)
-                                |> String.join " "
-                            )
-                        ]
+                        [ attribute "srcs" (Gallery.neighbours cards |> List.map .image |> String.join " ") ]
                         []
                     ]
 
-                Nothing ->
+                Single _ ->
                     []
     in
     Html.map lift

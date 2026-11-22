@@ -69,7 +69,7 @@ describe("full optimizer pipeline (fake APIs, no LLM)", () => {
         m.changes.map((c) => c.action),
         ["remove", "add"],
       );
-      assert.ok(m.changes.every((c) => c.ok && c.card?.isLand));
+      assert.ok(m.changes.every((c) => !c.problem && c.card?.isLand));
     }
 
     // The submitted deck is kept for the default view, untouched by the swaps.
