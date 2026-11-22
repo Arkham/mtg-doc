@@ -174,6 +174,10 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   on a background job. They serve an Elm build of their own (`ELM_OUTPUT`, built once per run by
   `scripts/elm.ts --to`), and the static build makes one too: neither touches `public/elm/`,
   which `pnpm dev` serves.
+- Never run `pnpm test:e2e` and `pnpm test:visual` at the same time, and wait for one to finish
+  before starting the other: both build the Elm app into `elm-stuff/builds/test/` and use Vite's
+  websocket port, so together they overwrite each other's build and fail in ways that aren't the
+  code's. The same goes for leftover servers from a run that was cut short: stop them first.
 - Bug fixes come with a test that would have caught them.
 
 ### UI
