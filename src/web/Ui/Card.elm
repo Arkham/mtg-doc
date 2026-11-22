@@ -57,7 +57,7 @@ type alias Ctx msg =
 
 
 type Msg
-    = Hovered String String Float Float
+    = Hovered Hover
     | Unhovered String
     | ClickedCard Item
     | ClickedGalleryCard (Gallery Item)
@@ -76,12 +76,12 @@ type alias Hover =
 updateHovers : Msg -> List Hover -> List Hover
 updateHovers msg hovers =
     case msg of
-        Hovered key image x y ->
-            if List.any (\h -> h.key == key) hovers then
+        Hovered hover ->
+            if List.any (\h -> h.key == hover.key) hovers then
                 List.map
                     (\h ->
-                        if h.key == key then
-                            { h | image = image, x = x, y = y }
+                        if h.key == hover.key then
+                            hover
 
                         else
                             h
@@ -89,7 +89,7 @@ updateHovers msg hovers =
                     hovers
 
             else
-                hovers ++ [ { key = key, image = image, x = x, y = y } ]
+                hovers ++ [ hover ]
 
         Unhovered key ->
             List.filter (\h -> h.key /= key) hovers
@@ -305,7 +305,7 @@ nameWith ctx opts =
                 Just i ->
                     if ctx.canHover then
                         [ on "mousemove"
-                            (D.map2 (\x y -> ctx.lift (Hovered key i x y))
+                            (D.map2 (\x y -> ctx.lift (Hovered { key = key, image = i, x = x, y = y }))
                                 (D.field "clientX" D.float)
                                 (D.field "clientY" D.float)
                             )

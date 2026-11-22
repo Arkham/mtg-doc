@@ -107,7 +107,9 @@ type alias Model =
     , adds : Suggestions
     , addQty : Int
     , adding : Request ()
-    , flash : Maybe ( Int, Int )
+
+    -- The row an add just went to, lit up for a moment; `token` tells its fading from a later add's.
+    , flash : Maybe { row : Int, token : Int }
     , focusAdd : Nudge
     , saving : Request ()
 
@@ -508,7 +510,7 @@ update msg model =
                                             ( row.id, { m | rows = row :: m.rows } )
 
                                 token =
-                                    model.flash |> Maybe.map Tuple.second |> Maybe.withDefault 0 |> (+) 1
+                                    model.flash |> Maybe.map .token |> Maybe.withDefault 0 |> (+) 1
 
                                 adds =
                                     withRow.adds
@@ -516,7 +518,7 @@ update msg model =
                             ( finished
                                 { withRow
                                     | adding = Idle
-                                    , flash = Just ( flashed, token )
+                                    , flash = Just { row = flashed, token = token }
                                     , view = All
                                     , search = ""
                                     , adds = { adds | query = "", token = adds.token + 1 }
@@ -527,7 +529,7 @@ update msg model =
                             )
 
         FlashFaded token ->
-            if Maybe.map Tuple.second model.flash == Just token then
+            if Maybe.map .token model.flash == Just token then
                 none { model | flash = Nothing }
 
             else
@@ -1064,7 +1066,7 @@ cardRow env ctx model r =
                 ""
 
         flashed =
-            Maybe.map Tuple.first model.flash == Just r.id
+            Maybe.map .row model.flash == Just r.id
 
         key =
             "row:" ++ String.fromInt r.id
@@ -1074,7 +1076,7 @@ cardRow env ctx model r =
                 Just image ->
                     if ctx.canHover then
                         [ on "mousemove"
-                            (D.map2 (\x y -> CardMsg (Card.Hovered key image x y))
+                            (D.map2 (\x y -> CardMsg (Card.Hovered { key = key, image = image, x = x, y = y }))
                                 (D.field "clientX" D.float)
                                 (D.field "clientY" D.float)
                             )

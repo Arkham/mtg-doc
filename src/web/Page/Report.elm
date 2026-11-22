@@ -2327,7 +2327,15 @@ combos ctx model shown =
                                 , maybeHtml reason
                                     (\why ->
                                         span [ class "badge warn", title why ]
-                                            [ text ("Outside bracket " ++ (shown.bracket |> Maybe.map (.rules >> .target >> bracketToInt >> String.fromInt) |> Maybe.withDefault "")) ]
+                                            [ text
+                                                (case shown.bracket of
+                                                    Just b ->
+                                                        "Outside bracket " ++ String.fromInt (bracketToInt b.rules.target)
+
+                                                    Nothing ->
+                                                        "Outside the bracket"
+                                                )
+                                            ]
                                     )
                                 ]
                             , ul [ class "combo-partners" ]
@@ -2811,11 +2819,14 @@ viewReport env requested model detail full =
                              else
                                 "Copy decklist"
                             )
-                        , node "mtg-copy"
-                            [ Html.Attributes.property "text" (Json.Encode.string (Maybe.withDefault "" listText))
-                            , on "copied" (D.succeed CopiedList)
-                            ]
-                            []
+                        , maybeHtml listText
+                            (\list ->
+                                node "mtg-copy"
+                                    [ Html.Attributes.property "text" (Json.Encode.string list)
+                                    , on "copied" (D.succeed CopiedList)
+                                    ]
+                                    []
+                            )
                         ]
                     , exportMenu env model slug (Maybe.map .url full.edhrec) full.swaps (not full.suggestionsHidden)
                     ]

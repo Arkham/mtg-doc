@@ -71,7 +71,7 @@ type alias Model =
 
 
 type Msg
-    = RouteChanged D.Value
+    = RouteChanged (Result D.Error Route)
     | GotConfig (Result String AppConfig)
     | ClickedBack
     | HomeMsg Home.Msg
@@ -121,11 +121,16 @@ main =
                         ( Broken (D.errorToString e), Cmd.none )
         , update =
             \msg shell ->
-                case shell of
-                    Running model ->
+                case ( shell, msg ) of
+                    -- An address src/web/nav.ts reads but Route can't means the two disagree: say so
+                    -- rather than stay on a page the address doesn't match.
+                    ( Running _, RouteChanged (Err e) ) ->
+                        ( Broken ("The page couldn't read its address: " ++ D.errorToString e), Cmd.none )
+
+                    ( Running model, _ ) ->
                         Tuple.mapFirst Running (update msg model)
 
-                    Broken _ ->
+                    ( Broken _, _ ) ->
                         ( shell, Cmd.none )
         , view =
             \shell ->
@@ -279,13 +284,12 @@ go route model =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        RouteChanged value ->
-            case D.decodeValue Route.decoder value of
-                Ok route ->
-                    enter route model
+        RouteChanged (Ok route) ->
+            enter route model
 
-                Err _ ->
-                    ( model, Cmd.none )
+        -- The shell stops the app on these (see main).
+        RouteChanged (Err _) ->
+            ( model, Cmd.none )
 
         GotConfig (Ok config) ->
             ( { model | config = Loaded config }, Cmd.none )
@@ -541,7 +545,7 @@ card msg model =
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
-        [ routeChanged RouteChanged
+        [ routeChanged (D.decodeValue Route.decoder >> RouteChanged)
         , cardHits GotHits
         , mediaChanged MediaChanged
         , Browser.Events.onResize Resized
