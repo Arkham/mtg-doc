@@ -1,11 +1,12 @@
 /**
- * Import first in every test file: isolates tests from the developer's .env and the network.
+ * Import first in every test file: isolates tests from the developer's .env and puts fakes in place
+ * of the network (see fakes/index.ts).
  * Module evaluation order guarantees this runs before server config is read.
  */
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { installHttpFixtures } from "./http-fixtures.ts";
+import { installFakes } from "./fakes/index.ts";
 
 process.env.LLM_API_KEY = "";
 process.env.LLM_WEB_SEARCH = "false";
@@ -24,11 +25,9 @@ for (const key of [
 ]) {
   process.env[key] = "";
 }
-// Replayed responses need no rate limiting: the fixture layer spaces out only what it fetches for
-// real. A recording run keeps the real back-off after a 429.
+// The fakes need no rate limiting.
 process.env.SCRYFALL_MIN_INTERVAL_MS = "0";
-if (process.env.FIXTURES !== "record" && process.env.FIXTURES !== "missing")
-  process.env.SCRYFALL_LIMITED_INTERVAL_MS = "0";
+process.env.SCRYFALL_LIMITED_INTERVAL_MS = "0";
 process.env.DECKS_DIR ??= fs.mkdtempSync(path.join(os.tmpdir(), "mtg-doc-test-"));
 
-installHttpFixtures();
+installFakes();

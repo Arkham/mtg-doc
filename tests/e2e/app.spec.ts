@@ -71,7 +71,7 @@ test.describe("local app", () => {
     const time = page.locator(".run-time");
     await page.getByRole("button", { name: "Back to the start" }).click();
     await expect(time).toContainText("00:00.0");
-    // The recorded run takes well under a second: step a tenth at a time.
+    // The run on the fakes takes well under a second: step a tenth at a time.
     await page.keyboard.press(".");
     await expect(time).toContainText("00:00.1 /");
     await page.keyboard.press("Space");

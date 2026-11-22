@@ -190,7 +190,7 @@
               <span class="stat-label">
                 "Cost of new cards"
               <strong class="">
-                "$37.97"
+                "$37.98"
             <div class="stat">
               <span class="stat-label">
                 "Deck price (budget $300)"
@@ -363,13 +363,6 @@
                     "· would put the deck over the $300 budget"
                 <li>
                   <span class="card-name ">
-                    <a href="https://scryfall.com/card/mh3/149/eladamri-korvecdal?utm_source=api" rel="noreferrer" target="_blank">
-                      "Eladamri, Korvecdal"
-                  " "
-                  <span class="muted small">
-                    "· would put the deck over the $300 budget"
-                <li>
-                  <span class="card-name ">
                     <a href="https://scryfall.com/card/cma/120/joraga-warcaller?utm_source=api" rel="noreferrer" target="_blank">
                       "Joraga Warcaller"
                   " "
@@ -400,6 +393,13 @@
                   <span class="card-name ">
                     <a href="https://scryfall.com/card/shm/267/umbral-mantle?utm_source=api" rel="noreferrer" target="_blank">
                       "Umbral Mantle"
+                  " "
+                  <span class="muted small">
+                    "· would put the deck over the $300 budget"
+                <li>
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/blb/260/three-tree-city?utm_source=api" rel="noreferrer" target="_blank">
+                      "Three Tree City"
                   " "
                   <span class="muted small">
                     "· would put the deck over the $300 budget"
@@ -2431,18 +2431,6 @@
                   <span class="muted">
                     " + "
                   <span class="card-name ">
-                    <a href="https://scryfall.com/card/khc/79/wirewood-channeler?utm_source=api" rel="noreferrer" target="_blank">
-                      "Wirewood Channeler"
-                <span>
-                  "Infinite card draw, Infinite colored mana"
-              <li>
-                <strong>
-                  <span class="card-name ">
-                    <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
-                      "Staff of Domination"
-                  <span class="muted">
-                    " + "
-                  <span class="card-name ">
                     <a href="https://scryfall.com/card/j25/687/marwyn-the-nurturer?utm_source=api" rel="noreferrer" target="_blank">
                       "Marwyn, the Nurturer"
                 <span>
@@ -2459,3 +2447,15 @@
                       "Circle of Dreams Druid"
                 <span>
                   "Infinite card draw, Infinite draw triggers"
+              <li>
+                <strong>
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/cmr/343/staff-of-domination?utm_source=api" rel="noreferrer" target="_blank">
+                      "Staff of Domination"
+                  <span class="muted">
+                    " + "
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/khc/79/wirewood-channeler?utm_source=api" rel="noreferrer" target="_blank">
+                      "Wirewood Channeler"
+                <span>
+                  "Infinite card draw, Infinite colored mana"

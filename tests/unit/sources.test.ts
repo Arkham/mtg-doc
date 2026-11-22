@@ -87,7 +87,7 @@ describe("toCard", () => {
   });
 });
 
-describe("Scryfall client (recorded)", () => {
+describe("Scryfall client (fake)", () => {
   test("batch exact lookup, matching front faces and fixing missing prices", async () => {
     const found = await lookupExact([
       "Sol Ring",
@@ -153,7 +153,7 @@ describe("Scryfall client (recorded)", () => {
   });
 });
 
-describe("EDHREC client (recorded)", () => {
+describe("EDHREC client (fake)", () => {
   test("loads commander data with inclusion and synergy", async () => {
     const data = await getCommanderData(["Lathril, Blade of the Elves"]);
     assert.ok(data);
@@ -174,7 +174,7 @@ describe("EDHREC client (recorded)", () => {
   });
 });
 
-describe("Commander Spellbook client (recorded)", () => {
+describe("Commander Spellbook client (fake)", () => {
   test("finds combos in the deck and one card away, filtered by identity", async () => {
     const r = await findCombos(
       ["Lathril, Blade of the Elves"],

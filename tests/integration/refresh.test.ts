@@ -11,12 +11,10 @@ import { cancelDebounced, whenIdle } from "../../src/server/edit-queue.ts";
 import { startOptimize } from "../../src/server/pipeline.ts";
 import { resumeRefreshes } from "../../src/server/refresh.ts";
 import type { DeckChatMessage, DeckDetail, EditStatus } from "../../src/shared/types.ts";
-import { fixtureMode } from "../support/http-fixtures.ts";
 import { optimizeFixtureDeck, waitForJob } from "../support/sample.ts";
 
-/** Long enough for two edits in a row; recording against the live APIs makes edits slower. */
 // Long enough that a slow machine (CI, with coverage) makes both edits before the first refresh.
-const DELAY = fixtureMode() === "replay" ? 2_000 : 15_000;
+const DELAY = 2_000;
 
 /** Commander Spellbook combo searches: the refresh makes one, an edit makes none. */
 let comboSearches = 0;

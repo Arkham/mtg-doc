@@ -1,0 +1,1869 @@
+{
+ "land": 34,
+ "basic": 21,
+ "panels": {
+  "taglinks": [
+   {
+    "value": "Tokens",
+    "count": 314
+   },
+   {
+    "value": "Elves",
+    "count": 196
+   },
+   {
+    "value": "+1/+1 Counters",
+    "count": 95
+   },
+   {
+    "value": "Aggro",
+    "count": 76
+   },
+   {
+    "value": "Ramp",
+    "count": 66
+   },
+   {
+    "value": "Voltron",
+    "count": 32
+   },
+   {
+    "value": "Lifegain",
+    "count": 22
+   },
+   {
+    "value": "Combo",
+    "count": 18
+   },
+   {
+    "value": "Midrange",
+    "count": 16
+   },
+   {
+    "value": "Lifedrain",
+    "count": 14
+   },
+   {
+    "value": "Warriors",
+    "count": 13
+   },
+   {
+    "value": "Aristocrats",
+    "count": 12
+   },
+   {
+    "value": "Equipment",
+    "count": 10
+   },
+   {
+    "value": "Graveyard",
+    "count": 9
+   },
+   {
+    "value": "Anthems",
+    "count": 8
+   },
+   {
+    "value": "Reanimator",
+    "count": 8
+   },
+   {
+    "value": "Tap / Untap",
+    "count": 7
+   },
+   {
+    "value": "Commander Matters",
+    "count": 6
+   },
+   {
+    "value": "Go Wide",
+    "count": 6
+   },
+   {
+    "value": "Burn",
+    "count": 5
+   },
+   {
+    "value": "-1/-1 Counters",
+    "count": 4
+   },
+   {
+    "value": "Activated Abilities",
+    "count": 4
+   },
+   {
+    "value": "Affinity",
+    "count": 4
+   },
+   {
+    "value": "Big Mana",
+    "count": 4
+   },
+   {
+    "value": "Group Slug",
+    "count": 4
+   },
+   {
+    "value": "Auras",
+    "count": 3
+   },
+   {
+    "value": "Deathtouch",
+    "count": 3
+   },
+   {
+    "value": "Dredge",
+    "count": 3
+   },
+   {
+    "value": "Enchantress",
+    "count": 3
+   },
+   {
+    "value": "Good Stuff",
+    "count": 3
+   },
+   {
+    "value": "Mana Dorks",
+    "count": 3
+   },
+   {
+    "value": "Sacrifice",
+    "count": 3
+   },
+   {
+    "value": "Spellslinger",
+    "count": 3
+   },
+   {
+    "value": "Toolbox",
+    "count": 3
+   },
+   {
+    "value": "Unblockable",
+    "count": 3
+   },
+   {
+    "value": "Zoo",
+    "count": 3
+   },
+   {
+    "value": "Birthing Pod",
+    "count": 2
+   },
+   {
+    "value": "Control",
+    "count": 2
+   },
+   {
+    "value": "Extra Combats",
+    "count": 2
+   },
+   {
+    "value": "Legends",
+    "count": 2
+   },
+   {
+    "value": "Proliferate",
+    "count": 2
+   },
+   {
+    "value": "Reach",
+    "count": 2
+   },
+   {
+    "value": "Snow",
+    "count": 2
+   },
+   {
+    "value": "Tempo",
+    "count": 2
+   },
+   {
+    "value": "Triggered Abilities",
+    "count": 2
+   },
+   {
+    "value": "Archers",
+    "count": 1
+   },
+   {
+    "value": "Card Draw",
+    "count": 1
+   },
+   {
+    "value": "Clones",
+    "count": 1
+   },
+   {
+    "value": "Energy",
+    "count": 1
+   },
+   {
+    "value": "Fight",
+    "count": 1
+   },
+   {
+    "value": "Flashback",
+    "count": 1
+   },
+   {
+    "value": "Glass Cannon",
+    "count": 1
+   },
+   {
+    "value": "Infect",
+    "count": 1
+   },
+   {
+    "value": "Lands Matter",
+    "count": 1
+   },
+   {
+    "value": "Mill",
+    "count": 1
+   },
+   {
+    "value": "Pillow Fort",
+    "count": 1
+   },
+   {
+    "value": "Populate",
+    "count": 1
+   },
+   {
+    "value": "Saboteurs",
+    "count": 1
+   },
+   {
+    "value": "Self-Damage",
+    "count": 1
+   },
+   {
+    "value": "Self-Mill",
+    "count": 1
+   },
+   {
+    "value": "Shapeshifters",
+    "count": 1
+   },
+   {
+    "value": "Type Hack",
+    "count": 1
+   },
+   {
+    "value": "Umori Companion",
+    "count": 1
+   },
+   {
+    "value": "Wizards",
+    "count": 1
+   }
+  ]
+ },
+ "container": {
+  "json_dict": {
+   "card": {
+    "num_decks": 4174
+   },
+   "cardlists": [
+    {
+     "header": "New Cards",
+     "tag": "newcards",
+     "cardviews": [
+      {
+       "name": "Simulacrum Shaper",
+       "synergy": 0.07363541693956144,
+       "num_decks": 44,
+       "potential_decks": 380
+      },
+      {
+       "name": "Ferocity of the Hunt",
+       "synergy": -0.006877056555715209,
+       "num_decks": 8,
+       "potential_decks": 363
+      },
+      {
+       "name": "Roiling Canopy",
+       "synergy": 0.010133019831809488,
+       "num_decks": 8,
+       "potential_decks": 380
+      },
+      {
+       "name": "Marwyn, the Preserver",
+       "synergy": 0.012603516513060345,
+       "num_decks": 7,
+       "potential_decks": 363
+      },
+      {
+       "name": "Carnivorous Cultivator",
+       "synergy": 0.0011823463627527158,
+       "num_decks": 6,
+       "potential_decks": 407
+      }
+     ]
+    },
+    {
+     "header": "Top Cards",
+     "tag": "topcards",
+     "cardviews": [
+      {
+       "name": "Elvish Archdruid",
+       "synergy": 0.80211474795595,
+       "num_decks": 3869,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Llanowar Elves",
+       "synergy": 0.48181618877482646,
+       "num_decks": 3526,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Imperious Perfect",
+       "synergy": 0.7227951179709897,
+       "num_decks": 3452,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Elvish Mystic",
+       "synergy": 0.49165862525270787,
+       "num_decks": 3294,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Reclamation Sage",
+       "synergy": 0.6002590587219665,
+       "num_decks": 3196,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Marwyn, the Nurturer",
+       "synergy": 0.6515790155476793,
+       "num_decks": 3150,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Dwynen, Gilt-Leaf Daen",
+       "synergy": 0.6637430908695383,
+       "num_decks": 3082,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Priest of Titania",
+       "synergy": 0.6148592220075869,
+       "num_decks": 3065,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Beast Whisperer",
+       "synergy": 0.5723072308718554,
+       "num_decks": 2943,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Elven Ambush",
+       "synergy": 0.5807993295228983,
+       "num_decks": 2740,
+       "potential_decks": 4174
+      }
+     ]
+    },
+    {
+     "header": "High Lift Cards",
+     "tag": "highliftcards",
+     "cardviews": [
+      {
+       "name": "Serpent's Soul-Jar",
+       "synergy": 0.12670271537339078,
+       "num_decks": 563,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Crown of Skemfar",
+       "synergy": 0.3810462649819047,
+       "num_decks": 1711,
+       "potential_decks": 4174
+      },
+      {
+       "name": "High Perfect Morcant",
+       "synergy": 0.326396985563952,
+       "num_decks": 593,
+       "potential_decks": 1637
+      },
+      {
+       "name": "Bounty of Skemfar",
+       "synergy": 0.2954866695555183,
+       "num_decks": 1318,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Voice of the Woods",
+       "synergy": 0.10505846843855189,
+       "num_decks": 464,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Rhys the Exiled",
+       "synergy": 0.35216275693986887,
+       "num_decks": 1580,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Timberwatch Elf",
+       "synergy": 0.4871089413172598,
+       "num_decks": 2222,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Sylvan Messenger",
+       "synergy": 0.18742976654949467,
+       "num_decks": 839,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Stoneforge Masterwork",
+       "synergy": 0.0844602494503464,
+       "num_decks": 389,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Wirewood Pride",
+       "synergy": 0.0900887092080529,
+       "num_decks": 410,
+       "potential_decks": 4174
+      }
+     ]
+    },
+    {
+     "header": "Creatures",
+     "tag": "creatures",
+     "cardviews": [
+      {
+       "name": "Elvish Warmaster",
+       "synergy": 0.5544782769109124,
+       "num_decks": 2678,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Lys Alana Huntmaster",
+       "synergy": 0.5597129542218447,
+       "num_decks": 2674,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Shaman of the Pack",
+       "synergy": 0.5684887896179855,
+       "num_decks": 2663,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Canopy Tactician",
+       "synergy": 0.5592977410119275,
+       "num_decks": 2592,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Skemfar Shadowsage",
+       "synergy": 0.5417219960143531,
+       "num_decks": 2504,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Poison-Tip Archer",
+       "synergy": 0.4045511821510064,
+       "num_decks": 2401,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Leaf-Crowned Visionary",
+       "synergy": 0.4558378226616544,
+       "num_decks": 2248,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Abomination of Llanowar",
+       "synergy": 0.4736456400169265,
+       "num_decks": 2192,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Wolverine Riders",
+       "synergy": 0.4617631578669634,
+       "num_decks": 2176,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Fyndhorn Elves",
+       "synergy": 0.3342483711025003,
+       "num_decks": 2123,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Wirewood Channeler",
+       "synergy": 0.43517018052243334,
+       "num_decks": 2038,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Ruthless Winnower",
+       "synergy": 0.4372218126200882,
+       "num_decks": 1984,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Ezuri, Renegade Leader",
+       "synergy": 0.40531596275952886,
+       "num_decks": 1973,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Immaculate Magistrate",
+       "synergy": 0.4188815702399359,
+       "num_decks": 1957,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Wood Elves",
+       "synergy": 0.3353111660250553,
+       "num_decks": 1708,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Miara, Thorn of the Glade",
+       "synergy": 0.3683457746275597,
+       "num_decks": 1667,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Elvish Champion",
+       "synergy": 0.3343010153522912,
+       "num_decks": 1636,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Morcant's Loyalist",
+       "synergy": 0.3112415782959415,
+       "num_decks": 598,
+       "potential_decks": 1560
+      },
+      {
+       "name": "Llanowar Tribe",
+       "synergy": 0.3426099324063296,
+       "num_decks": 1582,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Harald, King of Skemfar",
+       "synergy": 0.3344466461579149,
+       "num_decks": 1514,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Elves of Deep Shadow",
+       "synergy": 0.1650418517611982,
+       "num_decks": 1454,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Champions of the Perfect",
+       "synergy": 0.2721516677927088,
+       "num_decks": 536,
+       "potential_decks": 1571
+      },
+      {
+       "name": "Nullmage Shepherd",
+       "synergy": 0.3010774572812643,
+       "num_decks": 1362,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Dionus, Elvish Archdruid",
+       "synergy": 0.260622360730464,
+       "num_decks": 1345,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Circle of Dreams Druid",
+       "synergy": 0.24537293724581827,
+       "num_decks": 1336,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Glissa Sunslayer",
+       "synergy": 0.2101851933359825,
+       "num_decks": 1264,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Skemfar Avenger",
+       "synergy": 0.2688938611527797,
+       "num_decks": 1254,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Arbor Elf",
+       "synergy": 0.22418195219367465,
+       "num_decks": 1240,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Tyvar the Bellicose",
+       "synergy": 0.26006005089643763,
+       "num_decks": 1234,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Realmwalker",
+       "synergy": 0.2193563763749072,
+       "num_decks": 1227,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Farhaven Elf",
+       "synergy": 0.2494162738125716,
+       "num_decks": 1201,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Selfless Safewright",
+       "synergy": 0.22796989070435586,
+       "num_decks": 451,
+       "potential_decks": 1571
+      },
+      {
+       "name": "Jagged-Scar Archers",
+       "synergy": 0.26031013344288767,
+       "num_decks": 1171,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Elvish Harbinger",
+       "synergy": 0.2224334304895051,
+       "num_decks": 1133,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Galadhrim Brigade",
+       "synergy": 0.22432673431523986,
+       "num_decks": 1090,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Craterhoof Behemoth",
+       "synergy": 0.11867075254840792,
+       "num_decks": 1030,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Elvish Visionary",
+       "synergy": 0.20331280423571974,
+       "num_decks": 985,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Eladamri, Korvecdal",
+       "synergy": 0.19172501321537228,
+       "num_decks": 975,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Copperhorn Scout",
+       "synergy": 0.20684441710970675,
+       "num_decks": 971,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Joraga Warcaller",
+       "synergy": 0.1959181136989904,
+       "num_decks": 957,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Wellwisher",
+       "synergy": 0.1993910113502191,
+       "num_decks": 956,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Golgari Findbroker",
+       "synergy": 0.20336682585799926,
+       "num_decks": 954,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Dwynen's Elite",
+       "synergy": 0.19252915924887154,
+       "num_decks": 922,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Wirewood Symbiote",
+       "synergy": 0.1822685888556299,
+       "num_decks": 873,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Nadier's Nightblade",
+       "synergy": 0.09289643929992086,
+       "num_decks": 839,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Eclipsed Elf",
+       "synergy": 0.15890735005566003,
+       "num_decks": 313,
+       "potential_decks": 1560
+      },
+      {
+       "name": "Springbloom Druid",
+       "synergy": 0.13124475618343506,
+       "num_decks": 767,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Allosaurus Shepherd",
+       "synergy": 0.1258115563670521,
+       "num_decks": 756,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Virulent Emissary",
+       "synergy": 0.07827216542001157,
+       "num_decks": 279,
+       "potential_decks": 1571
+      },
+      {
+       "name": "Deathrite Shaman",
+       "synergy": 0.04243554850280773,
+       "num_decks": 728,
+       "potential_decks": 4174
+      }
+     ]
+    },
+    {
+     "header": "Instants",
+     "tag": "instants",
+     "cardviews": [
+      {
+       "name": "Putrefy",
+       "synergy": 0.21813611975244507,
+       "num_decks": 2229,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Assassin's Trophy",
+       "synergy": -0.11121304672343824,
+       "num_decks": 1556,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Galadhrim Ambush",
+       "synergy": 0.29392073020188086,
+       "num_decks": 1487,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Heroic Intervention",
+       "synergy": 0.029599304474991983,
+       "num_decks": 1474,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Beast Within",
+       "synergy": -0.007346519269312901,
+       "num_decks": 1356,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Golgari Charm",
+       "synergy": 0.10738837350501149,
+       "num_decks": 1106,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Vitalize",
+       "synergy": 0.16241457535328913,
+       "num_decks": 786,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Revitalizing Repast",
+       "synergy": -0.042280474844812704,
+       "num_decks": 659,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Return of the Wildspeaker",
+       "synergy": 0.013624825553438955,
+       "num_decks": 535,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Poison the Cup",
+       "synergy": 0.10837944170553473,
+       "num_decks": 480,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Abrupt Decay",
+       "synergy": -0.03938137208810859,
+       "num_decks": 476,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Kindred Summons",
+       "synergy": 0.08528770547597568,
+       "num_decks": 455,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Snakeskin Veil",
+       "synergy": 0.019652551409717584,
+       "num_decks": 454,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Windswift Slice",
+       "synergy": 0.08857690178574713,
+       "num_decks": 449,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Second Harvest",
+       "synergy": -0.03900370768202156,
+       "num_decks": 414,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Tyvar's Stand",
+       "synergy": 0.041682104882272086,
+       "num_decks": 401,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Village Rites",
+       "synergy": -0.07006811611793873,
+       "num_decks": 383,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Tear Asunder",
+       "synergy": -0.06169576639005735,
+       "num_decks": 369,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Dark Ritual",
+       "synergy": -0.10707077585601499,
+       "num_decks": 340,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Return to Nature",
+       "synergy": 0.03149736351527068,
+       "num_decks": 322,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Murder",
+       "synergy": 0.042755084013530585,
+       "num_decks": 322,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Wrap in Vigor",
+       "synergy": 0.052069033797825,
+       "num_decks": 308,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Fog",
+       "synergy": 0.023718217112434853,
+       "num_decks": 303,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Infernal Grasp",
+       "synergy": -0.012708911605765039,
+       "num_decks": 294,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Nature's Claim",
+       "synergy": -0.021630497060558918,
+       "num_decks": 252,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Eyeblight's Ending",
+       "synergy": 0.0334941014559815,
+       "num_decks": 236,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Hero's Downfall",
+       "synergy": 0.041382564129464325,
+       "num_decks": 235,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Chord of Calling",
+       "synergy": -0.00956061374390408,
+       "num_decks": 224,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Fell the Profane",
+       "synergy": -0.04405263150561722,
+       "num_decks": 217,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Tamiyo's Safekeeping",
+       "synergy": -0.02433917658005339,
+       "num_decks": 217,
+       "potential_decks": 4174
+      }
+     ]
+    },
+    {
+     "header": "Sorceries",
+     "tag": "sorceries",
+     "cardviews": [
+      {
+       "name": "Elvish Promenade",
+       "synergy": 0.5197383629082867,
+       "num_decks": 2464,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Pact of the Serpent",
+       "synergy": 0.3324700421036534,
+       "num_decks": 1580,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Casualties of War",
+       "synergy": 0.23925792115340702,
+       "num_decks": 1411,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Harvest Season",
+       "synergy": 0.2706620447001576,
+       "num_decks": 1257,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Shamanic Revelation",
+       "synergy": 0.15544528223518053,
+       "num_decks": 1176,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Cultivate",
+       "synergy": -0.14767651879609703,
+       "num_decks": 998,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Return Upon the Tide",
+       "synergy": 0.21196365351316157,
+       "num_decks": 956,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Trystan's Command",
+       "synergy": 0.1708428152233576,
+       "num_decks": 337,
+       "potential_decks": 1560
+      },
+      {
+       "name": "Eyeblight Massacre",
+       "synergy": 0.18828053455480448,
+       "num_decks": 853,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Rampant Growth",
+       "synergy": -0.12175410918560509,
+       "num_decks": 772,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Kindred Dominance",
+       "synergy": 0.12162211893898442,
+       "num_decks": 758,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Harmonize",
+       "synergy": 0.07082259525227891,
+       "num_decks": 594,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Crippling Fear",
+       "synergy": 0.11855466171192061,
+       "num_decks": 587,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Overrun",
+       "synergy": 0.09922563880185743,
+       "num_decks": 543,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Overwhelming Stampede",
+       "synergy": 0.0598282629572148,
+       "num_decks": 491,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Genesis Wave",
+       "synergy": 0.08385867655019343,
+       "num_decks": 488,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Nature's Lore",
+       "synergy": -0.15374907683497124,
+       "num_decks": 421,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Kodama's Reach",
+       "synergy": -0.1085624255412656,
+       "num_decks": 394,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Bloodline Bidding",
+       "synergy": 0.048845667905859015,
+       "num_decks": 141,
+       "potential_decks": 1566
+      },
+      {
+       "name": "Roots of Wisdom",
+       "synergy": 0.08243974040579218,
+       "num_decks": 375,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Ambition's Cost",
+       "synergy": 0.07562543249968186,
+       "num_decks": 370,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Patriarch's Bidding",
+       "synergy": 0.06370680674408397,
+       "num_decks": 359,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Exsanguinate",
+       "synergy": -0.013606145560172048,
+       "num_decks": 355,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Finale of Devastation",
+       "synergy": -0.002981543369644568,
+       "num_decks": 337,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Preposterous Proportions",
+       "synergy": 0.04053073974106983,
+       "num_decks": 323,
+       "potential_decks": 4174
+      },
+      {
+       "name": "In Garruk's Wake",
+       "synergy": 0.02210103572587619,
+       "num_decks": 321,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Triumph of the Hordes",
+       "synergy": 0.013715029538587789,
+       "num_decks": 295,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Farseek",
+       "synergy": -0.11636491870591549,
+       "num_decks": 289,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Three Visits",
+       "synergy": -0.1196904643327973,
+       "num_decks": 259,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Haunting Voyage",
+       "synergy": 0.052526820339207574,
+       "num_decks": 255,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Bala Ged Recovery",
+       "synergy": -0.04963626404960434,
+       "num_decks": 238,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Blasphemous Edict",
+       "synergy": -0.00030809616388584316,
+       "num_decks": 236,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Feed the Swarm",
+       "synergy": -0.020256981413697875,
+       "num_decks": 235,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Toxic Deluge",
+       "synergy": -0.1692176396862856,
+       "num_decks": 230,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Read the Bones",
+       "synergy": 0.007861825521834911,
+       "num_decks": 215,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Bushwhack",
+       "synergy": 0.014724539226319298,
+       "num_decks": 209,
+       "potential_decks": 4174
+      }
+     ]
+    },
+    {
+     "header": "Utility Artifacts",
+     "tag": "utilityartifacts",
+     "cardviews": [
+      {
+       "name": "Swiftfoot Boots",
+       "synergy": 0.13445755701507703,
+       "num_decks": 1525,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Skullclamp",
+       "synergy": -0.029711562320362095,
+       "num_decks": 1186,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Lightning Greaves",
+       "synergy": 0.046695437639268755,
+       "num_decks": 1066,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Banner of Kinship",
+       "synergy": 0.1288625815204516,
+       "num_decks": 727,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Vanquisher's Banner",
+       "synergy": 0.1263859485204985,
+       "num_decks": 684,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Staff of Domination",
+       "synergy": 0.11490016057877533,
+       "num_decks": 618,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Throne of the God-Pharaoh",
+       "synergy": 0.11615086150584619,
+       "num_decks": 552,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Whispersilk Cloak",
+       "synergy": 0.07018195804104822,
+       "num_decks": 499,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Coat of Arms",
+       "synergy": 0.07331944859712754,
+       "num_decks": 483,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Chronicle of Victory",
+       "synergy": 0.06292606459757111,
+       "num_decks": 174,
+       "potential_decks": 1571
+      },
+      {
+       "name": "Herald's Horn",
+       "synergy": 0.059391424204206594,
+       "num_decks": 414,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Emerald Medallion",
+       "synergy": 0.054693248384206423,
+       "num_decks": 396,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Lifecrafter's Bestiary",
+       "synergy": 0.06331994991698726,
+       "num_decks": 323,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Door of Destinies",
+       "synergy": 0.046614184587745244,
+       "num_decks": 267,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Dawn-Blessed Pennant",
+       "synergy": 0.04711684643406491,
+       "num_decks": 98,
+       "potential_decks": 1571
+      },
+      {
+       "name": "Cauldron of Essence",
+       "synergy": -0.19914516390548745,
+       "num_decks": 65,
+       "potential_decks": 1113
+      },
+      {
+       "name": "Blackblade Reforged",
+       "synergy": 0.03447391912696415,
+       "num_decks": 231,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Eldrazi Monument",
+       "synergy": 0.028910238608556606,
+       "num_decks": 226,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Brotherhood Regalia",
+       "synergy": 0.02880925514333297,
+       "num_decks": 213,
+       "potential_decks": 4174
+      }
+     ]
+    },
+    {
+     "header": "Enchantments",
+     "tag": "enchantments",
+     "cardviews": [
+      {
+       "name": "Elderfang Venom",
+       "synergy": 0.5106697175990677,
+       "num_decks": 2360,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Prowess of the Fair",
+       "synergy": 0.41807465952370704,
+       "num_decks": 1953,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Moldervine Reclamation",
+       "synergy": 0.12099941042693593,
+       "num_decks": 1494,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Elven Chorus",
+       "synergy": 0.21316652900660102,
+       "num_decks": 1057,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Binding the Old Gods",
+       "synergy": 0.14803291044930483,
+       "num_decks": 941,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Pride of the Perfect",
+       "synergy": 0.20165556277528854,
+       "num_decks": 913,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Growing Rites of Itlimoc",
+       "synergy": 0.12305142512805982,
+       "num_decks": 871,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Elvish Guidance",
+       "synergy": 0.18018869776512847,
+       "num_decks": 850,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Guardian Project",
+       "synergy": 0.10801595350330748,
+       "num_decks": 736,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Quest for Renewal",
+       "synergy": 0.1459624820866795,
+       "num_decks": 717,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Doubling Season",
+       "synergy": -0.008759190654574173,
+       "num_decks": 697,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Harald Unites the Elves",
+       "synergy": 0.13448615488528193,
+       "num_decks": 621,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Beastmaster Ascension",
+       "synergy": 0.035761959171288674,
+       "num_decks": 610,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Alpha Authority",
+       "synergy": 0.11228194938864468,
+       "num_decks": 557,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Phyrexian Arena",
+       "synergy": -0.005380106380181562,
+       "num_decks": 509,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Parallel Lives",
+       "synergy": -0.011224444927980151,
+       "num_decks": 482,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Cultist of the Absolute",
+       "synergy": 0.09048035702560231,
+       "num_decks": 433,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Alpha Status",
+       "synergy": 0.08378122369520406,
+       "num_decks": 396,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Sylvan Anthem",
+       "synergy": 0.06007436841513716,
+       "num_decks": 331,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Tribute to the World Tree",
+       "synergy": 0.032973912785684324,
+       "num_decks": 283,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Morcant's Eyes",
+       "synergy": 0.0430736971014367,
+       "num_decks": 104,
+       "potential_decks": 1566
+      },
+      {
+       "name": "Leyline of Abundance",
+       "synergy": 0.051086451444112745,
+       "num_decks": 256,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Blanchwood Armor",
+       "synergy": 0.051093255823210386,
+       "num_decks": 241,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Vraska Joins Up",
+       "synergy": 0.008800005003857116,
+       "num_decks": 239,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Sylvan Library",
+       "synergy": -0.036731137484505974,
+       "num_decks": 225,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Unnatural Growth",
+       "synergy": 0.020371422583279675,
+       "num_decks": 222,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Garruk's Uprising",
+       "synergy": -0.0232378778356584,
+       "num_decks": 217,
+       "potential_decks": 4174
+      }
+     ]
+    },
+    {
+     "header": "Planeswalkers",
+     "tag": "planeswalkers",
+     "cardviews": [
+      {
+       "name": "Tyvar Kell",
+       "synergy": 0.4416895657492961,
+       "num_decks": 2132,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Freyalise, Llanowar's Fury",
+       "synergy": 0.2030048074493583,
+       "num_decks": 1019,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Tyvar, Jubilant Brawler",
+       "synergy": 0.15555843447827047,
+       "num_decks": 872,
+       "potential_decks": 4174
+      }
+     ]
+    },
+    {
+     "header": "Utility Lands",
+     "tag": "utilitylands",
+     "cardviews": [
+      {
+       "name": "Rogue's Passage",
+       "synergy": 0.20894648230723398,
+       "num_decks": 1794,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Wirewood Lodge",
+       "synergy": 0.2611067088965759,
+       "num_decks": 1313,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Yavimaya, Cradle of Growth",
+       "synergy": -0.043719525000158355,
+       "num_decks": 943,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Bojuka Bog",
+       "synergy": -0.21044653138084934,
+       "num_decks": 891,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Oran-Rief, the Vastwood",
+       "synergy": 0.08344019680104822,
+       "num_decks": 743,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Three Tree City",
+       "synergy": 0.05913977447419634,
+       "num_decks": 699,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Reliquary Tower",
+       "synergy": -0.09421610723517015,
+       "num_decks": 544,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Boseiju, Who Endures",
+       "synergy": -0.10639543700702897,
+       "num_decks": 314,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Grim Backwoods",
+       "synergy": -0.06047593311584934,
+       "num_decks": 311,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Urborg, Tomb of Yawgmoth",
+       "synergy": -0.16235822531561223,
+       "num_decks": 252,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Shizo, Death's Storehouse",
+       "synergy": 0.013380544666865099,
+       "num_decks": 242,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Evendo, Waking Haven",
+       "synergy": -0.015923330235246246,
+       "num_decks": 109,
+       "potential_decks": 2116
+      },
+      {
+       "name": "Castle Garenbrig",
+       "synergy": 0.02523460981371776,
+       "num_decks": 210,
+       "potential_decks": 4174
+      }
+     ]
+    },
+    {
+     "header": "Mana Artifacts",
+     "tag": "manaartifacts",
+     "cardviews": [
+      {
+       "name": "Sol Ring",
+       "synergy": -0.004308676544528933,
+       "num_decks": 3287,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Arcane Signet",
+       "synergy": -0.044318699920646853,
+       "num_decks": 2387,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Patchwork Banner",
+       "synergy": 0.07464380516397934,
+       "num_decks": 589,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Golgari Signet",
+       "synergy": -0.1241375419680478,
+       "num_decks": 451,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Talisman of Resilience",
+       "synergy": -0.15147009181825377,
+       "num_decks": 341,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Commander's Sphere",
+       "synergy": 0.0061035747580237346,
+       "num_decks": 266,
+       "potential_decks": 4174
+      }
+     ]
+    },
+    {
+     "header": "Lands",
+     "tag": "lands",
+     "cardviews": [
+      {
+       "name": "Forest",
+       "synergy": 0.006533565405823505,
+       "num_decks": 4120,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Swamp",
+       "synergy": 0.0047989058725365075,
+       "num_decks": 4094,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Command Tower",
+       "synergy": 0.0124510219609959,
+       "num_decks": 3617,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Path of Ancestry",
+       "synergy": 0.41926889116007166,
+       "num_decks": 2761,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Woodland Cemetery",
+       "synergy": -0.1630186177849241,
+       "num_decks": 2037,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Golgari Rot Farm",
+       "synergy": 0.08576689396101922,
+       "num_decks": 1895,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Llanowar Wastes",
+       "synergy": -0.08783963682618856,
+       "num_decks": 1876,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Jungle Hollow",
+       "synergy": 0.21719272891304184,
+       "num_decks": 1862,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Gilt-Leaf Palace",
+       "synergy": 0.2677964182563326,
+       "num_decks": 1347,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Overgrown Tomb",
+       "synergy": -0.16635706062692635,
+       "num_decks": 1342,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Necroblossom Snarl",
+       "synergy": -0.06641297101843519,
+       "num_decks": 1297,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Temple of Malady",
+       "synergy": -0.02781730148906708,
+       "num_decks": 1243,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Skemfar Elderhall",
+       "synergy": 0.26676541917271857,
+       "num_decks": 1203,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Myriad Landscape",
+       "synergy": 0.14663871334583486,
+       "num_decks": 1131,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Undergrowth Stadium",
+       "synergy": -0.1309259868734255,
+       "num_decks": 1094,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Secluded Courtyard",
+       "synergy": 0.21229111537523288,
+       "num_decks": 1051,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Deathcap Glade",
+       "synergy": -0.1057270446470005,
+       "num_decks": 1051,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Tainted Wood",
+       "synergy": -0.18462987635052888,
+       "num_decks": 1042,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Golgari Guildgate",
+       "synergy": 0.1641311730215112,
+       "num_decks": 1003,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Twilight Mire",
+       "synergy": -0.18200475047224846,
+       "num_decks": 989,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Elven Passage",
+       "synergy": 0.18815690273888588,
+       "num_decks": 157,
+       "potential_decks": 715
+      },
+      {
+       "name": "Evolving Wilds",
+       "synergy": -0.03599690950209389,
+       "num_decks": 876,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Foul Orchard",
+       "synergy": 0.14666040348431672,
+       "num_decks": 786,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Unclaimed Territory",
+       "synergy": 0.15757981804503968,
+       "num_decks": 778,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Darkbore Pathway",
+       "synergy": 0.0005452009994206808,
+       "num_decks": 744,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Eclipsed Realms",
+       "synergy": 0.12390517263315179,
+       "num_decks": 256,
+       "potential_decks": 1563
+      },
+      {
+       "name": "Exotic Orchard",
+       "synergy": -0.12822377881832187,
+       "num_decks": 676,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Revitalizing Repast",
+       "synergy": -0.042280474844812704,
+       "num_decks": 659,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Verdant Catacombs",
+       "synergy": -0.1449716305291595,
+       "num_decks": 600,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Blooming Marsh",
+       "synergy": -0.015708246533608083,
+       "num_decks": 523,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Terramorphic Expanse",
+       "synergy": -0.08156687183282464,
+       "num_decks": 505,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Vernal Fen",
+       "synergy": -0.13639717391288386,
+       "num_decks": 255,
+       "potential_decks": 2121
+      },
+      {
+       "name": "Disciple of Freyalise",
+       "synergy": 0.02806298459251061,
+       "num_decks": 499,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Viridescent Bog",
+       "synergy": -0.1158815315204648,
+       "num_decks": 499,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Haunted Mire",
+       "synergy": -0.038264208715713774,
+       "num_decks": 452,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Cavern of Souls",
+       "synergy": 0.03935728595751278,
+       "num_decks": 440,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Wastewood Verge",
+       "synergy": -0.10599348893513612,
+       "num_decks": 333,
+       "potential_decks": 3450
+      },
+      {
+       "name": "Woodland Chasm",
+       "synergy": 0.03545886567198258,
+       "num_decks": 361,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Underground Mortuary",
+       "synergy": -0.12842272169070074,
+       "num_decks": 305,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Nurturing Peatland",
+       "synergy": -0.05401014318168629,
+       "num_decks": 279,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Thriving Grove",
+       "synergy": 0.03276542072698305,
+       "num_decks": 247,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Bala Ged Recovery",
+       "synergy": -0.04963626404960434,
+       "num_decks": 238,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Turbulent Fen",
+       "synergy": -0.11271269149577438,
+       "num_decks": 63,
+       "potential_decks": 1139
+      },
+      {
+       "name": "Fabled Passage",
+       "synergy": -0.11567420019124888,
+       "num_decks": 223,
+       "potential_decks": 4174
+      },
+      {
+       "name": "Fell the Profane",
+       "synergy": -0.04405263150561722,
+       "num_decks": 217,
+       "potential_decks": 4174
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

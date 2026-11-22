@@ -190,7 +190,7 @@
               <span class="stat-label">
                 "Cost of new cards"
               <strong class="">
-                "$37.97"
+                "$37.98"
             <div class="stat">
               <span class="stat-label">
                 "Deck price (budget $300)"
@@ -363,13 +363,6 @@
                     "· would put the deck over the $300 budget"
                 <li>
                   <span class="card-name ">
-                    <a href="https://scryfall.com/card/mh3/149/eladamri-korvecdal?utm_source=api" rel="noreferrer" target="_blank">
-                      "Eladamri, Korvecdal"
-                  " "
-                  <span class="muted small">
-                    "· would put the deck over the $300 budget"
-                <li>
-                  <span class="card-name ">
                     <a href="https://scryfall.com/card/cma/120/joraga-warcaller?utm_source=api" rel="noreferrer" target="_blank">
                       "Joraga Warcaller"
                   " "
@@ -400,6 +393,13 @@
                   <span class="card-name ">
                     <a href="https://scryfall.com/card/shm/267/umbral-mantle?utm_source=api" rel="noreferrer" target="_blank">
                       "Umbral Mantle"
+                  " "
+                  <span class="muted small">
+                    "· would put the deck over the $300 budget"
+                <li>
+                  <span class="card-name ">
+                    <a href="https://scryfall.com/card/blb/260/three-tree-city?utm_source=api" rel="noreferrer" target="_blank">
+                      "Three Tree City"
                   " "
                   <span class="muted small">
                     "· would put the deck over the $300 budget"
@@ -457,7 +457,7 @@
                             <img alt="{3}" height="13" src="./symbols/3.svg" width="13">
                             <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                         <span>
-                          "$7.27"
+                          "$7.28"
                 <div class="reason">
                   <p>
                     <span class="card-name ">
@@ -757,7 +757,7 @@
                             <img alt="{4}" height="13" src="./symbols/4.svg" width="13">
                             <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                         <span>
-                          "$32.89"
+                          "$33.68"
                   <div aria-hidden="true" class="arrow">
                     "→"
                   <div class="mini-card in">
@@ -782,7 +782,7 @@
                     <span class="card-name ">
                       <a href="https://scryfall.com/card/fdn/216/doubling-season?utm_source=api" rel="noreferrer" target="_blank">
                         "Doubling Season"
-                    " is $32.89, trimmed to fit the $300 deck budget; "
+                    " is $33.68, trimmed to fit the $300 deck budget; "
                     <span class="card-name ">
                       <a href="https://scryfall.com/card/fdn/218/dwynens-elite?utm_source=api" rel="noreferrer" target="_blank">
                         "Dwynen's Elite"
@@ -828,7 +828,7 @@
                             <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                             <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                         <span>
-                          "$29.88"
+                          "$30.34"
                   <div aria-hidden="true" class="arrow">
                     "→"
                   <div class="mini-card in">
@@ -852,7 +852,7 @@
                     <span class="card-name ">
                       <a href="https://scryfall.com/card/cmm/289/finale-of-devastation?utm_source=api" rel="noreferrer" target="_blank">
                         "Finale of Devastation"
-                    " is $29.88, trimmed to fit the $300 deck budget; "
+                    " is $30.34, trimmed to fit the $300 deck budget; "
                     <span class="card-name ">
                       <a href="https://scryfall.com/card/mh3/288/wirewood-symbiote?utm_source=api" rel="noreferrer" target="_blank">
                         "Wirewood Symbiote"
@@ -950,7 +950,7 @@
                             <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                             <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                         <span>
-                          "$25.70"
+                          "$25.61"
                   <div aria-hidden="true" class="arrow">
                     "→"
                   <div class="mini-card in">
@@ -976,7 +976,7 @@
                     <span class="card-name ">
                       <a href="https://scryfall.com/card/tdm/138/craterhoof-behemoth?utm_source=api" rel="noreferrer" target="_blank">
                         "Craterhoof Behemoth"
-                    " is $25.70, trimmed to fit the $300 deck budget; "
+                    " is $25.61, trimmed to fit the $300 deck budget; "
                     <span class="card-name ">
                       <a href="https://scryfall.com/card/ecl/193/selfless-safewright?utm_source=api" rel="noreferrer" target="_blank">
                         "Selfless Safewright"
@@ -1144,7 +1144,7 @@
                           "Thornwood Falls"
                       <div class="muted small mini-card-meta">
                         <span>
-                          "$0.15"
+                          "$0.22"
                   <div aria-hidden="true" class="arrow">
                     "→"
                   <div class="mini-card in">
@@ -1190,7 +1190,7 @@
                           "Golgari Guildgate"
                       <div class="muted small mini-card-meta">
                         <span>
-                          "$0.13"
+                          "$0.17"
                   <div aria-hidden="true" class="arrow">
                     "→"
                   <div class="mini-card in">
@@ -1233,7 +1233,7 @@
                           "Jungle Hollow"
                       <div class="muted small mini-card-meta">
                         <span>
-                          "$0.20"
+                          "$0.17"
                   <div aria-hidden="true" class="arrow">
                     "→"
                   <div class="mini-card in">

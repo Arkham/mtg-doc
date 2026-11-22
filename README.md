@@ -141,12 +141,12 @@ pnpm check          # format check, lint (oxlint, elm-review), typecheck, unit +
 pnpm test:e2e       # Playwright: local app flow + static site on desktop, iPhone and iPad (WebKit)
 pnpm test:visual    # every page and state: exact DOM and screenshots against committed baselines
 pnpm test:coverage  # tests with a coverage report for src/server/
-pnpm test:record    # re-record the HTTP fixtures against the live APIs
+pnpm test:live      # the real Scryfall, Spellbook and EDHREC through the app's clients (needs network)
 pnpm symbols        # refresh the bundled mana symbols in public/symbols from Scryfall
 pnpm build && pnpm start
 ```
 
-Tests never touch the network: Scryfall, EDHREC and Commander Spellbook responses are recorded once
-into `tests/fixtures/http` and replayed, and LLM calls go to a local Responses API stub. CI runs
-everything above on every push and pull request. See [AGENTS.md](AGENTS.md) for the development
+Tests never touch the network: Scryfall, EDHREC and Commander Spellbook are fakes that answer from
+small databases of real data (`tests/fixtures/fakes`), and LLM calls go to a local Responses API
+stub. CI runs everything above except `pnpm test:live` on every push and pull request. See [AGENTS.md](AGENTS.md) for the development
 practices this project follows.

@@ -91,7 +91,7 @@ describe("applyPlan", () => {
   });
 });
 
-describe("mana base fixes (recorded basics)", () => {
+describe("mana base fixes (real basics)", () => {
   test("fixLandCount adds lands to a land-light deck without cutting short roles", async () => {
     const removal = spell("Removal", { oracleText: "Destroy target creature." });
     const deck = testDeck(31, [removal]);

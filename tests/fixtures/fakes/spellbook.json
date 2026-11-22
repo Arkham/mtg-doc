@@ -1,0 +1,4184 @@
+{
+ "combos": [
+  {
+   "id": "1008-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Undermountain Adventurer"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Undermountain Adventurer by tapping it, adding six {G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Undermountain Adventurer.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 118,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "1084-7151",
+   "uses": [
+    {
+     "card": {
+      "name": "High Perfect Morcant"
+     }
+    },
+    {
+     "card": {
+      "name": "Flourishing Defenses"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Near-infinite creature ETB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite creature tokens"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite proliferate"
+     }
+    },
+    {
+     "feature": {
+      "name": "Reduce any number of opposing creatures' toughness to 0 whenever an Elf enters under your control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Reduce the toughness of creatures opponents control to 0"
+     }
+    }
+   ],
+   "description": "Cast High Perfect Morcant either from your hand or the command zone by paying {2}{B}{G} plus commander tax if applicable.\nWhen High Perfect Morcant enters, its first ability triggers, causing each opponent to put a -1/-1 counter on a creature they control.\nFlourishing Defenses triggers for each counter placed this way. Resolve the first trigger, creating a 1/1 Elf Warrior creature token.\nWhen the Elf Warrior enters, High Perfect Morcant's first ability triggers, causing each opponent to put a -1/-1 counter on a creature they control.\nRepeat from step 3.",
+   "bracketTag": "R",
+   "popularity": 21129,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "BG"
+  },
+  {
+   "id": "1129-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Harabaz Druid"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Harabaz Druid by tapping it, adding at least five mana of any color.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Harabaz Druid.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 299,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "132-2645-5034",
+   "uses": [
+    {
+     "card": {
+      "name": "Myr Welder"
+     }
+    },
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Sol Ring"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite colorless mana"
+     }
+    }
+   ],
+   "description": "Activate Myr Welder using Sol Ring's ability by tapping it, adding {C}{C}\nActivate Myr Welder using Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "E",
+   "popularity": 5153,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "C"
+  },
+  {
+   "id": "1336-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Heronblade Elite"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Heronblade Elite by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Heronblade Elite.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 1671,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "1355-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Sanctum Weaver"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Sanctum Weaver by tapping it, adding at least five mana of any color.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Sanctum Weaver.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 3049,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "1376-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Priest of Titania"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Priest of Titania by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Priest of Titania.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 37857,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": true,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": true,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "1376-2816",
+   "uses": [
+    {
+     "card": {
+      "name": "Umbral Mantle"
+     }
+    },
+    {
+     "card": {
+      "name": "Priest of Titania"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinitely large creature until end of turn"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Priest of Titania by tapping it, adding at least {G}{G}{G}.\nActivate Priest of Titania by paying {3} and untapping it, giving it +2/+2 until end of turn.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 22644,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "1376-5200",
+   "uses": [
+    {
+     "card": {
+      "name": "Sword of the Paruns"
+     }
+    },
+    {
+     "card": {
+      "name": "Priest of Titania"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Priest of Titania by tapping it, adding at least {G}{G}{G}{G}.\nActivate Sword of the Paruns by paying {3}, untapping Priest of Titania\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 5593,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "1399-2404-3814",
+   "uses": [
+    {
+     "card": {
+      "name": "Argothian Elder"
+     }
+    },
+    {
+     "card": {
+      "name": "Wirewood Lodge"
+     }
+    },
+    {
+     "card": {
+      "name": "Gaea's Cradle"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite mana lands you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Gaea's Cradle by tapping it, adding at least {G}{G}.\nActivate Argothian Elder by tapping it, untapping Gaea's Cradle and Wirewood Lodge.\nActivate Wirewood Lodge by paying {G} and tapping it, untapping Argothian Elder.\nRepeat.",
+   "bracketTag": "P",
+   "popularity": 1590,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "1399-3814-4915",
+   "uses": [
+    {
+     "card": {
+      "name": "Argothian Elder"
+     }
+    },
+    {
+     "card": {
+      "name": "Wirewood Lodge"
+     }
+    },
+    {
+     "card": {
+      "name": "Growing Rites of Itlimoc // Itlimoc, Cradle of the Sun"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana lands you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of lands you control"
+     }
+    }
+   ],
+   "description": "Activate Itlimoc, Cradle of the Sun's second ability by tapping it, adding at least {G}{G}.\nActivate Argothian Elder by tapping it, untapping Itlimoc, Cradle of the Sun and Wirewood Lodge.\nActivate Wirewood Lodge by paying {G} and tapping it, untapping Argothian Elder.\nRepeat.",
+   "bracketTag": "E",
+   "popularity": 1394,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "1526-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Circle of Dreams Druid"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Circle of Dreams Druid by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Circle of Dreams Druid.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 29071,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": true,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": true,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "1526-2816",
+   "uses": [
+    {
+     "card": {
+      "name": "Umbral Mantle"
+     }
+    },
+    {
+     "card": {
+      "name": "Circle of Dreams Druid"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinitely large creature until end of turn"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Circle of Dreams Druid by tapping it, adding at least three mana of any color.\nActivate Circle of Dreams Druid by paying {3} and untapping it, giving it +2/+2 until end of turn.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 17729,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "1526-5200",
+   "uses": [
+    {
+     "card": {
+      "name": "Sword of the Paruns"
+     }
+    },
+    {
+     "card": {
+      "name": "Circle of Dreams Druid"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Circle of Dreams Druid by tapping it, adding at least {G}{G}{G}{G}.\nActivate Sword of the Paruns by paying {3}, untapping Circle of Dreams Druid\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 3688,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "1597-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Gyre Sage"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Gyre Sage by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Gyre Sage.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 7095,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "1902-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Wirewood Channeler"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Wirewood Channeler by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Wirewood Channeler.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 15124,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": true,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": true,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "1902-2816",
+   "uses": [
+    {
+     "card": {
+      "name": "Umbral Mantle"
+     }
+    },
+    {
+     "card": {
+      "name": "Wirewood Channeler"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinitely large creature until end of turn"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Wirewood Channeler by tapping it, adding at least three mana of any color.\nActivate Wirewood Channeler by paying {3} and untapping it, giving it +2/+2 until end of turn.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 9242,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "1902-5200",
+   "uses": [
+    {
+     "card": {
+      "name": "Sword of the Paruns"
+     }
+    },
+    {
+     "card": {
+      "name": "Wirewood Channeler"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Wirewood Channeler by tapping it, adding at least four mana of any color.\nActivate Sword of the Paruns by paying {3}, untapping Wirewood Channeler\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 2909,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "1909-4875",
+   "uses": [
+    {
+     "card": {
+      "name": "Wirewood Symbiote"
+     }
+    },
+    {
+     "card": {
+      "name": "Conspiracy"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite creature ETB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite creature LTB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite storm count"
+     }
+    }
+   ],
+   "description": "Activate a creature by tapping it, adding at least {G}.\nActivate Wirewood Symbiote by returning it from the battlefield to your hand, untapping the mana-producing creature.\nCast Wirewood Symbiote by paying {G}.\nRepeat.",
+   "bracketTag": "E",
+   "popularity": 101,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "BG"
+  },
+  {
+   "id": "192-2404",
+   "uses": [
+    {
+     "card": {
+      "name": "Wakeroot Elemental"
+     }
+    },
+    {
+     "card": {
+      "name": "Gaea's Cradle"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite mana lands you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Gaea's Cradle by tapping it, adding at least six {G}.\nActivate Wakeroot Elemental by paying {G}{G}{G}{G}{G}, untapping Gaea's Cradle and causing it to become a 5/5 Elemental creature with haste until end of turn that is still a land.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 360,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": true,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": true,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "192-4249",
+   "uses": [
+    {
+     "card": {
+      "name": "Wakeroot Elemental"
+     }
+    },
+    {
+     "card": {
+      "name": "Nykthos, Shrine to Nyx"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite mana lands you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Nykthos by paying {2} and tapping it, adding at least eight {G}.\nActivate Wakeroot Elemental by paying {G}{G}{G}{G}{G}, untapping Nykthos and causing it to become a 5/5 Elemental creature with haste until end of turn that is still a land.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 351,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": true,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": true,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "192-4915",
+   "uses": [
+    {
+     "card": {
+      "name": "Wakeroot Elemental"
+     }
+    },
+    {
+     "card": {
+      "name": "Growing Rites of Itlimoc // Itlimoc, Cradle of the Sun"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite mana lands you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Itlimoc by tapping it, adding at least six {G}.\nActivate Wakeroot Elemental by paying {G}{G}{G}{G}{G}, untapping Itlimoc and causing it to become a 5/5 Elemental creature with haste until end of turn that is still a land.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 296,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2026-2404-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Voyaging Satyr"
+     }
+    },
+    {
+     "card": {
+      "name": "Gaea's Cradle"
+     }
+    },
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinitely large creature until end of turn"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana lands you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Gaea's Cradle by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Voyaging Satyr by tapping it, untapping Gaea's Cradle.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Voyaging Satyr.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.\nOnce you have infinite mana, you may use it to activate Staff of Domination's other abilities.",
+   "bracketTag": "P",
+   "popularity": 347,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2143-2557",
+   "uses": [
+    {
+     "card": {
+      "name": "Spawnsire of Ulamog"
+     }
+    },
+    {
+     "card": {
+      "name": "Parallel Lives"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite death triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite creature ETB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite creature LTB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite creature sacrifice triggers"
+     }
+    }
+   ],
+   "description": "Activate Spawnsire of Ulamog by paying {4}, creating four 0/1 Eldrazi Spawn creature tokens.\nActivate the Eldrazi Spawns by sacrificing them, adding {C}{C}{C}{C}.\nRepeat.",
+   "bracketTag": "E",
+   "popularity": 1037,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": false,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": true,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "2143-4772",
+   "uses": [
+    {
+     "card": {
+      "name": "Spawnsire of Ulamog"
+     }
+    },
+    {
+     "card": {
+      "name": "Doubling Season"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite death triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite creature ETB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite creature LTB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite creature sacrifice triggers"
+     }
+    }
+   ],
+   "description": "Activate Spawnsire of Ulamog by paying {4}, creating four 0/1 Eldrazi Spawn creature tokens.\nActivate the Eldrazi Spawns by sacrificing them, adding {C}{C}{C}{C}.\nRepeat.",
+   "bracketTag": "E",
+   "popularity": 1095,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "215-1526-1627-1909",
+   "uses": [
+    {
+     "card": {
+      "name": "Temur Sabertooth"
+     }
+    },
+    {
+     "card": {
+      "name": "Circle of Dreams Druid"
+     }
+    },
+    {
+     "card": {
+      "name": "Wirewood Symbiote"
+     }
+    },
+    {
+     "card": {
+      "name": "Llanowar Elves"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite blinking of some creatures"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Circle of Dreams Druid by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Wirewood Symbiote by returning Llanowar Elves to your hand from the battlefield, untapping Circle of Dreams Druid.\nActivate Temur Sabertooth by paying {1}{G}, returning Wirewood Symbiote from the battlefield to your hand.\nCast Wirewood Symbiote by paying {G}.\nCast Llanowar Elves by paying {G}.\nRepeat.",
+   "bracketTag": "E",
+   "popularity": 6060,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "215-1526-1909-4852",
+   "uses": [
+    {
+     "card": {
+      "name": "Temur Sabertooth"
+     }
+    },
+    {
+     "card": {
+      "name": "Circle of Dreams Druid"
+     }
+    },
+    {
+     "card": {
+      "name": "Wirewood Symbiote"
+     }
+    },
+    {
+     "card": {
+      "name": "Elvish Mystic"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite blinking of some creatures"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Circle of Dreams Druid by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Wirewood Symbiote by returning Elvish Mystic to your hand from the battlefield, untapping Circle of Dreams Druid.\nActivate Temur Sabertooth by paying {1}{G}, returning Wirewood Symbiote from the battlefield to your hand.\nCast Wirewood Symbiote by paying {G}.\nCast Elvish Mystic by paying {G}.\nRepeat.",
+   "bracketTag": "E",
+   "popularity": 5971,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "215-6111",
+   "uses": [
+    {
+     "card": {
+      "name": "Dionus, Elvish Archdruid"
+     }
+    },
+    {
+     "card": {
+      "name": "Temur Sabertooth"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite creature ETB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite storm count"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana Elves you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of Elves you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite +1/+1 counters on certain creatures"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite creature LTB"
+     }
+    }
+   ],
+   "description": "Activate any number of Elves you control by tapping them, adding at least {4}{G}{G}.\nEach Elf tapped this way triggers, untapping it and putting a +1/+1 counter on it.\nActivate Temur Sabertooth by paying {1}{G}, returning Dionus from the battlefield to your hand.\nCast Dionus by paying {3}{G}, which enters the battlefield as a new object, thus granting a fresh instance of the ability to each Elf you control.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 3634,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2404-2645-6474",
+   "uses": [
+    {
+     "card": {
+      "name": "Steward of the Harvest"
+     }
+    },
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Gaea's Cradle"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate a creature using Gaea's Cradle's ability by tapping it, adding at least {G}{G}{G}{G}{G}\nActivate Staff of Domination's third ability by paying {3}, untapping the creature.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "P",
+   "popularity": 21,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2404-4954",
+   "uses": [
+    {
+     "card": {
+      "name": "Silvanus's Invoker"
+     }
+    },
+    {
+     "card": {
+      "name": "Gaea's Cradle"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite mana lands you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of lands you control"
+     }
+    }
+   ],
+   "description": "Activate Gaea's Cradle by tapping it, adding at least nine {G}.\nActivate Silvanus's Invoker by paying {8}, causing Gaea's Cradle to become a 8/8 Elemental with haste, and untapping Gaea's Cradle.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 378,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": true,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": true,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "2436-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Marwyn, the Nurturer"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Marwyn by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Marwyn.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 32932,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": true,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": true,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "2436-2816",
+   "uses": [
+    {
+     "card": {
+      "name": "Umbral Mantle"
+     }
+    },
+    {
+     "card": {
+      "name": "Marwyn, the Nurturer"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinitely large creature until end of turn"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Marwyn by tapping it, adding an amount of {G} equal to its power.\nActivate Marwyn by paying {3} and untapping it, giving it +2/+2 until end of turn.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 19488,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2436-5200",
+   "uses": [
+    {
+     "card": {
+      "name": "Sword of the Paruns"
+     }
+    },
+    {
+     "card": {
+      "name": "Marwyn, the Nurturer"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Marwyn by tapping it, adding at least {G}{G}{G}{G}.\nActivate Sword of the Paruns by paying {3}, untapping Marwyn\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 4745,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2479-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Magus of the Coffers"
+     }
+    },
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite black mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Pay {2} to activate Magus of the Coffers, adding at least seven {B}.\nPay {3} to activate Staff of Domination's third ability, untapping Magus of the Coffers.\nPay {1} to activate Staff of Domination's first ability, untapping itself.\nRepeatedly tap the Magus for mana and untap it, generating at least {B} per iteration.",
+   "bracketTag": "S",
+   "popularity": 1142,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "B"
+  },
+  {
+   "id": "2645-3043",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Axebane Guardian"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Axebane Guardian by tapping it, adding at least five mana of any color.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Axebane Guardian.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 1735,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2645-3151",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Elvish Archdruid"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Elvish Archdruid by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Elvish Archdruid.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 34313,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": true,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": true,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "2645-3291",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Karametra's Acolyte"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Karametra's Acolyte by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Karametra's Acolyte.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 7887,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2645-3443",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Deathbloom Ritualist"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Deathbloom Ritualist by tapping it, adding at least five mana of any color.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Deathbloom Ritualist.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 1778,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "BG"
+  },
+  {
+   "id": "2645-3717",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Viridian Joiner"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Viridian Joiner by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Viridian Joiner.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 3816,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2645-3918-5034",
+   "uses": [
+    {
+     "card": {
+      "name": "Trazyn the Infinite"
+     }
+    },
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Sol Ring"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite colorless mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Trazyn using Sol Ring's ability by tapping it, adding {C}{C}.\nActivate Trazyn using Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 3332,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "B"
+  },
+  {
+   "id": "2645-4188",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Accomplished Alchemist"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Accomplished Alchemist's second ability by tapping it, adding at least five mana of any color.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Accomplished Alchemist.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 685,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2645-4734",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Cradle Clearcutter"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Cradle Clearcutter by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Cradle Clearcutter.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 1291,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2645-5168",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Bloom Tender"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    }
+   ],
+   "description": "Activate Bloom Tender by tapping it, adding {W}{U}{B}{R}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Bloom Tender.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 14991,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2645-5614",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Bighorner Rancher"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Bighorner Rancher by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Bighorner Rancher.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 1891,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2645-5709",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Rofellos, Llanowar Emissary"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Rofellos by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Rofellos.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "B",
+   "popularity": 0,
+   "legalities": {
+    "commander": false
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2645-6478",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Arbor Adherent"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Arbor Adherent by tapping it, adding at least five mana of any color.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Arbor Adherent.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 2389,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2645-6479",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Rainveil Rejuvenator"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Rainveil Rejuvenator by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Rainveil Rejuvenator.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "R",
+   "popularity": 414,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2645-7308",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Mona Lisa, Science Geek"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Mona Lisa by tapping it, adding at least five mana of any color.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Mona Lisa.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "R",
+   "popularity": 850,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2645-7488",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Topiary Lecturer"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Topiary Lecturer by tapping it, adding at least {G}{G}{G}{G}{G}\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Topiary Lecturer.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "R",
+   "popularity": 1605,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2645-7704",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Doc Samson, Super Psychiatrist"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Doc Samson by tapping it, adding at least five mana of any color.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Doc Samson.\nActivate Staff of Domination's first ability by paying {1}, untapping it. \nRepeat.",
+   "bracketTag": "R",
+   "popularity": 279,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2645-7908",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "The Notary Hobbits"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite colorless mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate The Notary Hobbits by tapping it, adding at least {C}{C}{C}{C}{C}\nActivate Staff of Domination's third ability by paying {3}, untapping The Notary Hobbits.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 756,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2645-8190",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Loot, the Nexus"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Loot by tapping it, adding at least {5}\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Loot.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 177,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "2816-3151",
+   "uses": [
+    {
+     "card": {
+      "name": "Umbral Mantle"
+     }
+    },
+    {
+     "card": {
+      "name": "Elvish Archdruid"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinitely large creature until end of turn"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Elvish Archdruid by tapping it, adding at least {G}{G}{G}.\nActivate Elvish Archdruid by paying {3} and untapping it, giving it +2/+2 until end of turn.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 19695,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "305-2816",
+   "uses": [
+    {
+     "card": {
+      "name": "Umbral Mantle"
+     }
+    },
+    {
+     "card": {
+      "name": "Llanowar Tribe"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinitely large creature until end of turn"
+     }
+    }
+   ],
+   "description": "Activate Llanowar Tribe by tapping it, adding {G}{G}{G}.\nActivate Llanowar Tribe by paying {3} and untapping it, giving it +2/+2 until end of turn.\nRepeat.",
+   "bracketTag": "O",
+   "popularity": 6551,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": false,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": true,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "305-2816-3099",
+   "uses": [
+    {
+     "card": {
+      "name": "Llanowar Tribe"
+     }
+    },
+    {
+     "card": {
+      "name": "Umbral Mantle"
+     }
+    },
+    {
+     "card": {
+      "name": "Leyline of Abundance"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinitely large creature until end of turn"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite +1/+1 counters on creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Llanowar Tribe by tapping it, adding {G}{G}{G}.\nLeyline of Abundance triggers, adding {G}.\nActivate Llanowar Tribe by paying {3} and untapping it, giving itself +2/+2 until end of turn.\nRepeat.",
+   "bracketTag": "E",
+   "popularity": 1941,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": true,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": false,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "3151-5200",
+   "uses": [
+    {
+     "card": {
+      "name": "Sword of the Paruns"
+     }
+    },
+    {
+     "card": {
+      "name": "Elvish Archdruid"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Elvish Archdruid by tapping it, adding at least {G}{G}{G}{G}.\nActivate Sword of the Paruns by paying {3}, untapping Elvish Archdruid\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 5198,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "391-2404-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Blossom Dryad"
+     }
+    },
+    {
+     "card": {
+      "name": "Gaea's Cradle"
+     }
+    },
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinitely large creature until end of turn"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana lands you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Gaea's Cradle by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Blossom Dryad by tapping it, untapping Gaea's Cradle.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Blossom Dryad.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.\nOnce you have infinite mana, you may use it to activate Staff of Domination's other abilities.",
+   "bracketTag": "P",
+   "popularity": 28,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "4249-4954",
+   "uses": [
+    {
+     "card": {
+      "name": "Silvanus's Invoker"
+     }
+    },
+    {
+     "card": {
+      "name": "Nykthos, Shrine to Nyx"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite mana lands you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of lands you control"
+     }
+    }
+   ],
+   "description": "Activate Nykthos' second ability by paying {2} and tapping it, causing you to add eleven mana of any color with which you have devotion.\nActivate Silvanus's Invoker by paying {8}, causing Nykthos to become an 8/8 Elemental with haste until end of turn, and untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 377,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": true,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": true,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "4915-4954",
+   "uses": [
+    {
+     "card": {
+      "name": "Silvanus's Invoker"
+     }
+    },
+    {
+     "card": {
+      "name": "Growing Rites of Itlimoc // Itlimoc, Cradle of the Sun"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana lands you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of lands you control"
+     }
+    }
+   ],
+   "description": "Activate Itlimoc by tapping it, adding at least nine {G}.\nActivate Silvanus's Invoker by paying {8}, causing Itlimoc to become a 8/8 Elemental with haste, and untapping Itlimoc.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 408,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "498-2050-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Elvish Guidance"
+     }
+    },
+    {
+     "card": {
+      "name": "Arbor Elf"
+     }
+    },
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Arbor Elf by tapping it, untapping the Forest that has Elvish Guidance attached.\nActivate the Forest by tapping it, adding {G}.\nElvish Guidance triggers, adding at least {G}{G}{G}{G}.\nActivate Staff of Domination's third ability by paying {3}, untapping Arbor Elf.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.\nOnce you have infinite mana, you may use it to activate Staff of Domination's other abilities.",
+   "bracketTag": "E",
+   "popularity": 3915,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": true,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": false,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "498-2050-2816",
+   "uses": [
+    {
+     "card": {
+      "name": "Elvish Guidance"
+     }
+    },
+    {
+     "card": {
+      "name": "Arbor Elf"
+     }
+    },
+    {
+     "card": {
+      "name": "Umbral Mantle"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinitely large creature until end of turn"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Arbor Elf by tapping it, untapping the Forest that has Elvish Guidance attached.\nActivate the Forest by tapping it, adding {G}.\nElvish Guidance triggers, adding at least {G}{G}{G}.\nActivate Arbor Elf by paying {3} and untapping it, giving it +2/+2 until end of turn.\nRepeat.",
+   "bracketTag": "E",
+   "popularity": 2816,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": true,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": false,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "498-2050-5200",
+   "uses": [
+    {
+     "card": {
+      "name": "Elvish Guidance"
+     }
+    },
+    {
+     "card": {
+      "name": "Arbor Elf"
+     }
+    },
+    {
+     "card": {
+      "name": "Sword of the Paruns"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Arbor Elf by tapping it, untapping the Forest that has Elvish Guidance attached.\nActivate the Forest by tapping it, adding {G}.\nElvish Guidance triggers, adding at least {G}{G}{G}.\nActivate Sword of the Paruns by paying {3}, untapping Arbor Elf.\nRepeat.",
+   "bracketTag": "E",
+   "popularity": 1164,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": true,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": false,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "5104-6215",
+   "uses": [
+    {
+     "card": {
+      "name": "Tombstone Stairwell"
+     }
+    },
+    {
+     "card": {
+      "name": "Nadier's Nightblade"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Near-infinite lifeloss"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite creature ETB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite creature LTB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite death triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite lifegain triggers"
+     }
+    }
+   ],
+   "description": "At the beginning of each upkeep, Tombostone Stairwell's first ability triggers, causing each player to create a 2/2 Zombie creature token for each creature card in their graveyard.\nAt the beginning of each end step, Tombstone Stairwell's second ability triggers, destroying all tokens created by it.\nWhen the token(s) die, Nadier's Nightblade triggers that many times, causing each opponent to lose that much life and you to gain that much life.\nRepeat during each turn.",
+   "bracketTag": "R",
+   "popularity": 896,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "B",
+   "classified": {
+    "relevant": true,
+    "definitelyTwoCard": true,
+    "arguablyTwoCard": true,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "527-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Selvala, Heart of the Wilds"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Selvala by paying {G} and tapping it, adding at least {5}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Selvala.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 24444,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G",
+   "classified": {
+    "relevant": true,
+    "definitelyTwoCard": false,
+    "arguablyTwoCard": true,
+    "lock": false,
+    "extraTurn": false,
+    "massLandDenial": false
+   }
+  },
+  {
+   "id": "527-2816",
+   "uses": [
+    {
+     "card": {
+      "name": "Umbral Mantle"
+     }
+    },
+    {
+     "card": {
+      "name": "Selvala, Heart of the Wilds"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinitely large creature until end of turn"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Selvala by paying {G} and tapping it, adding an amount of {G} equal to the greatest power among creatures you control.\nActivate Selvala by paying {3} and untapping it, giving it +2/+2 until end of turn.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 15772,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "527-5200",
+   "uses": [
+    {
+     "card": {
+      "name": "Sword of the Paruns"
+     }
+    },
+    {
+     "card": {
+      "name": "Selvala, Heart of the Wilds"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Selvala by paying {G} and tapping it, adding at least {4}{G}.\nActivate Sword of the Paruns by paying {3}, untapping Selvala.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 3997,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "527-6323",
+   "uses": [
+    {
+     "card": {
+      "name": "Jumbo Cactuar"
+     }
+    },
+    {
+     "card": {
+      "name": "Selvala, Heart of the Wilds"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Near-infinite colored mana"
+     }
+    }
+   ],
+   "description": "Declare Jumbo Cactuar as an attacker, triggering its ability, giving it +9999/+0 until end of turn.\nActivate Selvala by paying {G} and tapping it, adding 10,000 mana in any combination of colors.",
+   "bracketTag": "R",
+   "popularity": 11705,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "578-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Metalworker"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite colorless mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    }
+   ],
+   "description": "Activate Metalworker by tapping it, adding at least six {C}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Metalworker.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 12133,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "C"
+  },
+  {
+   "id": "6215-6216",
+   "uses": [
+    {
+     "card": {
+      "name": "Tombstone Stairwell"
+     }
+    },
+    {
+     "card": {
+      "name": "Poison-Tip Archer"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Near-infinite creature ETB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite creature LTB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite lifeloss"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite death triggers"
+     }
+    }
+   ],
+   "description": "At the beginning of each upkeep, Tombostone Stairwell's first ability triggers, causing each player to create a 2/2 Zombie creature token for each creature card in their graveyard.\nAt the beginning of each end step, Tombstone Stairwell's second ability triggers, destroying all tokens created by it.\nWhen the token(s) die, Poison-Tip Archer triggers that many times, causing each opponent to lose that much life.\nRepeat during each turn.",
+   "bracketTag": "R",
+   "popularity": 487,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "BG"
+  },
+  {
+   "id": "643-1909",
+   "uses": [
+    {
+     "card": {
+      "name": "Wirewood Symbiote"
+     }
+    },
+    {
+     "card": {
+      "name": "Maskwood Nexus"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite creature ETB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite creature LTB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite storm count"
+     }
+    }
+   ],
+   "description": "Activate a creature by tapping it, adding at least {G}.\nActivate Wirewood Symbiote by returning it from the battlefield to your hand, untapping the mana-producing creature.\nCast Wirewood Symbiote by paying {G}.\nRepeat.",
+   "bracketTag": "E",
+   "popularity": 2095,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "709-1627-2232-4772-4852",
+   "uses": [
+    {
+     "card": {
+      "name": "Tyvar Kell"
+     }
+    },
+    {
+     "card": {
+      "name": "Cloudstone Curio"
+     }
+    },
+    {
+     "card": {
+      "name": "Doubling Season"
+     }
+    },
+    {
+     "card": {
+      "name": "Llanowar Elves"
+     }
+    },
+    {
+     "card": {
+      "name": "Elvish Mystic"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite creature ETB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite creature LTB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite storm count"
+     }
+    }
+   ],
+   "description": "Cast Tyvar by paying {2}{G}{G}, which enters with six loyalty counters due to Doubling Season.\nActivate Tyvar's third loyalty ability by removing six loyalty counters from it.\nTyvar dies as a state-based action due to having zero loyalty.\nResolve the Tyvar ability, causing you to get an emblem.\nCast Elvish Mystic by paying {G}.\nTyvar's emblem triggers, causing the Elvish Mystic spell to gain haste, and you to draw two cards.\nElvish Mystic enters the battlefield, triggering Cloudstone Curio, returning Llanowar Elves from the battlefield to your hand.\nActivate Elvish Mystic by tapping it, adding {G}.\nCast Llanowar Elves by paying {G}.\nTyvar's emblem triggers, causing the Llanowar Elves spell to gain haste, and you to draw two cards.\nLlanowar Elves enters the battlefield, triggering Cloudstone Curio, returning Elvish Mystic from the battlefield to your hand.\nActivate Llanowar Elves by tapping it, adding {G}.\nRepeat from step 5.",
+   "bracketTag": "E",
+   "popularity": 59,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "BG"
+  },
+  {
+   "id": "709-1627-2232-4772-4977",
+   "uses": [
+    {
+     "card": {
+      "name": "Tyvar Kell"
+     }
+    },
+    {
+     "card": {
+      "name": "Cloudstone Curio"
+     }
+    },
+    {
+     "card": {
+      "name": "Doubling Season"
+     }
+    },
+    {
+     "card": {
+      "name": "Llanowar Elves"
+     }
+    },
+    {
+     "card": {
+      "name": "Fyndhorn Elves"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite creature ETB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite creature LTB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite storm count"
+     }
+    }
+   ],
+   "description": "Cast Tyvar by paying {2}{G}{G}, which enters with six loyalty counters due to Doubling Season.\nActivate Tyvar's third loyalty ability by removing six loyalty counters from it.\nTyvar dies as a state-based action due to having zero loyalty.\nResolve the Tyvar ability, causing you to get an emblem.\nCast Fyndhorn Elves by paying {G}.\nTyvar's emblem triggers, causing the Fyndhorn Elves spell to gain haste, and you to draw two cards.\nFyndhorn Elves enters the battlefield, triggering Cloudstone Curio, returning Llanowar Elves from the battlefield to your hand.\nActivate Fyndhorn Elves by tapping it, adding {G}.\nCast Llanowar Elves by paying {G}.\nTyvar's emblem triggers, causing the Llanowar Elves spell to gain haste, and you to draw two cards.\nLlanowar Elves enters the battlefield, triggering Cloudstone Curio, returning Fyndhorn Elves from the battlefield to your hand.\nActivate Llanowar Elves by tapping it, adding {G}.\nRepeat from step 5.",
+   "bracketTag": "E",
+   "popularity": 46,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "BG"
+  },
+  {
+   "id": "709-2232-4772-4852-4977",
+   "uses": [
+    {
+     "card": {
+      "name": "Tyvar Kell"
+     }
+    },
+    {
+     "card": {
+      "name": "Cloudstone Curio"
+     }
+    },
+    {
+     "card": {
+      "name": "Doubling Season"
+     }
+    },
+    {
+     "card": {
+      "name": "Fyndhorn Elves"
+     }
+    },
+    {
+     "card": {
+      "name": "Elvish Mystic"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite creature ETB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite creature LTB"
+     }
+    },
+    {
+     "feature": {
+      "name": "Near-infinite storm count"
+     }
+    }
+   ],
+   "description": "Cast Tyvar by paying {2}{G}{G}, which enters with six loyalty counters due to Doubling Season.\nActivate Tyvar's third loyalty ability by removing six loyalty counters from it.\nTyvar dies as a state-based action due to having zero loyalty.\nResolve the Tyvar ability, causing you to get an emblem.\nCast Elvish Mystic by paying {G}.\nTyvar's emblem triggers, causing the Elvish Mystic spell to gain haste, and you to draw two cards.\nElvish Mystic enters the battlefield, triggering Cloudstone Curio, returning Fyndhorn Elves from the battlefield to your hand.\nActivate Elvish Mystic by tapping it, adding {G}.\nCast Fyndhorn Elves by paying {G}.\nTyvar's emblem triggers, causing the Fyndhorn Elves spell to gain haste, and you to draw two cards.\nFyndhorn Elves enters the battlefield, triggering Cloudstone Curio, returning Elvish Mystic from the battlefield to your hand.\nActivate Fyndhorn Elves by tapping it, adding {G}.\nRepeat from step 5.",
+   "bracketTag": "E",
+   "popularity": 47,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "BG"
+  },
+  {
+   "id": "81-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Kami of Whispered Hopes"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite colored mana"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    }
+   ],
+   "description": "Activate Kami of Whispered Hopes by tapping it, adding at least five mana of any color.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Kami of Whispered Hopes.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 7523,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  },
+  {
+   "id": "850-2645",
+   "uses": [
+    {
+     "card": {
+      "name": "Staff of Domination"
+     }
+    },
+    {
+     "card": {
+      "name": "Overgrown Battlement"
+     }
+    }
+   ],
+   "produces": [
+    {
+     "feature": {
+      "name": "Infinite card draw"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite draw triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite lifegain triggers"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite mana creatures you control can produce"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite untap of creatures you control"
+     }
+    },
+    {
+     "feature": {
+      "name": "Infinite green mana"
+     }
+    }
+   ],
+   "description": "Activate Overgrown Battlement by tapping it, adding at least {G}{G}{G}{G}{G}.\nActivate Staff of Domination's third ability by paying {3} and tapping it, untapping Overgrown Battlement.\nActivate Staff of Domination's first ability by paying {1}, untapping it.\nRepeat.",
+   "bracketTag": "S",
+   "popularity": 1775,
+   "legalities": {
+    "commander": true
+   },
+   "identity": "G"
+  }
+ ],
+ "cards": {
+  "Ad Nauseam": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Ancient Tomb": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Armageddon": {
+   "gameChanger": false,
+   "massLandDenial": true,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Biorhythm": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Bolas's Citadel": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Braids, Cabal Minion": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Chrome Mox": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Crop Rotation": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Demonic Tutor": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Field of the Dead": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Gaea's Cradle": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Glacial Chasm": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Grim Monolith": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Imperial Seal": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Lion's Eye Diamond": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Mana Vault": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Mishra's Workshop": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Mox Diamond": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Natural Order": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Necropotence": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Opposition Agent": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Orcish Bowmasters": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Panoptic Mirror": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Seedborn Muse": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Seedtime": {
+   "gameChanger": false,
+   "massLandDenial": false,
+   "extraTurn": true,
+   "banned": false
+  },
+  "Survival of the Fittest": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Tergrid, God of Fright // Tergrid's Lantern": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "The One Ring": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "The Tabernacle at Pendrell Vale": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Time Warp": {
+   "gameChanger": false,
+   "massLandDenial": false,
+   "extraTurn": true,
+   "banned": false
+  },
+  "Vampiric Tutor": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  },
+  "Worldly Tutor": {
+   "gameChanger": true,
+   "massLandDenial": false,
+   "extraTurn": false,
+   "banned": false
+  }
+ }
+}

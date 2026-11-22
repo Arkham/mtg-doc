@@ -32,7 +32,7 @@ function assertLegalDeck(report: Report, optimized: string) {
   );
 }
 
-describe("full optimizer pipeline (recorded APIs, no LLM)", () => {
+describe("full optimizer pipeline (fake APIs, no LLM)", () => {
   test("bracket 3, max power, $300 budget: fixes an over-powered deck", async () => {
     const { slug, job, report } = await optimizeFixtureDeck("lathril-overpowered.txt", {
       bracket: 3,
