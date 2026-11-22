@@ -13,7 +13,7 @@ import { appPage, deckPage, indexFallback, llmsTxt, runPage } from "../src/serve
 import { deckPaths, runPath } from "../src/web/routes.ts";
 import { withoutSuggestionCounts, withoutSuggestions } from "../src/server/publish.ts";
 import { renderMarkdown } from "../src/server/report.ts";
-import type { DeckSummary } from "../src/shared/types.ts";
+import type { DeckDetail, DeckSummary } from "../src/shared/types.ts";
 import {
   listDecks,
   readDeckFile,
@@ -64,10 +64,15 @@ for (const listedDeck of listed) {
   decks.push(d);
   // The run is part of what the doc suggested: kept private along with the suggestions.
   const run = hide ? null : await readRun(listedDeck.slug);
-  await fs.writeFile(
-    path.join(dir, "detail.json"),
-    JSON.stringify({ meta, report, initial, hasRun: Boolean(run) }),
-  );
+  // Published, nothing about it changes.
+  const detail: DeckDetail = {
+    meta,
+    report,
+    initial,
+    hasRun: Boolean(run),
+    changes: { kind: "settled" },
+  };
+  await fs.writeFile(path.join(dir, "detail.json"), JSON.stringify(detail));
   if (run) {
     await fs.writeFile(path.join(dir, "run.json"), JSON.stringify(run));
     const page = path.join(outDir, runPath(d.slug));

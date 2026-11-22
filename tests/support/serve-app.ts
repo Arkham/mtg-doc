@@ -26,7 +26,11 @@ const proposal = await chatAboutDeck(overpowered.slug, "swap Sol Ring for Mind S
 await chatAboutDeck(overpowered.slug, "what should I cut?");
 const applied = await chatAboutDeck(overpowered.slug, "remove 2 Forest");
 await updateChat(overpowered.slug, (ms) => [
-  ...ms.map((m) => ({ ...m, at: PINNED_AT, ...(m.id === applied.id ? { applied: true } : {}) })),
+  ...ms.map((m) => ({
+    ...m,
+    at: PINNED_AT,
+    ...(m.id === applied.id ? { apply: { kind: "applied" as const } } : {}),
+  })),
   {
     id: "rerun-offer",
     role: "assistant" as const,

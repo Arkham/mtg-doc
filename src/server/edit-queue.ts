@@ -16,19 +16,18 @@ export function enqueueEdit<T>(
   label: string,
   run: () => Promise<T>,
 ): { status: EditStatus; done: Promise<T> } {
-  const status: EditStatus = { id: randomUUID(), slug, label, state: "queued" };
+  const status: EditStatus = { id: randomUUID(), slug, label, state: { kind: "queued" } };
   tasks.set(status.id, status);
   const done = (tails.get(slug) ?? Promise.resolve())
     .catch(() => {})
     .then(async () => {
-      status.state = "running";
+      status.state = { kind: "running" };
       try {
         const result = await run();
-        status.state = "done";
+        status.state = { kind: "done" };
         return result;
       } catch (err) {
-        status.state = "failed";
-        status.error = err instanceof Error ? err.message : String(err);
+        status.state = { kind: "failed", error: err instanceof Error ? err.message : String(err) };
         throw err;
       } finally {
         setTimeout(() => tasks.delete(status.id), KEEP_MS).unref();
@@ -45,7 +44,7 @@ export const editStatus = (id: string) => tasks.get(id);
 /** Tasks still waiting or running for a deck. */
 export const pendingEdits = (slug: string) =>
   [...tasks.values()].filter(
-    (t) => t.slug === slug && (t.state === "queued" || t.state === "running"),
+    (t) => t.slug === slug && (t.state.kind === "queued" || t.state.kind === "running"),
   );
 
 /**

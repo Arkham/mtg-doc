@@ -35,8 +35,8 @@ const snapshots: Trace[] = [];
 for (;;) {
   const j = getJob(job.id)!;
   if (j.trace) snapshots.push(j.trace);
-  if (j.status !== "running") {
-    if (j.status === "error") console.error(`Job failed: ${j.error}`);
+  if (j.status.kind !== "running") {
+    if (j.status.kind === "error") console.error(`Job failed: ${j.status.error}`);
     break;
   }
   await new Promise((r) => setTimeout(r, 500));

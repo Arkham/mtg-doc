@@ -1,4 +1,4 @@
-module Chat exposing (Config, Model, Msg, Out(..), init, reload, subscriptions, update, view)
+module Chat exposing (Asking, Config, Model, Msg, Out(..), init, reload, subscriptions, update, view)
 
 {-| Sidebar for asking questions about a deck and making edits through conversation.
 -}
@@ -37,11 +37,7 @@ type alias Model =
     { open : Bool
     , messages : Maybe (List DeckChatMessage)
     , text : String
-    , sending : Bool
-
-    -- The doc's reply as it's written, while a message is answered.
-    , streamed : String
-    , pendingTarget : EditTarget
+    , asking : Maybe Asking
 
     -- Asked whether to clear the chat, waiting for a yes.
     , confirmingClear : Bool
@@ -52,13 +48,22 @@ type alias Model =
     }
 
 
+{-| A message on its way to the doc, about one of the lists, and the reply as it's written.
+-}
+type alias Asking =
+    { question : String
+    , target : EditTarget
+    , reply : String
+    }
+
+
 type Msg
     = Open
     | Close
     | GotChat (Result String (List DeckChatMessage))
     | SetText String
     | SendIn EditTarget String
-    | GotReply String (Result String DeckChatMessage)
+    | GotReply (Result String DeckChatMessage)
     | Streamed Piece
     | AskClear
     | CancelClear
@@ -69,8 +74,8 @@ type Msg
     | GotApply String (Result String ( DeckChatMessage, String ))
     | Rerun String
     | GotRerun (Result String ( String, String ))
-    | Wait Int String
-    | GotWaited String (Result String (List DeckChatMessage))
+    | Wait Int (List String)
+    | GotWaited (List String) (Result String (List DeckChatMessage))
     | CardMsg Card.Msg
     | Ignore
 
@@ -98,9 +103,7 @@ init =
     { open = False
     , messages = Nothing
     , text = ""
-    , sending = False
-    , streamed = ""
-    , pendingTarget = EditTargetOptimized
+    , asking = Nothing
     , confirmingClear = False
     , applying = Nothing
     , error = Nothing
@@ -121,13 +124,13 @@ reload slug model =
         Cmd.none
 
 
-waiting : Maybe (List DeckChatMessage) -> String
+{-| Messages whose changes are being applied in the background.
+-}
+waiting : List DeckChatMessage -> List String
 waiting messages =
     messages
-        |> Maybe.withDefault []
-        |> List.filter (\m -> m.applying == Just True)
+        |> List.filter (\m -> m.apply == Just DeckChatMessageApplyApplying)
         |> List.map .id
-        |> String.join ","
 
 
 {-| Changes are applied in the background: check until they're in, then refresh the report (a
@@ -140,15 +143,31 @@ withMessages messages model =
             model.waitToken + 1
 
         ids =
-            waiting messages
+            waiting (Maybe.withDefault [] messages)
     in
     ( { model | messages = messages, waitToken = token }
-    , if ids == "" then
+    , if List.isEmpty ids then
         Cmd.none
 
       else
         Process.sleep 1000 |> Task.perform (\_ -> Wait token ids)
     )
+
+
+{-| The question a reply answers, as the saved history will have it.
+-}
+asked : DeckChatMessage -> Asking -> DeckChatMessage
+asked reply asking =
+    { id = "asked:" ++ reply.id
+    , role = DeckChatMessageRoleUser
+    , content = asking.question
+    , at = reply.at
+    , changes = Nothing
+    , apply = Nothing
+    , rerun = Nothing
+    , target = Nothing
+    , reportUpdated = Nothing
+    }
 
 
 plain : ( Model, Cmd Msg ) -> ( Model, Cmd Msg, Maybe Out )
@@ -166,16 +185,7 @@ update env slug msg model =
             ( { model | open = False }, Cmd.none, Nothing )
 
         GotChat (Ok messages) ->
-            -- The message being answered is saved with its answer, so the history doesn't have it yet.
-            let
-                answering =
-                    if model.sending then
-                        List.filter (\m -> m.id == "pending") (Maybe.withDefault [] model.messages)
-
-                    else
-                        []
-            in
-            plain (withMessages (Just (messages ++ answering)) model)
+            plain (withMessages (Just messages) model)
 
         GotChat (Err _) ->
             plain (withMessages (Just (Maybe.withDefault [] model.messages)) model)
@@ -188,35 +198,17 @@ update env slug msg model =
                 content =
                     String.trim message
             in
-            if content == "" || model.sending then
+            if content == "" || model.asking /= Nothing then
                 ( model, Cmd.none, Nothing )
 
             else
-                let
-                    pending =
-                        { id = "pending"
-                        , role = DeckChatMessageRoleUser
-                        , content = content
-                        , at = ""
-                        , changes = Nothing
-                        , applied = Nothing
-                        , applying = Nothing
-                        , applyError = Nothing
-                        , rerun = Nothing
-                        , target = Nothing
-                        , reportUpdated = Nothing
-                        }
-
-                    ( m, cmd ) =
-                        withMessages (Just (Maybe.withDefault [] model.messages ++ [ pending ])) model
-                in
                 -- The message is sent by the stream element the view draws while it's answered.
-                ( { m | error = Nothing, sending = True, streamed = "", text = "", pendingTarget = target }
-                , cmd
+                ( { model | error = Nothing, asking = Just { question = content, target = target, reply = "" }, text = "" }
+                , Cmd.none
                 , Nothing
                 )
 
-        GotReply _ (Ok reply) ->
+        GotReply (Ok reply) ->
             let
                 current =
                     Maybe.withDefault [] model.messages
@@ -225,26 +217,16 @@ update env slug msg model =
                 -- its question already.
                 messages =
                     if List.any (\x -> x.id == reply.id) current then
-                        List.filter (\x -> x.id /= "pending") current
+                        current
 
                     else
-                        -- The question stays, no longer waiting for an answer.
-                        List.map
-                            (\x ->
-                                if x.id == "pending" then
-                                    { x | id = "asked:" ++ reply.id }
-
-                                else
-                                    x
-                            )
-                            current
-                            ++ [ reply ]
+                        current ++ List.filterMap (Maybe.map (asked reply)) [ model.asking ] ++ [ reply ]
 
                 ( m, cmd ) =
                     withMessages (Just messages) model
 
                 done =
-                    { m | sending = False, streamed = "", focus = m.focus + 1 }
+                    { m | asking = Nothing, focus = m.focus + 1 }
             in
             -- A "yes" to a proposed re-run starts it right away.
             case reply.rerun |> Maybe.andThen .jobId of
@@ -267,12 +249,16 @@ update env slug msg model =
                     else
                         ( done, cmd, Nothing )
 
-        GotReply content (Err e) ->
-            let
-                ( m, cmd ) =
-                    withMessages (Maybe.map (List.filter (\x -> x.id /= "pending")) model.messages) model
-            in
-            ( { m | error = Just e, text = content, sending = False, streamed = "", focus = m.focus + 1 }, cmd, Nothing )
+        GotReply (Err e) ->
+            ( { model
+                | error = Just e
+                , text = model.asking |> Maybe.map .question |> Maybe.withDefault model.text
+                , asking = Nothing
+                , focus = model.focus + 1
+              }
+            , Cmd.none
+            , Nothing
+            )
 
         AskClear ->
             ( { model | confirmingClear = True }, Cmd.none, Nothing )
@@ -291,13 +277,20 @@ update env slug msg model =
 
         Streamed piece ->
             ( { model
-                | streamed =
-                    case piece of
-                        More delta ->
-                            model.streamed ++ delta
+                | asking =
+                    model.asking
+                        |> Maybe.map
+                            (\a ->
+                                { a
+                                    | reply =
+                                        case piece of
+                                            More delta ->
+                                                a.reply ++ delta
 
-                        Whole text ->
-                            text
+                                            Whole text ->
+                                                text
+                                }
+                            )
               }
             , Cmd.none
             , Nothing
@@ -362,8 +355,7 @@ update env slug msg model =
                     withMessages (Just messages) model
 
                 finished =
-                    String.split "," ids
-                        |> List.any (\id -> not (List.any (\x -> x.id == id && x.applying == Just True) messages))
+                    List.any (\id -> not (List.member id (waiting messages))) ids
             in
             ( m
             , cmd
@@ -406,23 +398,14 @@ subscriptions model =
 {-| Sends the message being answered and streams the reply back (see `mtg-chat-stream` in
 src/web/elements.ts).
 -}
-streamElement : Config -> Model -> Html Msg
-streamElement config model =
-    let
-        content =
-            model.messages
-                |> Maybe.withDefault []
-                |> List.filter (\m -> m.id == "pending")
-                |> List.head
-                |> Maybe.map .content
-                |> Maybe.withDefault ""
-    in
+streamElement : Config -> Asking -> Html Msg
+streamElement config asking =
     node "mtg-chat-stream"
         [ attribute "url" ("/api/decks/" ++ config.slug ++ "/chat")
-        , property "body" (E.object [ ( "message", E.string content ), ( "view", encodeEditTarget model.pendingTarget ) ])
+        , property "body" (E.object [ ( "message", E.string asking.question ), ( "view", encodeEditTarget asking.target ) ])
         , on "reply" (D.field "detail" pieceDecoder |> D.map Streamed)
-        , on "message" (D.field "detail" deckChatMessageDecoder |> D.map (Ok >> GotReply content))
-        , on "failure" (D.field "detail" D.string |> D.map (Err >> GotReply content))
+        , on "message" (D.field "detail" deckChatMessageDecoder |> D.map (Ok >> GotReply))
+        , on "failure" (D.field "detail" D.string |> D.map (Err >> GotReply))
         ]
         []
 
@@ -509,60 +492,66 @@ changesView config ctx message busy =
                 )
                 changes
             )
-        , case message.applyError of
-            Just e ->
-                p [ class "error small" ] [ text ("Couldn't apply: " ++ e) ]
+        , case message.apply of
+            Just (DeckChatMessageApplyFailed { error }) ->
+                p [ class "error small" ] [ text ("Couldn't apply: " ++ error) ]
 
-            Nothing ->
+            _ ->
                 text ""
-        , if message.applied == Just True then
-            div [ class "chat-applied small" ] [ text "✓ Applied" ]
+        , case message.apply of
+            Just DeckChatMessageApplyApplied ->
+                div [ class "chat-applied small" ] [ text "✓ Applied" ]
 
-          else if message.applying == Just True then
-            div [ class "chat-applied small", attribute "role" "status" ] [ spinner, text " Applying…" ]
+            Just DeckChatMessageApplyApplying ->
+                div [ class "chat-applied small", attribute "role" "status" ] [ spinner, text " Applying…" ]
 
-          else
-            let
-                valid =
-                    List.filter .ok changes
-
-                count =
-                    List.length valid
-            in
-            if count > 0 then
-                button [ class "primary", disabled busy, onClick (Apply message.id) ]
-                    ((if busy then
-                        [ spinner ]
-
-                      else
-                        []
-                     )
-                        ++ [ text
-                                ("Apply "
-                                    ++ String.fromInt count
-                                    ++ " change"
-                                    ++ (if count > 1 then
-                                            "s"
-
-                                        else
-                                            ""
-                                       )
-                                    ++ (if message.target == Just EditTargetOriginal then
-                                            " to your deck"
-
-                                        else if config.target == EditTargetOriginal then
-                                            " to the suggestions"
-
-                                        else
-                                            ""
-                                       )
-                                )
-                           ]
-                    )
-
-            else
-                text ""
+            _ ->
+                applyButton config message busy changes
         ]
+
+
+applyButton : Config -> DeckChatMessage -> Bool -> List DeckChange -> Html Msg
+applyButton config message busy changes =
+    let
+        valid =
+            List.filter .ok changes
+
+        count =
+            List.length valid
+    in
+    if count > 0 then
+        button [ class "primary", disabled busy, onClick (Apply message.id) ]
+            ((if busy then
+                [ spinner ]
+
+              else
+                []
+             )
+                ++ [ text
+                        ("Apply "
+                            ++ String.fromInt count
+                            ++ " change"
+                            ++ (if count > 1 then
+                                    "s"
+
+                                else
+                                    ""
+                               )
+                            ++ (if message.target == Just EditTargetOriginal then
+                                    " to your deck"
+
+                                else if config.target == EditTargetOriginal then
+                                    " to the suggestions"
+
+                                else
+                                    ""
+                               )
+                        )
+                   ]
+            )
+
+    else
+        text ""
 
 
 rerunView : Config -> DeckChatMessage -> RerunProposal -> Bool -> Html Msg
@@ -601,11 +590,12 @@ the panel, so closing the chat doesn't cancel it.
 view : Config -> Model -> List (Html Msg)
 view config model =
     panel config model
-        :: (if model.sending then
-                [ streamElement config model ]
+        :: (case model.asking of
+                Just asking ->
+                    [ streamElement config asking ]
 
-            else
-                []
+                Nothing ->
+                    []
            )
 
 
@@ -640,7 +630,7 @@ panel config model =
                             )
                         ]
                     ]
-                , if List.isEmpty (Maybe.withDefault [] model.messages) || model.sending then
+                , if List.isEmpty (Maybe.withDefault [] model.messages) || model.asking /= Nothing then
                     text ""
 
                   else
@@ -698,18 +688,20 @@ panel config model =
                                 )
                         )
                         (Maybe.withDefault [] model.messages)
-                    ++ (if model.sending then
-                            [ div [ class "chat-msg assistant" ]
-                                [ if model.streamed == "" then
-                                    div [ class "chat-bubble typing", attribute "aria-label" "Thinking" ] [ span [] [], span [] [], span [] [] ]
+                    ++ (case model.asking of
+                            Just asking ->
+                                [ div [ class "chat-msg user" ] [ div [ class "chat-bubble" ] (Card.prose ctx asking.question) ]
+                                , div [ class "chat-msg assistant" ]
+                                    [ if asking.reply == "" then
+                                        div [ class "chat-bubble typing", attribute "aria-label" "Thinking" ] [ span [] [], span [] [], span [] [] ]
 
-                                  else
-                                    div [ class "chat-bubble streaming" ] (Card.proseSoFar ctx model.streamed)
+                                      else
+                                        div [ class "chat-bubble streaming" ] (Card.proseSoFar ctx asking.reply)
+                                    ]
                                 ]
-                            ]
 
-                        else
-                            []
+                            Nothing ->
+                                []
                        )
                     ++ [ node "mtg-stick-bottom" [] [] ]
                 )
@@ -742,7 +734,7 @@ panel config model =
                         )
                     ]
                     []
-                , button [ type_ "submit", class "primary", disabled (String.trim model.text == "" || model.sending), attribute "aria-label" "Send" ] [ text "↑" ]
+                , button [ type_ "submit", class "primary", disabled (String.trim model.text == "" || model.asking /= Nothing), attribute "aria-label" "Send" ] [ text "↑" ]
                 , node "mtg-focus" [ attribute "target" "textarea", attribute "token" (String.fromInt model.focus) ] []
                 ]
             ]

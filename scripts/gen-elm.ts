@@ -25,9 +25,22 @@ interface Field {
   doc?: string;
 }
 
+/**
+ * A discriminated union: object types that share a string `kind`, each with its own fields. It's an
+ * Elm custom type whose constructors carry those fields, so a variant can't have another's.
+ */
+interface Variant {
+  value: string;
+  fields: Field[];
+}
+
 type Decl =
   | { kind: "record"; name: string; fields: Field[]; doc?: string }
-  | { kind: "enum"; name: string; values: string[]; doc?: string };
+  | { kind: "enum"; name: string; values: string[]; doc?: string }
+  | { kind: "union"; name: string; variants: Variant[]; doc?: string };
+
+/** The field every variant of a discriminated union has, telling them apart. */
+const TAG = "kind";
 
 // oxc's AST is plain JSON; only the handful of node types below appear in src/shared/types.ts.
 // oxlint-disable-next-line typescript/no-explicit-any
@@ -40,6 +53,14 @@ if (parsed.errors.length) throw new Error(parsed.errors.map((e) => e.message).jo
 const decls = new Map<string, Decl>();
 const interfaces = new Map<string, Node>();
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+/** An Elm constructor's name: its type's, then the value in PascalCase. */
+const ctor = (type: string, value: string) =>
+  type +
+  value
+    .split(/[^A-Za-z0-9]+/)
+    .filter(Boolean)
+    .map(cap)
+    .join("");
 const singular = (s: string) => (s.endsWith("s") && !s.endsWith("ss") ? s.slice(0, -1) : s);
 
 /** The JSDoc comment right before a node, as plain lines. */
@@ -102,12 +123,25 @@ function convert(node: Node, name: string): { type: T; nullable: boolean } {
         register({ kind: "enum", name, values: literals });
         return { type: { k: "ref", name }, nullable };
       }
+      if (rest.length > 1 && rest.every((t: Node) => t.type === "TSTypeLiteral")) {
+        register({ kind: "union", name, variants: rest.map((t: Node) => variant(t, name)) });
+        return { type: { k: "ref", name }, nullable };
+      }
       if (rest.length !== 1) throw new Error(`Unsupported union in ${name}`);
       return { type: convert(rest[0], name).type, nullable };
     }
     default:
       throw new Error(`Unsupported type ${node.type} in ${name}`);
   }
+}
+
+/** One variant of a discriminated union: its `kind`, and the fields that come with it. */
+function variant(node: Node, union: string): Variant {
+  const tag = node.members.find((m: Node) => m.key?.name === TAG);
+  const value = tag && stringLiterals([tag.typeAnnotation.typeAnnotation])?.[0];
+  if (!value) throw new Error(`Every variant of ${union} needs a string literal \`${TAG}\``);
+  const rest = node.members.filter((m: Node) => m !== tag);
+  return { value, fields: members(rest, union + ctor("", value)) };
 }
 
 function plain(node: Node, name: string): T {
@@ -184,13 +218,6 @@ for (const statement of parsed.program.body as Node[]) {
 // Elm keywords can't be record fields.
 const KEYWORDS = new Set(["in", "type", "of", "let", "case", "if", "then", "else", "as", "port"]);
 const elmField = (name: string) => (KEYWORDS.has(name) ? `${name}_` : name);
-const ctor = (type: string, value: string) =>
-  type +
-  value
-    .split(/[^A-Za-z0-9]+/)
-    .filter(Boolean)
-    .map(cap)
-    .join("");
 const lower = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
 
 function elmType(t: T): string {
@@ -250,7 +277,57 @@ function encoder(t: T): string {
 
 const comment = (doc: string | undefined) => (doc ? `{-| ${doc}\n-}\n` : "");
 
+/** Pipeline steps decoding a record's fields, in order. */
+const decodeSteps = (fields: Field[], indent: string) =>
+  fields.map((f) => {
+    const d = decoder(f.type);
+    if (f.optional)
+      return `${indent}|> P.optional ${JSON.stringify(f.name)} (D.map Just ${d}) Nothing`;
+    if (f.nullable) return `${indent}|> P.required ${JSON.stringify(f.name)} (D.nullable ${d})`;
+    return `${indent}|> P.required ${JSON.stringify(f.name)} ${d}`;
+  });
+
+/** Key-value pairs encoding a record's fields (`Maybe`s: an absent optional field has none). */
+const encodePairs = (fields: Field[], value: string) =>
+  fields.map((f) => {
+    const key = JSON.stringify(f.name);
+    const get = `${value}.${elmField(f.name)}`;
+    const e = encoder(f.type);
+    if (f.optional) return `Maybe.map (\\v -> ( ${key}, ${e} v )) ${get}`;
+    if (f.nullable) return `Just ( ${key}, Maybe.withDefault E.null (Maybe.map ${e} ${get}) )`;
+    return `Just ( ${key}, ${e} ${get} )`;
+  });
+
+const recordType = (fields: Field[]) =>
+  `{ ${fields.map((f) => `${elmField(f.name)} : ${fieldType(f)}`).join(", ")} }`;
+
+function emitUnion(decl: Extract<Decl, { kind: "union" }>): string {
+  const fn = lower(decl.name);
+  const cases = decl.variants.map((v) => ({ ...v, ctor: ctor(decl.name, v.value) }));
+  const type = `${comment(decl.doc)}type ${decl.name}\n    = ${cases
+    .map((c) => (c.fields.length ? `${c.ctor} ${recordType(c.fields)}` : c.ctor))
+    .join("\n    | ")}`;
+  const branches = cases.map((c) => {
+    if (!c.fields.length)
+      return `                    ${JSON.stringify(c.value)} ->\n                        D.succeed ${c.ctor}`;
+    const names = c.fields.map((_, i) => `v${i}`);
+    const build = `(\\${names.join(" ")} -> ${c.ctor} { ${c.fields
+      .map((f, i) => `${elmField(f.name)} = ${names[i]}`)
+      .join(", ")} })`;
+    return `                    ${JSON.stringify(c.value)} ->\n                        D.succeed ${build}\n${decodeSteps(c.fields, "                            ").join("\n")}`;
+  });
+  const dec = `${fn}Decoder : Decoder ${decl.name}\n${fn}Decoder =\n    D.field ${JSON.stringify(TAG)} D.string\n        |> D.andThen\n            (\\tag ->\n                case tag of\n${branches.join("\n\n")}\n\n                    _ ->\n                        D.fail ("Unknown ${decl.name}: " ++ tag)\n            )`;
+  const encCases = cases.map((c) => {
+    const kind = `( ${JSON.stringify(TAG)}, E.string ${JSON.stringify(c.value)} )`;
+    if (!c.fields.length) return `        ${c.ctor} ->\n            E.object [ ${kind} ]`;
+    return `        ${c.ctor} fields ->\n            E.object\n                (${kind}\n                    :: List.filterMap identity\n                        [ ${encodePairs(c.fields, "fields").join("\n                        , ")}\n                        ]\n                )`;
+  });
+  const enc = `encode${decl.name} : ${decl.name} -> E.Value\nencode${decl.name} value =\n    case value of\n${encCases.join("\n\n")}`;
+  return [type, dec, enc].join("\n\n\n");
+}
+
 function emit(decl: Decl): string {
+  if (decl.kind === "union") return emitUnion(decl);
   const fn = lower(decl.name);
   if (decl.kind === "enum") {
     const cases = decl.values.map((v) => [ctor(decl.name, v), v] as const);
@@ -272,37 +349,25 @@ function emit(decl: Decl): string {
   const alias = `${doc ? `{-| ${doc}\n-}\n` : ""}type alias ${decl.name} =\n    { ${fields
     .map((f) => `${elmField(f.name)} : ${fieldType(f)}`)
     .join("\n    , ")}\n    }`;
-  const steps = fields.map((f) => {
-    const d = decoder(f.type);
-    if (f.optional)
-      return `        |> P.optional ${JSON.stringify(f.name)} (D.map Just ${d}) Nothing`;
-    if (f.nullable) return `        |> P.required ${JSON.stringify(f.name)} (D.nullable ${d})`;
-    return `        |> P.required ${JSON.stringify(f.name)} ${d}`;
-  });
-  const dec = `${fn}Decoder : Decoder ${decl.name}\n${fn}Decoder =\n    D.succeed ${decl.name}\n${steps.join("\n")}`;
-  const pairs = fields.map((f) => {
-    const key = JSON.stringify(f.name);
-    const get = `value.${elmField(f.name)}`;
-    const e = encoder(f.type);
-    if (f.optional) return `Maybe.map (\\v -> ( ${key}, ${e} v )) ${get}`;
-    if (f.nullable) return `Just ( ${key}, Maybe.withDefault E.null (Maybe.map ${e} ${get}) )`;
-    return `Just ( ${key}, ${e} ${get} )`;
-  });
+  const dec = `${fn}Decoder : Decoder ${decl.name}\n${fn}Decoder =\n    D.succeed ${decl.name}\n${decodeSteps(fields, "        ").join("\n")}`;
+  const pairs = encodePairs(fields, "value");
   const enc = `encode${decl.name} : ${decl.name} -> E.Value\nencode${decl.name} value =\n    E.object\n        (List.filterMap identity\n            [ ${pairs.join("\n            , ")}\n            ]\n        )`;
   return [alias, dec, enc].join("\n\n\n");
 }
 
 const ordered = [...decls.values()].sort((a, b) => a.name.localeCompare(b.name));
 const exposing = ordered.flatMap((d) =>
-  d.kind === "enum"
-    ? [
-        `${d.name}(..)`,
-        `${lower(d.name)}ToString`,
-        `${lower(d.name)}FromString`,
-        `${lower(d.name)}Decoder`,
-        `encode${d.name}`,
-      ]
-    : [d.name, `${lower(d.name)}Decoder`, `encode${d.name}`],
+  d.kind === "union"
+    ? [`${d.name}(..)`, `${lower(d.name)}Decoder`, `encode${d.name}`]
+    : d.kind === "enum"
+      ? [
+          `${d.name}(..)`,
+          `${lower(d.name)}ToString`,
+          `${lower(d.name)}FromString`,
+          `${lower(d.name)}Decoder`,
+          `encode${d.name}`,
+        ]
+      : [d.name, `${lower(d.name)}Decoder`, `encode${d.name}`],
 );
 
 const types = `module Types exposing

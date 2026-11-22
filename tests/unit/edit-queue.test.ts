@@ -28,13 +28,17 @@ describe("edit queue", () => {
     const a = enqueueEdit("deck-a", "first", task("a1", 20));
     const b = enqueueEdit("deck-a", "second", task("a2", 1));
     const other = enqueueEdit("deck-b", "other", task("b1", 1));
-    assert.equal(a.status.state, "queued", "callers get an id back before anything runs");
+    assert.deepEqual(
+      a.status.state,
+      { kind: "queued" },
+      "callers get an id back before anything runs",
+    );
     assert.equal(pendingEdits("deck-a").length, 2);
     assert.equal(await other.done, "b1");
     assert.ok(!log.includes("a1 end"), "deck-b ran alongside deck-a");
     assert.deepEqual(await Promise.all([a.done, b.done]), ["a1", "a2"]);
     assert.ok(log.indexOf("a1 end") < log.indexOf("a2 start"), "never two edits on one deck");
-    assert.equal(editStatus(b.status.id)!.state, "done");
+    assert.deepEqual(editStatus(b.status.id)!.state, { kind: "done" });
     assert.equal(pendingEdits("deck-a").length, 0);
   });
 
@@ -44,10 +48,10 @@ describe("edit queue", () => {
     });
     const next = enqueueEdit("deck-c", "after", async () => "ok");
     await whenIdle("deck-c");
-    assert.deepEqual(
-      { state: editStatus(failed.status.id)!.state, error: editStatus(failed.status.id)!.error },
-      { state: "failed", error: "no such card" },
-    );
+    assert.deepEqual(editStatus(failed.status.id)!.state, {
+      kind: "failed",
+      error: "no such card",
+    });
     assert.equal(await next.done, "ok");
   });
 });

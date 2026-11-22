@@ -3,7 +3,7 @@ import path from "node:path";
 import express, { type NextFunction, type Request, type Response } from "express";
 import multer from "multer";
 import { z } from "zod";
-import type { AppConfig, DeckStatus, RecognitionResult } from "../shared/types.ts";
+import type { AppConfig, DeckDetail, DeckStatus, RecognitionJob } from "../shared/types.ts";
 import { config, llmEnabled } from "./config.ts";
 import {
   applyChatChanges,
@@ -38,23 +38,12 @@ import {
 /** How often a job's events go out at most, while it changes. */
 const TRACE_EVERY_MS = 100;
 
-interface RecognitionJob {
-  id: string;
-  status: "running" | "done" | "error";
-  phase: string;
-  done: number;
-  total: number;
-  result?: RecognitionResult & { uploadToken: string };
-  error?: string;
-}
-
 const recognitionJobs = new Map<string, RecognitionJob>();
 
 async function deckStatus(slug: string): Promise<DeckStatus> {
   const savedAt = await reportSavedAt(slug);
   return {
-    ...(pendingEdits(slug).length ? { updating: true } : {}),
-    ...refreshStatus(slug),
+    changes: pendingEdits(slug).length ? { kind: "updating" } : refreshStatus(slug),
     ...(savedAt !== null ? { savedAt } : {}),
   };
 }
@@ -137,7 +126,7 @@ export function createApp() {
       // Photo recognition runs many model calls; clients poll the job for progress.
       const job: RecognitionJob = {
         id: randomUUID(),
-        status: "running",
+        status: { kind: "running" },
         phase: "Starting",
         done: 0,
         total: 1,
@@ -147,12 +136,12 @@ export function createApp() {
         files.map((f) => f.buffer),
         { onProgress: (p) => Object.assign(job, p) },
       ).then(
-        (result) => Object.assign(job, { status: "done", result: { ...result, uploadToken } }),
-        (err) =>
-          Object.assign(job, {
-            status: "error",
-            error: err instanceof Error ? err.message : String(err),
-          }),
+        (result) => {
+          job.status = { kind: "done", result: { ...result, uploadToken } };
+        },
+        (err) => {
+          job.status = { kind: "error", error: err instanceof Error ? err.message : String(err) };
+        },
       );
       res.status(202).json({ jobId: job.id });
     }),
@@ -228,7 +217,8 @@ export function createApp() {
         deckStatus(slug),
         hasRun(slug),
       ]);
-      res.json({ meta, report, initial, ...status, hasRun: run });
+      const detail: DeckDetail = { meta, report, initial, ...status, hasRun: run };
+      res.json(detail);
     }),
   );
 
@@ -406,7 +396,7 @@ export function createApp() {
       timer = null;
       const job = getJob(id)!;
       res.write(`event: job\ndata: ${JSON.stringify(job)}\n\n`);
-      if (job.status !== "running") stop();
+      if (job.status.kind !== "running") stop();
     };
     const changed = () => {
       timer ??= setTimeout(send, TRACE_EVERY_MS);

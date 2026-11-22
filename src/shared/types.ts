@@ -276,12 +276,15 @@ export interface RerunProposal {
 }
 
 /** A change to a deck running in the background (see src/server/edit-queue.ts). */
+/** Where an edit in a deck's queue stands: only one that failed has an error. */
+export type EditState =
+  { kind: "queued" } | { kind: "running" } | { kind: "done" } | { kind: "failed"; error: string };
+
 export interface EditStatus {
   id: string;
   slug: string;
   label: string;
-  state: "queued" | "running" | "done" | "failed";
-  error?: string;
+  state: EditState;
 }
 
 export interface DeckChatMessage {
@@ -290,11 +293,8 @@ export interface DeckChatMessage {
   content: string;
   at: string;
   changes?: DeckChange[];
-  applied?: boolean;
-  /** The changes are being made in the background; `applied` or `applyError` follows. */
-  applying?: boolean;
-  /** Why applying the changes failed, when it did. */
-  applyError?: string;
+  /** Applying `changes`: being made in the background, made, or failed (and why). */
+  apply?: { kind: "applying" } | { kind: "applied" } | { kind: "failed"; error: string };
   rerun?: RerunProposal;
   /** The list `changes` edit: the one on screen, unless the user asked to change the other. */
   target?: EditTarget;
@@ -408,9 +408,8 @@ export interface JobStep {
 export interface Job {
   id: string;
   slug: string;
-  status: "running" | "done" | "error";
+  status: { kind: "running" } | { kind: "done" } | { kind: "error"; error: string };
   steps: JobStep[];
-  error?: string;
   /** What the run is doing, task by task and request by request. */
   trace?: Trace;
 }
@@ -472,12 +471,11 @@ export interface Recognition extends RecognitionResult {
 /** Photo recognition running in the background (`GET /api/recognize/:id`). */
 export interface RecognitionJob {
   id: string;
-  status: "running" | "done" | "error";
+  status:
+    { kind: "running" } | { kind: "done"; result: Recognition } | { kind: "error"; error: string };
   phase: string;
   done: number;
   total: number;
-  result?: Recognition;
-  error?: string;
 }
 
 /** One name looked up for the review screen (`POST /api/cards/resolve`). */
@@ -498,13 +496,19 @@ export interface DeckDetailMeta {
 }
 
 /** Changes to a deck still being worked out (`GET /api/decks/:slug/status`). */
+/**
+ * Where a deck's changes stand: edits still being made in the background (the report updates
+ * when they're in); in, with their slower parts (combos, synergies...) worked out once edits have
+ * stopped for `refreshInMs`; those parts being worked out; or nothing under way.
+ */
+export type DeckChanges =
+  | { kind: "settled" }
+  | { kind: "updating" }
+  | { kind: "waiting"; refreshInMs: number }
+  | { kind: "refreshing" };
+
 export interface DeckStatus {
-  /** Edits are still being made in the background; the report updates when they're in. */
-  updating?: boolean;
-  /** Edits are in; their slower parts (combos, synergies...) are worked out in this long. */
-  refreshInMs?: number;
-  /** Those slower parts are being worked out now. */
-  refreshing?: boolean;
+  changes: DeckChanges;
   /** When the report was last saved (ms since the epoch): it changed if this did. */
   savedAt?: number;
 }

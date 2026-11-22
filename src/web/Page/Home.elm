@@ -1,4 +1,4 @@
-module Page.Home exposing (Mode, Model, Msg, Out(..), Photo, init, update, view)
+module Page.Home exposing (Mode, Model, Msg, Out(..), Photo, Reading, init, update, view)
 
 import Api
 import Dict
@@ -26,6 +26,16 @@ type Mode
     | TextList
 
 
+{-| Reading the deck: not asked to; sent (a list is read at once); photos being read, as far as
+the job has got; or failed, and why.
+-}
+type Reading
+    = Idle
+    | Sending
+    | Scanning RecognitionJob
+    | Failed String
+
+
 type alias Photo =
     { file : File, url : String }
 
@@ -35,9 +45,7 @@ type alias Model =
     , photos : List Photo
     , text : String
     , preferredMode : Mode
-    , busy : Bool
-    , progress : Maybe RecognitionJob
-    , error : Maybe String
+    , reading : Reading
     , drag : Bool
     , filter : String
     }
@@ -80,9 +88,7 @@ init env decks =
       , photos = []
       , text = ""
       , preferredMode = Image
-      , busy = False
-      , progress = Nothing
-      , error = Nothing
+      , reading = Idle
       , drag = False
       , filter = ""
       }
@@ -104,6 +110,21 @@ mode config model =
 
         Nothing ->
             model.preferredMode
+
+
+{-| Whether the deck is being read, by any means.
+-}
+reading : Model -> Bool
+reading model =
+    case model.reading of
+        Sending ->
+            True
+
+        Scanning _ ->
+            True
+
+        _ ->
+            False
 
 
 update : Maybe AppConfig -> Msg -> Model -> ( Model, Cmd Msg, Maybe Out )
@@ -160,7 +181,7 @@ update config msg model =
                 m =
                     mode config model
             in
-            ( { model | busy = True, error = Nothing }
+            ( { model | reading = Sending }
             , Api.recognize
                 (if m == Image then
                     List.map .file model.photos
@@ -191,19 +212,15 @@ update config msg model =
             ( model, Api.recognitionJob id (GotJob id), Nothing )
 
         GotJob id (Ok job) ->
-            let
-                withProgress =
-                    { model | progress = Just job }
-            in
-            case ( job.status, job.result ) of
-                ( RecognitionJobStatusError, _ ) ->
-                    failed (Maybe.withDefault "Recognition failed" job.error) withProgress
+            case job.status of
+                RecognitionJobStatusError { error } ->
+                    failed error model
 
-                ( RecognitionJobStatusDone, Just result ) ->
-                    done config result withProgress
+                RecognitionJobStatusDone { result } ->
+                    done config result model
 
-                _ ->
-                    ( withProgress, Process.sleep 600 |> Task.perform (\_ -> Poll id), Nothing )
+                RecognitionJobStatusRunning ->
+                    ( { model | reading = Scanning job }, Process.sleep 600 |> Task.perform (\_ -> Poll id), Nothing )
 
         GotJob _ (Err e) ->
             failed e model
@@ -217,7 +234,7 @@ update config msg model =
 
 done : Maybe AppConfig -> Recognition -> Model -> ( Model, Cmd Msg, Maybe Out )
 done config result model =
-    ( { model | busy = False, progress = Nothing }
+    ( { model | reading = Idle }
     , Cmd.none
     , Just
         (Recognized result
@@ -233,7 +250,7 @@ done config result model =
 
 failed : String -> Model -> ( Model, Cmd Msg, Maybe Out )
 failed e model =
-    ( { model | error = Just e, busy = False, progress = Nothing }, Cmd.none, Nothing )
+    ( { model | reading = Failed e }, Cmd.none, Nothing )
 
 
 welcome : Env -> Maybe (List DeckSummary) -> Html msg
@@ -493,8 +510,8 @@ view env config model =
                             , onInput SetText
                             ]
                             []
-                , case model.progress of
-                    Just progress ->
+                , case model.reading of
+                    Scanning progress ->
                         div [ class "scan-progress", attribute "role" "status" ]
                             [ div [ class "row between small" ]
                                 [ span [] [ text progress.phase ]
@@ -514,17 +531,14 @@ view env config model =
                                 [ text "Reading the photo several times in overlapping crops, then double-checking anything only one pass saw." ]
                             ]
 
-                    Nothing ->
-                        text ""
-                , case model.error of
-                    Just e ->
+                    Failed e ->
                         p [ class "error" ] [ text e ]
 
-                    Nothing ->
+                    _ ->
                         text ""
                 , div [ class "row end" ]
-                    [ button [ class "primary big", disabled (not canSubmit || model.busy), onClick Analyze ]
-                        (if model.busy then
+                    [ button [ class "primary big", disabled (not canSubmit || reading model), onClick Analyze ]
+                        (if reading model then
                             [ span [ class "spinner", attribute "aria-hidden" "true" ] []
                             , text
                                 (if m == Image then

@@ -18,10 +18,8 @@ export async function readChat(slug: string): Promise<DeckChatMessage[]> {
   // cut short by a restart.
   if (!pendingEdits(slug).length)
     for (const m of messages)
-      if (m.applying) {
-        delete m.applying;
-        m.applyError = "Interrupted before it finished; apply it again.";
-      }
+      if (m.apply?.kind === "applying")
+        m.apply = { kind: "failed", error: "Interrupted before it finished; apply it again." };
   return messages;
 }
 

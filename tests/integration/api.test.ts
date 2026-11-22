@@ -62,10 +62,10 @@ describe("HTTP API", () => {
     let job: Job;
     for (;;) {
       job = (await json<Job>(await fetch(`${base}/api/jobs/${saved.body.jobId}`))).body;
-      if (job.status !== "running") break;
+      if (job.status.kind !== "running") break;
       await new Promise((r) => setTimeout(r, 50));
     }
-    assert.equal(job.status, "done", job.error ?? "");
+    assert.deepEqual(job.status, { kind: "done" });
 
     const decks = await json<{ slug: string; hasReport: boolean; bracket?: number }[]>(
       await fetch(`${base}/api/decks`),

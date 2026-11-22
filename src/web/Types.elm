@@ -16,7 +16,9 @@ module Types exposing
     , Combo
     , DeckChange
     , DeckChangeAction(..)
+    , DeckChanges(..)
     , DeckChatMessage
+    , DeckChatMessageApply(..)
     , DeckChatMessageRole(..)
     , DeckDetail
     , DeckDetailMeta
@@ -29,8 +31,8 @@ module Types exposing
     , DeckStatus
     , DeckSummary
     , DecklistCard
+    , EditState(..)
     , EditStatus
-    , EditStatusState(..)
     , EditTarget(..)
     , Job
     , JobStatus(..)
@@ -101,6 +103,8 @@ module Types exposing
     , deckChangeActionFromString
     , deckChangeActionToString
     , deckChangeDecoder
+    , deckChangesDecoder
+    , deckChatMessageApplyDecoder
     , deckChatMessageDecoder
     , deckChatMessageRoleDecoder
     , deckChatMessageRoleFromString
@@ -120,10 +124,8 @@ module Types exposing
     , deckStatusDecoder
     , deckSummaryDecoder
     , decklistCardDecoder
+    , editStateDecoder
     , editStatusDecoder
-    , editStatusStateDecoder
-    , editStatusStateFromString
-    , editStatusStateToString
     , editTargetDecoder
     , editTargetFromString
     , editTargetToString
@@ -144,7 +146,9 @@ module Types exposing
     , encodeCombo
     , encodeDeckChange
     , encodeDeckChangeAction
+    , encodeDeckChanges
     , encodeDeckChatMessage
+    , encodeDeckChatMessageApply
     , encodeDeckChatMessageRole
     , encodeDeckDetail
     , encodeDeckDetailMeta
@@ -157,8 +161,8 @@ module Types exposing
     , encodeDeckStatus
     , encodeDeckSummary
     , encodeDecklistCard
+    , encodeEditState
     , encodeEditStatus
-    , encodeEditStatusState
     , encodeEditTarget
     , encodeJob
     , encodeJobStatus
@@ -206,8 +210,6 @@ module Types exposing
     , encodeTraceTaskState
     , jobDecoder
     , jobStatusDecoder
-    , jobStatusFromString
-    , jobStatusToString
     , jobStepDecoder
     , jobStepStatusDecoder
     , jobStepStatusFromString
@@ -220,8 +222,6 @@ module Types exposing
     , recognitionDecoder
     , recognitionJobDecoder
     , recognitionJobStatusDecoder
-    , recognitionJobStatusFromString
-    , recognitionJobStatusToString
     , recognitionResultDecoder
     , recognitionResultFormatDecoder
     , recognitionResultFormatFromString
@@ -1003,9 +1003,59 @@ encodeDeckChangeAction =
     deckChangeActionToString >> E.string
 
 
-{-| applying: The changes are being made in the background; `applied` or `applyError` follows.
+type DeckChanges
+    = DeckChangesSettled
+    | DeckChangesUpdating
+    | DeckChangesWaiting { refreshInMs : Float }
+    | DeckChangesRefreshing
 
-applyError: Why applying the changes failed, when it did.
+
+deckChangesDecoder : Decoder DeckChanges
+deckChangesDecoder =
+    D.field "kind" D.string
+        |> D.andThen
+            (\tag ->
+                case tag of
+                    "settled" ->
+                        D.succeed DeckChangesSettled
+
+                    "updating" ->
+                        D.succeed DeckChangesUpdating
+
+                    "waiting" ->
+                        D.succeed (\v0 -> DeckChangesWaiting { refreshInMs = v0 })
+                            |> P.required "refreshInMs" D.float
+
+                    "refreshing" ->
+                        D.succeed DeckChangesRefreshing
+
+                    _ ->
+                        D.fail ("Unknown DeckChanges: " ++ tag)
+            )
+
+
+encodeDeckChanges : DeckChanges -> E.Value
+encodeDeckChanges value =
+    case value of
+        DeckChangesSettled ->
+            E.object [ ( "kind", E.string "settled" ) ]
+
+        DeckChangesUpdating ->
+            E.object [ ( "kind", E.string "updating" ) ]
+
+        DeckChangesWaiting fields ->
+            E.object
+                (( "kind", E.string "waiting" )
+                    :: List.filterMap identity
+                        [ Just ( "refreshInMs", E.float fields.refreshInMs )
+                        ]
+                )
+
+        DeckChangesRefreshing ->
+            E.object [ ( "kind", E.string "refreshing" ) ]
+
+
+{-| apply: Applying `changes`: being made in the background, made, or failed (and why).
 
 target: The list `changes` edit: the one on screen, unless the user asked to change the other.
 
@@ -1018,9 +1068,7 @@ type alias DeckChatMessage =
     , content : String
     , at : String
     , changes : Maybe (List DeckChange)
-    , applied : Maybe Bool
-    , applying : Maybe Bool
-    , applyError : Maybe String
+    , apply : Maybe DeckChatMessageApply
     , rerun : Maybe RerunProposal
     , target : Maybe EditTarget
     , reportUpdated : Maybe Bool
@@ -1035,9 +1083,7 @@ deckChatMessageDecoder =
         |> P.required "content" D.string
         |> P.required "at" D.string
         |> P.optional "changes" (D.map Just (D.list deckChangeDecoder)) Nothing
-        |> P.optional "applied" (D.map Just D.bool) Nothing
-        |> P.optional "applying" (D.map Just D.bool) Nothing
-        |> P.optional "applyError" (D.map Just D.string) Nothing
+        |> P.optional "apply" (D.map Just deckChatMessageApplyDecoder) Nothing
         |> P.optional "rerun" (D.map Just rerunProposalDecoder) Nothing
         |> P.optional "target" (D.map Just editTargetDecoder) Nothing
         |> P.optional "reportUpdated" (D.map Just D.bool) Nothing
@@ -1052,14 +1098,57 @@ encodeDeckChatMessage value =
             , Just ( "content", E.string value.content )
             , Just ( "at", E.string value.at )
             , Maybe.map (\v -> ( "changes", E.list encodeDeckChange v )) value.changes
-            , Maybe.map (\v -> ( "applied", E.bool v )) value.applied
-            , Maybe.map (\v -> ( "applying", E.bool v )) value.applying
-            , Maybe.map (\v -> ( "applyError", E.string v )) value.applyError
+            , Maybe.map (\v -> ( "apply", encodeDeckChatMessageApply v )) value.apply
             , Maybe.map (\v -> ( "rerun", encodeRerunProposal v )) value.rerun
             , Maybe.map (\v -> ( "target", encodeEditTarget v )) value.target
             , Maybe.map (\v -> ( "reportUpdated", E.bool v )) value.reportUpdated
             ]
         )
+
+
+type DeckChatMessageApply
+    = DeckChatMessageApplyApplying
+    | DeckChatMessageApplyApplied
+    | DeckChatMessageApplyFailed { error : String }
+
+
+deckChatMessageApplyDecoder : Decoder DeckChatMessageApply
+deckChatMessageApplyDecoder =
+    D.field "kind" D.string
+        |> D.andThen
+            (\tag ->
+                case tag of
+                    "applying" ->
+                        D.succeed DeckChatMessageApplyApplying
+
+                    "applied" ->
+                        D.succeed DeckChatMessageApplyApplied
+
+                    "failed" ->
+                        D.succeed (\v0 -> DeckChatMessageApplyFailed { error = v0 })
+                            |> P.required "error" D.string
+
+                    _ ->
+                        D.fail ("Unknown DeckChatMessageApply: " ++ tag)
+            )
+
+
+encodeDeckChatMessageApply : DeckChatMessageApply -> E.Value
+encodeDeckChatMessageApply value =
+    case value of
+        DeckChatMessageApplyApplying ->
+            E.object [ ( "kind", E.string "applying" ) ]
+
+        DeckChatMessageApplyApplied ->
+            E.object [ ( "kind", E.string "applied" ) ]
+
+        DeckChatMessageApplyFailed fields ->
+            E.object
+                (( "kind", E.string "failed" )
+                    :: List.filterMap identity
+                        [ Just ( "error", E.string fields.error )
+                        ]
+                )
 
 
 type DeckChatMessageRole
@@ -1109,21 +1198,13 @@ encodeDeckChatMessageRole =
     deckChatMessageRoleToString >> E.string
 
 
-{-| updating: Edits are still being made in the background; the report updates when they're in.
-
-refreshInMs: Edits are in; their slower parts (combos, synergies...) are worked out in this long.
-
-refreshing: Those slower parts are being worked out now.
-
-savedAt: When the report was last saved (ms since the epoch): it changed if this did.
+{-| savedAt: When the report was last saved (ms since the epoch): it changed if this did.
 
 hasRun: The deck's last optimizer run is saved, and can be replayed.
 
 -}
 type alias DeckDetail =
-    { updating : Maybe Bool
-    , refreshInMs : Maybe Float
-    , refreshing : Maybe Bool
+    { changes : DeckChanges
     , savedAt : Maybe Float
     , meta : DeckDetailMeta
     , report : Maybe Report
@@ -1135,9 +1216,7 @@ type alias DeckDetail =
 deckDetailDecoder : Decoder DeckDetail
 deckDetailDecoder =
     D.succeed DeckDetail
-        |> P.optional "updating" (D.map Just D.bool) Nothing
-        |> P.optional "refreshInMs" (D.map Just D.float) Nothing
-        |> P.optional "refreshing" (D.map Just D.bool) Nothing
+        |> P.required "changes" deckChangesDecoder
         |> P.optional "savedAt" (D.map Just D.float) Nothing
         |> P.required "meta" deckDetailMetaDecoder
         |> P.required "report" (D.nullable reportDecoder)
@@ -1149,9 +1228,7 @@ encodeDeckDetail : DeckDetail -> E.Value
 encodeDeckDetail value =
     E.object
         (List.filterMap identity
-            [ Maybe.map (\v -> ( "updating", E.bool v )) value.updating
-            , Maybe.map (\v -> ( "refreshInMs", E.float v )) value.refreshInMs
-            , Maybe.map (\v -> ( "refreshing", E.bool v )) value.refreshing
+            [ Just ( "changes", encodeDeckChanges value.changes )
             , Maybe.map (\v -> ( "savedAt", E.float v )) value.savedAt
             , Just ( "meta", encodeDeckDetailMeta value.meta )
             , Just ( "report", Maybe.withDefault E.null (Maybe.map encodeReport value.report) )
@@ -1447,19 +1524,10 @@ encodeDeckSnapshot value =
         )
 
 
-{-| updating: Edits are still being made in the background; the report updates when they're in.
-
-refreshInMs: Edits are in; their slower parts (combos, synergies...) are worked out in this long.
-
-refreshing: Those slower parts are being worked out now.
-
-savedAt: When the report was last saved (ms since the epoch): it changed if this did.
-
+{-| savedAt: When the report was last saved (ms since the epoch): it changed if this did.
 -}
 type alias DeckStatus =
-    { updating : Maybe Bool
-    , refreshInMs : Maybe Float
-    , refreshing : Maybe Bool
+    { changes : DeckChanges
     , savedAt : Maybe Float
     }
 
@@ -1467,9 +1535,7 @@ type alias DeckStatus =
 deckStatusDecoder : Decoder DeckStatus
 deckStatusDecoder =
     D.succeed DeckStatus
-        |> P.optional "updating" (D.map Just D.bool) Nothing
-        |> P.optional "refreshInMs" (D.map Just D.float) Nothing
-        |> P.optional "refreshing" (D.map Just D.bool) Nothing
+        |> P.required "changes" deckChangesDecoder
         |> P.optional "savedAt" (D.map Just D.float) Nothing
 
 
@@ -1477,9 +1543,7 @@ encodeDeckStatus : DeckStatus -> E.Value
 encodeDeckStatus value =
     E.object
         (List.filterMap identity
-            [ Maybe.map (\v -> ( "updating", E.bool v )) value.updating
-            , Maybe.map (\v -> ( "refreshInMs", E.float v )) value.refreshInMs
-            , Maybe.map (\v -> ( "refreshing", E.bool v )) value.refreshing
+            [ Just ( "changes", encodeDeckChanges value.changes )
             , Maybe.map (\v -> ( "savedAt", E.float v )) value.savedAt
             ]
         )
@@ -1553,12 +1617,63 @@ encodeDeckSummary value =
         )
 
 
+type EditState
+    = EditStateQueued
+    | EditStateRunning
+    | EditStateDone
+    | EditStateFailed { error : String }
+
+
+editStateDecoder : Decoder EditState
+editStateDecoder =
+    D.field "kind" D.string
+        |> D.andThen
+            (\tag ->
+                case tag of
+                    "queued" ->
+                        D.succeed EditStateQueued
+
+                    "running" ->
+                        D.succeed EditStateRunning
+
+                    "done" ->
+                        D.succeed EditStateDone
+
+                    "failed" ->
+                        D.succeed (\v0 -> EditStateFailed { error = v0 })
+                            |> P.required "error" D.string
+
+                    _ ->
+                        D.fail ("Unknown EditState: " ++ tag)
+            )
+
+
+encodeEditState : EditState -> E.Value
+encodeEditState value =
+    case value of
+        EditStateQueued ->
+            E.object [ ( "kind", E.string "queued" ) ]
+
+        EditStateRunning ->
+            E.object [ ( "kind", E.string "running" ) ]
+
+        EditStateDone ->
+            E.object [ ( "kind", E.string "done" ) ]
+
+        EditStateFailed fields ->
+            E.object
+                (( "kind", E.string "failed" )
+                    :: List.filterMap identity
+                        [ Just ( "error", E.string fields.error )
+                        ]
+                )
+
+
 type alias EditStatus =
     { id : String
     , slug : String
     , label : String
-    , state : EditStatusState
-    , error : Maybe String
+    , state : EditState
     }
 
 
@@ -1568,8 +1683,7 @@ editStatusDecoder =
         |> P.required "id" D.string
         |> P.required "slug" D.string
         |> P.required "label" D.string
-        |> P.required "state" editStatusStateDecoder
-        |> P.optional "error" (D.map Just D.string) Nothing
+        |> P.required "state" editStateDecoder
 
 
 encodeEditStatus : EditStatus -> E.Value
@@ -1579,71 +1693,9 @@ encodeEditStatus value =
             [ Just ( "id", E.string value.id )
             , Just ( "slug", E.string value.slug )
             , Just ( "label", E.string value.label )
-            , Just ( "state", encodeEditStatusState value.state )
-            , Maybe.map (\v -> ( "error", E.string v )) value.error
+            , Just ( "state", encodeEditState value.state )
             ]
         )
-
-
-type EditStatusState
-    = EditStatusStateQueued
-    | EditStatusStateRunning
-    | EditStatusStateDone
-    | EditStatusStateFailed
-
-
-editStatusStateToString : EditStatusState -> String
-editStatusStateToString value =
-    case value of
-        EditStatusStateQueued ->
-            "queued"
-
-        EditStatusStateRunning ->
-            "running"
-
-        EditStatusStateDone ->
-            "done"
-
-        EditStatusStateFailed ->
-            "failed"
-
-
-editStatusStateFromString : String -> Maybe EditStatusState
-editStatusStateFromString value =
-    case value of
-        "queued" ->
-            Just EditStatusStateQueued
-
-        "running" ->
-            Just EditStatusStateRunning
-
-        "done" ->
-            Just EditStatusStateDone
-
-        "failed" ->
-            Just EditStatusStateFailed
-
-        _ ->
-            Nothing
-
-
-editStatusStateDecoder : Decoder EditStatusState
-editStatusStateDecoder =
-    D.string
-        |> D.andThen
-            (\value ->
-                case editStatusStateFromString value of
-                    Just v ->
-                        D.succeed v
-
-                    Nothing ->
-                        D.fail ("Unknown EditStatusState: " ++ value)
-            )
-
-
-encodeEditStatusState : EditStatusState -> E.Value
-encodeEditStatusState =
-    editStatusStateToString >> E.string
 
 
 type EditTarget
@@ -1700,7 +1752,6 @@ type alias Job =
     , slug : String
     , status : JobStatus
     , steps : List JobStep
-    , error : Maybe String
     , trace : Maybe Trace
     }
 
@@ -1712,7 +1763,6 @@ jobDecoder =
         |> P.required "slug" D.string
         |> P.required "status" jobStatusDecoder
         |> P.required "steps" (D.list jobStepDecoder)
-        |> P.optional "error" (D.map Just D.string) Nothing
         |> P.optional "trace" (D.map Just traceDecoder) Nothing
 
 
@@ -1724,7 +1774,6 @@ encodeJob value =
             , Just ( "slug", E.string value.slug )
             , Just ( "status", encodeJobStatus value.status )
             , Just ( "steps", E.list encodeJobStep value.steps )
-            , Maybe.map (\v -> ( "error", E.string v )) value.error
             , Maybe.map (\v -> ( "trace", encodeTrace v )) value.trace
             ]
         )
@@ -1733,55 +1782,46 @@ encodeJob value =
 type JobStatus
     = JobStatusRunning
     | JobStatusDone
-    | JobStatusError
-
-
-jobStatusToString : JobStatus -> String
-jobStatusToString value =
-    case value of
-        JobStatusRunning ->
-            "running"
-
-        JobStatusDone ->
-            "done"
-
-        JobStatusError ->
-            "error"
-
-
-jobStatusFromString : String -> Maybe JobStatus
-jobStatusFromString value =
-    case value of
-        "running" ->
-            Just JobStatusRunning
-
-        "done" ->
-            Just JobStatusDone
-
-        "error" ->
-            Just JobStatusError
-
-        _ ->
-            Nothing
+    | JobStatusError { error : String }
 
 
 jobStatusDecoder : Decoder JobStatus
 jobStatusDecoder =
-    D.string
+    D.field "kind" D.string
         |> D.andThen
-            (\value ->
-                case jobStatusFromString value of
-                    Just v ->
-                        D.succeed v
+            (\tag ->
+                case tag of
+                    "running" ->
+                        D.succeed JobStatusRunning
 
-                    Nothing ->
-                        D.fail ("Unknown JobStatus: " ++ value)
+                    "done" ->
+                        D.succeed JobStatusDone
+
+                    "error" ->
+                        D.succeed (\v0 -> JobStatusError { error = v0 })
+                            |> P.required "error" D.string
+
+                    _ ->
+                        D.fail ("Unknown JobStatus: " ++ tag)
             )
 
 
 encodeJobStatus : JobStatus -> E.Value
-encodeJobStatus =
-    jobStatusToString >> E.string
+encodeJobStatus value =
+    case value of
+        JobStatusRunning ->
+            E.object [ ( "kind", E.string "running" ) ]
+
+        JobStatusDone ->
+            E.object [ ( "kind", E.string "done" ) ]
+
+        JobStatusError fields ->
+            E.object
+                (( "kind", E.string "error" )
+                    :: List.filterMap identity
+                        [ Just ( "error", E.string fields.error )
+                        ]
+                )
 
 
 type alias JobStep =
@@ -2127,8 +2167,6 @@ type alias RecognitionJob =
     , phase : String
     , done : Float
     , total : Float
-    , result : Maybe Recognition
-    , error : Maybe String
     }
 
 
@@ -2140,8 +2178,6 @@ recognitionJobDecoder =
         |> P.required "phase" D.string
         |> P.required "done" D.float
         |> P.required "total" D.float
-        |> P.optional "result" (D.map Just recognitionDecoder) Nothing
-        |> P.optional "error" (D.map Just D.string) Nothing
 
 
 encodeRecognitionJob : RecognitionJob -> E.Value
@@ -2153,64 +2189,59 @@ encodeRecognitionJob value =
             , Just ( "phase", E.string value.phase )
             , Just ( "done", E.float value.done )
             , Just ( "total", E.float value.total )
-            , Maybe.map (\v -> ( "result", encodeRecognition v )) value.result
-            , Maybe.map (\v -> ( "error", E.string v )) value.error
             ]
         )
 
 
 type RecognitionJobStatus
     = RecognitionJobStatusRunning
-    | RecognitionJobStatusDone
-    | RecognitionJobStatusError
-
-
-recognitionJobStatusToString : RecognitionJobStatus -> String
-recognitionJobStatusToString value =
-    case value of
-        RecognitionJobStatusRunning ->
-            "running"
-
-        RecognitionJobStatusDone ->
-            "done"
-
-        RecognitionJobStatusError ->
-            "error"
-
-
-recognitionJobStatusFromString : String -> Maybe RecognitionJobStatus
-recognitionJobStatusFromString value =
-    case value of
-        "running" ->
-            Just RecognitionJobStatusRunning
-
-        "done" ->
-            Just RecognitionJobStatusDone
-
-        "error" ->
-            Just RecognitionJobStatusError
-
-        _ ->
-            Nothing
+    | RecognitionJobStatusDone { result : Recognition }
+    | RecognitionJobStatusError { error : String }
 
 
 recognitionJobStatusDecoder : Decoder RecognitionJobStatus
 recognitionJobStatusDecoder =
-    D.string
+    D.field "kind" D.string
         |> D.andThen
-            (\value ->
-                case recognitionJobStatusFromString value of
-                    Just v ->
-                        D.succeed v
+            (\tag ->
+                case tag of
+                    "running" ->
+                        D.succeed RecognitionJobStatusRunning
 
-                    Nothing ->
-                        D.fail ("Unknown RecognitionJobStatus: " ++ value)
+                    "done" ->
+                        D.succeed (\v0 -> RecognitionJobStatusDone { result = v0 })
+                            |> P.required "result" recognitionDecoder
+
+                    "error" ->
+                        D.succeed (\v0 -> RecognitionJobStatusError { error = v0 })
+                            |> P.required "error" D.string
+
+                    _ ->
+                        D.fail ("Unknown RecognitionJobStatus: " ++ tag)
             )
 
 
 encodeRecognitionJobStatus : RecognitionJobStatus -> E.Value
-encodeRecognitionJobStatus =
-    recognitionJobStatusToString >> E.string
+encodeRecognitionJobStatus value =
+    case value of
+        RecognitionJobStatusRunning ->
+            E.object [ ( "kind", E.string "running" ) ]
+
+        RecognitionJobStatusDone fields ->
+            E.object
+                (( "kind", E.string "done" )
+                    :: List.filterMap identity
+                        [ Just ( "result", encodeRecognition fields.result )
+                        ]
+                )
+
+        RecognitionJobStatusError fields ->
+            E.object
+                (( "kind", E.string "error" )
+                    :: List.filterMap identity
+                        [ Just ( "error", E.string fields.error )
+                        ]
+                )
 
 
 type alias RecognitionResult =

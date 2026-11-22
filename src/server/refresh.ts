@@ -5,7 +5,7 @@
  * until the edits stop for a while, so a run of changes is worked out once, not once per change.
  */
 import { randomUUID } from "node:crypto";
-import type { DeckChange, DeckChatMessage, Report } from "../shared/types.ts";
+import type { DeckChange, DeckChanges, DeckChatMessage, Report } from "../shared/types.ts";
 import { BRACKETS, assessBracket, flagsFor } from "./analysis/bracket.ts";
 import { type Deck, identityOf, toDecklist, toEntries } from "./analysis/deck.ts";
 import {
@@ -79,10 +79,10 @@ export async function resumeRefreshes() {
 }
 
 /** Where a deck's refresh stands, for the UI: how long until it starts, or that it's running. */
-export function refreshStatus(slug: string): { refreshInMs?: number; refreshing?: boolean } {
+export function refreshStatus(slug: string): DeckChanges {
   const at = debouncedAt(slug);
-  if (at !== null) return { refreshInMs: Math.max(0, at - Date.now()) };
-  return debouncedRunning(slug) ? { refreshing: true } : {};
+  if (at !== null) return { kind: "waiting", refreshInMs: Math.max(0, at - Date.now()) };
+  return debouncedRunning(slug) ? { kind: "refreshing" } : { kind: "settled" };
 }
 
 /**

@@ -19,7 +19,7 @@ export async function waitForJob(id: string, timeoutMs = 120_000): Promise<Job> 
   const start = Date.now();
   for (;;) {
     const job = getJob(id);
-    if (job && job.status !== "running") return job;
+    if (job && job.status.kind !== "running") return job;
     if (Date.now() - start > timeoutMs) throw new Error(`Job ${id} timed out`);
     await new Promise((r) => setTimeout(r, 50));
   }
@@ -50,7 +50,7 @@ export async function optimizeFixtureDeck(
     [],
   );
   const job = await waitForJob(startOptimize(slug).id);
-  if (job.status !== "done") throw new Error(`Optimizer failed: ${job.error}`);
+  if (job.status.kind === "error") throw new Error(`Optimizer failed: ${job.status.error}`);
   const report = await readReport(slug);
   if (!report) throw new Error("No report written");
   return { slug, job, report };

@@ -56,10 +56,14 @@ describe("a run's trace", () => {
         // Until the run starts (it waits in the deck's queue) the job has no trace yet.
         .filter((e) => e.trace);
       await waitForJob(job.id);
-      assert.equal(events[0].status, "running", "from while it ran, not only the end");
+      assert.deepEqual(
+        events[0].status,
+        { kind: "running" },
+        "from while it ran, not only the end",
+      );
       unwatch();
       assert.ok(changes > 10, `heard every change, not only the heartbeat (${changes})`);
-      assert.equal(events.at(-1)!.status, "done");
+      assert.deepEqual(events.at(-1)!.status, { kind: "done" });
       const done = events.at(-1)!.trace!;
       assert.ok(done.tasks.every((t) => t.state === "done"));
       const elapsed = events.map((e) => e.trace!.elapsed);

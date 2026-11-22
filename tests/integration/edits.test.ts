@@ -91,9 +91,9 @@ describe("simple edits work from the deck's saved cards", () => {
     const swap = (await readReport(slug))!.swaps.find((s) => s.inCard && s.outCard)!;
     const made = await requestsDuring(async () => {
       const id = await applySwap(slug, swap.out, swap.in);
-      while (["queued", "running"].includes(editStatus(id)!.state))
+      while (["queued", "running"].includes(editStatus(id)!.state.kind))
         await new Promise((r) => setTimeout(r, 5));
-      assert.equal(editStatus(id)!.state, "done", editStatus(id)!.error ?? "");
+      assert.deepEqual(editStatus(id)!.state, { kind: "done" });
     });
     assert.deepEqual(made, []);
     const report = (await readReport(slug))!;

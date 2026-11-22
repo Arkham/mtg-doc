@@ -186,7 +186,7 @@ async function proposeWithLlm(
     role: m.role,
     content:
       m.role === "assistant" && m.changes?.length
-        ? `${m.content}\n[Proposed: ${m.changes.map((c) => `${c.action} ${c.qty} ${c.name}${c.ok ? "" : ` (rejected: ${c.problem})`}`).join("; ")}${m.applied ? " — applied" : ""}]`
+        ? `${m.content}\n[Proposed: ${m.changes.map((c) => `${c.action} ${c.qty} ${c.name}${c.ok ? "" : ` (rejected: ${c.problem})`}`).join("; ")}${m.apply?.kind === "applied" ? " — applied" : ""}]`
         : m.role === "assistant" && m.rerun
           ? `${m.content}\n[Proposed re-run: ${m.rerun.summary}${m.rerun.jobId ? " — started" : " — awaiting confirmation"}]`
           : m.content,
@@ -512,7 +512,9 @@ async function confirmsPendingProposal(history: DeckChatMessage[], message: stri
   const last = history.slice(0, -1).findLast((m) => m.role === "assistant");
   if (!last || !llmEnabled()) return null;
   const pendingRerun = last.rerun && !last.rerun.jobId;
-  const pendingChanges = !last.applied && !last.applying && last.changes?.some((c) => c.ok);
+  // Failed to apply is still on offer: a yes tries again.
+  const pendingChanges =
+    (!last.apply || last.apply.kind === "failed") && last.changes?.some((c) => c.ok);
   if (!pendingRerun && !pendingChanges) return null;
   const proposal = pendingRerun
     ? `re-running a deck optimizer with ${last.rerun!.summary}`
@@ -708,8 +710,10 @@ async function queueProposal(slug: string, messageId: string): Promise<string> {
   const index = history.findIndex((m) => m.id === messageId);
   const message = history[index];
   if (!message?.changes?.length) throw new HttpError(404, "No changes to apply in that message.");
-  if (message.applied) throw new HttpError(409, "Those changes were already applied.");
-  if (message.applying) throw new HttpError(409, "Those changes are already being applied.");
+  if (message.apply?.kind === "applied")
+    throw new HttpError(409, "Those changes were already applied.");
+  if (message.apply?.kind === "applying")
+    throw new HttpError(409, "Those changes are already being applied.");
   if (!message.changes.some((c) => c.ok))
     throw new HttpError(409, "None of those changes are valid any more.");
   const request =
@@ -721,24 +725,19 @@ async function queueProposal(slug: string, messageId: string): Promise<string> {
     try {
       const result = await applyDeckChanges(slug, message.changes!, request, message.target);
       await updateChat(slug, (ms) =>
-        ms.map((m) => {
-          if (m.id !== messageId) return m;
-          const { applying: _, applyError: __, ...rest } = m;
-          return { ...rest, changes: result.changes, applied: true };
-        }),
+        ms.map((m) =>
+          m.id === messageId ? { ...m, changes: result.changes, apply: { kind: "applied" } } : m,
+        ),
       );
     } catch (err) {
-      await patchMessage(slug, messageId, (m) => {
-        const { applying: _, ...rest } = m;
-        return { ...rest, applyError: err instanceof Error ? err.message : String(err) };
-      });
+      await patchMessage(slug, messageId, (m) => ({
+        ...m,
+        apply: { kind: "failed", error: err instanceof Error ? err.message : String(err) },
+      }));
       throw err;
     }
   });
-  await patchMessage(slug, messageId, (m) => {
-    const { applyError: _, ...rest } = m;
-    return { ...rest, applying: true };
-  });
+  await patchMessage(slug, messageId, (m) => ({ ...m, apply: { kind: "applying" } }));
   return status.id;
 }
 

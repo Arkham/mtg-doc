@@ -321,7 +321,13 @@ test.describe("local app", () => {
     await page.route("**/api/jobs/visual-job/events", (route) => route.fulfill({ status: 204 }));
     await page.route("**/api/jobs/visual-job", (route) =>
       route.fulfill({
-        json: { id: "visual-job", slug: DECK, status: which, steps: [], trace: traces[which] },
+        json: {
+          id: "visual-job",
+          slug: DECK,
+          status: { kind: which },
+          steps: [],
+          trace: traces[which],
+        },
       }),
     );
     // Elm draws on animation frames, which only come as the stopped clock is moved on.
@@ -466,19 +472,19 @@ test.describe("local app", () => {
   }
 
   test("updating after a change", async ({ page }) => {
-    await changing(page, { updating: true });
+    await changing(page, { changes: { kind: "updating" } });
     await shot(page, "app-updating", { fullPage: false });
   });
 
   test("waiting for the edits to stop", async ({ page }) => {
     // The edit is already on the page: nothing to say while the rest waits.
-    await changing(page, { refreshInMs: 23_400 }, { note: false });
+    await changing(page, { changes: { kind: "waiting", refreshInMs: 23_400 } }, { note: false });
     await expect(page.locator(".updating-note")).toHaveCount(0);
     await shot(page, "app-refresh-waiting", { fullPage: false });
   });
 
   test("working out what the edits changed", async ({ page }) => {
-    await changing(page, { refreshing: true });
+    await changing(page, { changes: { kind: "refreshing" } });
     await shot(page, "app-refreshing", { fullPage: false });
   });
 });

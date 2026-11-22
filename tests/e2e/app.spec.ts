@@ -355,7 +355,7 @@ test.describe("local app, editing a deck", () => {
       .poll(
         async () => {
           const s = await (await page.request.get(status)).json();
-          return s.refreshInMs === undefined && !s.refreshing;
+          return s.changes.kind === "settled";
         },
         { timeout: 30_000 },
       )

@@ -10,7 +10,12 @@ import { config } from "../../src/server/config.ts";
 import { cancelDebounced, whenIdle } from "../../src/server/edit-queue.ts";
 import { startOptimize } from "../../src/server/pipeline.ts";
 import { resumeRefreshes } from "../../src/server/refresh.ts";
-import type { DeckChatMessage, DeckDetail, EditStatus } from "../../src/shared/types.ts";
+import type {
+  DeckChatMessage,
+  DeckDetail,
+  DeckStatus,
+  EditStatus,
+} from "../../src/shared/types.ts";
 import { optimizeFixtureDeck, waitForJob } from "../support/sample.ts";
 
 // Long enough that a slow machine (CI, with coverage) makes both edits before the first refresh.
@@ -69,8 +74,8 @@ async function swap(out: string, add: string) {
   ).json()) as { editId: string };
   for (;;) {
     const edit = (await (await fetch(`${base}/api/edits/${editId}`)).json()) as EditStatus;
-    if (edit.state === "done") return;
-    assert.notEqual(edit.state, "failed", edit.error ?? "");
+    if (edit.state.kind === "done") return;
+    assert.notEqual(edit.state.kind, "failed", JSON.stringify(edit.state));
     await new Promise((r) => setTimeout(r, 10));
   }
 }
@@ -84,24 +89,25 @@ describe("edits' slower consequences wait for the edits to stop", () => {
       first.report!.decklist!.some((c) => c.name === "Mind Stone"),
       "in the list at once",
     );
-    assert.ok(first.refreshInMs! > 0 && first.refreshInMs! <= DELAY, "the rest is waiting");
+    const waiting = (d: DeckStatus) =>
+      d.changes.kind === "waiting" ? d.changes.refreshInMs : null;
+    assert.ok(waiting(first)! > 0 && waiting(first)! <= DELAY, "the rest is waiting");
     assert.ok(fs.existsSync(pendingFile()), "kept on disk, in case the server stops");
 
     await new Promise((r) => setTimeout(r, 150));
     await swap("Forest", "Arcane Signet");
     const second = await detail();
-    assert.ok(second.refreshInMs! > first.refreshInMs! - 150, "the second edit pushed it back");
+    assert.ok(waiting(second)! > waiting(first)! - 150, "the second edit pushed it back");
     assert.ok(second.report!.decklist!.some((c) => c.name === "Arcane Signet"));
     assert.equal(comboSearches, 0, "nothing slow has run yet");
     const status = (await (await fetch(`${base}/api/decks/${slug}/status`)).json()) as DeckDetail;
-    assert.ok(status.refreshInMs! > 0);
+    assert.ok(waiting(status)! > 0);
     assert.equal(status.savedAt, second.savedAt);
 
     await whenIdle(slug);
     const done = await detail();
     assert.equal(comboSearches, 1, "one combo search for both edits");
-    assert.equal(done.refreshInMs, undefined);
-    assert.equal(done.refreshing, undefined);
+    assert.deepEqual(done.changes, { kind: "settled" });
     assert.ok(done.savedAt! > second.savedAt!, "the refreshed report was saved");
     assert.ok(!fs.existsSync(pendingFile()));
     for (const name of ["Mind Stone", "Arcane Signet"])
@@ -156,7 +162,7 @@ describe("edits' slower consequences wait for the edits to stop", () => {
     // As if the process had died before the timer fired.
     cancelDebounced(slug);
     assert.ok(fs.existsSync(pendingFile()));
-    assert.equal((await detail()).refreshInMs, undefined);
+    assert.deepEqual((await detail()).changes, { kind: "settled" });
 
     await resumeRefreshes();
     await whenIdle(slug);
@@ -170,8 +176,8 @@ describe("edits' slower consequences wait for the edits to stop", () => {
     await swap("Mind Stone", "Fellwar Stone");
     assert.ok(fs.existsSync(pendingFile()));
     const job = await waitForJob(startOptimize(slug, { keepEdits: true }).id);
-    assert.equal(job.status, "done", job.error ?? "");
+    assert.deepEqual(job.status, { kind: "done" });
     assert.ok(!fs.existsSync(pendingFile()));
-    assert.equal((await detail()).refreshInMs, undefined, "nothing left to refresh");
+    assert.deepEqual((await detail()).changes, { kind: "settled" }, "nothing left to refresh");
   });
 });

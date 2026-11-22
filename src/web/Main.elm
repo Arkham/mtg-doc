@@ -60,7 +60,7 @@ type alias Model =
     , search : Maybe CardSearch.Model
     , hovers : List Card.Hover
     , sheet : Maybe Sheet.Model
-    , decklistView : String
+    , decklistView : Report.DecklistView
 
     -- The deck list as Home last had it, for Home to draw at once when it's back.
     , decks : Maybe (List DeckSummary)
@@ -85,14 +85,14 @@ type Msg
 
 
 type alias Flags =
-    { env : Env, decklistView : String, route : Route }
+    { env : Env, decklistView : Report.DecklistView, route : Route }
 
 
 flagsDecoder : D.Decoder Flags
 flagsDecoder =
     D.map3 Flags
         Env.decoder
-        (D.field "decklistView" D.string)
+        (D.field "decklistView" Report.decklistViewDecoder)
         (D.field "route" Route.decoder)
 
 
@@ -113,7 +113,7 @@ init value =
             D.decodeValue flagsDecoder value
                 |> Result.withDefault
                     { env = { isStatic = False, base = "/", canHover = True, isTouch = False, viewport = { width = 1024, height = 768 } }
-                    , decklistView = "list"
+                    , decklistView = Report.ListView
                     , route = Home
                     }
 
@@ -377,7 +377,7 @@ update msg model =
                             card cm updated |> Tuple.mapSecond (\c -> Cmd.batch [ c, mapped ])
 
                         Just (Report.SaveDecklistView v) ->
-                            ( { updated | decklistView = v }, Cmd.batch [ mapped, saveDecklistView v ] )
+                            ( { updated | decklistView = v }, Cmd.batch [ mapped, saveDecklistView (Report.decklistViewToString v) ] )
 
                         Just (Report.ScrollTo id) ->
                             ( updated, Cmd.batch [ mapped, scrollIntoView id ] )

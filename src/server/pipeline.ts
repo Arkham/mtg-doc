@@ -129,7 +129,7 @@ export function startOptimize(slug: string, opts: RunOptions = {}): Job {
   const job: Job = {
     id: randomUUID(),
     slug,
-    status: "running",
+    status: { kind: "running" },
     steps: STEPS.map((label) => ({ label, status: "pending" })),
   };
   jobs.set(job.id, job);
@@ -137,8 +137,7 @@ export function startOptimize(slug: string, opts: RunOptions = {}): Job {
   tracers.set(job.id, new Tracer());
   // In the deck's edit queue, so a run never writes the report while an edit does.
   enqueueEdit(slug, "Optimize", () => run(job, opts)).done.catch((err) => {
-    job.status = "error";
-    job.error = err instanceof Error ? err.message : String(err);
+    job.status = { kind: "error", error: err instanceof Error ? err.message : String(err) };
     const running = job.steps.find((s) => s.status === "running");
     if (running) running.status = "error";
     tracers.get(job.id)?.touch();
@@ -737,12 +736,12 @@ async function run(job: Job, opts: RunOptions) {
     );
   try {
     await graph.all();
-    job.status = "done";
+    job.status = { kind: "done" };
   } finally {
     // Saved as it went, done or not, so it can be replayed.
     await writeRun(job.slug, {
       startedAt: tracer.startedAt,
-      status: job.status === "done" ? "done" : "error",
+      status: job.status.kind === "done" ? "done" : "error",
       trace: tracer.snapshot(),
     }).catch((err) => console.error(`[job ${job.id}] couldn't save the run`, err));
     tracer.touch();

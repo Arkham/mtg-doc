@@ -5,7 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { after, describe, test } from "node:test";
 import sharp from "sharp";
-import type { RecognitionResult, Report } from "../../src/shared/types.ts";
+import type { RecognitionJob, Report } from "../../src/shared/types.ts";
 import { startLlmStub } from "../support/llm-stub.ts";
 
 // Point the app at the stub before any server module reads its config.
@@ -177,20 +177,15 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
       const { jobId } = (await started.json()) as { jobId: string };
 
       const phases = new Set<string>();
-      let job: {
-        status: string;
-        phase: string;
-        result?: RecognitionResult & { uploadToken: string };
-        error?: string;
-      };
+      let job: RecognitionJob;
       for (;;) {
         job = await (await fetch(`${base}/api/recognize/${jobId}`)).json();
         phases.add(job.phase);
-        if (job.status !== "running") break;
+        if (job.status.kind !== "running") break;
         await new Promise((r) => setTimeout(r, 20));
       }
-      assert.equal(job.status, "done", job.error ?? "");
-      const r = job.result!;
+      assert.equal(job.status.kind, "done", JSON.stringify(job.status));
+      const r = job.status.kind === "done" ? job.status.result : null!;
       assert.ok(r.uploadToken);
       assert.ok(
         [...phases].some(
@@ -252,10 +247,12 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     assert.equal((await readMeta(slug)).options.bracket, 2);
     await new Promise<void>((resolve) => {
       const wait = () =>
-        getJob(confirmed.rerun!.jobId!)?.status === "running" ? setTimeout(wait, 100) : resolve();
+        getJob(confirmed.rerun!.jobId!)?.status.kind === "running"
+          ? setTimeout(wait, 100)
+          : resolve();
       wait();
     });
-    assert.equal(getJob(confirmed.rerun!.jobId!)!.status, "done");
+    assert.deepEqual(getJob(confirmed.rerun!.jobId!)!.status, { kind: "done" });
     await assert.rejects(startChatRerun(slug, confirmed.id), /already started/);
   });
 
@@ -372,7 +369,9 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     assert.match(yes.content, /^On it: applying 2 changes\./);
     assert.equal(yes.reportUpdated, true);
     await whenIdle(slug);
-    assert.equal((await readChat(slug)).find((m) => m.id === proposal.id)!.applied, true);
+    assert.deepEqual((await readChat(slug)).find((m) => m.id === proposal.id)!.apply, {
+      kind: "applied",
+    });
     assert.ok((await readReport(slug))!.decklist!.some((c) => c.name === "Mind Stone"));
     assert.ok(
       !stub.requests.some((r) => JSON.stringify(r.body).includes('"reoptimize"')),
