@@ -332,6 +332,15 @@ test.describe("local app, editing a deck", () => {
     await expect(swaps.first()).toBeVisible();
     const before = await swaps.count();
 
+    // Every note the page shows from here on.
+    await page.evaluate(() => {
+      const w = window as unknown as { notes: string[] };
+      w.notes = [];
+      new MutationObserver(() => {
+        const note = document.querySelector(".updating-note")?.textContent?.trim();
+        if (note && w.notes.at(-1) !== note) w.notes.push(note);
+      }).observe(document.body, { subtree: true, childList: true, characterData: true });
+    });
     // Two of the doc's swaps, one after the other: each goes in at once.
     for (let i = 1; i <= 2; i++) {
       await swaps
@@ -340,11 +349,21 @@ test.describe("local app, editing a deck", () => {
         .click();
       await expect(swaps).toHaveCount(before - i, { timeout: 30_000 });
     }
-    const note = page.locator(".updating-note");
-    await expect(note).toHaveText(/^Saved · the rest of the report updates in \ds$/);
-
     // Then the rest is worked out, once, and the page shows it without a reload.
-    await expect(note).toHaveCount(0, { timeout: 30_000 });
+    const status = `${LLM_APP_URL}api/decks/lathril-blade-of-the-elves-2/status`;
+    await expect
+      .poll(
+        async () => {
+          const s = await (await page.request.get(status)).json();
+          return s.refreshInMs === undefined && !s.refreshing;
+        },
+        { timeout: 30_000 },
+      )
+      .toBe(true);
+    await expect(page.locator(".updating-note")).toHaveCount(0);
     await expect(swaps).toHaveCount(before - 2);
+    // While the rest waited for the edits to stop, the page didn't count it down.
+    const notes = await page.evaluate(() => (window as unknown as { notes: string[] }).notes);
+    expect(notes.filter((n) => /updates in/.test(n))).toEqual([]);
   });
 });

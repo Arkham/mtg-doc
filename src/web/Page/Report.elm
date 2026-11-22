@@ -2329,12 +2329,12 @@ type alias Chrome =
     }
 
 
-{-| What the page says about changes in progress.
+{-| What the page says about changes in progress. Waiting for the edits to stop says nothing:
+the edit is already on the page.
 -}
 type Note
     = Updating
     | Refreshing
-    | RefreshIn Float
 
 
 noteOf : DeckStatus -> Maybe Note
@@ -2346,7 +2346,7 @@ noteOf status =
         Just Refreshing
 
     else
-        Maybe.map RefreshIn status.refreshInMs
+        Nothing
 
 
 chrome : Env -> DeckView -> Page -> Chrome

@@ -593,15 +593,6 @@ view model =
                                     , text " Updating the rest of the report…"
                                     ]
 
-                            Just (Report.RefreshIn ms) ->
-                                p [ class "updating-note", attribute "role" "status" ]
-                                    [ text
-                                        ("Saved · the rest of the report updates in "
-                                            ++ String.fromInt (ceiling (ms / 1000))
-                                            ++ "s"
-                                        )
-                                    ]
-
                             Nothing ->
                                 text ""
 

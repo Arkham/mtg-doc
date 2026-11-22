@@ -20,8 +20,6 @@
           <circle cx="11" cy="11" r="7">
           <path d="m20 20-3.5-3.5">
     <main>
-      <p class="updating-note" role="status">
-        "Saved · the rest of the report updates in 24s"
       <div class="stack report">
         <section class="hero" style="--aura-1: #8f5bd8; --aura-2: #3dbb6c; --aura-3: #3dbb6c">
           <div aria-hidden="true" class="hero-backdrop">

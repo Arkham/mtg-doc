@@ -451,7 +451,7 @@ test.describe("local app", () => {
   });
 
   /** The deck as if changes were in progress: its detail and its status say so. */
-  async function changing(page: Page, status: Record<string, unknown>) {
+  async function changing(page: Page, status: Record<string, unknown>, { note = true } = {}) {
     // While it's changing the page polls; every poll gets the same answer.
     const detail = await (await page.request.get(`${APP_URL}api/decks/${DECK}`)).json();
     await page.route(`**/api/decks/${DECK}`, (route) =>
@@ -461,7 +461,8 @@ test.describe("local app", () => {
       route.fulfill({ json: { savedAt: detail.savedAt, ...status } }),
     );
     await page.goto(`${APP_URL}#/deck/${DECK}`);
-    await expect(page.locator(".updating-note")).toBeVisible();
+    if (note) await expect(page.locator(".updating-note")).toBeVisible();
+    else await expect(page.locator(".hero")).toBeVisible();
   }
 
   test("updating after a change", async ({ page }) => {
@@ -470,8 +471,9 @@ test.describe("local app", () => {
   });
 
   test("waiting for the edits to stop", async ({ page }) => {
-    await changing(page, { refreshInMs: 23_400 });
-    await expect(page.locator(".updating-note")).toContainText("updates in 24s");
+    // The edit is already on the page: nothing to say while the rest waits.
+    await changing(page, { refreshInMs: 23_400 }, { note: false });
+    await expect(page.locator(".updating-note")).toHaveCount(0);
     await shot(page, "app-refresh-waiting", { fullPage: false });
   });
 
