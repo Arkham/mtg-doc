@@ -7,7 +7,35 @@ const deckText = fs.readFileSync(
   "utf8",
 );
 
+/** A 1×1 PNG. */
+const PNG = Buffer.from(
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+  "base64",
+);
+
 test.describe("local app", () => {
+  test("the photo drop zone opens the file picker, except from a photo or its remove button", async ({
+    page,
+  }) => {
+    await page.goto(LLM_APP_URL);
+    await page.getByRole("tab", { name: "Photo" }).click();
+    let pickers = 0;
+    page.on("filechooser", () => pickers++);
+    await page.locator(".dropzone input[type=file]").setInputFiles([
+      { name: "a.png", mimeType: "image/png", buffer: PNG },
+      { name: "b.png", mimeType: "image/png", buffer: PNG },
+    ]);
+    const photos = page.locator(".thumbs figure");
+    await expect(photos).toHaveCount(2);
+    await photos.first().locator("img").click();
+    await photos.first().getByRole("button", { name: "Remove photo" }).click();
+    await expect(photos).toHaveCount(1);
+    await page.getByRole("button", { name: "+ Add photo" }).click();
+    await expect.poll(() => pickers).toBe(1);
+    await page.waitForTimeout(300);
+    expect(pickers, "only the Add photo button opened one").toBe(1);
+  });
+
   test("paste a list → review → optimize to bracket 3 → report", async ({ page }) => {
     test.slow();
     await page.goto(APP_URL);

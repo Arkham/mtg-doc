@@ -23,6 +23,7 @@ import Html.Keyed as Keyed
 import Json.Decode as D
 import Ui.Attr exposing (alt, class, href, rel, src, target)
 import Ui.Card exposing (Item)
+import Ui.Click as Click
 import Ui.Gallery as Gallery exposing (Gallery)
 import Ui.Keys as Keys
 import Ui.Style exposing (cssVars)
@@ -77,7 +78,6 @@ type Msg
     | Up Int Float
     | Cancel
     | BackdropClick
-    | Ignore
 
 
 init : Shown -> Model
@@ -226,9 +226,6 @@ update msg model =
             else
                 Nothing
 
-        Ignore ->
-            Just model
-
 
 {-| The gallery moved one card along, if there's one that way.
 -}
@@ -313,7 +310,7 @@ view lift model =
             case c.foil of
                 Just vars ->
                     -- Taps on the card tilt it instead of closing; the backdrop and Close button still close.
-                    div [ class "sheet-card tilt", cssVars vars, stop Ignore ]
+                    div [ class "sheet-card tilt", cssVars vars ]
                         [ img [ src c.src, alt c.alt ] []
                         , span [ class "foil", attribute "aria-hidden" "true" ] []
                         , node "mtg-tilt" [ attribute "touch" "" ] []
@@ -430,7 +427,7 @@ view lift model =
                             ""
                        )
                 )
-             , Html.Events.onClick BackdropClick
+             , Html.Events.on "click" (Click.unlessWithin { root = "card-sheet", inside = [ "tilt", "row" ] } BackdropClick)
              , attribute "role" "dialog"
              , attribute "aria-label" c.alt
              ]
@@ -440,7 +437,7 @@ view lift model =
             (( "image:" ++ c.src, image )
                 :: List.indexedMap (\i n -> ( "nav" ++ String.fromInt i, n )) nav
                 ++ [ ( "row"
-                     , div [ class "row", stop Ignore ]
+                     , div [ class "row" ]
                         (position
                             ++ [ a [ class "button", href c.link.href, target "_blank", rel "noreferrer" ] [ text c.link.label ]
                                , button [ Html.Events.onClick Close ] [ text "Close" ]

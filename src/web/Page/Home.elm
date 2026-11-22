@@ -7,7 +7,7 @@ import File exposing (File)
 import File.Select
 import Html exposing (Html, a, button, div, figure, h1, h2, img, input, node, p, section, span, strong, text, textarea)
 import Html.Attributes exposing (accept, attribute, disabled, height, hidden, multiple, style, value, width)
-import Html.Events exposing (on, onClick, onInput, preventDefaultOn, stopPropagationOn)
+import Html.Events exposing (on, onClick, onInput, preventDefaultOn)
 import Json.Decode as D
 import Loadable exposing (Loadable(..))
 import Process
@@ -17,6 +17,7 @@ import Types exposing (..)
 import Ui.Attr exposing (alt, class, href, placeholder, src, type_)
 import Ui.Bracket as Bracket
 import Ui.Card as Card
+import Ui.Click as Click
 import Ui.Icons as Icons
 import Ui.Mana as Mana
 import Ui.Style exposing (ariaSelected, aura)
@@ -70,7 +71,6 @@ type Msg
     | Poll String
     | GotJob String (Result String RecognitionJob)
     | SetFilter String
-    | Ignore
 
 
 {-| A deck read from photos or a list, ready for review.
@@ -243,9 +243,6 @@ update config msg model =
 
         SetFilter f ->
             ( { model | filter = f }, Cmd.none, Nothing )
-
-        Ignore ->
-            ( model, Cmd.none, Nothing )
 
 
 done : Maybe AppConfig -> Recognition -> Model -> ( Model, Cmd Msg, Maybe Out )
@@ -598,7 +595,7 @@ dropzone env model =
                         "has-files"
                    )
             )
-        , onClick Browse
+        , on "click" (Click.unlessWithin { root = "dropzone", inside = [ "figure" ] } Browse)
         , preventDefaultOn "dragover" (D.succeed ( DragOver, True ))
         , on "dragleave" (D.succeed DragLeave)
         , preventDefaultOn "drop" (D.map (\fs -> ( Dropped fs, True )) (D.at [ "dataTransfer", "files" ] filesDecoder))
@@ -640,12 +637,12 @@ dropzone env model =
             div [ class "thumbs" ]
                 (List.indexedMap
                     (\i photo ->
-                        figure [ stopPropagationOn "click" (D.succeed ( Ignore, True )) ]
+                        figure []
                             [ img [ src photo.url, alt (File.name photo.file) ] []
                             , button [ class "icon remove", attribute "aria-label" "Remove photo", onClick (RemovePhoto i) ] [ Icons.close ]
                             ]
                     )
                     model.photos
-                    ++ [ button [ class "add-more", stopPropagationOn "click" (D.succeed ( Browse, True )) ] [ text "+ Add photo" ] ]
+                    ++ [ button [ class "add-more" ] [ text "+ Add photo" ] ]
                 )
         ]

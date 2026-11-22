@@ -320,10 +320,13 @@ test.describe("static site", () => {
     });
     await expect(big).toHaveClass(/tilting/);
     expect(await big.evaluate((el) => el.style.getPropertyValue("--ry"))).toMatch(/^-/);
-    // Tapping the card tilts it rather than closing the viewer.
+    // Tapping the card tilts it rather than closing the viewer, and so does a stray tap by the buttons.
     await big.click({ position: { x: 10, y: 10 } });
     await expect(sheet).toBeVisible();
-    await sheet.getByRole("button", { name: "Close" }).click();
+    await sheet.locator(".row").dispatchEvent("click");
+    await expect(sheet).toBeVisible();
+    // The backdrop around them closes it.
+    await sheet.click({ position: { x: 5, y: 5 } });
     await expect(sheet).toBeHidden();
   });
 

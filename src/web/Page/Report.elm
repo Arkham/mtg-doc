@@ -176,7 +176,6 @@ type Msg
     | ChatMsg Chat.Msg
     | CardMsg Card.Msg
     | NavigateTo String
-    | Ignore
 
 
 type Out
@@ -582,9 +581,6 @@ update env msg model =
 
         NavigateTo href ->
             ( model, Cmd.none, Just (Navigate href) )
-
-        Ignore ->
-            none model
 
 
 idle : DeckStatus
@@ -1680,12 +1676,8 @@ deckImages ctx groups showNew =
             Maybe.withDefault [] ctx.gallery
 
         open cardName =
-            case Gallery.focus (\it -> it.name == cardName) items of
-                Just cards ->
-                    CardMsg (Card.OpenGallery cards)
-
-                Nothing ->
-                    Ignore
+            Gallery.focus (\it -> it.name == cardName) items
+                |> Maybe.map (Card.OpenGallery >> CardMsg >> onClick)
     in
     Keyed.node "div"
         [ class "deck-images" ]
@@ -1710,15 +1702,9 @@ deckImages ctx groups showNew =
                                         )
                                     ]
                                     [ button
-                                        [ attribute "aria-label" ("Show " ++ c.name ++ " full size")
-                                        , onClick
-                                            (if c.image /= Nothing then
-                                                open c.name
-
-                                             else
-                                                Ignore
-                                            )
-                                        ]
+                                        (attribute "aria-label" ("Show " ++ c.name ++ " full size")
+                                            :: (c.image |> Maybe.andThen (\_ -> open c.name) |> Maybe.map List.singleton |> Maybe.withDefault [])
+                                        )
                                         ([ case c.image of
                                             Just image ->
                                                 img [ src image, alt c.name, attribute "loading" "lazy" ] []
