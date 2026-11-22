@@ -14,7 +14,7 @@ import Html.Events exposing (on, onClick, onInput, preventDefaultOn)
 import Json.Decode as D
 import Json.Encode as E
 import Process
-import Route
+import Route exposing (Route)
 import Task
 import Types exposing (..)
 import Ui.Attr exposing (alt, class, href, placeholder, src, title, type_)
@@ -74,7 +74,7 @@ type Msg
     | ClickedApply String
     | GotApply String (Result String ( ChatAnswer, String ))
     | ClickedRerun String
-    | GotRerun (Result String ( String, String ))
+    | GotRerun (Result String ( Slug, String ))
     | CheckDue Int (List String)
     | GotWaited (List String) (Result String (List DeckChatMessage))
     | CardMsg Card.Msg
@@ -94,7 +94,7 @@ pieceDecoder =
 
 type Out
     = Applied (Maybe Report)
-    | Go String
+    | Go Route
     | CardPreview Card.Msg
 
 
@@ -115,7 +115,7 @@ init =
 {-| Fetched on every open, and again while open when the deck or its report changes: applying a
 suggestion elsewhere on the page, or the refresh after an edit, can add a proposal.
 -}
-reload : String -> Model -> Cmd Msg
+reload : Slug -> Model -> Cmd Msg
 reload slug model =
     if model.open then
         Api.chat slug GotChat
@@ -187,7 +187,7 @@ plain ( m, c ) =
     ( m, c, Nothing )
 
 
-update : Env -> String -> Msg -> Model -> ( Model, Cmd Msg, Maybe Out )
+update : Env -> Slug -> Msg -> Model -> ( Model, Cmd Msg, Maybe Out )
 update env slug msg model =
     case msg of
         ClickedOpen ->
@@ -243,14 +243,14 @@ update env slug msg model =
             -- A "yes" to a proposed re-run starts it right away.
             case reply.rerun |> Maybe.andThen .jobId of
                 Just jobId ->
-                    ( done, cmd, Just (Go (Route.href env.isStatic (Route.Job slug jobId))) )
+                    ( done, cmd, Just (Go (Route.Job slug jobId)) )
 
                 Nothing ->
                     if reply.reportUpdated then
                         ( done
                         , Cmd.batch
                             [ cmd
-                            , Api.deck env.isStatic slug GotDeck
+                            , Api.deck env.site slug GotDeck
 
                             -- A reply can apply an earlier proposal, which the history now marks as applied.
                             , Api.chat slug GotChat
@@ -349,7 +349,7 @@ update env slug msg model =
             ( { model | applying = Just id, error = Nothing }, Api.rerunFromChat slug id GotRerun, Nothing )
 
         GotRerun (Ok ( s, jobId )) ->
-            ( model, Cmd.none, Just (Go (Route.href env.isStatic (Route.Job s jobId))) )
+            ( model, Cmd.none, Just (Go (Route.Job s jobId)) )
 
         GotRerun (Err e) ->
             ( { model | applying = Nothing, error = Just e }, Cmd.none, Nothing )
@@ -400,7 +400,7 @@ src/web/elements.ts).
 streamElement : Config -> Asking -> Html Msg
 streamElement config asking =
     node "mtg-chat-stream"
-        [ attribute "url" ("/api/decks/" ++ config.slug ++ "/chat")
+        [ attribute "url" ("/api/decks/" ++ slugToString config.slug ++ "/chat")
         , property "body" (E.object [ ( "message", E.string asking.question ), ( "view", encodeEditTarget asking.target ) ])
         , on "reply" (D.field "detail" pieceDecoder |> D.map Streamed)
         , on "message" (D.field "detail" Api.answerDecoder |> D.map (Ok >> GotReply))
@@ -411,7 +411,7 @@ streamElement config asking =
 
 type alias Config =
     { env : Env
-    , slug : String
+    , slug : Slug
     , commander : String
     , target : EditTarget
     , index : Dict String CardPreview
@@ -570,7 +570,7 @@ rerunView config message r busy =
             ]
         , case r.jobId of
             Just jobId ->
-                a [ class "small", href (Route.href config.env.isStatic (Route.Job config.slug jobId)) ] [ text "✓ Started · see progress" ]
+                a [ class "small", href (Route.href config.env.site (Route.Job config.slug jobId)) ] [ text "✓ Started · see progress" ]
 
             Nothing ->
                 button [ class "primary", disabled busy, onClick (ClickedRerun message.id) ]

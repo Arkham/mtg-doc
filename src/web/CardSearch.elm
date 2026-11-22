@@ -31,7 +31,7 @@ minQuery =
 type alias Hits =
     { query : String
     , total : Int
-    , hits : List { name : String, decks : List String }
+    , hits : List { name : String, decks : List Slug }
     }
 
 
@@ -44,7 +44,7 @@ hitsDecoder =
             (D.list
                 (D.map2 (\n d -> { name = n, decks = d })
                     (D.field "name" D.string)
-                    (D.field "decks" (D.list D.string))
+                    (D.field "decks" (D.list slugDecoder))
                 )
             )
         )
@@ -77,7 +77,7 @@ where it can't change, not fetched again).
 init : Env -> Maybe (List DeckSummary) -> ( Model, Cmd Msg )
 init env decks =
     ( { decks = Maybe.map Loaded decks |> Maybe.withDefault Loading, query = "", hits = { query = "", total = 0, hits = [] } }
-    , Api.decksUnlessKnown env.isStatic decks GotDecks
+    , Api.decksUnlessKnown env.site decks GotDecks
     )
 
 
@@ -236,14 +236,14 @@ view env model =
                                                         (\d ->
                                                             a
                                                                 [ class "deck-chip"
-                                                                , href (Route.deckHref env.isStatic d.slug Route.Current)
+                                                                , href (Route.deckHref env.site d.slug Route.Current)
                                                                 , aura d.colorIdentity
                                                                 , onClick ClickedClose
                                                                 ]
                                                                 [ Mana.colorIdentity env.base 14 d.colorIdentity
                                                                 , text
                                                                     (if List.isEmpty d.commanders then
-                                                                        d.slug
+                                                                        slugToString d.slug
 
                                                                      else
                                                                         String.join " + " d.commanders

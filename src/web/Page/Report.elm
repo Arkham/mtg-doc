@@ -1,4 +1,4 @@
-module Page.Report exposing (Chrome, ComboFilter, DecklistView, Model, Msg, Note(..), Out(..), Page, chrome, closeHowToPlay, decklistViewDecoder, decklistViewToString, init, load, subscriptions, update, view, viewChat)
+module Page.Report exposing (Chrome, ComboFilter, DecklistView, Model, Msg, Note(..), Out(..), Page, Section, chrome, closeHowToPlay, decklistViewDecoder, decklistViewToString, init, load, sectionId, subscriptions, update, view, viewChat)
 
 import Api
 import Chat
@@ -19,7 +19,8 @@ import List.Extra
 import Loadable exposing (Loadable(..))
 import Process
 import Request exposing (Request(..), busyWith, failure, isBusy)
-import Route exposing (DeckView(..))
+import Route exposing (DeckView(..), Route)
+import Site exposing (Site(..))
 import Task
 import Types exposing (..)
 import Ui.Attr exposing (alt, class, href, id, rel, src, target, title)
@@ -100,7 +101,7 @@ type Side
 the chat (or a reply streaming in) doesn't render it again.
 -}
 type alias Page =
-    { slug : String
+    { slug : Slug
     , deck : Loadable DeckDetail
     , pollToken : Int
     , status : DeckStatus
@@ -125,7 +126,7 @@ type alias Page =
     , publishBusy : Bool
     , exportCopied : Bool
     , exportClose : Int
-    , active : Maybe String
+    , active : Maybe Section
     }
 
 
@@ -165,28 +166,28 @@ type Msg
     | ClickedCancelRerun
     | ChangedRerun OptimizeOptions
     | ClickedRunRerun OptimizeOptions
-    | GotStarted (Result String ( String, String ))
+    | GotStarted (Result String ( Slug, String ))
     | ToggledPublish Bool
     | GotPublish (Result String DeckDetailMeta)
     | CopiedExport
     | ExportNoticeEnded
-    | SectionActivated String
+    | SectionActivated Section
     | ClickedCommander Card
-    | ClickedJumpTo String
+    | ClickedJumpTo Section
     | ChatMsg Chat.Msg
     | CardMsg Card.Msg
-    | ClickedViewTab String
+    | ClickedViewTab DeckView
 
 
 type Out
-    = Navigate String
+    = Navigate Route
     | OpenSheet Sheet.Model
     | Preview Card.Msg
     | SaveDecklistView DecklistView
-    | ScrollTo String
+    | ScrollTo Section
 
 
-init : Env -> DecklistView -> String -> ( Model, Cmd Msg )
+init : Env -> DecklistView -> Slug -> ( Model, Cmd Msg )
 init env decklistView slug =
     load env
         slug
@@ -223,11 +224,11 @@ init env decklistView slug =
 {-| Loads a deck into the page, keeping everything else as it was (the page stays the same
 between decks, like the old UI did).
 -}
-load : Env -> String -> Model -> ( Model, Cmd Msg )
+load : Env -> Slug -> Model -> ( Model, Cmd Msg )
 load env slug model =
     ( setPage (\p -> { p | slug = slug }) model
     , Cmd.batch
-        [ Api.deck env.isStatic slug GotDetail
+        [ Api.deck env.site slug GotDetail
         , loadList env slug
         , if model.page.slug /= slug then
             Cmd.map ChatMsg (Chat.reload slug model.chat)
@@ -241,9 +242,9 @@ load env slug model =
 {-| Prefetched so the clipboard write happens synchronously in the tap; iOS Safari rejects it
 otherwise.
 -}
-loadList : Env -> String -> Cmd Msg
+loadList : Env -> Slug -> Cmd Msg
 loadList env slug =
-    Api.fileText env.isStatic slug "optimized.txt" GotList
+    Api.fileText env.site slug "optimized.txt" GotList
 
 
 {-| After a change: show its report if there is one, and reload (edits rewrite the lists).
@@ -256,7 +257,7 @@ applied env report model =
 
         Nothing ->
             model
-    , Cmd.batch [ Api.deck env.isStatic model.page.slug GotDetail, loadList env model.page.slug ]
+    , Cmd.batch [ Api.deck env.site model.page.slug GotDetail, loadList env model.page.slug ]
     )
 
 
@@ -277,7 +278,7 @@ mapDetail f page =
 
 {-| Starts making an edit: it's sent to the deck's queue.
 -}
-send : String -> Edit -> Cmd Msg
+send : Slug -> Edit -> Cmd Msg
 send slug edit =
     case edit of
         SwapEdit _ swap ->
@@ -373,7 +374,7 @@ update env msg model =
                 -- The report changed: an edit went in, or its refresh. The chat may have an offer.
                 ( setPage (\p -> { p | status = status }) model
                 , Cmd.batch
-                    [ Api.deck env.isStatic model.page.slug GotDetail
+                    [ Api.deck env.site model.page.slug GotDetail
                     , loadList env model.page.slug
                     , Cmd.map ChatMsg (Chat.reload model.page.slug model.chat)
                     ]
@@ -501,7 +502,7 @@ update env msg model =
             ( model, Api.reoptimize model.page.slug o GotStarted, Nothing )
 
         GotStarted (Ok ( slug, jobId )) ->
-            ( model, Cmd.none, Just (Navigate (Route.href env.isStatic (Route.Job slug jobId))) )
+            ( model, Cmd.none, Just (Navigate (Route.Job slug jobId)) )
 
         GotStarted (Err _) ->
             none (setPage (\p -> { p | targetBusy = False }) model)
@@ -521,8 +522,8 @@ update env msg model =
         ExportNoticeEnded ->
             none (setPage (\p -> { p | exportCopied = False, exportClose = model.page.exportClose + 1 }) model)
 
-        SectionActivated id ->
-            none (setPage (\p -> { p | active = Just id }) model)
+        SectionActivated section ->
+            none (setPage (\p -> { p | active = Just section }) model)
 
         ClickedCommander c ->
             case c.image of
@@ -579,8 +580,8 @@ update env msg model =
         CardMsg m ->
             ( model, Cmd.none, Just (Preview m) )
 
-        ClickedViewTab href ->
-            ( model, Cmd.none, Just (Navigate href) )
+        ClickedViewTab deckView ->
+            ( model, Cmd.none, Just (Navigate (Route.Deck model.page.slug deckView)) )
 
 
 idle : DeckStatus
@@ -825,7 +826,7 @@ isManaSwap s =
 
 applyButton : Env -> Applier -> Request Swap -> Swap -> Html Msg
 applyButton env which state swap =
-    if env.isStatic then
+    if env.site == Published then
         text ""
 
     else
@@ -1168,7 +1169,7 @@ synergies env ctx model shown =
         { title = "Synergies"
         , desc = Just [ text "Cards that are stronger together, without being an infinite combo." ]
         , actions =
-            if not env.isStatic && canRefresh then
+            if env.site == Local && canRefresh then
                 Just
                     ((if List.isEmpty items then
                         []
@@ -1311,7 +1312,7 @@ manaAdvice env ctx model shown =
                                                 )
                                                 m.changes
                                             )
-                                        , when (not env.isStatic)
+                                        , when (env.site == Local)
                                             (button
                                                 [ class "small-btn"
                                                 , disabled (isBusy model.landSwaps)
@@ -1883,40 +1884,119 @@ preloadImages base r =
     node "mtg-preload" [ attribute "srcs" (String.join " " (List.Extra.unique (manaSymbols ++ thumbs))) ] []
 
 
-sectionNav : Page -> List ( String, String ) -> Html Msg
+sectionNav : Page -> List Section -> Html Msg
 sectionNav model sections =
     let
         active =
             case model.active of
                 Just a ->
-                    if List.any (\( id, _ ) -> id == a) sections then
+                    if List.member a sections then
                         Just a
 
                     else
-                        List.head sections |> Maybe.map Tuple.first
+                        List.head sections
 
                 Nothing ->
-                    List.head sections |> Maybe.map Tuple.first
+                    List.head sections
     in
     nav [ class "section-nav", attribute "aria-label" "Report sections" ]
         (List.map
-            (\( sectionId, label ) ->
+            (\section ->
                 button
-                    [ attribute "data-id" sectionId
+                    [ attribute "data-id" (sectionId section)
                     , class
-                        (if active == Just sectionId then
+                        (if active == Just section then
                             "active"
 
                          else
                             ""
                         )
-                    , onClick (SectionActivated sectionId)
+                    , onClick (SectionActivated section)
                     ]
-                    [ text label ]
+                    [ text (sectionLabel section) ]
             )
             sections
-            ++ [ node "mtg-section-nav" [ on "activechange" (D.map SectionActivated (D.field "detail" D.string)) ] [] ]
+            ++ [ node "mtg-section-nav"
+                    [ on "activechange"
+                        (D.field "detail" D.string
+                            |> D.andThen
+                                (\v ->
+                                    case List.Extra.find (\section -> sectionId section == v) sections of
+                                        Just section ->
+                                            D.succeed (SectionActivated section)
+
+                                        Nothing ->
+                                            D.fail ("Not a section here: " ++ v)
+                                )
+                        )
+                    ]
+                    []
+               ]
         )
+
+
+{-| The report's sections, in the order the page shows them.
+-}
+type Section
+    = BracketSection
+    | DecklistSection
+    | ManaSection
+    | GoldfishSection
+    | CombosSection
+    | SynergiesSection
+    | ResearchSection
+
+
+{-| Its element's id, which links and the section nav point at.
+-}
+sectionId : Section -> String
+sectionId section =
+    case section of
+        BracketSection ->
+            "bracket"
+
+        DecklistSection ->
+            "decklist"
+
+        ManaSection ->
+            "mana"
+
+        GoldfishSection ->
+            "sim"
+
+        CombosSection ->
+            "combos"
+
+        SynergiesSection ->
+            "synergies"
+
+        ResearchSection ->
+            "research"
+
+
+sectionLabel : Section -> String
+sectionLabel section =
+    case section of
+        BracketSection ->
+            "Bracket"
+
+        DecklistSection ->
+            "Decklist"
+
+        ManaSection ->
+            "Mana"
+
+        GoldfishSection ->
+            "Goldfish"
+
+        CombosSection ->
+            "Combos"
+
+        SynergiesSection ->
+            "Synergies"
+
+        ResearchSection ->
+            "Research"
 
 
 stat : { label : String, before : Maybe number, after : number, better : Maybe Bool, format : number -> String } -> Html msg
@@ -1994,7 +2074,7 @@ dollars n =
 
 {-| Stats for the deck as submitted, and a way into the suggested changes.
 -}
-overview : Env -> String -> Shown -> Report -> Html msg
+overview : Env -> Slug -> Shown -> Report -> Html msg
 overview env slug shown full =
     let
         deck =
@@ -2056,7 +2136,7 @@ overview env slug shown full =
                             ++ "."
                         )
                     ]
-                , a [ class "button primary", href (Route.deckHref env.isStatic slug Optimized) ] [ text "See the optimized deck" ]
+                , a [ class "button primary", href (Route.deckHref env.site slug Optimized) ] [ text "See the optimized deck" ]
                 ]
             )
         ]
@@ -2288,7 +2368,7 @@ publishToggle model hidden =
         [ text "Publish suggestions" ]
 
 
-exportMenu : Env -> Page -> String -> Maybe String -> List Swap -> Bool -> Html Msg
+exportMenu : Env -> Page -> Slug -> Maybe String -> List Swap -> Bool -> Html Msg
 exportMenu env model slug edhrecUrl swaps optimized =
     let
         adds =
@@ -2315,7 +2395,7 @@ exportMenu env model slug edhrecUrl swaps optimized =
             String.join "\n" (List.map (\( n, q ) -> String.fromInt q ++ " " ++ n) adds) ++ "\n"
 
         file name =
-            Api.fileUrl env.isStatic slug name
+            Api.fileUrl env.site slug name
     in
     details [ class "menu" ]
         [ summary [ class "button" ] [ text "Export ▾" ]
@@ -2333,12 +2413,12 @@ exportMenu env model slug edhrecUrl swaps optimized =
                     , node "mtg-copy" [ Html.Attributes.property "text" (Json.Encode.string addsText), on "copied" (D.succeed CopiedExport) ] []
                     ]
                 )
-            , a [ href (file "initial.txt"), attribute "download" (slug ++ "-initial.txt") ] [ text "Download your deck ", span [ class "muted small" ] [ text ".txt" ] ]
+            , a [ href (file "initial.txt"), attribute "download" (slugToString slug ++ "-initial.txt") ] [ text "Download your deck ", span [ class "muted small" ] [ text ".txt" ] ]
             , when optimized
-                (a [ href (file "optimized.txt"), attribute "download" (slug ++ "-optimized.txt") ] [ text "Download the optimized deck ", span [ class "muted small" ] [ text ".txt" ] ])
-            , a [ href (file "report.md"), attribute "download" (slug ++ "-report.md") ] [ text "Download the full report ", span [ class "muted small" ] [ text ".md" ] ]
-            , when env.isStatic
-                (a [ href ("decks/" ++ slug ++ "/"), target "_blank", rel "noreferrer" ] [ text "Plain-text version ", span [ class "muted small" ] [ text "for AI agents" ] ])
+                (a [ href (file "optimized.txt"), attribute "download" (slugToString slug ++ "-optimized.txt") ] [ text "Download the optimized deck ", span [ class "muted small" ] [ text ".txt" ] ])
+            , a [ href (file "report.md"), attribute "download" (slugToString slug ++ "-report.md") ] [ text "Download the full report ", span [ class "muted small" ] [ text ".md" ] ]
+            , when (env.site == Published)
+                (a [ href ("decks/" ++ slugToString slug ++ "/"), target "_blank", rel "noreferrer" ] [ text "Plain-text version ", span [ class "muted small" ] [ text "for AI agents" ] ])
             , maybeHtml edhrecUrl (\url -> a [ href url, target "_blank", rel "noreferrer" ] [ text "View on EDHREC ↗" ])
             ]
         , node "mtg-outside-close" [ attribute "close" (String.fromInt model.exportClose) ] []
@@ -2347,11 +2427,11 @@ exportMenu env model slug edhrecUrl swaps optimized =
 
 {-| "Your deck" / "Optimized" switch, placed in the sticky top bar so it's always in reach.
 -}
-viewToggle : Env -> String -> DeckView -> Int -> Html Msg
-viewToggle env slug v swaps =
+viewToggle : DeckView -> Int -> Html Msg
+viewToggle v swaps =
     div [ class "segmented view-toggle", attribute "role" "tablist", attribute "aria-label" "Which deck" ]
-        [ button [ attribute "role" "tab", ariaSelected (v == Current), onClick (ClickedViewTab (Route.deckHref env.isStatic slug Current)) ] [ text "Your deck" ]
-        , button [ attribute "role" "tab", ariaSelected (v == Optimized), onClick (ClickedViewTab (Route.deckHref env.isStatic slug Optimized)) ]
+        [ button [ attribute "role" "tab", ariaSelected (v == Current), onClick (ClickedViewTab Current) ] [ text "Your deck" ]
+        , button [ attribute "role" "tab", ariaSelected (v == Optimized), onClick (ClickedViewTab Optimized) ]
             [ span []
                 (text "Optimized "
                     :: (if swaps > 0 then
@@ -2409,7 +2489,7 @@ chrome env requested model =
                     { note = noteOf model.status
                     , toggle =
                         if hasBothViews full then
-                            Just (viewToggle env model.slug shownView (List.length full.swaps))
+                            Just (viewToggle shownView (List.length full.swaps))
 
                         else
                             Nothing
@@ -2470,7 +2550,7 @@ view env requested model =
                             [ h1 []
                                 [ text
                                     (if List.isEmpty detail.meta.commanders then
-                                        model.slug
+                                        slugToString model.slug
 
                                      else
                                         String.join " + " detail.meta.commanders
@@ -2478,7 +2558,7 @@ view env requested model =
                                 ]
                             , p [] [ text "No report yet." ]
                             ]
-                        , when (not env.isStatic) (rerun model detail.meta.options)
+                        , when (env.site == Local) (rerun model detail.meta.options)
                         ]
 
                 Just full ->
@@ -2490,8 +2570,8 @@ it changes with every key and every word of a reply, and the report mustn't rend
 -}
 viewChat : Env -> DeckView -> Model -> List (Html Msg)
 viewChat env requested model =
-    case ( env.isStatic, detailOf model.page |> Maybe.andThen .report ) of
-        ( False, Just full ) ->
+    case ( env.site, detailOf model.page |> Maybe.andThen .report ) of
+        ( Local, Just full ) ->
             List.map (Html.map ChatMsg)
                 (Chat.view
                     { env = env
@@ -2548,25 +2628,25 @@ viewReport env requested model detail full =
             not (List.isEmpty shown.combosPresent) || not (List.isEmpty shown.combosOneAway)
 
         showSynergies =
-            not (List.isEmpty shown.synergies) || (not env.isStatic && optimized)
+            not (List.isEmpty shown.synergies) || (env.site == Local && optimized)
 
         sections =
             List.filterMap identity
-                [ Maybe.map (\_ -> ( "bracket", "Bracket" )) shown.bracket
-                , Just ( "decklist", "Decklist" )
-                , Just ( "mana", "Mana" )
-                , Just ( "sim", "Goldfish" )
+                [ Maybe.map (\_ -> BracketSection) shown.bracket
+                , Just DecklistSection
+                , Just ManaSection
+                , Just GoldfishSection
                 , if hasCombos then
-                    Just ( "combos", "Combos" )
+                    Just CombosSection
 
                   else
                     Nothing
                 , if showSynergies then
-                    Just ( "synergies", "Synergies" )
+                    Just SynergiesSection
 
                   else
                     Nothing
-                , Maybe.map (\_ -> ( "research", "Research" )) full.research
+                , Maybe.map (\_ -> ResearchSection) full.research
                 ]
 
         commanderCount =
@@ -2618,8 +2698,8 @@ viewReport env requested model detail full =
                         (\b ->
                             a
                                 [ class "bracket-link"
-                                , href "#bracket"
-                                , preventDefaultOn "click" (D.succeed ( ClickedJumpTo "bracket", True ))
+                                , href ("#" ++ sectionId BracketSection)
+                                , preventDefaultOn "click" (D.succeed ( ClickedJumpTo BracketSection, True ))
                                 ]
                                 [ Bracket.badge b.assessment.bracket "sm"
                                 , text ("Bracket " ++ String.fromInt (bracketToInt b.assessment.bracket) ++ " · " ++ b.rules.name)
@@ -2630,7 +2710,7 @@ viewReport env requested model detail full =
                     [ h1 []
                         [ text
                             (if List.isEmpty full.commanders then
-                                slug
+                                slugToString slug
 
                              else
                                 String.join " + " full.commanders
@@ -2724,7 +2804,7 @@ viewReport env requested model detail full =
                            )
                         ++ (if detail.hasRun then
                                 [ text " · "
-                                , Html.a [ class "hero-replay", href (Route.href env.isStatic (Route.Run slug)) ]
+                                , Html.a [ class "hero-replay", href (Route.href env.site (Route.Run slug)) ]
                                     [ text "▶ Replay how the doc made it" ]
                                 ]
 
@@ -2825,28 +2905,28 @@ viewReport env requested model detail full =
                 overview env slug shown full
         , maybeHtml shown.bracket
             (\b ->
-                section [ class "panel", id "bracket" ]
+                section [ class "panel", id (sectionId BracketSection) ]
                     [ Bracket.panel ctx
                         b.rules
                         { assessment = b.assessment
                         , before = shown.suggested |> Maybe.andThen .bracketBefore
                         , excluded = shown.suggested |> Maybe.map .excluded |> Maybe.withDefault []
                         , actions =
-                            if env.isStatic then
+                            if env.site == Published then
                                 Nothing
 
                             else
                                 Just (targetBracket model b.rules.target)
                         , toCombos =
                             if hasCombos then
-                                Just (ClickedJumpTo "combos")
+                                Just (ClickedJumpTo CombosSection)
 
                             else
                                 Nothing
                         }
                     ]
             )
-        , section [ class "panel", id "decklist" ]
+        , section [ class "panel", id (sectionId DecklistSection) ]
             (decklist env
                 ctx
                 model
@@ -2862,7 +2942,7 @@ viewReport env requested model detail full =
                         )
                 )
             )
-        , section [ class "panel", id "mana" ]
+        , section [ class "panel", id (sectionId ManaSection) ]
             [ panelHead
                 { title = "Mana base"
                 , desc = Just [ text "How many of your lands make each color, against how many a deck leaning on that color this much needs to cast its spells on time." ]
@@ -2882,7 +2962,7 @@ viewReport env requested model detail full =
                     ]
                 ]
             ]
-        , section [ class "panel", id "sim" ]
+        , section [ class "panel", id (sectionId GoldfishSection) ]
             [ panelHead
                 { title = "Goldfish simulation"
                 , desc =
@@ -2904,11 +2984,11 @@ viewReport env requested model detail full =
                     ]
                 ]
             ]
-        , when hasCombos (section [ class "panel", id "combos" ] (combos ctx model shown))
-        , when showSynergies (section [ class "panel", id "synergies" ] (synergies env ctx model shown))
+        , when hasCombos (section [ class "panel", id (sectionId CombosSection) ] (combos ctx model shown))
+        , when showSynergies (section [ class "panel", id (sectionId SynergiesSection) ] (synergies env ctx model shown))
         , maybeHtml full.research
             (\research ->
-                section [ class "panel", id "research" ]
+                section [ class "panel", id (sectionId ResearchSection) ]
                     [ panelHead
                         { title = "Web research"
                         , desc = Just [ text ("What " ++ String.fromInt (List.length research.sources) ++ " guides and discussions say about this commander.") ]
@@ -2932,19 +3012,19 @@ viewReport env requested model detail full =
                         )
                     ]
             )
-        , when (not env.isStatic && not (List.isEmpty full.warnings))
+        , when (env.site == Local && not (List.isEmpty full.warnings))
             (section [ class "panel" ]
                 [ h2 [] [ text "Warnings" ]
                 , ul [ class "notes" ] (List.map (\w -> li [] [ text w ]) full.warnings)
                 ]
             )
-        , when (not env.isStatic) (rerun model full.options)
+        , when (env.site == Local) (rerun model full.options)
         , section [ class "panel report-footer" ]
             [ details [ class "disclosure" ]
                 [ summary [] [ text "Original list" ]
                 , pre [] [ text detail.initial ]
                 ]
-            , when (not env.isStatic) (publishToggle model detail.meta.hideSuggestions)
+            , when (env.site == Local) (publishToggle model detail.meta.hideSuggestions)
             ]
         ]
 

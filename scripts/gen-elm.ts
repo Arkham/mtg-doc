@@ -43,7 +43,9 @@ type Decl =
   | { kind: "enum"; name: string; values: string[]; doc?: string }
   /** A union of number literals (`1 | 2 | 3`): an Elm custom type, read from and written as Ints. */
   | { kind: "numbers"; name: string; values: number[]; doc?: string }
-  | { kind: "union"; name: string; tag: string; variants: Variant[]; doc?: string };
+  | { kind: "union"; name: string; tag: string; variants: Variant[]; doc?: string }
+  /** A string with a name of its own (`type Slug = string`): an Elm type no other string passes for. */
+  | { kind: "newtype"; name: string; doc?: string };
 
 /** The usual field telling a discriminated union's variants apart. */
 const TAG = "kind";
@@ -262,7 +264,9 @@ for (const statement of parsed.program.body as Node[]) {
     // Marks whole numbers; fields of this type are Elm Ints (see `convert`).
     if (name === "Int") continue;
     const t: Node = node.typeAnnotation;
-    if (t.type === "TSTypeReference" && t.typeName.name === "Partial") {
+    if (t.type === "TSStringKeyword") {
+      register({ kind: "newtype", name, doc: docBefore(node) });
+    } else if (t.type === "TSTypeReference" && t.typeName.name === "Partial") {
       // Partial<Pick<Base, "a" | "b">>
       const pick = t.typeArguments.params[0];
       const base = pick.typeArguments.params[0].typeName.name as string;
@@ -447,9 +451,20 @@ function emitNumbers(decl: Extract<Decl, { kind: "numbers" }>): string {
   ].join("\n\n\n");
 }
 
+function emitNewtype(decl: Extract<Decl, { kind: "newtype" }>): string {
+  const fn = lower(decl.name);
+  return [
+    `${comment(decl.doc)}type ${decl.name}\n    = ${decl.name} String`,
+    `${fn}ToString : ${decl.name} -> String\n${fn}ToString (${decl.name} value) =\n    value`,
+    `${fn}Decoder : Decoder ${decl.name}\n${fn}Decoder =\n    D.map ${decl.name} D.string`,
+    `encode${decl.name} : ${decl.name} -> E.Value\nencode${decl.name} =\n    ${fn}ToString >> E.string`,
+  ].join("\n\n\n");
+}
+
 function emit(decl: Decl): string {
   if (decl.kind === "union") return emitUnion(decl);
   if (decl.kind === "numbers") return emitNumbers(decl);
+  if (decl.kind === "newtype") return emitNewtype(decl);
   const fn = lower(decl.name);
   if (decl.kind === "enum") {
     const cases = decl.values.map((v) => [ctor(decl.name, v), v] as const);
@@ -503,7 +518,9 @@ const exposing = ordered.flatMap((d) =>
             `${lower(d.name)}Decoder`,
             `encode${d.name}`,
           ]
-        : [d.name, `${lower(d.name)}Decoder`, `encode${d.name}`],
+        : d.kind === "newtype"
+          ? [d.name, `${lower(d.name)}ToString`, `${lower(d.name)}Decoder`, `encode${d.name}`]
+          : [d.name, `${lower(d.name)}Decoder`, `encode${d.name}`],
 );
 
 const types = `module Types exposing

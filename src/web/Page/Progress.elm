@@ -70,7 +70,7 @@ it's over, if asked); or a deck's saved last run, replayed with a playhead once 
 -}
 type Run
     = Live Following (Maybe Playback)
-    | Saved String (Maybe Recording)
+    | Saved Slug (Maybe Recording)
 
 
 {-| A run followed live: its job as it last reported, and the clock that shows it. On the page's
@@ -78,7 +78,8 @@ clock: when the run started (as best the events tell), and the moment of the run
 which moves on every frame and never goes back; and the latest run time the server reported.
 -}
 type alias Following =
-    { jobId : String
+    { slug : Slug
+    , jobId : String
     , job : Maybe Job
     , origin : Maybe Float
     , liveAt : Float
@@ -177,19 +178,19 @@ blank run =
 
 {-| A run going on now.
 -}
-init : String -> ( Model, Cmd Msg )
-init jobId =
-    ( blank (Live { jobId = jobId, job = Nothing, origin = Nothing, liveAt = 0, reported = 0 } Nothing)
+init : Slug -> String -> ( Model, Cmd Msg )
+init slug jobId =
+    ( blank (Live { slug = slug, jobId = jobId, job = Nothing, origin = Nothing, liveAt = 0, reported = 0 } Nothing)
     , Cmd.batch [ Api.job jobId GotJob, Task.perform Ticked Time.now ]
     )
 
 
 {-| A deck's saved last run, replaying from the start.
 -}
-initSaved : Env -> String -> ( Model, Cmd Msg )
+initSaved : Env -> Slug -> ( Model, Cmd Msg )
 initSaved env slug =
     ( blank (Saved slug Nothing)
-    , Cmd.batch [ Api.run env.isStatic slug GotRun, Task.perform Ticked Time.now ]
+    , Cmd.batch [ Api.run env.site slug GotRun, Task.perform Ticked Time.now ]
     )
 
 
@@ -235,27 +236,27 @@ jobOf model =
             Nothing
 
 
-{-| The model after a message, and whether to open the deck now.
+{-| The model after a message, and the deck to open now, if it's time.
 -}
-update : Msg -> Model -> ( Model, Cmd Msg, Bool )
+update : Msg -> Model -> ( Model, Cmd Msg, Maybe Slug )
 update msg model =
     case msg of
         GotJob (Ok job) ->
             arrived job model
 
         GotJob (Err e) ->
-            ( { model | error = Just e }, Cmd.none, False )
+            ( { model | error = Just e }, Cmd.none, Nothing )
 
         GotRun (Ok record) ->
             case model.run of
                 Saved slug _ ->
-                    ( { model | run = Saved slug (Just { record = record, playback = fromTheStart defaultSpeed }) }, Cmd.none, False )
+                    ( { model | run = Saved slug (Just { record = record, playback = fromTheStart defaultSpeed }) }, Cmd.none, Nothing )
 
                 Live _ _ ->
-                    ( model, Cmd.none, False )
+                    ( model, Cmd.none, Nothing )
 
         GotRun (Err e) ->
-            ( { model | error = Just e }, Cmd.none, False )
+            ( { model | error = Just e }, Cmd.none, Nothing )
 
         Streamed job ->
             arrived job model
@@ -298,7 +299,7 @@ update msg model =
                         Saved _ _ ->
                             model
             in
-            ( withPlayback advance { clocked | now = now }, Cmd.none, False )
+            ( withPlayback advance { clocked | now = now }, Cmd.none, Nothing )
 
         SelectedTask name ->
             ( { model
@@ -311,11 +312,11 @@ update msg model =
                         Just name
               }
             , Cmd.none
-            , False
+            , Nothing
             )
 
         ChoseLook look ->
-            ( { model | look = look, stay = True }, Cmd.none, False )
+            ( { model | look = look, stay = True }, Cmd.none, Nothing )
 
         ClickedReplay ->
             let
@@ -332,7 +333,7 @@ update msg model =
                 Saved _ _ ->
                     withPlayback (\_ -> fromTheStart speed) stayed
             , Cmd.none
-            , False
+            , Nothing
             )
 
         AskedPlayPause ->
@@ -350,20 +351,27 @@ update msg model =
                 )
                 { model | stay = True }
             , Cmd.none
-            , False
+            , Nothing
             )
 
         SeekedTo at ->
-            ( withPlayback (\pb -> seekTo model { pb | at = at }) { model | stay = True }, Cmd.none, False )
+            ( withPlayback (\pb -> seekTo model { pb | at = at }) { model | stay = True }, Cmd.none, Nothing )
 
         NudgedBy by ->
-            ( withPlayback (\pb -> seekTo model { pb | at = pb.at + by, playing = False }) { model | stay = True }, Cmd.none, False )
+            ( withPlayback (\pb -> seekTo model { pb | at = pb.at + by, playing = False }) { model | stay = True }, Cmd.none, Nothing )
 
         ChoseSpeed speed ->
-            ( withPlayback (\pb -> { pb | speed = speed }) model, Cmd.none, False )
+            ( withPlayback (\pb -> { pb | speed = speed }) model, Cmd.none, Nothing )
 
         LingerEnded ->
-            ( model, Cmd.none, isDone model && not model.stay )
+            ( model
+            , Cmd.none
+            , if isDone model && not model.stay then
+                Just (slugOf model)
+
+              else
+                Nothing
+            )
 
 
 {-| The playhead kept inside the run; reaching the end stops it there.
@@ -457,21 +465,21 @@ isDone model =
             False
 
 
-slugOf : Model -> String
+slugOf : Model -> Slug
 slugOf model =
     case model.run of
         Saved slug _ ->
             slug
 
         Live following _ ->
-            following.job |> Maybe.map .slug |> Maybe.withDefault ""
+            following.slug
 
 
-arrived : Job -> Model -> ( Model, Cmd Msg, Bool )
+arrived : Job -> Model -> ( Model, Cmd Msg, Maybe Slug )
 arrived job model =
     case model.run of
         Saved _ _ ->
-            ( model, Cmd.none, False )
+            ( model, Cmd.none, Nothing )
 
         Live following playback ->
             let
@@ -484,7 +492,7 @@ arrived job model =
                             True
             in
             if not newer then
-                ( model, Cmd.none, False )
+                ( model, Cmd.none, Nothing )
 
             else
                 let
@@ -515,7 +523,7 @@ arrived job model =
 
                   else
                     Cmd.none
-                , False
+                , Nothing
                 )
 
 
@@ -774,7 +782,7 @@ view env model =
             Nothing ->
                 case model.run of
                     Live _ _ ->
-                        p [ class "muted" ] [ text "Usually under a minute. Your list is already saved in ", code [] [ text ("decks/" ++ slugOf model ++ "/") ], text "." ]
+                        p [ class "muted" ] [ text "Usually under a minute. Your list is already saved in ", code [] [ text ("decks/" ++ slugToString (slugOf model) ++ "/") ], text "." ]
 
                     Saved _ _ ->
                         text ""
@@ -792,7 +800,7 @@ view env model =
                 text ""
          , case ( jobOf model, outcome model ) of
             ( Just _, Erred _ ) ->
-                Html.a [ href (Route.deckHref env.isStatic (slugOf model) Route.Current) ] [ text "Open deck anyway →" ]
+                Html.a [ href (Route.deckHref env.site (slugOf model) Route.Current) ] [ text "Open deck anyway →" ]
 
             _ ->
                 text ""
@@ -1498,7 +1506,7 @@ summary env model trace =
             ]
         , div [ class "run-actions" ]
             [ if outcome model == Succeeded then
-                Html.a [ class "button primary", href (Route.deckHref env.isStatic (slugOf model) Route.Optimized) ]
+                Html.a [ class "button primary", href (Route.deckHref env.site (slugOf model) Route.Optimized) ]
                     [ text "See the optimized deck" ]
 
               else

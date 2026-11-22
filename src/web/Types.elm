@@ -68,6 +68,7 @@ module Types exposing
     , Service(..)
     , SimResult
     , SimResultCombo
+    , Slug
     , Swap
     , SwapAlternative
     , SwapCategory(..)
@@ -207,6 +208,7 @@ module Types exposing
     , encodeService
     , encodeSimResult
     , encodeSimResultCombo
+    , encodeSlug
     , encodeSwap
     , encodeSwapAlternative
     , encodeSwapCategory
@@ -263,6 +265,8 @@ module Types exposing
     , serviceValues
     , simResultComboDecoder
     , simResultDecoder
+    , slugDecoder
+    , slugToString
     , swapAlternativeDecoder
     , swapCategoryDecoder
     , swapCategoryFromString
@@ -1375,7 +1379,7 @@ encodeDeckDetail value =
 
 
 type alias DeckDetailMeta =
-    { slug : String
+    { slug : Slug
     , format : DeckFormat
     , commanders : List String
     , options : OptimizeOptions
@@ -1387,7 +1391,7 @@ type alias DeckDetailMeta =
 deckDetailMetaDecoder : Decoder DeckDetailMeta
 deckDetailMetaDecoder =
     D.succeed DeckDetailMeta
-        |> P.required "slug" D.string
+        |> P.required "slug" slugDecoder
         |> P.required "format" deckFormatDecoder
         |> P.required "commanders" (D.list D.string)
         |> P.required "options" optimizeOptionsDecoder
@@ -1399,7 +1403,7 @@ encodeDeckDetailMeta : DeckDetailMeta -> E.Value
 encodeDeckDetailMeta value =
     E.object
         (List.filterMap identity
-            [ Just ( "slug", E.string value.slug )
+            [ Just ( "slug", encodeSlug value.slug )
             , Just ( "format", encodeDeckFormat value.format )
             , Just ( "commanders", E.list E.string value.commanders )
             , Just ( "options", encodeOptimizeOptions value.options )
@@ -1711,7 +1715,7 @@ commanderPreviews: The commanders' cards, so the deck list can show what they do
 
 -}
 type alias DeckSummary =
-    { slug : String
+    { slug : Slug
     , commanders : List String
     , format : DeckFormat
     , createdAt : String
@@ -1731,7 +1735,7 @@ type alias DeckSummary =
 deckSummaryDecoder : Decoder DeckSummary
 deckSummaryDecoder =
     D.succeed DeckSummary
-        |> P.required "slug" D.string
+        |> P.required "slug" slugDecoder
         |> P.required "commanders" (D.list D.string)
         |> P.required "format" deckFormatDecoder
         |> P.required "createdAt" D.string
@@ -1751,7 +1755,7 @@ encodeDeckSummary : DeckSummary -> E.Value
 encodeDeckSummary value =
     E.object
         (List.filterMap identity
-            [ Just ( "slug", E.string value.slug )
+            [ Just ( "slug", encodeSlug value.slug )
             , Just ( "commanders", E.list E.string value.commanders )
             , Just ( "format", encodeDeckFormat value.format )
             , Just ( "createdAt", E.string value.createdAt )
@@ -1823,7 +1827,7 @@ encodeEditState value =
 
 type alias EditStatus =
     { id : String
-    , slug : String
+    , slug : Slug
     , label : String
     , state : EditState
     }
@@ -1833,7 +1837,7 @@ editStatusDecoder : Decoder EditStatus
 editStatusDecoder =
     D.succeed EditStatus
         |> P.required "id" D.string
-        |> P.required "slug" D.string
+        |> P.required "slug" slugDecoder
         |> P.required "label" D.string
         |> P.required "state" editStateDecoder
 
@@ -1843,7 +1847,7 @@ encodeEditStatus value =
     E.object
         (List.filterMap identity
             [ Just ( "id", E.string value.id )
-            , Just ( "slug", E.string value.slug )
+            , Just ( "slug", encodeSlug value.slug )
             , Just ( "label", E.string value.label )
             , Just ( "state", encodeEditState value.state )
             ]
@@ -1908,7 +1912,7 @@ editTargetValues =
 -}
 type alias Job =
     { id : String
-    , slug : String
+    , slug : Slug
     , status : JobStatus
     , steps : List JobStep
     , trace : Maybe Trace
@@ -1919,7 +1923,7 @@ jobDecoder : Decoder Job
 jobDecoder =
     D.succeed Job
         |> P.required "id" D.string
-        |> P.required "slug" D.string
+        |> P.required "slug" slugDecoder
         |> P.required "status" jobStatusDecoder
         |> P.required "steps" (D.list jobStepDecoder)
         |> P.optional "trace" (D.map Just traceDecoder) Nothing
@@ -1930,7 +1934,7 @@ encodeJob value =
     E.object
         (List.filterMap identity
             [ Just ( "id", E.string value.id )
-            , Just ( "slug", E.string value.slug )
+            , Just ( "slug", encodeSlug value.slug )
             , Just ( "status", encodeJobStatus value.status )
             , Just ( "steps", E.list encodeJobStep value.steps )
             , Maybe.map (\v -> ( "trace", encodeTrace v )) value.trace
@@ -2580,7 +2584,7 @@ suggestionsHidden: Published without the doc's suggestions: only the deck as sub
 
 -}
 type alias Report =
-    { slug : String
+    { slug : Slug
     , commanders : List String
     , commanderCards : List Card
     , generatedAt : String
@@ -2611,7 +2615,7 @@ type alias Report =
 reportDecoder : Decoder Report
 reportDecoder =
     D.succeed Report
-        |> P.required "slug" D.string
+        |> P.required "slug" slugDecoder
         |> P.required "commanders" (D.list D.string)
         |> P.required "commanderCards" (D.list cardDecoder)
         |> P.required "generatedAt" D.string
@@ -2642,7 +2646,7 @@ encodeReport : Report -> E.Value
 encodeReport value =
     E.object
         (List.filterMap identity
-            [ Just ( "slug", E.string value.slug )
+            [ Just ( "slug", encodeSlug value.slug )
             , Just ( "commanders", E.list E.string value.commanders )
             , Just ( "commanderCards", E.list encodeCard value.commanderCards )
             , Just ( "generatedAt", E.string value.generatedAt )
@@ -3297,6 +3301,25 @@ encodeSimResultCombo value =
             , Just ( "byTurn", E.dict identity E.float value.byTurn )
             ]
         )
+
+
+type Slug
+    = Slug String
+
+
+slugToString : Slug -> String
+slugToString (Slug value) =
+    value
+
+
+slugDecoder : Decoder Slug
+slugDecoder =
+    D.map Slug D.string
+
+
+encodeSlug : Slug -> E.Value
+encodeSlug =
+    slugToString >> E.string
 
 
 {-| alternatives: Other strong options for the same slot.

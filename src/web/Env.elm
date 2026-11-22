@@ -4,6 +4,7 @@ module Env exposing (Env, Viewport, decoder)
 -}
 
 import Json.Decode as D exposing (Decoder)
+import Site exposing (Site)
 
 
 type alias Viewport =
@@ -11,7 +12,7 @@ type alias Viewport =
 
 
 type alias Env =
-    { isStatic : Bool
+    { site : Site
 
     -- Where bundled assets (mana symbols) live.
     , base : String
@@ -24,7 +25,7 @@ type alias Env =
 decoder : Decoder Env
 decoder =
     D.map5 Env
-        (D.field "isStatic" D.bool)
+        (D.field "isStatic" Site.decoder)
         (D.field "base" D.string)
         (D.field "canHover" D.bool)
         (D.field "isTouch" D.bool)

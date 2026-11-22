@@ -171,7 +171,7 @@ init flags =
             else
                 enter flags.route model
     in
-    ( routed, Cmd.batch [ routeCmd, Api.config flags.env.isStatic GotConfig ] )
+    ( routed, Cmd.batch [ routeCmd, Api.config flags.env.site GotConfig ] )
 
 
 {-| The page for a route. A deck's page stays as it is between decks and views, like the old UI's
@@ -237,10 +237,10 @@ enter route model =
                     in
                     ( { cleared | page = ReportPage report }, Cmd.map ReportMsg cmd )
 
-        Job _ jobId ->
+        Job slug jobId ->
             let
                 ( progress, cmd ) =
-                    Progress.init jobId
+                    Progress.init slug jobId
             in
             ( { cleared | page = ProgressPage progress }, Cmd.map ProgressMsg cmd )
 
@@ -254,7 +254,7 @@ enter route model =
 
 go : Route -> Model -> Cmd Msg
 go route model =
-    navigate (Route.href model.env.isStatic route)
+    navigate (Route.href model.env.site route)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -358,26 +358,18 @@ update msg model =
             case model.page of
                 ProgressPage progress ->
                     let
-                        ( next, cmd, finished ) =
+                        ( next, cmd, open ) =
                             Progress.update m progress
                     in
                     ( { model | page = ProgressPage next }
                     , Cmd.batch
                         [ Cmd.map ProgressMsg cmd
-                        , if finished then
-                            let
-                                slug =
-                                    case model.route of
-                                        Job s _ ->
-                                            s
+                        , case open of
+                            Just slug ->
+                                go (Deck slug Route.Optimized) model
 
-                                        _ ->
-                                            ""
-                            in
-                            go (Deck slug Route.Optimized) model
-
-                          else
-                            Cmd.none
+                            Nothing ->
+                                Cmd.none
                         ]
                     )
 
@@ -398,8 +390,8 @@ update msg model =
                             Cmd.map ReportMsg cmd
                     in
                     case out of
-                        Just (Report.Navigate href) ->
-                            ( updated, Cmd.batch [ mapped, navigate href ] )
+                        Just (Report.Navigate route) ->
+                            ( updated, Cmd.batch [ mapped, go route model ] )
 
                         Just (Report.OpenSheet sheet) ->
                             ( { updated | sheet = Just sheet }, mapped )
@@ -410,8 +402,8 @@ update msg model =
                         Just (Report.SaveDecklistView v) ->
                             ( { updated | decklistView = v }, Cmd.batch [ mapped, saveDecklistView (Report.decklistViewToString v) ] )
 
-                        Just (Report.ScrollTo id) ->
-                            ( updated, Cmd.batch [ mapped, scrollIntoView id ] )
+                        Just (Report.ScrollTo section) ->
+                            ( updated, Cmd.batch [ mapped, scrollIntoView (Report.sectionId section) ] )
 
                         Nothing ->
                             ( updated, mapped )
@@ -624,7 +616,7 @@ view model =
     in
     div [ id "root" ]
         -- Which route is drawn, so the page can set its scroll the moment it is.
-        (div [ class "app", attribute "data-mtg-route" (Route.href env.isStatic model.route) ]
+        (div [ class "app", attribute "data-mtg-route" (Route.href env.site model.route) ]
             [ header [ class "topbar" ]
                 [ if inner then
                     button [ class "back", onClick ClickedBack, attribute "aria-label" "Back" ]
@@ -642,7 +634,7 @@ view model =
                         ]
 
                   else
-                    a [ href (Route.href env.isStatic Home), class "brand" ]
+                    a [ href (Route.href env.site Home), class "brand" ]
                         [ img [ src "./icon-64.png", alt "", width 32, height 32 ] []
                         , text "mtg doc"
                         ]

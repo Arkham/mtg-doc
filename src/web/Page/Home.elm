@@ -12,6 +12,7 @@ import Json.Decode as D
 import Loadable exposing (Loadable(..))
 import Process
 import Route
+import Site exposing (Site(..))
 import Task
 import Types exposing (..)
 import Ui.Attr exposing (alt, class, href, placeholder, src, type_)
@@ -93,7 +94,7 @@ init env decks =
       , drag = False
       , filter = ""
       }
-    , Api.decksUnlessKnown env.isStatic decks GotDecks
+    , Api.decksUnlessKnown env.site decks GotDecks
     )
 
 
@@ -279,7 +280,7 @@ welcome env decks =
             , h1 [] [ text "The doc will see your deck now." ]
             , p []
                 [ text
-                    (if env.isStatic then
+                    (if env.site == Published then
                         "Check-ups for Commander decks: what each one does today, its bracket and combos, and the swaps the doc prescribes."
 
                      else
@@ -314,14 +315,14 @@ deckGallery env filter decks =
     let
         shown =
             List.filter
-                (\d -> String.contains (String.toLower filter) (String.toLower (d.slug ++ " " ++ String.join " " d.commanders)))
+                (\d -> String.contains (String.toLower filter) (String.toLower (slugToString d.slug ++ " " ++ String.join " " d.commanders)))
                 decks
     in
     section []
         [ div [ class "section-head" ]
             [ h2 [ class "home-section-title" ]
                 [ text
-                    (if env.isStatic then
+                    (if env.site == Published then
                         "Decks"
 
                      else
@@ -345,7 +346,7 @@ deckGallery env filter decks =
         , if List.isEmpty decks then
             div [ class "empty" ]
                 [ p [] [ text "No decks yet." ]
-                , if env.isStatic then
+                , if env.site == Published then
                     p [ class "muted small" ] [ text "Run pnpm build:static after analyzing a deck." ]
 
                   else
@@ -366,17 +367,17 @@ deckCard env d =
     let
         title =
             if List.isEmpty d.commanders then
-                d.slug
+                slugToString d.slug
 
             else
                 String.join " + " d.commanders
     in
     div [ class "deck-card", aura d.colorIdentity ]
-        [ a [ class "deck-card-link", href (Route.deckHref env.isStatic d.slug Route.Current), attribute "aria-label" title ] []
+        [ a [ class "deck-card-link", href (Route.deckHref env.site d.slug Route.Current), attribute "aria-label" title ] []
 
         -- What the deck's page loads first: its report, the list it copies, the commanders' cards.
         , node "mtg-prefetch"
-            [ attribute "urls" (Api.deckUrl env.isStatic d.slug ++ " " ++ Api.fileUrl env.isStatic d.slug "optimized.txt")
+            [ attribute "urls" (Api.deckUrl env.site d.slug ++ " " ++ Api.fileUrl env.site d.slug "optimized.txt")
             , attribute "images"
                 (d.commanderPreviews
                     |> Maybe.map (Dict.values >> List.filterMap .image >> String.join " ")
@@ -402,7 +403,7 @@ deckCard env d =
                 ]
             , strong [ class "deck-art-name" ]
                 (if List.isEmpty d.commanders then
-                    [ text d.slug ]
+                    [ text (slugToString d.slug) ]
 
                  else
                     let
@@ -473,7 +474,7 @@ view : Env -> Maybe AppConfig -> Model -> Html Msg
 view env config model =
     div [ class "stack" ]
         [ welcome env model.decks
-        , if env.isStatic then
+        , if env.site == Published then
             text ""
 
           else
@@ -568,7 +569,7 @@ view env config model =
                 p [ class "error" ] [ text ("Couldn't load the decks: " ++ e) ]
 
             Loaded decks ->
-                if not (List.isEmpty decks) || env.isStatic then
+                if not (List.isEmpty decks) || env.site == Published then
                     deckGallery env model.filter decks
 
                 else

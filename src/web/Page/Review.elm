@@ -144,14 +144,14 @@ type Msg
     | ChangedSearch String
     | ChangedOptions OptimizeOptions
     | ClickedSave
-    | GotSaved (Result String ( String, String ))
+    | GotSaved (Result String ( Slug, String ))
     | ClickedPhoto String
     | CardMsg Card.Msg
     | ClickedCancel
 
 
 type Out
-    = Done String String
+    = Done Slug String
     | StartOver
     | OpenSheet Sheet.Model
     | Preview Card.Msg

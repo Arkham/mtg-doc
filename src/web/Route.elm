@@ -5,6 +5,8 @@ build); this mirrors `routeHref` in src/web/routes.ts for the links the app draw
 -}
 
 import Json.Decode as D exposing (Decoder)
+import Site exposing (Site(..))
+import Types exposing (Slug, slugDecoder, slugToString)
 
 
 type DeckView
@@ -14,55 +16,54 @@ type DeckView
 
 type Route
     = Home
-    | Deck String DeckView
-    | Job String String
-    | Run String
+    | Deck Slug DeckView
+    | Job Slug String
+    | Run Slug
 
 
 {-| Where a route lives. The published site uses real paths (decks/<slug>/), each one a page with
 the report in plain HTML, so a copied link works for readers that don't run JavaScript. The local
 app keeps hash routes.
 -}
-href : Bool -> Route -> String
-href isStatic route =
-    case route of
-        Job slug jobId ->
-            "#/job/" ++ slug ++ "/" ++ jobId
+href : Site -> Route -> String
+href site route =
+    case ( route, site ) of
+        ( Job slug jobId, _ ) ->
+            "#/job/" ++ slugToString slug ++ "/" ++ jobId
 
-        Home ->
-            if isStatic then
-                "./"
+        ( Home, Published ) ->
+            "./"
 
-            else
-                "#/"
+        ( Home, Local ) ->
+            "#/"
 
-        Run slug ->
-            if isStatic then
-                "decks/" ++ slug ++ "/run/"
+        ( Run slug, Published ) ->
+            "decks/" ++ slugToString slug ++ "/run/"
 
-            else
-                "#/deck/" ++ slug ++ "/run"
+        ( Run slug, Local ) ->
+            "#/deck/" ++ slugToString slug ++ "/run"
 
-        Deck slug view ->
+        ( Deck slug view, _ ) ->
             let
                 parts =
                     case view of
                         Optimized ->
-                            slug ++ "/optimized"
+                            slugToString slug ++ "/optimized"
 
                         Current ->
-                            slug
+                            slugToString slug
             in
-            if isStatic then
-                "decks/" ++ parts ++ "/"
+            case site of
+                Published ->
+                    "decks/" ++ parts ++ "/"
 
-            else
-                "#/deck/" ++ parts
+                Local ->
+                    "#/deck/" ++ parts
 
 
-deckHref : Bool -> String -> DeckView -> String
-deckHref isStatic slug view =
-    href isStatic (Deck slug view)
+deckHref : Site -> Slug -> DeckView -> String
+deckHref site slug view =
+    href site (Deck slug view)
 
 
 {-| A route exactly as src/web/routes.ts describes it (`{ page, slug, view, jobId }`): any other
@@ -78,13 +79,13 @@ decoder =
                         D.succeed Home
 
                     "deck" ->
-                        D.map2 Deck (D.field "slug" D.string) (D.field "view" viewDecoder)
+                        D.map2 Deck (D.field "slug" slugDecoder) (D.field "view" viewDecoder)
 
                     "job" ->
-                        D.map2 Job (D.field "slug" D.string) (D.field "jobId" D.string)
+                        D.map2 Job (D.field "slug" slugDecoder) (D.field "jobId" D.string)
 
                     "run" ->
-                        D.map Run (D.field "slug" D.string)
+                        D.map Run (D.field "slug" slugDecoder)
 
                     _ ->
                         D.fail ("Unknown page: " ++ page)

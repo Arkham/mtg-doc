@@ -1,6 +1,9 @@
 /** A whole number: the same as `number` here; an Int, not a Float, in the Elm the client is in. */
 export type Int = number;
 
+/** A deck's name in URLs and its folder under decks/. */
+export type Slug = string;
+
 /** A Commander bracket: 1 Exhibition, 2 Core, 3 Upgraded, 4 Optimized, 5 cEDH. */
 export type Bracket = 1 | 2 | 3 | 4 | 5;
 
@@ -111,7 +114,7 @@ export interface SaveDeckRequest {
 }
 
 export interface DeckSummary {
-  slug: string;
+  slug: Slug;
   commanders: string[];
   format: DeckFormat;
   createdAt: string;
@@ -298,7 +301,7 @@ export type EditState =
 
 export interface EditStatus {
   id: string;
-  slug: string;
+  slug: Slug;
   label: string;
   state: EditState;
 }
@@ -377,7 +380,7 @@ export interface DeckEdit {
 }
 
 export interface Report {
-  slug: string;
+  slug: Slug;
   commanders: string[];
   commanderCards: Card[];
   generatedAt: string;
@@ -434,7 +437,7 @@ export interface JobStep {
 
 export interface Job {
   id: string;
-  slug: string;
+  slug: Slug;
   status: { kind: "running" } | { kind: "done" } | { kind: "error"; error: string };
   steps: JobStep[];
   /** What the run is doing, task by task and request by request. */
@@ -515,7 +518,7 @@ export interface ResolvedName {
 
 /** A deck's settings as the client sees them. */
 export interface DeckDetailMeta {
-  slug: string;
+  slug: Slug;
   format: DeckFormat;
   commanders: string[];
   options: OptimizeOptions;

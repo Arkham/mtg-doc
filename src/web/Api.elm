@@ -36,6 +36,7 @@ import File exposing (File)
 import Http
 import Json.Decode as D exposing (Decoder)
 import Json.Encode as E
+import Site exposing (Site(..))
 import Types exposing (..)
 import Url
 
@@ -101,92 +102,91 @@ postEmpty url decoder toMsg =
     request { method = "POST", url = url, body = Http.emptyBody, decoder = decoder, toMsg = toMsg }
 
 
-config : Bool -> (Maybe AppConfig -> msg) -> Cmd msg
-config isStatic toMsg =
-    if isStatic then
-        Cmd.none
+config : Site -> (Maybe AppConfig -> msg) -> Cmd msg
+config site toMsg =
+    case site of
+        Published ->
+            Cmd.none
 
-    else
-        get "/api/config" appConfigDecoder (Result.toMaybe >> toMsg)
+        Local ->
+            get "/api/config" appConfigDecoder (Result.toMaybe >> toMsg)
 
 
-decks : Bool -> (Result_ (List DeckSummary) -> msg) -> Cmd msg
-decks isStatic =
-    get
-        (if isStatic then
-            "data/decks.json"
+deckPath : Slug -> String
+deckPath slug =
+    "/api/decks/" ++ slugToString slug
 
-         else
-            "/api/decks"
-        )
-        (D.list deckSummaryDecoder)
+
+{-| Where the same data lives: the server's API locally, the JSON the build exported on the
+published site.
+-}
+at : Site -> { local : String, published : String } -> String
+at site urls =
+    case site of
+        Local ->
+            urls.local
+
+        Published ->
+            urls.published
+
+
+decks : Site -> (Result_ (List DeckSummary) -> msg) -> Cmd msg
+decks site =
+    get (at site { local = "/api/decks", published = "data/decks.json" }) (D.list deckSummaryDecoder)
 
 
 {-| The deck list, unless it's known: on the published site a list already at hand is the list (it
 can't change while the page is open); anywhere else it's fetched again.
 -}
-decksUnlessKnown : Bool -> Maybe (List DeckSummary) -> (Result_ (List DeckSummary) -> msg) -> Cmd msg
-decksUnlessKnown isStatic known =
-    case ( isStatic, known ) of
-        ( True, Just _ ) ->
+decksUnlessKnown : Site -> Maybe (List DeckSummary) -> (Result_ (List DeckSummary) -> msg) -> Cmd msg
+decksUnlessKnown site known =
+    case ( site, known ) of
+        ( Published, Just _ ) ->
             always Cmd.none
 
         _ ->
-            decks isStatic
+            decks site
 
 
-deck : Bool -> String -> (Result_ DeckDetail -> msg) -> Cmd msg
-deck isStatic slug =
-    get (deckUrl isStatic slug) deckDetailDecoder
+deck : Site -> Slug -> (Result_ DeckDetail -> msg) -> Cmd msg
+deck site slug =
+    get (deckUrl site slug) deckDetailDecoder
 
 
 {-| Where a deck's page gets its report, so the deck list can fetch it ahead of a tap.
 -}
-deckUrl : Bool -> String -> String
-deckUrl isStatic slug =
-    if isStatic then
-        "data/decks/" ++ slug ++ "/detail.json"
-
-    else
-        "/api/decks/" ++ slug
+deckUrl : Site -> Slug -> String
+deckUrl site slug =
+    at site { local = "/api/decks/" ++ slugToString slug, published = "data/decks/" ++ slugToString slug ++ "/detail.json" }
 
 
 {-| A deck's saved last optimizer run, to replay.
 -}
-run : Bool -> String -> (Result_ RunRecord -> msg) -> Cmd msg
-run isStatic slug =
+run : Site -> Slug -> (Result_ RunRecord -> msg) -> Cmd msg
+run site slug =
     get
-        (if isStatic then
-            "data/decks/" ++ slug ++ "/run.json"
-
-         else
-            "/api/decks/" ++ slug ++ "/run"
-        )
+        (at site { local = "/api/decks/" ++ slugToString slug ++ "/run", published = "data/decks/" ++ slugToString slug ++ "/run.json" })
         runRecordDecoder
 
 
-fileUrl : Bool -> String -> String -> String
-fileUrl isStatic slug file =
-    if isStatic then
-        "data/decks/" ++ slug ++ "/" ++ file
-
-    else
-        "/api/decks/" ++ slug ++ "/files/" ++ file
+fileUrl : Site -> Slug -> String -> String
+fileUrl site slug file =
+    at site { local = "/api/decks/" ++ slugToString slug ++ "/files/" ++ file, published = "data/decks/" ++ slugToString slug ++ "/" ++ file }
 
 
 {-| Where a deck's changes stand, without its whole report.
 -}
-status : String -> (Result_ DeckStatus -> msg) -> Cmd msg
+status : Slug -> (Result_ DeckStatus -> msg) -> Cmd msg
 status slug =
-    get ("/api/decks/" ++ slug ++ "/status") deckStatusDecoder
+    get (deckPath slug ++ "/status") deckStatusDecoder
 
 
 {-| A deck file's text, or Nothing when it isn't there.
 -}
-fileText : Bool -> String -> String -> (Maybe String -> msg) -> Cmd msg
-fileText isStatic slug file toMsg =
+fileText : Site -> Slug -> String -> (Maybe String -> msg) -> Cmd msg
+fileText site slug file toMsg =
     Http.get
-        { url = fileUrl isStatic slug file
+        { url = fileUrl site slug file
         , expect = Http.expectString (Result.toMaybe >> toMsg)
         }
 
@@ -238,19 +238,19 @@ autocomplete q =
     get ("/api/cards/autocomplete?q=" ++ Url.percentEncode q) (D.list D.string)
 
 
-started : Decoder ( String, String )
+started : Decoder ( Slug, String )
 started =
-    D.map2 Tuple.pair (D.field "slug" D.string) (D.field "jobId" D.string)
+    D.map2 Tuple.pair (D.field "slug" slugDecoder) (D.field "jobId" D.string)
 
 
-save : E.Value -> (Result_ ( String, String ) -> msg) -> Cmd msg
+save : E.Value -> (Result_ ( Slug, String ) -> msg) -> Cmd msg
 save body =
     post "/api/decks" body started
 
 
-reoptimize : String -> OptimizeOptions -> (Result_ ( String, String ) -> msg) -> Cmd msg
+reoptimize : Slug -> OptimizeOptions -> (Result_ ( Slug, String ) -> msg) -> Cmd msg
 reoptimize slug options =
-    post ("/api/decks/" ++ slug ++ "/optimize") (E.object [ ( "options", encodeOptimizeOptions options ) ]) started
+    post (deckPath slug ++ "/optimize") (E.object [ ( "options", encodeOptimizeOptions options ) ]) started
 
 
 job : String -> (Result_ Job -> msg) -> Cmd msg
@@ -263,16 +263,16 @@ editId =
     D.field "editId" D.string
 
 
-applyManaSuggestion : String -> String -> (Result_ String -> msg) -> Cmd msg
+applyManaSuggestion : Slug -> String -> (Result_ String -> msg) -> Cmd msg
 applyManaSuggestion slug id =
-    postEmpty ("/api/decks/" ++ slug ++ "/mana-suggestions/" ++ id ++ "/apply") editId
+    postEmpty (deckPath slug ++ "/mana-suggestions/" ++ id ++ "/apply") editId
 
 
 {-| Makes one of the doc's swaps in the deck as submitted.
 -}
-applySwap : String -> Swap -> (Result_ String -> msg) -> Cmd msg
+applySwap : Slug -> Swap -> (Result_ String -> msg) -> Cmd msg
 applySwap slug swap =
-    post ("/api/decks/" ++ slug ++ "/swaps/apply")
+    post (deckPath slug ++ "/swaps/apply")
         (E.object [ ( "out", E.string swap.out ), ( "in", E.string swap.in_ ) ])
         editId
 
@@ -282,50 +282,50 @@ edit id =
     get ("/api/edits/" ++ id) editStatusDecoder
 
 
-refreshSynergies : String -> String -> (Result_ Report -> msg) -> Cmd msg
+refreshSynergies : Slug -> String -> (Result_ Report -> msg) -> Cmd msg
 refreshSynergies slug mode =
-    post ("/api/decks/" ++ slug ++ "/synergies") (E.object [ ( "mode", E.string mode ) ]) reportDecoder
+    post (deckPath slug ++ "/synergies") (E.object [ ( "mode", E.string mode ) ]) reportDecoder
 
 
-chat : String -> (Result_ (List DeckChatMessage) -> msg) -> Cmd msg
+chat : Slug -> (Result_ (List DeckChatMessage) -> msg) -> Cmd msg
 chat slug =
-    get ("/api/decks/" ++ slug ++ "/chat") (D.list deckChatMessageDecoder)
+    get (deckPath slug ++ "/chat") (D.list deckChatMessageDecoder)
 
 
 {-| Empties a deck's chat; the deck and its report stay as they are.
 -}
-clearChat : String -> (Result_ (List DeckChatMessage) -> msg) -> Cmd msg
+clearChat : Slug -> (Result_ (List DeckChatMessage) -> msg) -> Cmd msg
 clearChat slug toMsg =
     request
         { method = "DELETE"
-        , url = "/api/decks/" ++ slug ++ "/chat"
+        , url = deckPath slug ++ "/chat"
         , body = Http.emptyBody
         , decoder = D.list deckChatMessageDecoder
         , toMsg = toMsg
         }
 
 
-rerunFromChat : String -> String -> (Result_ ( String, String ) -> msg) -> Cmd msg
+rerunFromChat : Slug -> String -> (Result_ ( Slug, String ) -> msg) -> Cmd msg
 rerunFromChat slug messageId =
-    postEmpty ("/api/decks/" ++ slug ++ "/chat/" ++ messageId ++ "/rerun") started
+    postEmpty (deckPath slug ++ "/chat/" ++ messageId ++ "/rerun") started
 
 
 {-| Whether the published site shows the doc's suggestions for this deck.
 -}
-setPublishing : String -> Bool -> (Result_ DeckDetailMeta -> msg) -> Cmd msg
+setPublishing : Slug -> Bool -> (Result_ DeckDetailMeta -> msg) -> Cmd msg
 setPublishing slug suggestions toMsg =
     request
         { method = "PUT"
-        , url = "/api/decks/" ++ slug ++ "/publishing"
+        , url = deckPath slug ++ "/publishing"
         , body = Http.jsonBody (E.object [ ( "suggestions", E.bool suggestions ) ])
         , decoder = deckDetailMetaDecoder
         , toMsg = toMsg
         }
 
 
-applyChat : String -> String -> (Result_ ( ChatAnswer, String ) -> msg) -> Cmd msg
+applyChat : Slug -> String -> (Result_ ( ChatAnswer, String ) -> msg) -> Cmd msg
 applyChat slug messageId =
-    postEmpty ("/api/decks/" ++ slug ++ "/chat/" ++ messageId ++ "/apply")
+    postEmpty (deckPath slug ++ "/chat/" ++ messageId ++ "/apply")
         (D.map2 Tuple.pair (D.field "message" answerDecoder) editId)
 
 

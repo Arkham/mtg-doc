@@ -10,6 +10,7 @@ import Json.Decode as D
 import Json.Encode as E
 import Route
 import RunCopy
+import Site
 import Types
 
 
@@ -67,8 +68,8 @@ run value =
 
         Ok "href" ->
             Result.map2
-                (\isStatic routes -> E.list (Route.href isStatic >> E.string) routes)
-                (field "isStatic" D.bool)
+                (\site routes -> E.list (Route.href site >> E.string) routes)
+                (field "isStatic" Site.decoder)
                 (field "routes" (D.list Route.decoder))
                 |> Result.withDefault E.null
 
