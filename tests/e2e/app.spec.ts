@@ -14,6 +14,12 @@ const PNG = Buffer.from(
 );
 
 test.describe("local app", () => {
+  test("the review page without cards read to check goes back home", async ({ page }) => {
+    await page.goto(`${APP_URL}#/review`);
+    await expect(page.getByRole("heading", { name: "Analyze a deck" })).toBeVisible();
+    await expect(page).toHaveURL(/#\/$/);
+  });
+
   test("the photo drop zone opens the file picker, except from a photo or its remove button", async ({
     page,
   }) => {
@@ -46,6 +52,7 @@ test.describe("local app", () => {
     await page.getByRole("button", { name: "Analyze deck" }).click();
 
     await expect(page.getByRole("heading", { name: "Check the cards" })).toBeVisible();
+    await expect(page).toHaveURL(/#\/review$/);
     await expect(page.locator(".status-chip").first()).toHaveText("100 / 100 cards");
     await expect(page.getByText("2 off-color")).toBeVisible();
     await expect(page.locator(".commander-pick")).toContainText("Lathril, Blade of the Elves");

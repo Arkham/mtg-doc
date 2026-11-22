@@ -39,4 +39,10 @@ describe("routes", () => {
     assert.equal(routeHref({ page: "run", slug: "x" }, false), "#/deck/x/run");
     assert.ok(!isAppPath("data/decks/x/report.md"));
   });
+
+  test("checking the cards read from a deck has a page of its own in the local app only", () => {
+    assert.equal(routeHref({ page: "review" }, false), "#/review");
+    assert.deepEqual(hashRoute("#/review"), { page: "review" });
+    assert.deepEqual(pathRoute("review"), { page: "home" });
+  });
 });

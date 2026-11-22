@@ -16,6 +16,8 @@ type DeckView
 
 type Route
     = Home
+      -- Checking the cards read from a photo or list, before the deck is saved (local app only).
+    | Review
     | Deck Slug DeckView
     | Job Slug String
     | Run Slug
@@ -36,6 +38,9 @@ href site route =
 
         ( Home, Local ) ->
             "#/"
+
+        ( Review, _ ) ->
+            "#/review"
 
         ( Run slug, Published ) ->
             "decks/" ++ slugToString slug ++ "/run/"
@@ -77,6 +82,9 @@ decoder =
                 case page of
                     "home" ->
                         D.succeed Home
+
+                    "review" ->
+                        D.succeed Review
 
                     "deck" ->
                         D.map2 Deck (D.field "slug" slugDecoder) (D.field "view" viewDecoder)

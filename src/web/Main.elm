@@ -218,21 +218,23 @@ enter route model =
     in
     case route of
         Home ->
-            case model.recognition of
-                Just ( result, photos ) ->
-                    case model.page of
-                        ReviewPage _ ->
-                            ( cleared, Cmd.none )
+            let
+                ( home, cmd ) =
+                    Home.init model.env model.decks
+            in
+            ( { cleared | page = HomePage home }, Cmd.map HomeMsg cmd )
 
-                        _ ->
-                            ( { cleared | page = ReviewPage (Review.init result photos model.config) }, Cmd.none )
+        Route.Review ->
+            case ( model.recognition, model.page ) of
+                ( _, ReviewPage _ ) ->
+                    ( cleared, Cmd.none )
 
-                Nothing ->
-                    let
-                        ( home, cmd ) =
-                            Home.init model.env model.decks
-                    in
-                    ( { cleared | page = HomePage home }, Cmd.map HomeMsg cmd )
+                ( Just ( result, photos ), _ ) ->
+                    ( { cleared | page = ReviewPage (Review.init result photos model.config) }, Cmd.none )
+
+                -- Nothing read to check (a reload, say): start over.
+                ( Nothing, _ ) ->
+                    ( cleared, go Home model )
 
         Deck slug _ ->
             case model.page of
@@ -298,15 +300,7 @@ update msg model =
                     ( model, go (Deck slug Route.Optimized) model )
 
                 _ ->
-                    let
-                        ( next, cmd ) =
-                            if model.route == Home then
-                                enter Home { model | recognition = Nothing }
-
-                            else
-                                ( { model | recognition = Nothing }, Cmd.none )
-                    in
-                    ( next, Cmd.batch [ cmd, go Home model ] )
+                    ( { model | recognition = Nothing }, go Home model )
 
         HomeMsg m ->
             case model.page of
@@ -320,11 +314,8 @@ update msg model =
                     in
                     case out of
                         Just (Home.Recognized result photos) ->
-                            ( { updated
-                                | recognition = Just ( result, photos )
-                                , page = ReviewPage (Review.init result photos model.config)
-                              }
-                            , Cmd.map HomeMsg cmd
+                            ( { updated | recognition = Just ( result, photos ) }
+                            , Cmd.batch [ Cmd.map HomeMsg cmd, go Route.Review model ]
                             )
 
                         Just (Home.Preview cm) ->
@@ -354,13 +345,7 @@ update msg model =
                             ( { updated | recognition = Nothing }, Cmd.batch [ mapped, go (Job slug jobId) model ] )
 
                         Just Review.StartOver ->
-                            let
-                                ( home, homeCmd ) =
-                                    Home.init model.env model.decks
-                            in
-                            ( { updated | recognition = Nothing, page = HomePage home }
-                            , Cmd.batch [ mapped, Cmd.map HomeMsg homeCmd ]
-                            )
+                            ( { updated | recognition = Nothing }, Cmd.batch [ mapped, go Home model ] )
 
                         Just (Review.OpenSheet sheet) ->
                             ( { updated | sheet = Just sheet }, mapped )
@@ -587,7 +572,7 @@ view model =
             model.env
 
         inner =
-            model.route /= Home || model.recognition /= Nothing
+            model.route /= Home
 
         ( body, toggle, overlays ) =
             -- Pages are drawn lazily: a hover preview or the search moving doesn't redraw them.

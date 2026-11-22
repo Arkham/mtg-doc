@@ -3,6 +3,8 @@ export type DeckView = "current" | "optimized";
 
 export type Route =
   | { page: "home" }
+  /** Checking the cards read from a photo or list, before the deck is saved (local app only). */
+  | { page: "review" }
   | { page: "deck"; slug: string; view: DeckView }
   | { page: "job"; slug: string; jobId: string }
   /** A replay of the deck's last optimizer run. */
@@ -16,6 +18,7 @@ export type Route =
 export function routeHref(route: Route, isStatic: boolean): string {
   if (route.page === "job") return `#/job/${route.slug}/${route.jobId}`;
   if (route.page === "home") return isStatic ? "./" : "#/";
+  if (route.page === "review") return "#/review";
   if (route.page === "run")
     return isStatic ? `decks/${route.slug}/run/` : `#/deck/${route.slug}/run`;
   const parts = [route.slug, ...(route.view === "optimized" ? ["optimized"] : [])].join("/");
@@ -28,6 +31,7 @@ function fromParts([page, a, b]: string[], isStatic: boolean): Route {
   if (page === (isStatic ? "decks" : "deck") && a)
     return { page: "deck", slug: a, view: b === "optimized" ? "optimized" : "current" };
   if (page === "job" && a && b && !isStatic) return { page: "job", slug: a, jobId: b };
+  if (page === "review" && !isStatic) return { page: "review" };
   return { page: "home" };
 }
 

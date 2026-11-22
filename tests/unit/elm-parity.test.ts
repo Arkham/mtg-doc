@@ -125,6 +125,7 @@ describe("Elm routes", () => {
   test("link where src/web/routes.ts puts each page, locally and on the published site", async () => {
     const routes: Route[] = [
       { page: "home" },
+      { page: "review" },
       { page: "deck", slug: "lathril", view: "current" },
       { page: "deck", slug: "lathril", view: "optimized" },
       { page: "job", slug: "lathril", jobId: "j1" },
