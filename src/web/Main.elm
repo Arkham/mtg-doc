@@ -11,12 +11,13 @@ import Html.Events exposing (on, onClick)
 import Html.Lazy
 import Json.Decode as D
 import Json.Encode as E
-import Loadable
+import Loadable exposing (Loadable(..))
 import Page.Home as Home
 import Page.Progress as Progress
 import Page.Report as Report
 import Page.Review as Review
 import Route exposing (Route(..))
+import Site exposing (Site(..))
 import Types exposing (AppConfig, DeckSummary, Recognition, deckSummaryDecoder)
 import Ui.Attr exposing (alt, class, href, id, src, title)
 import Ui.Card as Card
@@ -56,7 +57,7 @@ type Page
 type alias Model =
     { env : Env
     , route : Route
-    , config : Maybe AppConfig
+    , config : Loadable AppConfig
     , recognition : Maybe ( Recognition, List String )
     , page : Page
     , search : Maybe CardSearch.Model
@@ -71,7 +72,7 @@ type alias Model =
 
 type Msg
     = RouteChanged D.Value
-    | GotConfig (Maybe AppConfig)
+    | GotConfig (Result String AppConfig)
     | ClickedBack
     | HomeMsg Home.Msg
     | ReviewMsg Review.Msg
@@ -154,7 +155,13 @@ init flags =
         model =
             { env = flags.env
             , route = Home
-            , config = Nothing
+            , config =
+                case flags.env.site of
+                    Local ->
+                        Loading
+
+                    Published ->
+                        Unavailable "The published site has no server to ask."
             , recognition = Nothing
             , page = HomePage home
             , search = Nothing
@@ -171,7 +178,17 @@ init flags =
             else
                 enter flags.route model
     in
-    ( routed, Cmd.batch [ routeCmd, Api.config flags.env.site GotConfig ] )
+    ( routed
+    , Cmd.batch
+        [ routeCmd
+        , case flags.env.site of
+            Local ->
+                Api.config GotConfig
+
+            Published ->
+                Cmd.none
+        ]
+    )
 
 
 {-| The page for a route. A deck's page stays as it is between decks and views, like the old UI's
@@ -268,8 +285,11 @@ update msg model =
                 Err _ ->
                     ( model, Cmd.none )
 
-        GotConfig config ->
-            ( { model | config = config }, Cmd.none )
+        GotConfig (Ok config) ->
+            ( { model | config = Loaded config }, Cmd.none )
+
+        GotConfig (Err e) ->
+            ( { model | config = Unavailable e }, Cmd.none )
 
         ClickedBack ->
             case model.route of
@@ -640,7 +660,7 @@ view model =
                         ]
                 , div [ id "topbar-slot", class "topbar-slot" ] (Maybe.withDefault [] (Maybe.map List.singleton toggle))
                 , case ( model.config, inner ) of
-                    ( Just config, False ) ->
+                    ( Loaded config, False ) ->
                         span [ class "muted small topbar-meta" ]
                             [ text
                                 (if config.llm then

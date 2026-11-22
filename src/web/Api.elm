@@ -102,14 +102,11 @@ postEmpty url decoder toMsg =
     request { method = "POST", url = url, body = Http.emptyBody, decoder = decoder, toMsg = toMsg }
 
 
-config : Site -> (Maybe AppConfig -> msg) -> Cmd msg
-config site toMsg =
-    case site of
-        Published ->
-            Cmd.none
-
-        Local ->
-            get "/api/config" appConfigDecoder (Result.toMaybe >> toMsg)
+{-| The local app's settings (whether there's an LLM, ...). The published site has none to ask for.
+-}
+config : (Result_ AppConfig -> msg) -> Cmd msg
+config =
+    get "/api/config" appConfigDecoder
 
 
 deckPath : Slug -> String

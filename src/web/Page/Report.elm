@@ -1,4 +1,4 @@
-module Page.Report exposing (Chrome, ComboFilter, DecklistView, Model, Msg, Note(..), Out(..), Page, Section, chrome, closeHowToPlay, decklistViewDecoder, decklistViewToString, init, load, sectionId, subscriptions, update, view, viewChat)
+module Page.Report exposing (Chrome, ComboFilter, Copy, DecklistView, Model, Msg, Note(..), Out(..), Page, Section, chrome, closeHowToPlay, decklistViewDecoder, decklistViewToString, init, load, sectionId, subscriptions, update, view, viewChat)
 
 import Api
 import Chat
@@ -105,8 +105,10 @@ type alias Page =
     , deck : Loadable DeckDetail
     , pollToken : Int
     , status : DeckStatus
-    , copied : Bool
-    , copyToken : Int
+    , copied : Maybe Copy
+
+    -- Counts copies, so a notice's end isn't a later copy's.
+    , copies : Int
     , optimizedText : Maybe String
     , howToPlay : Bool
     , modalCount : Int
@@ -119,12 +121,13 @@ type alias Page =
     , manaSwaps : Request Swap
     , landSwaps : Request String
     , target : Maybe Bracket
-    , targetBusy : Bool
+
+    -- A re-run on its way to starting, from the target bracket or the settings, or why it couldn't.
+    , starting : Request ()
 
     -- Changing the settings to run the optimizer again (open while there are settings to change).
     , rerun : Maybe OptimizeOptions
-    , publishBusy : Bool
-    , exportCopied : Bool
+    , publishing : Request ()
     , exportClose : Int
     , active : Maybe Section
     }
@@ -170,7 +173,6 @@ type Msg
     | ToggledPublish Bool
     | GotPublish (Result String DeckDetailMeta)
     | CopiedExport
-    | ExportNoticeEnded
     | SectionActivated Section
     | ClickedCommander Card
     | ClickedJumpTo Section
@@ -197,8 +199,8 @@ init env decklistView slug =
             , deck = Loading
             , pollToken = 0
             , status = idle
-            , copied = False
-            , copyToken = 0
+            , copied = Nothing
+            , copies = 0
             , optimizedText = Nothing
             , howToPlay = False
             , modalCount = 0
@@ -211,10 +213,9 @@ init env decklistView slug =
             , manaSwaps = Idle
             , landSwaps = Idle
             , target = Nothing
-            , targetBusy = False
+            , starting = Idle
             , rerun = Nothing
-            , publishBusy = False
-            , exportCopied = False
+            , publishing = Idle
             , exportClose = 0
             , active = Nothing
             }
@@ -391,18 +392,30 @@ update env msg model =
             none (setPage (\p -> { p | optimizedText = text }) model)
 
         CopiedList ->
-            let
-                token =
-                    model.page.copyToken + 1
-            in
-            ( setPage (\p -> { p | copied = True, copyToken = token }) model
-            , Process.sleep 1500 |> Task.perform (\_ -> CopyNoticeEnded token)
-            , Nothing
-            )
+            copiedNow DecklistCopy model
 
-        CopyNoticeEnded token ->
-            if token == model.page.copyToken then
-                none (setPage (\p -> { p | copied = False }) model)
+        CopiedExport ->
+            copiedNow AddsCopy model
+
+        CopyNoticeEnded count ->
+            if count == model.page.copies then
+                none
+                    (setPage
+                        (\p ->
+                            { p
+                                | copied = Nothing
+
+                                -- The cards to add were copied from the export menu, which closes now.
+                                , exportClose =
+                                    if p.copied == Just AddsCopy then
+                                        p.exportClose + 1
+
+                                    else
+                                        p.exportClose
+                            }
+                        )
+                        model
+                    )
 
             else
                 none model
@@ -481,7 +494,7 @@ update env msg model =
                         o =
                             r.options
                     in
-                    ( setPage (\p -> { p | targetBusy = True }) model
+                    ( setPage (\p -> { p | starting = Busy () }) model
                     , Api.reoptimize model.page.slug { o | bracket = Just t } GotStarted
                     , Nothing
                     )
@@ -499,28 +512,22 @@ update env msg model =
             none (setPage (\p -> { p | rerun = Just o }) model)
 
         ClickedRunRerun o ->
-            ( model, Api.reoptimize model.page.slug o GotStarted, Nothing )
+            ( setPage (\p -> { p | starting = Busy () }) model, Api.reoptimize model.page.slug o GotStarted, Nothing )
 
         GotStarted (Ok ( slug, jobId )) ->
             ( model, Cmd.none, Just (Navigate (Route.Job slug jobId)) )
 
-        GotStarted (Err _) ->
-            none (setPage (\p -> { p | targetBusy = False }) model)
+        GotStarted (Err e) ->
+            none (setPage (\p -> { p | starting = Failed e }) model)
 
         ToggledPublish suggestions ->
-            ( setPage (\p -> { p | publishBusy = True }) model, Api.setPublishing model.page.slug suggestions GotPublish, Nothing )
+            ( setPage (\p -> { p | publishing = Busy () }) model, Api.setPublishing model.page.slug suggestions GotPublish, Nothing )
 
         GotPublish (Ok meta) ->
-            none (setPage (\p -> mapDetail (\d -> { d | meta = meta }) { p | publishBusy = False }) model)
+            none (setPage (\p -> mapDetail (\d -> { d | meta = meta }) { p | publishing = Idle }) model)
 
-        GotPublish (Err _) ->
-            none (setPage (\p -> { p | publishBusy = False }) model)
-
-        CopiedExport ->
-            ( setPage (\p -> { p | exportCopied = True }) model, Process.sleep 1000 |> Task.perform (\_ -> ExportNoticeEnded), Nothing )
-
-        ExportNoticeEnded ->
-            none (setPage (\p -> { p | exportCopied = False, exportClose = model.page.exportClose + 1 }) model)
+        GotPublish (Err e) ->
+            none (setPage (\p -> { p | publishing = Failed e }) model)
 
         SectionActivated section ->
             none (setPage (\p -> { p | active = Just section }) model)
@@ -582,6 +589,33 @@ update env msg model =
 
         ClickedViewTab deckView ->
             ( model, Cmd.none, Just (Navigate (Route.Deck model.page.slug deckView)) )
+
+
+{-| What a "✓ Copied" is about: the deck list, or the cards to add from the export menu.
+-}
+type Copy
+    = DecklistCopy
+    | AddsCopy
+
+
+copiedNow : Copy -> Model -> ( Model, Cmd Msg, Maybe Out )
+copiedNow copy model =
+    let
+        count =
+            model.page.copies + 1
+    in
+    ( setPage (\p -> { p | copied = Just copy, copies = count }) model
+    , Process.sleep
+        (case copy of
+            DecklistCopy ->
+                1500
+
+            AddsCopy ->
+                1000
+        )
+        |> Task.perform (\_ -> CopyNoticeEnded count)
+    , Nothing
+    )
 
 
 idle : DeckStatus
@@ -1587,8 +1621,8 @@ targetBracket model current =
                 )
             ]
         , when (target /= current)
-            (button [ class "primary", disabled model.targetBusy, onClick (ClickedRunTarget target) ]
-                ((if model.targetBusy then
+            (button [ class "primary", disabled (isBusy model.starting), onClick (ClickedRunTarget target) ]
+                ((if isBusy model.starting then
                     [ spinner ]
 
                   else
@@ -1597,6 +1631,7 @@ targetBracket model current =
                     ++ [ text ("Re-run for bracket " ++ String.fromInt (bracketToInt target)) ]
                 )
             )
+        , maybeHtml (failure model.starting) (\e -> p [ class "error small" ] [ text e ])
         ]
 
 
@@ -1623,8 +1658,9 @@ rerun model initial =
                         [ Settings.view { webResearch = True, onChange = ChangedRerun } opts
                         , div [ class "rerun-actions" ]
                             [ button [ class "ghost", onClick ClickedCancelRerun ] [ text "Cancel" ]
-                            , button [ class "primary", onClick (ClickedRunRerun opts) ] [ text "Run" ]
+                            , button [ class "primary", disabled (isBusy model.starting), onClick (ClickedRunRerun opts) ] [ text "Run" ]
                             ]
+                        , maybeHtml (failure model.starting) (\e -> p [ class "error small" ] [ text e ])
                         ]
 
                     Nothing ->
@@ -2355,7 +2391,7 @@ publishToggle model hidden =
              else
                 "false"
             )
-        , disabled model.publishBusy
+        , disabled (isBusy model.publishing)
         , onClick (ToggledPublish (not published))
         , title
             (if hidden then
@@ -2403,7 +2439,7 @@ exportMenu env model slug edhrecUrl swaps optimized =
             [ when (not (List.isEmpty adds))
                 (button [ class "menu-item" ]
                     [ text
-                        (if model.exportCopied then
+                        (if model.copied == Just AddsCopy then
                             "✓ Copied"
 
                          else
@@ -2770,7 +2806,7 @@ viewReport env requested model detail full =
                     [ button [ class "primary", onClick ClickedHowToPlay ] [ text "How to play" ]
                     , button [ disabled (listText == Nothing) ]
                         [ text
-                            (if model.copied then
+                            (if model.copied == Just DecklistCopy then
                                 "✓ Copied"
 
                              else
@@ -3025,6 +3061,7 @@ viewReport env requested model detail full =
                 , pre [] [ text detail.initial ]
                 ]
             , when (env.site == Local) (publishToggle model detail.meta.hideSuggestions)
+            , maybeHtml (failure model.publishing) (\e -> p [ class "error small" ] [ text e ])
             ]
         ]
 

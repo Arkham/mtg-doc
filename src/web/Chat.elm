@@ -13,7 +13,9 @@ import Html.Attributes exposing (attribute, disabled, height, property, rows, va
 import Html.Events exposing (on, onClick, onInput, preventDefaultOn)
 import Json.Decode as D
 import Json.Encode as E
+import Loadable exposing (Loadable(..))
 import Process
+import Request exposing (Request(..), failure)
 import Route exposing (Route)
 import Task
 import Types exposing (..)
@@ -36,14 +38,15 @@ suggestions =
 
 type alias Model =
     { open : Bool
-    , messages : Maybe (List DeckChatMessage)
+    , messages : Loadable (List DeckChatMessage)
     , text : String
     , asking : Maybe Asking
 
     -- Asked whether to clear the chat, waiting for a yes.
     , confirmingClear : Bool
-    , applying : Maybe String
-    , error : Maybe String
+
+    -- Applying a message's changes or starting its re-run (by the message's id), or what last failed.
+    , request : Request String
     , focus : Int
     , waitToken : Int
     }
@@ -101,12 +104,11 @@ type Out
 init : Model
 init =
     { open = False
-    , messages = Nothing
+    , messages = Loading
     , text = ""
     , asking = Nothing
     , confirmingClear = False
-    , applying = Nothing
-    , error = Nothing
+    , request = Idle
     , focus = 0
     , waitToken = 0
     }
@@ -157,22 +159,29 @@ idOf m =
 {-| Changes are applied in the background: check until they're in, then refresh the report (a
 follow-up offer to re-run may arrive with them).
 -}
-withMessages : Maybe (List DeckChatMessage) -> Model -> ( Model, Cmd Msg )
+withMessages : List DeckChatMessage -> Model -> ( Model, Cmd Msg )
 withMessages messages model =
     let
         token =
             model.waitToken + 1
 
         ids =
-            waiting (Maybe.withDefault [] messages)
+            waiting messages
     in
-    ( { model | messages = messages, waitToken = token }
+    ( { model | messages = Loaded messages, waitToken = token }
     , if List.isEmpty ids then
         Cmd.none
 
       else
         Process.sleep 1000 |> Task.perform (\_ -> CheckDue token ids)
     )
+
+
+{-| The messages so far: none while they load, or when they couldn't be.
+-}
+shownMessages : Model -> List DeckChatMessage
+shownMessages model =
+    Loadable.toMaybe model.messages |> Maybe.withDefault []
 
 
 {-| The question a reply answers, as the saved history will have it.
@@ -197,10 +206,16 @@ update env slug msg model =
             ( { model | open = False }, Cmd.none, Nothing )
 
         GotChat (Ok messages) ->
-            plain (withMessages (Just messages) model)
+            plain (withMessages messages model)
 
-        GotChat (Err _) ->
-            plain (withMessages (Just (Maybe.withDefault [] model.messages)) model)
+        GotChat (Err e) ->
+            case model.messages of
+                -- A reload that failed leaves the chat as it was.
+                Loaded _ ->
+                    plain ( model, Cmd.none )
+
+                _ ->
+                    plain ( { model | messages = Unavailable e }, Cmd.none )
 
         ChangedText t ->
             ( { model | text = t }, Cmd.none, Nothing )
@@ -215,7 +230,7 @@ update env slug msg model =
 
             else
                 -- The message is sent by the stream element the view draws while it's answered.
-                ( { model | error = Nothing, asking = Just { question = content, target = target, reply = "" }, text = "" }
+                ( { model | request = Idle, asking = Just { question = content, target = target, reply = "" }, text = "" }
                 , Cmd.none
                 , Nothing
                 )
@@ -223,7 +238,7 @@ update env slug msg model =
         GotReply (Ok reply) ->
             let
                 current =
-                    Maybe.withDefault [] model.messages
+                    shownMessages model
 
                 -- Reopening the chat while it was answered may have brought the saved message and
                 -- its question already.
@@ -235,7 +250,7 @@ update env slug msg model =
                         current ++ List.filterMap (Maybe.map (asked reply)) [ model.asking ] ++ [ DeckChatMessageAssistant reply ]
 
                 ( m, cmd ) =
-                    withMessages (Just messages) model
+                    withMessages messages model
 
                 done =
                     { m | asking = Nothing, focus = m.focus + 1 }
@@ -263,7 +278,7 @@ update env slug msg model =
 
         GotReply (Err e) ->
             ( { model
-                | error = Just e
+                | request = Failed e
                 , text = model.asking |> Maybe.map .question |> Maybe.withDefault model.text
                 , asking = Nothing
                 , focus = model.focus + 1
@@ -282,10 +297,10 @@ update env slug msg model =
             ( model, Api.clearChat slug GotCleared, Nothing )
 
         GotCleared (Ok messages) ->
-            plain (withMessages (Just messages) { model | confirmingClear = False, error = Nothing })
+            plain (withMessages messages { model | confirmingClear = False, request = Idle })
 
         GotCleared (Err e) ->
-            ( { model | confirmingClear = False, error = Just e }, Cmd.none, Nothing )
+            ( { model | confirmingClear = False, request = Failed e }, Cmd.none, Nothing )
 
         Streamed piece ->
             ( { model
@@ -320,39 +335,37 @@ update env slug msg model =
             ( model, Cmd.none, Nothing )
 
         ClickedApply id ->
-            ( { model | applying = Just id, error = Nothing }, Api.applyChat slug id (GotApply id), Nothing )
+            ( { model | request = Busy id }, Api.applyChat slug id (GotApply id), Nothing )
 
         GotApply id (Ok ( message, _ )) ->
             let
                 ( m, cmd ) =
                     withMessages
-                        (Maybe.map
-                            (List.map
-                                (\x ->
-                                    if idOf x == id then
-                                        DeckChatMessageAssistant message
+                        (List.map
+                            (\x ->
+                                if idOf x == id then
+                                    DeckChatMessageAssistant message
 
-                                    else
-                                        x
-                                )
+                                else
+                                    x
                             )
-                            model.messages
+                            (shownMessages model)
                         )
                         model
             in
-            ( { m | applying = Nothing }, cmd, Just (Applied Nothing) )
+            ( { m | request = Idle }, cmd, Just (Applied Nothing) )
 
         GotApply _ (Err e) ->
-            ( { model | applying = Nothing, error = Just e }, Cmd.none, Nothing )
+            ( { model | request = Failed e }, Cmd.none, Nothing )
 
         ClickedRerun id ->
-            ( { model | applying = Just id, error = Nothing }, Api.rerunFromChat slug id GotRerun, Nothing )
+            ( { model | request = Busy id }, Api.rerunFromChat slug id GotRerun, Nothing )
 
         GotRerun (Ok ( s, jobId )) ->
             ( model, Cmd.none, Just (Go (Route.Job s jobId)) )
 
         GotRerun (Err e) ->
-            ( { model | applying = Nothing, error = Just e }, Cmd.none, Nothing )
+            ( { model | request = Failed e }, Cmd.none, Nothing )
 
         CheckDue token ids ->
             if token == model.waitToken then
@@ -364,7 +377,7 @@ update env slug msg model =
         GotWaited ids (Ok messages) ->
             let
                 ( m, cmd ) =
-                    withMessages (Just messages) model
+                    withMessages messages model
 
                 finished =
                     List.any (\id -> not (List.member id (waiting messages))) ids
@@ -631,7 +644,7 @@ panel config model =
                             )
                         ]
                     ]
-                , if List.isEmpty (Maybe.withDefault [] model.messages) || model.asking /= Nothing then
+                , if List.isEmpty (shownMessages model) || model.asking /= Nothing then
                     text ""
 
                   else
@@ -658,7 +671,7 @@ panel config model =
               else
                 text ""
             , div [ class "chat-messages" ]
-                ((if model.messages == Just [] then
+                ((if model.messages == Loaded [] then
                     [ div [ class "chat-empty" ]
                         [ p [] [ text "Ask about the deck or tell me what to change. I'll propose additions and cuts that fit your bracket and budget; nothing changes until you apply it." ]
                         , div [ class "chat-suggestions" ]
@@ -682,18 +695,18 @@ panel config model =
                                                     []
 
                                                 else
-                                                    [ changesView config ctx a (model.applying == Just a.id) ]
+                                                    [ changesView config ctx a (model.request == Busy a.id) ]
                                                )
                                             ++ (case a.rerun of
                                                     Just r ->
-                                                        [ rerunView config a r (model.applying == Just a.id) ]
+                                                        [ rerunView config a r (model.request == Busy a.id) ]
 
                                                     Nothing ->
                                                         []
                                                )
                                         )
                         )
-                        (Maybe.withDefault [] model.messages)
+                        (shownMessages model)
                     ++ (case model.asking of
                             Just asking ->
                                 [ div [ class "chat-msg user" ] [ div [ class "chat-bubble" ] (Card.prose ctx asking.question) ]
@@ -711,11 +724,14 @@ panel config model =
                        )
                     ++ [ node "mtg-stick-bottom" [] [] ]
                 )
-            , case model.error of
-                Just e ->
+            , case ( model.messages, failure model.request ) of
+                ( Unavailable e, _ ) ->
+                    p [ class "error small chat-error" ] [ text ("Couldn't load the chat: " ++ e) ]
+
+                ( _, Just e ) ->
                     p [ class "error small chat-error" ] [ text e ]
 
-                Nothing ->
+                _ ->
                     text ""
             , form [ class "chat-input", preventDefaultOn "submit" (D.succeed ( Submitted config.target model.text, True )) ]
                 [ textarea

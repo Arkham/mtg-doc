@@ -11,6 +11,7 @@ import Html.Keyed as Keyed
 import Json.Decode as D
 import Json.Encode as E
 import List.Extra
+import Loadable exposing (Loadable)
 import Process
 import Regex
 import Request exposing (Request(..), failure, isBusy)
@@ -157,7 +158,7 @@ type Out
     | Preview Card.Msg
 
 
-init : Recognition -> List String -> Maybe AppConfig -> Model
+init : Recognition -> List String -> Loadable AppConfig -> Model
 init recognition photos config =
     let
         commanderRows =
@@ -198,7 +199,7 @@ init recognition photos config =
         , tone = ToneMax
         , locked = []
         , excluded = []
-        , webResearch = config |> Maybe.map .webResearch |> Maybe.withDefault False
+        , webResearch = config |> Loadable.toMaybe |> Maybe.map .webResearch |> Maybe.withDefault False
         }
     , view = All
     , search = ""
@@ -679,7 +680,7 @@ numberValue s =
     String.toInt s |> Maybe.withDefault 0
 
 
-view : Env -> Maybe AppConfig -> Model -> Html Msg
+view : Env -> Loadable AppConfig -> Model -> Html Msg
 view env config model =
     let
         ctx =
@@ -890,7 +891,7 @@ view env config model =
                         , span [ class "muted small" ] [ text (Settings.summary model.options) ]
                         ]
                     , Settings.view
-                        { webResearch = config |> Maybe.map .webResearch |> Maybe.withDefault False
+                        { webResearch = config |> Loadable.toMaybe |> Maybe.map .webResearch |> Maybe.withDefault False
                         , onChange = ChangedOptions
                         }
                         model.options

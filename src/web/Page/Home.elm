@@ -100,17 +100,17 @@ init env decks =
 
 {-| Photo recognition needs an LLM; fall back to text input when none is configured.
 -}
-mode : Maybe AppConfig -> Model -> Mode
+mode : Loadable AppConfig -> Model -> Mode
 mode config model =
     case config of
-        Just c ->
+        Loaded c ->
             if c.llm then
                 model.preferredMode
 
             else
                 TextList
 
-        Nothing ->
+        _ ->
             model.preferredMode
 
 
@@ -129,7 +129,7 @@ reading model =
             False
 
 
-update : Maybe AppConfig -> Msg -> Model -> ( Model, Cmd Msg, Maybe Out )
+update : Loadable AppConfig -> Msg -> Model -> ( Model, Cmd Msg, Maybe Out )
 update config msg model =
     case msg of
         CardMsg m ->
@@ -246,7 +246,7 @@ update config msg model =
             ( { model | filter = f }, Cmd.none, Nothing )
 
 
-done : Maybe AppConfig -> Recognition -> Model -> ( Model, Cmd Msg, Maybe Out )
+done : Loadable AppConfig -> Recognition -> Model -> ( Model, Cmd Msg, Maybe Out )
 done config result model =
     ( { model | reading = Idle }
     , Cmd.none
@@ -470,7 +470,7 @@ filesDecoder =
     D.list File.decoder
 
 
-view : Env -> Maybe AppConfig -> Model -> Html Msg
+view : Env -> Loadable AppConfig -> Model -> Html Msg
 view env config model =
     div [ class "stack" ]
         [ welcome env model.decks
@@ -498,7 +498,7 @@ view env config model =
                             [ attribute "role" "tab"
                             , ariaSelected (m == Image)
                             , onClick (ChoseMode Image)
-                            , disabled (config |> Maybe.map (not << .llm) |> Maybe.withDefault False)
+                            , disabled (config |> Loadable.toMaybe |> Maybe.map (not << .llm) |> Maybe.withDefault False)
                             ]
                             [ text "Photo" ]
                         , button [ attribute "role" "tab", ariaSelected (m == TextList), onClick (ChoseMode TextList) ] [ text "Text list" ]
