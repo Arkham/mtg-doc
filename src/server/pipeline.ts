@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import type {
+  Bracket,
   BracketReport,
   Card,
   Color,
@@ -777,7 +778,7 @@ async function classify(start: Start, cards: Card[]) {
 function submittedBaseline(
   d: Deck,
   checks: { est: BracketEstimate | null; found: { present: Combo[]; oneAway: Combo[] } | null },
-  context: { avgLands: number | null; isCommander: boolean; target: number },
+  context: { avgLands: number | null; isCommander: boolean; target: Bracket },
   fallback: { present: Combo[]; oneAway: Combo[] },
 ) {
   const snap = snapshot(d, context.avgLands, context.isCommander, twoCardCombos(checks.est));
@@ -798,7 +799,7 @@ async function fixAndVerify(
   opts: {
     start: Start;
     combos: { present: Combo[]; oneAway: Combo[] };
-    baseline: { before: DeckSnapshot; target: number; rules: (typeof BRACKETS)[number] };
+    baseline: { before: DeckSnapshot; target: Bracket; rules: (typeof BRACKETS)[Bracket] };
     avgLands: number | null;
     landPool: Card[];
     upgrades: { ctx: SolverContext; solver: SolverResult };

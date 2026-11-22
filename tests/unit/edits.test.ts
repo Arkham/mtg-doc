@@ -155,7 +155,7 @@ describe("re-run proposals", () => {
     maxSwaps: 15,
     budgetPerCard: null,
     budgetTotal: 300,
-    bracket: 3,
+    bracket: 3 as const,
     tone: "max" as const,
     locked: [],
     webResearch: true,

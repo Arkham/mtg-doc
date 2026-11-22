@@ -13,7 +13,9 @@ const ROOT = path.resolve(import.meta.dirname, "..");
 const { values } = parseArgs({ options: { check: { type: "boolean", default: false } } });
 
 type T =
-  { k: "string" | "float" | "bool" } | { k: "list" | "dict"; of: T } | { k: "ref"; name: string };
+  | { k: "string" | "float" | "int" | "bool" }
+  | { k: "list" | "dict"; of: T }
+  | { k: "ref"; name: string };
 
 interface Field {
   name: string;
@@ -37,6 +39,8 @@ interface Variant {
 type Decl =
   | { kind: "record"; name: string; fields: Field[]; doc?: string }
   | { kind: "enum"; name: string; values: string[]; doc?: string }
+  /** A union of number literals (`1 | 2 | 3`): an Elm custom type, read from and written as Ints. */
+  | { kind: "numbers"; name: string; values: number[]; doc?: string }
   | { kind: "union"; name: string; variants: Variant[]; doc?: string };
 
 /** The field every variant of a discriminated union has, telling them apart. */
@@ -78,6 +82,11 @@ function docBefore(node: Node): string | undefined {
   return text || undefined;
 }
 
+const numberLiterals = (types: Node[]) =>
+  types.every((t) => t.type === "TSLiteralType" && typeof t.literal.value === "number")
+    ? types.map((t) => t.literal.value as number)
+    : null;
+
 const stringLiterals = (types: Node[]) =>
   types.every((t) => t.type === "TSLiteralType" && typeof t.literal.value === "string")
     ? types.map((t) => t.literal.value as string)
@@ -103,6 +112,8 @@ function convert(node: Node, name: string): { type: T; nullable: boolean } {
       return { type: { k: "list", of: plain(node.elementType, singular(name)) }, nullable: false };
     case "TSTypeReference": {
       const ref = node.typeName.name as string;
+      // A whole number (`type Int = number` in the TypeScript).
+      if (ref === "Int") return { type: { k: "int" }, nullable: false };
       if (ref === "Record")
         return {
           type: { k: "dict", of: plain(node.typeArguments.params[1], name) },
@@ -121,6 +132,11 @@ function convert(node: Node, name: string): { type: T; nullable: boolean } {
       const literals = stringLiterals(rest);
       if (literals) {
         register({ kind: "enum", name, values: literals });
+        return { type: { k: "ref", name }, nullable };
+      }
+      const numbers = numberLiterals(rest);
+      if (numbers) {
+        register({ kind: "numbers", name, values: numbers });
         return { type: { k: "ref", name }, nullable };
       }
       if (rest.length > 1 && rest.every((t: Node) => t.type === "TSTypeLiteral")) {
@@ -192,6 +208,8 @@ for (const statement of parsed.program.body as Node[]) {
   if (node.type === "TSInterfaceDeclaration") interfaceDecl(node);
   else if (node.type === "TSTypeAliasDeclaration") {
     const name = node.id.name as string;
+    // Marks whole numbers; fields of this type are Elm Ints (see `convert`).
+    if (name === "Int") continue;
     const t: Node = node.typeAnnotation;
     if (t.type === "TSTypeReference" && t.typeName.name === "Partial") {
       // Partial<Pick<Base, "a" | "b">>
@@ -226,6 +244,8 @@ function elmType(t: T): string {
       return "String";
     case "float":
       return "Float";
+    case "int":
+      return "Int";
     case "bool":
       return "Bool";
     case "list":
@@ -247,6 +267,8 @@ function decoder(t: T): string {
       return "D.string";
     case "float":
       return "D.float";
+    case "int":
+      return "D.int";
     case "bool":
       return "D.bool";
     case "list":
@@ -264,6 +286,8 @@ function encoder(t: T): string {
       return "E.string";
     case "float":
       return "E.float";
+    case "int":
+      return "E.int";
     case "bool":
       return "E.bool";
     case "list":
@@ -326,8 +350,33 @@ function emitUnion(decl: Extract<Decl, { kind: "union" }>): string {
   return [type, dec, enc].join("\n\n\n");
 }
 
+/** Every value of an enum, in order: a list that can't leave one out. */
+const allValues = (name: string, ctors: readonly string[]) =>
+  `{-| Every ${name}, in order.\n-}\n${lower(name)}Values : List ${name}\n${lower(name)}Values =\n    [ ${ctors.join(", ")} ]`;
+
+function emitNumbers(decl: Extract<Decl, { kind: "numbers" }>): string {
+  const fn = lower(decl.name);
+  const cases = decl.values.map((v) => [ctor(decl.name, String(v)), v] as const);
+  return [
+    `${comment(decl.doc)}type ${decl.name}\n    = ${cases.map(([c]) => c).join("\n    | ")}`,
+    `${fn}ToInt : ${decl.name} -> Int\n${fn}ToInt value =\n    case value of\n${cases
+      .map(([c, v]) => `        ${c} ->\n            ${v}`)
+      .join("\n\n")}`,
+    `${fn}FromInt : Int -> Maybe ${decl.name}\n${fn}FromInt value =\n    case value of\n${cases
+      .map(([c, v]) => `        ${v} ->\n            Just ${c}`)
+      .join("\n\n")}\n\n        _ ->\n            Nothing`,
+    `${fn}Decoder : Decoder ${decl.name}\n${fn}Decoder =\n    D.int\n        |> D.andThen\n            (\\value ->\n                case ${fn}FromInt value of\n                    Just v ->\n                        D.succeed v\n\n                    Nothing ->\n                        D.fail ("Unknown ${decl.name}: " ++ String.fromInt value)\n            )`,
+    `encode${decl.name} : ${decl.name} -> E.Value\nencode${decl.name} =\n    ${fn}ToInt >> E.int`,
+    allValues(
+      decl.name,
+      cases.map(([c]) => c),
+    ),
+  ].join("\n\n\n");
+}
+
 function emit(decl: Decl): string {
   if (decl.kind === "union") return emitUnion(decl);
+  if (decl.kind === "numbers") return emitNumbers(decl);
   const fn = lower(decl.name);
   if (decl.kind === "enum") {
     const cases = decl.values.map((v) => [ctor(decl.name, v), v] as const);
@@ -341,6 +390,10 @@ function emit(decl: Decl): string {
         .join("\n\n")}\n\n        _ ->\n            Nothing`,
       `${fn}Decoder : Decoder ${decl.name}\n${fn}Decoder =\n    D.string\n        |> D.andThen\n            (\\value ->\n                case ${fn}FromString value of\n                    Just v ->\n                        D.succeed v\n\n                    Nothing ->\n                        D.fail ("Unknown ${decl.name}: " ++ value)\n            )`,
       `encode${decl.name} : ${decl.name} -> E.Value\nencode${decl.name} =\n    ${fn}ToString >> E.string`,
+      allValues(
+        decl.name,
+        cases.map(([c]) => c),
+      ),
     ].join("\n\n\n");
   }
   const fields = decl.fields;
@@ -359,15 +412,25 @@ const ordered = [...decls.values()].sort((a, b) => a.name.localeCompare(b.name))
 const exposing = ordered.flatMap((d) =>
   d.kind === "union"
     ? [`${d.name}(..)`, `${lower(d.name)}Decoder`, `encode${d.name}`]
-    : d.kind === "enum"
+    : d.kind === "numbers"
       ? [
           `${d.name}(..)`,
-          `${lower(d.name)}ToString`,
-          `${lower(d.name)}FromString`,
+          `${lower(d.name)}ToInt`,
+          `${lower(d.name)}FromInt`,
+          `${lower(d.name)}Values`,
           `${lower(d.name)}Decoder`,
           `encode${d.name}`,
         ]
-      : [d.name, `${lower(d.name)}Decoder`, `encode${d.name}`],
+      : d.kind === "enum"
+        ? [
+            `${d.name}(..)`,
+            `${lower(d.name)}ToString`,
+            `${lower(d.name)}FromString`,
+            `${lower(d.name)}Values`,
+            `${lower(d.name)}Decoder`,
+            `encode${d.name}`,
+          ]
+        : [d.name, `${lower(d.name)}Decoder`, `encode${d.name}`],
 );
 
 const types = `module Types exposing

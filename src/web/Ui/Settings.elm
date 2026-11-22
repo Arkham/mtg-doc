@@ -8,8 +8,9 @@ import Html exposing (Html, button, div, input, label, option, select, span, tex
 import Html.Attributes exposing (attribute, checked, disabled, selected, value)
 import Html.Events exposing (on, onCheck, onClick, onInput)
 import Json.Decode as D
-import Types exposing (OptimizeOptions, Tone(..), toneToString)
+import Types exposing (OptimizeOptions, Tone(..), bracketFromInt, bracketToInt, bracketValues, toneToString)
 import Ui.Attr exposing (class, placeholder, type_)
+import Ui.Bracket as Bracket
 import Ui.Style exposing (ariaSelected)
 
 
@@ -17,7 +18,7 @@ import Ui.Style exposing (ariaSelected)
 -}
 summary : OptimizeOptions -> String
 summary o =
-    [ Just ("up to " ++ String.fromFloat o.maxSwaps ++ " swaps")
+    [ Just ("up to " ++ String.fromInt o.maxSwaps ++ " swaps")
     , o.budgetTotal |> Maybe.andThen nonZero |> Maybe.map (\b -> "deck ≤ $" ++ String.fromFloat b)
     , o.budgetPerCard |> Maybe.andThen nonZero |> Maybe.map (\b -> "≤ $" ++ String.fromFloat b ++ "/card")
     , if (o.budgetTotal |> Maybe.andThen nonZero) == Nothing && (o.budgetPerCard |> Maybe.andThen nonZero) == Nothing then
@@ -26,9 +27,9 @@ summary o =
       else
         Nothing
     , Just
-        (case o.bracket |> Maybe.andThen nonZero of
+        (case o.bracket of
             Just b ->
-                "bracket " ++ String.fromFloat b
+                "bracket " ++ String.fromInt (bracketToInt b)
 
             Nothing ->
                 "current bracket"
@@ -77,9 +78,9 @@ view config o =
                 , attribute "inputmode" "numeric"
                 , Ui.Attr.min "1"
                 , Ui.Attr.max "40"
-                , value (String.fromFloat o.maxSwaps)
-                , Ui.Attr.valueAttr (String.fromFloat o.maxSwaps)
-                , onInput (\v -> set { o | maxSwaps = number v })
+                , value (String.fromInt o.maxSwaps)
+                , Ui.Attr.valueAttr (String.fromInt o.maxSwaps)
+                , onInput (\v -> set { o | maxSwaps = String.toInt v |> Maybe.withDefault 0 })
                 ]
                 []
             ]
@@ -111,16 +112,19 @@ view config o =
             ]
         , label [ class "field" ]
             [ span [] [ text "Target bracket" ]
-            , select [ on "change" (D.map (\v -> set { o | bracket = optional v }) (D.at [ "target", "value" ] D.string)) ]
-                (List.map
-                    (\( v, l ) -> option [ Ui.Attr.optionValue v, selected ((o.bracket |> Maybe.map String.fromFloat |> Maybe.withDefault "") == v) ] [ text l ])
-                    [ ( "", "Stay in current bracket" )
-                    , ( "1", "1: Exhibition" )
-                    , ( "2", "2: Core" )
-                    , ( "3", "3: Upgraded" )
-                    , ( "4", "4: Optimized" )
-                    , ( "5", "5: cEDH" )
-                    ]
+            , select
+                [ on "change"
+                    (D.at [ "target", "value" ] D.string
+                        |> D.map (\v -> set { o | bracket = String.toInt v |> Maybe.andThen bracketFromInt })
+                    )
+                ]
+                (option [ Ui.Attr.optionValue "", selected (o.bracket == Nothing) ] [ text "Stay in current bracket" ]
+                    :: List.map
+                        (\b ->
+                            option [ Ui.Attr.optionValue (String.fromInt (bracketToInt b)), selected (o.bracket == Just b) ]
+                                [ text (String.fromInt (bracketToInt b) ++ ": " ++ Bracket.names b) ]
+                        )
+                        bracketValues
                 )
             ]
         , div [ class "field" ]

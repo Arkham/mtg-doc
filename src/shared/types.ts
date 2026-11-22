@@ -1,3 +1,9 @@
+/** A whole number: the same as `number` here; an Int, not a Float, in the Elm the client is in. */
+export type Int = number;
+
+/** A Commander bracket: 1 Exhibition, 2 Core, 3 Upgraded, 4 Optimized, 5 cEDH. */
+export type Bracket = 1 | 2 | 3 | 4 | 5;
+
 /** What a change does to a deck list. */
 export type ChangeAction = "add" | "remove";
 
@@ -51,7 +57,7 @@ export interface Card {
 }
 
 export interface DeckEntry {
-  qty: number;
+  qty: Int;
   name: string;
 }
 
@@ -63,7 +69,7 @@ export interface RecognizedEntry extends DeckEntry {
   /** Language the card is printed in (Scryfall code), from photo recognition. */
   lang?: string;
   /** Independent reading passes that saw this card. */
-  votes?: number;
+  votes?: Int;
   /** 0-1: 1 when several passes agree, otherwise the verification probability. */
   confidence?: number;
 }
@@ -82,12 +88,12 @@ export interface RecognitionResult {
 export type Tone = "max" | "balanced" | "casual";
 
 export interface OptimizeOptions {
-  maxSwaps: number;
+  maxSwaps: Int;
   budgetPerCard: number | null;
   /** Max total price of the final deck (USD), including the commander. */
   budgetTotal: number | null;
   /** Target bracket; null keeps the deck in the bracket it already fits. */
-  bracket: number | null;
+  bracket: Bracket | null;
   /** How hard to push within the bracket. */
   tone: Tone;
   locked: string[];
@@ -113,12 +119,12 @@ export interface DeckSummary {
   image: string | null;
   colorIdentity?: Color[];
   /** Stats of the deck as submitted; the swaps are only suggestions. */
-  bracket?: number;
-  landCount?: number;
+  bracket?: Bracket;
+  landCount?: Int;
   priceUsd?: number;
-  swapCount?: number;
+  swapCount?: Int;
   /** Bracket the suggested swaps aim for. */
-  targetBracket?: number;
+  targetBracket?: Bracket;
   /** Every card in the deck as submitted, commanders included, for the card search. */
   cards: string[];
   /** The commanders' cards, so the deck list can show what they do. */
@@ -141,11 +147,12 @@ export interface Swap {
 
 export interface ColorStat {
   color: Color;
+  /** Weighted: hybrid symbols count half, the commander's count extra. */
   pips: number;
   pipShare: number;
-  landSources: number;
-  rampSources: number;
-  targetSources: number;
+  landSources: Int;
+  rampSources: Int;
+  targetSources: Int;
   /** What sets the target: one card's heavy cost in this color, or the color's overall share. */
   targetReason?: "heaviest-card" | "share";
   /** The spell needing the most symbols of this color, with its cost. */
@@ -153,21 +160,21 @@ export interface ColorStat {
 }
 
 export interface ManaReport {
-  landCount: number;
-  mdfcLands: number;
-  recommendedLands: number;
+  landCount: Int;
+  mdfcLands: Int;
+  recommendedLands: Int;
   avgCmc: number;
-  curve: Record<string, number>;
+  curve: Record<string, Int>;
   colors: ColorStat[];
   tappedLands: string[];
   colorlessLands: string[];
-  basics: Record<string, number>;
-  rampCount: number;
+  basics: Record<string, Int>;
+  rampCount: Int;
   issues: string[];
 }
 
 export interface SimResult {
-  games: number;
+  games: Int;
   mulliganRate: number;
   landDropByTurn: Record<number, number>;
   commanderOnCurve: number;
@@ -182,8 +189,8 @@ export interface SimResult {
 
 export interface RoleCount {
   role: Role;
-  count: number;
-  target: number | null;
+  count: Int;
+  target: Int | null;
 }
 
 export interface Combo {
@@ -206,7 +213,7 @@ export interface DeckSnapshot {
   mana: ManaReport;
   sim: SimResult;
   roles: RoleCount[];
-  totalCards: number;
+  totalCards: Int;
   totalPriceUsd: number;
 }
 
@@ -228,7 +235,7 @@ export interface BracketCheck {
 
 export interface BracketAssessment {
   /** Lowest bracket whose rules the deck satisfies. */
-  bracket: number;
+  bracket: Bracket;
   spellbookTag: string | null;
   gameChangers: string[];
   massLandDenial: string[];
@@ -242,13 +249,13 @@ export interface BracketAssessment {
 }
 
 export interface BracketReport {
-  target: number;
+  target: Bracket;
   name: string;
-  minTurns: number;
+  minTurns: Int;
   tone: Tone;
   before: BracketAssessment;
   after: BracketAssessment;
-  gameChangerLimit: number | null;
+  gameChangerLimit: Int | null;
   /** Best Game Changers not in the deck, for brackets with free slots. */
   gameChangerOptions: { name: string; score: number; inDeck: boolean }[];
   /** Strong cards the optimizer skipped to stay in the bracket. */
@@ -259,7 +266,7 @@ export interface BracketReport {
 export interface DeckChange {
   action: ChangeAction;
   name: string;
-  qty: number;
+  qty: Int;
   reason: string;
   /** Why the change can't be applied; a change without one can be. */
   problem?: string;
@@ -354,7 +361,7 @@ export interface DeckEdit {
   request: string;
   /** Set when the edit changed the deck as submitted; the suggestions were rebuilt from it. */
   target?: "original";
-  changes: { action: ChangeAction; name: string; qty: number; reason: string }[];
+  changes: { action: ChangeAction; name: string; qty: Int; reason: string }[];
 }
 
 export interface Report {
@@ -371,7 +378,7 @@ export interface Report {
   combosPresent: Combo[];
   combosOneAway: Combo[];
   research: Research | null;
-  edhrec: { url: string; numDecks: number | null; avgLands: number | null } | null;
+  edhrec: { url: string; numDecks: Int | null; avgLands: number | null } | null;
   warnings: string[];
   options: OptimizeOptions;
   bracket?: BracketReport;
@@ -396,7 +403,7 @@ export interface Report {
 export interface DecklistCard {
   name: string;
   manaCost?: string;
-  qty: number;
+  qty: Int;
   group: string;
   cmc: number;
   image: string | null;
@@ -404,7 +411,7 @@ export interface DecklistCard {
   priceUsd: number | null;
   isNew: boolean;
   /** Quantity change vs the initial list (basics can go up or down). */
-  delta: number;
+  delta: Int;
 }
 
 export interface JobStep {
@@ -482,8 +489,8 @@ export interface RecognitionJob {
   status:
     { kind: "running" } | { kind: "done"; result: Recognition } | { kind: "error"; error: string };
   phase: string;
-  done: number;
-  total: number;
+  done: Int;
+  total: Int;
 }
 
 /** One name looked up for the review screen (`POST /api/cards/resolve`). */

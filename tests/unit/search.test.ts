@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
-import type { Card, OptimizeOptions, RoleCount } from "../../src/shared/types.ts";
+import type { Bracket, Card, OptimizeOptions, RoleCount } from "../../src/shared/types.ts";
 import { BRACKETS } from "../../src/server/analysis/bracket.ts";
 import { type Deck, totalPrice } from "../../src/server/analysis/deck.ts";
 import {
@@ -26,7 +26,7 @@ function context(
   deck: Deck,
   scored: SolverCard[],
   candidates: SolverCard[],
-  target = 3,
+  target: Bracket = 3,
   budgetTotal: number | null = null,
 ): SolverContext {
   const all = new Map([...scored, ...candidates].map((s) => [s.card.name, s.flags]));

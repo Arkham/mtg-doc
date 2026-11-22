@@ -1,10 +1,12 @@
 import type {
+  Bracket,
   BracketAssessment,
   BracketCheck,
   BracketCombo,
   Card,
   SimResult,
 } from "../../shared/types.ts";
+import { z } from "zod";
 import type { BracketEstimate, CardFlags, ClassifiedCombo } from "../sources/spellbook.ts";
 import type { Deck } from "./deck.ts";
 
@@ -22,7 +24,7 @@ export interface BracketRules {
   minTurns: number;
 }
 
-export const BRACKETS: Record<number, BracketRules> = {
+export const BRACKETS: Record<Bracket, BracketRules> = {
   1: {
     name: "Exhibition",
     gameChangers: 0,
@@ -68,7 +70,18 @@ export const BRACKETS: Record<number, BracketRules> = {
 /** A two-card combo counts as "early" when assembled this often before the bracket's minimum game length. */
 const EARLY_COMBO_PCT = 15;
 
-const SPELLBOOK_TAG_BRACKET: Record<string, number> = { E: 1, C: 2, O: 2, P: 3, S: 3, R: 4, B: 4 };
+const SPELLBOOK_TAG_BRACKET: Record<string, Bracket> = { E: 1, C: 2, O: 2, P: 3, S: 3, R: 4, B: 4 };
+
+/** A bracket, as the client and the model send one: exactly 1 to 5, no other number. */
+export const BracketSchema = z.union([
+  z.literal(1),
+  z.literal(2),
+  z.literal(3),
+  z.literal(4),
+  z.literal(5),
+]);
+
+const higher = (a: Bracket, b: Bracket): Bracket => (a > b ? a : b);
 
 export const isTwoCard = (c: ClassifiedCombo) =>
   c.relevant && (c.definitelyTwoCard || c.arguablyTwoCard);
@@ -93,7 +106,7 @@ function earlyPct(combo: ClassifiedCombo, sim: SimResult | null, minTurns: numbe
 /** Whether a combo breaks a bracket's combo rule. */
 export function comboViolates(
   combo: ClassifiedCombo,
-  bracket: number,
+  bracket: Bracket,
   early: number | null,
 ): boolean {
   const rule = BRACKETS[bracket].twoCardCombos;
@@ -126,7 +139,7 @@ function powerScore(deck: Deck, gcCount: number, twoCardCombos: number, sim: Sim
 }
 
 /** Typical power ranges per bracket, used to place a deck low/mid/high within its bracket. */
-const POWER_RANGE: Record<number, [number, number]> = {
+const POWER_RANGE: Record<Bracket, [number, number]> = {
   1: [0, 25],
   2: [10, 40],
   3: [30, 65],
@@ -138,7 +151,7 @@ export function assessBracket(
   deck: Deck,
   est: BracketEstimate | null,
   sim: SimResult | null,
-  target: number | null,
+  target: Bracket | null,
 ): BracketAssessment {
   const all = [...deck.commanders, ...deck.slots.map((s) => s.card)];
   const flags = all.map((c) => ({ card: c, f: flagsFor(c, est) }));
@@ -147,7 +160,7 @@ export function assessBracket(
   const extraTurns = flags.filter((x) => x.f.extraTurn).map((x) => x.card.name);
   const relevantCombos = (est?.combos ?? []).filter((c) => c.relevant);
 
-  const fits = (b: number) => {
+  const fits = (b: Bracket) => {
     const r = BRACKETS[b];
     return (
       gameChangers.length <= r.gameChangers &&
@@ -156,8 +169,9 @@ export function assessBracket(
       relevantCombos.every((c) => !comboViolates(c, b, earlyPct(c, sim, r.minTurns)))
     );
   };
-  let bracket = [1, 2, 3, 4].find(fits) ?? 4;
-  if (est?.tag) bracket = Math.max(bracket, Math.min(SPELLBOOK_TAG_BRACKET[est.tag] ?? 1, 4));
+  let bracket: Bracket = ([1, 2, 3, 4] as const).find(fits) ?? 4;
+  // Spellbook's tag sets a floor (never cEDH: its tags go up to bracket 4).
+  if (est?.tag) bracket = higher(bracket, SPELLBOOK_TAG_BRACKET[est.tag] ?? 1);
   // Brackets 1 and 2 share rules; 1 is about theme/intent, so never infer it automatically.
   if (bracket === 1) bracket = 2;
 

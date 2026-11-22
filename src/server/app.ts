@@ -15,6 +15,7 @@ import {
 } from "./chat.ts";
 import { clearChat, readChat } from "./chat-history.ts";
 import { editStatus, pendingEdits } from "./edit-queue.ts";
+import { BracketSchema } from "./analysis/bracket.ts";
 import { recognizeImages, recognizeText } from "./ocr.ts";
 import { refreshStatus } from "./refresh.ts";
 import { getJob, startOptimize, watchJob } from "./pipeline.ts";
@@ -70,7 +71,7 @@ export function createApp() {
     maxSwaps: z.number().int().min(1).max(40).default(15),
     budgetPerCard: z.number().positive().nullable().default(null),
     budgetTotal: z.number().positive().nullable().default(null),
-    bracket: z.number().int().min(1).max(5).nullable().default(null),
+    bracket: BracketSchema.nullable().default(null),
     tone: z.enum(["max", "balanced", "casual"]).default("max"),
     locked: z.array(z.string()).default([]),
     webResearch: z.boolean().default(true),

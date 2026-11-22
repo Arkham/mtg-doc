@@ -8,7 +8,7 @@ import Html exposing (Html, button, div, h1, h2, h3, header, li, node, ol, p, se
 import Html.Attributes exposing (attribute, style)
 import Html.Events exposing (onClick)
 import Json.Decode as D
-import Types exposing (BracketAssessmentPosition(..), PlayGuide, Report)
+import Types exposing (BracketAssessmentPosition(..), PlayGuide, Report, bracketToInt)
 import Ui.Attr exposing (class, id)
 import Ui.Bracket as Bracket
 import Ui.Card as Card
@@ -67,7 +67,7 @@ view opts r guide =
                                 [ case assessed of
                                     Just a ->
                                         div [ class "rule0-kicker" ]
-                                            [ text ("Bracket " ++ String.fromFloat a.bracket ++ " · " ++ Bracket.names (round a.bracket)) ]
+                                            [ text ("Bracket " ++ String.fromInt (bracketToInt a.bracket) ++ " · " ++ Bracket.names a.bracket) ]
 
                                     Nothing ->
                                         text ""
@@ -184,8 +184,8 @@ atTheTable ctx r =
                 (List.concat
                     [ [ h3 [] [ text "At the table" ]
                       , div [ class "rule0-facts" ]
-                            [ fact "Game length" (String.fromFloat b.minTurns ++ "+ turns")
-                            , fact "Power" (position ++ " " ++ Bracket.names (round a.bracket))
+                            [ fact "Game length" (String.fromInt b.minTurns ++ "+ turns")
+                            , fact "Power" (position ++ " " ++ Bracket.names a.bracket)
                             , fact "Game Changers" (String.fromInt (List.length a.gameChangers))
                             , fact "Two-card combos" (String.fromInt (List.length combos))
                             ]

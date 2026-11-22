@@ -70,7 +70,7 @@ matchOf status card =
 
 type alias Row =
     { id : Int
-    , qty : Float
+    , qty : Int
     , name : String
     , raw : String
     , match : Match
@@ -103,7 +103,7 @@ type alias Model =
     , cmdr : Suggestions
     , names : Suggestions
     , adds : Suggestions
-    , addQty : Float
+    , addQty : Int
     , adding : Request ()
     , flash : Maybe ( Int, Int )
     , focusAdd : Int
@@ -129,14 +129,14 @@ type Msg
     | Fetch Which Int
     | GotSuggestions Which (Result String (List String))
     | SetDeckName String
-    | SetQty Int Float
+    | SetQty Int Int
     | SetName Int String
     | FocusName String
     | Recheck Int String
     | Rechecked Int String (Result String (List ResolvedName))
     | ToggleLock Int
     | RemoveRow Int
-    | SetAddQty Float
+    | SetAddQty Int
     | AddCard
     | Added String (Result String (List ResolvedName))
     | Unflash Int
@@ -340,7 +340,7 @@ isExact r =
             False
 
 
-newRow : Model -> Float -> String -> String -> Match -> ( Row, Model )
+newRow : Model -> Int -> String -> String -> Match -> ( Row, Model )
 newRow model qty name raw match =
     ( { id = model.nextId, qty = qty, name = name, raw = raw, match = match, locked = False, lang = Nothing, confidence = Nothing }
     , { model | nextId = model.nextId + 1 }
@@ -566,7 +566,7 @@ update msg model =
                            )
                          , ( "entries"
                            , E.list
-                                (\r -> E.object [ ( "name", E.string r.name ), ( "qty", E.float r.qty ) ])
+                                (\r -> E.object [ ( "name", E.string r.name ), ( "qty", E.int r.qty ) ])
                                 (List.filter (\r -> r.match /= Unresolved) rows)
                            )
                          , ( "options"
@@ -672,9 +672,11 @@ langName code =
         )
 
 
-numberValue : String -> Float
+{-| A quantity as typed: a whole number, or none (the update keeps it at least one).
+-}
+numberValue : String -> Int
 numberValue s =
-    String.toFloat s |> Maybe.withDefault 0
+    String.toInt s |> Maybe.withDefault 0
 
 
 view : Env -> Maybe AppConfig -> Model -> Html Msg
@@ -687,7 +689,7 @@ view env config model =
             mainRows model
 
         total =
-            List.sum (List.map .qty rows) + toFloat (List.length model.commanders)
+            List.sum (List.map .qty rows) + List.length model.commanders
 
         unresolved =
             List.filter (\r -> r.match == Unresolved || isChecking r) rows
@@ -764,11 +766,11 @@ view env config model =
                                        )
                                 )
                             ]
-                            [ strong [] [ text (String.fromFloat total) ]
+                            [ strong [] [ text (String.fromInt total) ]
                             , text
                                 ((case targetTotal of
                                     Just t ->
-                                        " / " ++ String.fromFloat t
+                                        " / " ++ String.fromInt t
 
                                     Nothing ->
                                         ""
@@ -815,8 +817,8 @@ view env config model =
                             , Ui.Attr.min "1"
                             , class "qty"
                             , attribute "aria-label" "Quantity to add"
-                            , value (String.fromFloat model.addQty)
-                            , Ui.Attr.valueAttr (String.fromFloat model.addQty)
+                            , value (String.fromInt model.addQty)
+                            , Ui.Attr.valueAttr (String.fromInt model.addQty)
                             , onInput (numberValue >> SetAddQty)
                             ]
                             []
@@ -874,7 +876,7 @@ view env config model =
                                 ( "group:" ++ group
                                 , li [ class "group-head" ]
                                     [ text (group ++ " ")
-                                    , span [ class "muted" ] [ text (String.fromFloat (List.sum (List.map .qty groupRows))) ]
+                                    , span [ class "muted" ] [ text (String.fromInt (List.sum (List.map .qty groupRows))) ]
                                     ]
                                 )
                                     :: List.map (\r -> ( String.fromInt r.id, cardRow env ctx model r )) groupRows
@@ -911,7 +913,7 @@ view env config model =
                         else
                             span [ class "muted" ]
                                 [ text
-                                    (String.fromFloat total
+                                    (String.fromInt total
                                         ++ " cards"
                                         ++ (if not (List.isEmpty unresolved) then
                                                 " · " ++ String.fromInt (List.length unresolved) ++ " unrecognized will be skipped"
@@ -1123,8 +1125,8 @@ cardRow env ctx model r =
             , Ui.Attr.min "1"
             , class "qty"
             , attribute "aria-label" "Quantity"
-            , value (String.fromFloat r.qty)
-            , Ui.Attr.valueAttr (String.fromFloat r.qty)
+            , value (String.fromInt r.qty)
+            , Ui.Attr.valueAttr (String.fromInt r.qty)
             , onInput (numberValue >> SetQty r.id)
             ]
             []

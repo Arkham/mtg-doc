@@ -5,31 +5,28 @@ import Html exposing (Html, a, details, div, h2, h3, li, p, span, strong, summar
 import Html.Attributes exposing (attribute, style)
 import Html.Events exposing (preventDefaultOn)
 import Json.Decode as D
-import Types exposing (BracketAssessmentPosition(..), BracketReport, Tone(..))
+import Types exposing (Bracket(..), BracketAssessmentPosition(..), BracketReport, Tone(..), bracketToInt)
 import Ui.Attr exposing (class, href, rel, target, title)
 import Ui.Card as Card
 
 
-names : Int -> String
-names n =
-    case n of
-        1 ->
+names : Bracket -> String
+names bracket =
+    case bracket of
+        Bracket1 ->
             "Exhibition"
 
-        2 ->
+        Bracket2 ->
             "Core"
 
-        3 ->
+        Bracket3 ->
             "Upgraded"
 
-        4 ->
+        Bracket4 ->
             "Optimized"
 
-        5 ->
+        Bracket5 ->
             "cEDH"
-
-        _ ->
-            "undefined"
 
 
 toneLabel : Tone -> String
@@ -73,15 +70,15 @@ spellbookTag tag =
         |> Maybe.withDefault tag
 
 
-badge : Float -> String -> Html msg
-badge n size =
+badge : Bracket -> String -> Html msg
+badge bracket size =
     let
         num =
-            round n
+            bracketToInt bracket
     in
     span
         [ class ("bracket-badge b" ++ String.fromInt num ++ " " ++ size)
-        , title ("Bracket " ++ String.fromInt num ++ ": " ++ names num)
+        , title ("Bracket " ++ String.fromInt num ++ ": " ++ names bracket)
         ]
         [ text (String.fromInt num) ]
 
@@ -118,7 +115,7 @@ panel ctx b { actions, toCombos } =
             List.length a_.gameChangers
 
         slots =
-            Maybe.withDefault (toFloat (max gameChangers 0)) limit
+            Maybe.withDefault (max gameChangers 0) limit
 
         twoCard =
             List.filter .twoCard a_.combos
@@ -127,10 +124,10 @@ panel ctx b { actions, toCombos } =
             b.before.bracket /= a_.bracket
 
         targetBracket =
-            round b.target
+            b.target
 
         bracket =
-            round a_.bracket
+            a_.bracket
 
         options =
             List.filter (not << .inDeck) b.gameChangerOptions
@@ -139,11 +136,11 @@ panel ctx b { actions, toCombos } =
         [ div [ class "bracket-head" ]
             ([ badge a_.bracket "lg"
              , div [ class "bracket-title" ]
-                [ h2 [] [ text ("Bracket " ++ String.fromInt bracket ++ ": " ++ names bracket) ]
+                [ h2 [] [ text ("Bracket " ++ String.fromInt (bracketToInt bracket) ++ ": " ++ names bracket) ]
                 , div [ class "muted small" ]
                     [ text
                         ("Target "
-                            ++ String.fromInt targetBracket
+                            ++ String.fromInt (bracketToInt targetBracket)
                             ++ " · "
                             ++ toneLabel b.tone
                             ++ " · "
@@ -151,7 +148,7 @@ panel ctx b { actions, toCombos } =
                             ++ " "
                             ++ names targetBracket
                             ++ (if moved then
-                                    " · was bracket " ++ String.fromFloat b.before.bracket
+                                    " · was bracket " ++ String.fromInt (bracketToInt b.before.bracket)
 
                                 else
                                     ""
@@ -209,7 +206,7 @@ panel ctx b { actions, toCombos } =
                 ++ [ li [ class "ok" ]
                         [ span [ class "check-icon", attribute "aria-hidden" "true" ] [ text "⏱" ]
                         , strong [] [ text "Game length" ]
-                        , span [ class "muted" ] [ text ("expect at least " ++ String.fromFloat b.minTurns ++ " turns before anyone wins") ]
+                        , span [ class "muted" ] [ text ("expect at least " ++ String.fromInt b.minTurns ++ " turns before anyone wins") ]
                         ]
                    ]
             )
@@ -222,7 +219,7 @@ panel ctx b { actions, toCombos } =
                             (String.fromInt gameChangers
                                 ++ (case limit of
                                         Just l ->
-                                            " / " ++ String.fromFloat l
+                                            " / " ++ String.fromInt l
 
                                         Nothing ->
                                             ""
@@ -238,7 +235,7 @@ panel ctx b { actions, toCombos } =
                         (List.map (\g -> div [ class "gc-slot filled" ] [ Card.name ctx g ]) a_.gameChangers
                             ++ (case limit of
                                     Just l ->
-                                        List.repeat (max 0 (round l - gameChangers))
+                                        List.repeat (max 0 (l - gameChangers))
                                             (div [ class "gc-slot empty" ] [ text "open slot" ])
 
                                     Nothing ->
@@ -314,7 +311,7 @@ panel ctx b { actions, toCombos } =
                                                                    )
                                                             )
                                                         ]
-                                                        [ text (String.fromFloat pct ++ "% of games assembled before turn " ++ String.fromFloat b.minTurns) ]
+                                                        [ text (String.fromFloat pct ++ "% of games assembled before turn " ++ String.fromInt b.minTurns) ]
                                                     ]
 
                                                 Nothing ->

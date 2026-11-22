@@ -398,11 +398,7 @@ deckCard env d =
                 [ Mana.colorIdentity env.base 20 d.colorIdentity
                 , case d.bracket of
                     Just b ->
-                        if b /= 0 then
-                            Bracket.badge b "sm"
-
-                        else
-                            text ""
+                        Bracket.badge b "sm"
 
                     Nothing ->
                         text ""
@@ -427,8 +423,8 @@ deckCard env d =
             [ span [ class "muted small" ]
                 [ text
                     (if d.hasReport then
-                        [ Maybe.map (\b -> "Bracket " ++ String.fromFloat b) d.bracket
-                        , Maybe.map (\n -> String.fromFloat n ++ " lands") d.landCount
+                        [ Maybe.map (\b -> "Bracket " ++ String.fromInt (bracketToInt b)) d.bracket
+                        , Maybe.map (\n -> String.fromInt n ++ " lands") d.landCount
                         , Maybe.map (\p -> "$" ++ String.fromInt (round p)) d.priceUsd
                         ]
                             |> List.filterMap identity
@@ -444,7 +440,7 @@ deckCard env d =
                         span [ class "deck-suggest" ]
                             [ img [ src "./icon-64.png", alt "", width 18, height 18 ] []
                             , text
-                                (String.fromFloat n
+                                (String.fromInt n
                                     ++ " suggested "
                                     ++ (if n == 1 then
                                             "swap"
@@ -454,11 +450,7 @@ deckCard env d =
                                        )
                                     ++ (case d.targetBracket of
                                             Just t ->
-                                                if t /= 0 then
-                                                    " for bracket " ++ String.fromFloat t
-
-                                                else
-                                                    ""
+                                                " for bracket " ++ String.fromInt (bracketToInt t)
 
                                             Nothing ->
                                                 ""
@@ -534,7 +526,7 @@ view env config model =
                                 , span [ class "muted" ]
                                     [ text
                                         (if progress.total > 1 then
-                                            String.fromFloat progress.done ++ " / " ++ String.fromFloat progress.total
+                                            String.fromInt progress.done ++ " / " ++ String.fromInt progress.total
 
                                          else
                                             ""
@@ -542,7 +534,7 @@ view env config model =
                                     ]
                                 ]
                             , div [ class "progress" ]
-                                [ div [ style "width" (String.fromFloat (max 4 (progress.done / max 1 progress.total * 100)) ++ "%") ] [] ]
+                                [ div [ style "width" (String.fromFloat (max 4 (toFloat progress.done / toFloat (max 1 progress.total) * 100)) ++ "%") ] [] ]
                             , span [ class "muted small" ]
                                 [ text "Reading the photo several times in overlapping crops, then double-checking anything only one pass saw." ]
                             ]

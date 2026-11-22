@@ -9,7 +9,7 @@ import type {
   Report,
   Swap,
 } from "../shared/types.ts";
-import { BRACKETS, assessBracket, flagsFor } from "./analysis/bracket.ts";
+import { BRACKETS, BracketSchema, assessBracket, flagsFor } from "./analysis/bracket.ts";
 import {
   type Deck,
   byName,
@@ -85,7 +85,7 @@ const ReplySchema = z.object({
     .catch([]),
   rerun: z
     .object({
-      bracket: z.number().int().min(1).max(5).nullable().optional(),
+      bracket: BracketSchema.nullable().optional(),
       budgetTotal: z.number().positive().nullable().optional(),
       budgetPerCard: z.number().positive().nullable().optional(),
       maxSwaps: z.number().int().min(1).max(40).optional(),

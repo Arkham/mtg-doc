@@ -1,4 +1,5 @@
 import type {
+  Bracket,
   Card,
   Color,
   Combo,
@@ -35,7 +36,7 @@ export interface SolverResult {
 export interface SolverContext {
   deck: Deck;
   identity: Color[];
-  target: number;
+  target: Bracket;
   rules: BracketRules;
   tone: Tone;
   scored: SolverCard[];
@@ -160,7 +161,7 @@ export function edhrecSuggestions(
 }
 
 /** Whether Game Changers are worth suggesting for this bracket and tone. */
-export const wantsGameChangers = (target: number, tone: Tone) =>
+export const wantsGameChangers = (target: Bracket, tone: Tone) =>
   BRACKETS[target].gameChangers > 0 && tone !== "casual";
 
 /** Looked-up candidates that can go in the deck: Commander-legal, in its colors, within budget. */
@@ -189,7 +190,7 @@ export function eligibleCandidates(
 export function buildSolverContext(opts: {
   deck: Deck;
   identity: Color[];
-  target: number;
+  target: Bracket;
   options: OptimizeOptions;
   edhAll: EdhrecData | null;
   edhBracket: EdhrecData | null;
@@ -354,7 +355,7 @@ export function trimToBudget(
 /** Builds the hard-constraint check shared by the solver, plan validation and land fixes. */
 export function makeViolation(opts: {
   rules: BracketRules;
-  target: number;
+  target: Bracket;
   flagOf: (card: Card) => CardFlags;
   budgetTotal: number | null;
   blockedByCombo?: Map<string, string>;

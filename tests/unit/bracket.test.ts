@@ -43,11 +43,11 @@ const estimate = (
 describe("bracket rules table", () => {
   test("matches the official Commander Brackets", () => {
     assert.deepEqual(
-      [1, 2, 3, 4, 5].map((b) => BRACKETS[b].gameChangers),
+      ([1, 2, 3, 4, 5] as const).map((b) => BRACKETS[b].gameChangers),
       [0, 0, 3, Infinity, Infinity],
     );
     assert.deepEqual(
-      [1, 2, 3, 4, 5].map((b) => BRACKETS[b].minTurns),
+      ([1, 2, 3, 4, 5] as const).map((b) => BRACKETS[b].minTurns),
       [9, 8, 6, 4, 1],
     );
     assert.equal(BRACKETS[3].massLandDenial, false);

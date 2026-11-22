@@ -121,6 +121,16 @@ describe("HTTP API", () => {
     assert.equal(badShape.status, 400);
     assert.match((await badShape.json()).error, /format/);
 
+    for (const bracket of [0, 6, 2.5]) {
+      const badBracket = await post("/api/decks", {
+        format: "commander",
+        commanders: ["Atraxa, Praetors' Voice"],
+        entries: [{ name: "Sol Ring", qty: 1 }],
+        options: { bracket },
+      });
+      assert.equal(badBracket.status, 400, `bracket ${bracket}`);
+    }
+
     const imageWithoutLlm = new FormData();
     imageWithoutLlm.append(
       "images",

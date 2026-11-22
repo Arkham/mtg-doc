@@ -446,7 +446,7 @@ changesView config ctx message busy =
                         , div []
                             [ div [ class "chat-change-name" ]
                                 ((if c.qty > 1 then
-                                    [ span [ class "muted" ] [ text (String.fromFloat c.qty ++ "× ") ] ]
+                                    [ span [ class "muted" ] [ text (String.fromInt c.qty ++ "× ") ] ]
 
                                   else
                                     []

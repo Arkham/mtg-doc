@@ -1,23 +1,28 @@
 module Ui.Style exposing (ariaSelected, aura, auraOfCards, cssVars)
 
-import Dict
 import Html exposing (Attribute)
 import Html.Attributes exposing (attribute)
 import List.Extra
-import Types exposing (Card, Color, colorToString)
+import Types exposing (Card, Color(..))
 
 
-auraColor : String -> Maybe String
-auraColor c =
-    Dict.get c
-        (Dict.fromList
-            [ ( "W", "#f4e7b8" )
-            , ( "U", "#3d9be9" )
-            , ( "B", "#8f5bd8" )
-            , ( "R", "#ec5a3a" )
-            , ( "G", "#3dbb6c" )
-            ]
-        )
+auraColor : Color -> String
+auraColor color =
+    case color of
+        ColorW ->
+            "#f4e7b8"
+
+        ColorU ->
+            "#3d9be9"
+
+        ColorB ->
+            "#8f5bd8"
+
+        ColorR ->
+            "#ec5a3a"
+
+        ColorG ->
+            "#3dbb6c"
 
 
 neutral : String
@@ -49,7 +54,7 @@ aura : Maybe (List Color) -> Attribute msg
 aura colors =
     case colors of
         Just (first :: rest) ->
-            cssVars (auraVars (List.map (colorToString >> auraColor >> Maybe.withDefault "undefined") (first :: rest)))
+            cssVars (auraVars (List.map auraColor (first :: rest)))
 
         _ ->
             cssVars (auraVars [ neutral ])
@@ -61,14 +66,14 @@ auraOfCards : List Card -> List ( String, String )
 auraOfCards cards =
     let
         ids =
-            cards |> List.concatMap .colorIdentity |> List.map colorToString |> List.Extra.unique
+            cards |> List.concatMap .colorIdentity |> List.Extra.unique
     in
     auraVars
         (if List.isEmpty ids then
             [ neutral ]
 
          else
-            List.map (auraColor >> Maybe.withDefault neutral) ids
+            List.map auraColor ids
         )
 
 

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type {
+  Bracket,
   Card,
   Color,
   Combo,
@@ -56,7 +57,7 @@ interface PlanInput {
   scored: SolverCard[];
   candidates: SolverCard[];
   solver: SolverResult;
-  target: number;
+  target: Bracket;
   rules: BracketRules;
   combosPresent: Combo[];
   oneAway: Combo[];

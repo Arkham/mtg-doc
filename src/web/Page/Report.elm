@@ -117,7 +117,7 @@ type alias Page =
     , swaps : Request Swap
     , manaSwaps : Request Swap
     , landSwaps : Request String
-    , target : Maybe Float
+    , target : Maybe Bracket
     , targetBusy : Bool
 
     -- Changing the settings to run the optimizer again (open while there are settings to change).
@@ -159,8 +159,8 @@ type Msg
     | Queued Edit (Result String String)
     | PollEdit Edit String
     | GotEdit Edit String (Result String EditStatus)
-    | SetTarget Float
-    | RunTarget Float
+    | SetTarget Bracket
+    | RunTarget Bracket
     | OpenRerun OptimizeOptions
     | CloseRerun
     | SetRerun OptimizeOptions
@@ -626,7 +626,22 @@ subscriptions model =
 -- VIEWS OF THE REPORT
 
 
-interaction : DeckSnapshot -> Float
+{-| What's printed in a card's corner: its loyalty, or its power and toughness (both, or neither).
+-}
+printedStats : Card -> Maybe String
+printedStats c =
+    case ( c.loyalty |> Maybe.andThen nonEmpty, c.power |> Maybe.andThen nonEmpty, c.toughness |> Maybe.andThen nonEmpty ) of
+        ( Just loyalty, _, _ ) ->
+            Just ("Loyalty " ++ loyalty)
+
+        ( Nothing, Just power, Just toughness ) ->
+            Just (power ++ "/" ++ toughness)
+
+        _ ->
+            Nothing
+
+
+interaction : DeckSnapshot -> Int
 interaction snap =
     snap.roles
         |> List.filter (\r -> r.role == RoleRemoval || r.role == RoleCounter || r.role == RoleWipe)
@@ -1001,6 +1016,7 @@ colorBars env ctx before after =
                     ++ [ 1 ]
                 )
                 |> Maybe.withDefault 1
+                |> toFloat
 
         beforeOf c =
             List.Extra.find (\x -> x.color == c.color) before.mana.colors
@@ -1025,13 +1041,13 @@ colorBars env ctx before after =
                     [ span [ title (colorName c.color) ] [ Mana.cost env.base 22 (Just ("{" ++ colorToString c.color ++ "}")) ]
                     , div [ class "color-row-head" ]
                         [ span []
-                            [ strong [] [ text (String.fromFloat c.landSources) ]
+                            [ strong [] [ text (String.fromInt c.landSources) ]
                             , text " of the "
-                            , strong [] [ text (String.fromFloat c.targetSources) ]
+                            , strong [] [ text (String.fromInt c.targetSources) ]
                             , text (" lands we'd want make " ++ word)
                             , case b of
                                 Just bb ->
-                                    when (changed && bb.landSources /= c.landSources) (muted (" (was " ++ String.fromFloat bb.landSources ++ ")"))
+                                    when (changed && bb.landSources /= c.landSources) (muted (" (was " ++ String.fromInt bb.landSources ++ ")"))
 
                                 Nothing ->
                                     text ""
@@ -1049,7 +1065,7 @@ colorBars env ctx before after =
                             ]
                             [ text
                                 (if gap > 0 then
-                                    String.fromFloat gap ++ " short"
+                                    String.fromInt gap ++ " short"
 
                                  else
                                     "enough"
@@ -1057,7 +1073,7 @@ colorBars env ctx before after =
                             ]
                         ]
                     , div [ class "bar-track" ]
-                        [ when changed (div [ class "bar before", style "width" (pct (b |> Maybe.map .landSources |> Maybe.withDefault 0) max) ] [])
+                        [ when changed (div [ class "bar before", style "width" (pct (b |> Maybe.map .landSources |> Maybe.withDefault 0 |> toFloat) max) ] [])
                         , div
                             [ class
                                 ("bar after "
@@ -1068,10 +1084,10 @@ colorBars env ctx before after =
                                             "solo"
                                        )
                                 )
-                            , style "width" (pct c.landSources max)
+                            , style "width" (pct (toFloat c.landSources) max)
                             ]
                             []
-                        , div [ class "target", style "left" (pct c.targetSources max), title ("target " ++ String.fromFloat c.targetSources) ] []
+                        , div [ class "target", style "left" (pct (toFloat c.targetSources) max), title ("target " ++ String.fromInt c.targetSources) ] []
                         ]
                     , span [ class "small color-why" ]
                         (text (String.fromInt (round (c.pipShare * 100)) ++ "% of the colored mana symbols in your spells are " ++ word ++ ". ")
@@ -1089,7 +1105,7 @@ colorBars env ctx before after =
                                )
                             ++ [ text
                                     (if c.rampSources /= 0 then
-                                        " Your mana rocks and creatures add " ++ String.fromFloat c.rampSources ++ " more " ++ word ++ " sources."
+                                        " Your mana rocks and creatures add " ++ String.fromInt c.rampSources ++ " more " ++ word ++ " sources."
 
                                      else
                                         ""
@@ -1326,8 +1342,9 @@ curve single before after =
         keys =
             [ "0", "1", "2", "3", "4", "5", "6", "7+" ]
 
+        -- Bar heights are fractions of the tallest: counted in cards, drawn in Floats.
         at snap k =
-            Dict.get k snap.mana.curve |> Maybe.withDefault 0
+            Dict.get k snap.mana.curve |> Maybe.withDefault 0 |> toFloat
 
         -- Headroom above the tallest bar for its count label.
         max =
@@ -1498,7 +1515,7 @@ roles single before after =
                                             b =
                                                 List.Extra.find (\x -> x.role == r.role) before.roles |> Maybe.map .count |> Maybe.withDefault 0
                                         in
-                                        [ ( "before", td [] [ text (String.fromFloat b) ] ) ]
+                                        [ ( "before", td [] [ text (String.fromInt b) ] ) ]
                                    )
                                 ++ List.map2 Tuple.pair
                                     [ "count", "typical" ]
@@ -1511,13 +1528,13 @@ roles single before after =
                                                 ""
                                             )
                                         ]
-                                        [ strong [] [ text (String.fromFloat r.count) ] ]
+                                        [ strong [] [ text (String.fromInt r.count) ] ]
                                     , td [ class "muted" ]
                                         [ text
                                             (case r.target of
                                                 Just t ->
                                                     if t /= 0 then
-                                                        String.fromFloat t ++ "+"
+                                                        String.fromInt t ++ "+"
 
                                                     else
                                                         ""
@@ -1535,7 +1552,7 @@ roles single before after =
 
 {-| Pick another target bracket; the re-run only starts after an explicit second tap.
 -}
-targetBracket : Page -> Float -> Html Msg
+targetBracket : Page -> Bracket -> Html Msg
 targetBracket model current =
     let
         target =
@@ -1546,11 +1563,22 @@ targetBracket model current =
             [ span [ class "muted small" ] [ text "Aim for" ]
             , select
                 [ attribute "aria-label" "Target bracket"
-                , on "change" (D.at [ "target", "value" ] D.string |> D.map (String.toFloat >> Maybe.withDefault 0 >> SetTarget))
+                , on "change"
+                    (D.at [ "target", "value" ] D.string
+                        |> D.andThen
+                            (\v ->
+                                case String.toInt v |> Maybe.andThen bracketFromInt of
+                                    Just b ->
+                                        D.succeed (SetTarget b)
+
+                                    Nothing ->
+                                        D.fail ("Not a bracket: " ++ v)
+                            )
+                    )
                 ]
                 (List.map
-                    (\n -> option [ Ui.Attr.optionValue (String.fromInt n), selected (toFloat n == target) ] [ text ("Bracket " ++ String.fromInt n) ])
-                    [ 1, 2, 3, 4, 5 ]
+                    (\b -> option [ Ui.Attr.optionValue (String.fromInt (bracketToInt b)), selected (b == target) ] [ text ("Bracket " ++ String.fromInt (bracketToInt b)) ])
+                    bracketValues
                 )
             ]
         , when (target /= current)
@@ -1561,7 +1589,7 @@ targetBracket model current =
                   else
                     []
                  )
-                    ++ [ text ("Re-run for bracket " ++ String.fromFloat target) ]
+                    ++ [ text ("Re-run for bracket " ++ String.fromInt (bracketToInt target)) ]
                 )
             )
         ]
@@ -1632,10 +1660,10 @@ newBadge c cls =
         span [ class cls ]
             [ text
                 (if c.delta > 0 then
-                    "+" ++ String.fromFloat c.delta
+                    "+" ++ String.fromInt c.delta
 
                  else
-                    "−" ++ String.fromFloat -c.delta
+                    "−" ++ String.fromInt -c.delta
                 )
             ]
 
@@ -1665,7 +1693,7 @@ deckImages ctx groups showNew =
             (\( group, cards ) ->
                 ( group
                 , section []
-                    [ h3 [] [ text (group ++ " "), muted ("(" ++ String.fromFloat (List.sum (List.map .qty cards)) ++ ")") ]
+                    [ h3 [] [ text (group ++ " "), muted ("(" ++ String.fromInt (List.sum (List.map .qty cards)) ++ ")") ]
                     , Keyed.ul []
                         (List.map
                             (\c ->
@@ -1697,7 +1725,7 @@ deckImages ctx groups showNew =
 
                                             Nothing ->
                                                 span [ class "deck-image-missing" ] [ text c.name ]
-                                         , when (c.qty > 1) (span [ class "deck-image-qty" ] [ text ("×" ++ String.fromFloat c.qty) ])
+                                         , when (c.qty > 1) (span [ class "deck-image-qty" ] [ text ("×" ++ String.fromInt c.qty) ])
                                          ]
                                             ++ (if not showNew then
                                                     []
@@ -1793,7 +1821,7 @@ decklist env ctx model cards compare swaps =
                     [ button [ attribute "role" "tab", ariaSelected (model.decklistView == ListView), onClick (SetDecklistView ListView) ] [ text "List" ]
                     , button [ attribute "role" "tab", ariaSelected (model.decklistView == ImagesView), onClick (SetDecklistView ImagesView) ] [ text "Images" ]
                     ]
-                , span [ class "muted small grow nowrap" ] [ text (String.fromFloat (List.sum (List.map .qty cards)) ++ " cards") ]
+                , span [ class "muted small grow nowrap" ] [ text (String.fromInt (List.sum (List.map .qty cards)) ++ " cards") ]
                 ]
             , if model.decklistView == ImagesView then
                 deckImages galleryCtx groups showNew
@@ -1807,7 +1835,7 @@ decklist env ctx model cards compare swaps =
                         (\( group, cs ) ->
                             ( group
                             , div [ class "deck-group" ]
-                                [ h3 [] [ text (group ++ " "), muted ("(" ++ String.fromFloat (List.sum (List.map .qty cs)) ++ ")") ]
+                                [ h3 [] [ text (group ++ " "), muted ("(" ++ String.fromInt (List.sum (List.map .qty cs)) ++ ")") ]
                                 , Keyed.ul []
                                     (List.map
                                         (\c ->
@@ -1821,7 +1849,7 @@ decklist env ctx model cards compare swaps =
                                                         ""
                                                     )
                                                 ]
-                                                [ span [ class "qty" ] [ text (String.fromFloat c.qty) ]
+                                                [ span [ class "qty" ] [ text (String.fromInt c.qty) ]
                                                 , Card.nameWith galleryCtx { name = c.name, card = Just { image = c.image, scryfallUri = c.scryfallUri }, label = Nothing, class = Just "grow", key = Nothing }
                                                 , if showNew then
                                                     newBadge c "badge new"
@@ -1906,7 +1934,7 @@ sectionNav model sections =
         )
 
 
-stat : { label : String, before : Maybe Float, after : Float, better : Maybe Bool, format : Float -> String } -> Html msg
+stat : { label : String, before : Maybe number, after : number, better : Maybe Bool, format : number -> String } -> Html msg
 stat o =
     let
         changed =
@@ -1962,6 +1990,13 @@ simple label after =
     stat { label = label, before = Nothing, after = after, better = Nothing, format = String.fromFloat }
 
 
+{-| A count, on its own.
+-}
+whole : String -> Int -> Html msg
+whole label after =
+    stat { label = label, before = Nothing, after = after, better = Nothing, format = String.fromInt }
+
+
 percent : Float -> String
 percent n =
     String.fromFloat n ++ "%"
@@ -1986,13 +2021,13 @@ overview env r full slug =
     section [ class "panel" ]
         [ panelHead { title = "Your deck", desc = Just [ text "How the deck plays as you built it." ], actions = Nothing, compact = False }
         , div [ class "stats" ]
-            [ simple ("Lands (rec. " ++ String.fromFloat r.after.mana.recommendedLands ++ ")") r.after.mana.landCount
+            [ whole ("Lands (rec. " ++ String.fromInt r.after.mana.recommendedLands ++ ")") r.after.mana.landCount
             , simple "Avg mana value" r.after.mana.avgCmc
-            , simple "Interaction" (interaction r.after)
-            , simple "Card draw" draw
+            , whole "Interaction" (interaction r.after)
+            , whole "Card draw" draw
             , stat { label = "Commander on curve", before = Nothing, after = r.after.sim.commanderOnCurve, better = Nothing, format = percent }
             , stat { label = "Mana screw", before = Nothing, after = r.after.sim.screwRate, better = Nothing, format = percent }
-            , simple "Combos" (toFloat (List.length r.combosPresent))
+            , whole "Combos" (List.length r.combosPresent)
             , stat { label = "Deck price", before = Nothing, after = r.after.totalPriceUsd, better = Nothing, format = dollars }
             ]
         , when (not (List.isEmpty full.swaps))
@@ -2014,11 +2049,7 @@ overview env r full slug =
                     , text
                         ((case target of
                             Just t ->
-                                if t /= 0 then
-                                    " to tune it for bracket " ++ String.fromFloat t
-
-                                else
-                                    ""
+                                " to tune it for bracket " ++ String.fromInt (bracketToInt t)
 
                             Nothing ->
                                 ""
@@ -2193,7 +2224,7 @@ combos ctx model r =
                                 , maybeHtml reason
                                     (\why ->
                                         span [ class "badge warn", title why ]
-                                            [ text ("Outside bracket " ++ (r.bracket |> Maybe.map (.target >> String.fromFloat) |> Maybe.withDefault "undefined")) ]
+                                            [ text ("Outside bracket " ++ (r.bracket |> Maybe.map (.target >> bracketToInt >> String.fromInt) |> Maybe.withDefault "")) ]
                                     )
                                 ]
                             , ul [ class "combo-partners" ]
@@ -2620,7 +2651,7 @@ viewReport env requested model detail full =
                                 , preventDefaultOn "click" (D.succeed ( JumpTo "bracket", True ))
                                 ]
                                 [ Bracket.badge b.after.bracket "sm"
-                                , text ("Bracket " ++ String.fromFloat b.after.bracket ++ " · " ++ b.name)
+                                , text ("Bracket " ++ String.fromInt (bracketToInt b.after.bracket) ++ " · " ++ b.name)
                                 ]
                         )
                     ]
@@ -2649,22 +2680,14 @@ viewReport env requested model detail full =
                             , div [ class "type-line" ]
                                 [ span []
                                     (text c.typeLine
-                                        :: (if nonEmptyMaybe c.power || nonEmptyMaybe c.loyalty then
-                                                [ span [ class "type-sep" ] [ text " · " ]
-                                                , span [ class "pt" ]
-                                                    [ text
-                                                        (case c.loyalty |> Maybe.andThen nonEmpty of
-                                                            Just loyalty ->
-                                                                "Loyalty " ++ loyalty
-
-                                                            Nothing ->
-                                                                Maybe.withDefault "undefined" c.power ++ "/" ++ Maybe.withDefault "undefined" c.toughness
-                                                        )
+                                        :: (case printedStats c of
+                                                Just stats ->
+                                                    [ span [ class "type-sep" ] [ text " · " ]
+                                                    , span [ class "pt" ] [ text stats ]
                                                     ]
-                                                ]
 
-                                            else
-                                                []
+                                                Nothing ->
+                                                    []
                                            )
                                     )
                                 , when (commanderCount > 1) (Mana.cost env.base 17 (Just c.manaCost))
@@ -2718,7 +2741,7 @@ viewReport env requested model detail full =
                                 Just n ->
                                     if n /= 0 then
                                         [ text " · based on "
-                                        , node "mtg-local-text" [ attribute "number" (String.fromFloat n) ] []
+                                        , node "mtg-local-text" [ attribute "number" (String.fromInt n) ] []
                                         , text " decks on EDHREC"
                                         ]
 
@@ -2764,7 +2787,7 @@ viewReport env requested model detail full =
                                        )
                                     ++ (case r.bracket of
                                             Just b ->
-                                                ", for bracket " ++ String.fromFloat b.target
+                                                ", for bracket " ++ String.fromInt (bracketToInt b.target)
 
                                             Nothing ->
                                                 ""
@@ -2782,16 +2805,16 @@ viewReport env requested model detail full =
                         ]
                     )
                 , div [ class "stats" ]
-                    [ simple "Swaps" (toFloat swapsCount)
+                    [ whole "Swaps" swapsCount
                     , stat
-                        { label = "Lands (rec. " ++ String.fromFloat r.after.mana.recommendedLands ++ ")"
+                        { label = "Lands (rec. " ++ String.fromInt r.after.mana.recommendedLands ++ ")"
                         , before = Just r.before.mana.landCount
                         , after = r.after.mana.landCount
                         , better = Just (r.before.mana.landCount < r.after.mana.recommendedLands)
-                        , format = String.fromFloat
+                        , format = String.fromInt
                         }
                     , stat { label = "Avg mana value", before = Just r.before.mana.avgCmc, after = r.after.mana.avgCmc, better = Just False, format = String.fromFloat }
-                    , stat { label = "Interaction", before = Just (interaction r.before), after = interaction r.after, better = Just True, format = String.fromFloat }
+                    , stat { label = "Interaction", before = Just (interaction r.before), after = interaction r.after, better = Just True, format = String.fromInt }
                     , stat { label = "Commander on curve", before = Just r.before.sim.commanderOnCurve, after = r.after.sim.commanderOnCurve, better = Just True, format = percent }
                     , stat { label = "Mana screw", before = Just r.before.sim.screwRate, after = r.after.sim.screwRate, better = Just False, format = percent }
                     , stat { label = "Cost of new cards", before = Nothing, after = ins, better = Nothing, format = \n -> money (Just n) }
@@ -2877,7 +2900,7 @@ viewReport env requested model detail full =
                 { title = "Goldfish simulation"
                 , desc =
                     Just
-                        [ node "mtg-local-text" [ attribute "number" (String.fromFloat r.after.sim.games) ] []
+                        [ node "mtg-local-text" [ attribute "number" (String.fromInt r.after.sim.games) ] []
                         , text " solo games with a free mulligan and greedy land and ramp plays."
                         ]
                 , actions = Nothing
@@ -2937,16 +2960,6 @@ viewReport env requested model detail full =
             , when (not env.isStatic) (publishToggle model (detail.meta.hideSuggestions == Just True))
             ]
         ]
-
-
-nonEmptyMaybe : Maybe String -> Bool
-nonEmptyMaybe m =
-    case m of
-        Just s ->
-            s /= ""
-
-        Nothing ->
-            False
 
 
 nonZeroFloat : Float -> Maybe Float
@@ -3013,7 +3026,7 @@ editLog ctx r =
                                                  )
                                                     ++ " "
                                                     ++ (if c.qty > 1 then
-                                                            String.fromFloat c.qty ++ " "
+                                                            String.fromInt c.qty ++ " "
 
                                                         else
                                                             ""
