@@ -227,6 +227,17 @@ test.describe("local app", () => {
     await expect(page.locator(".card-preview")).toHaveAttribute("src", /cards\.scryfall\.io/);
   });
 
+  test("decks that couldn't be loaded say so, rather than that there are none", async ({
+    page,
+  }) => {
+    await page.route("**/api/decks", (route) =>
+      route.fulfill({ status: 500, json: { error: "The disk is on fire" } }),
+    );
+    await page.goto(APP_URL);
+    await expect(page.getByText("Couldn't load the decks")).toBeVisible();
+    await expect(page.getByText("No decks yet")).toHaveCount(0);
+  });
+
   test("text list with no commander shows a helpful prompt", async ({ page }) => {
     await page.goto(APP_URL);
     await page.locator("textarea.decklist").fill("1 Sol Ring\n1 Arcane Signet");

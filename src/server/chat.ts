@@ -333,7 +333,7 @@ export async function chatAboutDeck(
   const meta = await readMeta(slug);
   const report = await readReport(slug);
   // Without a report or a stored original there's only one list to talk about.
-  const target: EditTarget = report?.original ? view : "optimized";
+  const target: EditTarget = report ? view : "optimized";
   const { deck } = await loadDeck(
     slug,
     report && target === "optimized" ? "optimized.txt" : "initial.txt",
@@ -401,7 +401,7 @@ export async function chatAboutDeck(
     rerun = makeRerun(llm.rerun, meta.options);
     proposed = rerun ? [] : llm.changes;
     // The user can ask to change the list they aren't looking at.
-    if (llm.target && report?.original) editTarget = llm.target;
+    if (llm.target && report) editTarget = llm.target;
     if (llm.publishSuggestions !== null && !rerun && report) {
       // Cheap and reversible, so it applies right away like finding synergies.
       await setHideSuggestions(slug, !llm.publishSuggestions);
@@ -566,7 +566,7 @@ export async function applyDeckChanges(
   const meta = await readMeta(slug);
   const report = await readReport(slug);
   if (!report) throw new HttpError(409, "Optimize the deck before editing it.");
-  const editsOriginal = target === "original" && Boolean(report.original);
+  const editsOriginal = target === "original";
   const budget = {
     total: meta.options.budgetTotal ?? null,
     perCard: meta.options.budgetPerCard ?? null,
@@ -766,21 +766,16 @@ async function findSynergiesAgain(slug: string, mode: "again" | "more"): Promise
 }
 
 /**
- * Queues a suggested land swap for the deck as submitted (the suggested deck, for older reports);
- * returns the edit's id to poll.
+ * Queues a suggested land swap for the deck as submitted; returns the edit's id to poll.
  */
 export async function applyManaSuggestion(slug: string, id: string): Promise<string> {
   const report = await readReport(slug);
   const suggestion = report?.manaSuggestions?.find((m) => m.id === id);
   if (!suggestion) throw new HttpError(404, "That suggestion is no longer available.");
   return enqueueEdit(slug, "Apply a land swap", () =>
-    applyDeckChanges(
-      slug,
-      suggestion.changes,
-      `Mana base: ${suggestion.reason}`,
-      report!.original ? "original" : "optimized",
-      { fromSuggested: true },
-    ),
+    applyDeckChanges(slug, suggestion.changes, `Mana base: ${suggestion.reason}`, "original", {
+      fromSuggested: true,
+    }),
   ).status.id;
 }
 
@@ -792,8 +787,6 @@ export async function applySwap(slug: string, out: string, add: string): Promise
   const report = await readReport(slug);
   const swap = report?.swaps.find((s) => s.out === out && s.in === add);
   if (!swap) throw new HttpError(404, "That swap is no longer suggested.");
-  if (!report!.original)
-    throw new HttpError(409, "Re-run the optimizer to apply swaps to your deck.");
   const change = (action: DeckChange["action"], name: string, card?: Card): DeckChange => ({
     action,
     name,

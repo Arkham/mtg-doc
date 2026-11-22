@@ -9,6 +9,7 @@ import Html exposing (Html, a, button, div, figure, h1, h2, img, input, node, p,
 import Html.Attributes exposing (accept, attribute, disabled, height, hidden, multiple, style, value, width)
 import Html.Events exposing (on, onClick, onInput, preventDefaultOn, stopPropagationOn)
 import Json.Decode as D
+import Loadable exposing (Loadable(..))
 import Process
 import Route
 import Task
@@ -41,7 +42,7 @@ type alias Photo =
 
 
 type alias Model =
-    { decks : Maybe (List DeckSummary)
+    { decks : Loadable (List DeckSummary)
     , photos : List Photo
     , text : String
     , preferredMode : Mode
@@ -84,7 +85,7 @@ while it's fetched again.
 -}
 init : Env -> Maybe (List DeckSummary) -> ( Model, Cmd Msg )
 init env decks =
-    ( { decks = decks
+    ( { decks = Maybe.map Loaded decks |> Maybe.withDefault Loading
       , photos = []
       , text = ""
       , preferredMode = Image
@@ -134,7 +135,22 @@ update config msg model =
             ( model, Cmd.none, Just (Preview m) )
 
         GotDecks result ->
-            ( { model | decks = Just (Result.withDefault (Maybe.withDefault [] model.decks) result) }, Cmd.none, Nothing )
+            ( { model
+                | decks =
+                    case ( result, model.decks ) of
+                        ( Ok decks, _ ) ->
+                            Loaded decks
+
+                        -- A list already on the page stays: it's the decks as they last were.
+                        ( Err _, Loaded decks ) ->
+                            Loaded decks
+
+                        ( Err e, _ ) ->
+                            Unavailable e
+              }
+            , Cmd.none
+            , Nothing
+            )
 
         SetMode m ->
             ( { model | preferredMode = m }, Cmd.none, Nothing )
@@ -253,11 +269,11 @@ failed e model =
     ( { model | reading = Failed e }, Cmd.none, Nothing )
 
 
-welcome : Env -> Maybe (List DeckSummary) -> Html msg
+welcome : Env -> Loadable (List DeckSummary) -> Html msg
 welcome env decks =
     let
         examined =
-            decks |> Maybe.map (List.filter .hasReport >> List.length) |> Maybe.withDefault 0
+            decks |> Loadable.toMaybe |> Maybe.map (List.filter .hasReport >> List.length) |> Maybe.withDefault 0
     in
     section [ class "home-hero" ]
         [ div [ class "home-hero-text" ]
@@ -556,10 +572,13 @@ view env config model =
                 , node "mtg-paste" [ on "images" (D.map Pasted (D.at [ "detail" ] filesDecoder)) ] []
                 ]
         , case model.decks of
-            Nothing ->
+            Loading ->
                 div [ class "loading" ] [ span [ class "spinner", attribute "aria-hidden" "true" ] [], text " Loading decks…" ]
 
-            Just decks ->
+            Unavailable e ->
+                p [ class "error" ] [ text ("Couldn't load the decks: " ++ e) ]
+
+            Loaded decks ->
                 if not (List.isEmpty decks) || env.isStatic then
                     deckGallery env model.filter decks
 

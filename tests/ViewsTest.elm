@@ -19,7 +19,7 @@ report =
      "combosPresent":[{"id":"x","cards":[],"missing":[],"produces":[],"description":"","bracketTag":null,"url":""}],
      "combosOneAway":[],"research":null,"edhrec":null,"warnings":[],
      "options":{"maxSwaps":1,"budgetPerCard":null,"budgetTotal":null,"bracket":null,"tone":"max","locked":[],"webResearch":false},
-     "decklist":[CARD_NEW],
+     "decklist":[CARD_NEW],"cardIndex":{},
      "original":{"decklist":[CARD_OLD,CARD_KEEP],"combosPresent":[],"combosOneAway":[]},
      "synergies":[{"title":"kept","cards":["Old","Keep"],"explanation":""},{"title":"needs new card","cards":["New","Keep"],"explanation":""}]
     }
@@ -66,16 +66,11 @@ suite =
                 in
                 Expect.equal
                     ( ( o.single, o.r.after.totalCards, o.r.swaps )
-                    , ( o.r.decklist |> Maybe.map (List.map .name), o.r.combosPresent, o.r.synergies |> Maybe.map (List.map .title) )
+                    , ( List.map .name o.r.decklist, o.r.combosPresent, o.r.synergies |> Maybe.map (List.map .title) )
                     )
-                    ( ( True, 99, [] ), ( Just [ "Old", "Keep" ], [], Just [ "kept" ] ) )
-        , test "reports without the deck as submitted stay as they are" <|
-            \_ ->
-                let
-                    old =
-                        { report | original = Nothing }
-                in
-                Expect.equal ( asOriginal old, viewOf old Current ) ( { r = old, single = False }, Optimized )
+                    ( ( True, 99, [] ), ( [ "Old", "Keep" ], [], Just [ "kept" ] ) )
+        , test "a published deck with its suggestions offers both views" <|
+            \_ -> Expect.equal ( viewOf report Optimized, viewOf report Current ) ( Optimized, Current )
         , test "a deck published without suggestions only has the view of the deck as submitted" <|
             \_ -> Expect.equal (viewOf { report | suggestionsHidden = Just True } Optimized) Current
         ]

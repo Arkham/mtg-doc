@@ -144,7 +144,7 @@ async function refreshed(
       .map((s) => s.card.name);
   const isCommander = meta.format === "commander";
   const avgLands = report.edhrec?.avgLands ?? null;
-  const editedOriginal = pending.original && report.original;
+  const editedOriginal = pending.original;
   const [est, found, originalEst, originalFound] = await Promise.all([
     estimateBracket(commanders, legalMain(next)).catch(() => null),
     findCombos(commanders, legalMain(next), identity).catch(() => null),
@@ -230,7 +230,7 @@ export function originalStats(
   const bracket = report.bracket
     ? assessBracket(initial, est, snap.sim, report.bracket.target)
     : undefined;
-  const o = report.original!;
+  const o = report.original;
   const combos =
     found ??
     fallbackCombos(

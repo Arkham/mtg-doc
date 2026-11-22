@@ -45,6 +45,7 @@ const report = {
   decklist: [card("Llanowar Elves"), card("Overgrown Tomb")],
   combosPresent: [],
   options: { budgetTotal: 300, budgetPerCard: null },
+  cardIndex: {},
 } as unknown as Report;
 
 describe("contradiction check", () => {

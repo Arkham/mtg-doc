@@ -62,12 +62,12 @@ export function reportFacts(r: Report): string {
     `${label}: ${s.totalCards} cards, $${Math.round(s.totalPriceUsd)}, ${s.mana.landCount} lands (recommended ${s.mana.recommendedLands}), average mana value ${s.mana.avgCmc}, ${s.mana.rampCount} ramp pieces, ${s.mana.tappedLands.length} lands entering tapped, roles ${s.roles.map((x) => `${x.role} ${x.count}`).join(", ")}.`;
   return [
     `Commander: ${r.commanders.join(" + ")}.`,
-    r.original && `Deck as submitted (what the owner plays today): ${names(r.original.decklist)}.`,
+    `Deck as submitted (what the owner plays today): ${names(r.original.decklist)}.`,
     r.decklist && `Suggested deck (after all the swaps): ${names(r.decklist)}.`,
     `Swaps (cut → add): ${r.swaps.map((s) => `${s.out} → ${s.in}`).join("; ") || "none"}.`,
     stats("Deck as submitted", r.before),
     stats("Suggested deck", r.after),
-    r.original && `Combos in the deck as submitted: ${combos(r.original.combosPresent)}.`,
+    `Combos in the deck as submitted: ${combos(r.original.combosPresent)}.`,
     `Combos in the suggested deck: ${combos(r.combosPresent)}.`,
     b &&
       `Target bracket ${b.target} (${b.name}), tone ${b.tone}. The deck as submitted reads as bracket ${b.before.bracket}, Game Changers: ${b.before.gameChangers.join(", ") || "none"}. The suggested deck reads as bracket ${b.after.bracket}, Game Changers: ${b.after.gameChangers.join(", ") || "none"}${b.gameChangerLimit !== null ? ` (limit ${b.gameChangerLimit})` : ""}; checks: ${b.after.checks.map((c) => `${c.label} ${c.ok ? "ok" : "fails"} (${c.detail})`).join("; ")}.`,
@@ -103,9 +103,9 @@ export function knownCards(r: Report): string[] {
   return [
     ...new Set([
       ...r.commanders,
-      ...Object.keys(r.cardIndex ?? {}),
-      ...(r.original?.decklist ?? []).map((c) => c.name),
-      ...(r.decklist ?? []).map((c) => c.name),
+      ...Object.keys(r.cardIndex),
+      ...r.original.decklist.map((c) => c.name),
+      ...r.decklist.map((c) => c.name),
       ...r.swaps.flatMap((s) => [s.out, s.in, ...(s.alternatives ?? []).map((a) => a.name)]),
     ]),
   ];

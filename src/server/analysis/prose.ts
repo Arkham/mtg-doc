@@ -75,4 +75,4 @@ export function indexResolver(index: Record<string, unknown>) {
  * the rest become plain words, so a reader never sees a card where there isn't one.
  */
 export const settleRefs = (r: Report): Report =>
-  mapProse(r, (t) => resolveRefs(t, indexResolver(r.cardIndex ?? {})));
+  mapProse(r, (t) => resolveRefs(t, indexResolver(r.cardIndex)));

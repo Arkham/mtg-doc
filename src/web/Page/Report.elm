@@ -1,4 +1,4 @@
-module Page.Report exposing (Chrome, ComboFilter, DecklistView(..), Model, Msg, Note(..), Out(..), Page, chrome, closeHowToPlay, decklistViewDecoder, decklistViewToString, init, load, subscriptions, update, view, viewChat)
+module Page.Report exposing (Chrome, ComboFilter, DecklistView, Model, Msg, Note(..), Out(..), Page, chrome, closeHowToPlay, decklistViewDecoder, decklistViewToString, init, load, subscriptions, update, view, viewChat)
 
 import Api
 import Chat
@@ -1123,12 +1123,12 @@ synergies env ctx model r canRefresh =
             Maybe.withDefault [] r.synergies
 
         image n =
-            case Dict.get n (Maybe.withDefault Dict.empty r.cardIndex) |> Maybe.andThen .image of
+            case Dict.get n r.cardIndex |> Maybe.andThen .image of
                 Just i ->
                     Just i
 
                 Nothing ->
-                    r.decklist |> Maybe.withDefault [] |> List.Extra.find (\c -> c.name == n) |> Maybe.andThen .image
+                    r.decklist |> List.Extra.find (\c -> c.name == n) |> Maybe.andThen .image
 
         busy =
             isBusy model.synergies
@@ -1850,19 +1850,19 @@ preloadImages : String -> Report -> Html msg
 preloadImages base r =
     let
         index =
-            Maybe.withDefault Dict.empty r.cardIndex
+            r.cardIndex
 
         allCombos =
             r.combosPresent
                 ++ r.combosOneAway
-                ++ (r.original |> Maybe.map (\o -> o.combosPresent ++ o.combosOneAway) |> Maybe.withDefault [])
+                ++ (r.original.combosPresent ++ r.original.combosOneAway)
 
         thumbs =
             (List.concatMap (\c -> c.cards ++ c.missing) allCombos ++ List.concatMap .cards (Maybe.withDefault [] r.synergies))
                 |> List.filterMap (\n -> Dict.get n index |> Maybe.andThen .image)
 
         manaSymbols =
-            (Maybe.withDefault [] r.decklist ++ (r.original |> Maybe.map .decklist |> Maybe.withDefault []))
+            (r.decklist ++ r.original.decklist)
                 |> List.filterMap .manaCost
                 |> List.concatMap Mana.costSymbols
                 |> List.map (Mana.symbolUrl base)
@@ -2411,7 +2411,7 @@ chrome env requested model =
                                 { base = env.base
                                 , titleId = "_r_" ++ base32 model.modalCount ++ "_"
                                 , onClose = CloseHowToPlay
-                                , ctx = { index = Maybe.withDefault Dict.empty r.cardIndex, gallery = Nothing, canHover = env.canHover, lift = CardMsg }
+                                , ctx = { index = r.cardIndex, gallery = Nothing, canHover = env.canHover, lift = CardMsg }
                                 }
                                 r
                                 (full.howToPlay
@@ -2488,7 +2488,7 @@ viewChat env requested model =
 
                         else
                             EditTargetOriginal
-                    , index = Maybe.withDefault Dict.empty full.cardIndex
+                    , index = full.cardIndex
                     }
                     model.chat
                 )
@@ -2530,7 +2530,7 @@ viewReport env requested model detail full =
                 Just detail.initial
 
         ctx =
-            { index = Maybe.withDefault Dict.empty r.cardIndex
+            { index = r.cardIndex
             , gallery = Nothing
             , canHover = env.canHover
             , lift = CardMsg
@@ -2548,7 +2548,7 @@ viewReport env requested model detail full =
         sections =
             List.filterMap identity
                 [ Maybe.map (\_ -> ( "bracket", "Bracket" )) r.bracket
-                , Maybe.map (\_ -> ( "decklist", "Decklist" )) r.decklist
+                , Just ( "decklist", "Decklist" )
                 , Just ( "mana", "Mana" )
                 , Just ( "sim", "Goldfish" )
                 , if hasCombos then
@@ -2839,21 +2839,18 @@ viewReport env requested model detail full =
                         }
                     ]
             )
-        , maybeHtml r.decklist
-            (\cards ->
-                section [ class "panel", id "decklist" ]
-                    (decklist env
-                        ctx
-                        model
-                        cards
-                        optimized
-                        (if optimized && (swapsCount > 0 || not (List.isEmpty (Maybe.withDefault [] r.edits))) then
-                            Just ( swapsCount, swapList env ctx model r.swaps ++ [ editLog ctx r ] )
+        , section [ class "panel", id "decklist" ]
+            (decklist env
+                ctx
+                model
+                r.decklist
+                optimized
+                (if optimized && (swapsCount > 0 || not (List.isEmpty (Maybe.withDefault [] r.edits))) then
+                    Just ( swapsCount, swapList env ctx model r.swaps ++ [ editLog ctx r ] )
 
-                         else
-                            Nothing
-                        )
-                    )
+                 else
+                    Nothing
+                )
             )
         , section [ class "panel", id "mana" ]
             [ panelHead

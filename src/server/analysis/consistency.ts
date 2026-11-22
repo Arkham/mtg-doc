@@ -70,59 +70,57 @@ export function checkReport(
   if (r.after.totalCards !== total)
     problems.push(`Stats: ${r.after.totalCards} cards, but the deck list has ${total}.`);
 
-  if (r.original) {
-    const initial = countsOf(r.original.decklist);
-    const cut = minus(initial, current);
-    const added = minus(current, initial);
-    const swapOuts = countsOf(r.swaps.map((s) => ({ name: s.out, qty: 1 })));
-    const swapIns = countsOf(r.swaps.map((s) => ({ name: s.in, qty: 1 })));
-    const notCut = minus(swapOuts, cut);
-    const notAdded = minus(swapIns, added);
-    if (notCut.size)
-      problems.push(
-        `Swaps: cut ${describe(notCut)} beyond what the list cuts from the submitted deck (it cut ${describe(cut)}).`,
-      );
-    if (notAdded.size)
-      problems.push(
-        `Swaps: add ${describe(notAdded)} beyond what the list adds to the submitted deck (it added ${describe(added)}).`,
-      );
-    // Every change pairs up except those that changed the deck's size.
-    const total = (m: Counts) => [...m.values()].reduce((n, q) => n + q, 0);
-    const pairable = Math.min(total(cut), total(added));
-    if (!notCut.size && !notAdded.size && r.swaps.length !== pairable)
-      problems.push(
-        `Swaps: ${r.swaps.length} listed, but the list's changes from the submitted deck make ${pairable} (cut ${describe(cut)}; added ${describe(added)}).`,
-      );
-    for (const c of list) {
-      const delta = c.qty - (initial.get(c.name) ?? 0);
-      const isNew = !initial.has(c.name);
-      if (c.delta !== delta || c.isNew !== isNew)
-        problems.push(
-          `Decklist: ${c.name} is marked ${c.isNew ? "new" : "not new"} with change ${c.delta}, but the submitted deck makes it ${isNew ? "new" : "not new"} with change ${delta}.`,
-        );
-    }
-    const inInitial = (n: string) => initial.has(n);
-    checkCombos(problems, "Combos in the deck as submitted", r.original.combosPresent, inInitial);
-    checkOneAway(
-      problems,
-      "Combos one card away from the deck as submitted",
-      r.original.combosOneAway,
-      inInitial,
+  const initial = countsOf(r.original.decklist);
+  const cut = minus(initial, current);
+  const added = minus(current, initial);
+  const swapOuts = countsOf(r.swaps.map((s) => ({ name: s.out, qty: 1 })));
+  const swapIns = countsOf(r.swaps.map((s) => ({ name: s.in, qty: 1 })));
+  const notCut = minus(swapOuts, cut);
+  const notAdded = minus(swapIns, added);
+  if (notCut.size)
+    problems.push(
+      `Swaps: cut ${describe(notCut)} beyond what the list cuts from the submitted deck (it cut ${describe(cut)}).`,
     );
-    for (const k of r.howToPlay?.original?.keyCards ?? [])
-      if (!inInitial(k.name))
-        problems.push(
-          `How to play (deck as submitted): key card ${k.name} isn't in the deck as submitted.`,
-        );
-    if (r.bracket) {
-      checkAssessment(problems, "Bracket (deck as submitted)", r.bracket.before, inInitial);
-      checkBracketCombosListed(
-        problems,
-        "Bracket (deck as submitted)",
-        r.bracket.before.combos,
-        r.original.combosPresent,
+  if (notAdded.size)
+    problems.push(
+      `Swaps: add ${describe(notAdded)} beyond what the list adds to the submitted deck (it added ${describe(added)}).`,
+    );
+  // Every change pairs up except those that changed the deck's size.
+  const sum = (m: Counts) => [...m.values()].reduce((n, q) => n + q, 0);
+  const pairable = Math.min(sum(cut), sum(added));
+  if (!notCut.size && !notAdded.size && r.swaps.length !== pairable)
+    problems.push(
+      `Swaps: ${r.swaps.length} listed, but the list's changes from the submitted deck make ${pairable} (cut ${describe(cut)}; added ${describe(added)}).`,
+    );
+  for (const c of list) {
+    const delta = c.qty - (initial.get(c.name) ?? 0);
+    const isNew = !initial.has(c.name);
+    if (c.delta !== delta || c.isNew !== isNew)
+      problems.push(
+        `Decklist: ${c.name} is marked ${c.isNew ? "new" : "not new"} with change ${c.delta}, but the submitted deck makes it ${isNew ? "new" : "not new"} with change ${delta}.`,
       );
-    }
+  }
+  const inInitial = (n: string) => initial.has(n);
+  checkCombos(problems, "Combos in the deck as submitted", r.original.combosPresent, inInitial);
+  checkOneAway(
+    problems,
+    "Combos one card away from the deck as submitted",
+    r.original.combosOneAway,
+    inInitial,
+  );
+  for (const k of r.howToPlay?.original?.keyCards ?? [])
+    if (!inInitial(k.name))
+      problems.push(
+        `How to play (deck as submitted): key card ${k.name} isn't in the deck as submitted.`,
+      );
+  if (r.bracket) {
+    checkAssessment(problems, "Bracket (deck as submitted)", r.bracket.before, inInitial);
+    checkBracketCombosListed(
+      problems,
+      "Bracket (deck as submitted)",
+      r.bracket.before.combos,
+      r.original.combosPresent,
+    );
   }
 
   for (const s of r.swaps)

@@ -93,7 +93,7 @@ export async function writeGuides(
     const has = inDeck(deck);
     const assessed = key === "original" ? b?.before : b?.after;
     return writePlayGuide(deck, {
-      combos: key === "original" ? (report.original?.combosPresent ?? []) : report.combosPresent,
+      combos: key === "original" ? report.original.combosPresent : report.combosPresent,
       synergies: (report.synergies ?? []).filter((s) => has(s.cards)),
       bracket: b &&
         assessed && {

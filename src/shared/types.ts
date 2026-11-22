@@ -378,7 +378,7 @@ export interface Report {
   /** Changes applied through chat after optimization, oldest first. */
   edits?: DeckEdit[];
   /** The deck as submitted, for the default view; `before` and `bracket.before` hold its stats. */
-  original?: { decklist: DecklistCard[]; combosPresent: Combo[]; combosOneAway: Combo[] };
+  original: { decklist: DecklistCard[]; combosPresent: Combo[]; combosOneAway: Combo[] };
   /** How to play the deck as submitted and the suggested one (needs an LLM). */
   howToPlay?: { original?: PlayGuide; optimized?: PlayGuide };
   /** Strong non-combo interactions in the deck (needs an LLM). */
@@ -386,9 +386,9 @@ export interface Report {
   /** Land swaps that would still improve the mana base; recomputed after every edit. */
   manaSuggestions?: ManaSuggestion[];
   /** Preview data for every card the report mentions, so any card name can show its image. */
-  cardIndex?: Record<string, CardPreview>;
-  /** Optimized list with display data; absent in reports generated before it existed. */
-  decklist?: DecklistCard[];
+  cardIndex: Record<string, CardPreview>;
+  /** The suggested list, with what the page shows for each card. */
+  decklist: DecklistCard[];
   /** Published without the doc's suggestions: only the deck as submitted (see `withoutSuggestions`). */
   suggestionsHidden?: boolean;
 }

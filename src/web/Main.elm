@@ -1,4 +1,4 @@
-port module Main exposing (Model, Msg, Page, main)
+port module Main exposing (Model, Msg, Page, Shell, main)
 
 import Api
 import Browser
@@ -11,6 +11,7 @@ import Html.Events exposing (on, onClick)
 import Html.Lazy
 import Json.Decode as D
 import Json.Encode as E
+import Loadable
 import Page.Home as Home
 import Page.Progress as Progress
 import Page.Report as Report
@@ -97,27 +98,55 @@ flagsDecoder =
         (D.field "route" Route.decoder)
 
 
-main : Program D.Value Model Msg
+{-| The app, running on the flags it was started with; or, if they don't parse, not running at all
+rather than guessing (a published page taken for the local app would call an API that isn't there).
+-}
+type Shell
+    = Running Model
+    | Broken String
+
+
+main : Program D.Value Shell Msg
 main =
     Browser.element
-        { init = init
-        , update = update
-        , view = view
-        , subscriptions = subscriptions
+        { init =
+            \value ->
+                case D.decodeValue flagsDecoder value of
+                    Ok flags ->
+                        Tuple.mapFirst Running (init flags)
+
+                    Err e ->
+                        ( Broken (D.errorToString e), Cmd.none )
+        , update =
+            \msg shell ->
+                case shell of
+                    Running model ->
+                        Tuple.mapFirst Running (update msg model)
+
+                    Broken _ ->
+                        ( shell, Cmd.none )
+        , view =
+            \shell ->
+                case shell of
+                    Running model ->
+                        view model
+
+                    Broken e ->
+                        p [ class "error" ] [ text ("The page couldn't start: " ++ e) ]
+        , subscriptions =
+            \shell ->
+                case shell of
+                    Running model ->
+                        subscriptions model
+
+                    Broken _ ->
+                        Sub.none
         }
 
 
-init : D.Value -> ( Model, Cmd Msg )
-init value =
+init : Flags -> ( Model, Cmd Msg )
+init flags =
     let
-        flags =
-            D.decodeValue flagsDecoder value
-                |> Result.withDefault
-                    { env = { isStatic = False, base = "/", canHover = True, isTouch = False, viewport = { width = 1024, height = 768 } }
-                    , decklistView = Report.ListView
-                    , route = Home
-                    }
-
         ( home, homeCmd ) =
             Home.init flags.env Nothing
 
@@ -158,7 +187,7 @@ enter route model =
                 , decks =
                     case model.page of
                         HomePage home ->
-                            case home.decks of
+                            case Loadable.toMaybe home.decks of
                                 Just decks ->
                                     Just decks
 

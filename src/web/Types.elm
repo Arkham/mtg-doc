@@ -2383,7 +2383,7 @@ manaSuggestions: Land swaps that would still improve the mana base; recomputed a
 
 cardIndex: Preview data for every card the report mentions, so any card name can show its image.
 
-decklist: Optimized list with display data; absent in reports generated before it existed.
+decklist: The suggested list, with what the page shows for each card.
 
 suggestionsHidden: Published without the doc's suggestions: only the deck as submitted (see `withoutSuggestions`).
 
@@ -2407,12 +2407,12 @@ type alias Report =
     , options : OptimizeOptions
     , bracket : Maybe BracketReport
     , edits : Maybe (List DeckEdit)
-    , original : Maybe ReportOriginal
+    , original : ReportOriginal
     , howToPlay : Maybe ReportHowToPlay
     , synergies : Maybe (List Synergy)
     , manaSuggestions : Maybe (List ManaSuggestion)
-    , cardIndex : Maybe (Dict String CardPreview)
-    , decklist : Maybe (List DecklistCard)
+    , cardIndex : Dict String CardPreview
+    , decklist : List DecklistCard
     , suggestionsHidden : Maybe Bool
     }
 
@@ -2438,12 +2438,12 @@ reportDecoder =
         |> P.required "options" optimizeOptionsDecoder
         |> P.optional "bracket" (D.map Just bracketReportDecoder) Nothing
         |> P.optional "edits" (D.map Just (D.list deckEditDecoder)) Nothing
-        |> P.optional "original" (D.map Just reportOriginalDecoder) Nothing
+        |> P.required "original" reportOriginalDecoder
         |> P.optional "howToPlay" (D.map Just reportHowToPlayDecoder) Nothing
         |> P.optional "synergies" (D.map Just (D.list synergyDecoder)) Nothing
         |> P.optional "manaSuggestions" (D.map Just (D.list manaSuggestionDecoder)) Nothing
-        |> P.optional "cardIndex" (D.map Just (D.dict cardPreviewDecoder)) Nothing
-        |> P.optional "decklist" (D.map Just (D.list decklistCardDecoder)) Nothing
+        |> P.required "cardIndex" (D.dict cardPreviewDecoder)
+        |> P.required "decklist" (D.list decklistCardDecoder)
         |> P.optional "suggestionsHidden" (D.map Just D.bool) Nothing
 
 
@@ -2469,12 +2469,12 @@ encodeReport value =
             , Just ( "options", encodeOptimizeOptions value.options )
             , Maybe.map (\v -> ( "bracket", encodeBracketReport v )) value.bracket
             , Maybe.map (\v -> ( "edits", E.list encodeDeckEdit v )) value.edits
-            , Maybe.map (\v -> ( "original", encodeReportOriginal v )) value.original
+            , Just ( "original", encodeReportOriginal value.original )
             , Maybe.map (\v -> ( "howToPlay", encodeReportHowToPlay v )) value.howToPlay
             , Maybe.map (\v -> ( "synergies", E.list encodeSynergy v )) value.synergies
             , Maybe.map (\v -> ( "manaSuggestions", E.list encodeManaSuggestion v )) value.manaSuggestions
-            , Maybe.map (\v -> ( "cardIndex", E.dict identity encodeCardPreview v )) value.cardIndex
-            , Maybe.map (\v -> ( "decklist", E.list encodeDecklistCard v )) value.decklist
+            , Just ( "cardIndex", E.dict identity encodeCardPreview value.cardIndex )
+            , Just ( "decklist", E.list encodeDecklistCard value.decklist )
             , Maybe.map (\v -> ( "suggestionsHidden", E.bool v )) value.suggestionsHidden
             ]
         )

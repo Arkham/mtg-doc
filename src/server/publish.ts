@@ -9,7 +9,7 @@ import { referencedNames } from "./card-index.ts";
  */
 export function withoutSuggestions(r: Report): Report {
   const o = r.original;
-  const names = new Set(o?.decklist.map((c) => c.name));
+  const names = new Set(o.decklist.map((c) => c.name));
   const stripped: Report = {
     ...r,
     // The optimizer's strategy describes its changes ("these swaps replace…").
@@ -19,9 +19,9 @@ export function withoutSuggestions(r: Report): Report {
     edits: [],
     manaSuggestions: [],
     warnings: [],
-    decklist: o?.decklist,
-    combosPresent: o?.combosPresent ?? [],
-    combosOneAway: o?.combosOneAway ?? [],
+    decklist: o.decklist,
+    combosPresent: o.combosPresent,
+    combosOneAway: o.combosOneAway,
     synergies: r.synergies?.filter((s) => s.cards.every((n) => names.has(n))),
     ...(r.howToPlay?.original
       ? { howToPlay: { original: r.howToPlay.original } }
@@ -36,7 +36,7 @@ export function withoutSuggestions(r: Report): Report {
   };
   const kept = new Set(referencedNames(stripped));
   stripped.cardIndex = Object.fromEntries(
-    Object.entries(r.cardIndex ?? {}).filter(([name]) => kept.has(name)),
+    Object.entries(r.cardIndex).filter(([name]) => kept.has(name)),
   );
   return stripped;
 }

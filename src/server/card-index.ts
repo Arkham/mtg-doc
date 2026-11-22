@@ -10,12 +10,12 @@ export function referencedNames(r: Report): string[] {
     names.add(s.in);
     for (const a of s.alternatives ?? []) names.add(a.name);
   }
-  for (const c of [...(r.decklist ?? []), ...(r.original?.decklist ?? [])]) names.add(c.name);
+  for (const c of [...r.decklist, ...r.original.decklist]) names.add(c.name);
   for (const combo of [
     ...r.combosPresent,
     ...r.combosOneAway,
-    ...(r.original?.combosPresent ?? []),
-    ...(r.original?.combosOneAway ?? []),
+    ...r.original.combosPresent,
+    ...r.original.combosOneAway,
   ])
     combo.cards.forEach((n) => names.add(n));
   for (const snap of [r.before, r.after]) {
@@ -61,7 +61,7 @@ export async function buildCardIndex(
   const listed = new Set(names);
   // Earlier entries only for cards the report still lists; copy's references are checked afresh.
   const index: Record<string, CardPreview> = Object.fromEntries(
-    Object.entries(report.cardIndex ?? {}).filter(([n]) => listed.has(n)),
+    Object.entries(report.cardIndex).filter(([n]) => listed.has(n)),
   );
   const add = (
     c: (Pick<Card, "name" | "image" | "scryfallUri"> & { priceUsd?: number | null }) | undefined,
@@ -76,8 +76,8 @@ export async function buildCardIndex(
     add(s.inCard);
     s.alternatives?.forEach((a) => add({ ...a }));
   }
-  report.decklist?.forEach((c) => add(c));
-  report.original?.decklist.forEach((c) => add(c));
+  report.decklist.forEach((c) => add(c));
+  report.original.decklist.forEach((c) => add(c));
   const missing = names.filter((n) => !index[n]);
   if (missing.length) {
     const found = await lookupExact(missing).catch(() => new Map<string, Card>());

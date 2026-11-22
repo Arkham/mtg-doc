@@ -681,6 +681,8 @@ async function run(job: Job, opts: RunOptions) {
             manaSuggestions,
             synergies: done[Task.Synergies],
             ...(pinned?.edits.length ? { edits: pinned.edits } : {}),
+            // Built when the report is saved, from everything it ends up naming.
+            cardIndex: {},
           };
           if (!llmEnabled() || !isCommander) {
             s.status = "skipped";
