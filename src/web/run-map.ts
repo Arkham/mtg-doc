@@ -46,6 +46,8 @@ const FOLLOW_AFTER_DRAG_MS = 2500;
 const SETTLE_MS = 1500;
 /** How much of the way left the glide covers in a 60Hz frame; slower frames cover more. */
 const GLIDE = 0.15;
+/** How close the glide gets before it takes the rest in one step. */
+const LAST_STEP_PX = 4;
 /** How long a comet takes to reach its service, or to come back. */
 const FLIGHT_MS = 420;
 
@@ -349,12 +351,14 @@ export class RunMap extends HTMLElement {
     }
     // Eased so the page glides, by the time since its last step rather than per frame, so it keeps
     // up when frames come slowly; a whole pixel at least, or WebKit won't move. A new glide (after
-    // a drag, say) starts gently, however long it's been.
+    // a drag, say) starts gently, however long it's been. The last few pixels go in one step, so
+    // it comes to rest in the same place whichever way it came.
     const frames = this.#glidedAt === null ? 1 : Math.min(now - this.#glidedAt, 1000) / (1000 / 60);
     this.#glidedAt = now;
     const glide = 1 - (1 - GLIDE) ** frames;
     const { off, riding } = aim;
-    window.scrollBy(0, riding ? off : Math.sign(off) * Math.max(1, Math.abs(off) * glide));
+    const finish = riding || Math.abs(off) <= LAST_STEP_PX;
+    window.scrollBy(0, finish ? off : Math.sign(off) * Math.max(1, Math.abs(off) * glide));
     if (!this.#settling)
       this.#settling = requestAnimationFrame(() => {
         this.#settling = 0;
@@ -383,7 +387,7 @@ export class RunMap extends HTMLElement {
         : null;
     if (y === null) return null;
     const off = box.top + y - innerHeight * 0.4;
-    if (Math.abs(off) <= 1) return null;
+    if (Math.abs(off) < 1) return null;
     // The spark's on its way: ride with it, not after it, or it gets away.
     return { off, riding: !!race && race.head > 0 && !race.done };
   }
