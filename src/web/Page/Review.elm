@@ -22,6 +22,7 @@ import Ui.Card as Card
 import Ui.Icons as Icons
 import Ui.Keys as Keys
 import Ui.Mana as Mana
+import Ui.Nudge as Nudge exposing (Nudge)
 import Ui.Settings as Settings
 import Ui.Sheet as Sheet
 import Ui.Style exposing (ariaSelected)
@@ -107,7 +108,7 @@ type alias Model =
     , addQty : Int
     , adding : Request ()
     , flash : Maybe ( Int, Int )
-    , focusAdd : Int
+    , focusAdd : Nudge
     , saving : Request ()
 
     -- A commander picked by name that couldn't be found.
@@ -209,7 +210,7 @@ init recognition photos config =
     , addQty = 1
     , adding = Idle
     , flash = Nothing
-    , focusAdd = 0
+    , focusAdd = Nudge.initial
     , saving = Idle
     , unknownCommander = Nothing
     }
@@ -481,7 +482,7 @@ update msg model =
         GotAdded n result ->
             let
                 finished m =
-                    { m | focusAdd = m.focusAdd + 1 }
+                    { m | focusAdd = Nudge.next m.focusAdd }
             in
             case result of
                 Err e ->
@@ -840,7 +841,7 @@ view env config model =
                               else
                                 text "Add"
                             ]
-                        , node "mtg-focus" [ attribute "target" "input[list=add-ac]", attribute "token" (String.fromInt model.focusAdd), attribute "lazy" "" ] []
+                        , node "mtg-focus" [ attribute "target" "input[list=add-ac]", Nudge.attribute "token" model.focusAdd, attribute "lazy" "" ] []
                         ]
                     , case failure model.adding of
                         Just e ->

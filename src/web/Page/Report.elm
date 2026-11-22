@@ -29,6 +29,7 @@ import Ui.Card as Card
 import Ui.Gallery as Gallery
 import Ui.Mana as Mana
 import Ui.Markdown as Markdown
+import Ui.Nudge as Nudge exposing (Nudge)
 import Ui.Settings as Settings
 import Ui.Sheet as Sheet
 import Ui.Style exposing (ariaSelected, auraOfCards, cssVars)
@@ -111,7 +112,6 @@ type alias Page =
     , copies : Int
     , optimizedText : Maybe String
     , howToPlay : Bool
-    , modalCount : Int
     , showSwaps : Bool
     , decklistView : DecklistView
     , comboFilter : ComboFilter
@@ -128,7 +128,7 @@ type alias Page =
     -- Changing the settings to run the optimizer again (open while there are settings to change).
     , rerun : Maybe OptimizeOptions
     , publishing : Request ()
-    , exportClose : Int
+    , exportClose : Nudge
     , active : Maybe Section
     }
 
@@ -203,7 +203,6 @@ init env decklistView slug =
             , copies = 0
             , optimizedText = Nothing
             , howToPlay = False
-            , modalCount = 0
             , showSwaps = False
             , decklistView = decklistView
             , comboFilter = AllCombos
@@ -216,7 +215,7 @@ init env decklistView slug =
             , starting = Idle
             , rerun = Nothing
             , publishing = Idle
-            , exportClose = 0
+            , exportClose = Nudge.initial
             , active = Nothing
             }
         }
@@ -408,7 +407,7 @@ update env msg model =
                                 -- The cards to add were copied from the export menu, which closes now.
                                 , exportClose =
                                     if p.copied == Just AddsCopy then
-                                        p.exportClose + 1
+                                        Nudge.next p.exportClose
 
                                     else
                                         p.exportClose
@@ -424,7 +423,7 @@ update env msg model =
             none (setPage (\p -> { p | howToPlay = True }) model)
 
         AskedToCloseHowToPlay ->
-            none (setPage (\p -> { p | howToPlay = False, modalCount = model.page.modalCount + 1 }) model)
+            none (setPage (\p -> { p | howToPlay = False }) model)
 
         ToggledSwaps ->
             none (setPage (\p -> { p | showSwaps = not model.page.showSwaps }) model)
@@ -2457,7 +2456,7 @@ exportMenu env model slug edhrecUrl swaps optimized =
                 (a [ href ("decks/" ++ slugToString slug ++ "/"), target "_blank", rel "noreferrer" ] [ text "Plain-text version ", span [ class "muted small" ] [ text "for AI agents" ] ])
             , maybeHtml edhrecUrl (\url -> a [ href url, target "_blank", rel "noreferrer" ] [ text "View on EDHREC ↗" ])
             ]
-        , node "mtg-outside-close" [ attribute "close" (String.fromInt model.exportClose) ] []
+        , node "mtg-outside-close" [ Nudge.attribute "close" model.exportClose ] []
         ]
 
 
@@ -2537,7 +2536,7 @@ chrome env requested model =
                             in
                             [ HowToPlay.view
                                 { base = env.base
-                                , titleId = "_r_" ++ base32 model.modalCount ++ "_"
+                                , titleId = "how-to-play-title"
                                 , onClose = AskedToCloseHowToPlay
                                 , ctx = { index = full.cardIndex, gallery = Nothing, canHover = env.canHover, lift = CardMsg }
                                 }
@@ -3155,21 +3154,6 @@ editLog ctx edits =
                 )
             ]
         )
-
-
-{-| React's `useId` format, which the dialog's title id followed.
--}
-base32 : Int -> String
-base32 n =
-    let
-        digit d =
-            String.slice d (d + 1) "0123456789abcdefghijklmnopqrstuv"
-    in
-    if n < 32 then
-        digit n
-
-    else
-        base32 (n // 32) ++ digit (modBy 32 n)
 
 
 closeHowToPlay : Msg

@@ -24,6 +24,7 @@ import Ui.Card as Card
 import Ui.Icons as Icons
 import Ui.Keys as Keys
 import Ui.Mana as Mana
+import Ui.Nudge as Nudge exposing (Nudge)
 
 
 suggestions : List String
@@ -47,7 +48,7 @@ type alias Model =
 
     -- Applying a message's changes or starting its re-run (by the message's id), or what last failed.
     , request : Request String
-    , focus : Int
+    , focus : Nudge
     , waitToken : Int
     }
 
@@ -109,7 +110,7 @@ init =
     , asking = Nothing
     , confirmingClear = False
     , request = Idle
-    , focus = 0
+    , focus = Nudge.initial
     , waitToken = 0
     }
 
@@ -253,7 +254,7 @@ update env slug msg model =
                     withMessages messages model
 
                 done =
-                    { m | asking = Nothing, focus = m.focus + 1 }
+                    { m | asking = Nothing, focus = Nudge.next m.focus }
             in
             -- A "yes" to a proposed re-run starts it right away.
             case reply.rerun |> Maybe.andThen .jobId of
@@ -281,7 +282,7 @@ update env slug msg model =
                 | request = Failed e
                 , text = model.asking |> Maybe.map .question |> Maybe.withDefault model.text
                 , asking = Nothing
-                , focus = model.focus + 1
+                , focus = Nudge.next model.focus
               }
             , Cmd.none
             , Nothing
@@ -757,6 +758,6 @@ panel config model =
                     ]
                     []
                 , button [ type_ "submit", class "primary", disabled (String.trim model.text == "" || model.asking /= Nothing), attribute "aria-label" "Send" ] [ text "↑" ]
-                , node "mtg-focus" [ attribute "target" "textarea", attribute "token" (String.fromInt model.focus) ] []
+                , node "mtg-focus" [ attribute "target" "textarea", Nudge.attribute "token" model.focus ] []
                 ]
             ]
