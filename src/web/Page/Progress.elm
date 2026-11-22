@@ -33,6 +33,13 @@ lingerMs =
     5000
 
 
+{-| A gap between frames longer than this is the tab having been away, not a slow frame.
+-}
+awayMs : Float
+awayMs =
+    2000
+
+
 {-| How long past its end a run plays, for the map's finale: its last comets come home, all
 but the golden path fades, a spark races down it and the last step bursts (`OUTRO_*`, `RACE_*`
 and `BURST_MS` in src/web/run-map.ts add up to this).
@@ -186,9 +193,15 @@ update msg model =
                             (\pb ->
                                 if pb.playing then
                                     let
-                                        -- A frame after the tab was away doesn't jump the replay ahead.
+                                        -- A frame after the tab was away doesn't jump the replay ahead;
+                                        -- a slow one counts in full, or a slow device would replay the
+                                        -- run slower than it ran.
                                         dt =
-                                            clamp 0 100 (now - model.now)
+                                            if now - model.now > awayMs then
+                                                0
+
+                                            else
+                                                max 0 (now - model.now)
 
                                         -- The finale at its own pace, whatever the replay's.
                                         speed =
