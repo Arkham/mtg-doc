@@ -121,33 +121,33 @@ type Which
 
 
 type Msg
-    = SetFormat DeckFormat
-    | RemoveCommander String
-    | AddCommander String
+    = ChoseFormat DeckFormat
+    | ClickedRemoveCommander String
+    | ChoseCommander String
     | GotCommander String (Result String (List ResolvedName))
-    | Query Which String
-    | Fetch Which Int
+    | ChangedQuery Which String
+    | SuggestionsDue Which Int
     | GotSuggestions Which (Result String (List String))
-    | SetDeckName String
-    | SetQty Int Int
-    | SetName Int String
-    | FocusName String
-    | Recheck Int String
-    | Rechecked Int String (Result String (List ResolvedName))
-    | ToggleLock Int
-    | RemoveRow Int
-    | SetAddQty Int
-    | AddCard
-    | Added String (Result String (List ResolvedName))
-    | Unflash Int
-    | SetView ListView
-    | SetSearch String
-    | SetOptions OptimizeOptions
-    | Save
-    | Saved (Result String ( String, String ))
-    | Zoom String
+    | ChangedDeckName String
+    | ChangedQty Int Int
+    | ChangedName Int String
+    | FocusedName String
+    | CommittedName Int String
+    | GotRecheck Int String (Result String (List ResolvedName))
+    | ToggledLock Int
+    | ClickedRemoveRow Int
+    | ChangedAddQty Int
+    | SubmittedAdd
+    | GotAdded String (Result String (List ResolvedName))
+    | FlashFaded Int
+    | ChoseView ListView
+    | ChangedSearch String
+    | ChangedOptions OptimizeOptions
+    | ClickedSave
+    | GotSaved (Result String ( String, String ))
+    | ClickedPhoto String
     | CardMsg Card.Msg
-    | Cancel
+    | ClickedCancel
 
 
 type Out
@@ -261,7 +261,7 @@ query which q model =
         Cmd.none
 
       else
-        Process.sleep 200 |> Task.perform (\_ -> Fetch which next.token)
+        Process.sleep 200 |> Task.perform (\_ -> SuggestionsDue which next.token)
     )
 
 
@@ -355,13 +355,13 @@ none model =
 update : Msg -> Model -> ( Model, Cmd Msg, Maybe Out )
 update msg model =
     case msg of
-        SetFormat f ->
+        ChoseFormat f ->
             none { model | format = f }
 
-        RemoveCommander c ->
+        ClickedRemoveCommander c ->
             none { model | commanders = List.filter ((/=) c) model.commanders }
 
-        AddCommander raw ->
+        ChoseCommander raw ->
             if raw == "" || List.member raw model.commanders || List.length model.commanders >= 2 then
                 none model
 
@@ -386,14 +386,14 @@ update msg model =
         GotCommander _ (Err _) ->
             none model
 
-        Query which q ->
+        ChangedQuery which q ->
             let
                 ( m, cmd ) =
                     query which q model
             in
             ( m, cmd, Nothing )
 
-        Fetch which token ->
+        SuggestionsDue which token ->
             let
                 s =
                     suggestionsOf which model
@@ -414,30 +414,30 @@ update msg model =
         GotSuggestions _ (Err _) ->
             none model
 
-        SetDeckName n ->
+        ChangedDeckName n ->
             none { model | deckName = n }
 
-        SetQty id q ->
+        ChangedQty id q ->
             none (updateRow id (\r -> { r | qty = max 1 q }) model)
 
-        SetName id n ->
+        ChangedName id n ->
             let
                 ( m, cmd ) =
                     query Names n (updateRow id (\r -> { r | name = n, match = Unresolved }) model)
             in
             ( m, cmd, Nothing )
 
-        FocusName n ->
+        FocusedName n ->
             let
                 ( m, cmd ) =
                     query Names n model
             in
             ( m, cmd, Nothing )
 
-        Recheck id n ->
-            ( updateRow id (\r -> { r | match = Checking (cardOf r.match) }) model, Api.resolve [ n ] (Rechecked id n), Nothing )
+        CommittedName id n ->
+            ( updateRow id (\r -> { r | match = Checking (cardOf r.match) }) model, Api.resolve [ n ] (GotRecheck id n), Nothing )
 
-        Rechecked id n (Ok results) ->
+        GotRecheck id n (Ok results) ->
             case List.head results of
                 Just res ->
                     none
@@ -454,19 +454,19 @@ update msg model =
                 Nothing ->
                     none (updateRow id (\r -> { r | match = Unresolved }) model)
 
-        Rechecked id _ (Err _) ->
+        GotRecheck id _ (Err _) ->
             none (updateRow id (\r -> { r | match = Unresolved }) model)
 
-        ToggleLock id ->
+        ToggledLock id ->
             none (updateRow id (\r -> { r | locked = not r.locked }) model)
 
-        RemoveRow id ->
+        ClickedRemoveRow id ->
             none { model | rows = List.filter (\r -> r.id /= id) model.rows }
 
-        SetAddQty q ->
+        ChangedAddQty q ->
             none { model | addQty = max 1 q }
 
-        AddCard ->
+        SubmittedAdd ->
             let
                 n =
                     String.trim model.adds.query
@@ -475,9 +475,9 @@ update msg model =
                 none model
 
             else
-                ( { model | adding = Busy () }, Api.resolve [ n ] (Added n), Nothing )
+                ( { model | adding = Busy () }, Api.resolve [ n ] (GotAdded n), Nothing )
 
-        Added n result ->
+        GotAdded n result ->
             let
                 finished m =
                     { m | focusAdd = m.focusAdd + 1 }
@@ -520,27 +520,27 @@ update msg model =
                                     , adds = { adds | query = "", token = adds.token + 1 }
                                     , addQty = 1
                                 }
-                            , Process.sleep 1600 |> Task.perform (\_ -> Unflash token)
+                            , Process.sleep 1600 |> Task.perform (\_ -> FlashFaded token)
                             , Nothing
                             )
 
-        Unflash token ->
+        FlashFaded token ->
             if Maybe.map Tuple.second model.flash == Just token then
                 none { model | flash = Nothing }
 
             else
                 none model
 
-        SetView v ->
+        ChoseView v ->
             none { model | view = v }
 
-        SetSearch s ->
+        ChangedSearch s ->
             none { model | search = s }
 
-        SetOptions o ->
+        ChangedOptions o ->
             none { model | options = o }
 
-        Save ->
+        ClickedSave ->
             let
                 rows =
                     mainRows model
@@ -588,15 +588,15 @@ update msg model =
                                )
                         )
             in
-            ( { model | saving = Busy (), unknownCommander = Nothing }, Api.save body Saved, Nothing )
+            ( { model | saving = Busy (), unknownCommander = Nothing }, Api.save body GotSaved, Nothing )
 
-        Saved (Ok ( slug, jobId )) ->
+        GotSaved (Ok ( slug, jobId )) ->
             ( model, Cmd.none, Just (Done slug jobId) )
 
-        Saved (Err e) ->
+        GotSaved (Err e) ->
             none { model | saving = Failed e }
 
-        Zoom photo ->
+        ClickedPhoto photo ->
             ( model
             , Cmd.none
             , Just
@@ -615,7 +615,7 @@ update msg model =
         CardMsg m ->
             ( model, Cmd.none, Just (Preview m) )
 
-        Cancel ->
+        ClickedCancel ->
             ( model, Cmd.none, Just StartOver )
 
 
@@ -733,7 +733,7 @@ view env config model =
                 [ h1 [] [ text "Check the cards" ]
                 , p [ class "muted" ] [ text "Fix anything that was misread, confirm the commander, then optimize." ]
                 ]
-            , button [ class "ghost", onClick Cancel ] [ text "Start over" ]
+            , button [ class "ghost", onClick ClickedCancel ] [ text "Start over" ]
             ]
         , div
             [ class
@@ -787,8 +787,8 @@ view env config model =
                         [ div [ class "field" ]
                             [ span [] [ text "Format" ]
                             , div [ class "segmented" ]
-                                [ button [ ariaSelected isCommander, onClick (SetFormat DeckFormatCommander) ] [ text "Commander" ]
-                                , button [ ariaSelected (model.format == DeckFormatOther), onClick (SetFormat DeckFormatOther) ] [ text "Other" ]
+                                [ button [ ariaSelected isCommander, onClick (ChoseFormat DeckFormatCommander) ] [ text "Commander" ]
+                                , button [ ariaSelected (model.format == DeckFormatOther), onClick (ChoseFormat DeckFormatOther) ] [ text "Other" ]
                                 ]
                             ]
                         , if isCommander then
@@ -797,7 +797,7 @@ view env config model =
                           else
                             label [ class "field" ]
                                 [ span [] [ text "Deck name" ]
-                                , input [ value model.deckName, Ui.Attr.valueAttr model.deckName, onInput SetDeckName, placeholder "Used as the folder name" ] []
+                                , input [ value model.deckName, Ui.Attr.valueAttr model.deckName, onInput ChangedDeckName, placeholder "Used as the folder name" ] []
                                 ]
                         ]
                     , if List.isEmpty model.recognition.notes then
@@ -810,7 +810,7 @@ view env config model =
                             ]
                     ]
                 , section [ class "panel" ]
-                    [ form [ class "add-card", preventDefaultOn "submit" (D.succeed ( AddCard, True )) ]
+                    [ form [ class "add-card", preventDefaultOn "submit" (D.succeed ( SubmittedAdd, True )) ]
                         [ input
                             [ type_ "number"
                             , attribute "inputmode" "numeric"
@@ -819,7 +819,7 @@ view env config model =
                             , attribute "aria-label" "Quantity to add"
                             , value (String.fromInt model.addQty)
                             , Ui.Attr.valueAttr (String.fromInt model.addQty)
-                            , onInput (numberValue >> SetAddQty)
+                            , onInput (numberValue >> ChangedAddQty)
                             ]
                             []
                         , input
@@ -828,7 +828,7 @@ view env config model =
                             , placeholder "Add a card: type a name and press Enter"
                             , value model.adds.query
                             , Ui.Attr.valueAttr model.adds.query
-                            , onInput (Query Adds)
+                            , onInput (ChangedQuery Adds)
                             ]
                             []
                         , suggestionList "add-ac" model.adds
@@ -849,12 +849,12 @@ view env config model =
                             text ""
                     , div [ class "list-toolbar" ]
                         [ div [ class "segmented" ]
-                            [ button [ ariaSelected (model.view == All), onClick (SetView All) ]
+                            [ button [ ariaSelected (model.view == All), onClick (ChoseView All) ]
                                 [ span [] [ text "All ", span [ class "count" ] [ text (String.fromInt (List.length rows)) ] ] ]
-                            , button [ ariaSelected (model.view == Issues), onClick (SetView Issues) ]
+                            , button [ ariaSelected (model.view == Issues), onClick (ChoseView Issues) ]
                                 [ span [] [ text "Needs attention ", span [ class "count" ] [ text (String.fromInt (List.length issues)) ] ] ]
                             ]
-                        , input [ type_ "search", placeholder "Find a card", value model.search, Ui.Attr.valueAttr model.search, onInput SetSearch ] []
+                        , input [ type_ "search", placeholder "Find a card", value model.search, Ui.Attr.valueAttr model.search, onInput ChangedSearch ] []
                         ]
                     , suggestionList "name-ac" model.names
                     , if List.isEmpty visible then
@@ -891,7 +891,7 @@ view env config model =
                         ]
                     , Settings.view
                         { webResearch = config |> Maybe.map .webResearch |> Maybe.withDefault False
-                        , onChange = SetOptions
+                        , onChange = ChangedOptions
                         }
                         model.options
                     ]
@@ -924,7 +924,7 @@ view env config model =
                                     )
                                 ]
                 ]
-            , button [ class "primary big", disabled (not canSave), onClick Save ]
+            , button [ class "primary big", disabled (not canSave), onClick ClickedSave ]
                 (if isBusy model.saving then
                     [ span [ class "spinner", attribute "aria-hidden" "true" ] [], text " Saving…" ]
 
@@ -977,7 +977,7 @@ commanderField env ctx model =
                             [ Card.nameWith ctx { name = c.name, card = Just { image = c.image, scryfallUri = c.scryfallUri }, label = Nothing, class = Nothing, key = Nothing }
                             , Mana.cost env.base 14 (Just c.manaCost)
                             ]
-                        , button [ class "icon", attribute "aria-label" ("Remove " ++ c.name), onClick (RemoveCommander c.name) ] [ Icons.close ]
+                        , button [ class "icon", attribute "aria-label" ("Remove " ++ c.name), onClick (ClickedRemoveCommander c.name) ] [ Icons.close ]
                         ]
                 )
                 (commanderCards model)
@@ -1005,7 +1005,7 @@ commanderField env ctx model =
                                     text ""
 
                                 else
-                                    select [ on "change" (D.map AddCommander (D.at [ "target", "value" ] D.string)) ]
+                                    select [ on "change" (D.map ChoseCommander (D.at [ "target", "value" ] D.string)) ]
                                         (option [ Ui.Attr.optionValue "", selected True ]
                                             [ text
                                                 (if List.isEmpty model.commanders then
@@ -1029,8 +1029,8 @@ commanderField env ctx model =
                                             "Search partner"
                                         )
                                     , value model.cmdr.query
-                                    , onInput (Query Cmdr)
-                                    , on "keydown" (Keys.onKeys [ ( "Enter", AddCommander model.cmdr.query ) ])
+                                    , onInput (ChangedQuery Cmdr)
+                                    , on "keydown" (Keys.onKeys [ ( "Enter", ChoseCommander model.cmdr.query ) ])
                                     ]
                                     []
                               )
@@ -1096,7 +1096,7 @@ cardRow env ctx model r =
                         ""
                    )
             )
-         , on "mouseleave" (D.succeed (CardMsg (Card.Leave key)))
+         , on "mouseleave" (D.succeed (CardMsg (Card.Unhovered key)))
          ]
             ++ hover
         )
@@ -1127,7 +1127,7 @@ cardRow env ctx model r =
             , attribute "aria-label" "Quantity"
             , value (String.fromInt r.qty)
             , Ui.Attr.valueAttr (String.fromInt r.qty)
-            , onInput (numberValue >> SetQty r.id)
+            , onInput (numberValue >> ChangedQty r.id)
             ]
             []
          , div [ class "card-row-main" ]
@@ -1138,14 +1138,14 @@ cardRow env ctx model r =
                 , placeholder "Card name"
                 , value r.name
                 , Ui.Attr.valueAttr r.name
-                , onFocus (FocusName r.name)
-                , onInput (SetName r.id)
+                , onFocus (FocusedName r.name)
+                , onInput (ChangedName r.id)
                 , on "blur"
                     (D.at [ "target", "value" ] D.string
                         |> D.andThen
                             (\v ->
                                 if r.match == Unresolved && v /= "" then
-                                    D.succeed (Recheck r.id v)
+                                    D.succeed (CommittedName r.id v)
 
                                 else
                                     D.fail "nothing to check"
@@ -1263,7 +1263,7 @@ cardRow env ctx model r =
                  else
                     "Keep this card (never cut)"
                 )
-            , onClick (ToggleLock r.id)
+            , onClick (ToggledLock r.id)
             ]
             [ Icons.lock r.locked
             , span [ class "lock-label" ]
@@ -1276,7 +1276,7 @@ cardRow env ctx model r =
                     )
                 ]
             ]
-         , button [ class "icon", attribute "aria-label" ("Remove " ++ r.name), onClick (RemoveRow r.id) ] [ Icons.trash ]
+         , button [ class "icon", attribute "aria-label" ("Remove " ++ r.name), onClick (ClickedRemoveRow r.id) ] [ Icons.trash ]
          ]
             ++ (if flashed then
                     [ node "mtg-scroll-into-view" [] [] ]
@@ -1296,7 +1296,7 @@ photoPane photos =
         aside [ class "photo-pane" ]
             (List.indexedMap
                 (\i photo ->
-                    button [ class "photo", onClick (Zoom photo), attribute "aria-label" "Zoom photo" ]
+                    button [ class "photo", onClick (ClickedPhoto photo), attribute "aria-label" "Zoom photo" ]
                         [ img [ src photo, alt ("Deck photo " ++ String.fromInt (i + 1)) ] [] ]
                 )
                 photos

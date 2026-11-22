@@ -72,16 +72,16 @@ type alias Model =
 type Msg
     = RouteChanged D.Value
     | GotConfig (Maybe AppConfig)
-    | GoBack
+    | ClickedBack
     | HomeMsg Home.Msg
     | ReviewMsg Review.Msg
     | ProgressMsg Progress.Msg
     | ReportMsg Report.Msg
-    | OpenSearch
+    | AskedForSearch
     | SearchMsg CardSearch.Msg
     | GotHits D.Value
     | SheetMsg Sheet.Msg
-    | Escape
+    | PressedEscape
     | Resized Int Int
     | MediaChanged D.Value
 
@@ -271,7 +271,7 @@ update msg model =
         GotConfig config ->
             ( { model | config = config }, Cmd.none )
 
-        GoBack ->
+        ClickedBack ->
             case model.route of
                 -- A replay is of a deck's run: back is to that deck.
                 Run slug ->
@@ -419,7 +419,7 @@ update msg model =
                 _ ->
                     ( model, Cmd.none )
 
-        OpenSearch ->
+        AskedForSearch ->
             case model.search of
                 Just _ ->
                     ( model, Cmd.none )
@@ -468,7 +468,7 @@ update msg model =
         SheetMsg m ->
             ( { model | sheet = model.sheet |> Maybe.andThen (Sheet.update m) }, Cmd.none )
 
-        Escape ->
+        PressedEscape ->
             ( { model | search = Nothing }, Cmd.none ) |> withHowToPlayClosed
 
         Resized w h ->
@@ -518,7 +518,7 @@ withHowToPlayClosed ( model, cmd ) =
 card : Card.Msg -> Model -> ( Model, Cmd Msg )
 card msg model =
     case msg of
-        Card.Open item ->
+        Card.ClickedCard item ->
             ( { model
                 | sheet =
                     Just
@@ -534,7 +534,7 @@ card msg model =
             , Cmd.none
             )
 
-        Card.OpenGallery cards ->
+        Card.ClickedGalleryCard cards ->
             ( { model | sheet = Just (Sheet.gallery cards) }, Cmd.none )
 
         _ ->
@@ -555,7 +555,7 @@ subscriptions model =
                 Browser.Events.onKeyDown (D.map SheetMsg Sheet.keys)
 
             Nothing ->
-                Browser.Events.onKeyDown (Keys.onKeys [ ( "Escape", Escape ) ])
+                Browser.Events.onKeyDown (Keys.onKeys [ ( "Escape", PressedEscape ) ])
         , case model.page of
             ReportPage report ->
                 Sub.map ReportMsg (Report.subscriptions report)
@@ -627,7 +627,7 @@ view model =
         (div [ class "app", attribute "data-mtg-route" (Route.href env.isStatic model.route) ]
             [ header [ class "topbar" ]
                 [ if inner then
-                    button [ class "back", onClick GoBack, attribute "aria-label" "Back" ]
+                    button [ class "back", onClick ClickedBack, attribute "aria-label" "Back" ]
                         [ Icons.chevronLeft
                         , span [ class "back-label" ]
                             [ text
@@ -667,8 +667,8 @@ view model =
 
                     _ ->
                         text ""
-                , button [ class "icon topbar-search", attribute "aria-label" "Find a card", title "Find a card (/)", onClick OpenSearch ]
-                    [ Icons.search, node "mtg-hotkey" [ on "hotkey" (D.succeed OpenSearch) ] [] ]
+                , button [ class "icon topbar-search", attribute "aria-label" "Find a card", title "Find a card (/)", onClick AskedForSearch ]
+                    [ Icons.search, node "mtg-hotkey" [ on "hotkey" (D.succeed AskedForSearch) ] [] ]
                 ]
             , main_ [] body
             ]

@@ -71,13 +71,13 @@ type alias Model =
 
 
 type Msg
-    = Close
-    | Go Dir
-    | Down Int String Int Float Float
-    | Move Int Float Float
-    | Up Int Float
-    | Cancel
-    | BackdropClick
+    = AskedToClose
+    | Stepped Dir
+    | PointerWentDown Int String Int Float Float
+    | PointerMoved Int Float Float
+    | PointerWentUp Int Float
+    | PointerCancelled
+    | ClickedBackdrop
 
 
 init : Shown -> Model
@@ -120,20 +120,20 @@ itemConfig item =
 update : Msg -> Model -> Maybe Model
 update msg model =
     case msg of
-        Close ->
+        AskedToClose ->
             Nothing
 
-        Go dir ->
+        Stepped dir ->
             Just (go dir model)
 
-        Down id pointerType button x y ->
+        PointerWentDown id pointerType button x y ->
             if pointerType == "mouse" && button /= 0 then
                 Just model
 
             else
                 Just { model | drag = Just { id = id, x = x, y = y, horizontal = Nothing } }
 
-        Move id x y ->
+        PointerMoved id x y ->
             case model.drag of
                 Just d ->
                     if d.id /= id then
@@ -186,7 +186,7 @@ update msg model =
                 Nothing ->
                     Just model
 
-        Up id x ->
+        PointerWentUp id x ->
             case model.drag of
                 Just d ->
                     if d.id /= id then
@@ -215,10 +215,10 @@ update msg model =
                 Nothing ->
                     Just model
 
-        Cancel ->
+        PointerCancelled ->
             Just { model | drag = Nothing, dx = 0 }
 
-        BackdropClick ->
+        ClickedBackdrop ->
             -- A drag ends with a click on the backdrop, which would otherwise close the sheet.
             if model.swallowClick then
                 Just { model | swallowClick = False }
@@ -258,7 +258,7 @@ go dir model =
 -}
 keys : D.Decoder Msg
 keys =
-    Keys.onKeys [ ( "Escape", Close ), ( "ArrowRight", Go Next ), ( "ArrowLeft", Go Prev ) ]
+    Keys.onKeys [ ( "Escape", AskedToClose ), ( "ArrowRight", Stepped Next ), ( "ArrowLeft", Stepped Prev ) ]
 
 
 stop : msg -> Attribute msg
@@ -291,16 +291,16 @@ view lift model =
         swipe =
             if isGallery then
                 [ on "pointerdown"
-                    (D.map5 Down
+                    (D.map5 PointerWentDown
                         (D.field "pointerId" D.int)
                         (D.field "pointerType" D.string)
                         (D.field "button" D.int)
                         (D.field "clientX" D.float)
                         (D.field "clientY" D.float)
                     )
-                , on "pointermove" (pointer Move)
-                , on "pointerup" (pointer (\id x _ -> Up id x))
-                , on "pointercancel" (D.succeed Cancel)
+                , on "pointermove" (pointer PointerMoved)
+                , on "pointerup" (pointer (\id x _ -> PointerWentUp id x))
+                , on "pointercancel" (D.succeed PointerCancelled)
                 ]
 
             else
@@ -375,14 +375,14 @@ view lift model =
                     [ class "sheet-nav prev"
                     , attribute "aria-label" "Previous card"
                     , disabled (step Prev model == Nothing)
-                    , stop (Go Prev)
+                    , stop (Stepped Prev)
                     ]
                     [ text "‹" ]
                 , button
                     [ class "sheet-nav next"
                     , attribute "aria-label" "Next card"
                     , disabled (step Next model == Nothing)
-                    , stop (Go Next)
+                    , stop (Stepped Next)
                     ]
                     [ text "›" ]
                 ]
@@ -427,7 +427,7 @@ view lift model =
                             ""
                        )
                 )
-             , Html.Events.on "click" (Click.unlessWithin { root = "card-sheet", inside = [ "tilt", "row" ] } BackdropClick)
+             , Html.Events.on "click" (Click.unlessWithin { root = "card-sheet", inside = [ "tilt", "row" ] } ClickedBackdrop)
              , attribute "role" "dialog"
              , attribute "aria-label" c.alt
              ]
@@ -440,7 +440,7 @@ view lift model =
                      , div [ class "row" ]
                         (position
                             ++ [ a [ class "button", href c.link.href, target "_blank", rel "noreferrer" ] [ text c.link.label ]
-                               , button [ Html.Events.onClick Close ] [ text "Close" ]
+                               , button [ Html.Events.onClick AskedToClose ] [ text "Close" ]
                                ]
                         )
                      )

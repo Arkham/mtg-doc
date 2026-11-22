@@ -56,21 +56,21 @@ type alias Model =
 type Msg
     = GotDecks (Result String (List DeckSummary))
     | CardMsg Card.Msg
-    | SetMode Mode
-    | Browse
-    | AddFiles (List File)
+    | ChoseMode Mode
+    | ClickedBrowse
+    | ChoseFiles (List File)
     | Dropped (List File)
     | Pasted (List File)
     | GotPhotos (List Photo)
-    | RemovePhoto Int
-    | DragOver
-    | DragLeave
-    | SetText String
-    | Analyze
-    | Started (Result String Api.Started)
-    | Poll String
+    | ClickedRemovePhoto Int
+    | DraggedOver
+    | DraggedAway
+    | ChangedText String
+    | ClickedAnalyze
+    | GotStarted (Result String Api.Started)
+    | PollDue String
     | GotJob String (Result String RecognitionJob)
-    | SetFilter String
+    | ChangedFilter String
 
 
 {-| A deck read from photos or a list, ready for review.
@@ -152,13 +152,13 @@ update config msg model =
             , Nothing
             )
 
-        SetMode m ->
+        ChoseMode m ->
             ( { model | preferredMode = m }, Cmd.none, Nothing )
 
-        Browse ->
-            ( model, File.Select.files [ "image/*" ] (\f fs -> AddFiles (f :: fs)), Nothing )
+        ClickedBrowse ->
+            ( model, File.Select.files [ "image/*" ] (\f fs -> ChoseFiles (f :: fs)), Nothing )
 
-        AddFiles files ->
+        ChoseFiles files ->
             let
                 images =
                     List.filter (\f -> String.startsWith "image/" (File.mime f)) files
@@ -172,27 +172,27 @@ update config msg model =
             )
 
         Pasted files ->
-            update config (AddFiles files) { model | preferredMode = Image }
+            update config (ChoseFiles files) { model | preferredMode = Image }
 
         Dropped files ->
-            update config (AddFiles files) { model | drag = False }
+            update config (ChoseFiles files) { model | drag = False }
 
         GotPhotos photos ->
             ( { model | photos = model.photos ++ photos }, Cmd.none, Nothing )
 
-        RemovePhoto i ->
+        ClickedRemovePhoto i ->
             ( { model | photos = List.take i model.photos ++ List.drop (i + 1) model.photos }, Cmd.none, Nothing )
 
-        DragOver ->
+        DraggedOver ->
             ( { model | drag = True }, Cmd.none, Nothing )
 
-        DragLeave ->
+        DraggedAway ->
             ( { model | drag = False }, Cmd.none, Nothing )
 
-        SetText t ->
+        ChangedText t ->
             ( { model | text = t }, Cmd.none, Nothing )
 
-        Analyze ->
+        ClickedAnalyze ->
             let
                 m =
                     mode config model
@@ -211,20 +211,20 @@ update config msg model =
                  else
                     ""
                 )
-                Started
+                GotStarted
             , Nothing
             )
 
-        Started (Ok (Api.Recognized result)) ->
+        GotStarted (Ok (Api.Recognized result)) ->
             done config result model
 
-        Started (Ok (Api.RecognitionStarted id)) ->
+        GotStarted (Ok (Api.RecognitionStarted id)) ->
             ( model, Api.recognitionJob id (GotJob id), Nothing )
 
-        Started (Err e) ->
+        GotStarted (Err e) ->
             failed e model
 
-        Poll id ->
+        PollDue id ->
             ( model, Api.recognitionJob id (GotJob id), Nothing )
 
         GotJob id (Ok job) ->
@@ -236,12 +236,12 @@ update config msg model =
                     done config result model
 
                 RecognitionJobStatusRunning ->
-                    ( { model | reading = Scanning job }, Process.sleep 600 |> Task.perform (\_ -> Poll id), Nothing )
+                    ( { model | reading = Scanning job }, Process.sleep 600 |> Task.perform (\_ -> PollDue id), Nothing )
 
         GotJob _ (Err e) ->
             failed e model
 
-        SetFilter f ->
+        ChangedFilter f ->
             ( { model | filter = f }, Cmd.none, Nothing )
 
 
@@ -335,7 +335,7 @@ deckGallery env filter decks =
                     , placeholder "Search commanders…"
                     , value filter
                     , Ui.Attr.valueAttr filter
-                    , onInput SetFilter
+                    , onInput ChangedFilter
                     ]
                     []
 
@@ -496,11 +496,11 @@ view env config model =
                         [ button
                             [ attribute "role" "tab"
                             , ariaSelected (m == Image)
-                            , onClick (SetMode Image)
+                            , onClick (ChoseMode Image)
                             , disabled (config |> Maybe.map (not << .llm) |> Maybe.withDefault False)
                             ]
                             [ text "Photo" ]
-                        , button [ attribute "role" "tab", ariaSelected (m == TextList), onClick (SetMode TextList) ] [ text "Text list" ]
+                        , button [ attribute "role" "tab", ariaSelected (m == TextList), onClick (ChoseMode TextList) ] [ text "Text list" ]
                         ]
                     ]
                 , case m of
@@ -512,7 +512,7 @@ view env config model =
                             [ class "decklist"
                             , placeholder "Commander\n1 Atraxa, Praetors' Voice\n\nDeck\n1 Sol Ring\n1 Arcane Signet\n..."
                             , value model.text
-                            , onInput SetText
+                            , onInput ChangedText
                             ]
                             []
                 , case model.reading of
@@ -542,7 +542,7 @@ view env config model =
                     _ ->
                         text ""
                 , div [ class "row end" ]
-                    [ button [ class "primary big", disabled (not canSubmit || reading model), onClick Analyze ]
+                    [ button [ class "primary big", disabled (not canSubmit || reading model), onClick ClickedAnalyze ]
                         (if reading model then
                             [ span [ class "spinner", attribute "aria-hidden" "true" ] []
                             , text
@@ -595,9 +595,9 @@ dropzone env model =
                         "has-files"
                    )
             )
-        , on "click" (Click.unlessWithin { root = "dropzone", inside = [ "figure" ] } Browse)
-        , preventDefaultOn "dragover" (D.succeed ( DragOver, True ))
-        , on "dragleave" (D.succeed DragLeave)
+        , on "click" (Click.unlessWithin { root = "dropzone", inside = [ "figure" ] } ClickedBrowse)
+        , preventDefaultOn "dragover" (D.succeed ( DraggedOver, True ))
+        , on "dragleave" (D.succeed DraggedAway)
         , preventDefaultOn "drop" (D.map (\fs -> ( Dropped fs, True )) (D.at [ "dataTransfer", "files" ] filesDecoder))
         ]
         [ input
@@ -605,7 +605,7 @@ dropzone env model =
             , accept "image/*"
             , multiple True
             , hidden True
-            , on "change" (D.map AddFiles (D.at [ "target", "files" ] filesDecoder))
+            , on "change" (D.map ChoseFiles (D.at [ "target", "files" ] filesDecoder))
             ]
             []
         , if List.isEmpty model.photos then
@@ -639,7 +639,7 @@ dropzone env model =
                     (\i photo ->
                         figure []
                             [ img [ src photo.url, alt (File.name photo.file) ] []
-                            , button [ class "icon remove", attribute "aria-label" "Remove photo", onClick (RemovePhoto i) ] [ Icons.close ]
+                            , button [ class "icon remove", attribute "aria-label" "Remove photo", onClick (ClickedRemovePhoto i) ] [ Icons.close ]
                             ]
                     )
                     model.photos

@@ -146,18 +146,18 @@ type Look
 
 
 type Msg
-    = Got (Result String Job)
+    = GotJob (Result String Job)
     | GotRun (Result String RunRecord)
     | Streamed Job
-    | Frame Time.Posix
-    | Select String
-    | Show Look
-    | Replay
-    | Toggle
-    | Seek Float
-    | Nudge Float
-    | Speed Speed
-    | Linger
+    | Ticked Time.Posix
+    | SelectedTask String
+    | ChoseLook Look
+    | ClickedReplay
+    | AskedPlayPause
+    | SeekedTo Float
+    | NudgedBy Float
+    | ChoseSpeed Speed
+    | LingerEnded
 
 
 defaultSpeed : Speed
@@ -180,7 +180,7 @@ blank run =
 init : String -> ( Model, Cmd Msg )
 init jobId =
     ( blank (Live { jobId = jobId, job = Nothing, origin = Nothing, liveAt = 0, reported = 0 } Nothing)
-    , Cmd.batch [ Api.job jobId Got, Task.perform Frame Time.now ]
+    , Cmd.batch [ Api.job jobId GotJob, Task.perform Ticked Time.now ]
     )
 
 
@@ -189,7 +189,7 @@ init jobId =
 initSaved : Env -> String -> ( Model, Cmd Msg )
 initSaved env slug =
     ( blank (Saved slug Nothing)
-    , Cmd.batch [ Api.run env.isStatic slug GotRun, Task.perform Frame Time.now ]
+    , Cmd.batch [ Api.run env.isStatic slug GotRun, Task.perform Ticked Time.now ]
     )
 
 
@@ -240,10 +240,10 @@ jobOf model =
 update : Msg -> Model -> ( Model, Cmd Msg, Bool )
 update msg model =
     case msg of
-        Got (Ok job) ->
+        GotJob (Ok job) ->
             arrived job model
 
-        Got (Err e) ->
+        GotJob (Err e) ->
             ( { model | error = Just e }, Cmd.none, False )
 
         GotRun (Ok record) ->
@@ -260,7 +260,7 @@ update msg model =
         Streamed job ->
             arrived job model
 
-        Frame time ->
+        Ticked time ->
             let
                 now =
                     toFloat (Time.posixToMillis time)
@@ -300,7 +300,7 @@ update msg model =
             in
             ( withPlayback advance { clocked | now = now }, Cmd.none, False )
 
-        Select name ->
+        SelectedTask name ->
             ( { model
                 | stay = True
                 , selected =
@@ -314,10 +314,10 @@ update msg model =
             , False
             )
 
-        Show look ->
+        ChoseLook look ->
             ( { model | look = look, stay = True }, Cmd.none, False )
 
-        Replay ->
+        ClickedReplay ->
             let
                 speed =
                     playbackOf model |> Maybe.map .speed |> Maybe.withDefault defaultSpeed
@@ -335,7 +335,7 @@ update msg model =
             , False
             )
 
-        Toggle ->
+        AskedPlayPause ->
             ( withPlayback
                 (\pb ->
                     if pb.playing then
@@ -353,16 +353,16 @@ update msg model =
             , False
             )
 
-        Seek at ->
+        SeekedTo at ->
             ( withPlayback (\pb -> seekTo model { pb | at = at }) { model | stay = True }, Cmd.none, False )
 
-        Nudge by ->
+        NudgedBy by ->
             ( withPlayback (\pb -> seekTo model { pb | at = pb.at + by, playing = False }) { model | stay = True }, Cmd.none, False )
 
-        Speed speed ->
+        ChoseSpeed speed ->
             ( withPlayback (\pb -> { pb | speed = speed }) model, Cmd.none, False )
 
-        Linger ->
+        LingerEnded ->
             ( model, Cmd.none, isDone model && not model.stay )
 
 
@@ -511,7 +511,7 @@ arrived job model =
                   }
                 , if justDone then
                     -- The finished chart, and what it adds up to, before the deck opens.
-                    Process.sleep lingerMs |> Task.perform (\_ -> Linger)
+                    Process.sleep lingerMs |> Task.perform (\_ -> LingerEnded)
 
                   else
                     Cmd.none
@@ -573,7 +573,7 @@ catchingUp model =
 subscriptions : Model -> Sub Msg
 subscriptions model =
     if isLive model || catchingUp model || (playbackOf model |> Maybe.map .playing |> Maybe.withDefault False) then
-        Browser.Events.onAnimationFrame Frame
+        Browser.Events.onAnimationFrame Ticked
 
     else
         Sub.none
@@ -1007,7 +1007,7 @@ looks current =
                          else
                             "false"
                         )
-                    , onClick (Show look)
+                    , onClick (ChoseLook look)
                     ]
                     [ text label ]
             )
@@ -1021,7 +1021,7 @@ runMap model trace =
         ([ property "trace" (encodeTrace trace)
          , attribute "role" "img"
          , attribute "aria-label" "A map of the run: each step, what it waits for, and its requests to outside services"
-         , on "select" (D.field "detail" D.string |> D.map Select)
+         , on "select" (D.field "detail" D.string |> D.map SelectedTask)
          ]
             ++ (if isLive model then
                     [ attribute "running" "" ]
@@ -1065,21 +1065,21 @@ player pb trace =
                 (D.field "detail" D.string
                     |> D.andThen
                         (Keys.choose
-                            [ ( "Space", Toggle )
-                            , ( "k", Toggle )
-                            , ( "ArrowLeft", Nudge -1000 )
-                            , ( "ArrowRight", Nudge 1000 )
-                            , ( ",", Nudge -100 )
-                            , ( ".", Nudge 100 )
-                            , ( "Home", Seek 0 )
+                            [ ( "Space", AskedPlayPause )
+                            , ( "k", AskedPlayPause )
+                            , ( "ArrowLeft", NudgedBy -1000 )
+                            , ( "ArrowRight", NudgedBy 1000 )
+                            , ( ",", NudgedBy -100 )
+                            , ( ".", NudgedBy 100 )
+                            , ( "Home", SeekedTo 0 )
                             ]
                         )
                 )
             ]
             []
         , div [ class "run-ctls" ]
-            [ iconButton "Back to the start" "Home" (Seek 0) Icons.restart
-            , iconButton "Back a second" "←" (Nudge -1000) Icons.back
+            [ iconButton "Back to the start" "Home" (SeekedTo 0) Icons.restart
+            , iconButton "Back a second" "←" (NudgedBy -1000) Icons.back
             , button
                 [ class "run-ctl run-play"
                 , attribute "aria-label"
@@ -1090,7 +1090,7 @@ player pb trace =
                         "Play"
                     )
                 , title "Space"
-                , onClick Toggle
+                , onClick AskedPlayPause
                 ]
                 [ if pb.playing then
                     Icons.pause
@@ -1098,7 +1098,7 @@ player pb trace =
                   else
                     Icons.play
                 ]
-            , iconButton "On a second" "→" (Nudge 1000) Icons.forward
+            , iconButton "On a second" "→" (NudgedBy 1000) Icons.forward
             , span [ class "run-time" ] [ text (clock (min pb.at trace.elapsed)), span [ class "muted" ] [ text (" / " ++ clock trace.elapsed) ] ]
             , div [ class "run-speeds", attribute "role" "group", attribute "aria-label" "Speed" ]
                 (List.map
@@ -1112,7 +1112,7 @@ player pb trace =
                                  else
                                     "false"
                                 )
-                            , onClick (Speed sp)
+                            , onClick (ChoseSpeed sp)
                             ]
                             [ text (String.fromFloat (speedFactor sp) ++ "×") ]
                     )
@@ -1141,7 +1141,7 @@ player pb trace =
                                 else
                                     v
                            )
-                        >> Seek
+                        >> SeekedTo
                     )
                 ]
                 []
@@ -1403,7 +1403,7 @@ row model x t byTask critical related task =
     li [ class ("run-row " ++ state ++ flags) ]
         [ button
             [ class "run-row-button"
-            , onClick (Select task.name)
+            , onClick (SelectedTask task.name)
             , attribute "aria-pressed"
                 (if model.selected == Just task.name then
                     "true"
@@ -1503,6 +1503,6 @@ summary env model trace =
 
               else
                 text ""
-            , button [ class "ghost", onClick Replay ] [ text "Replay the run" ]
+            , button [ class "ghost", onClick ClickedReplay ] [ text "Replay the run" ]
             ]
         ]

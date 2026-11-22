@@ -58,9 +58,9 @@ type alias Ctx msg =
 
 type Msg
     = Hovered String String Float Float
-    | Leave String
-    | Open Item
-    | OpenGallery (Gallery Item)
+    | Unhovered String
+    | ClickedCard Item
+    | ClickedGalleryCard (Gallery Item)
 
 
 {-| A floating preview following the pointer, one per element being hovered.
@@ -91,7 +91,7 @@ updateHovers msg hovers =
             else
                 hovers ++ [ { key = key, image = image, x = x, y = y } ]
 
-        Leave key ->
+        Unhovered key ->
             List.filter (\h -> h.key /= key) hovers
 
         _ ->
@@ -281,10 +281,10 @@ nameWith ctx opts =
                             open =
                                 case ctx.gallery of
                                     Just items ->
-                                        Gallery.focus (\it -> it.name == opts.name) items |> Maybe.map OpenGallery
+                                        Gallery.focus (\it -> it.name == opts.name) items |> Maybe.map ClickedGalleryCard
 
                                     Nothing ->
-                                        Maybe.map (\i -> Open { name = opts.name, image = i, href = link }) image
+                                        Maybe.map (\i -> ClickedCard { name = opts.name, image = i, href = link }) image
                         in
                         [ preventDefaultOn "click"
                             (case open of
@@ -293,7 +293,7 @@ nameWith ctx opts =
 
                                 Nothing ->
                                     -- In a gallery without this card: the tap does nothing.
-                                    D.succeed ( ctx.lift (Leave ""), True )
+                                    D.succeed ( ctx.lift (Unhovered ""), True )
                             )
                         ]
 
@@ -319,7 +319,7 @@ nameWith ctx opts =
     in
     span
         (class ("card-name " ++ Maybe.withDefault "" opts.class)
-            :: on "mouseleave" (D.succeed (ctx.lift (Leave key)))
+            :: on "mouseleave" (D.succeed (ctx.lift (Unhovered key)))
             :: hover
         )
         [ a (href link :: target "_blank" :: rel "noreferrer" :: onTap)

@@ -142,40 +142,40 @@ setPage f model =
 
 type Msg
     = GotDetail (Result String DeckDetail)
-    | Poll Int
+    | PollDue Int
     | GotStatus Int (Result String DeckStatus)
     | GotList (Maybe String)
-    | Copied
-    | Uncopy Int
-    | OpenHowToPlay
-    | CloseHowToPlay
-    | ToggleSwaps
-    | SetDecklistView DecklistView
-    | SetComboFilter ComboFilter
-    | ToggleAllCombos
-    | RefreshSynergies String
+    | CopiedList
+    | CopyNoticeEnded Int
+    | ClickedHowToPlay
+    | AskedToCloseHowToPlay
+    | ToggledSwaps
+    | ChoseDecklistView DecklistView
+    | ChoseComboFilter ComboFilter
+    | ToggledAllCombos
+    | ClickedRefreshSynergies String
     | GotSynergies (Result String Report)
-    | Apply Edit
-    | Queued Edit (Result String String)
-    | PollEdit Edit String
+    | ClickedApply Edit
+    | GotQueued Edit (Result String String)
+    | EditPollDue Edit String
     | GotEdit Edit String (Result String EditStatus)
-    | SetTarget Bracket
-    | RunTarget Bracket
-    | OpenRerun OptimizeOptions
-    | CloseRerun
-    | SetRerun OptimizeOptions
-    | RunRerun OptimizeOptions
-    | Started (Result String ( String, String ))
-    | TogglePublish Bool
+    | ChoseTarget Bracket
+    | ClickedRunTarget Bracket
+    | ClickedChangeRerun OptimizeOptions
+    | ClickedCancelRerun
+    | ChangedRerun OptimizeOptions
+    | ClickedRunRerun OptimizeOptions
+    | GotStarted (Result String ( String, String ))
+    | ToggledPublish Bool
     | GotPublish (Result String DeckDetailMeta)
-    | ExportCopied
-    | ExportDone
-    | Activate String
-    | ZoomCommander Card
-    | JumpTo String
+    | CopiedExport
+    | ExportNoticeEnded
+    | SectionActivated String
+    | ClickedCommander Card
+    | ClickedJumpTo String
     | ChatMsg Chat.Msg
     | CardMsg Card.Msg
-    | NavigateTo String
+    | ClickedViewTab String
 
 
 type Out
@@ -281,10 +281,10 @@ send : String -> Edit -> Cmd Msg
 send slug edit =
     case edit of
         SwapEdit _ swap ->
-            Api.applySwap slug swap (Queued edit)
+            Api.applySwap slug swap (GotQueued edit)
 
         LandEdit id ->
-            Api.applyManaSuggestion slug id (Queued edit)
+            Api.applyManaSuggestion slug id (GotQueued edit)
 
 
 editBusy : Edit -> Page -> Page
@@ -358,7 +358,7 @@ update env msg model =
                 _ ->
                     none (setPage (\p -> { p | deck = Unavailable e }) model)
 
-        Poll token ->
+        PollDue token ->
             if token == model.page.pollToken then
                 ( model, Api.status model.page.slug (GotStatus token), Nothing )
 
@@ -389,46 +389,46 @@ update env msg model =
         GotList text ->
             none (setPage (\p -> { p | optimizedText = text }) model)
 
-        Copied ->
+        CopiedList ->
             let
                 token =
                     model.page.copyToken + 1
             in
             ( setPage (\p -> { p | copied = True, copyToken = token }) model
-            , Process.sleep 1500 |> Task.perform (\_ -> Uncopy token)
+            , Process.sleep 1500 |> Task.perform (\_ -> CopyNoticeEnded token)
             , Nothing
             )
 
-        Uncopy token ->
+        CopyNoticeEnded token ->
             if token == model.page.copyToken then
                 none (setPage (\p -> { p | copied = False }) model)
 
             else
                 none model
 
-        OpenHowToPlay ->
+        ClickedHowToPlay ->
             none (setPage (\p -> { p | howToPlay = True }) model)
 
-        CloseHowToPlay ->
+        AskedToCloseHowToPlay ->
             none (setPage (\p -> { p | howToPlay = False, modalCount = model.page.modalCount + 1 }) model)
 
-        ToggleSwaps ->
+        ToggledSwaps ->
             none (setPage (\p -> { p | showSwaps = not model.page.showSwaps }) model)
 
-        SetDecklistView v ->
+        ChoseDecklistView v ->
             ( setPage (\p -> { p | decklistView = v }) model
             , Cmd.none
             , Just
                 (SaveDecklistView v)
             )
 
-        SetComboFilter f ->
+        ChoseComboFilter f ->
             none (setPage (\p -> { p | comboFilter = f }) model)
 
-        ToggleAllCombos ->
+        ToggledAllCombos ->
             none (setPage (\p -> { p | allCombos = not model.page.allCombos }) model)
 
-        RefreshSynergies mode ->
+        ClickedRefreshSynergies mode ->
             ( setPage (\p -> { p | synergies = Busy mode }) model
             , Api.refreshSynergies model.page.slug mode GotSynergies
             , Nothing
@@ -440,20 +440,20 @@ update env msg model =
         GotSynergies (Err e) ->
             none (setPage (\p -> { p | synergies = Failed e }) model)
 
-        Apply edit ->
+        ClickedApply edit ->
             ( setPage (editBusy edit) model, send model.page.slug edit, Nothing )
 
-        Queued edit (Ok id) ->
+        GotQueued edit (Ok id) ->
             let
                 ( m, cmd ) =
                     applied env Nothing model
             in
             ( m, Cmd.batch [ cmd, Api.edit id (GotEdit edit id) ], Nothing )
 
-        Queued edit (Err e) ->
+        GotQueued edit (Err e) ->
             none (setPage (editEnded edit (Just e)) model)
 
-        PollEdit edit id ->
+        EditPollDue edit id ->
             ( model, Api.edit id (GotEdit edit id), Nothing )
 
         GotEdit edit id (Ok status) ->
@@ -465,15 +465,15 @@ update env msg model =
                     none (setPage (editEnded edit (Just error)) model)
 
                 _ ->
-                    ( model, Process.sleep pollMs |> Task.perform (\_ -> PollEdit edit id), Nothing )
+                    ( model, Process.sleep pollMs |> Task.perform (\_ -> EditPollDue edit id), Nothing )
 
         GotEdit edit _ (Err e) ->
             none (setPage (editEnded edit (Just e)) model)
 
-        SetTarget t ->
+        ChoseTarget t ->
             none (setPage (\p -> { p | target = Just t }) model)
 
-        RunTarget t ->
+        ClickedRunTarget t ->
             case detailOf model.page |> Maybe.andThen .report of
                 Just r ->
                     let
@@ -481,32 +481,32 @@ update env msg model =
                             r.options
                     in
                     ( setPage (\p -> { p | targetBusy = True }) model
-                    , Api.reoptimize model.page.slug { o | bracket = Just t } Started
+                    , Api.reoptimize model.page.slug { o | bracket = Just t } GotStarted
                     , Nothing
                     )
 
                 Nothing ->
                     none model
 
-        OpenRerun o ->
+        ClickedChangeRerun o ->
             none (setPage (\p -> { p | rerun = Just o }) model)
 
-        CloseRerun ->
+        ClickedCancelRerun ->
             none (setPage (\p -> { p | rerun = Nothing }) model)
 
-        SetRerun o ->
+        ChangedRerun o ->
             none (setPage (\p -> { p | rerun = Just o }) model)
 
-        RunRerun o ->
-            ( model, Api.reoptimize model.page.slug o Started, Nothing )
+        ClickedRunRerun o ->
+            ( model, Api.reoptimize model.page.slug o GotStarted, Nothing )
 
-        Started (Ok ( slug, jobId )) ->
+        GotStarted (Ok ( slug, jobId )) ->
             ( model, Cmd.none, Just (Navigate (Route.href env.isStatic (Route.Job slug jobId))) )
 
-        Started (Err _) ->
+        GotStarted (Err _) ->
             none (setPage (\p -> { p | targetBusy = False }) model)
 
-        TogglePublish suggestions ->
+        ToggledPublish suggestions ->
             ( setPage (\p -> { p | publishBusy = True }) model, Api.setPublishing model.page.slug suggestions GotPublish, Nothing )
 
         GotPublish (Ok meta) ->
@@ -515,16 +515,16 @@ update env msg model =
         GotPublish (Err _) ->
             none (setPage (\p -> { p | publishBusy = False }) model)
 
-        ExportCopied ->
-            ( setPage (\p -> { p | exportCopied = True }) model, Process.sleep 1000 |> Task.perform (\_ -> ExportDone), Nothing )
+        CopiedExport ->
+            ( setPage (\p -> { p | exportCopied = True }) model, Process.sleep 1000 |> Task.perform (\_ -> ExportNoticeEnded), Nothing )
 
-        ExportDone ->
+        ExportNoticeEnded ->
             none (setPage (\p -> { p | exportCopied = False, exportClose = model.page.exportClose + 1 }) model)
 
-        Activate id ->
+        SectionActivated id ->
             none (setPage (\p -> { p | active = Just id }) model)
 
-        ZoomCommander c ->
+        ClickedCommander c ->
             case c.image of
                 Just image ->
                     ( model
@@ -545,7 +545,7 @@ update env msg model =
                 Nothing ->
                     none model
 
-        JumpTo section ->
+        ClickedJumpTo section ->
             ( model, Cmd.none, Just (ScrollTo section) )
 
         ChatMsg m ->
@@ -579,7 +579,7 @@ update env msg model =
         CardMsg m ->
             ( model, Cmd.none, Just (Preview m) )
 
-        NavigateTo href ->
+        ClickedViewTab href ->
             ( model, Cmd.none, Just (Navigate href) )
 
 
@@ -605,7 +605,7 @@ watch model =
     in
     ( setPage (\p -> { p | pollToken = token }) model
     , if changing model.page.status then
-        Process.sleep pollMs |> Task.perform (\_ -> Poll token)
+        Process.sleep pollMs |> Task.perform (\_ -> PollDue token)
 
       else
         Cmd.none
@@ -836,7 +836,7 @@ applyButton env which state swap =
         button
             [ class "small-btn"
             , disabled (isBusy state)
-            , onClick (Apply (SwapEdit which swap))
+            , onClick (ClickedApply (SwapEdit which swap))
             , attribute "aria-label" ("Apply " ++ swap.out ++ " → " ++ swap.in_ ++ " to your deck")
             , title "Make this swap in your deck as submitted"
             ]
@@ -1146,7 +1146,7 @@ synergies env ctx model r canRefresh =
             isBusy model.synergies
 
         refresh mode label =
-            button [ class "small-btn", disabled busy, onClick (RefreshSynergies mode) ]
+            button [ class "small-btn", disabled busy, onClick (ClickedRefreshSynergies mode) ]
                 ((if model.synergies == Busy mode then
                     [ spinner ]
 
@@ -1302,7 +1302,7 @@ manaAdvice env ctx model r =
                                             (button
                                                 [ class "small-btn"
                                                 , disabled (isBusy model.landSwaps)
-                                                , onClick (Apply (LandEdit m.id))
+                                                , onClick (ClickedApply (LandEdit m.id))
                                                 , title "Make this swap in your deck as submitted"
                                                 ]
                                                 [ if model.landSwaps == Busy m.id then
@@ -1565,7 +1565,7 @@ targetBracket model current =
                             (\v ->
                                 case String.toInt v |> Maybe.andThen bracketFromInt of
                                     Just b ->
-                                        D.succeed (SetTarget b)
+                                        D.succeed (ChoseTarget b)
 
                                     Nothing ->
                                         D.fail ("Not a bracket: " ++ v)
@@ -1578,7 +1578,7 @@ targetBracket model current =
                 )
             ]
         , when (target /= current)
-            (button [ class "primary", disabled model.targetBusy, onClick (RunTarget target) ]
+            (button [ class "primary", disabled model.targetBusy, onClick (ClickedRunTarget target) ]
                 ((if model.targetBusy then
                     [ spinner ]
 
@@ -1606,15 +1606,15 @@ rerun model initial =
                         Nothing
 
                     Nothing ->
-                        Just [ button [ onClick (OpenRerun initial) ] [ text "Change and re-run" ] ]
+                        Just [ button [ onClick (ClickedChangeRerun initial) ] [ text "Change and re-run" ] ]
             , compact = False
             }
             :: (case model.rerun of
                     Just opts ->
-                        [ Settings.view { webResearch = True, onChange = SetRerun } opts
+                        [ Settings.view { webResearch = True, onChange = ChangedRerun } opts
                         , div [ class "rerun-actions" ]
-                            [ button [ class "ghost", onClick CloseRerun ] [ text "Cancel" ]
-                            , button [ class "primary", onClick (RunRerun opts) ] [ text "Run" ]
+                            [ button [ class "ghost", onClick ClickedCancelRerun ] [ text "Cancel" ]
+                            , button [ class "primary", onClick (ClickedRunRerun opts) ] [ text "Run" ]
                             ]
                         ]
 
@@ -1677,7 +1677,7 @@ deckImages ctx groups showNew =
 
         open cardName =
             Gallery.focus (\it -> it.name == cardName) items
-                |> Maybe.map (Card.OpenGallery >> CardMsg >> onClick)
+                |> Maybe.map (Card.ClickedGalleryCard >> CardMsg >> onClick)
     in
     Keyed.node "div"
         [ class "deck-images" ]
@@ -1758,7 +1758,7 @@ decklist env ctx model cards compare swaps =
                 , actions =
                     Maybe.map
                         (\( count, _ ) ->
-                            [ button [ onClick ToggleSwaps ]
+                            [ button [ onClick ToggledSwaps ]
                                 (if swapsShown then
                                     [ text "Show decklist" ]
 
@@ -1804,8 +1804,8 @@ decklist env ctx model cards compare swaps =
             [ head
             , div [ class "list-toolbar" ]
                 [ div [ class "segmented", attribute "role" "tablist", attribute "aria-label" "Decklist view" ]
-                    [ button [ attribute "role" "tab", ariaSelected (model.decklistView == ListView), onClick (SetDecklistView ListView) ] [ text "List" ]
-                    , button [ attribute "role" "tab", ariaSelected (model.decklistView == ImagesView), onClick (SetDecklistView ImagesView) ] [ text "Images" ]
+                    [ button [ attribute "role" "tab", ariaSelected (model.decklistView == ListView), onClick (ChoseDecklistView ListView) ] [ text "List" ]
+                    , button [ attribute "role" "tab", ariaSelected (model.decklistView == ImagesView), onClick (ChoseDecklistView ImagesView) ] [ text "Images" ]
                     ]
                 , span [ class "muted small grow nowrap" ] [ text (String.fromInt (List.sum (List.map .qty cards)) ++ " cards") ]
                 ]
@@ -1911,12 +1911,12 @@ sectionNav model sections =
                          else
                             ""
                         )
-                    , onClick (Activate sectionId)
+                    , onClick (SectionActivated sectionId)
                     ]
                     [ text label ]
             )
             sections
-            ++ [ node "mtg-section-nav" [ on "activechange" (D.map Activate (D.field "detail" D.string)) ] [] ]
+            ++ [ node "mtg-section-nav" [ on "activechange" (D.map SectionActivated (D.field "detail" D.string)) ] [] ]
         )
 
 
@@ -2155,7 +2155,7 @@ combos ctx model r =
                 [ div [ class "segmented", attribute "role" "tablist", attribute "aria-label" "Which combos" ]
                     (List.map
                         (\( f, label, n ) ->
-                            button [ attribute "role" "tab", ariaSelected (model.comboFilter == f), onClick (SetComboFilter f) ]
+                            button [ attribute "role" "tab", ariaSelected (model.comboFilter == f), onClick (ChoseComboFilter f) ]
                                 [ span [] [ text (label ++ " "), span [ class "count" ] [ text (String.fromInt n) ] ] ]
                         )
                         tabs
@@ -2235,7 +2235,7 @@ combos ctx model r =
         )
     , when (List.length shownPresent + List.length shownAway == 0) (p [ class "muted" ] [ text "None found." ])
     , when (List.length awayGroups > limit)
-        (button [ class "ghost small-btn", onClick ToggleAllCombos ]
+        (button [ class "ghost small-btn", onClick ToggledAllCombos ]
             [ text
                 (if model.allCombos then
                     "Show fewer"
@@ -2274,7 +2274,7 @@ publishToggle model hidden =
                 "false"
             )
         , disabled model.publishBusy
-        , onClick (TogglePublish (not published))
+        , onClick (ToggledPublish (not published))
         , title
             (if hidden then
                 "The published site shows only your deck as submitted"
@@ -2328,7 +2328,7 @@ exportMenu env model slug edhrecUrl swaps optimized =
                             "Copy cards to add"
                         )
                     , span [ class "muted small" ] [ text (String.fromInt (List.length swaps)) ]
-                    , node "mtg-copy" [ Html.Attributes.property "text" (Json.Encode.string addsText), on "copied" (D.succeed ExportCopied) ] []
+                    , node "mtg-copy" [ Html.Attributes.property "text" (Json.Encode.string addsText), on "copied" (D.succeed CopiedExport) ] []
                     ]
                 )
             , a [ href (file "initial.txt"), attribute "download" (slug ++ "-initial.txt") ] [ text "Download your deck ", span [ class "muted small" ] [ text ".txt" ] ]
@@ -2348,8 +2348,8 @@ exportMenu env model slug edhrecUrl swaps optimized =
 viewToggle : Env -> String -> DeckView -> Int -> Html Msg
 viewToggle env slug v swaps =
     div [ class "segmented view-toggle", attribute "role" "tablist", attribute "aria-label" "Which deck" ]
-        [ button [ attribute "role" "tab", ariaSelected (v == Current), onClick (NavigateTo (Route.deckHref env.isStatic slug Current)) ] [ text "Your deck" ]
-        , button [ attribute "role" "tab", ariaSelected (v == Optimized), onClick (NavigateTo (Route.deckHref env.isStatic slug Optimized)) ]
+        [ button [ attribute "role" "tab", ariaSelected (v == Current), onClick (ClickedViewTab (Route.deckHref env.isStatic slug Current)) ] [ text "Your deck" ]
+        , button [ attribute "role" "tab", ariaSelected (v == Optimized), onClick (ClickedViewTab (Route.deckHref env.isStatic slug Optimized)) ]
             [ span []
                 (text "Optimized "
                     :: (if swaps > 0 then
@@ -2427,7 +2427,7 @@ chrome env requested model =
                             [ HowToPlay.view
                                 { base = env.base
                                 , titleId = "_r_" ++ base32 model.modalCount ++ "_"
-                                , onClose = CloseHowToPlay
+                                , onClose = AskedToCloseHowToPlay
                                 , ctx = { index = r.cardIndex, gallery = Nothing, canHover = env.canHover, lift = CardMsg }
                                 }
                                 r
@@ -2614,7 +2614,7 @@ viewReport env requested model detail full =
                                 button
                                     [ class "hero-card tilt"
                                     , attribute "aria-label" ("Show " ++ c.name ++ " full size")
-                                    , onClick (ZoomCommander c)
+                                    , onClick (ClickedCommander c)
                                     ]
                                     [ img [ src image, alt c.name ] []
                                     , span [ class "foil", attribute "aria-hidden" "true" ] []
@@ -2634,7 +2634,7 @@ viewReport env requested model detail full =
                             a
                                 [ class "bracket-link"
                                 , href "#bracket"
-                                , preventDefaultOn "click" (D.succeed ( JumpTo "bracket", True ))
+                                , preventDefaultOn "click" (D.succeed ( ClickedJumpTo "bracket", True ))
                                 ]
                                 [ Bracket.badge b.after.bracket "sm"
                                 , text ("Bracket " ++ String.fromInt (bracketToInt b.after.bracket) ++ " · " ++ b.name)
@@ -2702,7 +2702,7 @@ viewReport env requested model detail full =
                         )
                     )
                 , div [ class "hero-actions" ]
-                    [ button [ class "primary", onClick OpenHowToPlay ] [ text "How to play" ]
+                    [ button [ class "primary", onClick ClickedHowToPlay ] [ text "How to play" ]
                     , button [ disabled (listText == Nothing) ]
                         [ text
                             (if model.copied then
@@ -2713,7 +2713,7 @@ viewReport env requested model detail full =
                             )
                         , node "mtg-copy"
                             [ Html.Attributes.property "text" (Json.Encode.string (Maybe.withDefault "" listText))
-                            , on "copied" (D.succeed Copied)
+                            , on "copied" (D.succeed CopiedList)
                             ]
                             []
                         ]
@@ -2841,7 +2841,7 @@ viewReport env requested model detail full =
                                 Just (targetBracket model b.target)
                         , toCombos =
                             if hasCombos then
-                                Just (JumpTo "combos")
+                                Just (ClickedJumpTo "combos")
 
                             else
                                 Nothing
@@ -3060,4 +3060,4 @@ base32 n =
 
 closeHowToPlay : Msg
 closeHowToPlay =
-    CloseHowToPlay
+    AskedToCloseHowToPlay

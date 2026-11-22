@@ -59,9 +59,9 @@ type alias Model =
 
 type Msg
     = GotDecks (Result String (List DeckSummary))
-    | SetQuery String
+    | ChangedQuery String
     | GotHits Hits
-    | Close
+    | ClickedClose
     | CardMsg Card.Msg
 
 
@@ -108,7 +108,7 @@ update msg model =
         GotDecks (Err e) ->
             ( { model | decks = Unavailable e }, Nothing )
 
-        SetQuery q ->
+        ChangedQuery q ->
             let
                 next =
                     { model | query = q }
@@ -118,7 +118,7 @@ update msg model =
         GotHits hits ->
             ( { model | hits = hits }, Nothing )
 
-        Close ->
+        ClickedClose ->
             ( model, Just Closed )
 
         CardMsg m ->
@@ -134,7 +134,7 @@ view env model =
                 |> D.andThen
                     (\c ->
                         if c == "search-overlay" then
-                            D.succeed Close
+                            D.succeed ClickedClose
 
                         else
                             D.fail "inside"
@@ -152,10 +152,10 @@ view env model =
                     , attribute "enterkeyhint" "search"
                     , value model.query
                     , Ui.Attr.valueAttr model.query
-                    , onInput SetQuery
+                    , onInput ChangedQuery
                     ]
                     []
-                , button [ class "search-cancel", onClick Close ] [ text "Cancel" ]
+                , button [ class "search-cancel", onClick ClickedClose ] [ text "Cancel" ]
                 , node "mtg-focus" [ attribute "target" "input" ] []
                 ]
             , div [ class "search-results" ]
@@ -238,7 +238,7 @@ view env model =
                                                                 [ class "deck-chip"
                                                                 , href (Route.deckHref env.isStatic d.slug Route.Current)
                                                                 , aura d.colorIdentity
-                                                                , onClick Close
+                                                                , onClick ClickedClose
                                                                 ]
                                                                 [ Mana.colorIdentity env.base 14 d.colorIdentity
                                                                 , text

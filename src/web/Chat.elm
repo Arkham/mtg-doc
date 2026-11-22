@@ -59,23 +59,23 @@ type alias Asking =
 
 
 type Msg
-    = Open
-    | Close
+    = ClickedOpen
+    | AskedToClose
     | GotChat (Result String (List DeckChatMessage))
-    | SetText String
-    | SendIn EditTarget String
+    | ChangedText String
+    | Submitted EditTarget String
     | GotReply (Result String ChatAnswer)
     | Streamed Piece
-    | AskClear
-    | CancelClear
-    | Clear
-    | Cleared (Result String (List DeckChatMessage))
+    | ClickedClear
+    | ClickedKeepChat
+    | ConfirmedClear
+    | GotCleared (Result String (List DeckChatMessage))
     | GotDeck (Result String DeckDetail)
-    | Apply String
+    | ClickedApply String
     | GotApply String (Result String ( ChatAnswer, String ))
-    | Rerun String
+    | ClickedRerun String
     | GotRerun (Result String ( String, String ))
-    | Wait Int (List String)
+    | CheckDue Int (List String)
     | GotWaited (List String) (Result String (List DeckChatMessage))
     | CardMsg Card.Msg
 
@@ -171,7 +171,7 @@ withMessages messages model =
         Cmd.none
 
       else
-        Process.sleep 1000 |> Task.perform (\_ -> Wait token ids)
+        Process.sleep 1000 |> Task.perform (\_ -> CheckDue token ids)
     )
 
 
@@ -190,10 +190,10 @@ plain ( m, c ) =
 update : Env -> String -> Msg -> Model -> ( Model, Cmd Msg, Maybe Out )
 update env slug msg model =
     case msg of
-        Open ->
+        ClickedOpen ->
             ( { model | open = True }, Api.chat slug GotChat, Nothing )
 
-        Close ->
+        AskedToClose ->
             ( { model | open = False }, Cmd.none, Nothing )
 
         GotChat (Ok messages) ->
@@ -202,10 +202,10 @@ update env slug msg model =
         GotChat (Err _) ->
             plain (withMessages (Just (Maybe.withDefault [] model.messages)) model)
 
-        SetText t ->
+        ChangedText t ->
             ( { model | text = t }, Cmd.none, Nothing )
 
-        SendIn target message ->
+        Submitted target message ->
             let
                 content =
                     String.trim message
@@ -272,19 +272,19 @@ update env slug msg model =
             , Nothing
             )
 
-        AskClear ->
+        ClickedClear ->
             ( { model | confirmingClear = True }, Cmd.none, Nothing )
 
-        CancelClear ->
+        ClickedKeepChat ->
             ( { model | confirmingClear = False }, Cmd.none, Nothing )
 
-        Clear ->
-            ( model, Api.clearChat slug Cleared, Nothing )
+        ConfirmedClear ->
+            ( model, Api.clearChat slug GotCleared, Nothing )
 
-        Cleared (Ok messages) ->
+        GotCleared (Ok messages) ->
             plain (withMessages (Just messages) { model | confirmingClear = False, error = Nothing })
 
-        Cleared (Err e) ->
+        GotCleared (Err e) ->
             ( { model | confirmingClear = False, error = Just e }, Cmd.none, Nothing )
 
         Streamed piece ->
@@ -319,7 +319,7 @@ update env slug msg model =
         GotDeck (Err _) ->
             ( model, Cmd.none, Nothing )
 
-        Apply id ->
+        ClickedApply id ->
             ( { model | applying = Just id, error = Nothing }, Api.applyChat slug id (GotApply id), Nothing )
 
         GotApply id (Ok ( message, _ )) ->
@@ -345,7 +345,7 @@ update env slug msg model =
         GotApply _ (Err e) ->
             ( { model | applying = Nothing, error = Just e }, Cmd.none, Nothing )
 
-        Rerun id ->
+        ClickedRerun id ->
             ( { model | applying = Just id, error = Nothing }, Api.rerunFromChat slug id GotRerun, Nothing )
 
         GotRerun (Ok ( s, jobId )) ->
@@ -354,7 +354,7 @@ update env slug msg model =
         GotRerun (Err e) ->
             ( { model | applying = Nothing, error = Just e }, Cmd.none, Nothing )
 
-        Wait token ids ->
+        CheckDue token ids ->
             if token == model.waitToken then
                 ( model, Api.chat slug (GotWaited ids), Nothing )
 
@@ -388,7 +388,7 @@ update env slug msg model =
 subscriptions : Model -> Sub Msg
 subscriptions model =
     if model.open then
-        Browser.Events.onKeyDown (Keys.onKeys [ ( "Escape", Close ) ])
+        Browser.Events.onKeyDown (Keys.onKeys [ ( "Escape", AskedToClose ) ])
 
     else
         Sub.none
@@ -521,7 +521,7 @@ applyButton config message busy changes =
             List.length valid
     in
     if count > 0 then
-        button [ class "primary", disabled busy, onClick (Apply message.id) ]
+        button [ class "primary", disabled busy, onClick (ClickedApply message.id) ]
             ((if busy then
                 [ spinner ]
 
@@ -573,7 +573,7 @@ rerunView config message r busy =
                 a [ class "small", href (Route.href config.env.isStatic (Route.Job config.slug jobId)) ] [ text "✓ Started · see progress" ]
 
             Nothing ->
-                button [ class "primary", disabled busy, onClick (Rerun message.id) ]
+                button [ class "primary", disabled busy, onClick (ClickedRerun message.id) ]
                     ((if busy then
                         [ spinner ]
 
@@ -603,7 +603,7 @@ view config model =
 panel : Config -> Model -> Html Msg
 panel config model =
     if not model.open then
-        button [ class "chat-fab primary", onClick Open, attribute "aria-label" "Ask the doc about this deck" ]
+        button [ class "chat-fab primary", onClick ClickedOpen, attribute "aria-label" "Ask the doc about this deck" ]
             [ img [ class "doc-avatar", src "./icon-96.png", alt "", width 30, height 30 ] []
             , text "Ask the doc"
             ]
@@ -639,18 +639,18 @@ panel config model =
                         [ class "icon"
                         , attribute "aria-label" "Clear chat"
                         , title "Clear chat"
-                        , onClick AskClear
+                        , onClick ClickedClear
                         , disabled model.confirmingClear
                         ]
                         [ Icons.trash ]
-                , button [ class "icon", attribute "aria-label" "Close chat", onClick Close ] [ Icons.close ]
+                , button [ class "icon", attribute "aria-label" "Close chat", onClick AskedToClose ] [ Icons.close ]
                 ]
             , if model.confirmingClear then
                 div [ class "chat-confirm", attribute "role" "alertdialog", attribute "aria-label" "Clear chat" ]
                     [ p [ class "small" ] [ text "Clear this chat? Your deck and its report stay as they are." ]
                     , div [ class "row end" ]
-                        [ button [ class "small-btn", onClick CancelClear ] [ text "Cancel" ]
-                        , button [ class "small-btn danger", onClick Clear ] [ text "Clear chat" ]
+                        [ button [ class "small-btn", onClick ClickedKeepChat ] [ text "Cancel" ]
+                        , button [ class "small-btn danger", onClick ConfirmedClear ] [ text "Clear chat" ]
                         ]
                     , node "mtg-focus" [ attribute "target" "button.danger" ] []
                     ]
@@ -662,7 +662,7 @@ panel config model =
                     [ div [ class "chat-empty" ]
                         [ p [] [ text "Ask about the deck or tell me what to change. I'll propose additions and cuts that fit your bracket and budget; nothing changes until you apply it." ]
                         , div [ class "chat-suggestions" ]
-                            (List.map (\s -> button [ class "chip-button", onClick (SendIn config.target s) ] [ text s ]) suggestions)
+                            (List.map (\s -> button [ class "chip-button", onClick (Submitted config.target s) ] [ text s ]) suggestions)
                         ]
                     ]
 
@@ -717,13 +717,13 @@ panel config model =
 
                 Nothing ->
                     text ""
-            , form [ class "chat-input", preventDefaultOn "submit" (D.succeed ( SendIn config.target model.text, True )) ]
+            , form [ class "chat-input", preventDefaultOn "submit" (D.succeed ( Submitted config.target model.text, True )) ]
                 [ textarea
                     [ rows 2
                     , placeholder "e.g. swap Sol Ring for Mind Stone, or add more card draw"
                     , attribute "aria-label" "Message"
                     , value model.text
-                    , onInput SetText
+                    , onInput ChangedText
                     , preventDefaultOn "keydown"
                         (D.map3 (\k shift composing -> ( k, shift, composing ))
                             (D.field "key" D.string)
@@ -732,7 +732,7 @@ panel config model =
                             |> D.andThen
                                 (\( k, shift, composing ) ->
                                     if k == "Enter" && not shift && not composing then
-                                        D.succeed ( SendIn config.target model.text, True )
+                                        D.succeed ( Submitted config.target model.text, True )
 
                                     else
                                         D.fail "not a send"

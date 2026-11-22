@@ -268,7 +268,12 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
   prettier and elm-format, lint with oxlint and elm-review (typescript-eslint can't run on
   TypeScript 7, which has no JS compiler API).
 - The client's types come from `src/shared/types.ts`: change the TypeScript, run `pnpm gen:elm`, and
-  let the Elm compiler show every view the change touches.
+  let the Elm compiler show every view the change touches. Use `Int` (the `Int` alias) for counts
+  and literal unions for closed sets (brackets are `1 | 2 | 3 | 4 | 5`), so Elm parses them at the
+  edge instead of rounding or defaulting in views.
+- Elm `Msg` constructors say what happened, not what to do: `ClickedApply`, `ChangedQuery`,
+  `GotDetail`, `PollDue`; `AskedTo…` when a click and a key both send it. No do-nothing messages:
+  a decoder that fails sends nothing (see `Ui.Click` for clicks a part handles itself).
 - Comments explain _why_, tersely, and only when a future reader needs them. Never leave comments
   about removed or previous code.
 - Prefer small pure functions in `analysis/` over logic inside the pipeline or route handlers.
