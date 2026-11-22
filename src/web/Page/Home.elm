@@ -93,7 +93,7 @@ init env decks =
       , drag = False
       , filter = ""
       }
-    , Api.decks env.isStatic GotDecks
+    , Api.decksUnlessKnown env.isStatic decks GotDecks
     )
 
 

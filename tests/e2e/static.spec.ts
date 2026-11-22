@@ -102,6 +102,25 @@ test.describe("static site", () => {
     await expect.poll(() => page.evaluate(() => scrollY)).toBe(600);
   });
 
+  test("the home page starts with the deck list: no fetch for it, nor for the search", async ({
+    page,
+  }) => {
+    const listed: string[] = [];
+    page.on("request", (r) => {
+      if (r.url().endsWith("data/decks.json")) listed.push(page.url());
+    });
+    await page.goto(STATIC_URL);
+    await expect(page.locator(".deck-card")).toHaveCount(2);
+    await page.getByRole("button", { name: "Find a card" }).click();
+    await expect(page.locator(".search-results")).toContainText("which of the 2 decks run it");
+    expect(listed).toEqual([]);
+    // A deck's page doesn't carry the list: its search fetches it.
+    await page.goto(`${STATIC_URL}decks/${OVERPOWERED}/`);
+    await page.getByRole("button", { name: "Find a card" }).click();
+    await expect(page.locator(".search-results")).toContainText("which of the 2 decks run it");
+    expect(listed).toHaveLength(1);
+  });
+
   test("the deck list fetches the decks on screen ahead of a tap, as their pages will ask", async ({
     page,
   }) => {

@@ -108,7 +108,11 @@ await fs.writeFile(
   appPage(shell, {
     base: "./",
     body: indexFallback(decks),
-    head: '<link rel="alternate" type="text/plain" href="llms.txt" title="Plain-text index" />',
+    head: [
+      '<link rel="alternate" type="text/plain" href="llms.txt" title="Plain-text index" />',
+      // The deck list, for the app to start on: no fetch, nor a moment without it.
+      `<script type="application/json" id="decks">${JSON.stringify(decks).replaceAll("<", "\\u003c")}</script>`,
+    ].join("\n    "),
   }),
 );
 

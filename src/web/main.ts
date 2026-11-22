@@ -59,6 +59,8 @@ const app = window.Elm.Main.init({
     viewport: { width: window.innerWidth, height: window.innerHeight },
     decklistView: localStorage.getItem(VIEW_KEY) ?? "list",
     route,
+    // The published home page carries the deck list (see scripts/build-static.ts).
+    decks: JSON.parse(document.getElementById("decks")?.textContent ?? "null"),
   },
 });
 

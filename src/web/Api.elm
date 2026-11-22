@@ -10,7 +10,7 @@ module Api exposing
     , config
     , deck
     , deckUrl
-    , decks
+    , decksUnlessKnown
     , edit
     , fileText
     , fileUrl
@@ -119,6 +119,19 @@ decks isStatic =
             "/api/decks"
         )
         (D.list deckSummaryDecoder)
+
+
+{-| The deck list, unless it's known: on the published site a list already at hand is the list (it
+can't change while the page is open); anywhere else it's fetched again.
+-}
+decksUnlessKnown : Bool -> Maybe (List DeckSummary) -> (Result_ (List DeckSummary) -> msg) -> Cmd msg
+decksUnlessKnown isStatic known =
+    case ( isStatic, known ) of
+        ( True, Just _ ) ->
+            always Cmd.none
+
+        _ ->
+            decks isStatic
 
 
 deck : Bool -> String -> (Result_ DeckDetail -> msg) -> Cmd msg

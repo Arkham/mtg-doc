@@ -71,10 +71,13 @@ type Out
     | Preview Card.Msg
 
 
-init : Env -> ( Model, Cmd Msg )
-init env =
-    ( { decks = Loading, query = "", hits = { query = "", total = 0, hits = [] } }
-    , Api.decks env.isStatic GotDecks
+{-| With `decks`, the list as the page last had it: drawn at once (and on the published site,
+where it can't change, not fetched again).
+-}
+init : Env -> Maybe (List DeckSummary) -> ( Model, Cmd Msg )
+init env decks =
+    ( { decks = Maybe.map Loaded decks |> Maybe.withDefault Loading, query = "", hits = { query = "", total = 0, hits = [] } }
+    , Api.decksUnlessKnown env.isStatic decks GotDecks
     )
 
 

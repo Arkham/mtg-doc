@@ -17,7 +17,7 @@ import Page.Progress as Progress
 import Page.Report as Report
 import Page.Review as Review
 import Route exposing (Route(..))
-import Types exposing (AppConfig, DeckSummary, Recognition)
+import Types exposing (AppConfig, DeckSummary, Recognition, deckSummaryDecoder)
 import Ui.Attr exposing (alt, class, href, id, src, title)
 import Ui.Card as Card
 import Ui.Icons as Icons
@@ -87,15 +87,16 @@ type Msg
 
 
 type alias Flags =
-    { env : Env, decklistView : Report.DecklistView, route : Route }
+    { env : Env, decklistView : Report.DecklistView, route : Route, decks : Maybe (List DeckSummary) }
 
 
 flagsDecoder : D.Decoder Flags
 flagsDecoder =
-    D.map3 Flags
+    D.map4 Flags
         Env.decoder
         (D.field "decklistView" Report.decklistViewDecoder)
         (D.field "route" Route.decoder)
+        (D.field "decks" (D.nullable (D.list deckSummaryDecoder)))
 
 
 {-| The app, running on the flags it was started with; or, if they don't parse, not running at all
@@ -148,7 +149,7 @@ init : Flags -> ( Model, Cmd Msg )
 init flags =
     let
         ( home, homeCmd ) =
-            Home.init flags.env Nothing
+            Home.init flags.env flags.decks
 
         model =
             { env = flags.env
@@ -160,7 +161,7 @@ init flags =
             , hovers = []
             , sheet = Nothing
             , decklistView = flags.decklistView
-            , decks = Nothing
+            , decks = flags.decks
             }
 
         ( routed, routeCmd ) =
@@ -426,7 +427,7 @@ update msg model =
                 Nothing ->
                     let
                         ( search, cmd ) =
-                            CardSearch.init model.env
+                            CardSearch.init model.env model.decks
                     in
                     ( { model | search = Just search }, Cmd.map SearchMsg cmd )
 
