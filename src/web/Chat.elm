@@ -64,7 +64,7 @@ type Msg
     | GotChat (Result String (List DeckChatMessage))
     | SetText String
     | SendIn EditTarget String
-    | GotReply (Result String DeckChatMessage)
+    | GotReply (Result String ChatAnswer)
     | Streamed Piece
     | AskClear
     | CancelClear
@@ -72,7 +72,7 @@ type Msg
     | Cleared (Result String (List DeckChatMessage))
     | GotDeck (Result String DeckDetail)
     | Apply String
-    | GotApply String (Result String ( DeckChatMessage, String ))
+    | GotApply String (Result String ( ChatAnswer, String ))
     | Rerun String
     | GotRerun (Result String ( String, String ))
     | Wait Int (List String)
@@ -129,8 +129,29 @@ reload slug model =
 waiting : List DeckChatMessage -> List String
 waiting messages =
     messages
-        |> List.filter (\m -> m.apply == Just DeckChatMessageApplyApplying)
-        |> List.map .id
+        |> List.filterMap
+            (\m ->
+                case m of
+                    DeckChatMessageAssistant answer ->
+                        if answer.apply == Just ChatAnswerApplyApplying then
+                            Just answer.id
+
+                        else
+                            Nothing
+
+                    DeckChatMessageUser _ ->
+                        Nothing
+            )
+
+
+idOf : DeckChatMessage -> String
+idOf m =
+    case m of
+        DeckChatMessageUser q ->
+            q.id
+
+        DeckChatMessageAssistant a ->
+            a.id
 
 
 {-| Changes are applied in the background: check until they're in, then refresh the report (a
@@ -156,18 +177,9 @@ withMessages messages model =
 
 {-| The question a reply answers, as the saved history will have it.
 -}
-asked : DeckChatMessage -> Asking -> DeckChatMessage
+asked : ChatAnswer -> Asking -> DeckChatMessage
 asked reply asking =
-    { id = "asked:" ++ reply.id
-    , role = DeckChatMessageRoleUser
-    , content = asking.question
-    , at = reply.at
-    , changes = Nothing
-    , apply = Nothing
-    , rerun = Nothing
-    , target = Nothing
-    , reportUpdated = Nothing
-    }
+    DeckChatMessageUser { id = "asked:" ++ reply.id, content = asking.question, at = reply.at }
 
 
 plain : ( Model, Cmd Msg ) -> ( Model, Cmd Msg, Maybe Out )
@@ -216,11 +228,11 @@ update env slug msg model =
                 -- Reopening the chat while it was answered may have brought the saved message and
                 -- its question already.
                 messages =
-                    if List.any (\x -> x.id == reply.id) current then
+                    if List.any (\x -> idOf x == reply.id) current then
                         current
 
                     else
-                        current ++ List.filterMap (Maybe.map (asked reply)) [ model.asking ] ++ [ reply ]
+                        current ++ List.filterMap (Maybe.map (asked reply)) [ model.asking ] ++ [ DeckChatMessageAssistant reply ]
 
                 ( m, cmd ) =
                     withMessages (Just messages) model
@@ -317,8 +329,8 @@ update env slug msg model =
                         (Maybe.map
                             (List.map
                                 (\x ->
-                                    if x.id == id then
-                                        message
+                                    if idOf x == id then
+                                        DeckChatMessageAssistant message
 
                                     else
                                         x
@@ -391,7 +403,7 @@ streamElement config asking =
         [ attribute "url" ("/api/decks/" ++ config.slug ++ "/chat")
         , property "body" (E.object [ ( "message", E.string asking.question ), ( "view", encodeEditTarget asking.target ) ])
         , on "reply" (D.field "detail" pieceDecoder |> D.map Streamed)
-        , on "message" (D.field "detail" deckChatMessageDecoder |> D.map (Ok >> GotReply))
+        , on "message" (D.field "detail" Api.answerDecoder |> D.map (Ok >> GotReply))
         , on "failure" (D.field "detail" D.string |> D.map (Err >> GotReply))
         ]
         []
@@ -411,7 +423,7 @@ spinner =
     span [ class "spinner", attribute "aria-hidden" "true" ] []
 
 
-changesView : Config -> Card.Ctx Msg -> DeckChatMessage -> Bool -> Html Msg
+changesView : Config -> Card.Ctx Msg -> ChatAnswer -> Bool -> Html Msg
 changesView config ctx message busy =
     let
         changes =
@@ -482,16 +494,16 @@ changesView config ctx message busy =
                 changes
             )
         , case message.apply of
-            Just (DeckChatMessageApplyFailed { error }) ->
+            Just (ChatAnswerApplyFailed { error }) ->
                 p [ class "error small" ] [ text ("Couldn't apply: " ++ error) ]
 
             _ ->
                 text ""
         , case message.apply of
-            Just DeckChatMessageApplyApplied ->
+            Just ChatAnswerApplyApplied ->
                 div [ class "chat-applied small" ] [ text "✓ Applied" ]
 
-            Just DeckChatMessageApplyApplying ->
+            Just ChatAnswerApplyApplying ->
                 div [ class "chat-applied small", attribute "role" "status" ] [ spinner, text " Applying…" ]
 
             _ ->
@@ -499,7 +511,7 @@ changesView config ctx message busy =
         ]
 
 
-applyButton : Config -> DeckChatMessage -> Bool -> List DeckChange -> Html Msg
+applyButton : Config -> ChatAnswer -> Bool -> List DeckChange -> Html Msg
 applyButton config message busy changes =
     let
         valid =
@@ -543,7 +555,7 @@ applyButton config message busy changes =
         text ""
 
 
-rerunView : Config -> DeckChatMessage -> RerunProposal -> Bool -> Html Msg
+rerunView : Config -> ChatAnswer -> RerunProposal -> Bool -> Html Msg
 rerunView config message r busy =
     div [ class "chat-changes chat-rerun" ]
         [ div [ class "chat-rerun-title" ] [ span [ attribute "aria-hidden" "true" ] [ text "↻" ], text " Re-run the optimizer" ]
@@ -658,23 +670,28 @@ panel config model =
                     []
                  )
                     ++ List.map
-                        (\m ->
-                            div [ class ("chat-msg " ++ deckChatMessageRoleToString m.role) ]
-                                (div [ class "chat-bubble" ] (Card.prose ctx m.content)
-                                    :: (if m.role == DeckChatMessageRoleAssistant && not (List.isEmpty (Maybe.withDefault [] m.changes)) then
-                                            [ changesView config ctx m (model.applying == Just m.id) ]
+                        (\message ->
+                            case message of
+                                DeckChatMessageUser q ->
+                                    div [ class "chat-msg user" ] [ div [ class "chat-bubble" ] (Card.prose ctx q.content) ]
 
-                                        else
-                                            []
-                                       )
-                                    ++ (case ( m.role, m.rerun ) of
-                                            ( DeckChatMessageRoleAssistant, Just r ) ->
-                                                [ rerunView config m r (model.applying == Just m.id) ]
+                                DeckChatMessageAssistant a ->
+                                    div [ class "chat-msg assistant" ]
+                                        (div [ class "chat-bubble" ] (Card.prose ctx a.content)
+                                            :: (if List.isEmpty (Maybe.withDefault [] a.changes) then
+                                                    []
 
-                                            _ ->
-                                                []
-                                       )
-                                )
+                                                else
+                                                    [ changesView config ctx a (model.applying == Just a.id) ]
+                                               )
+                                            ++ (case a.rerun of
+                                                    Just r ->
+                                                        [ rerunView config a r (model.applying == Just a.id) ]
+
+                                                    Nothing ->
+                                                        []
+                                               )
+                                        )
                         )
                         (Maybe.withDefault [] model.messages)
                     ++ (case model.asking of

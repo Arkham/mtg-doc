@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { DeckChatMessage } from "../shared/types.ts";
+import type { ChatAnswer, DeckChatMessage } from "../shared/types.ts";
 import { config } from "./config.ts";
 import { pendingEdits } from "./edit-queue.ts";
 import { readMeta, writeAtomic } from "./storage.ts";
@@ -18,7 +18,7 @@ export async function readChat(slug: string): Promise<DeckChatMessage[]> {
   // cut short by a restart.
   if (!pendingEdits(slug).length)
     for (const m of messages)
-      if (m.apply?.kind === "applying")
+      if (isAnswer(m) && m.apply?.kind === "applying")
         m.apply = { kind: "failed", error: "Interrupted before it finished; apply it again." };
   return messages;
 }
@@ -44,11 +44,14 @@ export function updateChat(
   return next;
 }
 
-export const patchMessage = (
-  slug: string,
-  id: string,
-  patch: (m: DeckChatMessage) => DeckChatMessage,
-) => updateChat(slug, (ms) => ms.map((m) => (m.id === id ? patch(m) : m)));
+export const isAnswer = (m: DeckChatMessage): m is ChatAnswer => m.role === "assistant";
+
+/** The doc's answer with this id: only answers propose changes or re-runs. */
+export const findAnswer = (messages: DeckChatMessage[], id: string) =>
+  messages.find((m): m is ChatAnswer => isAnswer(m) && m.id === id);
+
+export const patchAnswer = (slug: string, id: string, patch: (m: ChatAnswer) => ChatAnswer) =>
+  updateChat(slug, (ms) => ms.map((m) => (isAnswer(m) && m.id === id ? patch(m) : m)));
 
 /** Empties a deck's chat; the deck and its report stay as they are. */
 export async function clearChat(slug: string) {

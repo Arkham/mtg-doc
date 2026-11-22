@@ -355,7 +355,7 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
 
   test("the decision model confirms replies and judges when a change is worth re-optimizing", async () => {
     const { applyDeckChanges, chatAboutDeck } = await import("../../src/server/chat.ts");
-    const { readChat } = await import("../../src/server/chat-history.ts");
+    const { findAnswer, isAnswer, readChat } = await import("../../src/server/chat-history.ts");
     const { readReport } = await import("../../src/server/storage.ts");
     const { slug } = await optimizeFixtureDeck("lathril.txt", {
       bracket: 3,
@@ -369,7 +369,7 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     assert.match(yes.content, /^On it: applying 2 changes\./);
     assert.equal(yes.reportUpdated, true);
     await whenIdle(slug);
-    assert.deepEqual((await readChat(slug)).find((m) => m.id === proposal.id)!.apply, {
+    assert.deepEqual(findAnswer(await readChat(slug), proposal.id)!.apply, {
       kind: "applied",
     });
     assert.ok((await readReport(slug))!.decklist!.some((c) => c.name === "Mind Stone"));
@@ -383,7 +383,7 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
       { action: "remove" as const, name: "Forest", qty, reason: "" },
     ];
     // The offer comes once the edit's refresh is in.
-    const offers = async () => (await readChat(slug)).filter((m) => m.rerun);
+    const offers = async () => (await readChat(slug)).filter(isAnswer).filter((m) => m.rerun);
     await applyDeckChanges(slug, forests(3), "cut three Forests");
     await whenIdle(slug);
     assert.equal((await offers()).length, 1);

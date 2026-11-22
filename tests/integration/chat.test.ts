@@ -4,8 +4,10 @@ import type { AddressInfo } from "node:net";
 import { after, before, describe, test } from "node:test";
 import { createApp } from "../../src/server/app.ts";
 import { parseDecklist } from "../../src/server/decklist.ts";
+import { findAnswer, isAnswer } from "../../src/server/chat-history.ts";
 import { readDeckFile } from "../../src/server/storage.ts";
 import type {
+  ChatAnswer,
   DeckChatMessage,
   DeckDetail,
   EditStatus,
@@ -44,7 +46,7 @@ const say = async (message: string, view: EditTarget = "optimized") => {
     body: JSON.stringify({ message, view }),
   });
   assert.equal(res.status, 200);
-  return (await res.json()) as DeckChatMessage;
+  return (await res.json()) as ChatAnswer;
 };
 const apply = (id: string) =>
   fetch(`${base}/api/decks/${slug}/chat/${id}/apply`, { method: "POST" });
@@ -76,7 +78,7 @@ describe("deck chat without an LLM", () => {
 
     const res = await apply(reply.id);
     const { report, chat } = await applied(res);
-    const message = chat.find((m) => m.id === reply.id)!;
+    const message = findAnswer(chat, reply.id)!;
     assert.deepEqual(message.apply, { kind: "applied" });
     assert.equal(report.after.totalCards, 100);
     assert.ok(report.decklist!.some((c) => c.name === "Mind Stone" && c.isNew));
@@ -104,7 +106,7 @@ describe("deck chat without an LLM", () => {
     const reply = await say("swap Forest for Arcane Signet");
     const res = await apply(reply.id);
     assert.equal(res.status, 202);
-    const { message } = (await res.json()) as { message: DeckChatMessage };
+    const { message } = (await res.json()) as { message: ChatAnswer };
     assert.deepEqual(message.apply, { kind: "applying" }, "shows as applying right away");
     const detail = (await (await fetch(`${base}/api/decks/${slug}`)).json()) as DeckDetail;
     assert.deepEqual(detail.changes, { kind: "updating" }, "the report says it's updating");
@@ -114,7 +116,7 @@ describe("deck chat without an LLM", () => {
     const chat = (await (
       await fetch(`${base}/api/decks/${slug}/chat`)
     ).json()) as DeckChatMessage[];
-    assert.deepEqual(chat.find((m) => m.id === reply.id)!.apply, { kind: "applied" });
+    assert.deepEqual(findAnswer(chat, reply.id)!.apply, { kind: "applied" });
     assert.ok(chat.some((m) => m.id === meanwhile.id));
     assert.ok(chat.some((m) => m.content === "what are this deck's weaknesses?"));
     const after = (await (await fetch(`${base}/api/decks/${slug}`)).json()) as DeckDetail & {
@@ -128,7 +130,7 @@ describe("deck chat without an LLM", () => {
     const file = path.join(config.decksDir, slug, "chat.json");
     const chat = JSON.parse(await fs.readFile(file, "utf8")) as DeckChatMessage[];
     const stuck = {
-      ...chat.findLast((m) => m.changes)!,
+      ...chat.filter(isAnswer).findLast((m) => m.changes)!,
       id: "stuck",
       apply: { kind: "applying" },
     };
@@ -136,7 +138,7 @@ describe("deck chat without an LLM", () => {
     const read = (await (
       await fetch(`${base}/api/decks/${slug}/chat`)
     ).json()) as DeckChatMessage[];
-    const message = read.find((m) => m.id === "stuck")!;
+    const message = findAnswer(read, "stuck")!;
     assert.equal(message.apply?.kind, "failed");
     assert.match(message.apply?.kind === "failed" ? message.apply.error : "", /Interrupted/);
     await fs.writeFile(file, JSON.stringify(chat, null, 2));
@@ -224,10 +226,12 @@ describe("deck chat without an LLM", () => {
     ).json()) as DeckChatMessage[];
     assert.deepEqual(history.at(-1), reply);
     assert.equal(history.at(-2)!.content, "make it better please");
-    const swap = history.find((m) => m.changes?.some((c) => c.name === "Mind Stone"))!;
+    const swap = history
+      .filter(isAnswer)
+      .find((m) => m.changes?.some((c) => c.name === "Mind Stone"))!;
     assert.deepEqual(swap.apply, { kind: "applied" });
     // Swapping a Forest for a creature widened the land shortfall, so the doc offered a re-run.
-    const offer = history.find((m) => m.rerun)!;
+    const offer = history.filter(isAnswer).find((m) => m.rerun)!;
     assert.match(offer.content, /lands, under the recommended/);
     assert.equal(offer.rerun!.keepEdits, true);
   });
@@ -405,14 +409,14 @@ describe("re-optimizing after a change", () => {
         message:
           "swap Forest for Fellwar Stone; swap Forest for Thought Vessel; swap Forest for Mind Stone",
       })
-    ).json()) as DeckChatMessage;
+    ).json()) as ChatAnswer;
     assert.ok(
       reply.changes!.every((c) => !c.problem),
       JSON.stringify(reply.changes),
     );
     const made = await applied(await post(`/chat/${reply.id}/apply`, {}), fresh.slug);
     const offer = made.chat.at(-1)!;
-    assert.ok(offer, "the doc offers to re-optimize");
+    assert.ok(offer && isAnswer(offer), "the doc offers to re-optimize");
     assert.match(offer.content, /lands, under the recommended/);
     // No jobId yet: nothing runs until the user confirms.
     assert.deepEqual(offer.rerun, {

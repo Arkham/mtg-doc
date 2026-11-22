@@ -1,6 +1,7 @@
 module Api exposing
     ( Result_
     , Started(..)
+    , answerDecoder
     , applyChat
     , applyManaSuggestion
     , applySwap
@@ -322,7 +323,23 @@ setPublishing slug suggestions toMsg =
         }
 
 
-applyChat : String -> String -> (Result_ ( DeckChatMessage, String ) -> msg) -> Cmd msg
+applyChat : String -> String -> (Result_ ( ChatAnswer, String ) -> msg) -> Cmd msg
 applyChat slug messageId =
     postEmpty ("/api/decks/" ++ slug ++ "/chat/" ++ messageId ++ "/apply")
-        (D.map2 Tuple.pair (D.field "message" deckChatMessageDecoder) editId)
+        (D.map2 Tuple.pair (D.field "message" answerDecoder) editId)
+
+
+{-| A message from the doc: replies and applied proposals are never the user's.
+-}
+answerDecoder : Decoder ChatAnswer
+answerDecoder =
+    deckChatMessageDecoder
+        |> D.andThen
+            (\m ->
+                case m of
+                    DeckChatMessageAssistant answer ->
+                        D.succeed answer
+
+                    DeckChatMessageUser _ ->
+                        D.fail "Expected the doc's answer, got a question"
+            )

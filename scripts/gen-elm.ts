@@ -28,12 +28,14 @@ interface Field {
 }
 
 /**
- * A discriminated union: object types that share a string `kind`, each with its own fields. It's an
- * Elm custom type whose constructors carry those fields, so a variant can't have another's.
+ * A discriminated union: object types told apart by a string field (`kind`, or another every
+ * variant has), each with its own fields. It's an Elm custom type whose constructors carry those
+ * fields, so a variant can't have another's. A variant that's an interface carries its record.
  */
 interface Variant {
   value: string;
   fields: Field[];
+  record?: string;
 }
 
 type Decl =
@@ -41,10 +43,13 @@ type Decl =
   | { kind: "enum"; name: string; values: string[]; doc?: string }
   /** A union of number literals (`1 | 2 | 3`): an Elm custom type, read from and written as Ints. */
   | { kind: "numbers"; name: string; values: number[]; doc?: string }
-  | { kind: "union"; name: string; variants: Variant[]; doc?: string };
+  | { kind: "union"; name: string; tag: string; variants: Variant[]; doc?: string };
 
-/** The field every variant of a discriminated union has, telling them apart. */
+/** The usual field telling a discriminated union's variants apart. */
 const TAG = "kind";
+
+/** Interfaces that are variants of a union, and the field that tells them apart (not a field in Elm). */
+const variantTags = new Map<string, string>();
 
 // oxc's AST is plain JSON; only the handful of node types below appear in src/shared/types.ts.
 // oxlint-disable-next-line typescript/no-explicit-any
@@ -139,8 +144,14 @@ function convert(node: Node, name: string): { type: T; nullable: boolean } {
         register({ kind: "numbers", name, values: numbers });
         return { type: { k: "ref", name }, nullable };
       }
-      if (rest.length > 1 && rest.every((t: Node) => t.type === "TSTypeLiteral")) {
-        register({ kind: "union", name, variants: rest.map((t: Node) => variant(t, name)) });
+      if (rest.length > 1 && rest.every(isObject)) {
+        const tag = tagOf(rest, name);
+        register({
+          kind: "union",
+          name,
+          tag,
+          variants: rest.map((t: Node) => variant(t, name, tag)),
+        });
         return { type: { k: "ref", name }, nullable };
       }
       if (rest.length !== 1) throw new Error(`Unsupported union in ${name}`);
@@ -151,12 +162,37 @@ function convert(node: Node, name: string): { type: T; nullable: boolean } {
   }
 }
 
-/** One variant of a discriminated union: its `kind`, and the fields that come with it. */
-function variant(node: Node, union: string): Variant {
-  const tag = node.members.find((m: Node) => m.key?.name === TAG);
-  const value = tag && stringLiterals([tag.typeAnnotation.typeAnnotation])?.[0];
-  if (!value) throw new Error(`Every variant of ${union} needs a string literal \`${TAG}\``);
-  const rest = node.members.filter((m: Node) => m !== tag);
+const isObject = (t: Node) =>
+  t.type === "TSTypeLiteral" ||
+  (t.type === "TSTypeReference" && interfaces.has(t.typeName.name as string));
+
+/** A union variant's members, inline or its interface's. */
+const membersOf = (t: Node): Node[] =>
+  t.type === "TSTypeLiteral" ? t.members : interfaces.get(t.typeName.name).body.body;
+
+/** The value of a string literal member, if the variant has one by this name. */
+function literalOf(t: Node, key: string): string | undefined {
+  const m = membersOf(t).find((m: Node) => m.key?.name === key);
+  return m && stringLiterals([m.typeAnnotation.typeAnnotation])?.[0];
+}
+
+/** The field that tells a union's variants apart: a string literal in every one, `kind` first. */
+function tagOf(variants: Node[], union: string): string {
+  const keys = membersOf(variants[0]).map((m: Node) => m.key?.name as string);
+  const tag = [TAG, ...keys].find((k) => variants.every((t) => literalOf(t, k) !== undefined));
+  if (!tag) throw new Error(`The variants of ${union} need a string literal field in common`);
+  return tag;
+}
+
+/** One variant of a discriminated union: its tag's value, and the fields that come with it. */
+function variant(node: Node, union: string, tag: string): Variant {
+  const value = literalOf(node, tag)!;
+  if (node.type === "TSTypeReference") {
+    const record = node.typeName.name as string;
+    interfaceDecl(interfaces.get(record));
+    return { value, fields: fieldsOf(record), record };
+  }
+  const rest = node.members.filter((m: Node) => m.key?.name !== tag);
   return { value, fields: members(rest, union + ctor("", value)) };
 }
 
@@ -185,6 +221,15 @@ for (const statement of parsed.program.body as Node[]) {
   const node = statement.type === "ExportNamedDeclaration" ? statement.declaration : statement;
   if (node?.type === "TSInterfaceDeclaration") interfaces.set(node.id.name, node);
 }
+for (const statement of parsed.program.body as Node[]) {
+  const node = statement.type === "ExportNamedDeclaration" ? statement.declaration : statement;
+  const t = node?.type === "TSTypeAliasDeclaration" ? node.typeAnnotation : null;
+  if (t?.type !== "TSUnionType" || !t.types.every((v: Node) => v.type === "TSTypeReference"))
+    continue;
+  if (!t.types.every(isObject)) continue;
+  const tag = tagOf(t.types, node.id.name);
+  for (const v of t.types) variantTags.set(v.typeName.name, tag);
+}
 
 function interfaceDecl(node: Node) {
   const name = node.id.name as string;
@@ -197,7 +242,13 @@ function interfaceDecl(node: Node) {
   register({
     kind: "record",
     name,
-    fields: [...inherited, ...members(node.body.body, name)],
+    fields: [
+      ...inherited,
+      ...members(
+        node.body.body.filter((m: Node) => m.key?.name !== variantTags.get(name)),
+        name,
+      ),
+    ],
     doc: docBefore(node),
   });
 }
@@ -329,9 +380,17 @@ function emitUnion(decl: Extract<Decl, { kind: "union" }>): string {
   const fn = lower(decl.name);
   const cases = decl.variants.map((v) => ({ ...v, ctor: ctor(decl.name, v.value) }));
   const type = `${comment(decl.doc)}type ${decl.name}\n    = ${cases
-    .map((c) => (c.fields.length ? `${c.ctor} ${recordType(c.fields)}` : c.ctor))
+    .map((c) =>
+      c.record
+        ? `${c.ctor} ${c.record}`
+        : c.fields.length
+          ? `${c.ctor} ${recordType(c.fields)}`
+          : c.ctor,
+    )
     .join("\n    | ")}`;
   const branches = cases.map((c) => {
+    if (c.record)
+      return `                    ${JSON.stringify(c.value)} ->\n                        D.map ${c.ctor} ${lower(c.record)}Decoder`;
     if (!c.fields.length)
       return `                    ${JSON.stringify(c.value)} ->\n                        D.succeed ${c.ctor}`;
     const names = c.fields.map((_, i) => `v${i}`);
@@ -340,9 +399,9 @@ function emitUnion(decl: Extract<Decl, { kind: "union" }>): string {
       .join(", ")} })`;
     return `                    ${JSON.stringify(c.value)} ->\n                        D.succeed ${build}\n${decodeSteps(c.fields, "                            ").join("\n")}`;
   });
-  const dec = `${fn}Decoder : Decoder ${decl.name}\n${fn}Decoder =\n    D.field ${JSON.stringify(TAG)} D.string\n        |> D.andThen\n            (\\tag ->\n                case tag of\n${branches.join("\n\n")}\n\n                    _ ->\n                        D.fail ("Unknown ${decl.name}: " ++ tag)\n            )`;
+  const dec = `${fn}Decoder : Decoder ${decl.name}\n${fn}Decoder =\n    D.field ${JSON.stringify(decl.tag)} D.string\n        |> D.andThen\n            (\\tag ->\n                case tag of\n${branches.join("\n\n")}\n\n                    _ ->\n                        D.fail ("Unknown ${decl.name}: " ++ tag)\n            )`;
   const encCases = cases.map((c) => {
-    const kind = `( ${JSON.stringify(TAG)}, E.string ${JSON.stringify(c.value)} )`;
+    const kind = `( ${JSON.stringify(decl.tag)}, E.string ${JSON.stringify(c.value)} )`;
     if (!c.fields.length) return `        ${c.ctor} ->\n            E.object [ ${kind} ]`;
     return `        ${c.ctor} fields ->\n            E.object\n                (${kind}\n                    :: List.filterMap identity\n                        [ ${encodePairs(c.fields, "fields").join("\n                        , ")}\n                        ]\n                )`;
   });

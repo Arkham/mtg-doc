@@ -2,6 +2,8 @@ import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import type {
   Card,
+  ChatAnswer,
+  ChatQuestion,
   DeckChange,
   DeckChatMessage,
   DeckEdit,
@@ -46,7 +48,7 @@ import { makeViolation } from "./analysis/search.ts";
 import { llmEnabled } from "./config.ts";
 import { enqueueEdit } from "./edit-queue.ts";
 import { originalStats, scheduleRefresh } from "./refresh.ts";
-import { patchMessage, readChat, updateChat } from "./chat-history.ts";
+import { findAnswer, isAnswer, patchAnswer, readChat, updateChat } from "./chat-history.ts";
 import { chatJson, chatJsonStream, decide } from "./llm.ts";
 import { partialStringField } from "./analysis/partial-json.ts";
 import { loadDeck, snapshot, startOptimize, twoCardCombos } from "./pipeline.ts";
@@ -329,7 +331,7 @@ export async function chatAboutDeck(
   message: string,
   view: EditTarget = "optimized",
   { onReply }: { onReply?: (reply: string) => void } = {},
-): Promise<DeckChatMessage> {
+): Promise<ChatAnswer> {
   const meta = await readMeta(slug);
   const report = await readReport(slug);
   // Without a report or a stored original there's only one list to talk about.
@@ -339,7 +341,7 @@ export async function chatAboutDeck(
     report && target === "optimized" ? "optimized.txt" : "initial.txt",
   );
   const history = await readChat(slug);
-  const user: DeckChatMessage = {
+  const user: ChatQuestion = {
     id: randomUUID(),
     role: "user",
     content: message,
@@ -351,7 +353,7 @@ export async function chatAboutDeck(
   if (confirmed?.changes) {
     // A yes to proposed card changes applies them, like the Apply button.
     const n = confirmed.changes.filter((c) => !c.problem).length;
-    const assistant: DeckChatMessage = {
+    const assistant: ChatAnswer = {
       id: randomUUID(),
       role: "assistant",
       content: `On it: applying ${n} change${n === 1 ? "" : "s"}. The report updates as soon as they're in.`,
@@ -363,13 +365,13 @@ export async function chatAboutDeck(
       await queueProposal(slug, confirmed.id);
     } catch (err) {
       assistant.content = `I couldn't apply those changes: ${err instanceof Error ? err.message : String(err)}`;
-      await patchMessage(slug, assistant.id, () => assistant);
+      await patchAnswer(slug, assistant.id, () => assistant);
     }
     return assistant;
   }
   if (confirmed?.rerun) {
     const jobId = await startChatRerun(slug, confirmed.id);
-    const assistant: DeckChatMessage = {
+    const assistant: ChatAnswer = {
       id: randomUUID(),
       role: "assistant",
       content: `On it: re-optimizing for ${confirmed.rerun!.summary}. The report updates when the run finishes.`,
@@ -382,7 +384,7 @@ export async function chatAboutDeck(
 
   let reply: string;
   let proposed: ProposedChange[];
-  let rerun: DeckChatMessage["rerun"];
+  let rerun: ChatAnswer["rerun"];
   let reportUpdated = false;
   let editTarget = target;
   const parsed = parseCommand(message);
@@ -451,7 +453,7 @@ export async function chatAboutDeck(
   const settle = await (
     await refSettler(report, editDeck, changes)
   )([reply, ...changes.map((c) => c.reason)]);
-  const assistant: DeckChatMessage = {
+  const assistant: ChatAnswer = {
     id: randomUUID(),
     role: "assistant",
     content: settle(reply),
@@ -508,7 +510,7 @@ export async function refSettler(report: Report | null, deck: Deck, changes: Dec
  * it. Returns the proposing message if so.
  */
 async function confirmsPendingProposal(history: DeckChatMessage[], message: string) {
-  const last = history.slice(0, -1).findLast((m) => m.role === "assistant");
+  const last = history.slice(0, -1).findLast(isAnswer);
   if (!last || !llmEnabled()) return null;
   const pendingRerun = last.rerun && !last.rerun.jobId;
   // Failed to apply is still on offer: a yes tries again.
@@ -536,14 +538,14 @@ async function confirmsPendingProposal(history: DeckChatMessage[], message: stri
 
 /** Saves the proposed settings and starts the optimizer; the proposal remembers the job. */
 export async function startChatRerun(slug: string, messageId: string): Promise<string> {
-  const message = (await readChat(slug)).find((m) => m.id === messageId);
+  const message = findAnswer(await readChat(slug), messageId);
   if (!message?.rerun) throw new HttpError(404, "No re-run proposed in that message.");
   if (message.rerun.jobId) throw new HttpError(409, "That re-run already started.");
   const meta = await readMeta(slug);
   meta.options = { ...meta.options, ...message.rerun.options };
   await writeMeta(meta);
   const jobId = startOptimize(slug, { keepEdits: message.rerun.keepEdits }).id;
-  await patchMessage(slug, messageId, (m) => ({ ...m, rerun: { ...m.rerun!, jobId } }));
+  await patchAnswer(slug, messageId, (m) => ({ ...m, rerun: { ...m.rerun!, jobId } }));
   return jobId;
 }
 
@@ -694,9 +696,9 @@ export async function applyDeckChanges(
 export async function applyChatChanges(
   slug: string,
   messageId: string,
-): Promise<{ message: DeckChatMessage; editId: string }> {
+): Promise<{ message: ChatAnswer; editId: string }> {
   const editId = await queueProposal(slug, messageId);
-  const message = (await readChat(slug)).find((m) => m.id === messageId)!;
+  const message = findAnswer(await readChat(slug), messageId)!;
   return { message, editId };
 }
 
@@ -707,7 +709,7 @@ export async function applyChatChanges(
 async function queueProposal(slug: string, messageId: string): Promise<string> {
   const history = await readChat(slug);
   const index = history.findIndex((m) => m.id === messageId);
-  const message = history[index];
+  const message = findAnswer(history, messageId);
   if (!message?.changes?.length) throw new HttpError(404, "No changes to apply in that message.");
   if (message.apply?.kind === "applied")
     throw new HttpError(409, "Those changes were already applied.");
@@ -723,20 +725,20 @@ async function queueProposal(slug: string, messageId: string): Promise<string> {
   const { status } = enqueueEdit(slug, "Apply chat changes", async () => {
     try {
       const result = await applyDeckChanges(slug, message.changes!, request, message.target);
-      await updateChat(slug, (ms) =>
-        ms.map((m) =>
-          m.id === messageId ? { ...m, changes: result.changes, apply: { kind: "applied" } } : m,
-        ),
-      );
+      await patchAnswer(slug, messageId, (m) => ({
+        ...m,
+        changes: result.changes,
+        apply: { kind: "applied" },
+      }));
     } catch (err) {
-      await patchMessage(slug, messageId, (m) => ({
+      await patchAnswer(slug, messageId, (m) => ({
         ...m,
         apply: { kind: "failed", error: err instanceof Error ? err.message : String(err) },
       }));
       throw err;
     }
   });
-  await patchMessage(slug, messageId, (m) => ({ ...m, apply: { kind: "applying" } }));
+  await patchAnswer(slug, messageId, (m) => ({ ...m, apply: { kind: "applying" } }));
   return status.id;
 }
 

@@ -10,12 +10,7 @@ import { config } from "../../src/server/config.ts";
 import { cancelDebounced, whenIdle } from "../../src/server/edit-queue.ts";
 import { startOptimize } from "../../src/server/pipeline.ts";
 import { resumeRefreshes } from "../../src/server/refresh.ts";
-import type {
-  DeckChatMessage,
-  DeckDetail,
-  DeckStatus,
-  EditStatus,
-} from "../../src/shared/types.ts";
+import type { ChatAnswer, DeckDetail, DeckStatus, EditStatus } from "../../src/shared/types.ts";
 import { optimizeFixtureDeck, waitForJob } from "../support/sample.ts";
 
 // Long enough that a slow machine (CI, with coverage) makes both edits before the first refresh.
@@ -68,7 +63,7 @@ async function swap(out: string, add: string) {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ message: `swap ${out} for ${add}` }),
     })
-  ).json()) as DeckChatMessage;
+  ).json()) as ChatAnswer;
   const { editId } = (await (
     await fetch(`${base}/api/decks/${slug}/chat/${reply.id}/apply`, { method: "POST" })
   ).json()) as { editId: string };

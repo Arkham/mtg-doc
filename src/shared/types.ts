@@ -302,9 +302,18 @@ export interface EditStatus {
   state: EditState;
 }
 
-export interface DeckChatMessage {
+/** What the user asked the doc. */
+export interface ChatQuestion {
+  role: "user";
   id: string;
-  role: "user" | "assistant";
+  content: string;
+  at: string;
+}
+
+/** The doc's answer, and what it proposes or did. */
+export interface ChatAnswer {
+  role: "assistant";
+  id: string;
   content: string;
   at: string;
   changes?: DeckChange[];
@@ -316,6 +325,8 @@ export interface DeckChatMessage {
   /** The doc changed the report directly (e.g. found synergies again); the client reloads it. */
   reportUpdated?: boolean;
 }
+
+export type DeckChatMessage = ChatQuestion | ChatAnswer;
 
 export interface CardPreview {
   image: string | null;

@@ -11,6 +11,9 @@ module Types exposing
     , Card
     , CardPreview
     , ChangeAction(..)
+    , ChatAnswer
+    , ChatAnswerApply(..)
+    , ChatQuestion
     , Color(..)
     , ColorStat
     , ColorStatHeaviestCard
@@ -18,9 +21,7 @@ module Types exposing
     , Combo
     , DeckChange
     , DeckChanges(..)
-    , DeckChatMessage
-    , DeckChatMessageApply(..)
-    , DeckChatMessageRole(..)
+    , DeckChatMessage(..)
     , DeckDetail
     , DeckDetailMeta
     , DeckEdit
@@ -97,6 +98,9 @@ module Types exposing
     , changeActionFromString
     , changeActionToString
     , changeActionValues
+    , chatAnswerApplyDecoder
+    , chatAnswerDecoder
+    , chatQuestionDecoder
     , colorDecoder
     , colorFromString
     , colorStatDecoder
@@ -110,12 +114,7 @@ module Types exposing
     , comboDecoder
     , deckChangeDecoder
     , deckChangesDecoder
-    , deckChatMessageApplyDecoder
     , deckChatMessageDecoder
-    , deckChatMessageRoleDecoder
-    , deckChatMessageRoleFromString
-    , deckChatMessageRoleToString
-    , deckChatMessageRoleValues
     , deckDetailDecoder
     , deckDetailMetaDecoder
     , deckEditChangeDecoder
@@ -151,6 +150,9 @@ module Types exposing
     , encodeCard
     , encodeCardPreview
     , encodeChangeAction
+    , encodeChatAnswer
+    , encodeChatAnswerApply
+    , encodeChatQuestion
     , encodeColor
     , encodeColorStat
     , encodeColorStatHeaviestCard
@@ -159,8 +161,6 @@ module Types exposing
     , encodeDeckChange
     , encodeDeckChanges
     , encodeDeckChatMessage
-    , encodeDeckChatMessageApply
-    , encodeDeckChatMessageRole
     , encodeDeckDetail
     , encodeDeckDetailMeta
     , encodeDeckEdit
@@ -837,6 +837,125 @@ changeActionValues =
     [ ChangeActionAdd, ChangeActionRemove ]
 
 
+{-| apply: Applying `changes`: being made in the background, made, or failed (and why).
+
+target: The list `changes` edit: the one on screen, unless the user asked to change the other.
+
+reportUpdated: The doc changed the report directly (e.g. found synergies again); the client reloads it.
+
+-}
+type alias ChatAnswer =
+    { id : String
+    , content : String
+    , at : String
+    , changes : Maybe (List DeckChange)
+    , apply : Maybe ChatAnswerApply
+    , rerun : Maybe RerunProposal
+    , target : Maybe EditTarget
+    , reportUpdated : Maybe Bool
+    }
+
+
+chatAnswerDecoder : Decoder ChatAnswer
+chatAnswerDecoder =
+    D.succeed ChatAnswer
+        |> P.required "id" D.string
+        |> P.required "content" D.string
+        |> P.required "at" D.string
+        |> P.optional "changes" (D.map Just (D.list deckChangeDecoder)) Nothing
+        |> P.optional "apply" (D.map Just chatAnswerApplyDecoder) Nothing
+        |> P.optional "rerun" (D.map Just rerunProposalDecoder) Nothing
+        |> P.optional "target" (D.map Just editTargetDecoder) Nothing
+        |> P.optional "reportUpdated" (D.map Just D.bool) Nothing
+
+
+encodeChatAnswer : ChatAnswer -> E.Value
+encodeChatAnswer value =
+    E.object
+        (List.filterMap identity
+            [ Just ( "id", E.string value.id )
+            , Just ( "content", E.string value.content )
+            , Just ( "at", E.string value.at )
+            , Maybe.map (\v -> ( "changes", E.list encodeDeckChange v )) value.changes
+            , Maybe.map (\v -> ( "apply", encodeChatAnswerApply v )) value.apply
+            , Maybe.map (\v -> ( "rerun", encodeRerunProposal v )) value.rerun
+            , Maybe.map (\v -> ( "target", encodeEditTarget v )) value.target
+            , Maybe.map (\v -> ( "reportUpdated", E.bool v )) value.reportUpdated
+            ]
+        )
+
+
+type ChatAnswerApply
+    = ChatAnswerApplyApplying
+    | ChatAnswerApplyApplied
+    | ChatAnswerApplyFailed { error : String }
+
+
+chatAnswerApplyDecoder : Decoder ChatAnswerApply
+chatAnswerApplyDecoder =
+    D.field "kind" D.string
+        |> D.andThen
+            (\tag ->
+                case tag of
+                    "applying" ->
+                        D.succeed ChatAnswerApplyApplying
+
+                    "applied" ->
+                        D.succeed ChatAnswerApplyApplied
+
+                    "failed" ->
+                        D.succeed (\v0 -> ChatAnswerApplyFailed { error = v0 })
+                            |> P.required "error" D.string
+
+                    _ ->
+                        D.fail ("Unknown ChatAnswerApply: " ++ tag)
+            )
+
+
+encodeChatAnswerApply : ChatAnswerApply -> E.Value
+encodeChatAnswerApply value =
+    case value of
+        ChatAnswerApplyApplying ->
+            E.object [ ( "kind", E.string "applying" ) ]
+
+        ChatAnswerApplyApplied ->
+            E.object [ ( "kind", E.string "applied" ) ]
+
+        ChatAnswerApplyFailed fields ->
+            E.object
+                (( "kind", E.string "failed" )
+                    :: List.filterMap identity
+                        [ Just ( "error", E.string fields.error )
+                        ]
+                )
+
+
+type alias ChatQuestion =
+    { id : String
+    , content : String
+    , at : String
+    }
+
+
+chatQuestionDecoder : Decoder ChatQuestion
+chatQuestionDecoder =
+    D.succeed ChatQuestion
+        |> P.required "id" D.string
+        |> P.required "content" D.string
+        |> P.required "at" D.string
+
+
+encodeChatQuestion : ChatQuestion -> E.Value
+encodeChatQuestion value =
+    E.object
+        (List.filterMap identity
+            [ Just ( "id", E.string value.id )
+            , Just ( "content", E.string value.content )
+            , Just ( "at", E.string value.at )
+            ]
+        )
+
+
 type Color
     = ColorW
     | ColorU
@@ -1164,154 +1283,55 @@ encodeDeckChanges value =
             E.object [ ( "kind", E.string "refreshing" ) ]
 
 
-{-| apply: Applying `changes`: being made in the background, made, or failed (and why).
-
-target: The list `changes` edit: the one on screen, unless the user asked to change the other.
-
-reportUpdated: The doc changed the report directly (e.g. found synergies again); the client reloads it.
-
--}
-type alias DeckChatMessage =
-    { id : String
-    , role : DeckChatMessageRole
-    , content : String
-    , at : String
-    , changes : Maybe (List DeckChange)
-    , apply : Maybe DeckChatMessageApply
-    , rerun : Maybe RerunProposal
-    , target : Maybe EditTarget
-    , reportUpdated : Maybe Bool
-    }
+type DeckChatMessage
+    = DeckChatMessageUser ChatQuestion
+    | DeckChatMessageAssistant ChatAnswer
 
 
 deckChatMessageDecoder : Decoder DeckChatMessage
 deckChatMessageDecoder =
-    D.succeed DeckChatMessage
-        |> P.required "id" D.string
-        |> P.required "role" deckChatMessageRoleDecoder
-        |> P.required "content" D.string
-        |> P.required "at" D.string
-        |> P.optional "changes" (D.map Just (D.list deckChangeDecoder)) Nothing
-        |> P.optional "apply" (D.map Just deckChatMessageApplyDecoder) Nothing
-        |> P.optional "rerun" (D.map Just rerunProposalDecoder) Nothing
-        |> P.optional "target" (D.map Just editTargetDecoder) Nothing
-        |> P.optional "reportUpdated" (D.map Just D.bool) Nothing
+    D.field "role" D.string
+        |> D.andThen
+            (\tag ->
+                case tag of
+                    "user" ->
+                        D.map DeckChatMessageUser chatQuestionDecoder
+
+                    "assistant" ->
+                        D.map DeckChatMessageAssistant chatAnswerDecoder
+
+                    _ ->
+                        D.fail ("Unknown DeckChatMessage: " ++ tag)
+            )
 
 
 encodeDeckChatMessage : DeckChatMessage -> E.Value
 encodeDeckChatMessage value =
-    E.object
-        (List.filterMap identity
-            [ Just ( "id", E.string value.id )
-            , Just ( "role", encodeDeckChatMessageRole value.role )
-            , Just ( "content", E.string value.content )
-            , Just ( "at", E.string value.at )
-            , Maybe.map (\v -> ( "changes", E.list encodeDeckChange v )) value.changes
-            , Maybe.map (\v -> ( "apply", encodeDeckChatMessageApply v )) value.apply
-            , Maybe.map (\v -> ( "rerun", encodeRerunProposal v )) value.rerun
-            , Maybe.map (\v -> ( "target", encodeEditTarget v )) value.target
-            , Maybe.map (\v -> ( "reportUpdated", E.bool v )) value.reportUpdated
-            ]
-        )
-
-
-type DeckChatMessageApply
-    = DeckChatMessageApplyApplying
-    | DeckChatMessageApplyApplied
-    | DeckChatMessageApplyFailed { error : String }
-
-
-deckChatMessageApplyDecoder : Decoder DeckChatMessageApply
-deckChatMessageApplyDecoder =
-    D.field "kind" D.string
-        |> D.andThen
-            (\tag ->
-                case tag of
-                    "applying" ->
-                        D.succeed DeckChatMessageApplyApplying
-
-                    "applied" ->
-                        D.succeed DeckChatMessageApplyApplied
-
-                    "failed" ->
-                        D.succeed (\v0 -> DeckChatMessageApplyFailed { error = v0 })
-                            |> P.required "error" D.string
-
-                    _ ->
-                        D.fail ("Unknown DeckChatMessageApply: " ++ tag)
-            )
-
-
-encodeDeckChatMessageApply : DeckChatMessageApply -> E.Value
-encodeDeckChatMessageApply value =
     case value of
-        DeckChatMessageApplyApplying ->
-            E.object [ ( "kind", E.string "applying" ) ]
-
-        DeckChatMessageApplyApplied ->
-            E.object [ ( "kind", E.string "applied" ) ]
-
-        DeckChatMessageApplyFailed fields ->
+        DeckChatMessageUser fields ->
             E.object
-                (( "kind", E.string "failed" )
+                (( "role", E.string "user" )
                     :: List.filterMap identity
-                        [ Just ( "error", E.string fields.error )
+                        [ Just ( "id", E.string fields.id )
+                        , Just ( "content", E.string fields.content )
+                        , Just ( "at", E.string fields.at )
                         ]
                 )
 
-
-type DeckChatMessageRole
-    = DeckChatMessageRoleUser
-    | DeckChatMessageRoleAssistant
-
-
-deckChatMessageRoleToString : DeckChatMessageRole -> String
-deckChatMessageRoleToString value =
-    case value of
-        DeckChatMessageRoleUser ->
-            "user"
-
-        DeckChatMessageRoleAssistant ->
-            "assistant"
-
-
-deckChatMessageRoleFromString : String -> Maybe DeckChatMessageRole
-deckChatMessageRoleFromString value =
-    case value of
-        "user" ->
-            Just DeckChatMessageRoleUser
-
-        "assistant" ->
-            Just DeckChatMessageRoleAssistant
-
-        _ ->
-            Nothing
-
-
-deckChatMessageRoleDecoder : Decoder DeckChatMessageRole
-deckChatMessageRoleDecoder =
-    D.string
-        |> D.andThen
-            (\value ->
-                case deckChatMessageRoleFromString value of
-                    Just v ->
-                        D.succeed v
-
-                    Nothing ->
-                        D.fail ("Unknown DeckChatMessageRole: " ++ value)
-            )
-
-
-encodeDeckChatMessageRole : DeckChatMessageRole -> E.Value
-encodeDeckChatMessageRole =
-    deckChatMessageRoleToString >> E.string
-
-
-{-| Every DeckChatMessageRole, in order.
--}
-deckChatMessageRoleValues : List DeckChatMessageRole
-deckChatMessageRoleValues =
-    [ DeckChatMessageRoleUser, DeckChatMessageRoleAssistant ]
+        DeckChatMessageAssistant fields ->
+            E.object
+                (( "role", E.string "assistant" )
+                    :: List.filterMap identity
+                        [ Just ( "id", E.string fields.id )
+                        , Just ( "content", E.string fields.content )
+                        , Just ( "at", E.string fields.at )
+                        , Maybe.map (\v -> ( "changes", E.list encodeDeckChange v )) fields.changes
+                        , Maybe.map (\v -> ( "apply", encodeChatAnswerApply v )) fields.apply
+                        , Maybe.map (\v -> ( "rerun", encodeRerunProposal v )) fields.rerun
+                        , Maybe.map (\v -> ( "target", encodeEditTarget v )) fields.target
+                        , Maybe.map (\v -> ( "reportUpdated", E.bool v )) fields.reportUpdated
+                        ]
+                )
 
 
 {-| savedAt: When the report was last saved (ms since the epoch): it changed if this did.

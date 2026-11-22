@@ -5,7 +5,7 @@
  * until the edits stop for a while, so a run of changes is worked out once, not once per change.
  */
 import { randomUUID } from "node:crypto";
-import type { DeckChange, DeckChanges, DeckChatMessage, Report } from "../shared/types.ts";
+import type { ChatAnswer, DeckChange, DeckChanges, Report } from "../shared/types.ts";
 import { BRACKETS, assessBracket, flagsFor } from "./analysis/bracket.ts";
 import { type Deck, identityOf, toDecklist, toEntries } from "./analysis/deck.ts";
 import {
@@ -297,7 +297,7 @@ async function reoptimizeReason(
 }
 
 /** The doc's offer to re-optimize, keeping the user's edits; it starts only once they confirm. */
-function rerunProposal(reason: string): DeckChatMessage {
+function rerunProposal(reason: string): ChatAnswer {
   return {
     id: randomUUID(),
     role: "assistant",
