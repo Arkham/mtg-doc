@@ -6,6 +6,7 @@ import path from "node:path";
 import { after, before, describe, test } from "node:test";
 import { createApp } from "../../src/server/app.ts";
 import { applyDeckChanges } from "../../src/server/chat.ts";
+import { isAnswer, readChat } from "../../src/server/chat-history.ts";
 import { config } from "../../src/server/config.ts";
 import { cancelDebounced, whenIdle } from "../../src/server/edit-queue.ts";
 import { startOptimize } from "../../src/server/pipeline.ts";
@@ -174,5 +175,21 @@ describe("edits' slower consequences wait for the edits to stop", () => {
     assert.deepEqual(job.status, { kind: "done" });
     assert.ok(!fs.existsSync(pendingFile()));
     assert.deepEqual((await detail()).changes, { kind: "settled" }, "nothing left to refresh");
+  });
+
+  test("an offer to re-run is in the chat by the time the report it's about is", async () => {
+    // The UI reloads the chat when it sees the report change: an offer written after it is missed.
+    await applyDeckChanges(
+      slug,
+      [{ action: "remove", name: "Forest", qty: 3, reason: "" }],
+      "cut three Forests",
+    );
+    await whenIdle(slug);
+    assert.ok(
+      (await readChat(slug)).filter(isAnswer).some((m) => m.rerun),
+      "cutting lands opens a gap worth a re-run",
+    );
+    const savedAt = (file: string) => fs.statSync(path.join(config.decksDir, slug, file)).mtimeMs;
+    assert.ok(savedAt("chat.json") <= savedAt("report.json"));
   });
 });

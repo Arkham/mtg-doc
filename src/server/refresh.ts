@@ -103,29 +103,28 @@ async function refresh(slug: string) {
   })).done;
   if (!state.report) return clearPendingRefresh(slug);
   const updated = await refreshed(state.report, state.deck, state.submitted, state.meta, pending);
-  const saved = await enqueueEdit(slug, "Update the report", async () => {
-    const now = await readPendingRefresh(slug);
-    if (now?.version !== pending.version) return false;
-    if ((await reportSavedAt(slug)) !== state.savedAt) {
-      // Something other than an edit (a synergy search) saved the report: start over from it.
-      debounce(slug, 0, () => refresh(slug));
-      return false;
-    }
-    await writeResults(slug, updated, {
-      commanders: state.deck.commanders.map((c) => c.name),
-      entries: toEntries(state.deck),
-    });
-    await clearPendingRefresh(slug);
-    return true;
-  }).done;
-  if (!saved) return;
   const reason = await reoptimizeReason(
     pending.gaps,
     updated,
     pending.droppedSwaps,
     pending.changes,
   );
-  if (reason) await offerRerun(slug, reason);
+  await enqueueEdit(slug, "Update the report", async () => {
+    const now = await readPendingRefresh(slug);
+    if (now?.version !== pending.version) return;
+    if ((await reportSavedAt(slug)) !== state.savedAt) {
+      // Something other than an edit (a synergy search) saved the report: start over from it.
+      debounce(slug, 0, () => refresh(slug));
+      return;
+    }
+    // The UI reloads the chat when it sees the report change, so the offer goes in first.
+    if (reason) await offerRerun(slug, reason);
+    await writeResults(slug, updated, {
+      commanders: state.deck.commanders.map((c) => c.name),
+      entries: toEntries(state.deck),
+    });
+    await clearPendingRefresh(slug);
+  }).done;
 }
 
 /** The report with everything the edits changed worked out from the lists as they now are. */
