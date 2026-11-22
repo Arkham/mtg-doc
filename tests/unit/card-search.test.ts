@@ -6,6 +6,7 @@ import { searchCards } from "../../src/web/card-search.ts";
 const deck = (slug: string, cards: string[]): DeckSummary => ({
   slug,
   commanders: [cards[0]],
+  colorIdentity: null,
   format: "commander",
   createdAt: "",
   hasReport: true,

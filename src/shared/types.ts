@@ -117,7 +117,8 @@ export interface DeckSummary {
   createdAt: string;
   hasReport: boolean;
   image: string | null;
-  colorIdentity?: Color[];
+  /** The commanders' colors; null until the deck has a report. */
+  colorIdentity: Color[] | null;
   /** Stats of the deck as submitted; the swaps are only suggestions. */
   bracket?: Bracket;
   landCount?: Int;
@@ -464,6 +465,7 @@ export interface TraceRequest {
   task?: string;
   start: number;
   end?: number;
+  /** Whether it succeeded, set with `end`. */
   ok?: boolean;
 }
 

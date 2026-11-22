@@ -699,7 +699,7 @@ traceAt t trace =
             |> List.map
                 (\r ->
                     if past r.end == Nothing then
-                        { r | end = Nothing, ok = Nothing }
+                        { r | end = Nothing, ok = False }
 
                     else
                         r
@@ -1460,7 +1460,7 @@ request x t i r =
                 ++ (if r.end == Nothing then
                         " live"
 
-                    else if r.ok == Just False then
+                    else if not r.ok then
                         " failed"
 
                     else

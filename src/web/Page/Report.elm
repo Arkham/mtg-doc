@@ -850,7 +850,7 @@ applyButton env which state swap =
 
 categoryLabel : Swap -> String
 categoryLabel s =
-    if s.fromChat == Just True then
+    if s.fromChat then
         "💬 Chat edit"
 
     else
@@ -916,7 +916,7 @@ swapGroup env ctx state title swaps =
                             , div [ class "reason" ]
                                 (p [] (Card.prose ctx s.reason)
                                     :: (case s.alternatives of
-                                            Just ((_ :: _) as alts) ->
+                                            (_ :: _) as alts ->
                                                 [ p [ class "alternatives small" ]
                                                     (muted "Also consider: "
                                                         :: List.indexedMap
@@ -1871,7 +1871,7 @@ preloadImages base r =
                 ++ (r.original.combosPresent ++ r.original.combosOneAway)
 
         thumbs =
-            (List.concatMap (\c -> c.cards ++ c.missing) allCombos ++ List.concatMap .cards (Maybe.withDefault [] r.synergies))
+            (List.concatMap (\c -> c.cards ++ c.missing) allCombos ++ List.concatMap .cards r.synergies)
                 |> List.filterMap (\n -> Dict.get n index |> Maybe.andThen .image)
 
         manaSymbols =
@@ -2702,7 +2702,7 @@ viewReport env requested model detail full =
                             ]
                             []
                         ]
-                    , exportMenu env model slug (Maybe.map .url full.edhrec) full.swaps (full.suggestionsHidden /= Just True)
+                    , exportMenu env model slug (Maybe.map .url full.edhrec) full.swaps (not full.suggestionsHidden)
                     ]
                 , p [ class "hero-meta" ]
                     ([ text "Updated "
@@ -2722,7 +2722,7 @@ viewReport env requested model detail full =
                                 Nothing ->
                                     []
                            )
-                        ++ (if detail.hasRun == Just True then
+                        ++ (if detail.hasRun then
                                 [ text " · "
                                 , Html.a [ class "hero-replay", href (Route.href env.isStatic (Route.Run slug)) ]
                                     [ text "▶ Replay how the doc made it" ]
@@ -2944,7 +2944,7 @@ viewReport env requested model detail full =
                 [ summary [] [ text "Original list" ]
                 , pre [] [ text detail.initial ]
                 ]
-            , when (not env.isStatic) (publishToggle model (detail.meta.hideSuggestions == Just True))
+            , when (not env.isStatic) (publishToggle model detail.meta.hideSuggestions)
             ]
         ]
 

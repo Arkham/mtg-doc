@@ -309,8 +309,19 @@ function elmType(t: T): string {
 }
 const wrap = (s: string) => (s.includes(" ") ? `(${s})` : s);
 
+/**
+ * What an absent optional list or flag means: none, or false. Elm gets the value itself rather
+ * than a `Maybe` every view would have to unwrap the same way.
+ */
+function absentAs(f: Field): string | null {
+  if (!f.optional || f.nullable) return null;
+  if (f.type.k === "list") return "[]";
+  if (f.type.k === "bool") return "False";
+  return null;
+}
+
 const fieldType = (f: Field) =>
-  f.optional || f.nullable ? `Maybe ${wrap(elmType(f.type))}` : elmType(f.type);
+  (f.optional || f.nullable) && !absentAs(f) ? `Maybe ${wrap(elmType(f.type))}` : elmType(f.type);
 
 function decoder(t: T): string {
   switch (t.k) {
@@ -356,6 +367,8 @@ const comment = (doc: string | undefined) => (doc ? `{-| ${doc}\n-}\n` : "");
 const decodeSteps = (fields: Field[], indent: string) =>
   fields.map((f) => {
     const d = decoder(f.type);
+    const absent = absentAs(f);
+    if (absent) return `${indent}|> P.optional ${JSON.stringify(f.name)} ${d} ${absent}`;
     if (f.optional)
       return `${indent}|> P.optional ${JSON.stringify(f.name)} (D.map Just ${d}) Nothing`;
     if (f.nullable) return `${indent}|> P.required ${JSON.stringify(f.name)} (D.nullable ${d})`;
@@ -368,6 +381,7 @@ const encodePairs = (fields: Field[], value: string) =>
     const key = JSON.stringify(f.name);
     const get = `${value}.${elmField(f.name)}`;
     const e = encoder(f.type);
+    if (absentAs(f)) return `Just ( ${key}, ${e} ${get} )`;
     if (f.optional) return `Maybe.map (\\v -> ( ${key}, ${e} v )) ${get}`;
     if (f.nullable) return `Just ( ${key}, Maybe.withDefault E.null (Maybe.map ${e} ${get}) )`;
     return `Just ( ${key}, ${e} ${get} )`;

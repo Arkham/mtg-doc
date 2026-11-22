@@ -848,11 +848,11 @@ type alias ChatAnswer =
     { id : String
     , content : String
     , at : String
-    , changes : Maybe (List DeckChange)
+    , changes : List DeckChange
     , apply : Maybe ChatAnswerApply
     , rerun : Maybe RerunProposal
     , target : Maybe EditTarget
-    , reportUpdated : Maybe Bool
+    , reportUpdated : Bool
     }
 
 
@@ -862,11 +862,11 @@ chatAnswerDecoder =
         |> P.required "id" D.string
         |> P.required "content" D.string
         |> P.required "at" D.string
-        |> P.optional "changes" (D.map Just (D.list deckChangeDecoder)) Nothing
+        |> P.optional "changes" (D.list deckChangeDecoder) []
         |> P.optional "apply" (D.map Just chatAnswerApplyDecoder) Nothing
         |> P.optional "rerun" (D.map Just rerunProposalDecoder) Nothing
         |> P.optional "target" (D.map Just editTargetDecoder) Nothing
-        |> P.optional "reportUpdated" (D.map Just D.bool) Nothing
+        |> P.optional "reportUpdated" D.bool False
 
 
 encodeChatAnswer : ChatAnswer -> E.Value
@@ -876,11 +876,11 @@ encodeChatAnswer value =
             [ Just ( "id", E.string value.id )
             , Just ( "content", E.string value.content )
             , Just ( "at", E.string value.at )
-            , Maybe.map (\v -> ( "changes", E.list encodeDeckChange v )) value.changes
+            , Just ( "changes", E.list encodeDeckChange value.changes )
             , Maybe.map (\v -> ( "apply", encodeChatAnswerApply v )) value.apply
             , Maybe.map (\v -> ( "rerun", encodeRerunProposal v )) value.rerun
             , Maybe.map (\v -> ( "target", encodeEditTarget v )) value.target
-            , Maybe.map (\v -> ( "reportUpdated", E.bool v )) value.reportUpdated
+            , Just ( "reportUpdated", E.bool value.reportUpdated )
             ]
         )
 
@@ -1325,11 +1325,11 @@ encodeDeckChatMessage value =
                         [ Just ( "id", E.string fields.id )
                         , Just ( "content", E.string fields.content )
                         , Just ( "at", E.string fields.at )
-                        , Maybe.map (\v -> ( "changes", E.list encodeDeckChange v )) fields.changes
+                        , Just ( "changes", E.list encodeDeckChange fields.changes )
                         , Maybe.map (\v -> ( "apply", encodeChatAnswerApply v )) fields.apply
                         , Maybe.map (\v -> ( "rerun", encodeRerunProposal v )) fields.rerun
                         , Maybe.map (\v -> ( "target", encodeEditTarget v )) fields.target
-                        , Maybe.map (\v -> ( "reportUpdated", E.bool v )) fields.reportUpdated
+                        , Just ( "reportUpdated", E.bool fields.reportUpdated )
                         ]
                 )
 
@@ -1345,7 +1345,7 @@ type alias DeckDetail =
     , meta : DeckDetailMeta
     , report : Maybe Report
     , initial : String
-    , hasRun : Maybe Bool
+    , hasRun : Bool
     }
 
 
@@ -1357,7 +1357,7 @@ deckDetailDecoder =
         |> P.required "meta" deckDetailMetaDecoder
         |> P.required "report" (D.nullable reportDecoder)
         |> P.required "initial" D.string
-        |> P.optional "hasRun" (D.map Just D.bool) Nothing
+        |> P.optional "hasRun" D.bool False
 
 
 encodeDeckDetail : DeckDetail -> E.Value
@@ -1369,7 +1369,7 @@ encodeDeckDetail value =
             , Just ( "meta", encodeDeckDetailMeta value.meta )
             , Just ( "report", Maybe.withDefault E.null (Maybe.map encodeReport value.report) )
             , Just ( "initial", E.string value.initial )
-            , Maybe.map (\v -> ( "hasRun", E.bool v )) value.hasRun
+            , Just ( "hasRun", E.bool value.hasRun )
             ]
         )
 
@@ -1380,7 +1380,7 @@ type alias DeckDetailMeta =
     , commanders : List String
     , options : OptimizeOptions
     , createdAt : String
-    , hideSuggestions : Maybe Bool
+    , hideSuggestions : Bool
     }
 
 
@@ -1392,7 +1392,7 @@ deckDetailMetaDecoder =
         |> P.required "commanders" (D.list D.string)
         |> P.required "options" optimizeOptionsDecoder
         |> P.required "createdAt" D.string
-        |> P.optional "hideSuggestions" (D.map Just D.bool) Nothing
+        |> P.optional "hideSuggestions" D.bool False
 
 
 encodeDeckDetailMeta : DeckDetailMeta -> E.Value
@@ -1404,7 +1404,7 @@ encodeDeckDetailMeta value =
             , Just ( "commanders", E.list E.string value.commanders )
             , Just ( "options", encodeOptimizeOptions value.options )
             , Just ( "createdAt", E.string value.createdAt )
-            , Maybe.map (\v -> ( "hideSuggestions", E.bool v )) value.hideSuggestions
+            , Just ( "hideSuggestions", E.bool value.hideSuggestions )
             ]
         )
 
@@ -1699,7 +1699,9 @@ encodeDeckStatus value =
         )
 
 
-{-| bracket: Stats of the deck as submitted; the swaps are only suggestions.
+{-| colorIdentity: The commanders' colors; null until the deck has a report.
+
+bracket: Stats of the deck as submitted; the swaps are only suggestions.
 
 targetBracket: Bracket the suggested swaps aim for.
 
@@ -1735,7 +1737,7 @@ deckSummaryDecoder =
         |> P.required "createdAt" D.string
         |> P.required "hasReport" D.bool
         |> P.required "image" (D.nullable D.string)
-        |> P.optional "colorIdentity" (D.map Just (D.list colorDecoder)) Nothing
+        |> P.required "colorIdentity" (D.nullable (D.list colorDecoder))
         |> P.optional "bracket" (D.map Just bracketDecoder) Nothing
         |> P.optional "landCount" (D.map Just D.int) Nothing
         |> P.optional "priceUsd" (D.map Just D.float) Nothing
@@ -1755,7 +1757,7 @@ encodeDeckSummary value =
             , Just ( "createdAt", E.string value.createdAt )
             , Just ( "hasReport", E.bool value.hasReport )
             , Just ( "image", Maybe.withDefault E.null (Maybe.map E.string value.image) )
-            , Maybe.map (\v -> ( "colorIdentity", E.list encodeColor v )) value.colorIdentity
+            , Just ( "colorIdentity", Maybe.withDefault E.null (Maybe.map (E.list encodeColor) value.colorIdentity) )
             , Maybe.map (\v -> ( "bracket", encodeBracket v )) value.bracket
             , Maybe.map (\v -> ( "landCount", E.int v )) value.landCount
             , Maybe.map (\v -> ( "priceUsd", E.float v )) value.priceUsd
@@ -2235,7 +2237,7 @@ type alias OptimizeOptions =
     , bracket : Maybe Bracket
     , tone : Tone
     , locked : List String
-    , excluded : Maybe (List String)
+    , excluded : List String
     , webResearch : Bool
     }
 
@@ -2249,7 +2251,7 @@ optimizeOptionsDecoder =
         |> P.required "bracket" (D.nullable bracketDecoder)
         |> P.required "tone" toneDecoder
         |> P.required "locked" (D.list D.string)
-        |> P.optional "excluded" (D.map Just (D.list D.string)) Nothing
+        |> P.optional "excluded" (D.list D.string) []
         |> P.required "webResearch" D.bool
 
 
@@ -2263,7 +2265,7 @@ encodeOptimizeOptions value =
             , Just ( "bracket", Maybe.withDefault E.null (Maybe.map encodeBracket value.bracket) )
             , Just ( "tone", encodeTone value.tone )
             , Just ( "locked", E.list E.string value.locked )
-            , Maybe.map (\v -> ( "excluded", E.list E.string v )) value.excluded
+            , Just ( "excluded", E.list E.string value.excluded )
             , Just ( "webResearch", E.bool value.webResearch )
             ]
         )
@@ -2595,14 +2597,14 @@ type alias Report =
     , warnings : List String
     , options : OptimizeOptions
     , bracket : Maybe BracketReport
-    , edits : Maybe (List DeckEdit)
+    , edits : List DeckEdit
     , original : ReportOriginal
     , howToPlay : Maybe ReportHowToPlay
-    , synergies : Maybe (List Synergy)
-    , manaSuggestions : Maybe (List ManaSuggestion)
+    , synergies : List Synergy
+    , manaSuggestions : List ManaSuggestion
     , cardIndex : Dict String CardPreview
     , decklist : List DecklistCard
-    , suggestionsHidden : Maybe Bool
+    , suggestionsHidden : Bool
     }
 
 
@@ -2626,14 +2628,14 @@ reportDecoder =
         |> P.required "warnings" (D.list D.string)
         |> P.required "options" optimizeOptionsDecoder
         |> P.optional "bracket" (D.map Just bracketReportDecoder) Nothing
-        |> P.optional "edits" (D.map Just (D.list deckEditDecoder)) Nothing
+        |> P.optional "edits" (D.list deckEditDecoder) []
         |> P.required "original" reportOriginalDecoder
         |> P.optional "howToPlay" (D.map Just reportHowToPlayDecoder) Nothing
-        |> P.optional "synergies" (D.map Just (D.list synergyDecoder)) Nothing
-        |> P.optional "manaSuggestions" (D.map Just (D.list manaSuggestionDecoder)) Nothing
+        |> P.optional "synergies" (D.list synergyDecoder) []
+        |> P.optional "manaSuggestions" (D.list manaSuggestionDecoder) []
         |> P.required "cardIndex" (D.dict cardPreviewDecoder)
         |> P.required "decklist" (D.list decklistCardDecoder)
-        |> P.optional "suggestionsHidden" (D.map Just D.bool) Nothing
+        |> P.optional "suggestionsHidden" D.bool False
 
 
 encodeReport : Report -> E.Value
@@ -2657,14 +2659,14 @@ encodeReport value =
             , Just ( "warnings", E.list E.string value.warnings )
             , Just ( "options", encodeOptimizeOptions value.options )
             , Maybe.map (\v -> ( "bracket", encodeBracketReport v )) value.bracket
-            , Maybe.map (\v -> ( "edits", E.list encodeDeckEdit v )) value.edits
+            , Just ( "edits", E.list encodeDeckEdit value.edits )
             , Just ( "original", encodeReportOriginal value.original )
             , Maybe.map (\v -> ( "howToPlay", encodeReportHowToPlay v )) value.howToPlay
-            , Maybe.map (\v -> ( "synergies", E.list encodeSynergy v )) value.synergies
-            , Maybe.map (\v -> ( "manaSuggestions", E.list encodeManaSuggestion v )) value.manaSuggestions
+            , Just ( "synergies", E.list encodeSynergy value.synergies )
+            , Just ( "manaSuggestions", E.list encodeManaSuggestion value.manaSuggestions )
             , Just ( "cardIndex", E.dict identity encodeCardPreview value.cardIndex )
             , Just ( "decklist", E.list encodeDecklistCard value.decklist )
-            , Maybe.map (\v -> ( "suggestionsHidden", E.bool v )) value.suggestionsHidden
+            , Just ( "suggestionsHidden", E.bool value.suggestionsHidden )
             ]
         )
 
@@ -2757,7 +2759,7 @@ type alias RerunOptions =
     , budgetTotal : Maybe Float
     , bracket : Maybe Bracket
     , tone : Maybe Tone
-    , webResearch : Maybe Bool
+    , webResearch : Bool
     }
 
 
@@ -2769,7 +2771,7 @@ rerunOptionsDecoder =
         |> P.optional "budgetTotal" (D.map Just D.float) Nothing
         |> P.optional "bracket" (D.map Just bracketDecoder) Nothing
         |> P.optional "tone" (D.map Just toneDecoder) Nothing
-        |> P.optional "webResearch" (D.map Just D.bool) Nothing
+        |> P.optional "webResearch" D.bool False
 
 
 encodeRerunOptions : RerunOptions -> E.Value
@@ -2781,7 +2783,7 @@ encodeRerunOptions value =
             , Maybe.map (\v -> ( "budgetTotal", E.float v )) value.budgetTotal
             , Maybe.map (\v -> ( "bracket", encodeBracket v )) value.bracket
             , Maybe.map (\v -> ( "tone", encodeTone v )) value.tone
-            , Maybe.map (\v -> ( "webResearch", E.bool v )) value.webResearch
+            , Just ( "webResearch", E.bool value.webResearch )
             ]
         )
 
@@ -2794,7 +2796,7 @@ jobId: Set once the user confirmed and the job started.
 type alias RerunProposal =
     { options : RerunOptions
     , summary : String
-    , keepEdits : Maybe Bool
+    , keepEdits : Bool
     , jobId : Maybe String
     }
 
@@ -2804,7 +2806,7 @@ rerunProposalDecoder =
     D.succeed RerunProposal
         |> P.required "options" rerunOptionsDecoder
         |> P.required "summary" D.string
-        |> P.optional "keepEdits" (D.map Just D.bool) Nothing
+        |> P.optional "keepEdits" D.bool False
         |> P.optional "jobId" (D.map Just D.string) Nothing
 
 
@@ -2814,7 +2816,7 @@ encodeRerunProposal value =
         (List.filterMap identity
             [ Just ( "options", encodeRerunOptions value.options )
             , Just ( "summary", E.string value.summary )
-            , Maybe.map (\v -> ( "keepEdits", E.bool v )) value.keepEdits
+            , Just ( "keepEdits", E.bool value.keepEdits )
             , Maybe.map (\v -> ( "jobId", E.string v )) value.jobId
             ]
         )
@@ -3237,7 +3239,7 @@ type alias SimResult =
     , avgManaTurn4 : Float
     , screwRate : Float
     , floodRate : Float
-    , combos : Maybe (List SimResultCombo)
+    , combos : List SimResultCombo
     }
 
 
@@ -3253,7 +3255,7 @@ simResultDecoder =
         |> P.required "avgManaTurn4" D.float
         |> P.required "screwRate" D.float
         |> P.required "floodRate" D.float
-        |> P.optional "combos" (D.map Just (D.list simResultComboDecoder)) Nothing
+        |> P.optional "combos" (D.list simResultComboDecoder) []
 
 
 encodeSimResult : SimResult -> E.Value
@@ -3269,7 +3271,7 @@ encodeSimResult value =
             , Just ( "avgManaTurn4", E.float value.avgManaTurn4 )
             , Just ( "screwRate", E.float value.screwRate )
             , Just ( "floodRate", E.float value.floodRate )
-            , Maybe.map (\v -> ( "combos", E.list encodeSimResultCombo v )) value.combos
+            , Just ( "combos", E.list encodeSimResultCombo value.combos )
             ]
         )
 
@@ -3307,10 +3309,10 @@ type alias Swap =
     , in_ : String
     , category : SwapCategory
     , reason : String
-    , alternatives : Maybe (List SwapAlternative)
+    , alternatives : List SwapAlternative
     , outCard : Maybe Card
     , inCard : Maybe Card
-    , fromChat : Maybe Bool
+    , fromChat : Bool
     }
 
 
@@ -3321,10 +3323,10 @@ swapDecoder =
         |> P.required "in" D.string
         |> P.required "category" swapCategoryDecoder
         |> P.required "reason" D.string
-        |> P.optional "alternatives" (D.map Just (D.list swapAlternativeDecoder)) Nothing
+        |> P.optional "alternatives" (D.list swapAlternativeDecoder) []
         |> P.optional "outCard" (D.map Just cardDecoder) Nothing
         |> P.optional "inCard" (D.map Just cardDecoder) Nothing
-        |> P.optional "fromChat" (D.map Just D.bool) Nothing
+        |> P.optional "fromChat" D.bool False
 
 
 encodeSwap : Swap -> E.Value
@@ -3335,10 +3337,10 @@ encodeSwap value =
             , Just ( "in", E.string value.in_ )
             , Just ( "category", encodeSwapCategory value.category )
             , Just ( "reason", E.string value.reason )
-            , Maybe.map (\v -> ( "alternatives", E.list encodeSwapAlternative v )) value.alternatives
+            , Just ( "alternatives", E.list encodeSwapAlternative value.alternatives )
             , Maybe.map (\v -> ( "outCard", encodeCard v )) value.outCard
             , Maybe.map (\v -> ( "inCard", encodeCard v )) value.inCard
-            , Maybe.map (\v -> ( "fromChat", E.bool v )) value.fromChat
+            , Just ( "fromChat", E.bool value.fromChat )
             ]
         )
 
@@ -3586,6 +3588,9 @@ encodeTrace value =
 
 
 {-| what: What it asked, briefly: "look up 75 cards".
+
+ok: Whether it succeeded, set with `end`.
+
 -}
 type alias TraceRequest =
     { service : Service
@@ -3593,7 +3598,7 @@ type alias TraceRequest =
     , task : Maybe String
     , start : Float
     , end : Maybe Float
-    , ok : Maybe Bool
+    , ok : Bool
     }
 
 
@@ -3605,7 +3610,7 @@ traceRequestDecoder =
         |> P.optional "task" (D.map Just D.string) Nothing
         |> P.required "start" D.float
         |> P.optional "end" (D.map Just D.float) Nothing
-        |> P.optional "ok" (D.map Just D.bool) Nothing
+        |> P.optional "ok" D.bool False
 
 
 encodeTraceRequest : TraceRequest -> E.Value
@@ -3617,7 +3622,7 @@ encodeTraceRequest value =
             , Maybe.map (\v -> ( "task", E.string v )) value.task
             , Just ( "start", E.float value.start )
             , Maybe.map (\v -> ( "end", E.float v )) value.end
-            , Maybe.map (\v -> ( "ok", E.bool v )) value.ok
+            , Just ( "ok", E.bool value.ok )
             ]
         )
 

@@ -48,7 +48,7 @@ type alias Suggested =
 -}
 hasBothViews : Report -> Bool
 hasBothViews r =
-    r.suggestionsHidden /= Just True
+    not r.suggestionsHidden
 
 
 viewOf : Report -> DeckView -> DeckView
@@ -69,15 +69,15 @@ shown r requested =
             , decklist = r.decklist
             , combosPresent = r.combosPresent
             , combosOneAway = r.combosOneAway
-            , synergies = Maybe.withDefault [] r.synergies
+            , synergies = r.synergies
             , suggested =
                 Just
                     { before = r.before
                     , bracketBefore = Maybe.map .before r.bracket
                     , swaps = r.swaps
                     , strategy = r.strategy
-                    , edits = Maybe.withDefault [] r.edits
-                    , manaSuggestions = Maybe.withDefault [] r.manaSuggestions
+                    , edits = r.edits
+                    , manaSuggestions = r.manaSuggestions
                     , excluded = r.bracket |> Maybe.map .excluded |> Maybe.withDefault []
                     }
             }
@@ -94,6 +94,6 @@ shown r requested =
             , combosOneAway = r.original.combosOneAway
 
             -- The synergies were found for the suggested deck: only those among the submitted cards.
-            , synergies = Maybe.withDefault [] r.synergies |> List.filter (\s -> List.all (\n -> List.member n names) s.cards)
+            , synergies = r.synergies |> List.filter (\s -> List.all (\n -> List.member n names) s.cards)
             , suggested = Nothing
             }

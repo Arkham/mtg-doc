@@ -197,7 +197,7 @@ init recognition photos config =
         , bracket = Nothing
         , tone = ToneMax
         , locked = []
-        , excluded = Nothing
+        , excluded = []
         , webResearch = config |> Maybe.map .webResearch |> Maybe.withDefault False
         }
     , view = All

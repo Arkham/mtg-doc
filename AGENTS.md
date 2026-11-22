@@ -270,7 +270,9 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
 - The client's types come from `src/shared/types.ts`: change the TypeScript, run `pnpm gen:elm`, and
   let the Elm compiler show every view the change touches. Use `Int` (the `Int` alias) for counts
   and literal unions for closed sets (brackets are `1 | 2 | 3 | 4 | 5`), so Elm parses them at the
-  edge instead of rounding or defaulting in views.
+  edge instead of rounding or defaulting in views. An optional list or boolean (`cards?: string[]`,
+  `hidden?: boolean`) reaches Elm as the value, empty or false when absent; when absent means
+  something else ("not known yet"), say so with `| null`.
 - Elm `Msg` constructors say what happened, not what to do: `ClickedApply`, `ChangedQuery`,
   `GotDetail`, `PollDue`; `AskedTo…` when a click and a key both send it. No do-nothing messages:
   a decoder that fails sends nothing (see `Ui.Click` for clicks a part handles itself).

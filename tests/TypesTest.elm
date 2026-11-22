@@ -44,7 +44,7 @@ suite =
             \_ ->
                 case D.decodeString deckChatMessageDecoder answer of
                     Ok ((DeckChatMessageAssistant a) as m) ->
-                        ( ( List.map .name (Maybe.withDefault [] a.changes), a.apply )
+                        ( ( List.map .name a.changes, a.apply )
                         , D.decodeValue deckChatMessageDecoder (encodeDeckChatMessage m)
                         )
                             |> Expect.equal ( ( [ "Sol Ring" ], Just ChatAnswerApplyApplied ), Ok m )
@@ -57,4 +57,9 @@ suite =
                 , D.decodeString Api.answerDecoder question |> Result.toMaybe
                 )
                     |> Expect.equal ( Just "a", Nothing )
+        , test "an optional list or flag that's absent is empty or false" <|
+            \_ ->
+                D.decodeString Api.answerDecoder """{"id":"a","role":"assistant","content":"Hi","at":"t"}"""
+                    |> Result.map (\a -> ( a.changes, a.reportUpdated ))
+                    |> Expect.equal (Ok ( [], False ))
         ]

@@ -81,9 +81,9 @@ suite =
                     )
                     ( ( 100, Just 99 ), ( Just [ "New" ], [ "New" ], 2 ) )
         , test "a deck published without suggestions shows none, even when asked for the suggested view" <|
-            \_ -> Expect.equal (shown { report | suggestionsHidden = Just True } Optimized).suggested Nothing
+            \_ -> Expect.equal (shown { report | suggestionsHidden = True } Optimized).suggested Nothing
         , test "a published deck with its suggestions offers both views" <|
             \_ -> Expect.equal ( viewOf report Optimized, viewOf report Current ) ( Optimized, Current )
         , test "a deck published without suggestions only has the view of the deck as submitted" <|
-            \_ -> Expect.equal (viewOf { report | suggestionsHidden = Just True } Optimized) Current
+            \_ -> Expect.equal (viewOf { report | suggestionsHidden = True } Optimized) Current
         ]

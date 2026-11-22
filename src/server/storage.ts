@@ -258,7 +258,7 @@ export async function listDecks(): Promise<DeckSummary[]> {
         image: meta.image,
         colorIdentity: report
           ? COLORS.filter((c) => report.commanderCards.some((k) => k.colorIdentity.includes(c)))
-          : undefined,
+          : null,
         bracket: report?.bracket?.before.bracket,
         landCount: report?.before.mana.landCount,
         priceUsd: report?.before.totalPriceUsd,

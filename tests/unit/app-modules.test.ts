@@ -222,6 +222,7 @@ describe("agent pages", () => {
     const summary: DeckSummary = {
       slug: "x",
       commanders: ["Some <Commander>"],
+      colorIdentity: null,
       format: "commander",
       createdAt: "",
       hasReport: true,

@@ -246,7 +246,7 @@ update env slug msg model =
                     ( done, cmd, Just (Go (Route.href env.isStatic (Route.Job slug jobId))) )
 
                 Nothing ->
-                    if reply.reportUpdated == Just True then
+                    if reply.reportUpdated then
                         ( done
                         , Cmd.batch
                             [ cmd
@@ -427,7 +427,7 @@ changesView : Config -> Card.Ctx Msg -> ChatAnswer -> Bool -> Html Msg
 changesView config ctx message busy =
     let
         changes =
-            Maybe.withDefault [] message.changes
+            message.changes
     in
     div [ class "chat-changes" ]
         [ ul []
@@ -561,7 +561,7 @@ rerunView config message r busy =
         [ div [ class "chat-rerun-title" ] [ span [ attribute "aria-hidden" "true" ] [ text "↻" ], text " Re-run the optimizer" ]
         , p [ class "small" ]
             [ text
-                (if r.keepEdits == Just True then
+                (if r.keepEdits then
                     "Keeps your edits and refreshes the doc's other suggestions around them."
 
                  else
@@ -678,7 +678,7 @@ panel config model =
                                 DeckChatMessageAssistant a ->
                                     div [ class "chat-msg assistant" ]
                                         (div [ class "chat-bubble" ] (Card.prose ctx a.content)
-                                            :: (if List.isEmpty (Maybe.withDefault [] a.changes) then
+                                            :: (if List.isEmpty a.changes then
                                                     []
 
                                                 else
