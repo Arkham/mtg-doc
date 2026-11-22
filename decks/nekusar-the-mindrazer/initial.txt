@@ -7,7 +7,6 @@ Deck
 1 Blue Sun's Zenith
 1 Bojuka Bog
 1 Burnished Hart
-1 Charmbreaker Devils
 1 Collective Restraint
 1 Command Tower
 1 Crosis's Charm
@@ -27,7 +26,6 @@ Deck
 1 Harmonic Prodigy
 1 Helm of the Ghastlord
 1 Incendiary Command
-1 Insurrection
 8 Island
 1 Izzet Boilerworks
 1 Izzet Guildgate
@@ -54,15 +52,16 @@ Deck
 1 Ob Nixilis, the Hate-Twisted
 1 Opal Palace
 1 Otherworld Atlas
-1 Price of Knowledge
 1 Propaganda
 1 Prosperity
 1 Psychosis Crawler
 1 Rakdos Carnarium
 1 Rakdos Guildgate
+1 Razorkin Needlehead
 1 Reforge the Soul
 1 Reliquary Tower
 1 Rhystic Study
+1 Scrawling Crawler
 1 Seizan, Perverter of Truth
 1 Sigil of Sleep
 1 Skyscribing
@@ -73,6 +72,7 @@ Deck
 1 Sudden Spoiling
 6 Swamp
 1 Swiftfoot Boots
+1 Teferi's Puzzle Box
 1 Temple Bell
 1 Terminate
 1 Torbran, Thane of Red Fell

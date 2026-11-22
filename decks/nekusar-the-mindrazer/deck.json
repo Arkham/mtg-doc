@@ -10,7 +10,7 @@
     "maxSwaps": 15,
     "budgetPerCard": null,
     "budgetTotal": null,
-    "bracket": null,
+    "bracket": 3,
     "tone": "balanced",
     "locked": [],
     "webResearch": true

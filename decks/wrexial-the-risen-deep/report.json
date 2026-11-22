@@ -37,22 +37,21 @@
       ]
     }
   ],
-  "generatedAt": "2026-11-21T10:16:30.199Z",
+  "generatedAt": "2026-11-21T22:25:31.960Z",
   "model": "gpt-6.2-sol",
-  "strategy": "Play Dimir control: use cheap interaction and tutors to set up a finish, and deploy [[Wrexial, the Risen Deep]] when you can connect with an opponent whose graveyard has a spell worth stealing. [[Windfall]] stocks those graveyards or strips opposing hands alongside [[Notion Thief]] or [[Narset, Parter of Veils]], so the deck doesn't need dedicated mill spells that do little on their own. Finish with [[Mindcrank]] and either [[Bloodchief Ascension]] or [[Duskmantle Guildmage]], or turn [[Hullbreaker Horror]] and cheap mana rocks into enough mana for a lethal [[Exsanguinate]]. This is a high-power Bracket 4 control deck that expects at least four turns of play rather than racing to win in the opening turns.",
+  "strategy": "Play Dimir control: use cheap interaction and tutors to set up [[Mindcrank]] with either [[Duskmantle Guildmage]] or [[Bloodchief Ascension]], so you can win without resolving your six-mana commander. [[Windfall]] stocks opposing graveyards for [[Wrexial, the Risen Deep]], while [[Lightning Greaves]] lets him attack before opponents untap. Free countermagic, fast mana, and compact combos put the deck firmly in Optimized Bracket 4, with a game plan that expects at least four turns rather than racing for a pre-turn-four win.",
   "themes": [
     "Dimir control",
     "Graveyard theft",
     "Wheel disruption",
-    "Tutor-backed combos",
-    "Artifact mana"
+    "Compact combos"
   ],
   "swaps": [
     {
       "out": "Jin-Gitaxias, Core Augur",
       "in": "Notion Thief",
       "category": "draw",
-      "reason": "[[Notion Thief]] lets you hold up interaction and punish a big draw spell at instant speed. With [[Windfall]], it strips opposing hands, fills yours, and puts spells in graveyards for [[Wrexial, the Risen Deep]], all without the ten-mana investment of [[Jin-Gitaxias, Core Augur]].",
+      "reason": "[[Notion Thief]] turns opposing draw engines into cards for you and makes [[Windfall]] a lopsided refill while still putting discarded spells into opposing graveyards. At four mana with flash, it is much easier to deploy while holding up interaction than [[Jin-Gitaxias, Core Augur]].",
       "outCard": {
         "name": "Jin-Gitaxias, Core Augur",
         "oracleId": "eb23aed0-c450-4e57-96f2-2866dceca004",
@@ -132,7 +131,7 @@
       "out": "Blatant Thievery",
       "in": "Hullbreaker Horror",
       "category": "combo",
-      "reason": "At the same seven mana as [[Blatant Thievery]], [[Hullbreaker Horror]] has flash and turns your follow-up spells into repeatable interaction. Alternating [[Sol Ring]] and [[Mana Vault]], tapping each for mana before bouncing it with the other, generates unbounded colorless mana for [[Exsanguinate]] if you can supply the two black mana.",
+      "reason": "Unlike [[Blatant Thievery]], [[Hullbreaker Horror]] lets you hold up interaction and deploy your threat at the last opponent’s end step. It can then loop [[Sol Ring]] and [[Mana Vault]] to generate unlimited colorless mana for [[Exsanguinate]] if you have two black mana available.",
       "outCard": {
         "name": "Blatant Thievery",
         "oracleId": "8bb51dd2-cc62-48ea-ae8e-52351073a8c9",
@@ -207,9 +206,9 @@
     },
     {
       "out": "Spinal Embrace",
-      "in": "Windfall",
-      "category": "draw",
-      "reason": "[[Windfall]] reloads your hand and gives [[Wrexial, the Risen Deep]] more spells to steal from whichever opponent it can hit. It does that for half the mana of [[Spinal Embrace]], without waiting for combat or a worthwhile creature to borrow.",
+      "in": "Fierce Guardianship",
+      "category": "interaction",
+      "reason": "[[Fierce Guardianship]] can stop a noncreature spell for free once [[Wrexial, the Risen Deep]] is on the battlefield, even if you tapped out to cast him. [[Spinal Embrace]] costs six mana and only works during combat.",
       "outCard": {
         "name": "Spinal Embrace",
         "oracleId": "4cf3fb65-9107-428a-8853-029ec97112b5",
@@ -241,12 +240,12 @@
         ]
       },
       "inCard": {
-        "name": "Windfall",
-        "oracleId": "08becc07-28bc-4a2f-a6b0-28a2998d2f50",
+        "name": "Fierce Guardianship",
+        "oracleId": "d09c9cba-fdd2-479b-ad5d-d05181c3e3f9",
         "manaCost": "{2}{U}",
         "cmc": 3,
-        "typeLine": "Sorcery",
-        "oracleText": "Each player discards their hand, then draws cards equal to the greatest number of cards a player discarded this way.",
+        "typeLine": "Instant",
+        "oracleText": "If you control a commander, you may cast this spell without paying its mana cost.\nCounter target noncreature spell.",
         "colors": [
           "U"
         ],
@@ -258,14 +257,14 @@
         "isMdfcLand": false,
         "entersTapped": false,
         "legalCommander": true,
-        "gameChanger": false,
+        "gameChanger": true,
         "canBeCommander": false,
-        "priceUsd": 5.41,
-        "image": "https://cards.scryfall.io/normal/front/9/c/9ce7113b-08f7-4584-b65f-a7b5caa90c2f.jpg?1783911933",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/9/c/9ce7113b-08f7-4584-b65f-a7b5caa90c2f.jpg?1783911933",
-        "scryfallUri": "https://scryfall.com/card/otc/123/windfall?utm_source=api",
+        "priceUsd": 64.97,
+        "image": "https://cards.scryfall.io/normal/front/f/7/f7f3dd95-bd14-4e0f-a388-444f9cf1b0dc.jpg?1783915698",
+        "imageArt": "https://cards.scryfall.io/art_crop/front/f/7/f7f3dd95-bd14-4e0f-a388-444f9cf1b0dc.jpg?1783915698",
+        "scryfallUri": "https://scryfall.com/card/cmm/94/fierce-guardianship?utm_source=api",
         "roles": [
-          "draw"
+          "counter"
         ]
       },
       "alternatives": [
@@ -285,7 +284,7 @@
       "out": "Steel Hellkite",
       "in": "Opposition Agent",
       "category": "interaction",
-      "reason": "[[Opposition Agent]] can turn an opposing tutor or fetch land into a card for you while leaving you mana to interact. [[Steel Hellkite]] costs as much as your commander and has to connect before you can pay for its removal effect.",
+      "reason": "[[Opposition Agent]] disrupts fetch lands and tutors at instant speed for half the mana. [[Steel Hellkite]] needs to connect and then demands another mana investment before it can remove anything.",
       "outCard": {
         "name": "Steel Hellkite",
         "oracleId": "6e64f1e0-ddd6-4ee7-8797-086e234b02e8",
@@ -359,7 +358,7 @@
       "out": "Body Double",
       "in": "Force of Will",
       "category": "interaction",
-      "reason": "[[Force of Will]] can stop a game-winning spell or protect [[Wrexial, the Risen Deep]] when you've tapped out to cast it. [[Body Double]] is a five-mana value play that needs a good creature already in a graveyard.",
+      "reason": "[[Force of Will]] can stop an opposing win attempt or protect [[Wrexial, the Risen Deep]] on the stack even when you’re tapped out. [[Body Double]] needs five mana and a worthwhile creature already in a graveyard.",
       "outCard": {
         "name": "Body Double",
         "oracleId": "895527a6-e3b2-454d-a3be-c0036630ec73",
@@ -433,9 +432,9 @@
     },
     {
       "out": "Bribery",
-      "in": "Narset, Parter of Veils",
-      "category": "synergy",
-      "reason": "[[Narset, Parter of Veils]] digs for interaction or a combo piece and makes [[Windfall]] leave opponents with at most one replacement card. She's cheaper than [[Bribery]] and doesn't depend on an opponent bringing a creature worth spending five mana to steal.",
+      "in": "Windfall",
+      "category": "draw",
+      "reason": "[[Windfall]] refills your hand and can put castable spells into multiple opponents’ graveyards for [[Wrexial, the Risen Deep]]. It costs two less than [[Bribery]] and doesn’t depend on one opponent having an exceptional creature in their library.",
       "outCard": {
         "name": "Bribery",
         "oracleId": "6d194882-ca37-49bb-ac9f-a751c53850a8",
@@ -465,12 +464,12 @@
         ]
       },
       "inCard": {
-        "name": "Narset, Parter of Veils",
-        "oracleId": "ab26fbe2-e808-48b9-8d0d-3fbb6c3d554f",
-        "manaCost": "{1}{U}{U}",
+        "name": "Windfall",
+        "oracleId": "08becc07-28bc-4a2f-a6b0-28a2998d2f50",
+        "manaCost": "{2}{U}",
         "cmc": 3,
-        "typeLine": "Legendary Planeswalker — Narset",
-        "oracleText": "Each opponent can't draw more than one card each turn.\n−2: Look at the top four cards of your library. You may reveal a noncreature, nonland card from among them and put it into your hand. Put the rest on the bottom of your library in a random order.",
+        "typeLine": "Sorcery",
+        "oracleText": "Each player discards their hand, then draws cards equal to the greatest number of cards a player discarded this way.",
         "colors": [
           "U"
         ],
@@ -482,15 +481,14 @@
         "isMdfcLand": false,
         "entersTapped": false,
         "legalCommander": true,
-        "gameChanger": true,
+        "gameChanger": false,
         "canBeCommander": false,
-        "priceUsd": 1.2,
-        "loyalty": "5",
-        "image": "https://cards.scryfall.io/normal/front/4/e/4e6e5c63-b6e5-4756-bf23-6c6f8669442d.jpg?1783915440",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/4/e/4e6e5c63-b6e5-4756-bf23-6c6f8669442d.jpg?1783915440",
-        "scryfallUri": "https://scryfall.com/card/cmm/853/narset-parter-of-veils?utm_source=api",
+        "priceUsd": 5.41,
+        "image": "https://cards.scryfall.io/normal/front/9/c/9ce7113b-08f7-4584-b65f-a7b5caa90c2f.jpg?1783911933",
+        "imageArt": "https://cards.scryfall.io/art_crop/front/9/c/9ce7113b-08f7-4584-b65f-a7b5caa90c2f.jpg?1783911933",
+        "scryfallUri": "https://scryfall.com/card/otc/123/windfall?utm_source=api",
         "roles": [
-          "other"
+          "draw"
         ]
       },
       "alternatives": [
@@ -503,14 +501,19 @@
           "name": "Whispering Madness",
           "image": "https://cards.scryfall.io/normal/front/5/a/5a62cda0-34b2-42f0-83bd-c08eecf02fa4.jpg?1783937042",
           "scryfallUri": "https://scryfall.com/card/c16/229/whispering-madness?utm_source=api"
+        },
+        {
+          "name": "Nemesis of Reason",
+          "image": "https://cards.scryfall.io/normal/front/0/2/022aacc6-2d82-43c0-ac08-ba9b20578929.jpg?1783922396",
+          "scryfallUri": "https://scryfall.com/card/clb/850/nemesis-of-reason?utm_source=api"
         }
       ]
     },
     {
       "out": "Clone",
-      "in": "Bloodchief Ascension",
+      "in": "Duskmantle Guildmage",
       "category": "combo",
-      "reason": "[[Bloodchief Ascension]] turns life loss of two or more on separate turns into progress toward a win; a hit from [[Wrexial, the Risen Deep]] can earn a counter. Once it has three quest counters, it pairs with [[Mindcrank]] to drain and mill each opponent whose loop you start, giving you a win condition rather than another copy of the best creature in play.",
+      "reason": "[[Duskmantle Guildmage]] gives [[Mindcrank]] a win condition independent of combat: activate the first ability, then start the loop by making an opponent lose life or putting a card into their graveyard. Each opponent needs a trigger to start their loop, but you don’t need a strong creature on the battlefield the way [[Clone]] does.",
       "outCard": {
         "name": "Clone",
         "oracleId": "42226b87-0746-4ebf-9fd0-108d508462af",
@@ -537,82 +540,6 @@
         "image": "https://cards.scryfall.io/normal/front/5/e/5e648262-3b9b-4c58-8e29-48356e3cb064.jpg?1783939937",
         "imageArt": "https://cards.scryfall.io/art_crop/front/5/e/5e648262-3b9b-4c58-8e29-48356e3cb064.jpg?1783939937",
         "scryfallUri": "https://scryfall.com/card/m14/47/clone?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
-        "name": "Bloodchief Ascension",
-        "oracleId": "d5ea905b-4bb6-48d0-9082-c472703db550",
-        "manaCost": "{B}",
-        "cmc": 1,
-        "typeLine": "Enchantment",
-        "oracleText": "At the beginning of each end step, if an opponent lost 2 or more life this turn, you may put a quest counter on this enchantment. (Damage causes loss of life.)\nWhenever a card is put into an opponent's graveyard from anywhere, if this enchantment has three or more quest counters on it, you may have that player lose 2 life. If you do, you gain 2 life.",
-        "colors": [
-          "B"
-        ],
-        "colorIdentity": [
-          "B"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 22.09,
-        "image": "https://cards.scryfall.io/normal/front/d/5/d56d1535-d9de-459f-bc31-0923f621e0e9.jpg?1783915683",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/d/5/d56d1535-d9de-459f-bc31-0923f621e0e9.jpg?1783915683",
-        "scryfallUri": "https://scryfall.com/card/cmm/139/bloodchief-ascension?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Nemesis of Reason",
-          "image": "https://cards.scryfall.io/normal/front/0/2/022aacc6-2d82-43c0-ac08-ba9b20578929.jpg?1783922396",
-          "scryfallUri": "https://scryfall.com/card/clb/850/nemesis-of-reason?utm_source=api"
-        },
-        {
-          "name": "Mind Funeral",
-          "image": "https://cards.scryfall.io/normal/front/5/c/5cbd667f-c330-474e-842b-49dfd3906375.jpg?1783939967",
-          "scryfallUri": "https://scryfall.com/card/mma/181/mind-funeral?utm_source=api"
-        }
-      ]
-    },
-    {
-      "out": "Quicksilver Elemental",
-      "in": "Duskmantle Guildmage",
-      "category": "combo",
-      "reason": "[[Duskmantle Guildmage]] gives [[Mindcrank]] a second combo partner without waiting for quest counters. Resolve the Guildmage's first ability before a hit from [[Wrexial, the Risen Deep]] or another starting event; unlike [[Quicksilver Elemental]], the Guildmage brings the ability you need.",
-      "outCard": {
-        "name": "Quicksilver Elemental",
-        "oracleId": "c88e3aff-c539-4e8b-8ee1-a43b3d0962b4",
-        "manaCost": "{3}{U}{U}",
-        "cmc": 5,
-        "typeLine": "Creature — Elemental",
-        "oracleText": "{U}: This creature gains all activated abilities of target creature until end of turn. (If any of the abilities use that creature's name, use this creature's name instead.)\nYou may spend blue mana as though it were mana of any color to pay the activation costs of this creature's abilities.",
-        "colors": [
-          "U"
-        ],
-        "colorIdentity": [
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 20.39,
-        "power": "3",
-        "toughness": "4",
-        "image": "https://cards.scryfall.io/normal/front/2/9/2905f6ac-d054-454b-8e1a-9c32db13a581.jpg?1783944552",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/2/9/2905f6ac-d054-454b-8e1a-9c32db13a581.jpg?1783944552",
-        "scryfallUri": "https://scryfall.com/card/mrd/47/quicksilver-elemental?utm_source=api",
         "roles": [
           "other"
         ]
@@ -649,13 +576,24 @@
           "other"
         ]
       },
-      "alternatives": []
+      "alternatives": [
+        {
+          "name": "Nemesis of Reason",
+          "image": "https://cards.scryfall.io/normal/front/0/2/022aacc6-2d82-43c0-ac08-ba9b20578929.jpg?1783922396",
+          "scryfallUri": "https://scryfall.com/card/clb/850/nemesis-of-reason?utm_source=api"
+        },
+        {
+          "name": "Mind Funeral",
+          "image": "https://cards.scryfall.io/normal/front/5/c/5cbd667f-c330-474e-842b-49dfd3906375.jpg?1783939967",
+          "scryfallUri": "https://scryfall.com/card/mma/181/mind-funeral?utm_source=api"
+        }
+      ]
     },
     {
       "out": "Hinder",
       "in": "Mana Drain",
-      "category": "ramp",
-      "reason": "[[Mana Drain]] answers a spell for one mana less than [[Hinder]] and can pay the generic portion of [[Wrexial, the Risen Deep]] on your next turn. That lets you make progress toward casting your commander without giving up a turn of interaction.",
+      "category": "interaction",
+      "reason": "[[Mana Drain]] counters a spell for one less mana than [[Hinder]] and can fund the generic portion of [[Wrexial, the Risen Deep]] on your next main phase. Against an opposing instant or sorcery, it also leaves the card in the graveyard for Wrexial rather than putting it back in the library.",
       "outCard": {
         "name": "Hinder",
         "oracleId": "c9db6b94-a7b1-4b93-b454-4dead8f85e34",
@@ -716,11 +654,6 @@
       },
       "alternatives": [
         {
-          "name": "Perplex",
-          "image": "https://cards.scryfall.io/normal/front/0/d/0db57459-29f0-4ef6-b256-56955036c0ef.jpg?1783943616",
-          "scryfallUri": "https://scryfall.com/card/rav/217/perplex?utm_source=api"
-        },
-        {
           "name": "Psychic Strike",
           "image": "https://cards.scryfall.io/normal/front/0/d/0d87927c-80a6-4146-92a5-58c510ce7958.jpg?1783940102",
           "scryfallUri": "https://scryfall.com/card/gtc/189/psychic-strike?utm_source=api"
@@ -731,7 +664,7 @@
       "out": "Ixidron",
       "in": "Drown in the Loch",
       "category": "interaction",
-      "reason": "[[Drown in the Loch]] turns stocked opposing graveyards into two-mana removal or countermagic. Unlike [[Ixidron]], it can stop a spell before it resolves and won't turn a commander you've already deployed face down.",
+      "reason": "[[Drown in the Loch]] turns stocked graveyards into two-mana countermagic or creature removal. Unlike [[Ixidron]], it lets you answer a threat without turning your own commander face down.",
       "outCard": {
         "name": "Ixidron",
         "oracleId": "a86587ea-14ec-45db-8bac-10b6b9eaeb25",
@@ -808,9 +741,9 @@
     },
     {
       "out": "Mimic Vat",
-      "in": "Mesmeric Orb",
+      "in": "Bloodchief Ascension",
       "category": "combo",
-      "reason": "[[Mesmeric Orb]] stocks graveyards for [[Wrexial, the Risen Deep]] without needing creatures to die or mana for each use. With [[Basalt Monolith]], it also lets you mill your own library as far as you choose to set up [[Thassa's Oracle]].",
+      "reason": "Once [[Bloodchief Ascension]] has three quest counters, it gives [[Mindcrank]] a redundant kill: a card going to an opponent’s graveyard causes life loss, which mills more cards. It costs one mana to deploy, while [[Mimic Vat]] needs a creature to die and repeated mana payments to generate value.",
       "outCard": {
         "name": "Mimic Vat",
         "oracleId": "6ebdc9f3-6b23-4716-8011-48f00d7e30c8",
@@ -836,14 +769,18 @@
         ]
       },
       "inCard": {
-        "name": "Mesmeric Orb",
-        "oracleId": "03efb4f3-b8e2-4441-824f-886dc40712c4",
-        "manaCost": "{2}",
-        "cmc": 2,
-        "typeLine": "Artifact",
-        "oracleText": "Whenever a permanent becomes untapped, that permanent's controller mills a card.",
-        "colors": [],
-        "colorIdentity": [],
+        "name": "Bloodchief Ascension",
+        "oracleId": "d5ea905b-4bb6-48d0-9082-c472703db550",
+        "manaCost": "{B}",
+        "cmc": 1,
+        "typeLine": "Enchantment",
+        "oracleText": "At the beginning of each end step, if an opponent lost 2 or more life this turn, you may put a quest counter on this enchantment. (Damage causes loss of life.)\nWhenever a card is put into an opponent's graveyard from anywhere, if this enchantment has three or more quest counters on it, you may have that player lose 2 life. If you do, you gain 2 life.",
+        "colors": [
+          "B"
+        ],
+        "colorIdentity": [
+          "B"
+        ],
         "producedMana": [],
         "isLand": false,
         "isMdfcLand": false,
@@ -851,10 +788,10 @@
         "legalCommander": true,
         "gameChanger": false,
         "canBeCommander": false,
-        "priceUsd": 17.83,
-        "image": "https://cards.scryfall.io/normal/front/e/2/e24fbdbb-f2ae-4823-9d2a-4c505332aa5b.jpg?1783930103",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/e/2/e24fbdbb-f2ae-4823-9d2a-4c505332aa5b.jpg?1783930103",
-        "scryfallUri": "https://scryfall.com/card/2xm/272/mesmeric-orb?utm_source=api",
+        "priceUsd": 22.09,
+        "image": "https://cards.scryfall.io/normal/front/d/5/d56d1535-d9de-459f-bc31-0923f621e0e9.jpg?1783915683",
+        "imageArt": "https://cards.scryfall.io/art_crop/front/d/5/d56d1535-d9de-459f-bc31-0923f621e0e9.jpg?1783915683",
+        "scryfallUri": "https://scryfall.com/card/cmm/139/bloodchief-ascension?utm_source=api",
         "roles": [
           "other"
         ]
@@ -875,8 +812,8 @@
     {
       "out": "Oblivion Stone",
       "in": "Imperial Seal",
-      "category": "synergy",
-      "reason": "[[Imperial Seal]] finds a missing combo piece or the answer you need for your next draw, and [[Sensei's Divining Top]] can put that card into your hand immediately. [[Oblivion Stone]] is a slower reset that can take out your own mana rocks and engines.",
+      "category": "combo",
+      "reason": "[[Imperial Seal]] puts whichever combo piece or answer you’re missing on top of your library for one mana. The deck already has cheaper sweepers, and cracking [[Oblivion Stone]] can take out your own rocks and combo pieces.",
       "outCard": {
         "name": "Oblivion Stone",
         "oracleId": "2fd61c9f-44d2-48d7-a271-8e4208407cca",
@@ -934,14 +871,19 @@
           "name": "Memory Erosion",
           "image": "https://cards.scryfall.io/normal/front/f/2/f2fedec9-d938-419b-91e1-b4d9ad970464.jpg?1783934764",
           "scryfallUri": "https://scryfall.com/card/cm2/45/memory-erosion?utm_source=api"
+        },
+        {
+          "name": "Thassa's Oracle",
+          "image": "https://cards.scryfall.io/normal/front/7/2/726e8b29-13e9-4138-b6a9-d2a0d8188d1c.jpg?1783931575",
+          "scryfallUri": "https://scryfall.com/card/thb/73/thassas-oracle?utm_source=api"
         }
       ]
     },
     {
       "out": "Duplicant",
-      "in": "Fierce Guardianship",
+      "in": "Narset, Parter of Veils",
       "category": "interaction",
-      "reason": "[[Fierce Guardianship]] lets you tap out for [[Wrexial, the Risen Deep]] and still counter most removal aimed at it once it resolves. [[Duplicant]] competes for the same six-mana turn and only answers a creature already on the battlefield.",
+      "reason": "[[Narset, Parter of Veils]] digs for interaction, tutors, or [[Mindcrank]] while restricting opposing draw engines. Paired with [[Windfall]], she leaves opponents with at most one replacement card, a stronger swing than spending six mana to exile one creature with [[Duplicant]].",
       "outCard": {
         "name": "Duplicant",
         "oracleId": "ea86abfa-6cab-4ef0-8463-34136fc25b59",
@@ -969,12 +911,12 @@
         ]
       },
       "inCard": {
-        "name": "Fierce Guardianship",
-        "oracleId": "d09c9cba-fdd2-479b-ad5d-d05181c3e3f9",
-        "manaCost": "{2}{U}",
+        "name": "Narset, Parter of Veils",
+        "oracleId": "ab26fbe2-e808-48b9-8d0d-3fbb6c3d554f",
+        "manaCost": "{1}{U}{U}",
         "cmc": 3,
-        "typeLine": "Instant",
-        "oracleText": "If you control a commander, you may cast this spell without paying its mana cost.\nCounter target noncreature spell.",
+        "typeLine": "Legendary Planeswalker — Narset",
+        "oracleText": "Each opponent can't draw more than one card each turn.\n−2: Look at the top four cards of your library. You may reveal a noncreature, nonland card from among them and put it into your hand. Put the rest on the bottom of your library in a random order.",
         "colors": [
           "U"
         ],
@@ -988,21 +930,22 @@
         "legalCommander": true,
         "gameChanger": true,
         "canBeCommander": false,
-        "priceUsd": 64.97,
-        "image": "https://cards.scryfall.io/normal/front/f/7/f7f3dd95-bd14-4e0f-a388-444f9cf1b0dc.jpg?1783915698",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/f/7/f7f3dd95-bd14-4e0f-a388-444f9cf1b0dc.jpg?1783915698",
-        "scryfallUri": "https://scryfall.com/card/cmm/94/fierce-guardianship?utm_source=api",
+        "priceUsd": 1.2,
+        "loyalty": "5",
+        "image": "https://cards.scryfall.io/normal/front/4/e/4e6e5c63-b6e5-4756-bf23-6c6f8669442d.jpg?1783915440",
+        "imageArt": "https://cards.scryfall.io/art_crop/front/4/e/4e6e5c63-b6e5-4756-bf23-6c6f8669442d.jpg?1783915440",
+        "scryfallUri": "https://scryfall.com/card/cmm/853/narset-parter-of-veils?utm_source=api",
         "roles": [
-          "counter"
+          "other"
         ]
       },
       "alternatives": []
     },
     {
       "out": "Stormtide Leviathan",
-      "in": "Thassa's Oracle",
-      "category": "combo",
-      "reason": "[[Thassa's Oracle]] wins after [[Mesmeric Orb]] and [[Basalt Monolith]] mill your library, giving you a finish that doesn't rely on combat or opposing graveyards. [[Stormtide Leviathan]] enables islandwalk, but eight mana is a steep price when [[Urborg, Tomb of Yawgmoth]] already enables swampwalk across the table.",
+      "in": "Bolas's Citadel",
+      "category": "draw",
+      "reason": "[[Bolas's Citadel]] converts life into spells and pairs with [[Sensei's Divining Top]] to draw cards repeatedly for one life each. It gives the deck a proactive engine at six mana instead of spending eight on [[Stormtide Leviathan]] to enable landwalk and constrain combat.",
       "outCard": {
         "name": "Stormtide Leviathan",
         "oracleId": "131a7475-0b9e-46eb-9ade-fef1b9820184",
@@ -1034,71 +977,6 @@
         ]
       },
       "inCard": {
-        "name": "Thassa's Oracle",
-        "oracleId": "1de1b591-a73f-4974-b507-8c63e07a0868",
-        "manaCost": "{U}{U}",
-        "cmc": 2,
-        "typeLine": "Creature — Merfolk Wizard",
-        "oracleText": "When this creature enters, look at the top X cards of your library, where X is your devotion to blue. Put up to one of them on top of your library and the rest on the bottom of your library in a random order. If X is greater than or equal to the number of cards in your library, you win the game. (Each {U} in the mana costs of permanents you control counts toward your devotion to blue.)",
-        "colors": [
-          "U"
-        ],
-        "colorIdentity": [
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": true,
-        "canBeCommander": false,
-        "priceUsd": 19.72,
-        "power": "1",
-        "toughness": "3",
-        "image": "https://cards.scryfall.io/normal/front/7/2/726e8b29-13e9-4138-b6a9-d2a0d8188d1c.jpg?1783931575",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/7/2/726e8b29-13e9-4138-b6a9-d2a0d8188d1c.jpg?1783931575",
-        "scryfallUri": "https://scryfall.com/card/thb/73/thassas-oracle?utm_source=api",
-        "roles": [
-          "wincon"
-        ]
-      },
-      "alternatives": []
-    },
-    {
-      "out": "Beacon of Unrest",
-      "in": "Bolas's Citadel",
-      "category": "combo",
-      "reason": "[[Bolas's Citadel]] can turn one resolved spell into several plays instead of reanimating a single permanent with [[Beacon of Unrest]]. With [[Sensei's Divining Top]], you can pay one life per card to draw through your library until [[Thassa's Oracle]] can win, provided you have enough life and blue mana.",
-      "outCard": {
-        "name": "Beacon of Unrest",
-        "oracleId": "aef874fa-93c0-4f86-8b0d-dc24ec51467d",
-        "manaCost": "{3}{B}{B}",
-        "cmc": 5,
-        "typeLine": "Sorcery",
-        "oracleText": "Put target artifact or creature card from a graveyard onto the battlefield under your control. Shuffle Beacon of Unrest into its owner's library.",
-        "colors": [
-          "B"
-        ],
-        "colorIdentity": [
-          "B"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.28,
-        "image": "https://cards.scryfall.io/normal/front/0/6/06bd199b-1855-4208-8bf7-8930e91ab139.jpg?1783930187",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/0/6/06bd199b-1855-4208-8bf7-8930e91ab139.jpg?1783930187",
-        "scryfallUri": "https://scryfall.com/card/2xm/77/beacon-of-unrest?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
         "name": "Bolas's Citadel",
         "oracleId": "2bd111bb-ce02-414c-b5b7-e0e037d8d96b",
         "manaCost": "{3}{B}{B}{B}",
@@ -1124,6 +1002,138 @@
         "scryfallUri": "https://scryfall.com/card/war/79/bolass-citadel?utm_source=api",
         "roles": [
           "wincon"
+        ]
+      },
+      "alternatives": []
+    },
+    {
+      "out": "Spell Crumple",
+      "in": "Perplex",
+      "category": "combo",
+      "reason": "[[Perplex]] is less reliable than [[Spell Crumple]] as a counter, but transmute is the reason to play it: it finds [[Windfall]], [[Necropotence]], or [[Rhystic Study]] without relying on the opponent’s hand. That gives you a useful proactive play when there’s nothing worth countering.",
+      "outCard": {
+        "name": "Spell Crumple",
+        "oracleId": "d4ab7848-5c37-4c6b-be29-0bb703333e5b",
+        "manaCost": "{1}{U}{U}",
+        "cmc": 3,
+        "typeLine": "Instant",
+        "oracleText": "Counter target spell. If that spell is countered this way, put it on the bottom of its owner's library instead of into that player's graveyard. Put Spell Crumple on the bottom of its owner's library.",
+        "colors": [
+          "U"
+        ],
+        "colorIdentity": [
+          "U"
+        ],
+        "producedMana": [],
+        "isLand": false,
+        "isMdfcLand": false,
+        "entersTapped": false,
+        "legalCommander": true,
+        "gameChanger": false,
+        "canBeCommander": false,
+        "priceUsd": 0.68,
+        "image": "https://cards.scryfall.io/normal/front/5/2/522d6195-7660-42c0-848b-cc46e19fc4eb.jpg?1783934762",
+        "imageArt": "https://cards.scryfall.io/art_crop/front/5/2/522d6195-7660-42c0-848b-cc46e19fc4eb.jpg?1783934762",
+        "scryfallUri": "https://scryfall.com/card/cm2/50/spell-crumple?utm_source=api",
+        "roles": [
+          "counter"
+        ]
+      },
+      "inCard": {
+        "name": "Perplex",
+        "oracleId": "904f9e0c-cb7f-4611-8bf7-2e408e8ab237",
+        "manaCost": "{1}{U}{B}",
+        "cmc": 3,
+        "typeLine": "Instant",
+        "oracleText": "Counter target spell unless its controller discards their hand.\nTransmute {1}{U}{B} ({1}{U}{B}, Discard this card: Search your library for a card with the same mana value as this card, reveal it, put it into your hand, then shuffle. Transmute only as a sorcery.)",
+        "colors": [
+          "B",
+          "U"
+        ],
+        "colorIdentity": [
+          "B",
+          "U"
+        ],
+        "producedMana": [],
+        "isLand": false,
+        "isMdfcLand": false,
+        "entersTapped": false,
+        "legalCommander": true,
+        "gameChanger": false,
+        "canBeCommander": false,
+        "priceUsd": 1.68,
+        "image": "https://cards.scryfall.io/normal/front/0/d/0db57459-29f0-4ef6-b256-56955036c0ef.jpg?1783943616",
+        "imageArt": "https://cards.scryfall.io/art_crop/front/0/d/0db57459-29f0-4ef6-b256-56955036c0ef.jpg?1783943616",
+        "scryfallUri": "https://scryfall.com/card/rav/217/perplex?utm_source=api",
+        "roles": [
+          "counter",
+          "tutor"
+        ]
+      },
+      "alternatives": []
+    },
+    {
+      "out": "Quicksilver Elemental",
+      "in": "Insatiable Avarice",
+      "category": "draw",
+      "reason": "[[Insatiable Avarice]] sets up your next draw for one mana, draws three cards for three mana and three life, or combines both modes to find a card and draw it immediately. It advances your own plan without the five-mana investment and dependence on opposing abilities of [[Quicksilver Elemental]].",
+      "outCard": {
+        "name": "Quicksilver Elemental",
+        "oracleId": "c88e3aff-c539-4e8b-8ee1-a43b3d0962b4",
+        "manaCost": "{3}{U}{U}",
+        "cmc": 5,
+        "typeLine": "Creature — Elemental",
+        "oracleText": "{U}: This creature gains all activated abilities of target creature until end of turn. (If any of the abilities use that creature's name, use this creature's name instead.)\nYou may spend blue mana as though it were mana of any color to pay the activation costs of this creature's abilities.",
+        "colors": [
+          "U"
+        ],
+        "colorIdentity": [
+          "U"
+        ],
+        "producedMana": [],
+        "isLand": false,
+        "isMdfcLand": false,
+        "entersTapped": false,
+        "legalCommander": true,
+        "gameChanger": false,
+        "canBeCommander": false,
+        "priceUsd": 20.39,
+        "power": "3",
+        "toughness": "4",
+        "image": "https://cards.scryfall.io/normal/front/2/9/2905f6ac-d054-454b-8e1a-9c32db13a581.jpg?1783944552",
+        "imageArt": "https://cards.scryfall.io/art_crop/front/2/9/2905f6ac-d054-454b-8e1a-9c32db13a581.jpg?1783944552",
+        "scryfallUri": "https://scryfall.com/card/mrd/47/quicksilver-elemental?utm_source=api",
+        "roles": [
+          "other"
+        ]
+      },
+      "inCard": {
+        "name": "Insatiable Avarice",
+        "oracleId": "ad3e705f-da57-4eff-84d7-2072522de988",
+        "manaCost": "{B}",
+        "cmc": 1,
+        "typeLine": "Sorcery",
+        "oracleText": "Spree (Choose one or more additional costs.)\n+ {2} — Search your library for a card, then shuffle and put that card on top.\n+ {B}{B} — Target player draws three cards and loses 3 life.",
+        "colors": [
+          "B"
+        ],
+        "colorIdentity": [
+          "B"
+        ],
+        "producedMana": [],
+        "isLand": false,
+        "isMdfcLand": false,
+        "entersTapped": false,
+        "legalCommander": true,
+        "gameChanger": false,
+        "canBeCommander": false,
+        "priceUsd": 4.98,
+        "image": "https://cards.scryfall.io/normal/front/a/1/a108b0e4-1b43-4659-9e91-facb0bd57ebb.jpg?1783911830",
+        "imageArt": "https://cards.scryfall.io/art_crop/front/a/1/a108b0e4-1b43-4659-9e91-facb0bd57ebb.jpg?1783911830",
+        "scryfallUri": "https://scryfall.com/card/otj/91/insatiable-avarice?utm_source=api",
+        "roles": [
+          "draw",
+          "tutor"
         ]
       },
       "alternatives": []
@@ -1196,7 +1206,7 @@
       "out": "Lonely Sandbar",
       "in": "Sunken Hollow",
       "category": "mana",
-      "reason": "[[Lonely Sandbar]] always enters tapped; [[Sunken Hollow]] makes black and blue untapped, helping blue and black, which are short.",
+      "reason": "[[Lonely Sandbar]] always enters tapped; [[Sunken Hollow]] makes black and blue untapped, helping black, which is short.",
       "outCard": {
         "name": "Lonely Sandbar",
         "oracleId": "765863c8-1be0-4bb1-9e9c-db7701cffde3",
@@ -1251,70 +1261,6 @@
         "image": "https://cards.scryfall.io/normal/front/a/f/af0eb74d-c203-42ea-a24f-c70429b3e4c3.jpg?1793021388",
         "imageArt": "https://cards.scryfall.io/art_crop/front/a/f/af0eb74d-c203-42ea-a24f-c70429b3e4c3.jpg?1793021388",
         "scryfallUri": "https://scryfall.com/card/trc/564/sunken-hollow?utm_source=api",
-        "roles": [
-          "land"
-        ]
-      }
-    },
-    {
-      "out": "Cabal Coffers",
-      "in": "City of Brass",
-      "category": "mana",
-      "reason": "[[City of Brass]] makes black and blue untapped, helping blue and black, which are short.",
-      "outCard": {
-        "name": "Cabal Coffers",
-        "oracleId": "7358e164-5704-4e78-9b21-6a9bf2a968ce",
-        "manaCost": "",
-        "cmc": 0,
-        "typeLine": "Land",
-        "oracleText": "{2}, {T}: Add {B} for each Swamp you control.",
-        "colors": [],
-        "colorIdentity": [
-          "B"
-        ],
-        "producedMana": [
-          "B"
-        ],
-        "isLand": true,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 29.16,
-        "image": "https://cards.scryfall.io/normal/front/e/1/e1efb0d3-2c72-46ff-bdc1-1069967365a0.jpg?1783926775",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/e/1/e1efb0d3-2c72-46ff-bdc1-1069967365a0.jpg?1783926775",
-        "scryfallUri": "https://scryfall.com/card/mh2/301/cabal-coffers?utm_source=api",
-        "roles": [
-          "land"
-        ]
-      },
-      "inCard": {
-        "name": "City of Brass",
-        "oracleId": "f25351e3-539b-4bbc-b92d-6480acf4d722",
-        "manaCost": "",
-        "cmc": 0,
-        "typeLine": "Land",
-        "oracleText": "Whenever this land becomes tapped, it deals 1 damage to you.\n{T}: Add one mana of any color.",
-        "colors": [],
-        "colorIdentity": [],
-        "producedMana": [
-          "B",
-          "G",
-          "R",
-          "U",
-          "W"
-        ],
-        "isLand": true,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 9.8,
-        "image": "https://cards.scryfall.io/normal/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
-        "scryfallUri": "https://scryfall.com/card/tmc/62/city-of-brass?utm_source=api",
         "roles": [
           "land"
         ]
@@ -1489,25 +1435,25 @@
       "landCount": 37,
       "mdfcLands": 0,
       "recommendedLands": 37,
-      "avgCmc": 2.77,
+      "avgCmc": 2.81,
       "curve": {
         "0": 1,
-        "1": 9,
-        "2": 18,
+        "1": 10,
+        "2": 16,
         "3": 19,
         "4": 9,
-        "5": 3,
+        "5": 4,
         "6": 2,
         "7+": 1
       },
       "colors": [
         {
           "color": "U",
-          "pips": 55.5,
-          "pipShare": 0.627,
-          "landSources": 23,
+          "pips": 52.5,
+          "pipShare": 0.587,
+          "landSources": 22,
           "rampSources": 2,
-          "targetSources": 23,
+          "targetSources": 22,
           "targetReason": "share",
           "heaviestCard": {
             "name": "Blue Sun's Zenith",
@@ -1516,8 +1462,8 @@
         },
         {
           "color": "B",
-          "pips": 33,
-          "pipShare": 0.373,
+          "pips": 37,
+          "pipShare": 0.413,
           "landSources": 19,
           "rampSources": 2,
           "targetSources": 21,
@@ -1559,46 +1505,30 @@
       "mulliganRate": 19.9,
       "landDropByTurn": {
         "1": 99.9,
-        "2": 99.8,
-        "3": 90.2,
-        "4": 73.5,
-        "5": 55,
-        "6": 38.3,
-        "7": 25.2,
-        "8": 15.3
+        "2": 99.7,
+        "3": 90.4,
+        "4": 74.4,
+        "5": 55.9,
+        "6": 38.4,
+        "7": 24.9,
+        "8": 15
       },
-      "commanderOnCurve": 57.5,
+      "commanderOnCurve": 56.6,
       "commanderByTurn": {
         "1": 0,
         "2": 0,
-        "3": 0.6,
-        "4": 8.7,
-        "5": 32,
-        "6": 57.5,
-        "7": 70.7,
-        "8": 78.8
+        "3": 0.4,
+        "4": 8.1,
+        "5": 31.8,
+        "6": 56.6,
+        "7": 70.5,
+        "8": 78.3
       },
-      "allColorsByTurn3": 90.9,
-      "avgManaTurn4": 4.55,
+      "allColorsByTurn3": 89.9,
+      "avgManaTurn4": 4.54,
       "screwRate": 5.8,
-      "floodRate": 0.4,
+      "floodRate": 0.5,
       "combos": [
-        {
-          "cards": [
-            "Basalt Monolith",
-            "Mesmeric Orb"
-          ],
-          "byTurn": {
-            "1": 0,
-            "2": 0.1,
-            "3": 10.2,
-            "4": 15.6,
-            "5": 20,
-            "6": 23.9,
-            "7": 27.3,
-            "8": 30.8
-          }
-        },
         {
           "cards": [
             "Bloodchief Ascension",
@@ -1606,13 +1536,13 @@
           ],
           "byTurn": {
             "1": 0,
-            "2": 7.1,
-            "3": 11.9,
-            "4": 15.9,
-            "5": 20.3,
-            "6": 24,
-            "7": 27.9,
-            "8": 31.6
+            "2": 9.9,
+            "3": 18.2,
+            "4": 23.8,
+            "5": 29.5,
+            "6": 34.6,
+            "7": 38.9,
+            "8": 43.2
           }
         },
         {
@@ -1622,13 +1552,13 @@
           ],
           "byTurn": {
             "1": 0,
-            "2": 1.5,
-            "3": 11.5,
-            "4": 15.8,
-            "5": 20.1,
-            "6": 23.8,
-            "7": 27.5,
-            "8": 31.2
+            "2": 2.2,
+            "3": 17.5,
+            "4": 23.8,
+            "5": 29.3,
+            "6": 34.5,
+            "7": 38.8,
+            "8": 43.2
           }
         }
       ]
@@ -1646,7 +1576,7 @@
       },
       {
         "role": "draw",
-        "count": 10,
+        "count": 11,
         "target": 10
       },
       {
@@ -1666,7 +1596,7 @@
       },
       {
         "role": "tutor",
-        "count": 6,
+        "count": 8,
         "target": 0
       },
       {
@@ -1681,7 +1611,7 @@
       },
       {
         "role": "wincon",
-        "count": 2,
+        "count": 1,
         "target": null
       },
       {
@@ -1691,7 +1621,7 @@
       }
     ],
     "totalCards": 100,
-    "totalPriceUsd": 1193.48
+    "totalPriceUsd": 1181.55
   },
   "combosPresent": [
     {
@@ -1756,58 +1686,9 @@
       "description": "Activate Duskmantle Guildmage's first ability by paying {1}{U}{B}, causing your opponent to lose life whenever a card is put into their graveyard this turn.\nActivate Duskmantle Guildmage's second ability by paying {2}{U}{B}, causing an opponent to mill two cards.\nDuskmantle Guildmage triggers twice.\nResolve the first trigger, causing the opponent to lose 1 life.\nMindcrank triggers, causing the opponent to mill a card.\nDuskmantle Guildmage triggers, causing the opponent to lose 1 life.\nRepeat from step 5 until the opponent has a life total of zero, causing them to lose the game.\nRepeat from step 2 for each other opponent.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/936-5069/"
-    },
-    {
-      "id": "4131-4684",
-      "cards": [
-        "Basalt Monolith",
-        "Mesmeric Orb"
-      ],
-      "missing": [],
-      "produces": [
-        "Infinite self-mill"
-      ],
-      "description": "Activate Basalt Monolith's first ability by tapping it, adding {3}.\nActivate Basalt Monolith's last ability by paying {3}, untapping it.\nMesmeric Orb triggers, causing you to mill a card.\nRepeat.",
-      "bracketTag": "R",
-      "url": "https://commanderspellbook.com/combo/4131-4684/"
     }
   ],
   "combosOneAway": [
-    {
-      "id": "742-1295",
-      "cards": [
-        "Demonic Consultation",
-        "Thassa's Oracle"
-      ],
-      "missing": [
-        "Demonic Consultation"
-      ],
-      "produces": [
-        "Exile your library",
-        "Win the game"
-      ],
-      "description": "Cast Demonic Consultation by paying {B}, naming Thassa's Oracle and thus exiling your library due to you not having a card named Thassa's Oracle in your library.\nCast Thassa's Oracle by paying {U}{U}.\nThassa's Oracle enters the battlefield, causing you to win the game.",
-      "bracketTag": "R",
-      "url": "https://commanderspellbook.com/combo/742-1295/",
-      "popularity": 151714
-    },
-    {
-      "id": "1295-3093",
-      "cards": [
-        "Tainted Pact",
-        "Thassa's Oracle"
-      ],
-      "missing": [
-        "Tainted Pact"
-      ],
-      "produces": [
-        "Win the game"
-      ],
-      "description": "Cast Tainted Pact by paying {1}{B}, exiling your library.\nCast Thassa's Oracle by paying {U}{U}.\nThassa's Oracle enters the battlefield, causing you to win the game.",
-      "bracketTag": "R",
-      "url": "https://commanderspellbook.com/combo/1295-3093/",
-      "popularity": 133108
-    },
     {
       "id": "513-3682",
       "cards": [
@@ -1826,7 +1707,7 @@
       "description": "Activate Mox Amber by tapping it, adding {1}.\nCast the permanent by paying at most one colored mana.\nHullbreaker Horror triggers, returning Sol Ring from the battlefield to your hand.\nCast Mox Amber by paying {0}\nHullbreaker Horror triggers, returning the permanent cast in step 2 from the battlefield to your hand.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/513-3682/",
-      "popularity": 68248
+      "popularity": 68311
     },
     {
       "id": "4131-4547",
@@ -1843,7 +1724,7 @@
       "description": "Activate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {3}, untapping it.\nRepeat.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/4131-4547/",
-      "popularity": 67778
+      "popularity": 67842
     },
     {
       "id": "4131-4235",
@@ -1860,7 +1741,7 @@
       "description": "Activate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {3}.\nRings of Brighthearth triggers, causing you to pay {2} to copy Basalt Monolith's last ability.\nResolve the copy of Basalt Monolith's last ability, untapping it.\nActivate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}.\nResolve the Basalt Monolith ability from step 2, untapping it.\nRepeat.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/4131-4235/",
-      "popularity": 54612
+      "popularity": 54626
     },
     {
       "id": "2173-4740-5078",
@@ -1883,7 +1764,7 @@
       "description": "Activate Sensei's Divining Top by tapping it, drawing a card and then putting Sensei's Divining Top on top of your library.\nCast Sensei's Divining Top from the top of your library by paying 1 life.\nAetherflux Reservoir triggers, gaining you 1 life for each spell you have cast this turn.\nRepeat until your life total is 52 or greater.\nActivate Aetherflux Reservoir by paying 50 life, dealing 50 damage to any target.\nRepeat.",
       "bracketTag": "P",
       "url": "https://commanderspellbook.com/combo/2173-4740-5078/",
-      "popularity": 52657
+      "popularity": 52680
     },
     {
       "id": "542-5034",
@@ -1901,7 +1782,7 @@
       "description": "Cast Sol Ring by paying its mana cost.\nTidespout Tyrant triggers, returning a nontoken permanent that can be cast using {C} from the battlefield to your hand.\nActivate Sol Ring by tapping it, adding {C}{C}.\nCast the nontoken permanent returned in step 2 by paying its mana cost.\nTidespout Tyrant triggers, returning Sol Ring from the battlefield to your hand.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/542-5034/",
-      "popularity": 38205
+      "popularity": 38230
     },
     {
       "id": "4131-5390",
@@ -1918,7 +1799,7 @@
       "description": "Activate Basalt Monolith's first activated ability by tapping it, adding {C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {2}, untapping it.\nRepeat.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/4131-5390/",
-      "popularity": 26754
+      "popularity": 26768
     },
     {
       "id": "2173-2498-5078",
@@ -1940,7 +1821,7 @@
       "description": "Activate Sense's Divining Top's second ability by tapping it, causing you to draw a card and put Sensei's Divining Top on top of your library from the battlefield.\nSheoldred triggers, causing you to gain 2 life\nCast Sensei's Divining Top from the top of your library by paying 1 life.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/2173-2498-5078/",
-      "popularity": 26612
+      "popularity": 26622
     },
     {
       "id": "5069-5080",
@@ -1959,24 +1840,7 @@
       "description": "Activate Duskmantle Guildmage's first ability by paying {1}{U}{B}.\nCast Maddening Cacophony with kicker by paying {4}{U}{U}, causing each opponent to mill half their library, rounded up.\nDuskmantle Guildmage triggers for each card milled this way.\nResolve the first Duskmantle Guildmage trigger, causing the opponent to lose 1 life.\nRepeat step 4 until the opponent loses the game due to having zero or less life.\nRepeat from step 4 for each remaining trigger.",
       "bracketTag": "E",
       "url": "https://commanderspellbook.com/combo/5069-5080/",
-      "popularity": 16095
-    },
-    {
-      "id": "1295-3189",
-      "cards": [
-        "Doomsday",
-        "Thassa's Oracle"
-      ],
-      "missing": [
-        "Doomsday"
-      ],
-      "produces": [
-        "Win the game"
-      ],
-      "description": "Cast Doomsday by paying {B}{B}{B}, searching your library and graveyard for any five other cards, exiling all other cards from your graveyard and library, and then placing the remaining cards on top of your library and losing half your life, rounded up.\nCast Thassa's Oracle by paying {U}{U}.\nThassa's Oracle enters the battlefield, winning the game.",
-      "bracketTag": "S",
-      "url": "https://commanderspellbook.com/combo/1295-3189/",
-      "popularity": 14709
+      "popularity": 16094
     },
     {
       "id": "542-2364",
@@ -1994,26 +1858,7 @@
       "description": "Cast Mana Vault by paying its mana cost.\nTidespout Tyrant triggers, returning a nontoken permanent that can be cast using {C}{C} from the battlefield to your hand.\nActivate Mana Vault by tapping it, adding {C}{C}{C}\nCast the nontoken permanent returned in step 2 by paying its mana cost.\nTidespout Tyrant triggers, returning Mana Vault from the battlefield to your hand.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/542-2364/",
-      "popularity": 13992
-    },
-    {
-      "id": "953-1295",
-      "cards": [
-        "Enter the Infinite",
-        "Thassa's Oracle"
-      ],
-      "missing": [
-        "Enter the Infinite"
-      ],
-      "produces": [
-        "Infinite card draw",
-        "Infinite draw triggers",
-        "Win the game"
-      ],
-      "description": "Cast Enter the Infinite by paying {8}{U}{U}{U}{U}, drawing your library and then putting any card besides Thassa's Oracle from your hand on top of your library.\nCast Thassa's Oracle by paying {U}{U}.\nThassa's Oracle enters the battlefield ability triggers, causing you to win the game.",
-      "bracketTag": "P",
-      "url": "https://commanderspellbook.com/combo/953-1295/",
-      "popularity": 12870
+      "popularity": 13998
     },
     {
       "id": "513-1636",
@@ -2034,7 +1879,7 @@
       "description": "Activate any number of creatures you control by tapping them, adding an amount of mana.\nCast the creature from your hand by paying its mana cost.\nHullbreaker Horror triggers, returning another creature from the battlefield to your hand.\nResolve the creature spell. When it enters, Intruder Alarm triggers, untapping all creatures.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/513-1636/",
-      "popularity": 12812
+      "popularity": 12824
     },
     {
       "id": "4131-5149",
@@ -2051,25 +1896,24 @@
       "description": "Activate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {1}, untapping it.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/4131-5149/",
-      "popularity": 11140
+      "popularity": 11155
     },
     {
-      "id": "1068-1295",
+      "id": "4131-4684",
       "cards": [
-        "Leveler",
-        "Thassa's Oracle"
+        "Basalt Monolith",
+        "Mesmeric Orb"
       ],
       "missing": [
-        "Leveler"
+        "Mesmeric Orb"
       ],
       "produces": [
-        "Exile your library",
-        "Win the game"
+        "Infinite self-mill"
       ],
-      "description": "Cast Leveler by paying {5}.\nLeveler enters the battlefield, triggering itself, exiling your library.\nCast Thassa's Oracle by paying {U}{U}.\nThassa's Oracle enters the battlefield, triggering itself, causing you to win the game.",
-      "bracketTag": "P",
-      "url": "https://commanderspellbook.com/combo/1068-1295/",
-      "popularity": 10044
+      "description": "Activate Basalt Monolith's first ability by tapping it, adding {3}.\nActivate Basalt Monolith's last ability by paying {3}, untapping it.\nMesmeric Orb triggers, causing you to mill a card.\nRepeat.",
+      "bracketTag": "R",
+      "url": "https://commanderspellbook.com/combo/4131-4684/",
+      "popularity": 10150
     },
     {
       "id": "1177-2286",
@@ -2088,7 +1932,7 @@
       "description": "During your opponent's draw step, they draw a card, and Teferi's Puzzle Box triggers.\nResolve the Teferi's Puzzle Box trigger, causing the opponent to put the cards in their hand onto the bottom of their library and draw no cards due to Narset.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/1177-2286/",
-      "popularity": 8481
+      "popularity": 8491
     },
     {
       "id": "1211-4603",
@@ -2107,7 +1951,7 @@
       "description": "At the beginning of your draw step, Maralen triggers, causing you to lose three life, then search your library for a card and put it into your hand.\nDuring each opponent's draw step, Maralen triggers, causing them to lose three life, then causing you to search their library for a card and exile it.\nYou may play cards exiled this way due to Opposition Agent.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/1211-4603/",
-      "popularity": 8142
+      "popularity": 8145
     },
     {
       "id": "5078-5849",
@@ -2126,7 +1970,7 @@
       "description": "Activate Sensei's Divining Top's second ability by tapping it, causing you to draw a card and put Sensei's Divining Top from the battlefield on top of your library.\nCast Sensei's Divining Top from the top of your library by paying {0} due to Fortune Teller's Talent.\nRepeat.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/5078-5849/",
-      "popularity": 7861
+      "popularity": 7878
     },
     {
       "id": "1167-1384",
@@ -2144,33 +1988,104 @@
       "description": "Use Mindslaver's ability targeting an opponent.\nActivate Academy Ruins's ability targeting Mindslaver in graveyard.\nPass to opponent's turn.\nPass to your turn and draw Mindslaver.\nPlay Mindslaver, use it, and target it with Academy Ruins.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/1167-1384/",
-      "popularity": 7471
+      "popularity": 7466
+    },
+    {
+      "id": "2286-3221",
+      "cards": [
+        "Notion Thief",
+        "Teferi's Puzzle Box"
+      ],
+      "missing": [
+        "Teferi's Puzzle Box"
+      ],
+      "produces": [
+        "Opponents put all cards in hand on the bottom of their library on each of their draw steps",
+        "Lock"
+      ],
+      "description": "At the beginning of your opponent's draw step, after they draw their card, Teferi's Puzzle Box triggers, causing them to put the cards in their hand on the bottom of their library, then attempt to draw that many cards.\nNotion Thief's replacement effect causes you to draw that many cards instead.\nRepeat on each opponent's draw step.",
+      "bracketTag": "S",
+      "url": "https://commanderspellbook.com/combo/2286-3221/",
+      "popularity": 6098
+    },
+    {
+      "id": "1290-7848",
+      "cards": [
+        "Bloodchief Ascension",
+        "The Master of Lake-town"
+      ],
+      "missing": [
+        "The Master of Lake-town"
+      ],
+      "produces": [
+        "Infinite mill",
+        "Near-infinite lifegain",
+        "Near-infinite lifegain triggers",
+        "Near-infinite lifeloss"
+      ],
+      "description": "Cause one or more opponents to lose life.\nThe Master of Lake-town triggers once for each life loss event, causing that player to mill cards equal to the amount of life lost.\nBloodchief Ascension triggers once for each card milled, causing that player to lose 2 life and you to gain 2 life for each trigger.\nRepeat from step 2.",
+      "bracketTag": "S",
+      "url": "https://commanderspellbook.com/combo/1290-7848/",
+      "popularity": 5592
+    },
+    {
+      "id": "1211-7271",
+      "cards": [
+        "Mornsong Aria",
+        "Opposition Agent"
+      ],
+      "missing": [
+        "Mornsong Aria"
+      ],
+      "produces": [
+        "Exile a card of your choice from an opponent's library on each opponent's turn and you may cast that card",
+        "Lock",
+        "Players can't draw cards",
+        "Players can't gain life"
+      ],
+      "description": "At the beginning of your draw step, Maralen triggers, causing you to lose three life, then search your library for a card and put it into your hand.\nDuring each opponent's draw step, Maralen triggers, causing them to lose three life, then causing you to search their library for a card and exile it.\nYou may play cards exiled this way due to Opposition Agent.",
+      "bracketTag": "S",
+      "url": "https://commanderspellbook.com/combo/1211-7271/",
+      "popularity": 4977
+    },
+    {
+      "id": "876-4944",
+      "cards": [
+        "Crackdown Construct",
+        "Lightning Greaves"
+      ],
+      "missing": [
+        "Crackdown Construct"
+      ],
+      "produces": [
+        "Infinitely large creature until end of turn"
+      ],
+      "description": "Activate Lightning Greaves's equip ability by paying {0}, targeting any creature you control except the creature that has Lightning Greaves attached.\nCrackdown Construct triggers, giving it +1/+1 until end of turn.\nResolve Lightning Greaves's equip ability.\nRepeat.",
+      "bracketTag": "O",
+      "url": "https://commanderspellbook.com/combo/876-4944/",
+      "popularity": 4048
     }
   ],
   "research": {
-    "summary": "**Build [[Wrexial, the Risen Deep]] as Dimir control with a mill-and-theft package.** The key is to put useful spells in an opponent’s graveyard *and* connect with that same opponent. You don’t need to mill their whole library to get value. ([edhrec.com](https://edhrec.com/commanders/wrexial-the-risen-deep))\n\n1. **Main archetypes.** **Mill** is the clearest EDHREC theme: some lists mill just enough to fuel the commander, while dedicated lists aim to deck opponents or finish with a combo. **Theft/reanimator control** uses opposing graveyards as a second hand and can win without its commander. **Sea-monster control** is a more thematic build, using large threats and effects that help the commander connect. ([edhrec.com](https://edhrec.com/commanders/wrexial-the-risen-deep))\n2. **Key synergies.** [[Windfall]] stocks graveyards while refilling hands; [[Fractured Sanity]] mills the whole table; [[Consuming Aberration]] keeps milling as you cast spells, and [[Drown in the Loch]] turns stocked graveyards into cheap interaction. [[Memory Plunder]] and [[Breach the Multiverse]] let you steal value without connecting in combat. [[Spreading Seas]] turns a blocker-heavy opponent’s land into an Island, while [[Lightning Greaves]] gives your six-mana commander haste and protection. [[Stormtide Leviathan]] enables islandwalk across the table and still lets your commander attack. ([edhrec.com](https://edhrec.com/commanders/wrexial-the-risen-deep))\n3. **Popular combos.**\n   - [[Mindcrank]] + [[Bloodchief Ascension]]: With three quest counters on the enchantment, an opponent losing life or putting a card into their graveyard starts a loop of mill, life loss, and life gain for you. It can kill the affected opponent; each opponent needs a trigger to start their own loop. ([commanderspellbook.com](https://commanderspellbook.com/combo/936-1290/?utm_source=openai))\n   - [[Mindcrank]] + [[Duskmantle Guildmage]]: Resolve the Guildmage’s first ability, then make an opponent lose life or put a card into their graveyard that turn. The loop mills them and drains their life; a table-wide starter can set it off for everyone. Neither loop guarantees lethal life loss if the affected library runs out first. ([commanderspellbook.com](https://commanderspellbook.com/combo/936-5069/?q=mindcrank&utm_source=openai))\n4. **Common cuts and mistakes.** In theft-first lists, I’d cut [[Traumatize]] before repeatable or table-wide mill: five mana to stock one graveyard is a lot when you only need one good spell. Don’t overload on expensive threats or mill-only cards at the expense of draw, interaction, and protection. Don’t mill a reanimator player without a plan, and don’t wipe all opposing graveyards right before combat. Pick your attack target by **both** landwalk and available spells. ([edhrec.com](https://edhrec.com/commanders/wrexial-the-risen-deep/mill?utm_source=openai))\n5. **Mana base.** Start around **37 lands and 9–10 ramp pieces**, emphasizing two-mana rocks like [[Arcane Signet]], [[Dimir Signet]], and [[Talisman of Dominance]]. The commander costs **{3}{U}{B}{B}**, so prioritize reliable black sources and untapped fixing like [[Watery Grave]] and [[Underground River]]. [[Urborg, Tomb of Yawgmoth]] makes every opponent’s lands Swamps in addition to their other types, turning on swampwalk across the table. [[Rogue's Passage]] is a backup, not a priority: it produces colorless mana and is expensive to activate. [[Bojuka Bog]] is useful when you need it, but aim it at the graveyard you need to stop, not the one you plan to steal from. ([edhrec.com](https://edhrec.com/commanders/wrexial-the-risen-deep))",
+    "summary": "**[[Wrexial, the Risen Deep]] is best built as a theft-control commander with a mill package.** Mill is EDHREC’s largest tagged archetype, but you don’t have to empty a library to get value: you just need a good instant or sorcery in the graveyard of the opponent you hit. ([edhrec.com](https://edhrec.com/commanders/wrexial-the-risen-deep))\n\n1. **Main builds.** **Mill** either stocks opposing graveyards or commits to decking the table. **Theft/control** uses discard, removal, and selective milling to set up profitable attacks. **Reanimator** makes use of the creatures you mill, while **sea-creature builds** lean into big threats and combat. ([edhrec.com](https://edhrec.com/commanders/wrexial-the-risen-deep))\n2. **Key engines.** [[Windfall]] refills your hand and stocks graveyards; [[Drown in the Loch]] turns those stocked yards into cheap interaction. [[Tasha, the Witch Queen]] gives you another way to cast opposing spells, and [[Sepulchral Primordial]] turns milled creatures into your board. [[Lightning Greaves]] gives your six-mana commander a chance to connect before opponents untap. ([edhrec.com](https://edhrec.com/commanders/wrexial-the-risen-deep))\n3. **Common combo finishes.**\n   - **[[Duskmantle Guildmage]] + [[Mindcrank]]:** Activate the Guildmage’s first ability, then make an opponent lose life or put a card into their graveyard. Mill and life loss feed each other, usually killing that opponent; each opponent needs a spark. ([edhrec.com](https://edhrec.com/combos/wrexial-the-risen-deep))\n   - **[[Bruvac the Grandiloquent]] + kicked [[Maddening Cacophony]]:** Mills every opponent’s entire library, barring replacement effects. They lose when they next try to draw, not when the spell resolves. ([edhrec.com](https://edhrec.com/combos/wrexial-the-risen-deep))\n4. **What I’d cut first.** In theft/control, skip small one-shot mill like [[Mind Sculpt]]: it costs a card without affecting the board or guaranteeing a useful spell. Avoid blanket graveyard hate like [[Rest in Peace]], which shuts off your own engine. And don’t overload on expensive sea creatures unless that’s the plan—the commander already competes for your six-mana turn. ([edhrec.com](https://edhrec.com/commanders/wrexial-the-risen-deep/theft?utm_source=openai))\n5. **Mana base.** Start around **37 lands** with cheap ramp such as [[Arcane Signet]], [[Talisman of Dominance]], and [[Dimir Signet]]. Prioritize untapped colored sources like [[Underground River]] and [[Watery Grave]]: you need two blue and one black to cast the commander, plus enough early blue for interaction. [[Urborg, Tomb of Yawgmoth]] is especially valuable because it gives opponents’ lands the Swamp type, turning on swampwalk against anyone who controls a land. Keep colorless utility lands and slow taplands to a minimum. ([edhrec.com](https://edhrec.com/commanders/wrexial-the-risen-deep))",
     "cardsMentioned": [
       "Windfall",
-      "Fractured Sanity",
-      "Consuming Aberration",
       "Drown in the Loch",
-      "Memory Plunder",
-      "Breach the Multiverse",
-      "Spreading Seas",
+      "Tasha, the Witch Queen",
+      "Sepulchral Primordial",
       "Lightning Greaves",
-      "Stormtide Leviathan",
-      "Mindcrank",
-      "Bloodchief Ascension",
       "Duskmantle Guildmage",
-      "Traumatize",
+      "Mindcrank",
+      "Bruvac the Grandiloquent",
+      "Maddening Cacophony",
+      "Mind Sculpt",
+      "Rest in Peace",
       "Arcane Signet",
-      "Dimir Signet",
       "Talisman of Dominance",
-      "Watery Grave",
+      "Dimir Signet",
       "Underground River",
-      "Urborg, Tomb of Yawgmoth",
-      "Rogue's Passage",
-      "Bojuka Bog"
+      "Watery Grave",
+      "Urborg, Tomb of Yawgmoth"
     ],
     "sources": [
       {
@@ -2178,22 +2093,18 @@
         "title": "Wrexial, the Risen Deep | EDHREC"
       },
       {
-        "url": "https://commanderspellbook.com/combo/936-1290/",
-        "title": "Bloodchief Ascension + Mindcrank Combo | Commander Spellbook"
+        "url": "https://edhrec.com/combos/wrexial-the-risen-deep",
+        "title": "Combos Used In Wrexial, the Risen Deep (138 Combos) | EDHREC"
       },
       {
-        "url": "https://commanderspellbook.com/combo/936-5069/?q=mindcrank",
-        "title": "Duskmantle Guildmage + Mindcrank Combo | Commander Spellbook"
-      },
-      {
-        "url": "https://edhrec.com/commanders/wrexial-the-risen-deep/mill",
-        "title": "Wrexial, the Risen Deep (Commander) - Mill | EDHREC"
+        "url": "https://edhrec.com/commanders/wrexial-the-risen-deep/theft",
+        "title": "Wrexial, the Risen Deep (Commander) - Theft | EDHREC"
       }
     ]
   },
   "edhrec": {
     "url": "https://edhrec.com/commanders/wrexial-the-risen-deep/optimized",
-    "numDecks": 665,
+    "numDecks": 666,
     "avgLands": 37
   },
   "warnings": [],
@@ -2201,7 +2112,7 @@
     "maxSwaps": 15,
     "budgetPerCard": null,
     "budgetTotal": null,
-    "bracket": null,
+    "bracket": 4,
     "tone": "max",
     "locked": [],
     "webResearch": true
@@ -2265,12 +2176,11 @@
         "Rhystic Study",
         "Vampiric Tutor",
         "Notion Thief",
+        "Fierce Guardianship",
         "Opposition Agent",
         "Force of Will",
-        "Narset, Parter of Veils",
         "Imperial Seal",
-        "Fierce Guardianship",
-        "Thassa's Oracle",
+        "Narset, Parter of Veils",
         "Bolas's Citadel"
       ],
       "massLandDenial": [],
@@ -2306,19 +2216,6 @@
         },
         {
           "cards": [
-            "Basalt Monolith",
-            "Mesmeric Orb"
-          ],
-          "produces": [
-            "Infinite self-mill"
-          ],
-          "twoCard": true,
-          "tag": "R",
-          "earlyPct": 10.2,
-          "url": "https://commanderspellbook.com/combo/4131-4684/"
-        },
-        {
-          "cards": [
             "Bloodchief Ascension",
             "Mindcrank"
           ],
@@ -2330,7 +2227,7 @@
           ],
           "twoCard": true,
           "tag": "S",
-          "earlyPct": 11.9,
+          "earlyPct": 18.2,
           "url": "https://commanderspellbook.com/combo/936-1290/"
         },
         {
@@ -2345,7 +2242,7 @@
           ],
           "twoCard": true,
           "tag": "S",
-          "earlyPct": 11.5,
+          "earlyPct": 17.5,
           "url": "https://commanderspellbook.com/combo/936-5069/"
         }
       ],
@@ -2355,7 +2252,7 @@
         {
           "label": "Game Changers",
           "ok": true,
-          "detail": "16 (no limit)"
+          "detail": "15 (no limit)"
         },
         {
           "label": "Mass land denial",
@@ -2481,6 +2378,18 @@
       "delta": 0
     },
     {
+      "name": "Beacon of Unrest",
+      "manaCost": "{3}{B}{B}",
+      "qty": 1,
+      "group": "Sorcery",
+      "cmc": 5,
+      "image": "https://cards.scryfall.io/normal/front/0/6/06bd199b-1855-4208-8bf7-8930e91ab139.jpg?1783930187",
+      "scryfallUri": "https://scryfall.com/card/2xm/77/beacon-of-unrest?utm_source=api",
+      "priceUsd": 0.28,
+      "isNew": false,
+      "delta": 0
+    },
+    {
       "name": "Black Sun's Zenith",
       "manaCost": "{X}{B}{B}",
       "qty": 1,
@@ -2513,6 +2422,18 @@
       "image": "https://cards.scryfall.io/normal/front/6/5/65ebbff0-fbe6-4310-a33f-e00bb2534979.jpg?1783909049",
       "scryfallUri": "https://scryfall.com/card/fdn/250/burnished-hart?utm_source=api",
       "priceUsd": 0.25,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Cabal Coffers",
+      "manaCost": "",
+      "qty": 1,
+      "group": "Land",
+      "cmc": 0,
+      "image": "https://cards.scryfall.io/normal/front/e/1/e1efb0d3-2c72-46ff-bdc1-1069967365a0.jpg?1783926775",
+      "scryfallUri": "https://scryfall.com/card/mh2/301/cabal-coffers?utm_source=api",
+      "priceUsd": 29.16,
       "isNew": false,
       "delta": 0
     },
@@ -2985,18 +2906,6 @@
       "delta": 0
     },
     {
-      "name": "Spell Crumple",
-      "manaCost": "{1}{U}{U}",
-      "qty": 1,
-      "group": "Instant",
-      "cmc": 3,
-      "image": "https://cards.scryfall.io/normal/front/5/2/522d6195-7660-42c0-848b-cc46e19fc4eb.jpg?1783934762",
-      "scryfallUri": "https://scryfall.com/card/cm2/50/spell-crumple?utm_source=api",
-      "priceUsd": 0.68,
-      "isNew": false,
-      "delta": 0
-    },
-    {
       "name": "Strip Mine",
       "manaCost": "",
       "qty": 1,
@@ -3237,14 +3146,14 @@
       "delta": 1
     },
     {
-      "name": "Windfall",
+      "name": "Fierce Guardianship",
       "manaCost": "{2}{U}",
       "qty": 1,
-      "group": "Sorcery",
+      "group": "Instant",
       "cmc": 3,
-      "image": "https://cards.scryfall.io/normal/front/9/c/9ce7113b-08f7-4584-b65f-a7b5caa90c2f.jpg?1783911933",
-      "scryfallUri": "https://scryfall.com/card/otc/123/windfall?utm_source=api",
-      "priceUsd": 5.41,
+      "image": "https://cards.scryfall.io/normal/front/f/7/f7f3dd95-bd14-4e0f-a388-444f9cf1b0dc.jpg?1783915698",
+      "scryfallUri": "https://scryfall.com/card/cmm/94/fierce-guardianship?utm_source=api",
+      "priceUsd": 64.97,
       "isNew": true,
       "delta": 1
     },
@@ -3273,26 +3182,14 @@
       "delta": 1
     },
     {
-      "name": "Narset, Parter of Veils",
-      "manaCost": "{1}{U}{U}",
+      "name": "Windfall",
+      "manaCost": "{2}{U}",
       "qty": 1,
-      "group": "Planeswalker",
+      "group": "Sorcery",
       "cmc": 3,
-      "image": "https://cards.scryfall.io/normal/front/4/e/4e6e5c63-b6e5-4756-bf23-6c6f8669442d.jpg?1783915440",
-      "scryfallUri": "https://scryfall.com/card/cmm/853/narset-parter-of-veils?utm_source=api",
-      "priceUsd": 1.2,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Bloodchief Ascension",
-      "manaCost": "{B}",
-      "qty": 1,
-      "group": "Enchantment",
-      "cmc": 1,
-      "image": "https://cards.scryfall.io/normal/front/d/5/d56d1535-d9de-459f-bc31-0923f621e0e9.jpg?1783915683",
-      "scryfallUri": "https://scryfall.com/card/cmm/139/bloodchief-ascension?utm_source=api",
-      "priceUsd": 22.09,
+      "image": "https://cards.scryfall.io/normal/front/9/c/9ce7113b-08f7-4584-b65f-a7b5caa90c2f.jpg?1783911933",
+      "scryfallUri": "https://scryfall.com/card/otc/123/windfall?utm_source=api",
+      "priceUsd": 5.41,
       "isNew": true,
       "delta": 1
     },
@@ -3333,14 +3230,14 @@
       "delta": 1
     },
     {
-      "name": "Mesmeric Orb",
-      "manaCost": "{2}",
+      "name": "Bloodchief Ascension",
+      "manaCost": "{B}",
       "qty": 1,
-      "group": "Artifact",
-      "cmc": 2,
-      "image": "https://cards.scryfall.io/normal/front/e/2/e24fbdbb-f2ae-4823-9d2a-4c505332aa5b.jpg?1783930103",
-      "scryfallUri": "https://scryfall.com/card/2xm/272/mesmeric-orb?utm_source=api",
-      "priceUsd": 17.83,
+      "group": "Enchantment",
+      "cmc": 1,
+      "image": "https://cards.scryfall.io/normal/front/d/5/d56d1535-d9de-459f-bc31-0923f621e0e9.jpg?1783915683",
+      "scryfallUri": "https://scryfall.com/card/cmm/139/bloodchief-ascension?utm_source=api",
+      "priceUsd": 22.09,
       "isNew": true,
       "delta": 1
     },
@@ -3357,26 +3254,14 @@
       "delta": 1
     },
     {
-      "name": "Fierce Guardianship",
-      "manaCost": "{2}{U}",
+      "name": "Narset, Parter of Veils",
+      "manaCost": "{1}{U}{U}",
       "qty": 1,
-      "group": "Instant",
+      "group": "Planeswalker",
       "cmc": 3,
-      "image": "https://cards.scryfall.io/normal/front/f/7/f7f3dd95-bd14-4e0f-a388-444f9cf1b0dc.jpg?1783915698",
-      "scryfallUri": "https://scryfall.com/card/cmm/94/fierce-guardianship?utm_source=api",
-      "priceUsd": 64.97,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Thassa's Oracle",
-      "manaCost": "{U}{U}",
-      "qty": 1,
-      "group": "Creature",
-      "cmc": 2,
-      "image": "https://cards.scryfall.io/normal/front/7/2/726e8b29-13e9-4138-b6a9-d2a0d8188d1c.jpg?1783931575",
-      "scryfallUri": "https://scryfall.com/card/thb/73/thassas-oracle?utm_source=api",
-      "priceUsd": 19.72,
+      "image": "https://cards.scryfall.io/normal/front/4/e/4e6e5c63-b6e5-4756-bf23-6c6f8669442d.jpg?1783915440",
+      "scryfallUri": "https://scryfall.com/card/cmm/853/narset-parter-of-veils?utm_source=api",
+      "priceUsd": 1.2,
       "isNew": true,
       "delta": 1
     },
@@ -3389,6 +3274,30 @@
       "image": "https://cards.scryfall.io/normal/front/d/2/d2124603-d20e-40eb-97f0-a66323397ac2.jpg?1783933451",
       "scryfallUri": "https://scryfall.com/card/war/79/bolass-citadel?utm_source=api",
       "priceUsd": 17.08,
+      "isNew": true,
+      "delta": 1
+    },
+    {
+      "name": "Perplex",
+      "manaCost": "{1}{U}{B}",
+      "qty": 1,
+      "group": "Instant",
+      "cmc": 3,
+      "image": "https://cards.scryfall.io/normal/front/0/d/0db57459-29f0-4ef6-b256-56955036c0ef.jpg?1783943616",
+      "scryfallUri": "https://scryfall.com/card/rav/217/perplex?utm_source=api",
+      "priceUsd": 1.68,
+      "isNew": true,
+      "delta": 1
+    },
+    {
+      "name": "Insatiable Avarice",
+      "manaCost": "{B}",
+      "qty": 1,
+      "group": "Sorcery",
+      "cmc": 1,
+      "image": "https://cards.scryfall.io/normal/front/a/1/a108b0e4-1b43-4659-9e91-facb0bd57ebb.jpg?1783911830",
+      "scryfallUri": "https://scryfall.com/card/otj/91/insatiable-avarice?utm_source=api",
+      "priceUsd": 4.98,
       "isNew": true,
       "delta": 1
     },
@@ -3413,18 +3322,6 @@
       "image": "https://cards.scryfall.io/normal/front/a/f/af0eb74d-c203-42ea-a24f-c70429b3e4c3.jpg?1793021388",
       "scryfallUri": "https://scryfall.com/card/trc/564/sunken-hollow?utm_source=api",
       "priceUsd": 0.32,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "City of Brass",
-      "manaCost": "",
-      "qty": 1,
-      "group": "Land",
-      "cmc": 0,
-      "image": "https://cards.scryfall.io/normal/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
-      "scryfallUri": "https://scryfall.com/card/tmc/62/city-of-brass?utm_source=api",
-      "priceUsd": 9.8,
       "isNew": true,
       "delta": 1
     }
@@ -4458,7 +4355,7 @@
         "description": "Activate Sol Ring by tapping it, adding {C} {C}.\nCast the permanent that can be cast using {C} by paying its mana cost.\nHullbreaker Horror triggers, returning Sol Ring from the battlefield to your hand.\nCast Sol Ring by paying {1}. \nHullbreaker Horror triggers, returning the permanent cast in step 2 from the battlefield to your hand.\nRepeat.\nIf the permanent can be cast by paying {0}, this combo nets infinite colorless mana.",
         "bracketTag": "E",
         "url": "https://commanderspellbook.com/combo/513-5034--46/",
-        "popularity": 370354
+        "popularity": 370663
       },
       {
         "id": "513-2364--47",
@@ -4476,7 +4373,7 @@
         "description": "Activate Mana Vault by tapping it, adding {C}{C}{C}.\nCast the permanent that can be cast using {C}{C} from your hand by paying its mana cost.\nHullbreaker Horror triggers, returning Mana Vault from the battlefield to your hand.\nCast Mana Vault by paying {1}.\nHullbreaker Horror triggers, returning the permanent cast in step 2 from the battlefield to your hand.\nRepeat.\nIf the permanent can be cast using {C} or less, this combo nets infinite colorless mana.",
         "bracketTag": "P",
         "url": "https://commanderspellbook.com/combo/513-2364--47/",
-        "popularity": 79131
+        "popularity": 79201
       },
       {
         "id": "4131-4547",
@@ -4493,7 +4390,7 @@
         "description": "Activate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {3}, untapping it.\nRepeat.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/4131-4547/",
-        "popularity": 67778
+        "popularity": 67842
       },
       {
         "id": "936-1290",
@@ -4513,7 +4410,7 @@
         "description": "Cause one or more opponents to lose life.\nMindcrank triggers once for each life loss event, causing that player to mill cards equal to the amount of life lost.\nBloodchief Ascension triggers once for each card milled, causing that player to lose 2 life and you to gain 2 life for each trigger.\nRepeat from step 2.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/936-1290/",
-        "popularity": 64719
+        "popularity": 64763
       },
       {
         "id": "4131-4235",
@@ -4530,7 +4427,7 @@
         "description": "Activate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {3}.\nRings of Brighthearth triggers, causing you to pay {2} to copy Basalt Monolith's last ability.\nResolve the copy of Basalt Monolith's last ability, untapping it.\nActivate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}.\nResolve the Basalt Monolith ability from step 2, untapping it.\nRepeat.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/4131-4235/",
-        "popularity": 54612
+        "popularity": 54626
       },
       {
         "id": "542-5034",
@@ -4548,7 +4445,7 @@
         "description": "Cast Sol Ring by paying its mana cost.\nTidespout Tyrant triggers, returning a nontoken permanent that can be cast using {C} from the battlefield to your hand.\nActivate Sol Ring by tapping it, adding {C}{C}.\nCast the nontoken permanent returned in step 2 by paying its mana cost.\nTidespout Tyrant triggers, returning Sol Ring from the battlefield to your hand.\nRepeat.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/542-5034/",
-        "popularity": 38205
+        "popularity": 38230
       },
       {
         "id": "4131-5390",
@@ -4565,7 +4462,7 @@
         "description": "Activate Basalt Monolith's first activated ability by tapping it, adding {C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {2}, untapping it.\nRepeat.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/4131-5390/",
-        "popularity": 26754
+        "popularity": 26768
       },
       {
         "id": "936-5069",
@@ -4584,7 +4481,7 @@
         "description": "Activate Duskmantle Guildmage's first ability by paying {1}{U}{B}, causing your opponent to lose life whenever a card is put into their graveyard this turn.\nActivate Duskmantle Guildmage's second ability by paying {2}{U}{B}, causing an opponent to mill two cards.\nDuskmantle Guildmage triggers twice.\nResolve the first trigger, causing the opponent to lose 1 life.\nMindcrank triggers, causing the opponent to mill a card.\nDuskmantle Guildmage triggers, causing the opponent to lose 1 life.\nRepeat from step 5 until the opponent has a life total of zero, causing them to lose the game.\nRepeat from step 2 for each other opponent.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/936-5069/",
-        "popularity": 19987
+        "popularity": 19992
       },
       {
         "id": "2702-4992",
@@ -4620,7 +4517,7 @@
         "description": "Cast Mana Vault by paying its mana cost.\nTidespout Tyrant triggers, returning a nontoken permanent that can be cast using {C}{C} from the battlefield to your hand.\nActivate Mana Vault by tapping it, adding {C}{C}{C}\nCast the nontoken permanent returned in step 2 by paying its mana cost.\nTidespout Tyrant triggers, returning Mana Vault from the battlefield to your hand.\nRepeat.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/542-2364/",
-        "popularity": 13992
+        "popularity": 13998
       },
       {
         "id": "4131-5149",
@@ -4637,7 +4534,7 @@
         "description": "Activate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}.\nActivate Basalt Monolith's last ability by paying {1}, untapping it.\nRepeat.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/4131-5149/",
-        "popularity": 11140
+        "popularity": 11155
       },
       {
         "id": "4131-4684",
@@ -4654,7 +4551,7 @@
         "description": "Activate Basalt Monolith's first ability by tapping it, adding {3}.\nActivate Basalt Monolith's last ability by paying {3}, untapping it.\nMesmeric Orb triggers, causing you to mill a card.\nRepeat.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/4131-4684/",
-        "popularity": 10135
+        "popularity": 10150
       },
       {
         "id": "5078-5849",
@@ -4673,7 +4570,7 @@
         "description": "Activate Sensei's Divining Top's second ability by tapping it, causing you to draw a card and put Sensei's Divining Top from the battlefield on top of your library.\nCast Sensei's Divining Top from the top of your library by paying {0} due to Fortune Teller's Talent.\nRepeat.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/5078-5849/",
-        "popularity": 7861
+        "popularity": 7878
       },
       {
         "id": "1167-1384",
@@ -4691,7 +4588,7 @@
         "description": "Use Mindslaver's ability targeting an opponent.\nActivate Academy Ruins's ability targeting Mindslaver in graveyard.\nPass to opponent's turn.\nPass to your turn and draw Mindslaver.\nPlay Mindslaver, use it, and target it with Academy Ruins.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/1167-1384/",
-        "popularity": 7471
+        "popularity": 7466
       },
       {
         "id": "876-4944",
@@ -4708,7 +4605,7 @@
         "description": "Activate Lightning Greaves's equip ability by paying {0}, targeting any creature you control except the creature that has Lightning Greaves attached.\nCrackdown Construct triggers, giving it +1/+1 until end of turn.\nResolve Lightning Greaves's equip ability.\nRepeat.",
         "bracketTag": "O",
         "url": "https://commanderspellbook.com/combo/876-4944/",
-        "popularity": 4045
+        "popularity": 4048
       },
       {
         "id": "328-1744",
@@ -4726,7 +4623,7 @@
         "description": "Cast Rite of Replication with kicker by paying {7}{U}{U}, creating five token copies of Gray Merchant of Asphodel.\nEach Gray Merchant of Asphodel enters the battlefield, triggering their abilities.\nResolve the first trigger, causing each opponent to lose life equal to your devotion to black, and causing you to gain that much life.\nRepeat step 3 for each remaining trigger.",
         "bracketTag": "C",
         "url": "https://commanderspellbook.com/combo/328-1744/",
-        "popularity": 3996
+        "popularity": 4001
       },
       {
         "id": "74-4131",
@@ -4743,7 +4640,7 @@
         "description": "Activate Basalt Monolith's first ability by tapping it, adding {C}{C}{C}\r\nActivate Basalt Monolith's second ability by paying {3}\r\nLocus of Enlightenment triggers, untapping Basalt Monolith\r\nHolding priority, activate Basalt Monolith by tapping it, adding {C}{C}{C}\r\nResolve Basalt Monolith's ability from step 2, untapping it.\r\nRepeat",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/74-4131/",
-        "popularity": 2635
+        "popularity": 2641
       },
       {
         "id": "141-1744",
@@ -4763,7 +4660,7 @@
         "description": "Cast Rite of Replication by paying its mana cost, targeting a creature you control.\nHolding priority, cast Naru Meha either from your hand or from the command zone by paying {2}{U}{U} plus commander tax, if applicable.\nWhen Naru Meha enters the battlefield, it triggers, copying Rite of Replication, targeting Naru Meha.\nResolve the copy of Rite of Replication, creating a token copy of Naru Meha.\nPut either Naru Meha into your graveyard due to the legend rule.\nRepeat from step 3.",
         "bracketTag": "E",
         "url": "https://commanderspellbook.com/combo/141-1744/",
-        "popularity": 2496
+        "popularity": 2500
       },
       {
         "id": "876-2904",
@@ -4780,7 +4677,7 @@
         "description": "Activate Lightning Greaves's equip ability by paying {0}, targeting Cephalid Illusionist.\nCephalid Illusionist triggers, causing you to mill three cards.\nResolve the Lightning Greaves ability, attaching it to Cephalid Illusionist.\nRepeat.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/876-2904/",
-        "popularity": 2278
+        "popularity": 2282
       },
       {
         "id": "4413-4812",
@@ -4798,200 +4695,172 @@
         "description": "Cast Animate Dead by paying {1}{B}.\nAnimate Dead enters the battlefield, returning Kederekt Leviathan from your graveyard to the battlefield attached with Animate Dead.\nKederekt Leviathan triggers, returning all nonland permanents to their owner's hands.\nAnimate Dead triggers, causing you to sacrifice Kederekt Leviathan.\nRepeat each turn.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/4413-4812/",
-        "popularity": 2034
+        "popularity": 2035
       }
     ]
   },
   "manaSuggestions": [],
   "synergies": [
     {
-      "title": "Swampwalk on Demand",
+      "title": "Swampwalk and a Mana Surge",
       "cards": [
         "Wrexial, the Risen Deep",
         "Urborg, Tomb of Yawgmoth",
-        "Expedition Map"
+        "Cabal Coffers"
       ],
-      "explanation": "[[Expedition Map]] finds [[Urborg, Tomb of Yawgmoth]], which makes every land a Swamp in addition to its other types. That lets [[Wrexial, the Risen Deep]] attack any opponent who controls a land without being blocked, so you can pick the graveyard with the best spell."
+      "explanation": "[[Urborg, Tomb of Yawgmoth]] makes every land a Swamp, so [[Wrexial, the Risen Deep]] can attack any opponent who controls a land without being blocked. It also makes every land you control count toward [[Cabal Coffers]], helping pay for your commander and its commander tax."
     },
     {
-      "title": "Hit Before They Untap",
+      "title": "Two Spell Thieves",
+      "cards": [
+        "Wrexial, the Risen Deep",
+        "Sakashima the Impostor"
+      ],
+      "explanation": "[[Sakashima the Impostor]] can copy [[Wrexial, the Risen Deep]] while keeping a different name, so both survive the legend rule. Send them at different opponents to tap two graveyards, or send both at one opponent with multiple spells worth stealing."
+    },
+    {
+      "title": "Haste With Backup",
       "cards": [
         "Wrexial, the Risen Deep",
         "Lightning Greaves",
         "Fierce Guardianship"
       ],
-      "explanation": "[[Lightning Greaves]] gives [[Wrexial, the Risen Deep]] haste for an immediate attack and shroud once equipped. While you control your commander, [[Fierce Guardianship]] can counter a noncreature spell for free, including removal in response to the equip ability or a board wipe that bypasses shroud."
+      "explanation": "[[Lightning Greaves]] lets [[Wrexial, the Risen Deep]] attack the turn it comes down and gives it shroud once equipped. With your commander on the battlefield, [[Fierce Guardianship]] can counter a noncreature answer for free, even while the equip ability is still on the stack."
     },
     {
-      "title": "Two Kraken, Two Spells",
+      "title": "Discard Their Hands, Draw Their Cards",
       "cards": [
         "Wrexial, the Risen Deep",
-        "Sakashima the Impostor",
-        "Urborg, Tomb of Yawgmoth"
+        "Windfall",
+        "Notion Thief"
       ],
-      "explanation": "[[Sakashima the Impostor]] can copy [[Wrexial, the Risen Deep]] while keeping its own name, so the legend rule lets you keep both. With [[Urborg, Tomb of Yawgmoth]] enabling both creatures’ swampwalk, they can hit different players or take two distinct spells from the same graveyard."
+      "explanation": "Cast [[Windfall]] before combat to stock opposing graveyards with spells for [[Wrexial, the Risen Deep]]. [[Notion Thief]] redirects the opponents' replacement hands to you, leaving them empty-handed instead of letting them reload."
     },
     {
-      "title": "Mill Into More Options",
+      "title": "Draw, Mill, and Deny",
       "cards": [
         "Wrexial, the Risen Deep",
-        "Mesmeric Orb",
+        "Consecrated Sphinx",
+        "Dreamborn Muse",
         "Drown in the Loch"
       ],
-      "explanation": "[[Mesmeric Orb]] fills opposing graveyards as their permanents untap, stocking them with potential spells for [[Wrexial, the Risen Deep]]. Those same cards raise the mana value ceiling for both modes of [[Drown in the Loch]]."
+      "explanation": "[[Consecrated Sphinx]] can keep your hand full, so your own [[Dreamborn Muse]] trigger may mill you heavily; the upside is that opponents with full hands also mill heavily on their upkeeps. Those opposing graveyards give [[Wrexial, the Risen Deep]] more spells to steal and let [[Drown in the Loch]] answer more expensive threats."
     },
     {
-      "title": "Discard Now, Cast Later",
-      "cards": [
-        "Windfall",
-        "Narset, Parter of Veils",
-        "Wrexial, the Risen Deep"
-      ],
-      "explanation": "[[Windfall]] makes everyone discard their hand, but [[Narset, Parter of Veils]] limits each opponent to at most one replacement card, or none if they already drew that turn. [[Wrexial, the Risen Deep]] can then turn the discarded instants and sorceries into free casts."
-    },
-    {
-      "title": "Drain the Table, Stock the Graves",
-      "cards": [
-        "Exsanguinate",
-        "Mindcrank",
-        "Wrexial, the Risen Deep"
-      ],
-      "explanation": "[[Exsanguinate]] makes each opponent lose life, and [[Mindcrank]] turns that loss into an equal number of milled cards for each of them. Combat damage from [[Wrexial, the Risen Deep]] also triggers [[Mindcrank]]; the newly milled cards cannot be chosen for that same hit, but they can supply targets for later attacks."
-    },
-    {
-      "title": "Send the Bill to Their Library",
-      "cards": [
-        "Mesmeric Orb",
-        "Bloodchief Ascension",
-        "Wrexial, the Risen Deep"
-      ],
-      "explanation": "A hit from [[Wrexial, the Risen Deep]] can qualify [[Bloodchief Ascension]] for a quest counter at the end step. Once it has three quest counters, each card [[Mesmeric Orb]] mills into an opponent’s graveyard can drain that player for 2 life and gain you 2."
-    },
-    {
-      "title": "Draw the Table’s New Hands",
-      "cards": [
-        "Notion Thief",
-        "Windfall",
-        "Reliquary Tower"
-      ],
-      "explanation": "With [[Notion Thief]] in play, [[Windfall]] makes opponents discard their hands and gives you their replacement draws in addition to your own. [[Reliquary Tower]] lets you keep the oversized hand through cleanup."
-    },
-    {
-      "title": "Artifact Ramp on Repeat",
+      "title": "Double Dynamo",
       "cards": [
         "Tezzeret the Seeker",
-        "Mana Vault",
         "Thran Dynamo",
-        "Exsanguinate"
+        "Sculpting Steel"
       ],
-      "explanation": "[[Tezzeret the Seeker]] can fetch either mana rock or untap both [[Mana Vault]] and [[Thran Dynamo]], getting another six colorless mana without paying the usual untap cost for [[Mana Vault]]. That mana can go straight into a larger [[Exsanguinate]]."
+      "explanation": "Have [[Sculpting Steel]] copy [[Thran Dynamo]], then use [[Tezzeret the Seeker]] to untap both after tapping them. That produces twelve colorless mana in one main phase, enough to cover a large commander tax or most of an expensive spell."
     },
     {
-      "title": "Turn Life Into Cards and Spells",
+      "title": "Land Tutor on Repeat",
       "cards": [
-        "Bolas's Citadel",
-        "Sensei's Divining Top"
+        "Academy Ruins",
+        "Expedition Map",
+        "Urborg, Tomb of Yawgmoth",
+        "Cabal Coffers"
       ],
-      "explanation": "[[Sensei's Divining Top]] rearranges the top three cards to help [[Bolas's Citadel]] keep casting, or taps to draw a card that is blocking the way and puts itself on top. You can then cast [[Sensei's Divining Top]] from the top for 1 life and repeat as long as your life and library allow."
+      "explanation": "Sacrifice [[Expedition Map]] to find whichever half of [[Urborg, Tomb of Yawgmoth]] and [[Cabal Coffers]] you are missing, then use [[Academy Ruins]] to put the spent artifact back on top of your library. That lets one tutor assemble both lands over successive draws."
     }
   ],
   "howToPlay": {
     "original": {
-      "summary": "This deck ramps into [[Wrexial, the Risen Deep]] and casts spells from opponents’ graveyards for free. It closes with commander damage, stolen threats, or a big [[Exsanguinate]].",
+      "summary": "Get [[Wrexial, the Risen Deep]] through unblocked and cast the best spells from opponents’ graveyards. Close with commander damage, stolen threats, or a big [[Exsanguinate]].",
       "early": [
-        "Use [[Sol Ring]] to cast [[Dimir Signet]], which supplies both colors for your commander.",
-        "Find [[Urborg, Tomb of Yawgmoth]] with [[Expedition Map]] to make every opponent vulnerable to swampwalk.",
-        "Play [[Baleful Strix]] to draw a card and discourage early attackers."
+        "Play [[Dimir Signet]] early so your colorless mana can help cast [[Wrexial, the Risen Deep]].",
+        "Use [[Expedition Map]] to find whichever half of your big mana pair is missing.",
+        "Find [[Expedition Map]] or [[Mana Vault]] with [[Trinket Mage]], depending on what you need."
       ],
       "mid": [
-        "Give [[Wrexial, the Risen Deep]] haste with [[Lightning Greaves]] to get a spell right away.",
-        "Send [[Wrexial, the Risen Deep]] at the opponent whose graveyard has the best spell.",
-        "Copy [[Wrexial, the Risen Deep]] with [[Sakashima the Impostor]] to keep both and double up."
+        "Pair [[Urborg, Tomb of Yawgmoth]] with [[Cabal Coffers]] for mana and unblockable commander attacks.",
+        "Attack with [[Wrexial, the Risen Deep]] where you can connect and steal the best spell.",
+        "Copy [[Wrexial, the Risen Deep]] with [[Sakashima the Impostor]] to steal spells with both."
       ],
       "late": [
-        "Untap [[Mana Vault]] and [[Thran Dynamo]] with [[Tezzeret the Seeker]] for a bigger [[Exsanguinate]].",
-        "Pair [[Exsanguinate]] with [[Mindcrank]] to stock surviving opponents’ graveyards with more spells.",
-        "Use [[Blatant Thievery]] to turn each opponent’s best permanent against them."
+        "Copy [[Thran Dynamo]] with [[Sculpting Steel]], then untap both with [[Tezzeret the Seeker]].",
+        "Recycle [[Expedition Map]] with [[Academy Ruins]] to find another key land.",
+        "Overload [[Cyclonic Rift]] before attacking with the threats you stole through [[Blatant Thievery]]."
       ],
       "winConditions": [
-        "Finish low-life opponents together with a big [[Exsanguinate]].",
-        "Land four unblocked hits with [[Wrexial, the Risen Deep]] to eliminate an opponent.",
-        "Win through combat with the strongest creature you can steal using [[Bribery]]."
+        "Land five hits with [[Wrexial, the Risen Deep]] to eliminate a player through commander damage.",
+        "Pour mana from [[Cabal Coffers]] into [[Exsanguinate]] to drain the whole table.",
+        "Use [[Bribery]] to steal the creature most likely to win through combat."
       ],
       "keyCards": [
         {
           "name": "Wrexial, the Risen Deep",
-          "why": "Turns combat damage into free spells from the defending player’s graveyard."
+          "why": "Turns unblocked hits into free spells from opposing graveyards."
         },
         {
           "name": "Urborg, Tomb of Yawgmoth",
-          "why": "Turns every land into a Swamp so swampwalk works."
+          "why": "Turns opposing lands into swamps so your commander slips through."
         },
         {
-          "name": "Sakashima the Impostor",
-          "why": "Copies your commander without making you lose either creature."
+          "name": "Cabal Coffers",
+          "why": "Produces the big mana your finishers need."
         },
         {
-          "name": "Tezzeret the Seeker",
-          "why": "Finds mana rocks and untaps them for big turns."
+          "name": "Lightning Greaves",
+          "why": "Lets your commander attack immediately and dodge targeted removal."
         },
         {
           "name": "Exsanguinate",
-          "why": "Turns spare mana into table-wide life loss and keeps you alive."
+          "why": "Converts excess mana into life loss for every opponent."
         }
       ],
-      "mulligan": "Keep three lands, access to both colors, and early acceleration like [[Sol Ring]] or [[Dimir Signet]].",
+      "mulligan": "Keep two or three lands with blue access and early acceleration like [[Dimir Signet]] or [[Sol Ring]].",
       "watchOut": [
-        "Graveyard exile can leave [[Wrexial, the Risen Deep]] without a spell to cast.",
-        "Opponents can remove [[Wrexial, the Risen Deep]] in response to equipping [[Lightning Greaves]].",
-        "Hits from [[Sakashima the Impostor]] don’t count toward commander damage."
+        "Graveyard exile can remove the spell [[Wrexial, the Risen Deep]] targets before you cast it.",
+        "[[Lightning Greaves]] also stops your own [[Rite of Replication]] from targeting the equipped creature.",
+        "Without [[Urborg, Tomb of Yawgmoth]], [[Cabal Coffers]] may produce too little mana to help."
       ]
     },
     "optimized": {
-      "summary": "[[Wrexial, the Risen Deep]] attacks through islandwalk or swampwalk to cast spells from opponents’ graveyards. Close with a [[Mindcrank]] loop, a big [[Exsanguinate]], or [[Thassa's Oracle]] after milling yourself.",
+      "summary": "[[Wrexial, the Risen Deep]] turns discarded and milled spells into free casts. Finish with a [[Mindcrank]] loop or pour mana from [[Cabal Coffers]] into [[Exsanguinate]].",
       "early": [
-        "Lead with [[Sol Ring]] into [[Dimir Signet]] to accelerate and fix your colors.",
-        "Use [[Expedition Map]] to find [[Urborg, Tomb of Yawgmoth]] and open up attacks.",
-        "Land [[Mesmeric Orb]] early to stock opposing graveyards for [[Wrexial, the Risen Deep]]."
+        "Use [[Sol Ring]] to deploy [[Dimir Signet]] and get both commander colors online.",
+        "Use [[Expedition Map]] to find whichever half of [[Urborg, Tomb of Yawgmoth]] and [[Cabal Coffers]] you're missing.",
+        "Land [[Rhystic Study]] early so opposing spells can refill your hand while you ramp."
       ],
       "mid": [
-        "Equip [[Lightning Greaves]] to attack immediately with [[Wrexial, the Risen Deep]].",
-        "Swing [[Wrexial, the Risen Deep]] at the player whose graveyard offers the best spell.",
-        "Cast [[Windfall]] with [[Narset, Parter of Veils]] out to leave opponents short on cards."
+        "Equip [[Lightning Greaves]] to [[Wrexial, the Risen Deep]] for an immediate swing.",
+        "Attack whoever has the best spell in their graveyard that [[Wrexial, the Risen Deep]] can reach.",
+        "Flash in [[Notion Thief]] before [[Windfall]] to refill your hand and stock opposing graveyards."
       ],
       "late": [
-        "Use [[Tezzeret the Seeker]] to untap [[Mana Vault]] and [[Thran Dynamo]] before casting [[Exsanguinate]].",
-        "Use [[Bolas's Citadel]] and [[Sensei's Divining Top]] to draw repeatedly for one life per card.",
-        "Hold [[Fierce Guardianship]] to protect [[Thassa's Oracle]] while your commander is out."
+        "Use [[Tezzeret the Seeker]] to fetch [[Mindcrank]] or untap [[Thran Dynamo]] before casting [[Exsanguinate]].",
+        "Copy [[Wrexial, the Risen Deep]] with [[Sakashima the Impostor]] to steal two spells per combat."
       ],
       "winConditions": [
-        "With [[Mindcrank]] and charged [[Bloodchief Ascension]], make each opponent lose life to start their loop.",
-        "With [[Mindcrank]] out, activate both [[Duskmantle Guildmage]] abilities to start a lethal loop.",
-        "Tap and untap [[Basalt Monolith]] repeatedly with [[Mesmeric Orb]], then cast [[Thassa's Oracle]]."
+        "With [[Mindcrank]] out, activate [[Duskmantle Guildmage]]’s life-loss ability, then make an opponent mill or lose life.",
+        "Pair [[Mindcrank]] with a fully charged [[Bloodchief Ascension]], then make each opponent mill or lose life.",
+        "Fuel a lethal [[Exsanguinate]] with [[Urborg, Tomb of Yawgmoth]] and [[Cabal Coffers]]."
       ],
       "keyCards": [
         {
           "name": "Wrexial, the Risen Deep",
-          "why": "Turns combat damage into free spells from opposing graveyards."
+          "why": "Turns combat damage into free spells from the defending player's graveyard."
         },
         {
           "name": "Urborg, Tomb of Yawgmoth",
-          "why": "Makes swampwalk work against anyone who controls a land."
+          "why": "Enables swampwalk and makes every land count for [[Cabal Coffers]]."
         },
         {
           "name": "Mindcrank",
-          "why": "Turns life loss into mill and powers two finishing loops."
+          "why": "Turns life loss into milling for both graveyard loops."
         },
         {
-          "name": "Mesmeric Orb",
-          "why": "Stocks opposing graveyards and enables your self-mill finish."
+          "name": "Windfall",
+          "why": "Stocks opposing graveyards and refills your hand with [[Notion Thief]]."
         }
       ],
-      "mulligan": "Keep two or three lands with blue and black access and early acceleration like [[Dimir Signet]] or [[Sol Ring]].",
+      "mulligan": "Keep lands covering both colors, early ramp like [[Dimir Signet]], and draw or cheap interaction.",
       "watchOut": [
-        "Save [[Force of Will]] for graveyard exile that would blank [[Wrexial, the Risen Deep]].",
-        "Cast [[Thassa's Oracle]] before your next draw after milling yourself with [[Mesmeric Orb]].",
-        "Pair [[Hullbreaker Horror]] and [[Sol Ring]] with a zero-cost artifact like unkicked [[Everflowing Chalice]]."
+        "Graveyard exile can remove the spell you target with [[Wrexial, the Risen Deep]].",
+        "[[Lightning Greaves]] prevents your own [[Sakashima the Impostor]] from targeting nothing because copying doesn't target."
       ]
     }
   },
@@ -5421,10 +5290,10 @@
       "scryfallUri": "https://scryfall.com/card/inr/68/hullbreaker-horror?utm_source=api",
       "priceUsd": 7.4
     },
-    "Windfall": {
-      "image": "https://cards.scryfall.io/normal/front/9/c/9ce7113b-08f7-4584-b65f-a7b5caa90c2f.jpg?1783911933",
-      "scryfallUri": "https://scryfall.com/card/otc/123/windfall?utm_source=api",
-      "priceUsd": 5.41
+    "Fierce Guardianship": {
+      "image": "https://cards.scryfall.io/normal/front/f/7/f7f3dd95-bd14-4e0f-a388-444f9cf1b0dc.jpg?1783915698",
+      "scryfallUri": "https://scryfall.com/card/cmm/94/fierce-guardianship?utm_source=api",
+      "priceUsd": 64.97
     },
     "Opposition Agent": {
       "image": "https://cards.scryfall.io/normal/front/0/8/086f97e9-8b62-44f3-b467-149c2ac5ca78.jpg?1783928831",
@@ -5436,15 +5305,10 @@
       "scryfallUri": "https://scryfall.com/card/dmr/50/force-of-will?utm_source=api",
       "priceUsd": 56.35
     },
-    "Narset, Parter of Veils": {
-      "image": "https://cards.scryfall.io/normal/front/4/e/4e6e5c63-b6e5-4756-bf23-6c6f8669442d.jpg?1783915440",
-      "scryfallUri": "https://scryfall.com/card/cmm/853/narset-parter-of-veils?utm_source=api",
-      "priceUsd": 1.2
-    },
-    "Bloodchief Ascension": {
-      "image": "https://cards.scryfall.io/normal/front/d/5/d56d1535-d9de-459f-bc31-0923f621e0e9.jpg?1783915683",
-      "scryfallUri": "https://scryfall.com/card/cmm/139/bloodchief-ascension?utm_source=api",
-      "priceUsd": 22.09
+    "Windfall": {
+      "image": "https://cards.scryfall.io/normal/front/9/c/9ce7113b-08f7-4584-b65f-a7b5caa90c2f.jpg?1783911933",
+      "scryfallUri": "https://scryfall.com/card/otc/123/windfall?utm_source=api",
+      "priceUsd": 5.41
     },
     "Duskmantle Guildmage": {
       "image": "https://cards.scryfall.io/normal/front/9/a/9a1509ff-387e-4ccd-bda0-86e8738a98fb.jpg?1783940109",
@@ -5461,30 +5325,35 @@
       "scryfallUri": "https://scryfall.com/card/clb/842/drown-in-the-loch?utm_source=api",
       "priceUsd": 1.5
     },
-    "Mesmeric Orb": {
-      "image": "https://cards.scryfall.io/normal/front/e/2/e24fbdbb-f2ae-4823-9d2a-4c505332aa5b.jpg?1783930103",
-      "scryfallUri": "https://scryfall.com/card/2xm/272/mesmeric-orb?utm_source=api",
-      "priceUsd": 17.83
+    "Bloodchief Ascension": {
+      "image": "https://cards.scryfall.io/normal/front/d/5/d56d1535-d9de-459f-bc31-0923f621e0e9.jpg?1783915683",
+      "scryfallUri": "https://scryfall.com/card/cmm/139/bloodchief-ascension?utm_source=api",
+      "priceUsd": 22.09
     },
     "Imperial Seal": {
       "image": "https://cards.scryfall.io/normal/front/e/7/e71a6bd3-7478-4c3a-8ae0-98352ce28492.jpg?1783921904",
       "scryfallUri": "https://scryfall.com/card/2x2/79/imperial-seal?utm_source=api",
       "priceUsd": 153.95
     },
-    "Fierce Guardianship": {
-      "image": "https://cards.scryfall.io/normal/front/f/7/f7f3dd95-bd14-4e0f-a388-444f9cf1b0dc.jpg?1783915698",
-      "scryfallUri": "https://scryfall.com/card/cmm/94/fierce-guardianship?utm_source=api",
-      "priceUsd": 64.97
-    },
-    "Thassa's Oracle": {
-      "image": "https://cards.scryfall.io/normal/front/7/2/726e8b29-13e9-4138-b6a9-d2a0d8188d1c.jpg?1783931575",
-      "scryfallUri": "https://scryfall.com/card/thb/73/thassas-oracle?utm_source=api",
-      "priceUsd": 19.72
+    "Narset, Parter of Veils": {
+      "image": "https://cards.scryfall.io/normal/front/4/e/4e6e5c63-b6e5-4756-bf23-6c6f8669442d.jpg?1783915440",
+      "scryfallUri": "https://scryfall.com/card/cmm/853/narset-parter-of-veils?utm_source=api",
+      "priceUsd": 1.2
     },
     "Bolas's Citadel": {
       "image": "https://cards.scryfall.io/normal/front/d/2/d2124603-d20e-40eb-97f0-a66323397ac2.jpg?1783933451",
       "scryfallUri": "https://scryfall.com/card/war/79/bolass-citadel?utm_source=api",
       "priceUsd": 17.08
+    },
+    "Perplex": {
+      "image": "https://cards.scryfall.io/normal/front/0/d/0db57459-29f0-4ef6-b256-56955036c0ef.jpg?1783943616",
+      "scryfallUri": "https://scryfall.com/card/rav/217/perplex?utm_source=api",
+      "priceUsd": 1.68
+    },
+    "Insatiable Avarice": {
+      "image": "https://cards.scryfall.io/normal/front/a/1/a108b0e4-1b43-4659-9e91-facb0bd57ebb.jpg?1783911830",
+      "scryfallUri": "https://scryfall.com/card/otj/91/insatiable-avarice?utm_source=api",
+      "priceUsd": 4.98
     },
     "Exotic Orchard": {
       "image": "https://cards.scryfall.io/normal/front/0/a/0a4a51a3-fb8b-4611-8f94-fbcab547423c.jpg?1793021293",
@@ -5495,11 +5364,6 @@
       "image": "https://cards.scryfall.io/normal/front/a/f/af0eb74d-c203-42ea-a24f-c70429b3e4c3.jpg?1793021388",
       "scryfallUri": "https://scryfall.com/card/trc/564/sunken-hollow?utm_source=api",
       "priceUsd": 0.32
-    },
-    "City of Brass": {
-      "image": "https://cards.scryfall.io/normal/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
-      "scryfallUri": "https://scryfall.com/card/tmc/62/city-of-brass?utm_source=api",
-      "priceUsd": 9.8
     },
     "Traumatize": {
       "image": "https://cards.scryfall.io/normal/front/9/b/9b8784dd-83f9-41f8-aedc-f0f81073ffcb.jpg?1783939929",
@@ -5521,11 +5385,6 @@
       "scryfallUri": "https://scryfall.com/card/mma/181/mind-funeral?utm_source=api",
       "priceUsd": 1.21
     },
-    "Perplex": {
-      "image": "https://cards.scryfall.io/normal/front/0/d/0db57459-29f0-4ef6-b256-56955036c0ef.jpg?1783943616",
-      "scryfallUri": "https://scryfall.com/card/rav/217/perplex?utm_source=api",
-      "priceUsd": 1.68
-    },
     "Psychic Strike": {
       "image": "https://cards.scryfall.io/normal/front/0/d/0d87927c-80a6-4146-92a5-58c510ce7958.jpg?1783940102",
       "scryfallUri": "https://scryfall.com/card/gtc/189/psychic-strike?utm_source=api",
@@ -5546,60 +5405,45 @@
       "scryfallUri": "https://scryfall.com/card/cm2/45/memory-erosion?utm_source=api",
       "priceUsd": 8.77
     },
-    "Consuming Aberration": {
-      "image": "https://cards.scryfall.io/normal/front/4/9/497fba45-201d-4688-b420-d093beb4e8f4.jpg?1783907032",
-      "scryfallUri": "https://scryfall.com/card/tdc/283/consuming-aberration?utm_source=api",
-      "priceUsd": 0.38
+    "Thassa's Oracle": {
+      "image": "https://cards.scryfall.io/normal/front/7/2/726e8b29-13e9-4138-b6a9-d2a0d8188d1c.jpg?1783931575",
+      "scryfallUri": "https://scryfall.com/card/thb/73/thassas-oracle?utm_source=api",
+      "priceUsd": 19.72
     },
     "Maddening Cacophony": {
       "image": "https://cards.scryfall.io/normal/front/1/0/10a79733-702c-4611-b073-71db7f1158b2.jpg?1783929393",
       "scryfallUri": "https://scryfall.com/card/znr/67/maddening-cacophony?utm_source=api",
       "priceUsd": 6.56
     },
-    "Fractured Sanity": {
-      "image": "https://cards.scryfall.io/normal/front/8/1/81875876-c1a0-4f64-8dfc-39217b5e4020.jpg?1783922470",
-      "scryfallUri": "https://scryfall.com/card/clb/722/fractured-sanity?utm_source=api",
-      "priceUsd": 2.54
-    },
-    "Memory Plunder": {
-      "image": "https://cards.scryfall.io/normal/front/4/d/4d9b3d8d-4941-44ca-b829-d53242feba1e.jpg?1783922398",
-      "scryfallUri": "https://scryfall.com/card/clb/849/memory-plunder?utm_source=api",
-      "priceUsd": 1.51
+    "Mesmeric Orb": {
+      "image": "https://cards.scryfall.io/normal/front/e/2/e24fbdbb-f2ae-4823-9d2a-4c505332aa5b.jpg?1783930103",
+      "scryfallUri": "https://scryfall.com/card/2xm/272/mesmeric-orb?utm_source=api",
+      "priceUsd": 17.83
     },
     "Kederekt Leviathan": {
       "image": "https://cards.scryfall.io/normal/front/7/3/73cdb22d-90e6-49c4-9ad7-3249d9196ca9.jpg?1783921915",
       "scryfallUri": "https://scryfall.com/card/2x2/55/kederekt-leviathan?utm_source=api",
       "priceUsd": 0.61
     },
-    "Spreading Seas": {
-      "image": "https://cards.scryfall.io/normal/front/3/7/37454c1c-4098-4ac2-884e-3f65f1384bdb.jpg?1783942160",
-      "scryfallUri": "https://scryfall.com/card/zen/70/spreading-seas?utm_source=api",
-      "priceUsd": 0.25
-    },
-    "Doomsday": {
-      "image": "https://cards.scryfall.io/normal/front/7/2/72cd296e-e550-46bf-9378-586a24c9b2a7.jpg?1783903013",
-      "scryfallUri": "https://scryfall.com/card/msc/796/doomsday?utm_source=api",
-      "priceUsd": 1.49
+    "Tasha, the Witch Queen": {
+      "image": "https://cards.scryfall.io/normal/front/b/1/b1c5f679-82d0-4434-9f13-d39ad57282b8.jpg?1783922685",
+      "scryfallUri": "https://scryfall.com/card/clb/294/tasha-the-witch-queen?utm_source=api",
+      "priceUsd": 5.82
     },
     "Aetherflux Reservoir": {
       "image": "https://cards.scryfall.io/normal/front/9/6/96b6b2e1-c3e6-464c-8a13-b15deb34e862.jpg?1783937164",
       "scryfallUri": "https://scryfall.com/card/kld/192/aetherflux-reservoir?utm_source=api",
       "priceUsd": 19.56
     },
+    "Sepulchral Primordial": {
+      "image": "https://cards.scryfall.io/normal/front/2/e/2ed2b1d9-3c23-4f2e-b816-6f2bea74b797.jpg?1783929474",
+      "scryfallUri": "https://scryfall.com/card/znc/54/sepulchral-primordial?utm_source=api",
+      "priceUsd": 0.39
+    },
     "Wrexial, the Risen Deep": {
       "image": "https://cards.scryfall.io/normal/front/c/9/c96b11ad-67fd-4a2b-89ea-e9df9c50731e.jpg?1783923218",
       "scryfallUri": "https://scryfall.com/card/ncc/359/wrexial-the-risen-deep?utm_source=api",
       "priceUsd": 2.21
-    },
-    "Demonic Consultation": {
-      "image": "https://cards.scryfall.io/normal/front/1/d/1d779f19-3068-4976-b96b-8f93d156900b.jpg?1783942624",
-      "scryfallUri": "https://scryfall.com/card/me2/85/demonic-consultation?utm_source=api",
-      "priceUsd": 6.13
-    },
-    "Tainted Pact": {
-      "image": "https://cards.scryfall.io/normal/front/c/5/c513f51b-a0db-4c08-8acc-1e91060b93b7.jpg?1783945239",
-      "scryfallUri": "https://scryfall.com/card/ody/164/tainted-pact?utm_source=api",
-      "priceUsd": 41.98
     },
     "Mox Amber": {
       "image": "https://cards.scryfall.io/normal/front/6/6/66024e69-ad60-4c9a-a0ca-da138d33ad80.jpg?1783934955",
@@ -5631,11 +5475,6 @@
       "scryfallUri": "https://scryfall.com/card/dmu/107/sheoldred-the-apocalypse?utm_source=api",
       "priceUsd": 99.73
     },
-    "Enter the Infinite": {
-      "image": "https://cards.scryfall.io/normal/front/6/1/612beb8f-2ab1-4a8b-84c5-c47d19d400ab.jpg?1783940138",
-      "scryfallUri": "https://scryfall.com/card/gtc/34/enter-the-infinite?utm_source=api",
-      "priceUsd": 7.47
-    },
     "Intruder Alarm": {
       "image": "https://cards.scryfall.io/normal/front/8/d/8d62468e-ed9d-4932-bbbd-103b33b98b25.jpg?1783944797",
       "scryfallUri": "https://scryfall.com/card/8ed/86/intruder-alarm?utm_source=api",
@@ -5645,11 +5484,6 @@
       "image": "https://cards.scryfall.io/normal/front/c/7/c7b0c6c4-ec99-4af1-9527-41c428af7260.jpg?1783941451",
       "scryfallUri": "https://scryfall.com/card/me4/57/power-artifact?utm_source=api",
       "priceUsd": 175.98
-    },
-    "Leveler": {
-      "image": "https://cards.scryfall.io/normal/front/0/3/03ffa3c3-dd29-47eb-abf2-7951fadb5c37.jpg?1783944515",
-      "scryfallUri": "https://scryfall.com/card/mrd/195/leveler?utm_source=api",
-      "priceUsd": 5.2
     },
     "Teferi's Puzzle Box": {
       "image": "https://cards.scryfall.io/normal/front/4/1/415e81e9-ca65-4bc0-8aab-d905d58fe6cc.jpg?1783943890",
@@ -5671,15 +5505,25 @@
       "scryfallUri": "https://scryfall.com/card/som/176/mindslaver?utm_source=api",
       "priceUsd": 4.36
     },
-    "Archetype of Imagination": {
-      "image": "https://cards.scryfall.io/normal/front/2/0/204972f7-8111-4e7d-97c4-53bcdc222230.jpg?1783909628",
-      "scryfallUri": "https://scryfall.com/card/dsc/111/archetype-of-imagination?utm_source=api",
-      "priceUsd": 0.95
+    "The Master of Lake-town": {
+      "image": "https://cards.scryfall.io/normal/front/3/7/3788ada6-34a9-41af-a31c-2d090550e503.jpg?1784632114",
+      "scryfallUri": "https://scryfall.com/card/hob/77/the-master-of-lake-town?utm_source=api",
+      "priceUsd": 0.53
+    },
+    "Mornsong Aria": {
+      "image": "https://cards.scryfall.io/normal/front/9/9/9985c554-8338-46b1-ac36-526d2eb61570.jpg?1783904462",
+      "scryfallUri": "https://scryfall.com/card/ecl/111/mornsong-aria?utm_source=api",
+      "priceUsd": 0.32
     },
     "Crackdown Construct": {
       "image": "https://cards.scryfall.io/normal/front/9/9/993bc69a-b615-48c5-af81-252a73384e8c.jpg?1783936730",
       "scryfallUri": "https://scryfall.com/card/aer/148/crackdown-construct?utm_source=api",
       "priceUsd": 0.28
+    },
+    "Archetype of Imagination": {
+      "image": "https://cards.scryfall.io/normal/front/2/0/204972f7-8111-4e7d-97c4-53bcdc222230.jpg?1783909628",
+      "scryfallUri": "https://scryfall.com/card/dsc/111/archetype-of-imagination?utm_source=api",
+      "priceUsd": 0.95
     },
     "Gray Merchant of Asphodel": {
       "image": "https://cards.scryfall.io/normal/front/0/0/00d001d0-fd29-4b7c-9d0e-9131b995f910.jpg?1783909617",
@@ -5701,10 +5545,20 @@
       "scryfallUri": "https://scryfall.com/card/tor/28/cephalid-illusionist?utm_source=api",
       "priceUsd": 1.12
     },
-    "Breach the Multiverse": {
-      "image": "https://cards.scryfall.io/normal/front/d/a/daf51a76-7a57-4462-ae18-a19e817e49e5.jpg?1783917016",
-      "scryfallUri": "https://scryfall.com/card/mom/94/breach-the-multiverse?utm_source=api",
-      "priceUsd": 8.39
+    "Bruvac the Grandiloquent": {
+      "image": "https://cards.scryfall.io/normal/front/2/c/2ce2d73f-3f64-44db-a2bc-a8f4a37dc487.jpg?1783913340",
+      "scryfallUri": "https://scryfall.com/card/rvr/35/bruvac-the-grandiloquent?utm_source=api",
+      "priceUsd": 44.84
+    },
+    "Mind Sculpt": {
+      "image": "https://cards.scryfall.io/normal/front/0/3/037d6277-1fc3-41a4-ade6-7cca10535b0f.jpg?1783939190",
+      "scryfallUri": "https://scryfall.com/card/m15/70/mind-sculpt?utm_source=api",
+      "priceUsd": 0.3
+    },
+    "Rest in Peace": {
+      "image": "https://cards.scryfall.io/normal/front/d/1/d108c2b1-236e-4b8d-8445-d9749ccc4fea.jpg?1783912003",
+      "scryfallUri": "https://scryfall.com/card/big/4/rest-in-peace?utm_source=api",
+      "priceUsd": 1.05
     },
     "Arcane Signet": {
       "image": "https://cards.scryfall.io/normal/front/7/9/795df2ee-fbfc-4961-852c-e3ec50cc52da.jpg?1793021117",
@@ -5720,16 +5574,6 @@
       "image": "https://cards.scryfall.io/normal/front/e/0/e0747d8a-c878-496f-bdb0-0dddae536e7c.jpg?1793021401",
       "scryfallUri": "https://scryfall.com/card/trc/575/underground-river?utm_source=api",
       "priceUsd": 0.35
-    },
-    "Rogue's Passage": {
-      "image": "https://cards.scryfall.io/normal/front/c/8/c84f49bb-3780-4f92-8db2-b27605ceefed.jpg?1793021355",
-      "scryfallUri": "https://scryfall.com/card/trc/552/rogues-passage?utm_source=api",
-      "priceUsd": 0.31
-    },
-    "Bojuka Bog": {
-      "image": "https://cards.scryfall.io/normal/front/5/5/55b5b094-9d2d-4d96-b90c-78fecdae725a.jpg?1783903734",
-      "scryfallUri": "https://scryfall.com/card/soc/363/bojuka-bog?utm_source=api",
-      "priceUsd": 2.05
     }
   }
 }

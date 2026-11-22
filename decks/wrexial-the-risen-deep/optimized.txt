@@ -6,13 +6,14 @@ Deck
 1 Animate Dead
 1 Baleful Strix
 1 Basalt Monolith
+1 Beacon of Unrest
 1 Black Sun's Zenith
 1 Bloodchief Ascension
 1 Blue Sun's Zenith
 1 Bolas's Citadel
 1 Burnished Hart
+1 Cabal Coffers
 1 Capsize
-1 City of Brass
 1 Command Tower
 1 Consecrated Sphinx
 1 Counterspell
@@ -37,11 +38,11 @@ Deck
 1 Force of Will
 1 Hullbreaker Horror
 1 Imperial Seal
+1 Insatiable Avarice
 11 Island
 1 Lightning Greaves
 1 Mana Drain
 1 Mana Vault
-1 Mesmeric Orb
 1 Mind Stone
 1 Mindcrank
 1 Miren, the Moaning Well
@@ -50,6 +51,7 @@ Deck
 1 Necropotence
 1 Notion Thief
 1 Opposition Agent
+1 Perplex
 1 Phyrexian Metamorph
 1 Ponder
 1 Praetor's Grasp
@@ -63,7 +65,6 @@ Deck
 1 Shadowmage Infiltrator
 1 Snuff Out
 1 Sol Ring
-1 Spell Crumple
 1 Strip Mine
 1 Submerge
 1 Sudden Death
@@ -72,7 +73,6 @@ Deck
 1 Terramorphic Expanse
 1 Tezzeret the Seeker
 1 Thada Adel, Acquisitor
-1 Thassa's Oracle
 1 Thespian's Stage
 1 Thran Dynamo
 1 Tolaria West

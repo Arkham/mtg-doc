@@ -2,6 +2,7 @@ Commander
 1 Derevi, Empyrial Tactician
 
 Deck
+1 Acidic Slime
 1 Arcane Denial
 1 Aura Shards
 1 Azami, Lady of Scrolls
@@ -13,15 +14,13 @@ Deck
 1 Bloom Tender
 1 Breeding Pool
 1 Command Tower
-1 Cultivate
 1 Cyclonic Rift
 1 Darksteel Ingot
 1 Darksteel Mutation
-1 Eladamri's Call
+1 Drannith Magistrate
 1 Emiel the Blessed
 1 Enlightened Tutor
 1 Eternal Witness
-1 Evolving Wilds
 1 Faeburrow Elder
 1 Faerie Conclave
 1 Fierce Guardianship
@@ -32,7 +31,7 @@ Deck
 1 Hallowed Fountain
 1 Hokori, Dust Drinker
 1 Intrepid Hero
-8 Island
+9 Island
 1 Karmic Guide
 1 Kazandu Tuskcaller
 1 Kinnan, Bonder Prodigy
@@ -43,13 +42,14 @@ Deck
 1 Lu Xun, Scholar General
 1 Mana Vault
 1 Mirror Entity
+1 Misty Rainforest
 1 Murkfiend Liege
 1 Mystic Remora
 1 Oblation
 1 Opal Palace
 1 Opposition
 1 Path to Exile
-6 Plains
+5 Plains
 1 Ray of Command
 1 Reveillark
 1 Rhystic Study
@@ -58,11 +58,11 @@ Deck
 1 Rout
 1 Rubinia Soulsinger
 1 Saltcrusted Steppe
-1 Seedborn Muse
 1 Sejiri Refuge
 1 Selesnya Guildgate
 1 Selesnya Sanctuary
 1 Simic Guildgate
+1 Smothering Tithe
 1 Sol Ring
 1 Squirrel Nest
 1 Stoic Angel
