@@ -1,4 +1,4 @@
-module HowToPlay exposing (view)
+module HowToPlay exposing (Deck, view)
 
 {-| How to play the deck on screen, and what to tell the table in the pre-game (Rule 0) talk: a
 dialog over the page, full screen on phones and a centered panel on larger screens.
@@ -8,23 +8,37 @@ import Html exposing (Html, button, div, h1, h2, h3, header, li, node, ol, p, se
 import Html.Attributes exposing (attribute, style)
 import Html.Events exposing (onClick)
 import Json.Decode as D
-import Types exposing (BracketAssessmentPosition(..), PlayGuide, Report, bracketToInt)
+import Types exposing (BracketAssessmentPosition(..), Card, PlayGuide, bracketToInt)
 import Ui.Attr exposing (class, id)
 import Ui.Bracket as Bracket
 import Ui.Card as Card
 import Ui.Mana as Mana
+import Views exposing (ShownBracket)
+
+
+{-| The deck on screen: its commanders, and its bracket if the report has one.
+-}
+type alias Deck =
+    { commanders : List String
+    , commanderCards : List Card
+    , bracket : Maybe ShownBracket
+    }
 
 
 {-| The dialog for a report as it applies to the deck on screen, with that deck's guide.
 -}
-view : { base : String, titleId : String, onClose : msg, ctx : Card.Ctx msg } -> Report -> Maybe PlayGuide -> Html msg
+view :
+    { base : String, titleId : String, onClose : msg, ctx : Card.Ctx msg }
+    -> Deck
+    -> Maybe PlayGuide
+    -> Html msg
 view opts r guide =
     let
         cmdr =
             List.head r.commanderCards
 
         assessed =
-            Maybe.map .after r.bracket
+            Maybe.map .assessment r.bracket
     in
     div
         [ class "modal-backdrop"
@@ -155,16 +169,19 @@ guideView ctx g =
 
 {-| What the table should know before the game: bracket, game length, Game Changers, combos.
 -}
-atTheTable : Card.Ctx msg -> Report -> Html msg
+atTheTable : Card.Ctx msg -> Deck -> Html msg
 atTheTable ctx r =
     case r.bracket of
         Nothing ->
             text ""
 
-        Just b ->
+        Just shownBracket ->
             let
+                b =
+                    shownBracket.rules
+
                 a =
-                    b.after
+                    shownBracket.assessment
 
                 combos =
                     List.filter .twoCard a.combos

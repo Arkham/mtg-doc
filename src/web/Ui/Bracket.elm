@@ -5,7 +5,7 @@ import Html exposing (Html, a, details, div, h2, h3, li, p, span, strong, summar
 import Html.Attributes exposing (attribute, style)
 import Html.Events exposing (preventDefaultOn)
 import Json.Decode as D
-import Types exposing (Bracket(..), BracketAssessmentPosition(..), BracketReport, Tone(..), bracketToInt)
+import Types exposing (Bracket(..), BracketAssessment, BracketAssessmentPosition(..), BracketReport, BracketReportExcluded, Tone(..), bracketToInt)
 import Ui.Attr exposing (class, href, rel, target, title)
 import Ui.Card as Card
 
@@ -98,15 +98,39 @@ powerMeter power position =
         ]
 
 
-{-| The bracket a deck fits, its checks, Game Changers and two-card combos. `actions` go in the
-header, e.g. changing the target bracket; `toCombos` jumps to the report's combos section, which
-lists them all (none when the page has no such section).
+{-| The bracket a deck fits, its checks, Game Changers and two-card combos: `assessment` is how the
+deck shown measures up to `rules`, `before` how the deck as submitted did when there's a suggested
+one, and `excluded` the cards the doc kept out for the bracket. `actions` go in the header, e.g.
+changing the target bracket; `toCombos` jumps to the report's combos section, which lists them all
+(none when the page has no such section).
 -}
-panel : Card.Ctx msg -> BracketReport -> { actions : Maybe (Html msg), toCombos : Maybe msg } -> Html msg
-panel ctx b { actions, toCombos } =
+panel :
+    Card.Ctx msg
+    -> BracketReport
+    ->
+        { assessment : BracketAssessment
+        , before : Maybe BracketAssessment
+        , excluded : List BracketReportExcluded
+        , actions : Maybe (Html msg)
+        , toCombos : Maybe msg
+        }
+    -> Html msg
+panel ctx b { assessment, before, excluded, actions, toCombos } =
     let
         a_ =
-            b.after
+            assessment
+
+        was =
+            before
+                |> Maybe.map .bracket
+                |> Maybe.andThen
+                    (\w ->
+                        if w /= a_.bracket then
+                            Just w
+
+                        else
+                            Nothing
+                    )
 
         limit =
             b.gameChangerLimit
@@ -119,9 +143,6 @@ panel ctx b { actions, toCombos } =
 
         twoCard =
             List.filter .twoCard a_.combos
-
-        moved =
-            b.before.bracket /= a_.bracket
 
         targetBracket =
             b.target
@@ -147,11 +168,12 @@ panel ctx b { actions, toCombos } =
                             ++ positionLabel a_.position
                             ++ " "
                             ++ names targetBracket
-                            ++ (if moved then
-                                    " · was bracket " ++ String.fromInt (bracketToInt b.before.bracket)
+                            ++ (case was of
+                                    Just w ->
+                                        " · was bracket " ++ String.fromInt (bracketToInt w)
 
-                                else
-                                    ""
+                                    Nothing ->
+                                        ""
                                )
                             ++ (case a_.spellbookTag of
                                     Just tag ->
@@ -337,16 +359,16 @@ panel ctx b { actions, toCombos } =
                             text ""
                     ]
             ]
-        , if List.isEmpty b.excluded then
+        , if List.isEmpty excluded then
             text ""
 
           else
             details [ class "excluded" ]
                 [ summary []
                     [ text
-                        (String.fromInt (List.length b.excluded)
+                        (String.fromInt (List.length excluded)
                             ++ " strong "
-                            ++ (if List.length b.excluded == 1 then
+                            ++ (if List.length excluded == 1 then
                                     "card"
 
                                 else
@@ -358,7 +380,7 @@ panel ctx b { actions, toCombos } =
                 , ul []
                     (List.map
                         (\e -> li [] [ Card.name ctx e.name, text " ", span [ class "muted small" ] [ text ("· " ++ e.reason) ] ])
-                        b.excluded
+                        excluded
                     )
                 ]
         ]

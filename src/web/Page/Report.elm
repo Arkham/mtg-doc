@@ -32,7 +32,7 @@ import Ui.Settings as Settings
 import Ui.Sheet as Sheet
 import Ui.Style exposing (ariaSelected, auraOfCards, cssVars)
 import Url
-import Views exposing (asOriginal, hasBothViews, viewOf)
+import Views exposing (Shown, hasBothViews, viewOf)
 
 
 pollMs : Float
@@ -1002,23 +1002,26 @@ pct n max =
     String.fromFloat ((n / max) * 100) ++ "%"
 
 
-colorBars : Env -> Card.Ctx msg -> DeckSnapshot -> DeckSnapshot -> Html msg
+colorBars : Env -> Card.Ctx msg -> Maybe DeckSnapshot -> DeckSnapshot -> Html msg
 colorBars env ctx before after =
     let
+        beforeColors =
+            before |> Maybe.map (.mana >> .colors) |> Maybe.withDefault []
+
         max =
             List.maximum
                 (List.map (\c -> Basics.max c.targetSources c.landSources) after.mana.colors
-                    ++ List.map .landSources before.mana.colors
+                    ++ List.map .landSources beforeColors
                     ++ [ 1 ]
                 )
                 |> Maybe.withDefault 1
                 |> toFloat
 
         beforeOf c =
-            List.Extra.find (\x -> x.color == c.color) before.mana.colors
+            List.Extra.find (\x -> x.color == c.color) beforeColors
 
         changed =
-            List.any (\c -> Maybe.map .landSources (beforeOf c) /= Just c.landSources) after.mana.colors
+            before /= Nothing && List.any (\c -> Maybe.map .landSources (beforeOf c) /= Just c.landSources) after.mana.colors
     in
     div [ class "color-bars" ]
         (List.map
@@ -1128,19 +1131,24 @@ colorBars env ctx before after =
         )
 
 
-synergies : Env -> Card.Ctx Msg -> Page -> Report -> Bool -> List (Html Msg)
-synergies env ctx model r canRefresh =
+{-| The synergies among the deck's cards; on the suggested deck, a search for them can run again.
+-}
+synergies : Env -> Card.Ctx Msg -> Page -> Shown -> List (Html Msg)
+synergies env ctx model shown =
     let
         items =
-            Maybe.withDefault [] r.synergies
+            shown.synergies
+
+        canRefresh =
+            shown.suggested /= Nothing
 
         image n =
-            case Dict.get n r.cardIndex |> Maybe.andThen .image of
+            case Dict.get n ctx.index |> Maybe.andThen .image of
                 Just i ->
                     Just i
 
                 Nothing ->
-                    r.decklist |> List.Extra.find (\c -> c.name == n) |> Maybe.andThen .image
+                    shown.decklist |> List.Extra.find (\c -> c.name == n) |> Maybe.andThen .image
 
         busy =
             isBusy model.synergies
@@ -1223,16 +1231,21 @@ synergies env ctx model r canRefresh =
     ]
 
 
-manaAdvice : Env -> Card.Ctx Msg -> Page -> Report -> Html Msg
-manaAdvice env ctx model r =
+manaAdvice : Env -> Card.Ctx Msg -> Page -> Shown -> Html Msg
+manaAdvice env ctx model shown =
     let
         changed =
-            List.filter
-                (\s -> s.category == SwapCategoryMana && Maybe.map .isLand s.inCard == Just True && Maybe.map .isLand s.outCard == Just True)
-                r.swaps
+            shown.suggested
+                |> Maybe.map .swaps
+                |> Maybe.withDefault []
+                |> List.filter
+                    (\s -> s.category == SwapCategoryMana && Maybe.map .isLand s.inCard == Just True && Maybe.map .isLand s.outCard == Just True)
 
         suggestions =
-            Maybe.withDefault [] r.manaSuggestions
+            shown.suggested |> Maybe.map .manaSuggestions |> Maybe.withDefault []
+
+        issues =
+            shown.deck.mana.issues
     in
     div [ class "mana-advice" ]
         ((if List.isEmpty changed then
@@ -1321,19 +1334,21 @@ manaAdvice env ctx model r =
                     , maybeHtml (failure model.landSwaps) (\e -> p [ class "error small" ] [ text e ])
                     ]
                )
-            ++ (if List.isEmpty r.after.mana.issues then
+            ++ (if List.isEmpty issues then
                     []
 
                 else
                     [ h3 [] [ text "Still worth a look" ]
-                    , ul [ class "notes" ] (List.map (\n -> li [] [ text n ]) r.after.mana.issues)
+                    , ul [ class "notes" ] (List.map (\n -> li [] [ text n ]) issues)
                     ]
                )
         )
 
 
-curve : Bool -> DeckSnapshot -> DeckSnapshot -> Html msg
-curve single before after =
+{-| The mana curve of `after`, against `before`'s when there's a deck to compare with.
+-}
+curve : Maybe DeckSnapshot -> DeckSnapshot -> Html msg
+curve before after =
     let
         keys =
             [ "0", "1", "2", "3", "4", "5", "6", "7+" ]
@@ -1344,15 +1359,18 @@ curve single before after =
 
         -- Headroom above the tallest bar for its count label.
         max =
-            (List.maximum (List.map (\k -> Basics.max (at before k) (at after k)) keys ++ [ 1 ]) |> Maybe.withDefault 1) * 1.18
+            (List.maximum (List.map (\k -> Basics.max (was k) (at after k)) keys ++ [ 1 ]) |> Maybe.withDefault 1) * 1.18
+
+        was k =
+            before |> Maybe.map (\b -> at b k) |> Maybe.withDefault (at after k)
     in
     figure [ class "curve-figure" ]
         [ div [ class "curve", attribute "role" "img", attribute "aria-label" "Mana curve, before and after" ]
             (List.map
                 (\k ->
                     let
-                        was =
-                            at before k
+                        then_ =
+                            was k
 
                         now =
                             at after k
@@ -1361,16 +1379,16 @@ curve single before after =
                         [ div [ class "curve-bars" ]
                             [ span
                                 (class "curve-count"
-                                    :: style "bottom" (pct (Basics.max was now) max)
-                                    :: (if was /= now then
-                                            [ title ("was " ++ String.fromFloat was) ]
+                                    :: style "bottom" (pct (Basics.max then_ now) max)
+                                    :: (if then_ /= now then
+                                            [ title ("was " ++ String.fromFloat then_) ]
 
                                         else
                                             []
                                        )
                                 )
                                 [ text (String.fromFloat now) ]
-                            , when (not single) (div [ class "bar before", style "height" (pct was max), title ("before: " ++ String.fromFloat was) ] [])
+                            , when (before /= Nothing) (div [ class "bar before", style "height" (pct then_ max), title ("before: " ++ String.fromFloat then_) ] [])
                             , div [ class "bar after", style "height" (pct now max), title ("after: " ++ String.fromFloat now) ] []
                             ]
                         , span [ class "curve-mv" ] [ text k ]
@@ -1379,7 +1397,7 @@ curve single before after =
                 keys
             )
         , figcaption [ class "legend" ]
-            ((if single then
+            ((if before == Nothing then
                 []
 
               else
@@ -1394,95 +1412,84 @@ curve single before after =
         ]
 
 
-simTable : Bool -> DeckSnapshot -> DeckSnapshot -> Html msg
-simTable single before after =
+simTable : Maybe DeckSnapshot -> DeckSnapshot -> Html msg
+simTable before after =
     let
-        b =
-            before.sim
-
-        a =
-            after.sim
-
         turn d t =
             Dict.get (String.fromInt t) d |> Maybe.withDefault 0
 
-        rows =
-            ( "Mulligan rate", ( b.mulliganRate, a.mulliganRate ), ( False, "%" ) )
+        -- Each row: its label, the value, and whether higher is better and the unit.
+        rows sim =
+            ( "Mulligan rate", sim.mulliganRate, ( False, "%" ) )
                 :: List.map
-                    (\t -> ( "Land drop on turn " ++ String.fromInt t, ( turn b.landDropByTurn t, turn a.landDropByTurn t ), ( True, "%" ) ))
+                    (\t -> ( "Land drop on turn " ++ String.fromInt t, turn sim.landDropByTurn t, ( True, "%" ) ))
                     [ 2, 3, 4, 5 ]
-                ++ [ ( "Commander cast on curve", ( b.commanderOnCurve, a.commanderOnCurve ), ( True, "%" ) )
-                   , ( "Commander cast by turn 5", ( turn b.commanderByTurn 5, turn a.commanderByTurn 5 ), ( True, "%" ) )
-                   , ( "All colors by turn 3", ( b.allColorsByTurn3, a.allColorsByTurn3 ), ( True, "%" ) )
-                   , ( "Mana available turn 4", ( b.avgManaTurn4, a.avgManaTurn4 ), ( True, "" ) )
-                   , ( "Mana screw (<3 lands on T4)", ( b.screwRate, a.screwRate ), ( False, "%" ) )
-                   , ( "Flood (10+ lands seen by T7)", ( b.floodRate, a.floodRate ), ( False, "%" ) )
+                ++ [ ( "Commander cast on curve", sim.commanderOnCurve, ( True, "%" ) )
+                   , ( "Commander cast by turn 5", turn sim.commanderByTurn 5, ( True, "%" ) )
+                   , ( "All colors by turn 3", sim.allColorsByTurn3, ( True, "%" ) )
+                   , ( "Mana available turn 4", sim.avgManaTurn4, ( True, "" ) )
+                   , ( "Mana screw (<3 lands on T4)", sim.screwRate, ( False, "%" ) )
+                   , ( "Flood (10+ lands seen by T7)", sim.floodRate, ( False, "%" ) )
                    ]
     in
-    if single then
-        table [ class "data" ]
-            [ tbody []
-                (List.map
-                    (\( label, ( _, y ), ( _, unit ) ) ->
-                        tr [] [ td [] [ text label ], td [] [ strong [] [ text (String.fromFloat y ++ unit) ] ] ]
+    case before of
+        Nothing ->
+            table [ class "data" ]
+                [ tbody []
+                    (List.map
+                        (\( label, y, ( _, unit ) ) ->
+                            tr [] [ td [] [ text label ], td [] [ strong [] [ text (String.fromFloat y ++ unit) ] ] ]
+                        )
+                        (rows after.sim)
                     )
-                    rows
-                )
-            ]
+                ]
 
-    else
-        table [ class "data" ]
-            [ thead [] [ tr [] [ th [] [], th [] [ text "Before" ], th [] [ text "After" ], th [] [ text "Δ" ] ] ]
-            , tbody []
-                (List.map
-                    (\( label, ( x, y ), ( hib, unit ) ) ->
-                        tr []
-                            [ td [] [ text label ]
-                            , td [] [ text (String.fromFloat x ++ unit) ]
-                            , td [] [ strong [] [ text (String.fromFloat y ++ unit) ] ]
-                            , td []
-                                [ delta
-                                    { before = x
-                                    , after = y
-                                    , unit = unit
-                                    , higherIsBetter = hib
-                                    , digits =
-                                        if unit /= "" then
-                                            1
+        Just was ->
+            table [ class "data" ]
+                [ thead [] [ tr [] [ th [] [], th [] [ text "Before" ], th [] [ text "After" ], th [] [ text "Δ" ] ] ]
+                , tbody []
+                    (List.map2
+                        (\( label, x, _ ) ( _, y, ( hib, unit ) ) ->
+                            tr []
+                                [ td [] [ text label ]
+                                , td [] [ text (String.fromFloat x ++ unit) ]
+                                , td [] [ strong [] [ text (String.fromFloat y ++ unit) ] ]
+                                , td []
+                                    [ delta
+                                        { before = x
+                                        , after = y
+                                        , unit = unit
+                                        , higherIsBetter = hib
+                                        , digits =
+                                            if unit /= "" then
+                                                1
 
-                                        else
-                                            2
-                                    }
+                                            else
+                                                2
+                                        }
+                                    ]
                                 ]
-                            ]
+                        )
+                        (rows was.sim)
+                        (rows after.sim)
                     )
-                    rows
-                )
-            ]
+                ]
 
 
-roles : Bool -> DeckSnapshot -> DeckSnapshot -> Html msg
-roles single before after =
+roles : Maybe DeckSnapshot -> DeckSnapshot -> Html msg
+roles before after =
     table [ class "data" ]
         [ thead []
             [ tr []
                 (th [] [ text "Role" ]
-                    :: (if single then
-                            []
+                    :: (case before of
+                            Nothing ->
+                                [ th [] [ text "Cards" ] ]
 
-                        else
-                            [ th [] [ text "Before" ] ]
+                            Just _ ->
+                                [ th [] [ text "Before" ], th [] [ text "After" ] ]
                        )
-                    ++ [ th []
-                            [ text
-                                (if single then
-                                    "Cards"
-
-                                 else
-                                    "After"
-                                )
-                            ]
-                       , th [] [ text "Typical" ]
+                    ++ [ th [] [ text "Typical" ]
                        ]
                 )
             ]
@@ -1503,15 +1510,16 @@ roles single before after =
                         Keyed.node "tr"
                             []
                             (( "role", td [] [ text (roleToString r.role) ] )
-                                :: (if single then
-                                        []
+                                :: (case before of
+                                        Nothing ->
+                                            []
 
-                                    else
-                                        let
-                                            b =
-                                                List.Extra.find (\x -> x.role == r.role) before.roles |> Maybe.map .count |> Maybe.withDefault 0
-                                        in
-                                        [ ( "before", td [] [ text (String.fromInt b) ] ) ]
+                                        Just was ->
+                                            let
+                                                b =
+                                                    List.Extra.find (\x -> x.role == r.role) was.roles |> Maybe.map .count |> Maybe.withDefault 0
+                                            in
+                                            [ ( "before", td [] [ text (String.fromInt b) ] ) ]
                                    )
                                 ++ List.map2 Tuple.pair
                                     [ "count", "typical" ]
@@ -1669,8 +1677,8 @@ newBadge c cls =
 
 {-| Deck list as a visual grid of card images, grouped by type; tap a card to see it full size.
 -}
-deckImages : Card.Ctx Msg -> List ( String, List DecklistCard ) -> Bool -> Html Msg
-deckImages ctx groups showNew =
+deckImages : Card.Ctx Msg -> List ( String, List DecklistCard ) -> Html Msg
+deckImages ctx groups =
     let
         items =
             Maybe.withDefault [] ctx.gallery
@@ -1693,7 +1701,7 @@ deckImages ctx groups showNew =
                                 , li
                                     [ class
                                         ("deck-image "
-                                            ++ (if showNew && (c.isNew || c.delta > 0) then
+                                            ++ (if c.isNew || c.delta > 0 then
                                                     "new"
 
                                                 else
@@ -1713,10 +1721,7 @@ deckImages ctx groups showNew =
                                                 span [ class "deck-image-missing" ] [ text c.name ]
                                          , when (c.qty > 1) (span [ class "deck-image-qty" ] [ text ("×" ++ String.fromInt c.qty) ])
                                          ]
-                                            ++ (if not showNew then
-                                                    []
-
-                                                else if c.isNew then
+                                            ++ (if c.isNew then
                                                     [ span [ class "deck-image-new" ] [ span [ attribute "aria-hidden" "true" ] [ text "✦" ], text " new" ] ]
 
                                                 else if c.delta /= 0 then
@@ -1738,10 +1743,11 @@ deckImages ctx groups showNew =
         )
 
 
-{-| The deck's cards as a list or images and, on the optimized view, the swaps that made it.
+{-| The deck's cards as a list or images and, on the optimized view, the swaps that made it. New
+cards are marked: only the suggested deck has any.
 -}
-decklist : Env -> Card.Ctx Msg -> Page -> List DecklistCard -> Bool -> Maybe ( Int, List (Html Msg) ) -> List (Html Msg)
-decklist env ctx model cards compare swaps =
+decklist : Env -> Card.Ctx Msg -> Page -> List DecklistCard -> Maybe ( Int, List (Html Msg) ) -> List (Html Msg)
+decklist env ctx model cards swaps =
     let
         swapsShown =
             swaps /= Nothing && model.showSwaps
@@ -1777,9 +1783,6 @@ decklist env ctx model cards compare swaps =
 
         _ ->
             let
-                showNew =
-                    compare
-
                 groups =
                     groupOrder
                         |> List.map
@@ -1810,7 +1813,7 @@ decklist env ctx model cards compare swaps =
                 , span [ class "muted small grow nowrap" ] [ text (String.fromInt (List.sum (List.map .qty cards)) ++ " cards") ]
                 ]
             , if model.decklistView == ImagesView then
-                deckImages galleryCtx groups showNew
+                deckImages galleryCtx groups
 
               else
                 -- Keyed by group and card, so a card in both lists keeps its row (and its loaded images)
@@ -1828,7 +1831,7 @@ decklist env ctx model cards compare swaps =
                                             ( c.name
                                             , li
                                                 [ class
-                                                    (if showNew && (c.isNew || c.delta > 0) then
+                                                    (if c.isNew || c.delta > 0 then
                                                         "new"
 
                                                      else
@@ -1837,11 +1840,7 @@ decklist env ctx model cards compare swaps =
                                                 ]
                                                 [ span [ class "qty" ] [ text (String.fromInt c.qty) ]
                                                 , Card.nameWith galleryCtx { name = c.name, card = Just { image = c.image, scryfallUri = c.scryfallUri }, label = Nothing, class = Just "grow", key = Nothing }
-                                                , if showNew then
-                                                    newBadge c "badge new"
-
-                                                  else
-                                                    text ""
+                                                , newBadge c "badge new"
                                                 , Mana.cost env.base 13 c.manaCost
                                                 ]
                                             )
@@ -1995,11 +1994,14 @@ dollars n =
 
 {-| Stats for the deck as submitted, and a way into the suggested changes.
 -}
-overview : Env -> Report -> Report -> String -> Html msg
-overview env r full slug =
+overview : Env -> String -> Shown -> Report -> Html msg
+overview env slug shown full =
     let
+        deck =
+            shown.deck
+
         draw =
-            List.Extra.find (\x -> x.role == RoleDraw) r.after.roles |> Maybe.map .count |> Maybe.withDefault 0
+            List.Extra.find (\x -> x.role == RoleDraw) deck.roles |> Maybe.map .count |> Maybe.withDefault 0
 
         target =
             Maybe.map .target full.bracket
@@ -2007,14 +2009,14 @@ overview env r full slug =
     section [ class "panel" ]
         [ panelHead { title = "Your deck", desc = Just [ text "How the deck plays as you built it." ], actions = Nothing, compact = False }
         , div [ class "stats" ]
-            [ whole ("Lands (rec. " ++ String.fromInt r.after.mana.recommendedLands ++ ")") r.after.mana.landCount
-            , simple "Avg mana value" r.after.mana.avgCmc
-            , whole "Interaction" (interaction r.after)
+            [ whole ("Lands (rec. " ++ String.fromInt deck.mana.recommendedLands ++ ")") deck.mana.landCount
+            , simple "Avg mana value" deck.mana.avgCmc
+            , whole "Interaction" (interaction deck)
             , whole "Card draw" draw
-            , stat { label = "Commander on curve", before = Nothing, after = r.after.sim.commanderOnCurve, better = Nothing, format = percent }
-            , stat { label = "Mana screw", before = Nothing, after = r.after.sim.screwRate, better = Nothing, format = percent }
-            , whole "Combos" (List.length r.combosPresent)
-            , stat { label = "Deck price", before = Nothing, after = r.after.totalPriceUsd, better = Nothing, format = dollars }
+            , stat { label = "Commander on curve", before = Nothing, after = deck.sim.commanderOnCurve, better = Nothing, format = percent }
+            , stat { label = "Mana screw", before = Nothing, after = deck.sim.screwRate, better = Nothing, format = percent }
+            , whole "Combos" (List.length shown.combosPresent)
+            , stat { label = "Deck price", before = Nothing, after = deck.totalPriceUsd, better = Nothing, format = dollars }
             ]
         , when (not (List.isEmpty full.swaps))
             (div [ class "overview-cta" ]
@@ -2101,17 +2103,17 @@ spellbookLink combo =
 
 {-| Combos in the deck and one card away in one list; a badge and accent tell them apart.
 -}
-combos : Card.Ctx Msg -> Page -> Report -> List (Html Msg)
-combos ctx model r =
+combos : Card.Ctx Msg -> Page -> Shown -> List (Html Msg)
+combos ctx model shown =
     let
         groups =
-            Combos.groupByMissing r.combosOneAway
+            Combos.groupByMissing shown.combosOneAway
 
         present =
-            r.combosPresent
+            shown.combosPresent
 
         blocked =
-            r.bracket |> Maybe.map .excluded |> Maybe.withDefault [] |> List.map (\e -> ( e.name, e.reason )) |> Dict.fromList
+            shown.suggested |> Maybe.map .excluded |> Maybe.withDefault [] |> List.map (\e -> ( e.name, e.reason )) |> Dict.fromList
 
         shownPresent =
             if model.comboFilter == Away then
@@ -2210,7 +2212,7 @@ combos ctx model r =
                                 , maybeHtml reason
                                     (\why ->
                                         span [ class "badge warn", title why ]
-                                            [ text ("Outside bracket " ++ (r.bracket |> Maybe.map (.target >> bracketToInt >> String.fromInt) |> Maybe.withDefault "")) ]
+                                            [ text ("Outside bracket " ++ (shown.bracket |> Maybe.map (.rules >> .target >> bracketToInt >> String.fromInt) |> Maybe.withDefault "")) ]
                                     )
                                 ]
                             , ul [ class "combo-partners" ]
@@ -2416,21 +2418,17 @@ chrome env requested model =
                             let
                                 optimized =
                                     shownView == Optimized
-
-                                r =
-                                    if optimized then
-                                        full
-
-                                    else
-                                        (asOriginal full).r
                             in
                             [ HowToPlay.view
                                 { base = env.base
                                 , titleId = "_r_" ++ base32 model.modalCount ++ "_"
                                 , onClose = AskedToCloseHowToPlay
-                                , ctx = { index = r.cardIndex, gallery = Nothing, canHover = env.canHover, lift = CardMsg }
+                                , ctx = { index = full.cardIndex, gallery = Nothing, canHover = env.canHover, lift = CardMsg }
                                 }
-                                r
+                                { commanders = full.commanders
+                                , commanderCards = full.commanderCards
+                                , bracket = (Views.shown full requested).bracket
+                                }
                                 (full.howToPlay
                                     |> Maybe.andThen
                                         (if optimized then
@@ -2517,24 +2515,14 @@ viewChat env requested model =
 viewReport : Env -> DeckView -> Page -> DeckDetail -> Report -> Html Msg
 viewReport env requested model detail full =
     let
-        shownView =
-            viewOf full requested
+        shown =
+            Views.shown full requested
 
         optimized =
-            shownView == Optimized
+            shown.suggested /= Nothing
 
-        shown =
-            if optimized then
-                { r = full, single = False }
-
-            else
-                asOriginal full
-
-        r =
-            shown.r
-
-        single =
-            shown.single
+        before =
+            Maybe.map .before shown.suggested
 
         slug =
             model.slug
@@ -2547,24 +2535,24 @@ viewReport env requested model detail full =
                 Just detail.initial
 
         ctx =
-            { index = r.cardIndex
+            { index = full.cardIndex
             , gallery = Nothing
             , canHover = env.canHover
             , lift = CardMsg
             }
 
         cmdr =
-            List.head r.commanderCards
+            List.head full.commanderCards
 
         hasCombos =
-            not (List.isEmpty r.combosPresent) || not (List.isEmpty r.combosOneAway)
+            not (List.isEmpty shown.combosPresent) || not (List.isEmpty shown.combosOneAway)
 
         showSynergies =
-            not (List.isEmpty (Maybe.withDefault [] r.synergies)) || (not env.isStatic && optimized)
+            not (List.isEmpty shown.synergies) || (not env.isStatic && optimized)
 
         sections =
             List.filterMap identity
-                [ Maybe.map (\_ -> ( "bracket", "Bracket" )) r.bracket
+                [ Maybe.map (\_ -> ( "bracket", "Bracket" )) shown.bracket
                 , Just ( "decklist", "Decklist" )
                 , Just ( "mana", "Mana" )
                 , Just ( "sim", "Goldfish" )
@@ -2578,17 +2566,14 @@ viewReport env requested model detail full =
 
                   else
                     Nothing
-                , Maybe.map (\_ -> ( "research", "Research" )) r.research
+                , Maybe.map (\_ -> ( "research", "Research" )) full.research
                 ]
 
         commanderCount =
-            List.length r.commanderCards
-
-        swapsCount =
-            List.length r.swaps
+            List.length full.commanderCards
     in
     div [ class "stack report" ]
-        [ section [ class "hero", cssVars (auraOfCards r.commanderCards) ]
+        [ section [ class "hero", cssVars (auraOfCards full.commanderCards) ]
             [ maybeHtml (cmdr |> Maybe.andThen .imageArt)
                 (\art ->
                     div [ class "hero-backdrop", attribute "aria-hidden" "true" ]
@@ -2624,31 +2609,31 @@ viewReport env requested model detail full =
                             Nothing ->
                                 text ""
                     )
-                    r.commanderCards
+                    full.commanderCards
                 )
             , div [ class "hero-head" ]
                 [ div [ class "hero-kicker" ]
                     [ span [ class "hero-role" ] [ span [ attribute "aria-hidden" "true" ] [ text "♛" ], text " Commander" ]
-                    , maybeHtml r.bracket
+                    , maybeHtml shown.bracket
                         (\b ->
                             a
                                 [ class "bracket-link"
                                 , href "#bracket"
                                 , preventDefaultOn "click" (D.succeed ( ClickedJumpTo "bracket", True ))
                                 ]
-                                [ Bracket.badge b.after.bracket "sm"
-                                , text ("Bracket " ++ String.fromInt (bracketToInt b.after.bracket) ++ " · " ++ b.name)
+                                [ Bracket.badge b.assessment.bracket "sm"
+                                , text ("Bracket " ++ String.fromInt (bracketToInt b.assessment.bracket) ++ " · " ++ b.rules.name)
                                 ]
                         )
                     ]
                 , div [ class "hero-title" ]
                     [ h1 []
                         [ text
-                            (if List.isEmpty r.commanders then
+                            (if List.isEmpty full.commanders then
                                 slug
 
                              else
-                                String.join " + " r.commanders
+                                String.join " + " full.commanders
                             )
                         ]
                     , if commanderCount == 1 then
@@ -2681,10 +2666,10 @@ viewReport env requested model detail full =
                             , Mana.oracleText env.base 15 c.oracleText
                             ]
                     )
-                    r.commanderCards
+                    full.commanderCards
                 )
             , div [ class "hero-foot" ]
-                [ when (not (List.isEmpty r.themes))
+                [ when (not (List.isEmpty full.themes))
                     (p [ class "hero-themes" ]
                         (List.indexedMap
                             (\i t ->
@@ -2698,7 +2683,7 @@ viewReport env requested model detail full =
                                         ++ [ text t ]
                                     )
                             )
-                            r.themes
+                            full.themes
                         )
                     )
                 , div [ class "hero-actions" ]
@@ -2717,13 +2702,13 @@ viewReport env requested model detail full =
                             ]
                             []
                         ]
-                    , exportMenu env model slug (Maybe.map .url r.edhrec) full.swaps (full.suggestionsHidden /= Just True)
+                    , exportMenu env model slug (Maybe.map .url full.edhrec) full.swaps (full.suggestionsHidden /= Just True)
                     ]
                 , p [ class "hero-meta" ]
                     ([ text "Updated "
-                     , node "mtg-local-text" [ attribute "date" r.generatedAt ] []
+                     , node "mtg-local-text" [ attribute "date" full.generatedAt ] []
                      ]
-                        ++ (case r.edhrec |> Maybe.andThen .numDecks of
+                        ++ (case full.edhrec |> Maybe.andThen .numDecks of
                                 Just n ->
                                     if n /= 0 then
                                         [ text " · based on "
@@ -2751,94 +2736,107 @@ viewReport env requested model detail full =
             ]
         , Html.Lazy.lazy2 preloadImages env.base full
         , sectionNav model sections
-        , if optimized then
-            let
-                ins =
-                    List.sum (List.map (\s -> s.inCard |> Maybe.andThen .priceUsd |> Maybe.withDefault 0) r.swaps)
-            in
-            section [ class "panel" ]
-                [ panelHead
-                    { title = "Optimized deck"
-                    , desc =
-                        Just
-                            [ text
-                                ("How the deck plays with the doc's "
-                                    ++ String.fromInt swapsCount
-                                    ++ " "
-                                    ++ (if swapsCount == 1 then
-                                            "swap"
+        , case shown.suggested of
+            Just suggested ->
+                let
+                    ins =
+                        List.sum (List.map (\s -> s.inCard |> Maybe.andThen .priceUsd |> Maybe.withDefault 0) suggested.swaps)
 
-                                        else
-                                            "swaps"
-                                       )
-                                    ++ (case r.bracket of
-                                            Just b ->
-                                                ", for bracket " ++ String.fromInt (bracketToInt b.target)
+                    swapsCount =
+                        List.length suggested.swaps
 
-                                            Nothing ->
-                                                ""
-                                       )
-                                    ++ "."
-                                )
+                    was =
+                        suggested.before
+
+                    deck =
+                        shown.deck
+                in
+                section [ class "panel" ]
+                    [ panelHead
+                        { title = "Optimized deck"
+                        , desc =
+                            Just
+                                [ text
+                                    ("How the deck plays with the doc's "
+                                        ++ String.fromInt swapsCount
+                                        ++ " "
+                                        ++ (if swapsCount == 1 then
+                                                "swap"
+
+                                            else
+                                                "swaps"
+                                           )
+                                        ++ (case shown.bracket of
+                                                Just b ->
+                                                    ", for bracket " ++ String.fromInt (bracketToInt b.rules.target)
+
+                                                Nothing ->
+                                                    ""
+                                           )
+                                        ++ "."
+                                    )
+                                ]
+                        , actions = Nothing
+                        , compact = False
+                        }
+                    , when (suggested.strategy /= "")
+                        (details [ class "disclosure plan-why" ]
+                            [ summary [] [ text "Why these swaps" ]
+                            , p [] (Card.prose ctx suggested.strategy)
                             ]
-                    , actions = Nothing
-                    , compact = False
-                    }
-                , when (r.strategy /= "")
-                    (details [ class "disclosure plan-why" ]
-                        [ summary [] [ text "Why these swaps" ]
-                        , p [] (Card.prose ctx r.strategy)
+                        )
+                    , div [ class "stats" ]
+                        [ whole "Swaps" swapsCount
+                        , stat
+                            { label = "Lands (rec. " ++ String.fromInt deck.mana.recommendedLands ++ ")"
+                            , before = Just was.mana.landCount
+                            , after = deck.mana.landCount
+                            , better = Just (was.mana.landCount < deck.mana.recommendedLands)
+                            , format = String.fromInt
+                            }
+                        , stat { label = "Avg mana value", before = Just was.mana.avgCmc, after = deck.mana.avgCmc, better = Just False, format = String.fromFloat }
+                        , stat { label = "Interaction", before = Just (interaction was), after = interaction deck, better = Just True, format = String.fromInt }
+                        , stat { label = "Commander on curve", before = Just was.sim.commanderOnCurve, after = deck.sim.commanderOnCurve, better = Just True, format = percent }
+                        , stat { label = "Mana screw", before = Just was.sim.screwRate, after = deck.sim.screwRate, better = Just False, format = percent }
+                        , stat { label = "Cost of new cards", before = Nothing, after = ins, better = Nothing, format = \n -> money (Just n) }
+                        , stat
+                            { label =
+                                case full.options.budgetTotal |> Maybe.andThen nonZeroFloat of
+                                    Just b ->
+                                        "Deck price (budget $" ++ String.fromFloat b ++ ")"
+
+                                    Nothing ->
+                                        "Deck price"
+                            , before = Just was.totalPriceUsd
+                            , after = deck.totalPriceUsd
+                            , better =
+                                case full.options.budgetTotal |> Maybe.andThen nonZeroFloat of
+                                    Just _ ->
+                                        Just False
+
+                                    Nothing ->
+                                        Nothing
+                            , format = dollars
+                            }
                         ]
-                    )
-                , div [ class "stats" ]
-                    [ whole "Swaps" swapsCount
-                    , stat
-                        { label = "Lands (rec. " ++ String.fromInt r.after.mana.recommendedLands ++ ")"
-                        , before = Just r.before.mana.landCount
-                        , after = r.after.mana.landCount
-                        , better = Just (r.before.mana.landCount < r.after.mana.recommendedLands)
-                        , format = String.fromInt
-                        }
-                    , stat { label = "Avg mana value", before = Just r.before.mana.avgCmc, after = r.after.mana.avgCmc, better = Just False, format = String.fromFloat }
-                    , stat { label = "Interaction", before = Just (interaction r.before), after = interaction r.after, better = Just True, format = String.fromInt }
-                    , stat { label = "Commander on curve", before = Just r.before.sim.commanderOnCurve, after = r.after.sim.commanderOnCurve, better = Just True, format = percent }
-                    , stat { label = "Mana screw", before = Just r.before.sim.screwRate, after = r.after.sim.screwRate, better = Just False, format = percent }
-                    , stat { label = "Cost of new cards", before = Nothing, after = ins, better = Nothing, format = \n -> money (Just n) }
-                    , stat
-                        { label =
-                            case r.options.budgetTotal |> Maybe.andThen nonZeroFloat of
-                                Just b ->
-                                    "Deck price (budget $" ++ String.fromFloat b ++ ")"
-
-                                Nothing ->
-                                    "Deck price"
-                        , before = Just r.before.totalPriceUsd
-                        , after = r.after.totalPriceUsd
-                        , better =
-                            case r.options.budgetTotal |> Maybe.andThen nonZeroFloat of
-                                Just _ ->
-                                    Just False
-
-                                Nothing ->
-                                    Nothing
-                        , format = dollars
-                        }
                     ]
-                ]
 
-          else
-            overview env r full slug
-        , maybeHtml r.bracket
+            Nothing ->
+                overview env slug shown full
+        , maybeHtml shown.bracket
             (\b ->
                 section [ class "panel", id "bracket" ]
                     [ Bracket.panel ctx
-                        b
-                        { actions =
+                        b.rules
+                        { assessment = b.assessment
+                        , before = shown.suggested |> Maybe.andThen .bracketBefore
+                        , excluded = shown.suggested |> Maybe.map .excluded |> Maybe.withDefault []
+                        , actions =
                             if env.isStatic then
                                 Nothing
 
                             else
-                                Just (targetBracket model b.target)
+                                Just (targetBracket model b.rules.target)
                         , toCombos =
                             if hasCombos then
                                 Just (ClickedJumpTo "combos")
@@ -2852,13 +2850,16 @@ viewReport env requested model detail full =
             (decklist env
                 ctx
                 model
-                r.decklist
-                optimized
-                (if optimized && (swapsCount > 0 || not (List.isEmpty (Maybe.withDefault [] r.edits))) then
-                    Just ( swapsCount, swapList env ctx model r.swaps ++ [ editLog ctx r ] )
+                shown.decklist
+                (shown.suggested
+                    |> Maybe.andThen
+                        (\suggested ->
+                            if List.isEmpty suggested.swaps && List.isEmpty suggested.edits then
+                                Nothing
 
-                 else
-                    Nothing
+                            else
+                                Just ( List.length suggested.swaps, swapList env ctx model suggested.swaps ++ [ editLog ctx suggested.edits ] )
+                        )
                 )
             )
         , section [ class "panel", id "mana" ]
@@ -2870,14 +2871,14 @@ viewReport env requested model detail full =
                 }
             , div [ class "split" ]
                 [ div []
-                    [ colorBars env ctx r.before r.after
+                    [ colorBars env ctx before shown.deck
                     , h3 [] [ text "Mana curve" ]
                     , p [ class "sub-desc" ] [ text "Spells at each mana value; lands not counted." ]
-                    , curve single r.before r.after
+                    , curve before shown.deck
                     ]
                 , div []
-                    [ manaAdvice env ctx model r
-                    , landNotes ctx r
+                    [ manaAdvice env ctx model shown
+                    , landNotes ctx shown.deck
                     ]
                 ]
             ]
@@ -2886,7 +2887,7 @@ viewReport env requested model detail full =
                 { title = "Goldfish simulation"
                 , desc =
                     Just
-                        [ node "mtg-local-text" [ attribute "number" (String.fromInt r.after.sim.games) ] []
+                        [ node "mtg-local-text" [ attribute "number" (String.fromInt shown.deck.sim.games) ] []
                         , text " solo games with a free mulligan and greedy land and ramp plays."
                         ]
                 , actions = Nothing
@@ -2895,17 +2896,17 @@ viewReport env requested model detail full =
             , div [ class "split" ]
                 [ div []
                     [ h3 [ class "split-head" ] [ text "Mana development" ]
-                    , div [ class "table-wrap" ] [ simTable single r.before r.after ]
+                    , div [ class "table-wrap" ] [ simTable before shown.deck ]
                     ]
                 , div []
                     [ h3 [ class "split-first" ] [ text "Card roles" ]
-                    , div [ class "table-wrap" ] [ roles single r.before r.after ]
+                    , div [ class "table-wrap" ] [ roles before shown.deck ]
                     ]
                 ]
             ]
-        , when hasCombos (section [ class "panel", id "combos" ] (combos ctx model r))
-        , when showSynergies (section [ class "panel", id "synergies" ] (synergies env ctx model r optimized))
-        , maybeHtml r.research
+        , when hasCombos (section [ class "panel", id "combos" ] (combos ctx model shown))
+        , when showSynergies (section [ class "panel", id "synergies" ] (synergies env ctx model shown))
+        , maybeHtml full.research
             (\research ->
                 section [ class "panel", id "research" ]
                     [ panelHead
@@ -2931,13 +2932,13 @@ viewReport env requested model detail full =
                         )
                     ]
             )
-        , when (not env.isStatic && not (List.isEmpty r.warnings))
+        , when (not env.isStatic && not (List.isEmpty full.warnings))
             (section [ class "panel" ]
                 [ h2 [] [ text "Warnings" ]
-                , ul [ class "notes" ] (List.map (\w -> li [] [ text w ]) r.warnings)
+                , ul [ class "notes" ] (List.map (\w -> li [] [ text w ]) full.warnings)
                 ]
             )
-        , when (not env.isStatic) (rerun model r.options)
+        , when (not env.isStatic) (rerun model full.options)
         , section [ class "panel report-footer" ]
             [ details [ class "disclosure" ]
                 [ summary [] [ text "Original list" ]
@@ -2957,14 +2958,14 @@ nonZeroFloat n =
         Just n
 
 
-landNotes : Card.Ctx Msg -> Report -> Html Msg
-landNotes ctx r =
+landNotes : Card.Ctx Msg -> DeckSnapshot -> Html Msg
+landNotes ctx deck =
     let
         tapped =
-            r.after.mana.tappedLands
+            deck.mana.tappedLands
 
         colorless =
-            r.after.mana.colorlessLands
+            deck.mana.colorlessLands
     in
     if List.isEmpty tapped && List.isEmpty colorless then
         text ""
@@ -2986,12 +2987,8 @@ landNotes ctx r =
             )
 
 
-editLog : Card.Ctx Msg -> Report -> Html Msg
-editLog ctx r =
-    let
-        edits =
-            Maybe.withDefault [] r.edits
-    in
+editLog : Card.Ctx Msg -> List DeckEdit -> Html Msg
+editLog ctx edits =
     when (not (List.isEmpty edits))
         (div [ class "swap-group edits" ]
             [ h3 [] [ text "Changes from chat ", muted ("· " ++ String.fromInt (List.length edits)) ]

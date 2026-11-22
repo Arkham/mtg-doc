@@ -5,7 +5,7 @@ import Json.Decode as D
 import Route exposing (DeckView(..))
 import Test exposing (Test, describe, test)
 import Types exposing (Report, reportDecoder)
-import Views exposing (asOriginal, viewOf)
+import Views exposing (shown, viewOf)
 
 
 {-| A minimal report: what's needed to tell the two views apart.
@@ -58,17 +58,30 @@ card name =
 suite : Test
 suite =
     describe "Views"
-        [ test "the deck as submitted has nothing to compare" <|
+        [ test "the deck as submitted has nothing to compare, and no suggestions" <|
             \_ ->
                 let
                     o =
-                        asOriginal report
+                        shown report Current
                 in
                 Expect.equal
-                    ( ( o.single, o.r.after.totalCards, o.r.swaps )
-                    , ( List.map .name o.r.decklist, o.r.combosPresent, o.r.synergies |> Maybe.map (List.map .title) )
+                    ( ( o.suggested, o.deck.totalCards )
+                    , ( List.map .name o.decklist, o.combosPresent, List.map .title o.synergies )
                     )
-                    ( ( True, 99, [] ), ( [ "Old", "Keep" ], [], Just [ "kept" ] ) )
+                    ( ( Nothing, 99 ), ( [ "Old", "Keep" ], [], [ "kept" ] ) )
+        , test "the suggested deck is compared with the deck as submitted, with the swaps that made it" <|
+            \_ ->
+                let
+                    o =
+                        shown report Optimized
+                in
+                Expect.equal
+                    ( ( o.deck.totalCards, o.suggested |> Maybe.map (.before >> .totalCards) )
+                    , ( o.suggested |> Maybe.map (.swaps >> List.map .in_), List.map .name o.decklist, List.length o.synergies )
+                    )
+                    ( ( 100, Just 99 ), ( Just [ "New" ], [ "New" ], 2 ) )
+        , test "a deck published without suggestions shows none, even when asked for the suggested view" <|
+            \_ -> Expect.equal (shown { report | suggestionsHidden = Just True } Optimized).suggested Nothing
         , test "a published deck with its suggestions offers both views" <|
             \_ -> Expect.equal ( viewOf report Optimized, viewOf report Current ) ( Optimized, Current )
         , test "a deck published without suggestions only has the view of the deck as submitted" <|
