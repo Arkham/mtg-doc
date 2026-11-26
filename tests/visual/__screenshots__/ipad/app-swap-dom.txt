@@ -1,0 +1,68 @@
+<div class="swap-head">
+  <span class="badge">
+    "🎯 Bracket"
+  <span class="swap-buttons">
+    <button aria-label="Decline Survival of the Fittest → Elvish Promenade, keep Survival of the Fittest" class="small-btn ghost" title="Keep Survival of the Fittest in the suggested deck">
+      "Decline"
+    <button aria-label="Apply Survival of the Fittest → Elvish Promenade to your deck" class="small-btn" title="Make this swap in your deck as submitted">
+      "Apply"
+<div class="swap-cards">
+  <div class="mini-card out">
+    <span class="card-name mini-card-img">
+      <a href="https://scryfall.com/card/tpr/199/survival-of-the-fittest?utm_source=api" rel="noreferrer" target="_blank">
+        <img alt="Survival of the Fittest" loading="eager" src="https://cards.scryfall.io/normal/front/4/e/4ef0d7f9-ddb9-4e83-a9bf-09bec22fc80d.jpg?1783938453">
+    <div class="mini-card-text">
+      <span class="side-label">
+        "Cut"
+      <span class="card-name mini-card-name">
+        <a href="https://scryfall.com/card/tpr/199/survival-of-the-fittest?utm_source=api" rel="noreferrer" target="_blank">
+          "Survival of the Fittest"
+      <div class="muted small mini-card-meta">
+        <span aria-label="{1}{G}" class="mana-cost">
+          <span class="mana-face">
+            <img alt="{1}" height="13" src="/symbols/1.svg" width="13">
+            <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
+        <span>
+          "$81.52"
+  <div aria-hidden="true" class="arrow">
+    "→"
+  <div class="mini-card in">
+    <span class="card-name mini-card-img">
+      <a href="https://scryfall.com/card/khc/59/elvish-promenade?utm_source=api" rel="noreferrer" target="_blank">
+        <img alt="Elvish Promenade" loading="eager" src="https://cards.scryfall.io/normal/front/2/0/20602cb8-f925-4de0-ad4b-86d0f5514384.jpg?1783928316">
+    <div class="mini-card-text">
+      <span class="side-label">
+        "Add"
+      <span class="card-name mini-card-name">
+        <a href="https://scryfall.com/card/khc/59/elvish-promenade?utm_source=api" rel="noreferrer" target="_blank">
+          "Elvish Promenade"
+      <div class="muted small mini-card-meta">
+        <span aria-label="{3}{G}" class="mana-cost">
+          <span class="mana-face">
+            <img alt="{3}" height="13" src="/symbols/3.svg" width="13">
+            <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
+        <span>
+          "$7.28"
+<div class="reason">
+  <p>
+    <span class="card-name ">
+      <a href="https://scryfall.com/card/tpr/199/survival-of-the-fittest?utm_source=api" rel="noreferrer" target="_blank">
+        "Survival of the Fittest"
+    " is over the 3 Game Changer limit; "
+    <span class="card-name ">
+      <a href="https://scryfall.com/card/khc/59/elvish-promenade?utm_source=api" rel="noreferrer" target="_blank">
+        "Elvish Promenade"
+    " is the best legal replacement."
+  <p class="alternatives small">
+    <span class="muted">
+      "Also consider: "
+    <span>
+      <span class="card-name ">
+        <a href="https://scryfall.com/card/ecc/122/glissa-sunslayer?utm_source=api" rel="noreferrer" target="_blank">
+          "Glissa Sunslayer"
+    <span>
+      <span class="muted">
+        " · "
+      <span class="card-name ">
+        <a href="https://scryfall.com/card/khc/14/wolverine-riders?utm_source=api" rel="noreferrer" target="_blank">
+          "Wolverine Riders"

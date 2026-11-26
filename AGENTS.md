@@ -107,7 +107,10 @@ decks/             user decks, one folder per commander (initial.txt, optimized.
 - Every swap the doc suggests (its swaps, and suggested land swaps) has an Apply button that makes
   it in the deck as submitted (`applySwap`, `applyManaSuggestion`), leaving the suggested deck as
   it was. Swaps the edit carries out are settled (`realizedSwaps`, `onSubmittedList`), not
-  dropped, so they're neither made twice nor counted as broken.
+  dropped, so they're neither made twice nor counted as broken. Its swaps also have a Decline
+  button (`declineSwap`) that undoes the swap in the suggested deck, all or nothing: the card it
+  cut must still fit the suggested deck's rules, and a re-run that keeps edits won't add the
+  declined card again.
 - Destructive or slow chat actions (re-running the optimizer, anything that replaces the list) are
   proposed first and start only once the user confirms, by button or by a reply the Decisions API
   judges as a yes. Cheap, non-destructive ones (like finding synergies again) can run directly.

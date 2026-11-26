@@ -2829,8 +2829,17 @@ button.hero-card:active:not(:disabled) {
   justify-content: space-between;
   gap: 8px;
 }
-.swap-head .small-btn {
-  margin: 0 0 0 auto;
+.swap-buttons {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.swap-buttons .small-btn {
+  margin: 0;
+}
+.swap-buttons .ghost {
+  color: var(--muted);
 }
 
 .decklist-groups {
@@ -3079,8 +3088,7 @@ button.hero-card:active:not(:disabled) {
   flex: 1;
   min-width: 0;
 }
-.mana-swap .small-btn {
-  margin: 0 0 0 auto;
+.mana-swap .swap-buttons {
   align-self: flex-start;
 }
 .bar-track .bar.after.solo {

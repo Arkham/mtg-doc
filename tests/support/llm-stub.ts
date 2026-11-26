@@ -212,6 +212,19 @@ function answer(body: Record<string, unknown>, text: string, hasImage: boolean):
         }),
       );
     }
+    if (/don't want the swap/i.test(last)) {
+      const [, out, add] = /swap (.+?) → (.+)$/.exec(last)!;
+      return message(
+        JSON.stringify({
+          reply: `Keeping ${out} over ${add}.`,
+          changes: [
+            { action: "remove", name: add, qty: 1, reason: "stub" },
+            { action: "add", name: out, qty: 1, reason: "stub" },
+          ],
+          target: "optimized",
+        }),
+      );
+    }
     if (/run it again/i.test(last))
       return message(
         JSON.stringify({ reply: "Same settings, fresh run?", changes: [], rerun: {} }),

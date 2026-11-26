@@ -12,6 +12,7 @@ module Api exposing
     , deck
     , deckUrl
     , decksUnlessKnown
+    , declineSwap
     , edit
     , fileText
     , fileUrl
@@ -268,8 +269,20 @@ applyManaSuggestion slug id =
 {-| Makes one of the doc's swaps in the deck as submitted.
 -}
 applySwap : Slug -> Swap -> (Result_ String -> msg) -> Cmd msg
-applySwap slug swap =
-    post (deckPath slug ++ "/swaps/apply")
+applySwap =
+    answerSwap "apply"
+
+
+{-| Declines one of the doc's swaps: the suggested deck keeps the card it would cut.
+-}
+declineSwap : Slug -> Swap -> (Result_ String -> msg) -> Cmd msg
+declineSwap =
+    answerSwap "decline"
+
+
+answerSwap : String -> Slug -> Swap -> (Result_ String -> msg) -> Cmd msg
+answerSwap verb slug swap =
+    post (deckPath slug ++ "/swaps/" ++ verb)
         (E.object [ ( "out", E.string swap.out ), ( "in", E.string swap.in_ ) ])
         editId
 

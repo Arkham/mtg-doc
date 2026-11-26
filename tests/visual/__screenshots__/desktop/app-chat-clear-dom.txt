@@ -1448,8 +1448,11 @@
                           <span class="card-name ">
                             <a href="https://scryfall.com/card/msc/265/secluded-courtyard?utm_source=api" rel="noreferrer" target="_blank">
                               "Secluded Courtyard"
-                      <button aria-label="Apply Golgari Guildgate → Secluded Courtyard to your deck" class="small-btn" title="Make this swap in your deck as submitted">
-                        "Apply"
+                      <span class="swap-buttons">
+                        <button aria-label="Decline Golgari Guildgate → Secluded Courtyard, keep Golgari Guildgate" class="small-btn ghost" title="Keep Golgari Guildgate in the suggested deck">
+                          "Decline"
+                        <button aria-label="Apply Golgari Guildgate → Secluded Courtyard to your deck" class="small-btn" title="Make this swap in your deck as submitted">
+                          "Apply"
                     <div class="muted small">
                       <span class="card-name ">
                         <a href="https://scryfall.com/card/fdn/689/golgari-guildgate?utm_source=api" rel="noreferrer" target="_blank">
@@ -1474,8 +1477,11 @@
                           <span class="card-name ">
                             <a href="https://scryfall.com/card/khm/254/darkbore-pathway-slitherbore-pathway?utm_source=api" rel="noreferrer" target="_blank">
                               "Darkbore Pathway // Slitherbore Pathway"
-                      <button aria-label="Apply Jungle Hollow → Darkbore Pathway // Slitherbore Pathway to your deck" class="small-btn" title="Make this swap in your deck as submitted">
-                        "Apply"
+                      <span class="swap-buttons">
+                        <button aria-label="Decline Jungle Hollow → Darkbore Pathway // Slitherbore Pathway, keep Jungle Hollow" class="small-btn ghost" title="Keep Jungle Hollow in the suggested deck">
+                          "Decline"
+                        <button aria-label="Apply Jungle Hollow → Darkbore Pathway // Slitherbore Pathway to your deck" class="small-btn" title="Make this swap in your deck as submitted">
+                          "Apply"
                     <div class="muted small">
                       <span class="card-name ">
                         <a href="https://scryfall.com/card/tdm/258/jungle-hollow?utm_source=api" rel="noreferrer" target="_blank">

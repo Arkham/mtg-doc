@@ -9,6 +9,7 @@ import {
   applyChatChanges,
   applyManaSuggestion,
   applySwap,
+  declineSwap,
   chatAboutDeck,
   refreshSynergies,
   startChatRerun,
@@ -40,6 +41,8 @@ import {
 const TRACE_EVERY_MS = 100;
 
 const recognitionJobs = new Map<string, RecognitionJob>();
+
+const SwapBody = z.object({ out: z.string().min(1), in: z.string().min(1) });
 
 async function deckStatus(slug: string): Promise<DeckStatus> {
   const savedAt = await reportSavedAt(slug);
@@ -350,8 +353,18 @@ export function createApp() {
   app.post(
     "/api/decks/:slug/swaps/apply",
     wrap(async (req, res) => {
-      const swap = z.object({ out: z.string().min(1), in: z.string().min(1) }).parse(req.body);
+      const swap = SwapBody.parse(req.body);
       res.status(202).json({ editId: await applySwap(String(req.params.slug), swap.out, swap.in) });
+    }),
+  );
+
+  app.post(
+    "/api/decks/:slug/swaps/decline",
+    wrap(async (req, res) => {
+      const swap = SwapBody.parse(req.body);
+      res
+        .status(202)
+        .json({ editId: await declineSwap(String(req.params.slug), swap.out, swap.in) });
     }),
   );
 

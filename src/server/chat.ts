@@ -168,6 +168,7 @@ Rules:
 - Keep the deck at exactly 100 cards: pair every add with a remove unless the user explicitly says otherwise.
 - Respect the commander's color identity, singleton (basics excepted), the target bracket and the budget. Every change is validated; invalid ones are rejected.
 - Only remove cards that are in the current list.
+- If the user declines one of the doc's swaps (doesn't want it), undo it in the suggested deck: remove its add and add its cut back, with "target" set to "optimized".
 - Keep "reply" short (2-5 sentences); mention the key trade-offs.
 - In "reply" and each change's "reason": ${CARD_REFS_RULE} A change's "name" is the plain card name.
 - If the user wants different optimizer settings (another target bracket, a total or per-card budget, more or fewer swaps, a different tone), propose re-running the optimizer instead of card changes: set "rerun" to only the settings that change and leave "changes" empty. In "reply", say what will change and ask them to confirm; the re-run replaces the current suggestions and chat edits. To re-run with the same settings, set "rerun" to {}. Otherwise set "rerun" to null.
@@ -563,7 +564,7 @@ export async function applyDeckChanges(
   proposed: DeckChange[],
   request: string,
   target: EditTarget = "optimized",
-  { fromSuggested = false }: { fromSuggested?: boolean } = {},
+  { fromSuggested = false, whole = false }: { fromSuggested?: boolean; whole?: boolean } = {},
 ): Promise<{ report: Report; changes: DeckChange[] }> {
   const meta = await readMeta(slug);
   const report = await readReport(slug);
@@ -593,6 +594,12 @@ export async function applyDeckChanges(
     editsOriginal ? "original" : "optimized",
     known,
   );
+  const invalid = changes.find((c) => c.problem);
+  if (whole && invalid)
+    throw new HttpError(
+      409,
+      `Can't ${invalid.action} ${invalid.name} in the suggested deck: ${invalid.problem}.`,
+    );
   const valid = changes.filter((c) => !c.problem);
   if (!valid.length) throw new HttpError(409, "None of those changes are valid any more.");
   // Swaps the edit made in the submitted list are done, not dropped.
@@ -802,6 +809,32 @@ export async function applySwap(slug: string, out: string, add: string): Promise
       [change("remove", swap.out, swap.outCard), change("add", swap.in, swap.inCard)],
       `Swap: ${swap.out} → ${swap.in}`,
       "original",
+    ),
+  ).status.id;
+}
+
+/**
+ * Queues declining one of the doc's swaps: the suggested deck keeps the card it would have cut. A
+ * re-run that keeps edits then never brings the declined card in. Returns the edit's id to poll.
+ */
+export async function declineSwap(slug: string, out: string, add: string): Promise<string> {
+  const report = await readReport(slug);
+  const swap = report?.swaps.find((s) => s.out === out && s.in === add);
+  if (!swap) throw new HttpError(404, "That swap is no longer suggested.");
+  const change = (action: DeckChange["action"], name: string, card?: Card): DeckChange => ({
+    action,
+    name,
+    qty: 1,
+    reason: "Declined the doc's swap.",
+    ...(card ? { card } : {}),
+  });
+  return enqueueEdit(slug, "Decline a swap", () =>
+    applyDeckChanges(
+      slug,
+      [change("remove", swap.in, swap.inCard), change("add", swap.out, swap.outCard)],
+      `Declined: ${swap.out} → ${swap.in}`,
+      "optimized",
+      { whole: true },
     ),
   ).status.id;
 }

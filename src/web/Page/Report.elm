@@ -1,4 +1,4 @@
-module Page.Report exposing (Chrome, ComboFilter, Copy, DecklistView, Model, Msg, Note(..), Out(..), Page, Section, chrome, closeHowToPlay, decklistViewDecoder, decklistViewToString, init, load, sectionId, subscriptions, update, view, viewChat)
+module Page.Report exposing (Chrome, ComboFilter, Copy, DecklistView, Model, Msg, Note(..), Out(..), Page, Section, Verdict, chrome, closeHowToPlay, decklistViewDecoder, decklistViewToString, init, load, sectionId, subscriptions, update, view, viewChat)
 
 import Api
 import Chat
@@ -83,11 +83,19 @@ type Applier
     | ManaApplier
 
 
-{-| A change the page makes through the deck's edit queue: one of the doc's swaps (to the spells
-or the mana base), or one of its suggested land swaps.
+{-| What the user says to one of the doc's swaps: make it in their deck as submitted, or keep the
+card it cuts in the suggested deck.
+-}
+type Verdict
+    = Apply
+    | Decline
+
+
+{-| A change the page makes through the deck's edit queue: an answer to one of the doc's swaps (to
+the spells or the mana base), or one of its suggested land swaps.
 -}
 type Edit
-    = SwapEdit Applier Swap
+    = SwapEdit Applier Verdict Swap
     | LandEdit String
 
 
@@ -117,8 +125,8 @@ type alias Page =
     , comboFilter : ComboFilter
     , allCombos : Bool
     , synergies : Request String
-    , swaps : Request Swap
-    , manaSwaps : Request Swap
+    , swaps : Request ( Verdict, Swap )
+    , manaSwaps : Request ( Verdict, Swap )
     , landSwaps : Request String
     , target : Maybe Bracket
 
@@ -159,7 +167,7 @@ type Msg
     | ToggledAllCombos
     | ClickedRefreshSynergies String
     | GotSynergies (Result String Report)
-    | ClickedApply Edit
+    | ClickedEdit Edit
     | GotQueued Edit (Result String String)
     | EditPollDue Edit String
     | GotEdit Edit String (Result String EditStatus)
@@ -281,8 +289,11 @@ mapDetail f page =
 send : Slug -> Edit -> Cmd Msg
 send slug edit =
     case edit of
-        SwapEdit _ swap ->
+        SwapEdit _ Apply swap ->
             Api.applySwap slug swap (GotQueued edit)
+
+        SwapEdit _ Decline swap ->
+            Api.declineSwap slug swap (GotQueued edit)
 
         LandEdit id ->
             Api.applyManaSuggestion slug id (GotQueued edit)
@@ -291,11 +302,11 @@ send slug edit =
 editBusy : Edit -> Page -> Page
 editBusy edit page =
     case edit of
-        SwapEdit SwapApplier swap ->
-            { page | swaps = Busy swap }
+        SwapEdit SwapApplier verdict swap ->
+            { page | swaps = Busy ( verdict, swap ) }
 
-        SwapEdit ManaApplier swap ->
-            { page | manaSwaps = Busy swap }
+        SwapEdit ManaApplier verdict swap ->
+            { page | manaSwaps = Busy ( verdict, swap ) }
 
         LandEdit id ->
             { page | landSwaps = Busy id }
@@ -315,10 +326,10 @@ editEnded edit failed page =
                     Idle
     in
     case edit of
-        SwapEdit SwapApplier _ ->
+        SwapEdit SwapApplier _ _ ->
             { page | swaps = ended }
 
-        SwapEdit ManaApplier _ ->
+        SwapEdit ManaApplier _ _ ->
             { page | manaSwaps = ended }
 
         LandEdit _ ->
@@ -453,7 +464,7 @@ update env msg model =
         GotSynergies (Err e) ->
             none (setPage (\p -> { p | synergies = Failed e }) model)
 
-        ClickedApply edit ->
+        ClickedEdit edit ->
             ( setPage (editBusy edit) model, send model.page.slug edit, Nothing )
 
         GotQueued edit (Ok id) ->
@@ -857,28 +868,46 @@ isManaSwap s =
     s.category == SwapCategoryMana || (Maybe.map .isLand s.inCard == Just True && Maybe.map .isLand s.outCard == Just True)
 
 
-applyButton : Env -> Applier -> Request Swap -> Swap -> Html Msg
-applyButton env which state swap =
+{-| Apply and Decline for one of the doc's swaps.
+-}
+swapButtons : Env -> Applier -> Request ( Verdict, Swap ) -> Swap -> Html Msg
+swapButtons env which state swap =
     if env.site == Published then
         text ""
 
     else
         let
-            busy =
-                busyWith (\b -> b.out == swap.out && b.in_ == swap.in_) state
-        in
-        button
-            [ class "small-btn"
-            , disabled (isBusy state)
-            , onClick (ClickedApply (SwapEdit which swap))
-            , attribute "aria-label" ("Apply " ++ swap.out ++ " → " ++ swap.in_ ++ " to your deck")
-            , title "Make this swap in your deck as submitted"
-            ]
-            [ if busy then
-                spinner
+            pair =
+                swap.out ++ " → " ++ swap.in_
 
-              else
-                text "Apply"
+            verdictButton verdict o =
+                button
+                    [ class ("small-btn" ++ o.class)
+                    , disabled (isBusy state)
+                    , onClick (ClickedEdit (SwapEdit which verdict swap))
+                    , attribute "aria-label" o.label
+                    , title o.title
+                    ]
+                    [ if busyWith (\( v, b ) -> v == verdict && b.out == swap.out && b.in_ == swap.in_) state then
+                        spinner
+
+                      else
+                        text o.text
+                    ]
+        in
+        span [ class "swap-buttons" ]
+            [ verdictButton Decline
+                { class = " ghost"
+                , label = "Decline " ++ pair ++ ", keep " ++ swap.out
+                , title = "Keep " ++ swap.out ++ " in the suggested deck"
+                , text = "Decline"
+                }
+            , verdictButton Apply
+                { class = ""
+                , label = "Apply " ++ pair ++ " to your deck"
+                , title = "Make this swap in your deck as submitted"
+                , text = "Apply"
+                }
             ]
 
 
@@ -924,7 +953,7 @@ categoryLabel s =
         emoji ++ " " ++ String.toUpper (String.left 1 name) ++ String.dropLeft 1 name
 
 
-swapGroup : Env -> Card.Ctx Msg -> Request Swap -> String -> List Swap -> Html Msg
+swapGroup : Env -> Card.Ctx Msg -> Request ( Verdict, Swap ) -> String -> List Swap -> Html Msg
 swapGroup env ctx state title swaps =
     if List.isEmpty swaps then
         text ""
@@ -940,7 +969,7 @@ swapGroup env ctx state title swaps =
                         , article [ class "swap" ]
                             [ div [ class "swap-head" ]
                                 [ span [ class "badge" ] [ text (categoryLabel s) ]
-                                , applyButton env SwapApplier state s
+                                , swapButtons env SwapApplier state s
                                 ]
                             , div [ class "swap-cards" ]
                                 [ miniCard env ctx s.outCard s.out Cut
@@ -1300,7 +1329,7 @@ manaAdvice env ctx model shown =
                                     , span [ class "edit-chip add" ]
                                         [ text "+ ", Card.nameWith ctx { name = s.in_, card = Maybe.map cardLike s.inCard, label = Nothing, class = Nothing, key = Nothing } ]
                                     ]
-                                , applyButton env ManaApplier model.manaSwaps s
+                                , swapButtons env ManaApplier model.manaSwaps s
                                 ]
                             , div [ class "muted small" ] (Card.prose ctx s.reason)
                             ]
@@ -1349,7 +1378,7 @@ manaAdvice env ctx model shown =
                                             (button
                                                 [ class "small-btn"
                                                 , disabled (isBusy model.landSwaps)
-                                                , onClick (ClickedApply (LandEdit m.id))
+                                                , onClick (ClickedEdit (LandEdit m.id))
                                                 , title "Make this swap in your deck as submitted"
                                                 ]
                                                 [ if model.landSwaps == Busy m.id then

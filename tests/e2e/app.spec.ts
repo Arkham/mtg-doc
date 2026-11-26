@@ -194,6 +194,14 @@ test.describe("local app", () => {
     await expect(page.locator(".deck-group li").filter({ hasText: added })).not.toHaveCount(0);
     await page.getByRole("tab", { name: /Optimized/ }).click();
 
+    // Or declined: the suggested deck keeps the card it would have cut.
+    const unwanted = swaps.filter({ has: page.locator(".badge", { hasText: "Synergy" }) }).first();
+    const keptCard = await unwanted.locator(".mini-card.out .mini-card-name").innerText();
+    await unwanted.getByRole("button", { name: /^Decline / }).click();
+    await expect(swaps).toHaveCount(before - 2, { timeout: 30_000 });
+    await decklist.getByRole("button", { name: "Show decklist" }).click();
+    await expect(page.locator(".deck-group li").filter({ hasText: keptCard })).not.toHaveCount(0);
+
     await page.getByRole("button", { name: "Back" }).click();
     await expect(page.locator(".deck-card")).toContainText(["Lathril, Blade of the Elves"]);
   });

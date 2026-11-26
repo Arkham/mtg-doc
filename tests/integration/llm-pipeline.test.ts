@@ -351,6 +351,30 @@ describe("pipeline with an LLM (stubbed Responses API)", () => {
     assert.equal(applied.swaps.length, current.swaps.length - 1);
     const list = (r: Report) => r.decklist!.map((c) => `${c.qty} ${c.name}`).sort();
     assert.deepEqual(list(applied), list(current), "the suggested deck stays as it was");
+
+    // Decline one of the doc's swaps (the Decline button on a swap), asked from the deck as
+    // submitted: the suggested deck keeps the card the swap would have cut.
+    // One whose cut can come back: the fixture has cards outside Lathril's colors.
+    const unwanted = applied.swaps.find((s) =>
+      s.outCard?.colorIdentity.every((c) => c === "B" || c === "G"),
+    )!;
+    const declined = await chatAboutDeck(
+      slug,
+      `I don't want the swap ${unwanted.out} → ${unwanted.in}`,
+      "original",
+    );
+    assert.equal(declined.target, "optimized");
+    assert.ok(
+      declined.changes!.every((c) => !c.problem),
+      JSON.stringify(declined.changes),
+    );
+    await applyChatChanges(slug, declined.id);
+    await whenIdle(slug);
+    const kept = (await readReport(slug))!;
+    assert.ok(kept.decklist!.some((c) => c.name === unwanted.out));
+    assert.ok(!kept.decklist!.some((c) => c.name === unwanted.in));
+    assert.ok(!kept.swaps.some((s) => s.out === unwanted.out || s.in === unwanted.in));
+    assert.equal(kept.swaps.length, applied.swaps.length - 1);
   });
 
   test("the decision model confirms replies and judges when a change is worth re-optimizing", async () => {

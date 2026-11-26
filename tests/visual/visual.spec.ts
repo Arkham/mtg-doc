@@ -425,6 +425,14 @@ test.describe("local app", () => {
     await shot(page, "app-optimized");
   });
 
+  test("a swap to apply or decline", async ({ page, isMobile }) => {
+    await page.goto(`${APP_URL}#/deck/${DECK}/optimized`);
+    await tap(page.getByRole("button", { name: /^Show swaps/ }), isMobile);
+    const swap = page.locator("#decklist .swap").first();
+    await expect(swap.getByRole("button", { name: /^Decline / })).toBeVisible();
+    await shotOf(swap, "app-swap", "#decklist .swap");
+  });
+
   test("re-run options and target bracket", async ({ page, isMobile }) => {
     await page.goto(`${APP_URL}#/deck/${DECK}/optimized`);
     await tap(page.getByRole("button", { name: "Change and re-run" }), isMobile);

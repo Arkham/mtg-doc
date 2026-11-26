@@ -360,6 +360,58 @@ describe("deck chat without an LLM", () => {
     assert.equal((await applySwap({ out: swap.out })).status, 400);
   });
 
+  test("a swap's Decline button keeps the card it would cut in the suggested deck", async () => {
+    const { report: current } = (await (await fetch(`${base}/api/decks/${slug}`)).json()) as {
+      report: Report;
+    };
+    const swap = current.swaps.find((s) => !s.fromChat && !s.outCard?.isLand)!;
+    const declineSwap = (body: unknown, deck = slug) =>
+      fetch(`${base}/api/decks/${deck}/swaps/decline`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      });
+    const initial = await readDeckFile(slug, "initial.txt");
+    const { report } = await applied(await declineSwap({ out: swap.out, in: swap.in }));
+
+    assert.equal(await readDeckFile(slug, "initial.txt"), initial, "the deck as submitted stays");
+    const suggested = new Map(report.decklist!.map((c) => [c.name, c]));
+    assert.equal(suggested.get(swap.out)?.isNew, false);
+    assert.ok(!suggested.has(swap.in));
+    assert.equal(report.after.totalCards, 100);
+    assert.ok(!report.swaps.some((s) => s.out === swap.out || s.in === swap.in));
+    assert.equal(report.swaps.length, current.swaps.length - 1, "no other swap is dropped");
+    assert.equal(report.edits!.at(-1)!.target, undefined);
+    assert.equal(report.edits!.at(-1)!.request, `Declined: ${swap.out} → ${swap.in}`);
+    assert.equal((await declineSwap({ out: swap.out, in: swap.in })).status, 404);
+    assert.equal((await declineSwap({ in: swap.in })).status, 400);
+
+    // Taking the card back must fit the suggested deck's rules, or nothing changes.
+    const fresh = await optimizeFixtureDeck("lathril.txt", {
+      bracket: 3,
+      tone: "balanced",
+      maxSwaps: 6,
+    });
+    const pricey = fresh.report.swaps.find((s) => (s.outCard?.priceUsd ?? 0) > 1)!;
+    const metaFile = path.join(config.decksDir, fresh.slug, "deck.json");
+    const meta = JSON.parse(await fs.readFile(metaFile, "utf8"));
+    await fs.writeFile(
+      metaFile,
+      JSON.stringify({ ...meta, options: { ...meta.options, budgetPerCard: 1 } }),
+    );
+    const res = await declineSwap({ out: pricey.out, in: pricey.in }, fresh.slug);
+    assert.equal(res.status, 202);
+    const { editId } = (await res.json()) as { editId: string };
+    await whenIdle(fresh.slug);
+    const edit = (await (await fetch(`${base}/api/edits/${editId}`)).json()) as EditStatus;
+    assert.deepEqual(edit.state, {
+      kind: "failed",
+      error: `Can't add ${pricey.out} in the suggested deck: over the $1 per-card budget.`,
+    });
+    const after = (await (await fetch(`${base}/api/decks/${fresh.slug}`)).json()) as DeckDetail;
+    assert.deepEqual(after.report!.decklist, fresh.report.decklist);
+  });
+
   test("validation errors and missing decks", async () => {
     const empty = await fetch(`${base}/api/decks/${slug}/chat`, {
       method: "POST",
