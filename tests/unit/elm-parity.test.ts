@@ -11,6 +11,7 @@ import path from "node:path";
 import { before, describe, test } from "node:test";
 import vm from "node:vm";
 import { config } from "../../src/server/config.ts";
+import { tool } from "../../scripts/tools.ts";
 import { listDecks } from "../../src/server/storage.ts";
 import { type Route, routeHref } from "../../src/web/routes.ts";
 import { TASK_LABELS } from "../../src/shared/run-copy.ts";
@@ -42,7 +43,7 @@ before(() => {
   fs.writeFileSync(path.join(dir, "elm.json"), JSON.stringify(elmJson));
   const out = path.join(dir, "parity.js");
   execFileSync(
-    path.join(ROOT, "node_modules/.bin/elm"),
+    tool("elm"),
     ["make", path.join(ROOT, "tests/support/Parity.elm"), "--output", out],
     { cwd: dir, stdio: ["ignore", "ignore", "inherit"] },
   );

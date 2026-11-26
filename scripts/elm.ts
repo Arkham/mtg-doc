@@ -8,6 +8,7 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { tool } from "./tools.ts";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const LOCK = path.join(ROOT, "elm-stuff", "build.lock");
@@ -73,7 +74,7 @@ export async function buildElmTo(output: string, optimize: boolean) {
     const tmp = `${output}.${process.pid}.tmp.js`;
     fs.mkdirSync(path.dirname(output), { recursive: true });
     execFileSync(
-      path.join(ROOT, "node_modules/.bin/elm"),
+      tool("elm"),
       ["make", "src/web/Main.elm", "--output", tmp, ...(optimize ? ["--optimize"] : [])],
       { cwd: ROOT, stdio: ["ignore", "ignore", "inherit"] },
     );

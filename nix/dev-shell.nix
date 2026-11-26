@@ -5,12 +5,20 @@ let
   # Node 24 mirrors CI (.github/workflows/ci.yml); pnpm 10 mirrors packageManager.
   nodejs = pkgs.nodejs_24;
   pnpm = pkgs.pnpm_10;
+  # The Elm toolchain, in the versions elm-tooling.json pins, so the shell builds, formats and tests
+  # Elm even before `pnpm install` has downloaded its own copies (pnpm scripts prefer those:
+  # node_modules/.bin comes first in PATH).
+  elm = pkgs.elmPackages;
 in
 pkgs.mkShell {
   packages = [
     nodejs
     pnpm
     pkgs.git
+    elm.elm
+    elm.elm-format
+    elm.elm-json
+    elm.elm-test-rs
   ];
 
   # Playwright fetches browsers into ~/.cache/ms-playwright, which works as-is on macOS.
@@ -20,7 +28,7 @@ pkgs.mkShell {
   # PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1";
 
   shellHook = ''
-    echo "mtg-doc: node $(node --version), pnpm $(pnpm --version)"
+    echo "mtg-doc: node $(node --version), pnpm $(pnpm --version), elm $(elm --version)"
     if [ ! -f .env ] && [ -f .env.example ]; then
       echo "tip: cp .env.example .env  # then fill in LLM_* (optional: the app also runs list-only)"
     fi

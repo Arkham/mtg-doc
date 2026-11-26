@@ -8,6 +8,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import { parseSync } from "oxc-parser";
+import { tool } from "./tools.ts";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const { values } = parseArgs({ options: { check: { type: "boolean", default: false } } });
@@ -589,7 +590,7 @@ if (stale) process.exit(1);
 
 async function elmFormat(text: string): Promise<string> {
   const { execFileSync } = await import("node:child_process");
-  return execFileSync(path.join(ROOT, "node_modules/.bin/elm-format"), ["--stdin"], {
+  return execFileSync(tool("elm-format"), ["--stdin"], {
     input: text,
     encoding: "utf8",
   });

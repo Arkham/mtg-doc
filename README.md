@@ -29,8 +29,8 @@ pnpm dev               # http://localhost:5173
 ```
 
 With Nix, `nix develop` (or `direnv allow` with the bundled `.envrc`) gives you the same Node 24 +
-pnpm 10 as CI; `nix-shell` works too and reads your `<nixpkgs>` instead of the pinned flake input.
-Run the commands above inside it.
+pnpm 10 as CI, plus the Elm toolchain (elm, elm-format, elm-json, elm-test-rs); `nix-shell` works
+too and reads your `<nixpkgs>` instead of the pinned flake input. Run the commands above inside it.
 
 ### LLM dependencies
 
