@@ -15,6 +15,7 @@ import { tool } from "../../scripts/tools.ts";
 import { listDecks } from "../../src/server/storage.ts";
 import { type Route, routeHref } from "../../src/web/routes.ts";
 import { TASK_LABELS } from "../../src/shared/run-copy.ts";
+import { isBasicLand } from "../../src/shared/basics.ts";
 
 const ROOT = path.resolve(import.meta.dirname, "../..");
 const DECKS = path.join(ROOT, "decks");
@@ -119,6 +120,27 @@ describe("Elm formatting and sorting", () => {
       -1,
       `first difference: ${JSON.stringify(js.slice(at, at + 3))} vs ${JSON.stringify(elm.slice(at, at + 3))}`,
     );
+  });
+  test("knows the same basic lands as the server", async () => {
+    const names = [
+      "Plains",
+      "Island",
+      "Swamp",
+      "Mountain",
+      "Forest",
+      "Wastes",
+      "Snow-Covered Island",
+      "Snow-Covered Wastes",
+      "Forest Bear",
+      "snow-covered island",
+      "Island Sanctuary",
+      "Snow-Covered",
+    ];
+    const elm = JSON.parse(JSON.stringify(await ask({ kind: "isBasicLand", names }))) as Record<
+      string,
+      boolean
+    >;
+    for (const name of names) assert.equal(elm[name], isBasicLand(name), name);
   });
 });
 

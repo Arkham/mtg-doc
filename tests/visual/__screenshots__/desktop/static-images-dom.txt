@@ -726,11 +726,6 @@
                       <span aria-hidden="true">
                         "✦"
                       " new"
-                <li class="deck-image ">
-                  <button aria-label="Show Forest full size">
-                    <img alt="Forest" loading="eager" src="https://cards.scryfall.io/normal/front/2/e/2e781bfd-f8cb-4d20-b977-4359f3a21311.jpg?1791578317">
-                    <span class="deck-image-qty">
-                      "×12"
                 <li class="deck-image new">
                   <button aria-label="Show Gilt-Leaf Palace full size">
                     <img alt="Gilt-Leaf Palace" loading="eager" src="https://cards.scryfall.io/normal/front/c/c/cc4bbbb5-4218-4b2a-9ca2-de4d5f5dda19.jpg?1783942847">
@@ -761,11 +756,6 @@
                         "✦"
                       " new"
                 <li class="deck-image ">
-                  <button aria-label="Show Swamp full size">
-                    <img alt="Swamp" loading="eager" src="https://cards.scryfall.io/normal/front/b/2/b233b117-9369-45c1-80c5-cc857386b6be.jpg?1791578437">
-                    <span class="deck-image-qty">
-                      "×8"
-                <li class="deck-image ">
                   <button aria-label="Show Undergrowth Stadium full size">
                     <img alt="Undergrowth Stadium" loading="eager" src="https://cards.scryfall.io/normal/front/f/2/f25aa8aa-e2f7-4634-8a96-2082e76c6503.jpg?1783904148">
                 <li class="deck-image ">
@@ -777,6 +767,16 @@
                 <li class="deck-image ">
                   <button aria-label="Show Yavimaya, Cradle of Growth full size">
                     <img alt="Yavimaya, Cradle of Growth" loading="eager" src="https://cards.scryfall.io/normal/front/4/e/4e4b6e22-93b2-4896-bba5-0ceaa5d8ea3c.jpg?1783926791">
+                <li class="deck-image ">
+                  <button aria-label="Show Forest full size">
+                    <img alt="Forest" loading="eager" src="https://cards.scryfall.io/normal/front/2/e/2e781bfd-f8cb-4d20-b977-4359f3a21311.jpg?1791578317">
+                    <span class="deck-image-qty">
+                      "×12"
+                <li class="deck-image ">
+                  <button aria-label="Show Swamp full size">
+                    <img alt="Swamp" loading="eager" src="https://cards.scryfall.io/normal/front/b/2/b233b117-9369-45c1-80c5-cc857386b6be.jpg?1791578437">
+                    <span class="deck-image-qty">
+                      "×8"
         <section class="panel" id="mana">
           <header class="panel-head">
             <div class="panel-head-text">

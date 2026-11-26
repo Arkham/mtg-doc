@@ -44,4 +44,25 @@ describe("renderDecklist", () => {
       "Fireball",
     ]);
   });
+
+  test("puts basic lands after the other lands", () => {
+    const land = (name: string): DecklistCard => ({ ...card(name, 0), group: "Land" });
+    const lines = renderDecklist("Decklist", [
+      land("Forest"),
+      land("Command Tower"),
+      land("Snow-Covered Island"),
+      land("Swamp"),
+      land("Woodland Cemetery"),
+    ]);
+    const cards = lines
+      .filter((l) => l.startsWith("- "))
+      .map((l) => l.slice(2).replace(/^\d+\s+/, ""));
+    assert.deepEqual(cards, [
+      "Command Tower",
+      "Woodland Cemetery",
+      "Forest",
+      "Snow-Covered Island",
+      "Swamp",
+    ]);
+  });
 });

@@ -9,6 +9,7 @@ import type {
 import { BRACKETS } from "./analysis/bracket.ts";
 import { mapProse } from "./analysis/prose.ts";
 import { plainText } from "../shared/card-refs.ts";
+import { isBasicLand } from "../shared/basics.ts";
 
 const GROUPS = [
   "Commander",
@@ -49,7 +50,8 @@ const coloredSymbols = (manaCost: string | undefined) =>
 /**
  * A full list grouped by type, cheapest first, so readers (and agents) get every card. Cards with X
  * in their mana cost go last: their mana value doesn't count the X. At the same mana value, the one
- * that asks for fewer colored symbols comes first.
+ * that asks for fewer colored symbols comes first. Basic lands go after the other lands, so the
+ * mana base's real choices come first and the basics that fill it out last.
  */
 export function renderDecklist(title: string, cards: DecklistCard[], markNew = false): string[] {
   const total = cards.reduce((n, c) => n + c.qty, 0);
@@ -59,6 +61,7 @@ export function renderDecklist(title: string, cards: DecklistCard[], markNew = f
       .filter((c) => c.group === g)
       .sort(
         (a, b) =>
+          Number(isBasicLand(a.name)) - Number(isBasicLand(b.name)) ||
           Number(hasX(a.manaCost)) - Number(hasX(b.manaCost)) ||
           a.cmc - b.cmc ||
           coloredSymbols(a.manaCost) - coloredSymbols(b.manaCost) ||

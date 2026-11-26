@@ -4,6 +4,7 @@ port module Parity exposing (main)
 server's JSON and against JavaScript itself.
 -}
 
+import Cards
 import Collate
 import Format
 import Json.Decode as D
@@ -64,6 +65,11 @@ run value =
         Ok "sort" ->
             field "names" (D.list D.string)
                 |> Result.map (Collate.sortBy identity >> E.list E.string)
+                |> Result.withDefault E.null
+
+        Ok "isBasicLand" ->
+            field "names" (D.list D.string)
+                |> Result.map (List.map (\name -> ( name, E.bool (Cards.isBasicLand name) )) >> E.object)
                 |> Result.withDefault E.null
 
         Ok "href" ->

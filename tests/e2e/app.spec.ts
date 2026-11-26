@@ -217,25 +217,29 @@ test.describe("local app", () => {
     const heads = page.locator(".group-head");
     await expect(heads.first()).toContainText("Creature");
     await expect(heads.filter({ hasText: "Land" })).toHaveCount(1);
-    // Rows show their mana cost and each group runs cheapest first.
+    // Rows show their mana cost and each group runs cheapest first, with X spells last.
     await expect(page.locator(".card-row .card-row-cost .mana-cost").first()).toBeVisible();
-    const costsByGroup = await page.locator(".card-rows > li").evaluateAll((items) => {
-      const groups: Record<string, number[]> = {};
+    const rowsByGroup = await page.locator(".card-rows > li").evaluateAll((items) => {
+      const groups: Record<string, { x: number; cost: number }[]> = {};
       let current = "";
       for (const li of items) {
         if (li.classList.contains("group-head")) current = li.textContent ?? "";
-        else
-          (groups[current] ??= []).push(
-            [...li.querySelectorAll(".card-row-cost img")].reduce(
+        else {
+          const mana = [...li.querySelectorAll(".card-row-cost img")];
+          (groups[current] ??= []).push({
+            x: mana.some((img) => img.getAttribute("alt") === "{X}") ? 1 : 0,
+            cost: mana.reduce(
               (n, img) => n + (Number(img.getAttribute("alt")?.replace(/[{}]/g, "")) || 1),
               0,
             ),
-          );
+          });
+        }
       }
       return Object.values(groups);
     });
-    expect(costsByGroup.length).toBeGreaterThan(2);
-    for (const costs of costsByGroup) expect(costs).toEqual([...costs].sort((a, b) => a - b));
+    expect(rowsByGroup.length).toBeGreaterThan(2);
+    for (const rows of rowsByGroup)
+      expect(rows).toEqual([...rows].sort((a, b) => a.x - b.x || a.cost - b.cost));
     await expect(page.locator(".status-chip").first()).toHaveText("100 / 100 cards");
 
     const add = page.getByLabel("Add a card");

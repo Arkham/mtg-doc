@@ -21,6 +21,17 @@ suite =
                     |> Cards.sortByManaValue (.card >> Maybe.map (\c -> { cmc = c.cmc, manaCost = c.manaCost }))
                     |> List.map .name
                     |> Expect.equal [ "Typo", "Sol Ring", "Arcane Signet", "Mind Stone", "Wrath" ]
+        , test "sortByManaValue puts basic lands after the other lands" <|
+            \_ ->
+                [ { name = "Forest", card = Just { cmc = 0, manaCost = "" } }
+                , { name = "Command Tower", card = Just { cmc = 0, manaCost = "" } }
+                , { name = "Snow-Covered Island", card = Just { cmc = 0, manaCost = "" } }
+                , { name = "Swamp", card = Just { cmc = 0, manaCost = "" } }
+                , { name = "Woodland Cemetery", card = Just { cmc = 0, manaCost = "" } }
+                ]
+                    |> Cards.sortByManaValue (.card >> Maybe.map (\c -> { cmc = c.cmc, manaCost = c.manaCost }))
+                    |> List.map .name
+                    |> Expect.equal [ "Command Tower", "Woodland Cemetery", "Forest", "Snow-Covered Island", "Swamp" ]
         , test "sortByManaValue puts cards with X in their mana cost last" <|
             \_ ->
                 [ { name = "Fireball", card = Just { cmc = 1, manaCost = "{X}{R}" } }

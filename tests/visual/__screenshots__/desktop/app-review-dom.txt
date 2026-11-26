@@ -2124,27 +2124,6 @@
                 <li class="card-row  ">
                   <div class="thumb">
                     <span class="card-name ">
-                      <a href="https://scryfall.com/card/mdd/301/forest?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/2/e/2e781bfd-f8cb-4d20-b977-4359f3a21311.jpg?1791578317">
-                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="12">
-                  <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Forest">
-                    <div class="card-row-sub small">
-                      <span class="muted">
-                        "Basic Land — Forest"
-                  <span class="card-row-cost">
-                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
-                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
-                    <span class="lock-label">
-                      "Keep"
-                  <button aria-label="Remove Forest" class="icon">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
-                <li class="card-row  ">
-                  <div class="thumb">
-                    <span class="card-name ">
                       <a href="https://scryfall.com/card/usg/321/gaeas-cradle?utm_source=api" rel="noreferrer" target="_blank">
                         <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/2/5/25b0b816-0583-44aa-9dc5-f3ff48993a51.jpg?1783946299">
                   <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
@@ -2310,27 +2289,6 @@
                   <button aria-label="Remove Rogue's Passage" class="icon">
                     <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
                       <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
-                <li class="card-row  ">
-                  <div class="thumb">
-                    <span class="card-name ">
-                      <a href="https://scryfall.com/card/mdd/296/swamp?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/b/2/b233b117-9369-45c1-80c5-cc857386b6be.jpg?1791578437">
-                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="8">
-                  <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Swamp">
-                    <div class="card-row-sub small">
-                      <span class="muted">
-                        "Basic Land — Swamp"
-                  <span class="card-row-cost">
-                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
-                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
-                    <span class="lock-label">
-                      "Keep"
-                  <button aria-label="Remove Swamp" class="icon">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
                 <li class="card-row warn ">
                   <div class="thumb">
                     <span class="card-name ">
@@ -2434,6 +2392,48 @@
                     <span class="lock-label">
                       "Keep"
                   <button aria-label="Remove Yavimaya, Cradle of Growth" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+                <li class="card-row  ">
+                  <div class="thumb">
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/mdd/301/forest?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/2/e/2e781bfd-f8cb-4d20-b977-4359f3a21311.jpg?1791578317">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="12">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Forest">
+                    <div class="card-row-sub small">
+                      <span class="muted">
+                        "Basic Land — Forest"
+                  <span class="card-row-cost">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Forest" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+                <li class="card-row  ">
+                  <div class="thumb">
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/mdd/296/swamp?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/b/2/b233b117-9369-45c1-80c5-cc857386b6be.jpg?1791578437">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="8">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Swamp">
+                    <div class="card-row-sub small">
+                      <span class="muted">
+                        "Basic Land — Swamp"
+                  <span class="card-row-cost">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Swamp" class="icon">
                     <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
                       <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
             <details class="panel disclosure" .open=false>

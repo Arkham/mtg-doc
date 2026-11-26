@@ -1196,12 +1196,6 @@
                       "Elven Passage"
                   <span class="badge new">
                     "new"
-                <li class="">
-                  <span class="qty">
-                    "12"
-                  <span class="card-name grow">
-                    <a href="https://scryfall.com/card/mdd/301/forest?utm_source=api" rel="noreferrer" target="_blank">
-                      "Forest"
                 <li class="new">
                   <span class="qty">
                     "1"
@@ -1250,12 +1244,6 @@
                     "new"
                 <li class="">
                   <span class="qty">
-                    "8"
-                  <span class="card-name grow">
-                    <a href="https://scryfall.com/card/mdd/296/swamp?utm_source=api" rel="noreferrer" target="_blank">
-                      "Swamp"
-                <li class="">
-                  <span class="qty">
                     "1"
                   <span class="card-name grow">
                     <a href="https://scryfall.com/card/tmc/80/undergrowth-stadium?utm_source=api" rel="noreferrer" target="_blank">
@@ -1278,6 +1266,18 @@
                   <span class="card-name grow">
                     <a href="https://scryfall.com/card/mh2/261/yavimaya-cradle-of-growth?utm_source=api" rel="noreferrer" target="_blank">
                       "Yavimaya, Cradle of Growth"
+                <li class="">
+                  <span class="qty">
+                    "12"
+                  <span class="card-name grow">
+                    <a href="https://scryfall.com/card/mdd/301/forest?utm_source=api" rel="noreferrer" target="_blank">
+                      "Forest"
+                <li class="">
+                  <span class="qty">
+                    "8"
+                  <span class="card-name grow">
+                    <a href="https://scryfall.com/card/mdd/296/swamp?utm_source=api" rel="noreferrer" target="_blank">
+                      "Swamp"
         <section class="panel" id="mana">
           <header class="panel-head">
             <div class="panel-head-text">

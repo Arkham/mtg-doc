@@ -1,6 +1,9 @@
 import type { Card, Color } from "../../shared/types.ts";
 import { config } from "../config.ts";
 import { classifyRoles } from "../analysis/roles.ts";
+import { isBasicLand } from "../../shared/basics.ts";
+
+export { isBasicLand };
 
 const API = "https://api.scryfall.com";
 /** Endpoints Scryfall limits to 2 requests/second; everything else allows 10/second. */
@@ -88,10 +91,6 @@ export interface ScryfallCard {
   card_faces?: ScryfallFace[];
   scryfall_uri: string;
 }
-
-const BASIC_NAMES = new Set(["Plains", "Island", "Swamp", "Mountain", "Forest", "Wastes"]);
-export const isBasicLand = (name: string) =>
-  BASIC_NAMES.has(name) || name.startsWith("Snow-Covered ");
 
 export function toCard(sc: ScryfallCard): Card {
   const faces = sc.card_faces ?? [];

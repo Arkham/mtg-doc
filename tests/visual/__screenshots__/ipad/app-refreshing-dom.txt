@@ -1059,12 +1059,6 @@
                       "Deathcap Glade"
                 <li class="">
                   <span class="qty">
-                    "12"
-                  <span class="card-name grow">
-                    <a href="https://scryfall.com/card/mdd/301/forest?utm_source=api" rel="noreferrer" target="_blank">
-                      "Forest"
-                <li class="">
-                  <span class="qty">
                     "1"
                   <span class="card-name grow">
                     <a href="https://scryfall.com/card/usg/321/gaeas-cradle?utm_source=api" rel="noreferrer" target="_blank">
@@ -1113,12 +1107,6 @@
                       "Rogue's Passage"
                 <li class="">
                   <span class="qty">
-                    "8"
-                  <span class="card-name grow">
-                    <a href="https://scryfall.com/card/mdd/296/swamp?utm_source=api" rel="noreferrer" target="_blank">
-                      "Swamp"
-                <li class="">
-                  <span class="qty">
                     "1"
                   <span class="card-name grow">
                     <a href="https://scryfall.com/card/tdm/269/thornwood-falls?utm_source=api" rel="noreferrer" target="_blank">
@@ -1147,6 +1135,18 @@
                   <span class="card-name grow">
                     <a href="https://scryfall.com/card/mh2/261/yavimaya-cradle-of-growth?utm_source=api" rel="noreferrer" target="_blank">
                       "Yavimaya, Cradle of Growth"
+                <li class="">
+                  <span class="qty">
+                    "12"
+                  <span class="card-name grow">
+                    <a href="https://scryfall.com/card/mdd/301/forest?utm_source=api" rel="noreferrer" target="_blank">
+                      "Forest"
+                <li class="">
+                  <span class="qty">
+                    "8"
+                  <span class="card-name grow">
+                    <a href="https://scryfall.com/card/mdd/296/swamp?utm_source=api" rel="noreferrer" target="_blank">
+                      "Swamp"
         <section class="panel" id="mana">
           <header class="panel-head">
             <div class="panel-head-text">
