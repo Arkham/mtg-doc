@@ -41,7 +41,7 @@
   ],
   "generatedAt": "2026-11-21T22:22:56.259Z",
   "model": "gpt-6.2-sol",
-  "strategy": "Build up draw punishment, then use wheels to turn full hands into table-wide damage; wait to commit [[Nekusar, the Mindrazer]] until you can protect him or capitalize on his triggers. Cheaper fixing and interaction make that setup more reliable without replacing the deck’s group-slug identity. This is a Bracket 3 build with three Game Changers, no mass land denial, no extra turns, and no two-card infinite combo; it aims to close from turn six onward through accumulated pressure rather than a fast combo.",
+  "strategy": "This is a Bracket 3 build with two Game Changers, no mass land denial, no extra turns, and only a late-game two-card combo; it aims to close from turn six onward through accumulated pressure rather than a fast combo.",
   "themes": [
     "Wheels",
     "Draw Punishment",
@@ -116,225 +116,6 @@
           "name": "Howling Mine",
           "image": "https://cards.scryfall.io/normal/front/d/7/d7ae7be5-9c44-4707-9450-5074412a4c9f.jpg?1793111944",
           "scryfallUri": "https://scryfall.com/card/trc/494/howling-mine?utm_source=api"
-        }
-      ]
-    },
-    {
-      "out": "Journeyer's Kite",
-      "in": "Dark Deal",
-      "category": "synergy",
-      "reason": "[[Dark Deal]] gives you another three-mana wheel that triggers both draw and discard payoffs, even though everyone redraws one fewer card than they discarded. [[Journeyer's Kite]] helps make land drops, but it takes repeated mana payments without accelerating you or pressuring the table.",
-      "outCard": {
-        "name": "Journeyer's Kite",
-        "oracleId": "10aab5bc-5758-443b-ba4c-49f6c6d91262",
-        "manaCost": "{2}",
-        "cmc": 2,
-        "typeLine": "Artifact",
-        "oracleText": "{3}, {T}: Search your library for a basic land card, reveal it, put it into your hand, then shuffle.",
-        "colors": [],
-        "colorIdentity": [],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.2,
-        "image": "https://cards.scryfall.io/normal/front/5/4/5440121d-d3b5-4d26-a2d9-674af73d449a.jpg?1783940759",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/5/4/5440121d-d3b5-4d26-a2d9-674af73d449a.jpg?1783940759",
-        "scryfallUri": "https://scryfall.com/card/ddi/65/journeyers-kite?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
-        "name": "Dark Deal",
-        "oracleId": "c527eb80-ccac-40b8-8377-c31121613128",
-        "manaCost": "{2}{B}",
-        "cmc": 3,
-        "typeLine": "Sorcery",
-        "oracleText": "Each player discards all the cards in their hand, then draws that many cards minus one.",
-        "colors": [
-          "B"
-        ],
-        "colorIdentity": [
-          "B"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 2.47,
-        "image": "https://cards.scryfall.io/normal/front/d/6/d6f0fcd5-232f-4e99-8cfc-ea0fe9c915a6.jpg?1783904806",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/d/6/d6f0fcd5-232f-4e99-8cfc-ea0fe9c915a6.jpg?1783904806",
-        "scryfallUri": "https://scryfall.com/card/tle/161/dark-deal?utm_source=api",
-        "roles": [
-          "draw"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Peer into the Abyss",
-          "image": "https://cards.scryfall.io/normal/front/a/a/aac00055-640e-4749-8d23-d242e6d0b23a.jpg?1783930701",
-          "scryfallUri": "https://scryfall.com/card/m21/117/peer-into-the-abyss?utm_source=api"
-        },
-        {
-          "name": "Sheoldred, the Apocalypse",
-          "image": "https://cards.scryfall.io/normal/front/d/6/d67be074-cdd4-41d9-ac89-0a0456c4e4b2.jpg?1783921327",
-          "scryfallUri": "https://scryfall.com/card/dmu/107/sheoldred-the-apocalypse?utm_source=api"
-        }
-      ]
-    },
-    {
-      "out": "Diviner's Wand",
-      "in": "Kederekt Parasite",
-      "category": "synergy",
-      "reason": "[[Kederekt Parasite]] turns opponents’ draws into damage while you control a red permanent, including your commander. It gives your wheels another payoff for one mana instead of asking you to invest in [[Diviner's Wand]] for a single larger attacker.",
-      "outCard": {
-        "name": "Diviner's Wand",
-        "oracleId": "c08ce0ec-e3fc-4fc3-a7b0-ce8e8fd079c0",
-        "manaCost": "{3}",
-        "cmc": 3,
-        "typeLine": "Kindred Artifact — Wizard Equipment",
-        "oracleText": "Equipped creature has \"Whenever you draw a card, this creature gets +1/+1 and gains flying until end of turn\" and \"{4}: Draw a card.\"\nWhenever a Wizard creature enters, you may attach this Equipment to it.\nEquip {3}",
-        "colors": [],
-        "colorIdentity": [],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.33,
-        "image": "https://cards.scryfall.io/normal/front/2/7/277eed87-6b78-456d-91fb-774c72b3ae8c.jpg?1783942775",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/2/7/277eed87-6b78-456d-91fb-774c72b3ae8c.jpg?1783942775",
-        "scryfallUri": "https://scryfall.com/card/mor/142/diviners-wand?utm_source=api",
-        "roles": [
-          "draw"
-        ]
-      },
-      "inCard": {
-        "name": "Kederekt Parasite",
-        "oracleId": "fc7b46af-6c07-455a-99c7-f1bccaa2a5f4",
-        "manaCost": "{B}",
-        "cmc": 1,
-        "typeLine": "Creature — Horror",
-        "oracleText": "Whenever an opponent draws a card, if you control a red permanent, you may have this creature deal 1 damage to that player.",
-        "colors": [
-          "B"
-        ],
-        "colorIdentity": [
-          "B"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 8.5,
-        "power": "1",
-        "toughness": "1",
-        "image": "https://cards.scryfall.io/normal/front/b/c/bc5da9e8-c070-4cf4-a21b-24ff2178d751.jpg?1783909618",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/b/c/bc5da9e8-c070-4cf4-a21b-24ff2178d751.jpg?1783909618",
-        "scryfallUri": "https://scryfall.com/card/dsc/144/kederekt-parasite?utm_source=api",
-        "roles": [
-          "draw"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Thought Vessel",
-          "image": "https://cards.scryfall.io/normal/front/d/f/df44b703-e025-480d-9c7b-55873407bdf4.jpg?1793111967",
-          "scryfallUri": "https://scryfall.com/card/trc/509/thought-vessel?utm_source=api"
-        },
-        {
-          "name": "Peer into the Abyss",
-          "image": "https://cards.scryfall.io/normal/front/a/a/aac00055-640e-4749-8d23-d242e6d0b23a.jpg?1783930701",
-          "scryfallUri": "https://scryfall.com/card/m21/117/peer-into-the-abyss?utm_source=api"
-        }
-      ]
-    },
-    {
-      "out": "Earthquake",
-      "in": "Orcish Bowmasters",
-      "category": "interaction",
-      "reason": "[[Orcish Bowmasters]] can pick off a small creature at instant speed and then turn wheel draws into targeted damage and a growing Army. It gives you pressure and removal without the symmetrical damage of [[Earthquake]].",
-      "outCard": {
-        "name": "Earthquake",
-        "oracleId": "9a40614b-50a3-422c-849e-53c8b7d3d204",
-        "manaCost": "{X}{R}",
-        "cmc": 1,
-        "typeLine": "Sorcery",
-        "oracleText": "Earthquake deals X damage to each creature without flying and each player.",
-        "colors": [
-          "R"
-        ],
-        "colorIdentity": [
-          "R"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.53,
-        "image": "https://cards.scryfall.io/normal/front/7/c/7cf2f3c7-66b2-48f6-97ef-09150903df7e.jpg?1783934745",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/7/c/7cf2f3c7-66b2-48f6-97ef-09150903df7e.jpg?1783934745",
-        "scryfallUri": "https://scryfall.com/card/cm2/95/earthquake?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
-        "name": "Orcish Bowmasters",
-        "oracleId": "ea5103f5-27e0-4eb1-902c-7f34652d6bf3",
-        "manaCost": "{1}{B}",
-        "cmc": 2,
-        "typeLine": "Creature — Orc Archer",
-        "oracleText": "Flash\nWhen this creature enters and whenever an opponent draws a card except the first one they draw in each of their draw steps, this creature deals 1 damage to any target. Then amass Orcs 1.",
-        "colors": [
-          "B"
-        ],
-        "colorIdentity": [
-          "B"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": true,
-        "canBeCommander": false,
-        "priceUsd": 38.35,
-        "power": "1",
-        "toughness": "1",
-        "image": "https://cards.scryfall.io/normal/front/7/c/7c024bae-5631-4e20-ac69-df392ac9e109.jpg?1783916299",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/7/c/7c024bae-5631-4e20-ac69-df392ac9e109.jpg?1783916299",
-        "scryfallUri": "https://scryfall.com/card/ltr/103/orcish-bowmasters?utm_source=api",
-        "roles": [
-          "removal",
-          "draw"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Thought Vessel",
-          "image": "https://cards.scryfall.io/normal/front/d/f/df44b703-e025-480d-9c7b-55873407bdf4.jpg?1793111967",
-          "scryfallUri": "https://scryfall.com/card/trc/509/thought-vessel?utm_source=api"
-        },
-        {
-          "name": "Peer into the Abyss",
-          "image": "https://cards.scryfall.io/normal/front/a/a/aac00055-640e-4749-8d23-d242e6d0b23a.jpg?1783930701",
-          "scryfallUri": "https://scryfall.com/card/m21/117/peer-into-the-abyss?utm_source=api"
         }
       ]
     },
@@ -416,74 +197,6 @@
       ]
     },
     {
-      "out": "Darksteel Ingot",
-      "in": "Talisman of Dominance",
-      "category": "mana",
-      "reason": "[[Talisman of Dominance]] gives you blue or black fixing a turn earlier than [[Darksteel Ingot]]. Losing indestructibility and red fixing is worth the lower cost when the deck needs to develop its mana and still hold up interaction.",
-      "outCard": {
-        "name": "Darksteel Ingot",
-        "oracleId": "a2529491-7389-4cfa-92d2-145eda779603",
-        "manaCost": "{3}",
-        "cmc": 3,
-        "typeLine": "Artifact",
-        "oracleText": "Indestructible (Effects that say \"destroy\" don't destroy this artifact.)\n{T}: Add one mana of any color.",
-        "colors": [],
-        "colorIdentity": [],
-        "producedMana": [
-          "B",
-          "G",
-          "R",
-          "U",
-          "W"
-        ],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.38,
-        "image": "https://cards.scryfall.io/normal/front/f/2/f279fcf1-e4f5-4873-9d73-8d62e0343b81.jpg?1783911890",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/f/2/f279fcf1-e4f5-4873-9d73-8d62e0343b81.jpg?1783911890",
-        "scryfallUri": "https://scryfall.com/card/otc/256/darksteel-ingot?utm_source=api",
-        "roles": [
-          "ramp"
-        ]
-      },
-      "inCard": {
-        "name": "Talisman of Dominance",
-        "oracleId": "4c0a0448-b9d6-43a0-8549-64066dac63f0",
-        "manaCost": "{2}",
-        "cmc": 2,
-        "typeLine": "Artifact",
-        "oracleText": "{T}: Add {C}.\n{T}: Add {U} or {B}. This artifact deals 1 damage to you.",
-        "colors": [],
-        "colorIdentity": [
-          "B",
-          "U"
-        ],
-        "producedMana": [
-          "B",
-          "C",
-          "U"
-        ],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.32,
-        "image": "https://cards.scryfall.io/normal/front/4/c/4cfcaacc-216d-4872-8a7a-27eace8039ed.jpg?1793021208",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/4/c/4cfcaacc-216d-4872-8a7a-27eace8039ed.jpg?1793021208",
-        "scryfallUri": "https://scryfall.com/card/trc/505/talisman-of-dominance?utm_source=api",
-        "roles": [
-          "ramp"
-        ]
-      },
-      "alternatives": []
-    },
-    {
       "out": "Leyline of Punishment",
       "in": "Waste Not",
       "category": "synergy",
@@ -555,227 +268,10 @@
       ]
     },
     {
-      "out": "Manabarbs",
-      "in": "Fevered Visions",
-      "category": "synergy",
-      "reason": "[[Fevered Visions]] pressures opponents with full hands and feeds your draw triggers at each end step. Unlike [[Manabarbs]], it lets you tap out for a wheel or hold up interaction without paying for your own mana in life.",
-      "outCard": {
-        "name": "Manabarbs",
-        "oracleId": "0f1afedd-c60f-454f-b84a-c8117aec0128",
-        "manaCost": "{3}{R}",
-        "cmc": 4,
-        "typeLine": "Enchantment",
-        "oracleText": "Whenever a player taps a land for mana, this enchantment deals 1 damage to that player.",
-        "colors": [
-          "R"
-        ],
-        "colorIdentity": [
-          "R"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 4.98,
-        "image": "https://cards.scryfall.io/normal/front/a/d/adf081d5-e644-4f46-8bc8-a754b089acb4.jpg?1783941067",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/a/d/adf081d5-e644-4f46-8bc8-a754b089acb4.jpg?1783941067",
-        "scryfallUri": "https://scryfall.com/card/m12/150/manabarbs?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
-        "name": "Fevered Visions",
-        "oracleId": "70763549-4b4e-4cb8-8c02-0639ba18bb1a",
-        "manaCost": "{1}{U}{R}",
-        "cmc": 3,
-        "typeLine": "Enchantment",
-        "oracleText": "At the beginning of each player's end step, that player draws a card. If the player is your opponent and has four or more cards in hand, this enchantment deals 2 damage to that player.",
-        "colors": [
-          "R",
-          "U"
-        ],
-        "colorIdentity": [
-          "R",
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.29,
-        "image": "https://cards.scryfall.io/normal/front/d/3/d3a48c02-b9be-4649-9d20-0e72e1c52c94.jpg?1793111916",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/d/3/d3a48c02-b9be-4649-9d20-0e72e1c52c94.jpg?1793111916",
-        "scryfallUri": "https://scryfall.com/card/trc/474/fevered-visions?utm_source=api",
-        "roles": [
-          "draw"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Sheoldred, the Apocalypse",
-          "image": "https://cards.scryfall.io/normal/front/d/6/d67be074-cdd4-41d9-ac89-0a0456c4e4b2.jpg?1783921327",
-          "scryfallUri": "https://scryfall.com/card/dmu/107/sheoldred-the-apocalypse?utm_source=api"
-        },
-        {
-          "name": "Forced Fruition",
-          "image": "https://cards.scryfall.io/normal/front/f/7/f7ea1c6e-c0af-40b0-b492-8d71f496903e.jpg?1783942903",
-          "scryfallUri": "https://scryfall.com/card/lrw/66/forced-fruition?utm_source=api"
-        }
-      ]
-    },
-    {
-      "out": "Molten Disaster",
-      "in": "Arcane Denial",
-      "category": "interaction",
-      "reason": "[[Arcane Denial]] protects your engine or stops a pivotal spell for two mana without clearing away your own creatures. The cards it offers the opposing caster can become damage if a draw punisher is still on the battlefield.",
-      "outCard": {
-        "name": "Molten Disaster",
-        "oracleId": "21390513-1ed0-48f2-a7fa-020da8f803c0",
-        "manaCost": "{X}{R}{R}",
-        "cmc": 2,
-        "typeLine": "Sorcery",
-        "oracleText": "Kicker {R} (You may pay an additional {R} as you cast this spell.)\nIf this spell was kicked, it has split second. (As long as this spell is on the stack, players can't cast spells or activate abilities that aren't mana abilities.)\nMolten Disaster deals X damage to each creature without flying and each player.",
-        "colors": [
-          "R"
-        ],
-        "colorIdentity": [
-          "R"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.52,
-        "image": "https://cards.scryfall.io/normal/front/1/7/17ca6865-e894-4390-ba27-b7cc8b03a424.jpg?1783939667",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/1/7/17ca6865-e894-4390-ba27-b7cc8b03a424.jpg?1783939667",
-        "scryfallUri": "https://scryfall.com/card/c13/117/molten-disaster?utm_source=api",
-        "roles": [
-          "other"
-        ]
-      },
-      "inCard": {
-        "name": "Arcane Denial",
-        "oracleId": "ab1cc360-b9de-48d9-9983-4dfe4a7d2a37",
-        "manaCost": "{1}{U}",
-        "cmc": 2,
-        "typeLine": "Instant",
-        "oracleText": "Counter target spell. Its controller may draw up to two cards at the beginning of the next turn's upkeep.\nYou draw a card at the beginning of the next turn's upkeep.",
-        "colors": [
-          "U"
-        ],
-        "colorIdentity": [
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 3.09,
-        "image": "https://cards.scryfall.io/normal/front/5/e/5eb843ef-b223-40d0-a461-54b16d188d0e.jpg?1783903242",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/5/e/5eb843ef-b223-40d0-a461-54b16d188d0e.jpg?1783903242",
-        "scryfallUri": "https://scryfall.com/card/msc/147/arcane-denial?utm_source=api",
-        "roles": [
-          "counter",
-          "draw"
-        ]
-      },
-      "alternatives": [
-        {
-          "name": "Forced Fruition",
-          "image": "https://cards.scryfall.io/normal/front/f/7/f7ea1c6e-c0af-40b0-b492-8d71f496903e.jpg?1783942903",
-          "scryfallUri": "https://scryfall.com/card/lrw/66/forced-fruition?utm_source=api"
-        },
-        {
-          "name": "Stormfist Crusader",
-          "image": "https://cards.scryfall.io/normal/front/0/b/0b420ce8-3dd1-430b-a090-4b4e8dcb6aa9.jpg?1783909588",
-          "scryfallUri": "https://scryfall.com/card/dsc/234/stormfist-crusader?utm_source=api"
-        }
-      ]
-    },
-    {
-      "out": "Helm of the Ghastlord",
-      "in": "Baleful Mastery",
-      "category": "bracket",
-      "reason": "The swap breaks up the draw-damage loop with [[Niv-Mizzet, the Firemind]], and [[Baleful Mastery]] gives you flexible exile removal for creatures and planeswalkers. Its cheaper mode can turn the opposing card draw into a damage trigger, so it supports the plan without relying on a fragile Aura.",
-      "outCard": {
-        "name": "Helm of the Ghastlord",
-        "oracleId": "66fa528f-0e3a-450f-9035-1ba5a8a921e6",
-        "manaCost": "{3}{U/B}",
-        "cmc": 4,
-        "typeLine": "Enchantment — Aura",
-        "oracleText": "Enchant creature\nAs long as enchanted creature is blue, it gets +1/+1 and has \"Whenever this creature deals damage to an opponent, draw a card.\"\nAs long as enchanted creature is black, it gets +1/+1 and has \"Whenever this creature deals damage to an opponent, that player discards a card.\"",
-        "colors": [
-          "B",
-          "U"
-        ],
-        "colorIdentity": [
-          "B",
-          "U"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 7.91,
-        "image": "https://cards.scryfall.io/normal/front/6/5/653dd5b7-1ad3-4df1-bd2a-4e6ae362a8a2.jpg?1783942732",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/6/5/653dd5b7-1ad3-4df1-bd2a-4e6ae362a8a2.jpg?1783942732",
-        "scryfallUri": "https://scryfall.com/card/shm/166/helm-of-the-ghastlord?utm_source=api",
-        "roles": [
-          "draw"
-        ]
-      },
-      "inCard": {
-        "name": "Baleful Mastery",
-        "oracleId": "adfcdadd-ddda-477b-8e72-0cae2430fb63",
-        "manaCost": "{3}{B}",
-        "cmc": 4,
-        "typeLine": "Instant",
-        "oracleText": "You may pay {1}{B} rather than pay this spell's mana cost.\nIf the {1}{B} cost was paid, an opponent draws a card.\nExile target creature or planeswalker.",
-        "colors": [
-          "B"
-        ],
-        "colorIdentity": [
-          "B"
-        ],
-        "producedMana": [],
-        "isLand": false,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 3.25,
-        "image": "https://cards.scryfall.io/normal/front/5/7/579e20e7-1395-4a6c-a836-ae3419fc8808.jpg?1783911932",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/5/7/579e20e7-1395-4a6c-a836-ae3419fc8808.jpg?1783911932",
-        "scryfallUri": "https://scryfall.com/card/otc/126/baleful-mastery?utm_source=api",
-        "roles": [
-          "removal",
-          "draw"
-        ]
-      },
-      "alternatives": []
-    },
-    {
       "out": "Nivix Guildmage",
       "in": "Wheel and Deal",
       "category": "draw",
-      "reason": "[[Wheel and Deal]] lets you hold up interaction and then wheel opponents at instant speed without discarding your own hand. It delivers a burst of draw and discard triggers where [[Nivix Guildmage]] asks for repeated mana just to filter your own cards.",
+      "reason": "[[Wheel and Deal]] lets you hold up interaction and then wheel opponents at instant speed. It delivers a burst of draw and discard triggers where [[Nivix Guildmage]] asks for repeated mana just to filter your own cards.",
       "outCard": {
         "name": "Nivix Guildmage",
         "oracleId": "d04356f1-0e1a-4689-8e54-f88c4c6dd936",
@@ -983,132 +479,6 @@
       }
     },
     {
-      "out": "Izzet Guildgate",
-      "in": "Seething Landscape",
-      "category": "mana",
-      "reason": "[[Izzet Guildgate]] always enters tapped; [[Seething Landscape]] enters untapped, taps for colorless mana, and can fetch a tapped basic land that produces blue, black, or red, helping blue and black and red, which are short.",
-      "outCard": {
-        "name": "Izzet Guildgate",
-        "oracleId": "bf75a3d1-f184-4b48-a913-21caee1db084",
-        "manaCost": "",
-        "cmc": 0,
-        "typeLine": "Land — Gate",
-        "oracleText": "This land enters tapped.\n{T}: Add {U} or {R}.",
-        "colors": [],
-        "colorIdentity": [
-          "R",
-          "U"
-        ],
-        "producedMana": [
-          "R",
-          "U"
-        ],
-        "isLand": true,
-        "isMdfcLand": false,
-        "entersTapped": true,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.11,
-        "image": "https://cards.scryfall.io/normal/front/d/b/db9e6fc9-813d-4a71-8a68-8e0f83fa945d.jpg?1783908899",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/d/b/db9e6fc9-813d-4a71-8a68-8e0f83fa945d.jpg?1783908899",
-        "scryfallUri": "https://scryfall.com/card/fdn/691/izzet-guildgate?utm_source=api",
-        "roles": [
-          "land"
-        ]
-      },
-      "inCard": {
-        "name": "Seething Landscape",
-        "oracleId": "2d8635bd-ed96-4bb1-8718-6962a0eee3d5",
-        "manaCost": "",
-        "cmc": 0,
-        "typeLine": "Land",
-        "oracleText": "{T}: Add {C}.\n{T}, Sacrifice this land: Search your library for a basic Island, Swamp, or Mountain card, put it onto the battlefield tapped, then shuffle.\nCycling {U}{B}{R} ({U}{B}{R}, Discard this card: Draw a card.)",
-        "colors": [],
-        "colorIdentity": [
-          "B",
-          "R",
-          "U"
-        ],
-        "producedMana": [
-          "C"
-        ],
-        "isLand": true,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.28,
-        "image": "https://cards.scryfall.io/normal/front/6/6/661fc907-7003-45c6-820c-9616e9a71c30.jpg?1783911238",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/6/6/661fc907-7003-45c6-820c-9616e9a71c30.jpg?1783911238",
-        "scryfallUri": "https://scryfall.com/card/mh3/225/seething-landscape?utm_source=api",
-        "roles": [
-          "land"
-        ]
-      }
-    },
-    {
-      "out": "Rakdos Guildgate",
-      "in": "Terramorphic Expanse",
-      "category": "mana",
-      "reason": "[[Rakdos Guildgate]] always enters tapped; [[Terramorphic Expanse]] fetches a tapped basic land that produces blue, black, or red, helping blue and red, which are short.",
-      "outCard": {
-        "name": "Rakdos Guildgate",
-        "oracleId": "361f534b-39d1-4421-b5a8-d3813c62f86d",
-        "manaCost": "",
-        "cmc": 0,
-        "typeLine": "Land — Gate",
-        "oracleText": "This land enters tapped.\n{T}: Add {B} or {R}.",
-        "colors": [],
-        "colorIdentity": [
-          "B",
-          "R"
-        ],
-        "producedMana": [
-          "B",
-          "R"
-        ],
-        "isLand": true,
-        "isMdfcLand": false,
-        "entersTapped": true,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.25,
-        "image": "https://cards.scryfall.io/normal/front/e/1/e1f01964-c610-4d0f-a2b4-f52e46dc50d2.jpg?1783908899",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/e/1/e1f01964-c610-4d0f-a2b4-f52e46dc50d2.jpg?1783908899",
-        "scryfallUri": "https://scryfall.com/card/fdn/693/rakdos-guildgate?utm_source=api",
-        "roles": [
-          "land"
-        ]
-      },
-      "inCard": {
-        "name": "Terramorphic Expanse",
-        "oracleId": "1bd3e453-aa21-4ee6-95c2-d6d920ee8e7a",
-        "manaCost": "",
-        "cmc": 0,
-        "typeLine": "Land",
-        "oracleText": "{T}, Sacrifice this land: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle.",
-        "colors": [],
-        "colorIdentity": [],
-        "producedMana": [],
-        "isLand": true,
-        "isMdfcLand": false,
-        "entersTapped": false,
-        "legalCommander": true,
-        "gameChanger": false,
-        "canBeCommander": false,
-        "priceUsd": 0.29,
-        "image": "https://cards.scryfall.io/normal/front/5/8/58ebd718-982d-4370-b4af-ef49b978d97d.jpg?1793021389",
-        "imageArt": "https://cards.scryfall.io/art_crop/front/5/8/58ebd718-982d-4370-b4af-ef49b978d97d.jpg?1793021389",
-        "scryfallUri": "https://scryfall.com/card/trc/571/terramorphic-expanse?utm_source=api",
-        "roles": [
-          "land"
-        ]
-      }
-    },
-    {
       "out": "Izzet Boilerworks",
       "in": "Steam Vents",
       "category": "mana",
@@ -1184,9 +554,9 @@
       "curve": {
         "0": 1,
         "1": 7,
-        "2": 15,
-        "3": 18,
-        "4": 14,
+        "2": 16,
+        "3": 16,
+        "4": 15,
         "5": 6,
         "6": 1,
         "7+": 1
@@ -1195,8 +565,8 @@
         {
           "color": "U",
           "pips": 30.5,
-          "pipShare": 0.332,
-          "landSources": 19,
+          "pipShare": 0.335,
+          "landSources": 20,
           "rampSources": 4,
           "targetSources": 21,
           "targetReason": "heaviest-card",
@@ -1207,8 +577,8 @@
         },
         {
           "color": "B",
-          "pips": 25.5,
-          "pipShare": 0.277,
+          "pips": 26.5,
+          "pipShare": 0.291,
           "landSources": 20,
           "rampSources": 3,
           "targetSources": 21,
@@ -1220,8 +590,8 @@
         },
         {
           "color": "R",
-          "pips": 36,
-          "pipShare": 0.391,
+          "pips": 34,
+          "pipShare": 0.374,
           "landSources": 18,
           "rampSources": 3,
           "targetSources": 21,
@@ -1240,7 +610,6 @@
         "Izzet Boilerworks",
         "Izzet Guildgate",
         "Rakdos Carnarium",
-        "Rakdos Guildgate",
         "Vivid Creek",
         "Vivid Marsh"
       ],
@@ -1255,40 +624,39 @@
       },
       "rampCount": 9,
       "issues": [
-        "Blue: 19 lands make it, about 21 wanted.",
         "Red: 18 lands make it, about 21 wanted.",
-        "10 lands enter tapped unconditionally; aim for 4 or fewer.",
+        "9 lands enter tapped unconditionally; aim for 4 or fewer.",
         "2 colorless-only lands strain a 3-color mana base."
       ]
     },
     "sim": {
       "games": 10000,
-      "mulliganRate": 20.7,
+      "mulliganRate": 21.4,
       "landDropByTurn": {
         "1": 99.9,
-        "2": 99.7,
-        "3": 89.1,
-        "4": 71.7,
+        "2": 99.6,
+        "3": 89.2,
+        "4": 72,
         "5": 52.9,
-        "6": 35.7,
-        "7": 22.4,
-        "8": 13.2
+        "6": 36.3,
+        "7": 22.5,
+        "8": 13.4
       },
-      "commanderOnCurve": 58.3,
+      "commanderOnCurve": 60.4,
       "commanderByTurn": {
         "1": 0,
         "2": 0,
         "3": 2.5,
-        "4": 24.8,
-        "5": 58.3,
-        "6": 77.7,
-        "7": 84.7,
-        "8": 89.8
+        "4": 26.6,
+        "5": 60.4,
+        "6": 78.2,
+        "7": 86,
+        "8": 90.5
       },
-      "allColorsByTurn3": 84.7,
-      "avgManaTurn4": 4.37,
-      "screwRate": 6.5,
-      "floodRate": 0.3,
+      "allColorsByTurn3": 85.6,
+      "avgManaTurn4": 4.38,
+      "screwRate": 6.8,
+      "floodRate": 0.4,
       "combos": [
         {
           "cards": [
@@ -1300,10 +668,10 @@
             "2": 0,
             "3": 0,
             "4": 0,
-            "5": 0.1,
+            "5": 0.2,
             "6": 0.5,
-            "7": 0.8,
-            "8": 1.1
+            "7": 1,
+            "8": 1.5
           }
         }
       ]
@@ -1321,7 +689,7 @@
       },
       {
         "role": "draw",
-        "count": 30,
+        "count": 32,
         "target": 10
       },
       {
@@ -1336,7 +704,7 @@
       },
       {
         "role": "counter",
-        "count": 1,
+        "count": 2,
         "target": 0
       },
       {
@@ -1361,33 +729,33 @@
       },
       {
         "role": "other",
-        "count": 17,
+        "count": 16,
         "target": null
       }
     ],
     "totalCards": 100,
-    "totalPriceUsd": 275.93
+    "totalPriceUsd": 289.63
   },
   "after": {
     "mana": {
       "landCount": 36,
       "mdfcLands": 0,
       "recommendedLands": 36,
-      "avgCmc": 2.87,
+      "avgCmc": 2.9,
       "curve": {
         "0": 1,
         "1": 7,
         "2": 18,
-        "3": 18,
-        "4": 12,
+        "3": 16,
+        "4": 14,
         "5": 6,
         "6": 1
       },
       "colors": [
         {
           "color": "U",
-          "pips": 32,
-          "pipShare": 0.356,
+          "pips": 30.5,
+          "pipShare": 0.351,
           "landSources": 21,
           "rampSources": 5,
           "targetSources": 21,
@@ -1399,9 +767,9 @@
         },
         {
           "color": "B",
-          "pips": 28,
-          "pipShare": 0.311,
-          "landSources": 21,
+          "pips": 25.5,
+          "pipShare": 0.293,
+          "landSources": 20,
           "rampSources": 3,
           "targetSources": 21,
           "targetReason": "heaviest-card",
@@ -1412,10 +780,10 @@
         },
         {
           "color": "R",
-          "pips": 30,
-          "pipShare": 0.333,
+          "pips": 31,
+          "pipShare": 0.356,
           "landSources": 18,
-          "rampSources": 3,
+          "rampSources": 4,
           "targetSources": 21,
           "targetReason": "heaviest-card",
           "heaviestCard": {
@@ -1427,6 +795,7 @@
       "tappedLands": [
         "Bojuka Bog",
         "Crumbling Necropolis",
+        "Izzet Guildgate",
         "Rakdos Carnarium",
         "Vivid Creek",
         "Vivid Marsh"
@@ -1443,39 +812,56 @@
       "rampCount": 10,
       "issues": [
         "Red: 18 lands make it, about 21 wanted.",
-        "5 lands enter tapped unconditionally; aim for 4 or fewer.",
+        "6 lands enter tapped unconditionally; aim for 4 or fewer.",
         "2 colorless-only lands strain a 3-color mana base."
       ]
     },
     "sim": {
       "games": 10000,
-      "mulliganRate": 21.3,
+      "mulliganRate": 20.5,
       "landDropByTurn": {
         "1": 99.9,
-        "2": 99.6,
+        "2": 99.7,
         "3": 89,
-        "4": 71.6,
+        "4": 71.7,
         "5": 52.4,
         "6": 34.7,
-        "7": 21.1,
-        "8": 12.7
+        "7": 21.9,
+        "8": 12.6
       },
-      "commanderOnCurve": 68,
+      "commanderOnCurve": 66.5,
       "commanderByTurn": {
         "1": 0,
         "2": 0,
         "3": 3.8,
-        "4": 35.8,
-        "5": 68,
-        "6": 80.9,
-        "7": 87.4,
+        "4": 34.3,
+        "5": 66.5,
+        "6": 80.5,
+        "7": 87.2,
         "8": 91.7
       },
-      "allColorsByTurn3": 89.3,
-      "avgManaTurn4": 4.49,
+      "allColorsByTurn3": 88.8,
+      "avgManaTurn4": 4.47,
       "screwRate": 6.9,
-      "floodRate": 0.3,
-      "combos": []
+      "floodRate": 0.4,
+      "combos": [
+        {
+          "cards": [
+            "Niv-Mizzet, the Firemind",
+            "Helm of the Ghastlord"
+          ],
+          "byTurn": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0.1,
+            "6": 0.5,
+            "7": 0.8,
+            "8": 1.2
+          }
+        }
+      ]
     },
     "roles": [
       {
@@ -1490,12 +876,12 @@
       },
       {
         "role": "draw",
-        "count": 34,
+        "count": 32,
         "target": 10
       },
       {
         "role": "removal",
-        "count": 9,
+        "count": 7,
         "target": 8
       },
       {
@@ -1530,14 +916,31 @@
       },
       {
         "role": "other",
-        "count": 11,
+        "count": 14,
         "target": null
       }
     ],
     "totalCards": 100,
-    "totalPriceUsd": 397.18
+    "totalPriceUsd": 369.25
   },
-  "combosPresent": [],
+  "combosPresent": [
+    {
+      "id": "384-4971",
+      "cards": [
+        "Niv-Mizzet, the Firemind",
+        "Helm of the Ghastlord"
+      ],
+      "missing": [],
+      "produces": [
+        "Infinite card draw",
+        "Infinite draw triggers",
+        "Near-infinite damage"
+      ],
+      "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to any opponent.\nNiv-Mizzet triggers, causing you to draw a card.\nRepeat from step 2.",
+      "bracketTag": "S",
+      "url": "https://commanderspellbook.com/combo/384-4971/"
+    }
+  ],
   "combosOneAway": [
     {
       "id": "513-5034--46",
@@ -1555,28 +958,7 @@
       "description": "Activate Sol Ring by tapping it, adding {C} {C}.\nCast the permanent that can be cast using {C} by paying its mana cost.\nHullbreaker Horror triggers, returning Sol Ring from the battlefield to your hand.\nCast Sol Ring by paying {1}. \nHullbreaker Horror triggers, returning the permanent cast in step 2 from the battlefield to your hand.\nRepeat.\nIf the permanent can be cast by paying {0}, this combo nets infinite colorless mana.",
       "bracketTag": "E",
       "url": "https://commanderspellbook.com/combo/513-5034--46/",
-      "popularity": 370663
-    },
-    {
-      "id": "1561-3862",
-      "cards": [
-        "Orcish Bowmasters",
-        "Peer into the Abyss"
-      ],
-      "missing": [
-        "Peer into the Abyss"
-      ],
-      "produces": [
-        "Infinite +1/+1 counters on a creature",
-        "Near-infinite card draw for target opponent",
-        "Near-infinite damage",
-        "Near-infinite draw triggers for target opponent",
-        "Target opponent loses the game"
-      ],
-      "description": "Cast Peer into the Abyss by paying {4}{B}{B}{B}, targeting an opponent whose library size is larger than or equal to their life total.\nResolve Peer into the Abyss, causing that opponent to draw cards equal to half their library size and causing them to lose half their life total, rounded up.\nOrcish Bowmasters triggers for each card drawn, dealing 1 damage to the opponent for each card drawn this way and putting that many +1/+1 counters on an Army you control.\nThe opponent loses the game due to having zero or less life.\n",
-      "bracketTag": "P",
-      "url": "https://commanderspellbook.com/combo/1561-3862/",
-      "popularity": 47069
+      "popularity": 372286
     },
     {
       "id": "542-5034",
@@ -1594,7 +976,7 @@
       "description": "Cast Sol Ring by paying its mana cost.\nTidespout Tyrant triggers, returning a nontoken permanent that can be cast using {C} from the battlefield to your hand.\nActivate Sol Ring by tapping it, adding {C}{C}.\nCast the nontoken permanent returned in step 2 by paying its mana cost.\nTidespout Tyrant triggers, returning Sol Ring from the battlefield to your hand.\nRepeat.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/542-5034/",
-      "popularity": 38230
+      "popularity": 38333
     },
     {
       "id": "1561-2720",
@@ -1611,7 +993,7 @@
       "description": "Cast Peer Into the Abyss targeting an opponent.\nThat player loses half their life and draws half their library.\nThey are then dealt damage by Underworld Dreams equal to the amount of cards they drew.\nThat player loses the game.",
       "bracketTag": "O",
       "url": "https://commanderspellbook.com/combo/1561-2720/",
-      "popularity": 36864
+      "popularity": 36992
     },
     {
       "id": "1561-2384",
@@ -1630,7 +1012,7 @@
       "description": "Cast Peer into the Abyss by paying {4}{B}{B}{B}, causing you to draw half your library and lose half your life total, rounding up each time.\nPsychosis Crawler triggers for each card you drew, causing each opponent to lose life equal to the number of cards you drew.",
       "bracketTag": "P",
       "url": "https://commanderspellbook.com/combo/1561-2384/",
-      "popularity": 31666
+      "popularity": 31787
     },
     {
       "id": "1089-4971",
@@ -1649,7 +1031,7 @@
       "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to any target.\nCuriosity triggers, allowing you to draw a card.\nRepeat from step 2.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/1089-4971/",
-      "popularity": 26414
+      "popularity": 26413
     },
     {
       "id": "4971-6092",
@@ -1668,7 +1050,7 @@
       "description": "Draw a card.\nNiv-Mizzet, the Firemind triggers, dealing 1 damage to an opponent.\nNiv-Mizzet, Visionary triggers, causing you to draw a card.\nRepeat from step 2.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/4971-6092/",
-      "popularity": 23017
+      "popularity": 22957
     },
     {
       "id": "1561-5919",
@@ -1688,7 +1070,7 @@
       "description": "Cast Peer into the Abyss by paying {4}{B}{B}{B}, causing an opponent to draw cards equal to half their library and causing them to lose half their life total, rounded up.\nRazorkin Needlehead triggers for each card drawn this way.\nResolve the first trigger, dealing 1 damage to the opponent.\nIf the opponent has 0 or less life, the opponent loses the game due to having zero or less life.\nRepeat from step 3 for each remaining trigger and/or until the opponent loses the game.",
       "bracketTag": "P",
       "url": "https://commanderspellbook.com/combo/1561-5919/",
-      "popularity": 18239
+      "popularity": 18306
     },
     {
       "id": "1561-1972",
@@ -1708,7 +1090,7 @@
       "description": "Cast Peer into the Abyss by paying {4}{B}{B}{B}, causing an opponent to draw cards equal to half their library and causing them to lose half their life total, rounded up.\nNekusar triggers for each card drawn this way.\nResolve the first trigger, dealing 1 damage to the opponent.\nIf the opponent has 0 or less life, the opponent loses the game due to having zero or less life.\nRepeat from step 3 for each remaining trigger and/or until the opponent loses the game.",
       "bracketTag": "P",
       "url": "https://commanderspellbook.com/combo/1561-1972/",
-      "popularity": 18180
+      "popularity": 18220
     },
     {
       "id": "1561-5165",
@@ -1725,7 +1107,7 @@
       "description": "With Ob Nixilis, the Hate-Twisted on the battlefield, cast Peer into the Abyss targeting an opponent.\nPeer into the Abyss would resolve (with card draw and life loss rounded up in instances of odd number of cards or life), and then the static ability on Ob Nixilis, the Hate-Twisted dealing damage for each card drawn.",
       "bracketTag": "O",
       "url": "https://commanderspellbook.com/combo/1561-5165/",
-      "popularity": 17112
+      "popularity": 17148
     },
     {
       "id": "2384-6574",
@@ -1744,7 +1126,7 @@
       "description": "Draw a card.\nPsychosis Crawler triggers, causing each opponent to lose 1 life.\nKefka triggers, causing you to draw a card.\nRepeat from step 2.",
       "bracketTag": "R",
       "url": "https://commanderspellbook.com/combo/2384-6574/",
-      "popularity": 15405
+      "popularity": 15515
     },
     {
       "id": "790-2384-5042-6833",
@@ -1763,7 +1145,7 @@
       "description": "Cast Windfall by paying {2}{U}, causing each player to discard their hand and each opponent to draw cards equal to the greatest number of cards discarded this way, and you to draw twice that number due to Teferi's Ageless Insight.\nPsychosis Crawler triggers for each card you draw, and Scrawling Crawler triggers for each card opponents draw.\nResolve the Psychosis Crawler triggers, causing each opponent to lose 1 life for each card you drew.\nResolve the Scrawling Crawler triggers, causing each opponent to lose 1 life for each card they drew.",
       "bracketTag": "E",
       "url": "https://commanderspellbook.com/combo/790-2384-5042-6833/",
-      "popularity": 14338
+      "popularity": 14462
     },
     {
       "id": "2396-4971",
@@ -1782,7 +1164,7 @@
       "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to an opponent.\nOphidian Eye triggers, allowing you to draw a card.\nRepeat from step 2.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/2396-4971/",
-      "popularity": 13668
+      "popularity": 13658
     },
     {
       "id": "406-4971",
@@ -1801,7 +1183,7 @@
       "description": "Activate Niv-Mizzet's ability to draw a card.\nNiv-Mizzet triggers, dealing 1 damage to target opponent.\nWhen Niv-Mizzet deals damage, its ability from Tandem Lookout triggers, causing you to draw a card.\nRepeat from step 2.\nTo end the loop and stop yourself drawing from an empty library, choose any target besides an opponent in step 2.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/406-4971/",
-      "popularity": 11889
+      "popularity": 11887
     },
     {
       "id": "953-2384",
@@ -1820,7 +1202,7 @@
       "description": "Cast Enter the Infinite by paying {8}{U}{U}{U}{U}, causing you to draw your library and then put a card on top of your library.\nPsychosis Crawler triggers for each card drawn, causing each opponent to lose that much life.",
       "bracketTag": "C",
       "url": "https://commanderspellbook.com/combo/953-2384/",
-      "popularity": 9826
+      "popularity": 9877
     },
     {
       "id": "2390-4166",
@@ -1839,7 +1221,7 @@
       "description": "Cause an opponent to lose 1 life.\nOb Nixilis triggers, putting a +1/+1 counter on itself and exiling the top card of your library.\nAll Will Be One triggers, dealing 1 damage to an opponent.\nRepeat from step 2.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/2390-4166/",
-      "popularity": 8935
+      "popularity": 8914
     },
     {
       "id": "1177-2286",
@@ -1858,7 +1240,7 @@
       "description": "During your opponent's draw step, they draw a card, and Teferi's Puzzle Box triggers.\nResolve the Teferi's Puzzle Box trigger, causing the opponent to put the cards in their hand onto the bottom of their library and draw no cards due to Narset.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/1177-2286/",
-      "popularity": 8491
+      "popularity": 8510
     },
     {
       "id": "2286-3221",
@@ -1876,7 +1258,7 @@
       "description": "At the beginning of your opponent's draw step, after they draw their card, Teferi's Puzzle Box triggers, causing them to put the cards in their hand on the bottom of their library, then attempt to draw that many cards.\nNotion Thief's replacement effect causes you to draw that many cards instead.\nRepeat on each opponent's draw step.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/2286-3221/",
-      "popularity": 6098
+      "popularity": 6115
     },
     {
       "id": "790-2384-4435-6833",
@@ -1895,7 +1277,25 @@
       "description": "Cast Windfall by paying {2}{U}, causing each player to discard their hand and each opponent to draw cards equal to the greatest number of cards discarded this way, and you to draw twice that number due to Alhammarret's Archive.\nPsychosis Crawler triggers for each card you draw, and Scrawling Crawler triggers for each card opponents draw.\nResolve the Psychosis Crawler triggers, causing each opponent to lose 1 life for each card you drew.\nResolve the Scrawling Crawler triggers, causing each opponent to lose 1 life for each card they drew.",
       "bracketTag": "E",
       "url": "https://commanderspellbook.com/combo/790-2384-4435-6833/",
-      "popularity": 5611
+      "popularity": 5699
+    },
+    {
+      "id": "790-1972-4651",
+      "cards": [
+        "Windfall",
+        "Nekusar, the Mindrazer",
+        "Phyresis"
+      ],
+      "missing": [
+        "Phyresis"
+      ],
+      "produces": [
+        "Each opponent loses the game"
+      ],
+      "description": "Cast Windfall by paying {2}{U}, causing each player to discard their hand and then draw a number of cards equal to the greatest number of cards a player discarded this way.\nNekusar triggers for each card drawn this way, giving each opponent a poison counter for each card they drew.\nEach opponent loses the game due to having ten or more poison counters",
+      "bracketTag": "E",
+      "url": "https://commanderspellbook.com/combo/790-1972-4651/",
+      "popularity": 5200
     },
     {
       "id": "700-4971",
@@ -1913,7 +1313,7 @@
       "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to Body of Knowledge.\nBody of Knowledge triggers, drawing you a card.\nRepeat.\nBreak the loop by damaging a different target with Niv-Mizzet.",
       "bracketTag": "S",
       "url": "https://commanderspellbook.com/combo/700-4971/",
-      "popularity": 5190
+      "popularity": 5197
     }
   ],
   "research": {
@@ -2010,11 +1410,11 @@
           ],
           "twoCard": true,
           "tag": "S",
-          "earlyPct": 0.1,
+          "earlyPct": 0.2,
           "url": "https://commanderspellbook.com/combo/384-4971/"
         }
       ],
-      "power": 36,
+      "power": 38,
       "position": "low",
       "checks": [
         {
@@ -2041,22 +1441,37 @@
     },
     "after": {
       "bracket": 3,
-      "spellbookTag": "P",
+      "spellbookTag": "S",
       "gameChangers": [
         "Cyclonic Rift",
-        "Orcish Bowmasters",
         "Rhystic Study"
       ],
       "massLandDenial": [],
       "extraTurns": [],
-      "combos": [],
-      "power": 42,
+      "combos": [
+        {
+          "cards": [
+            "Niv-Mizzet, the Firemind",
+            "Helm of the Ghastlord"
+          ],
+          "produces": [
+            "Infinite card draw",
+            "Infinite draw triggers",
+            "Near-infinite damage"
+          ],
+          "twoCard": true,
+          "tag": "S",
+          "earlyPct": 0.1,
+          "url": "https://commanderspellbook.com/combo/384-4971/"
+        }
+      ],
+      "power": 44,
       "position": "mid",
       "checks": [
         {
           "label": "Game Changers",
           "ok": true,
-          "detail": "3 of 3 allowed"
+          "detail": "2 of 3 allowed"
         },
         {
           "label": "Mass land denial",
@@ -2080,7 +1495,7 @@
       {
         "name": "Orcish Bowmasters",
         "score": 0.65,
-        "inDeck": true
+        "inDeck": false
       },
       {
         "name": "Tergrid, God of Fright // Tergrid's Lantern",
@@ -2135,6 +1550,18 @@
       "image": "https://cards.scryfall.io/normal/front/4/a/4afdc65d-3c97-47af-83fa-df340389802e.jpg?1783915612",
       "scryfallUri": "https://scryfall.com/card/cmm/349/nekusar-the-mindrazer?utm_source=api",
       "priceUsd": 2.93,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Arcane Denial",
+      "manaCost": "{1}{U}",
+      "qty": 1,
+      "group": "Instant",
+      "cmc": 2,
+      "image": "https://cards.scryfall.io/normal/front/5/e/5eb843ef-b223-40d0-a461-54b16d188d0e.jpg?1783903242",
+      "scryfallUri": "https://scryfall.com/card/msc/147/arcane-denial?utm_source=api",
+      "priceUsd": 2.76,
       "isNew": false,
       "delta": 0
     },
@@ -2235,6 +1662,18 @@
       "delta": 0
     },
     {
+      "name": "Darksteel Ingot",
+      "manaCost": "{3}",
+      "qty": 1,
+      "group": "Artifact",
+      "cmc": 3,
+      "image": "https://cards.scryfall.io/normal/front/f/2/f279fcf1-e4f5-4873-9d73-8d62e0343b81.jpg?1783911890",
+      "scryfallUri": "https://scryfall.com/card/otc/256/darksteel-ingot?utm_source=api",
+      "priceUsd": 0.38,
+      "isNew": false,
+      "delta": 0
+    },
+    {
       "name": "Dimir Signet",
       "manaCost": "{2}",
       "qty": 1,
@@ -2283,18 +1722,6 @@
       "delta": 0
     },
     {
-      "name": "Grixis Charm",
-      "manaCost": "{U}{B}{R}",
-      "qty": 1,
-      "group": "Instant",
-      "cmc": 3,
-      "image": "https://cards.scryfall.io/normal/front/2/0/20332354-a294-4448-a66f-533e6b546df6.jpg?1783939651",
-      "scryfallUri": "https://scryfall.com/card/c13/192/grixis-charm?utm_source=api",
-      "priceUsd": 0.16,
-      "isNew": false,
-      "delta": 0
-    },
-    {
       "name": "Grixis Panorama",
       "manaCost": "",
       "qty": 1,
@@ -2315,6 +1742,18 @@
       "image": "https://cards.scryfall.io/normal/front/6/3/63a565e3-d7a8-469d-898f-49fef634c107.jpg?1783903818",
       "scryfallUri": "https://scryfall.com/card/soc/123/harmonic-prodigy?utm_source=api",
       "priceUsd": 5.85,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Helm of the Ghastlord",
+      "manaCost": "{3}{U/B}",
+      "qty": 1,
+      "group": "Enchantment",
+      "cmc": 4,
+      "image": "https://cards.scryfall.io/normal/front/6/5/653dd5b7-1ad3-4df1-bd2a-4e6ae362a8a2.jpg?1783942732",
+      "scryfallUri": "https://scryfall.com/card/shm/166/helm-of-the-ghastlord?utm_source=api",
+      "priceUsd": 7.91,
       "isNew": false,
       "delta": 0
     },
@@ -2343,6 +1782,18 @@
       "delta": 0
     },
     {
+      "name": "Izzet Guildgate",
+      "manaCost": "",
+      "qty": 1,
+      "group": "Land",
+      "cmc": 0,
+      "image": "https://cards.scryfall.io/normal/front/d/b/db9e6fc9-813d-4a71-8a68-8e0f83fa945d.jpg?1783908899",
+      "scryfallUri": "https://scryfall.com/card/fdn/691/izzet-guildgate?utm_source=api",
+      "priceUsd": 0.11,
+      "isNew": false,
+      "delta": 0
+    },
+    {
       "name": "Izzet Signet",
       "manaCost": "{2}",
       "qty": 1,
@@ -2367,6 +1818,18 @@
       "delta": 0
     },
     {
+      "name": "Journeyer's Kite",
+      "manaCost": "{2}",
+      "qty": 1,
+      "group": "Artifact",
+      "cmc": 2,
+      "image": "https://cards.scryfall.io/normal/front/5/4/5440121d-d3b5-4d26-a2d9-674af73d449a.jpg?1783940759",
+      "scryfallUri": "https://scryfall.com/card/ddi/65/journeyers-kite?utm_source=api",
+      "priceUsd": 0.2,
+      "isNew": false,
+      "delta": 0
+    },
+    {
       "name": "Kami of the Crescent Moon",
       "manaCost": "{U}{U}",
       "qty": 1,
@@ -2375,6 +1838,18 @@
       "image": "https://cards.scryfall.io/normal/front/d/d/dd420010-6eaf-4853-8b7b-11de1157416b.jpg?1783924965",
       "scryfallUri": "https://scryfall.com/card/voc/107/kami-of-the-crescent-moon?utm_source=api",
       "priceUsd": 7.22,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Kederekt Parasite",
+      "manaCost": "{B}",
+      "qty": 1,
+      "group": "Creature",
+      "cmc": 1,
+      "image": "https://cards.scryfall.io/normal/front/b/c/bc5da9e8-c070-4cf4-a21b-24ff2178d751.jpg?1783909618",
+      "scryfallUri": "https://scryfall.com/card/dsc/144/kederekt-parasite?utm_source=api",
+      "priceUsd": 8.5,
       "isNew": false,
       "delta": 0
     },
@@ -2415,6 +1890,18 @@
       "delta": 0
     },
     {
+      "name": "Manabarbs",
+      "manaCost": "{3}{R}",
+      "qty": 1,
+      "group": "Enchantment",
+      "cmc": 4,
+      "image": "https://cards.scryfall.io/normal/front/a/d/adf081d5-e644-4f46-8bc8-a754b089acb4.jpg?1783941067",
+      "scryfallUri": "https://scryfall.com/card/m12/150/manabarbs?utm_source=api",
+      "priceUsd": 4.98,
+      "isNew": false,
+      "delta": 0
+    },
+    {
       "name": "Mikokoro, Center of the Sea",
       "manaCost": "",
       "qty": 1,
@@ -2447,6 +1934,18 @@
       "image": "https://cards.scryfall.io/normal/front/a/3/a3e6784b-78e8-4f0b-8d27-d49c7cea9252.jpg?1783935545",
       "scryfallUri": "https://scryfall.com/card/ima/67/mnemonic-wall?utm_source=api",
       "priceUsd": 0.2,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Molten Disaster",
+      "manaCost": "{X}{R}{R}",
+      "qty": 1,
+      "group": "Sorcery",
+      "cmc": 2,
+      "image": "https://cards.scryfall.io/normal/front/1/7/17ca6865-e894-4390-ba27-b7cc8b03a424.jpg?1783939667",
+      "scryfallUri": "https://scryfall.com/card/c13/117/molten-disaster?utm_source=api",
+      "priceUsd": 0.52,
       "isNew": false,
       "delta": 0
     },
@@ -2787,6 +2286,18 @@
       "delta": 0
     },
     {
+      "name": "Teferi's Puzzle Box",
+      "manaCost": "{4}",
+      "qty": 1,
+      "group": "Artifact",
+      "cmc": 4,
+      "image": "https://cards.scryfall.io/normal/front/4/1/415e81e9-ca65-4bc0-8aab-d905d58fe6cc.jpg?1783943890",
+      "scryfallUri": "https://scryfall.com/card/9ed/312/teferis-puzzle-box?utm_source=api",
+      "priceUsd": 19.33,
+      "isNew": false,
+      "delta": 0
+    },
+    {
       "name": "Temple Bell",
       "manaCost": "{3}",
       "qty": 1,
@@ -2807,6 +2318,18 @@
       "image": "https://cards.scryfall.io/normal/front/a/3/a3666439-e859-417b-b39e-5f14dbef81d8.jpg?1793197541",
       "scryfallUri": "https://scryfall.com/card/trc/481/terminate?utm_source=api",
       "priceUsd": 0.25,
+      "isNew": false,
+      "delta": 0
+    },
+    {
+      "name": "Terramorphic Expanse",
+      "manaCost": "",
+      "qty": 1,
+      "group": "Land",
+      "cmc": 0,
+      "image": "https://cards.scryfall.io/normal/front/5/8/58ebd718-982d-4370-b4af-ef49b978d97d.jpg?1793021389",
+      "scryfallUri": "https://scryfall.com/card/trc/571/terramorphic-expanse?utm_source=api",
+      "priceUsd": 0.29,
       "isNew": false,
       "delta": 0
     },
@@ -2943,14 +2466,14 @@
       "delta": 0
     },
     {
-      "name": "Teferi's Puzzle Box",
-      "manaCost": "{4}",
+      "name": "Baleful Mastery",
+      "manaCost": "{3}{B}",
       "qty": 1,
-      "group": "Artifact",
+      "group": "Instant",
       "cmc": 4,
-      "image": "https://cards.scryfall.io/normal/front/4/1/415e81e9-ca65-4bc0-8aab-d905d58fe6cc.jpg?1783943890",
-      "scryfallUri": "https://scryfall.com/card/9ed/312/teferis-puzzle-box?utm_source=api",
-      "priceUsd": 19.33,
+      "image": "https://cards.scryfall.io/normal/front/5/7/579e20e7-1395-4a6c-a836-ae3419fc8808.jpg?1783911932",
+      "scryfallUri": "https://scryfall.com/card/otc/126/baleful-mastery?utm_source=api",
+      "priceUsd": 3.42,
       "isNew": false,
       "delta": 0
     },
@@ -2967,42 +2490,6 @@
       "delta": 1
     },
     {
-      "name": "Dark Deal",
-      "manaCost": "{2}{B}",
-      "qty": 1,
-      "group": "Sorcery",
-      "cmc": 3,
-      "image": "https://cards.scryfall.io/normal/front/d/6/d6f0fcd5-232f-4e99-8cfc-ea0fe9c915a6.jpg?1783904806",
-      "scryfallUri": "https://scryfall.com/card/tle/161/dark-deal?utm_source=api",
-      "priceUsd": 2.47,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Kederekt Parasite",
-      "manaCost": "{B}",
-      "qty": 1,
-      "group": "Creature",
-      "cmc": 1,
-      "image": "https://cards.scryfall.io/normal/front/b/c/bc5da9e8-c070-4cf4-a21b-24ff2178d751.jpg?1783909618",
-      "scryfallUri": "https://scryfall.com/card/dsc/144/kederekt-parasite?utm_source=api",
-      "priceUsd": 8.5,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Orcish Bowmasters",
-      "manaCost": "{1}{B}",
-      "qty": 1,
-      "group": "Creature",
-      "cmc": 2,
-      "image": "https://cards.scryfall.io/normal/front/7/c/7c024bae-5631-4e20-ac69-df392ac9e109.jpg?1783916299",
-      "scryfallUri": "https://scryfall.com/card/ltr/103/orcish-bowmasters?utm_source=api",
-      "priceUsd": 38.35,
-      "isNew": true,
-      "delta": 1
-    },
-    {
       "name": "Talisman of Creativity",
       "manaCost": "{2}",
       "qty": 1,
@@ -3015,18 +2502,6 @@
       "delta": 1
     },
     {
-      "name": "Talisman of Dominance",
-      "manaCost": "{2}",
-      "qty": 1,
-      "group": "Artifact",
-      "cmc": 2,
-      "image": "https://cards.scryfall.io/normal/front/4/c/4cfcaacc-216d-4872-8a7a-27eace8039ed.jpg?1793021208",
-      "scryfallUri": "https://scryfall.com/card/trc/505/talisman-of-dominance?utm_source=api",
-      "priceUsd": 0.32,
-      "isNew": true,
-      "delta": 1
-    },
-    {
       "name": "Waste Not",
       "manaCost": "{1}{B}",
       "qty": 1,
@@ -3035,42 +2510,6 @@
       "image": "https://cards.scryfall.io/normal/front/2/f/2f5500a2-c6d6-40d7-b586-59b854733160.jpg?1783937067",
       "scryfallUri": "https://scryfall.com/card/c16/117/waste-not?utm_source=api",
       "priceUsd": 8.79,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Fevered Visions",
-      "manaCost": "{1}{U}{R}",
-      "qty": 1,
-      "group": "Enchantment",
-      "cmc": 3,
-      "image": "https://cards.scryfall.io/normal/front/d/3/d3a48c02-b9be-4649-9d20-0e72e1c52c94.jpg?1793111916",
-      "scryfallUri": "https://scryfall.com/card/trc/474/fevered-visions?utm_source=api",
-      "priceUsd": 0.29,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Arcane Denial",
-      "manaCost": "{1}{U}",
-      "qty": 1,
-      "group": "Instant",
-      "cmc": 2,
-      "image": "https://cards.scryfall.io/normal/front/5/e/5eb843ef-b223-40d0-a461-54b16d188d0e.jpg?1783903242",
-      "scryfallUri": "https://scryfall.com/card/msc/147/arcane-denial?utm_source=api",
-      "priceUsd": 3.09,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Baleful Mastery",
-      "manaCost": "{3}{B}",
-      "qty": 1,
-      "group": "Instant",
-      "cmc": 4,
-      "image": "https://cards.scryfall.io/normal/front/5/7/579e20e7-1395-4a6c-a836-ae3419fc8808.jpg?1783911932",
-      "scryfallUri": "https://scryfall.com/card/otc/126/baleful-mastery?utm_source=api",
-      "priceUsd": 3.25,
       "isNew": true,
       "delta": 1
     },
@@ -3107,30 +2546,6 @@
       "image": "https://cards.scryfall.io/normal/front/c/b/cbc4281a-b70d-4f96-b309-38e986484829.jpg?1789644471",
       "scryfallUri": "https://scryfall.com/card/frc/23/reflecting-pool?utm_source=api",
       "priceUsd": 6.36,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Seething Landscape",
-      "manaCost": "",
-      "qty": 1,
-      "group": "Land",
-      "cmc": 0,
-      "image": "https://cards.scryfall.io/normal/front/6/6/661fc907-7003-45c6-820c-9616e9a71c30.jpg?1783911238",
-      "scryfallUri": "https://scryfall.com/card/mh3/225/seething-landscape?utm_source=api",
-      "priceUsd": 0.28,
-      "isNew": true,
-      "delta": 1
-    },
-    {
-      "name": "Terramorphic Expanse",
-      "manaCost": "",
-      "qty": 1,
-      "group": "Land",
-      "cmc": 0,
-      "image": "https://cards.scryfall.io/normal/front/5/8/58ebd718-982d-4370-b4af-ef49b978d97d.jpg?1793021389",
-      "scryfallUri": "https://scryfall.com/card/trc/571/terramorphic-expanse?utm_source=api",
-      "priceUsd": 0.29,
       "isNew": true,
       "delta": 1
     },
@@ -3174,6 +2589,18 @@
         "delta": 0
       },
       {
+        "name": "Arcane Denial",
+        "manaCost": "{1}{U}",
+        "qty": 1,
+        "group": "Instant",
+        "cmc": 2,
+        "image": "https://cards.scryfall.io/normal/front/5/e/5eb843ef-b223-40d0-a461-54b16d188d0e.jpg?1783903242",
+        "scryfallUri": "https://scryfall.com/card/msc/147/arcane-denial?utm_source=api",
+        "priceUsd": 2.76,
+        "isNew": false,
+        "delta": 0
+      },
+      {
         "name": "Arcane Signet",
         "manaCost": "{2}",
         "qty": 1,
@@ -3182,6 +2609,18 @@
         "image": "https://cards.scryfall.io/normal/front/7/9/795df2ee-fbfc-4961-852c-e3ec50cc52da.jpg?1793021117",
         "scryfallUri": "https://scryfall.com/card/trc/485/arcane-signet?utm_source=api",
         "priceUsd": 0.33,
+        "isNew": false,
+        "delta": 0
+      },
+      {
+        "name": "Baleful Mastery",
+        "manaCost": "{3}{B}",
+        "qty": 1,
+        "group": "Instant",
+        "cmc": 4,
+        "image": "https://cards.scryfall.io/normal/front/5/7/579e20e7-1395-4a6c-a836-ae3419fc8808.jpg?1783911932",
+        "scryfallUri": "https://scryfall.com/card/otc/126/baleful-mastery?utm_source=api",
+        "priceUsd": 3.42,
         "isNew": false,
         "delta": 0
       },
@@ -3318,30 +2757,6 @@
         "delta": 0
       },
       {
-        "name": "Diviner's Wand",
-        "manaCost": "{3}",
-        "qty": 1,
-        "group": "Artifact",
-        "cmc": 3,
-        "image": "https://cards.scryfall.io/normal/front/2/7/277eed87-6b78-456d-91fb-774c72b3ae8c.jpg?1783942775",
-        "scryfallUri": "https://scryfall.com/card/mor/142/diviners-wand?utm_source=api",
-        "priceUsd": 0.33,
-        "isNew": false,
-        "delta": 0
-      },
-      {
-        "name": "Earthquake",
-        "manaCost": "{X}{R}",
-        "qty": 1,
-        "group": "Sorcery",
-        "cmc": 1,
-        "image": "https://cards.scryfall.io/normal/front/7/c/7cf2f3c7-66b2-48f6-97ef-09150903df7e.jpg?1783934745",
-        "scryfallUri": "https://scryfall.com/card/cm2/95/earthquake?utm_source=api",
-        "priceUsd": 0.53,
-        "isNew": false,
-        "delta": 0
-      },
-      {
         "name": "Evolving Wilds",
         "manaCost": "",
         "qty": 1,
@@ -3386,18 +2801,6 @@
         "image": "https://cards.scryfall.io/normal/front/e/7/e727bb9e-3510-4c8e-ac49-6d7217667a18.jpg?1783943158",
         "scryfallUri": "https://scryfall.com/card/plc/54/frozen-aether?utm_source=api",
         "priceUsd": 1.43,
-        "isNew": false,
-        "delta": 0
-      },
-      {
-        "name": "Grixis Charm",
-        "manaCost": "{U}{B}{R}",
-        "qty": 1,
-        "group": "Instant",
-        "cmc": 3,
-        "image": "https://cards.scryfall.io/normal/front/2/0/20332354-a294-4448-a66f-533e6b546df6.jpg?1783939651",
-        "scryfallUri": "https://scryfall.com/card/c13/192/grixis-charm?utm_source=api",
-        "priceUsd": 0.16,
         "isNew": false,
         "delta": 0
       },
@@ -3530,6 +2933,18 @@
         "image": "https://cards.scryfall.io/normal/front/d/d/dd420010-6eaf-4853-8b7b-11de1157416b.jpg?1783924965",
         "scryfallUri": "https://scryfall.com/card/voc/107/kami-of-the-crescent-moon?utm_source=api",
         "priceUsd": 7.22,
+        "isNew": false,
+        "delta": 0
+      },
+      {
+        "name": "Kederekt Parasite",
+        "manaCost": "{B}",
+        "qty": 1,
+        "group": "Creature",
+        "cmc": 1,
+        "image": "https://cards.scryfall.io/normal/front/b/c/bc5da9e8-c070-4cf4-a21b-24ff2178d751.jpg?1783909618",
+        "scryfallUri": "https://scryfall.com/card/dsc/144/kederekt-parasite?utm_source=api",
+        "priceUsd": 8.5,
         "isNew": false,
         "delta": 0
       },
@@ -3810,18 +3225,6 @@
         "delta": 0
       },
       {
-        "name": "Rakdos Guildgate",
-        "manaCost": "",
-        "qty": 1,
-        "group": "Land",
-        "cmc": 0,
-        "image": "https://cards.scryfall.io/normal/front/e/1/e1f01964-c610-4d0f-a2b4-f52e46dc50d2.jpg?1783908899",
-        "scryfallUri": "https://scryfall.com/card/fdn/693/rakdos-guildgate?utm_source=api",
-        "priceUsd": 0.25,
-        "isNew": false,
-        "delta": 0
-      },
-      {
         "name": "Razorkin Needlehead",
         "manaCost": "{R}{R}",
         "qty": 1,
@@ -4038,6 +3441,18 @@
         "delta": 0
       },
       {
+        "name": "Terramorphic Expanse",
+        "manaCost": "",
+        "qty": 1,
+        "group": "Land",
+        "cmc": 0,
+        "image": "https://cards.scryfall.io/normal/front/5/8/58ebd718-982d-4370-b4af-ef49b978d97d.jpg?1793021389",
+        "scryfallUri": "https://scryfall.com/card/trc/571/terramorphic-expanse?utm_source=api",
+        "priceUsd": 0.29,
+        "isNew": false,
+        "delta": 0
+      },
+      {
         "name": "Torbran, Thane of Red Fell",
         "manaCost": "{1}{R}{R}{R}",
         "qty": 1,
@@ -4205,7 +3620,7 @@
         "description": "Activate Sol Ring by tapping it, adding {C} {C}.\nCast the permanent that can be cast using {C} by paying its mana cost.\nHullbreaker Horror triggers, returning Sol Ring from the battlefield to your hand.\nCast Sol Ring by paying {1}. \nHullbreaker Horror triggers, returning the permanent cast in step 2 from the battlefield to your hand.\nRepeat.\nIf the permanent can be cast by paying {0}, this combo nets infinite colorless mana.",
         "bracketTag": "E",
         "url": "https://commanderspellbook.com/combo/513-5034--46/",
-        "popularity": 370663
+        "popularity": 372286
       },
       {
         "id": "542-5034",
@@ -4223,7 +3638,7 @@
         "description": "Cast Sol Ring by paying its mana cost.\nTidespout Tyrant triggers, returning a nontoken permanent that can be cast using {C} from the battlefield to your hand.\nActivate Sol Ring by tapping it, adding {C}{C}.\nCast the nontoken permanent returned in step 2 by paying its mana cost.\nTidespout Tyrant triggers, returning Sol Ring from the battlefield to your hand.\nRepeat.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/542-5034/",
-        "popularity": 38230
+        "popularity": 38333
       },
       {
         "id": "1561-2720",
@@ -4240,7 +3655,7 @@
         "description": "Cast Peer Into the Abyss targeting an opponent.\nThat player loses half their life and draws half their library.\nThey are then dealt damage by Underworld Dreams equal to the amount of cards they drew.\nThat player loses the game.",
         "bracketTag": "O",
         "url": "https://commanderspellbook.com/combo/1561-2720/",
-        "popularity": 36864
+        "popularity": 36992
       },
       {
         "id": "1561-2384",
@@ -4259,7 +3674,7 @@
         "description": "Cast Peer into the Abyss by paying {4}{B}{B}{B}, causing you to draw half your library and lose half your life total, rounding up each time.\nPsychosis Crawler triggers for each card you drew, causing each opponent to lose life equal to the number of cards you drew.",
         "bracketTag": "P",
         "url": "https://commanderspellbook.com/combo/1561-2384/",
-        "popularity": 31666
+        "popularity": 31787
       },
       {
         "id": "1089-4971",
@@ -4278,7 +3693,7 @@
         "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to any target.\nCuriosity triggers, allowing you to draw a card.\nRepeat from step 2.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/1089-4971/",
-        "popularity": 26414
+        "popularity": 26413
       },
       {
         "id": "4971-6092",
@@ -4297,7 +3712,7 @@
         "description": "Draw a card.\nNiv-Mizzet, the Firemind triggers, dealing 1 damage to an opponent.\nNiv-Mizzet, Visionary triggers, causing you to draw a card.\nRepeat from step 2.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/4971-6092/",
-        "popularity": 23017
+        "popularity": 22957
       },
       {
         "id": "1561-5919",
@@ -4317,7 +3732,7 @@
         "description": "Cast Peer into the Abyss by paying {4}{B}{B}{B}, causing an opponent to draw cards equal to half their library and causing them to lose half their life total, rounded up.\nRazorkin Needlehead triggers for each card drawn this way.\nResolve the first trigger, dealing 1 damage to the opponent.\nIf the opponent has 0 or less life, the opponent loses the game due to having zero or less life.\nRepeat from step 3 for each remaining trigger and/or until the opponent loses the game.",
         "bracketTag": "P",
         "url": "https://commanderspellbook.com/combo/1561-5919/",
-        "popularity": 18239
+        "popularity": 18306
       },
       {
         "id": "1561-1972",
@@ -4337,7 +3752,7 @@
         "description": "Cast Peer into the Abyss by paying {4}{B}{B}{B}, causing an opponent to draw cards equal to half their library and causing them to lose half their life total, rounded up.\nNekusar triggers for each card drawn this way.\nResolve the first trigger, dealing 1 damage to the opponent.\nIf the opponent has 0 or less life, the opponent loses the game due to having zero or less life.\nRepeat from step 3 for each remaining trigger and/or until the opponent loses the game.",
         "bracketTag": "P",
         "url": "https://commanderspellbook.com/combo/1561-1972/",
-        "popularity": 18180
+        "popularity": 18220
       },
       {
         "id": "1561-5165",
@@ -4354,7 +3769,7 @@
         "description": "With Ob Nixilis, the Hate-Twisted on the battlefield, cast Peer into the Abyss targeting an opponent.\nPeer into the Abyss would resolve (with card draw and life loss rounded up in instances of odd number of cards or life), and then the static ability on Ob Nixilis, the Hate-Twisted dealing damage for each card drawn.",
         "bracketTag": "O",
         "url": "https://commanderspellbook.com/combo/1561-5165/",
-        "popularity": 17112
+        "popularity": 17148
       },
       {
         "id": "2384-6574",
@@ -4373,7 +3788,7 @@
         "description": "Draw a card.\nPsychosis Crawler triggers, causing each opponent to lose 1 life.\nKefka triggers, causing you to draw a card.\nRepeat from step 2.",
         "bracketTag": "R",
         "url": "https://commanderspellbook.com/combo/2384-6574/",
-        "popularity": 15405
+        "popularity": 15515
       },
       {
         "id": "790-2384-5042-6833",
@@ -4392,7 +3807,7 @@
         "description": "Cast Windfall by paying {2}{U}, causing each player to discard their hand and each opponent to draw cards equal to the greatest number of cards discarded this way, and you to draw twice that number due to Teferi's Ageless Insight.\nPsychosis Crawler triggers for each card you draw, and Scrawling Crawler triggers for each card opponents draw.\nResolve the Psychosis Crawler triggers, causing each opponent to lose 1 life for each card you drew.\nResolve the Scrawling Crawler triggers, causing each opponent to lose 1 life for each card they drew.",
         "bracketTag": "E",
         "url": "https://commanderspellbook.com/combo/790-2384-5042-6833/",
-        "popularity": 14338
+        "popularity": 14462
       },
       {
         "id": "2396-4971",
@@ -4411,7 +3826,7 @@
         "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to an opponent.\nOphidian Eye triggers, allowing you to draw a card.\nRepeat from step 2.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/2396-4971/",
-        "popularity": 13668
+        "popularity": 13658
       },
       {
         "id": "406-4971",
@@ -4430,7 +3845,7 @@
         "description": "Activate Niv-Mizzet's ability to draw a card.\nNiv-Mizzet triggers, dealing 1 damage to target opponent.\nWhen Niv-Mizzet deals damage, its ability from Tandem Lookout triggers, causing you to draw a card.\nRepeat from step 2.\nTo end the loop and stop yourself drawing from an empty library, choose any target besides an opponent in step 2.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/406-4971/",
-        "popularity": 11889
+        "popularity": 11887
       },
       {
         "id": "953-2384",
@@ -4449,7 +3864,7 @@
         "description": "Cast Enter the Infinite by paying {8}{U}{U}{U}{U}, causing you to draw your library and then put a card on top of your library.\nPsychosis Crawler triggers for each card drawn, causing each opponent to lose that much life.",
         "bracketTag": "C",
         "url": "https://commanderspellbook.com/combo/953-2384/",
-        "popularity": 9826
+        "popularity": 9877
       },
       {
         "id": "2390-4166",
@@ -4468,7 +3883,7 @@
         "description": "Cause an opponent to lose 1 life.\nOb Nixilis triggers, putting a +1/+1 counter on itself and exiling the top card of your library.\nAll Will Be One triggers, dealing 1 damage to an opponent.\nRepeat from step 2.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/2390-4166/",
-        "popularity": 8935
+        "popularity": 8914
       },
       {
         "id": "1177-2286",
@@ -4487,7 +3902,7 @@
         "description": "During your opponent's draw step, they draw a card, and Teferi's Puzzle Box triggers.\nResolve the Teferi's Puzzle Box trigger, causing the opponent to put the cards in their hand onto the bottom of their library and draw no cards due to Narset.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/1177-2286/",
-        "popularity": 8491
+        "popularity": 8510
       },
       {
         "id": "2286-3221",
@@ -4505,7 +3920,7 @@
         "description": "At the beginning of your opponent's draw step, after they draw their card, Teferi's Puzzle Box triggers, causing them to put the cards in their hand on the bottom of their library, then attempt to draw that many cards.\nNotion Thief's replacement effect causes you to draw that many cards instead.\nRepeat on each opponent's draw step.",
         "bracketTag": "S",
         "url": "https://commanderspellbook.com/combo/2286-3221/",
-        "popularity": 6098
+        "popularity": 6115
       },
       {
         "id": "790-2384-4435-6833",
@@ -4524,25 +3939,7 @@
         "description": "Cast Windfall by paying {2}{U}, causing each player to discard their hand and each opponent to draw cards equal to the greatest number of cards discarded this way, and you to draw twice that number due to Alhammarret's Archive.\nPsychosis Crawler triggers for each card you draw, and Scrawling Crawler triggers for each card opponents draw.\nResolve the Psychosis Crawler triggers, causing each opponent to lose 1 life for each card you drew.\nResolve the Scrawling Crawler triggers, causing each opponent to lose 1 life for each card they drew.",
         "bracketTag": "E",
         "url": "https://commanderspellbook.com/combo/790-2384-4435-6833/",
-        "popularity": 5611
-      },
-      {
-        "id": "700-4971",
-        "cards": [
-          "Niv-Mizzet, the Firemind",
-          "Body of Knowledge"
-        ],
-        "missing": [
-          "Body of Knowledge"
-        ],
-        "produces": [
-          "Infinite draw triggers",
-          "Infinite card draw"
-        ],
-        "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to Body of Knowledge.\nBody of Knowledge triggers, drawing you a card.\nRepeat.\nBreak the loop by damaging a different target with Niv-Mizzet.",
-        "bracketTag": "S",
-        "url": "https://commanderspellbook.com/combo/700-4971/",
-        "popularity": 5190
+        "popularity": 5699
       },
       {
         "id": "790-1972-4651",
@@ -4560,13 +3957,107 @@
         "description": "Cast Windfall by paying {2}{U}, causing each player to discard their hand and then draw a number of cards equal to the greatest number of cards a player discarded this way.\nNekusar triggers for each card drawn this way, giving each opponent a poison counter for each card they drew.\nEach opponent loses the game due to having ten or more poison counters",
         "bracketTag": "E",
         "url": "https://commanderspellbook.com/combo/790-1972-4651/",
-        "popularity": 5188
+        "popularity": 5200
+      },
+      {
+        "id": "700-4971",
+        "cards": [
+          "Niv-Mizzet, the Firemind",
+          "Body of Knowledge"
+        ],
+        "missing": [
+          "Body of Knowledge"
+        ],
+        "produces": [
+          "Infinite draw triggers",
+          "Infinite card draw"
+        ],
+        "description": "Draw a card.\nNiv-Mizzet triggers, dealing 1 damage to Body of Knowledge.\nBody of Knowledge triggers, drawing you a card.\nRepeat.\nBreak the loop by damaging a different target with Niv-Mizzet.",
+        "bracketTag": "S",
+        "url": "https://commanderspellbook.com/combo/700-4971/",
+        "popularity": 5197
       }
     ]
   },
   "manaSuggestions": [
     {
-      "id": "e44215ae-c885-4f43-b87f-8162fd5fb946",
+      "id": "22d9c381-f549-4cac-bbe2-837e797ae59d",
+      "reason": "You have plenty of blue sources; [[City of Brass]] makes black and red and blue untapped, helping black and red, which are short.",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Island",
+          "qty": 1,
+          "reason": "You have plenty of blue sources; [[City of Brass]] makes black and red and blue untapped, helping black and red, which are short.",
+          "card": {
+            "name": "Island",
+            "oracleId": "b2c6aa39-2d2a-459c-a555-fb48ba993373",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Basic Land — Island",
+            "oracleText": "({T}: Add {U}.)",
+            "colors": [],
+            "colorIdentity": [
+              "U"
+            ],
+            "producedMana": [
+              "U"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": null,
+            "image": "https://cards.scryfall.io/normal/front/1/3/1335d293-3dd2-4f13-bd2c-22181f4528ee.jpg?1791578424",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/1/3/1335d293-3dd2-4f13-bd2c-22181f4528ee.jpg?1791578424",
+            "scryfallUri": "https://scryfall.com/card/mdd/294/island?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        },
+        {
+          "action": "add",
+          "name": "City of Brass",
+          "qty": 1,
+          "reason": "You have plenty of blue sources; [[City of Brass]] makes black and red and blue untapped, helping black and red, which are short.",
+          "card": {
+            "name": "City of Brass",
+            "oracleId": "f25351e3-539b-4bbc-b92d-6480acf4d722",
+            "manaCost": "",
+            "cmc": 0,
+            "typeLine": "Land",
+            "oracleText": "Whenever this land becomes tapped, it deals 1 damage to you.\n{T}: Add one mana of any color.",
+            "colors": [],
+            "colorIdentity": [],
+            "producedMana": [
+              "B",
+              "G",
+              "R",
+              "U",
+              "W"
+            ],
+            "isLand": true,
+            "isMdfcLand": false,
+            "entersTapped": false,
+            "legalCommander": true,
+            "gameChanger": false,
+            "canBeCommander": false,
+            "priceUsd": 10.31,
+            "image": "https://cards.scryfall.io/normal/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
+            "imageArt": "https://cards.scryfall.io/art_crop/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
+            "scryfallUri": "https://scryfall.com/card/tmc/62/city-of-brass?utm_source=api",
+            "roles": [
+              "land"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c0110b02-395c-4bd9-879c-0a2cb6b308f6",
       "reason": "You have plenty of blue sources; [[Sulfur Falls]] makes red and blue untapped, helping red, which is short.",
       "changes": [
         {
@@ -4630,7 +4121,7 @@
             "legalCommander": true,
             "gameChanger": false,
             "canBeCommander": false,
-            "priceUsd": 0.32,
+            "priceUsd": 0.21,
             "image": "https://cards.scryfall.io/normal/front/9/e/9ea843a3-3bed-4d34-ab23-967d8ff5b584.jpg?1793112070",
             "imageArt": "https://cards.scryfall.io/art_crop/front/9/e/9ea843a3-3bed-4d34-ab23-967d8ff5b584.jpg?1793112070",
             "scryfallUri": "https://scryfall.com/card/trc/563/sulfur-falls?utm_source=api",
@@ -4642,83 +4133,7 @@
       ]
     },
     {
-      "id": "e18c4ffe-2b70-4b0e-8b0f-593ac067246f",
-      "reason": "You have plenty of blue sources; [[City of Brass]] makes black and red and blue untapped, helping red, which is short.",
-      "changes": [
-        {
-          "action": "remove",
-          "name": "Island",
-          "qty": 1,
-          "reason": "You have plenty of blue sources; [[City of Brass]] makes black and red and blue untapped, helping red, which is short.",
-          "card": {
-            "name": "Island",
-            "oracleId": "b2c6aa39-2d2a-459c-a555-fb48ba993373",
-            "manaCost": "",
-            "cmc": 0,
-            "typeLine": "Basic Land — Island",
-            "oracleText": "({T}: Add {U}.)",
-            "colors": [],
-            "colorIdentity": [
-              "U"
-            ],
-            "producedMana": [
-              "U"
-            ],
-            "isLand": true,
-            "isMdfcLand": false,
-            "entersTapped": false,
-            "legalCommander": true,
-            "gameChanger": false,
-            "canBeCommander": false,
-            "priceUsd": null,
-            "image": "https://cards.scryfall.io/normal/front/1/3/1335d293-3dd2-4f13-bd2c-22181f4528ee.jpg?1791578424",
-            "imageArt": "https://cards.scryfall.io/art_crop/front/1/3/1335d293-3dd2-4f13-bd2c-22181f4528ee.jpg?1791578424",
-            "scryfallUri": "https://scryfall.com/card/mdd/294/island?utm_source=api",
-            "roles": [
-              "land"
-            ]
-          }
-        },
-        {
-          "action": "add",
-          "name": "City of Brass",
-          "qty": 1,
-          "reason": "You have plenty of blue sources; [[City of Brass]] makes black and red and blue untapped, helping red, which is short.",
-          "card": {
-            "name": "City of Brass",
-            "oracleId": "f25351e3-539b-4bbc-b92d-6480acf4d722",
-            "manaCost": "",
-            "cmc": 0,
-            "typeLine": "Land",
-            "oracleText": "Whenever this land becomes tapped, it deals 1 damage to you.\n{T}: Add one mana of any color.",
-            "colors": [],
-            "colorIdentity": [],
-            "producedMana": [
-              "B",
-              "G",
-              "R",
-              "U",
-              "W"
-            ],
-            "isLand": true,
-            "isMdfcLand": false,
-            "entersTapped": false,
-            "legalCommander": true,
-            "gameChanger": false,
-            "canBeCommander": false,
-            "priceUsd": 9.8,
-            "image": "https://cards.scryfall.io/normal/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
-            "imageArt": "https://cards.scryfall.io/art_crop/front/c/2/c21565d0-fc40-4d89-9b27-87c03385e0af.jpg?1783904153",
-            "scryfallUri": "https://scryfall.com/card/tmc/62/city-of-brass?utm_source=api",
-            "roles": [
-              "land"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "149b2239-6dd9-4754-9e35-921572dc7e1e",
+      "id": "e76d2aee-9925-4dfb-919d-a567a14e2a3d",
       "reason": "You have plenty of blue sources; [[Shivan Reef]] makes red and blue untapped, helping red, which is short.",
       "changes": [
         {
@@ -4783,7 +4198,7 @@
             "legalCommander": true,
             "gameChanger": false,
             "canBeCommander": false,
-            "priceUsd": 0.33,
+            "priceUsd": 0.28,
             "image": "https://cards.scryfall.io/normal/front/9/f/9fb3938c-9ecf-46cc-865a-0091455419f9.jpg?1789599919",
             "imageArt": "https://cards.scryfall.io/art_crop/front/9/f/9fb3938c-9ecf-46cc-865a-0091455419f9.jpg?1789599919",
             "scryfallUri": "https://scryfall.com/card/frc/83/shivan-reef?utm_source=api",
@@ -4803,7 +4218,7 @@
         "Waste Not",
         "Wheel and Deal"
       ],
-      "explanation": "[[Wheel and Deal]] turns the chosen opponents' discards into creatures, mana, or cards through [[Waste Not]], then gives each of those opponents seven draws to trigger [[Nekusar, the Mindrazer]]. You get those payoffs at instant speed without discarding your own hand."
+      "explanation": "[[Wheel and Deal]] turns the chosen opponents' discards into creatures, mana, or cards through [[Waste Not]], then gives each of those opponents seven draws to trigger [[Nekusar, the Mindrazer]]. You get those payoffs at instant speed, though you also discard your own hand."
     },
     {
       "title": "Bounce, Then Bin",
@@ -4831,7 +4246,7 @@
         "Jace's Archivist",
         "Swiftfoot Boots"
       ],
-      "explanation": "[[Swiftfoot Boots]] gives [[Jace's Archivist]] haste to activate immediately and hexproof to help keep the repeatable wheel online. [[Nekusar, the Mindrazer]] helps keep hands stocked between activations and turns each opponent's refill into damage."
+      "explanation": "[[Swiftfoot Boots]] gives [[Jace's Archivist]] haste to activate immediately and hexproof to help keep the repeatable wheel online. [[Nekusar, the Mindrazer]] turns each opponent's refill into damage."
     },
     {
       "title": "The Box Keeps Billing",
@@ -4840,7 +4255,7 @@
         "Scrawling Crawler",
         "Teferi's Puzzle Box"
       ],
-      "explanation": "[[Scrawling Crawler]] adds a card to each player's hand on your upkeep, giving [[Teferi's Puzzle Box]] another card to replace if they hold onto it. When both draw-step abilities trigger, resolve [[Nekusar, the Mindrazer]] first so that extra card also gets replaced; every opponent draw costs them 1 damage and 1 life."
+      "explanation": "[[Scrawling Crawler]] adds a card to each player's hand on your upkeep, giving [[Teferi's Puzzle Box]] another card to replace if they hold onto it. When both abilities trigger, resolve [[Nekusar, the Mindrazer]] first so that extra card also gets replaced; every opponent draw costs them 1 damage and 1 life."
     },
     {
       "title": "Draw, Ping, Bounce",
@@ -4859,106 +4274,246 @@
         "Psychosis Crawler"
       ],
       "explanation": "[[Scrawling Crawler]] makes everyone draw on your upkeep, and [[Nekusar, the Mindrazer]] gives everyone another card on their own draw step. [[Psychosis Crawler]] turns your draws into life loss for every opponent, while the other two punish each opponent for their own draws."
+    },
+    {
+      "title": "Ramp Without the Burn",
+      "cards": [
+        "Manabarbs",
+        "Darksteel Ingot"
+      ],
+      "explanation": "[[Manabarbs]] punishes every player who taps lands for mana, but [[Darksteel Ingot]] and the deck's other mana rocks let you develop your mana without ever tapping a land, so you keep casting wheels and pingers while opponents bleed for theirs."
+    },
+    {
+      "title": "Triple Tap Tax",
+      "cards": [
+        "Manabarbs",
+        "Torbran, Thane of Red Fell"
+      ],
+      "explanation": "[[Torbran, Thane of Red Fell]] turns each [[Manabarbs]] trigger into a much harsher punishment, so opponents are squeezed hard every time they tap a land for mana to cast spells or pay attack taxes."
+    },
+    {
+      "title": "Pay to Attack, Bleed to Tap",
+      "cards": [
+        "Manabarbs",
+        "Propaganda",
+        "Collective Restraint"
+      ],
+      "explanation": "[[Propaganda]] and [[Collective Restraint]] force attackers to spend mana, and every land tapped to pay that tax bleeds them through [[Manabarbs]], so opponents are damned whether they attack or not."
+    },
+    {
+      "title": "Indestructible Metalcraft",
+      "cards": [
+        "Darksteel Ingot",
+        "Molten Psyche",
+        "Starstorm"
+      ],
+      "explanation": "[[Darksteel Ingot]] survives your own [[Starstorm]] and other sweepers, keeping your artifact count high so [[Molten Psyche]] reliably hits metalcraft and burns the table alongside each wheel."
+    },
+    {
+      "title": "Parasite's Red Rider",
+      "cards": [
+        "Kederekt Parasite",
+        "Nekusar, the Mindrazer"
+      ],
+      "explanation": "[[Nekusar, the Mindrazer]] is a red permanent that turns on [[Kederekt Parasite]], so every extra card an opponent draws during their draw step triggers each damage dealer at once."
+    },
+    {
+      "title": "Visions of Suffering",
+      "cards": [
+        "Kederekt Parasite",
+        "Spiteful Visions"
+      ],
+      "explanation": "[[Spiteful Visions]] is a red permanent that enables [[Kederekt Parasite]] and adds an extra draw each draw step; each effect punishes every card drawn."
+    },
+    {
+      "title": "Needle, Horror, Dreams",
+      "cards": [
+        "Kederekt Parasite",
+        "Razorkin Needlehead",
+        "Underworld Dreams"
+      ],
+      "explanation": "[[Razorkin Needlehead]] provides the red permanent [[Kederekt Parasite]] needs, and with [[Underworld Dreams]] every opponent draw is punished by each of them."
+    },
+    {
+      "title": "Crescent Moon Parasite",
+      "cards": [
+        "Kederekt Parasite",
+        "Kami of the Crescent Moon",
+        "Nekusar, the Mindrazer"
+      ],
+      "explanation": "[[Kami of the Crescent Moon]] and [[Nekusar, the Mindrazer]] each add an extra draw to every draw step, and the latter is red to enable [[Kederekt Parasite]]; each opponent's draw step becomes a pile of damage triggers."
+    },
+    {
+      "title": "Fetching Without the Burn",
+      "cards": [
+        "Terramorphic Expanse",
+        "Manabarbs"
+      ],
+      "explanation": "[[Terramorphic Expanse]] is cracked for a land instead of being tapped to produce mana, so it never turns [[Manabarbs]] against you, and the land it finds arrives tapped, holding off your own payment even longer while opponents bleed for every land they tap."
+    },
+    {
+      "title": "Basic Types Make the Tax Bite",
+      "cards": [
+        "Terramorphic Expanse",
+        "Collective Restraint",
+        "Propaganda"
+      ],
+      "explanation": "[[Terramorphic Expanse]] searches out basic lands, whose land types count toward the payment [[Collective Restraint]] demands, and [[Propaganda]] stacks on top so attackers must pay for both while [[Nekusar, the Mindrazer]] keeps pinging."
+    },
+    {
+      "title": "Double Red Made Easy",
+      "cards": [
+        "Izzet Guildgate",
+        "Terramorphic Expanse",
+        "Torbran, Thane of Red Fell",
+        "Nekusar, the Mindrazer"
+      ],
+      "explanation": "[[Izzet Guildgate]] plus a red basic found by [[Terramorphic Expanse]] cover the steep red cost of [[Torbran, Thane of Red Fell]], whose boost makes every draw that [[Nekusar, the Mindrazer]] punishes hurt more."
+    },
+    {
+      "title": "Helm Turns Nekusar Rack",
+      "cards": [
+        "Nekusar, the Mindrazer",
+        "Helm of the Ghastlord",
+        "Waste Not"
+      ],
+      "explanation": "[[Helm of the Ghastlord]] on [[Nekusar, the Mindrazer]] makes each draw-ping also draw you a card and force that opponent to discard; [[Waste Not]] turns those discards into mana, creatures, or more cards."
+    },
+    {
+      "title": "Counter Feeds the Punishment",
+      "cards": [
+        "Arcane Denial",
+        "Nekusar, the Mindrazer"
+      ],
+      "explanation": "[[Arcane Denial]] turns a counter into extra opponent draws, so [[Nekusar, the Mindrazer]] pings that opponent for each card and your delayed draw can trigger your own draw-payoffs."
+    },
+    {
+      "title": "Cheap Removal, Free Ping",
+      "cards": [
+        "Baleful Mastery",
+        "Nekusar, the Mindrazer",
+        "Ob Nixilis, Captive Kingpin"
+      ],
+      "explanation": "Paying the alternate cost of [[Baleful Mastery]] exiles a threat while making an opponent draw; that draw becomes a [[Nekusar, the Mindrazer]] ping that satisfies [[Ob Nixilis, Captive Kingpin]] and exiles a card."
+    },
+    {
+      "title": "Asymmetric Disaster",
+      "cards": [
+        "Molten Disaster",
+        "Torbran, Thane of Red Fell"
+      ],
+      "explanation": "Kicked [[Molten Disaster]] has split second, and [[Torbran, Thane of Red Fell]] makes its damage to opponents and their creatures larger while leaving your side alone."
     }
   ],
   "howToPlay": {
     "original": {
-      "summary": "[[Nekusar, the Mindrazer]] makes every opposing draw hurt, so refilling everyone's hand can finish the table. [[Niv-Mizzet, the Firemind]] and [[Helm of the Ghastlord]] offer a separate combo finish.",
+      "summary": "This deck forces everyone to draw extra cards while [[Nekusar, the Mindrazer]] and every draw-punisher bleed the table dry. It wins by stacking those pain effects until opponents simply run out of life.",
       "early": [
-        "Play [[Crumbling Necropolis]] early so you're not waiting on it when you need all three colors.",
-        "Use [[Arcane Signet]] to fix your colors, since [[Sol Ring]] only covers the generic cost.",
-        "Set up [[Underworld Dreams]] before handing out extra cards."
+        "Land [[Sol Ring]] or [[Arcane Signet]] so [[Nekusar, the Mindrazer]] arrives early.",
+        "Drop [[Kederekt Parasite]] or [[Underworld Dreams]] to punish draws before your commander lands.",
+        "Prefer [[Command Tower]] and [[Exotic Orchard]] over lands that enter tapped."
       ],
       "mid": [
-        "Give [[Jace's Archivist]] haste with [[Swiftfoot Boots]] to refill hands before opponents can untap.",
-        "Pair [[Teferi's Puzzle Box]] with [[Nekusar, the Mindrazer]] to punish opponents for keeping full hands.",
-        "Put [[Sigil of Sleep]] on [[Razorkin Needlehead]] to bounce creatures when their controllers draw."
+        "[[Harmonic Prodigy]] doubles the punishing triggers of your wizard-shaped sources.",
+        "[[Teferi's Puzzle Box]] with [[Scrawling Crawler]] turns every draw step into steady life loss.",
+        "Hold [[Arcane Denial]] for real threats, since the extra cards it hands out hurt them too."
       ],
       "late": [
-        "Cast [[Windfall]] when someone has a big hand and your draw punishers are ready.",
-        "With [[Nekusar, the Mindrazer]] out, aim [[Blue Sun's Zenith]] at an opponent you can finish."
+        "Fire a large [[Prosperity]] or [[Minds Aglow]] to close the game in one burst.",
+        "[[Psychosis Crawler]] alongside [[Nekusar, the Mindrazer]] means each drawn card bleeds everyone.",
+        "[[Torbran, Thane of Red Fell]] turns every single-point ping into a much bigger hit."
       ],
       "winConditions": [
-        "Stack [[Nekusar, the Mindrazer]] and [[Underworld Dreams]], then deal damage with [[Reforge the Soul]].",
-        "Cast a big [[Prosperity]] with [[Psychosis Crawler]] out to drain every opponent.",
-        "Enchant [[Niv-Mizzet, the Firemind]] with [[Helm of the Ghastlord]], then draw and ping opponents repeatedly."
+        "Drain the table with [[Nekusar, the Mindrazer]] backed by [[Underworld Dreams]] and [[Fate Unraveler]].",
+        "[[Niv-Mizzet, the Firemind]] enchanted by [[Helm of the Ghastlord]] draws forever and kills everyone.",
+        "A huge [[Blue Sun's Zenith]] or [[Prosperity]] with [[Psychosis Crawler]] out finishes the table."
       ],
       "keyCards": [
         {
           "name": "Nekusar, the Mindrazer",
-          "why": "Gives everyone extra cards but damages only opponents for drawing."
+          "why": "Your commander turns every opponent draw into damage."
         },
         {
-          "name": "Scrawling Crawler",
-          "why": "Makes everyone draw on your upkeep and drains opponents."
+          "name": "Underworld Dreams",
+          "why": "Cheap, sticky punishment for every card they draw."
         },
         {
-          "name": "Jace's Archivist",
-          "why": "Turns the biggest hand into a repeatable table-wide refill."
+          "name": "Spiteful Visions",
+          "why": "Extra draws for everyone, pain for each of them."
         },
         {
-          "name": "Ob Nixilis, Captive Kingpin",
-          "why": "Turns one-point life losses into growth and access to cards."
+          "name": "Prosperity",
+          "why": "Converts a pile of mana into lethal draw triggers."
         },
         {
-          "name": "Teferi's Puzzle Box",
-          "why": "Makes opponents redraw their hands every turn without discarding."
+          "name": "Swiftfoot Boots",
+          "why": "Keeps your commander alive and swinging immediately."
+        },
+        {
+          "name": "Manabarbs",
+          "why": "Taxes every tapped land, especially opponents tapping out."
         }
       ],
-      "mulligan": "Keep three lands, access to all three colors through lands or [[Arcane Signet]], and an early punisher like [[Razorkin Needlehead]].",
+      "mulligan": "Keep three lands, one mana rock, and either [[Nekusar, the Mindrazer]] or a cheap draw-punisher.",
       "watchOut": [
-        "Without [[Nekusar, the Mindrazer]] or another punisher, [[Windfall]] can hand opponents the answers they need.",
-        "[[Spiteful Visions]] also hurts you, so check your life total before casting [[Prosperity]].",
-        "Keep [[Lightning Greaves]] off [[Niv-Mizzet, the Firemind]] until [[Helm of the Ghastlord]] is attached."
+        "[[Manabarbs]] hits you too, so tap lands carefully once it resolves.",
+        "Opponents will save removal for [[Underworld Dreams]] and [[Spiteful Visions]].",
+        "You hand out cards freely, so fast aggressive decks may race your engine."
       ]
     },
     "optimized": {
-      "summary": "[[Nekusar, the Mindrazer]] turns opposing draws into damage, while [[Waste Not]] rewards forced discards. Stack draw punishers, then finish the table with [[Wheel and Deal]] or [[Prosperity]].",
+      "summary": "This is a Nekusar draw-punishment deck: you force everyone to draw extra cards while [[Nekusar, the Mindrazer]] and friends bleed them for each one. You win by stacking those pings and wheel effects until the table dies.",
       "early": [
-        "Use [[Arcane Signet]] to fix colors for [[Nekusar, the Mindrazer]].",
-        "Play [[Waste Not]] before making opponents discard with [[Windfall]].",
-        "Play [[Propaganda]] early if attackers might overwhelm you before [[Nekusar, the Mindrazer]] arrives."
+        "Ramp with [[Sol Ring]] and [[Arcane Signet]] so [[Nekusar, the Mindrazer]] arrives ahead of schedule.",
+        "Deploy [[Kederekt Parasite]] or [[Underworld Dreams]] early to tax every draw immediately.",
+        "[[Nightscape Familiar]] and [[Talisman of Creativity]] make your blue and red spells cheaper."
       ],
       "mid": [
-        "Give [[Jace's Archivist]] haste with [[Swiftfoot Boots]] to replace everyone's hand immediately.",
-        "Pair [[Teferi's Puzzle Box]] with [[Scrawling Crawler]] to punish opponents for replacing their hands.",
-        "Enchant [[Razorkin Needlehead]] with [[Sigil of Sleep]] to bounce creatures when opponents draw."
+        "Cast [[Nekusar, the Mindrazer]], then follow with [[Windfall]] to punish full hands.",
+        "[[Waste Not]] converts their forced discards into black mana and Zombie tokens.",
+        "[[Teferi's Puzzle Box]] rewrites every draw step and retriggers all your punishers."
       ],
       "late": [
-        "Overload [[Cyclonic Rift]] before your turn, then use [[Windfall]] to discard the returned cards.",
-        "Use [[Wheel and Deal]] with [[Nekusar, the Mindrazer]] to deal seven damage to each target."
+        "[[Psychosis Crawler]] and [[Spiteful Visions]] drain the whole table as cards flow.",
+        "[[Molten Psyche]] with three artifacts deals massive damage right after a wheel.",
+        "[[Torbran, Thane of Red Fell]] makes every point of your red ping hit harder."
       ],
       "winConditions": [
-        "Cast a large [[Prosperity]] with [[Nekusar, the Mindrazer]] and [[Psychosis Crawler]] to drain the table.",
-        "Stack [[Underworld Dreams]] with [[Nekusar, the Mindrazer]], then cast [[Reforge the Soul]] for lethal damage."
+        "[[Nekusar, the Mindrazer]] plus [[Underworld Dreams]] and forced draws kills everyone.",
+        "[[Niv-Mizzet, the Firemind]] enchanted by [[Helm of the Ghastlord]] draws your deck infinitely.",
+        "[[Blue Sun's Zenith]] forces enormous draws that each ping through [[Nekusar, the Mindrazer]]."
       ],
       "keyCards": [
         {
           "name": "Nekusar, the Mindrazer",
-          "why": "Gives everyone extra draws and damages opponents for each draw."
+          "why": "Your engine; every opponent draw deals one damage."
         },
         {
           "name": "Waste Not",
-          "why": "Turns opposing discards into creatures, mana, or cards."
+          "why": "Turns wheel discards into mana and Zombie tokens."
         },
         {
           "name": "Windfall",
-          "why": "Turns the biggest discarded hand into everyone's new hand size."
+          "why": "Refills hands so punishers trigger many times at once."
         },
         {
-          "name": "Teferi's Puzzle Box",
-          "why": "Makes opponents redraw their hands every turn."
+          "name": "Torbran, Thane of Red Fell",
+          "why": "Turns each one-damage ping into three damage."
         },
         {
-          "name": "Psychosis Crawler",
-          "why": "Makes your own draws drain every opponent."
+          "name": "Manabarbs",
+          "why": "Punishes opponents for tapping lands to answer you."
+        },
+        {
+          "name": "Helm of the Ghastlord",
+          "why": "With [[Niv-Mizzet, the Firemind]] it draws your deck."
         }
       ],
-      "mulligan": "Keep three lands, color fixing like [[Arcane Signet]], and a payoff like [[Waste Not]].",
+      "mulligan": "Keep three lands, a mana rock, and one draw-punisher like [[Underworld Dreams]].",
       "watchOut": [
-        "Don't cast [[Windfall]] into empty opposing hands unless your own hand makes it worthwhile.",
-        "Keep mana for [[Arcane Denial]] when opponents try removing [[Nekusar, the Mindrazer]] before a wheel.",
-        "Watch your life total because [[Spiteful Visions]] punishes your draws too."
+        "Cards like [[Spiteful Visions]] and [[Manabarbs]] also hurt you and your lands.",
+        "Wheels hand opponents fresh answers, so hold [[Cyclonic Rift]] for their turn.",
+        "Fast aggro can race you before engines matter; [[Propaganda]] slows them down."
       ]
     }
   },
@@ -5729,6 +5284,208 @@
           "name": "Teferi's Puzzle Box",
           "qty": 1,
           "reason": "[[Teferi's Puzzle Box]] turns each player’s hand into fresh draws every turn, scaling directly with your draw punishers. It costs three less than [[Price of Knowledge]] and can punish a full hand repeatedly rather than checking its size once per upkeep."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-26T21:36:57.218Z",
+      "request": "Declined: Darksteel Ingot → Talisman of Dominance",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Talisman of Dominance",
+          "qty": 1,
+          "reason": "Declined the doc's swap."
+        },
+        {
+          "action": "add",
+          "name": "Darksteel Ingot",
+          "qty": 1,
+          "reason": "Declined the doc's swap."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-26T21:37:04.755Z",
+      "request": "Declined: Manabarbs → Fevered Visions",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Fevered Visions",
+          "qty": 1,
+          "reason": "Declined the doc's swap."
+        },
+        {
+          "action": "add",
+          "name": "Manabarbs",
+          "qty": 1,
+          "reason": "Declined the doc's swap."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-26T21:41:49.303Z",
+      "request": "Swap: Diviner's Wand → Kederekt Parasite",
+      "target": "original",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Diviner's Wand",
+          "qty": 1,
+          "reason": "[[Kederekt Parasite]] turns opponents’ draws into damage while you control a red permanent, including your commander. It gives your wheels another payoff for one mana instead of asking you to invest in [[Diviner's Wand]] for a single larger attacker."
+        },
+        {
+          "action": "add",
+          "name": "Kederekt Parasite",
+          "qty": 1,
+          "reason": "[[Kederekt Parasite]] turns opponents’ draws into damage while you control a red permanent, including your commander. It gives your wheels another payoff for one mana instead of asking you to invest in [[Diviner's Wand]] for a single larger attacker."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-26T22:17:49.862Z",
+      "request": "Declined: Izzet Guildgate → Seething Landscape",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Seething Landscape",
+          "qty": 1,
+          "reason": "Declined the doc's swap."
+        },
+        {
+          "action": "add",
+          "name": "Izzet Guildgate",
+          "qty": 1,
+          "reason": "Declined the doc's swap."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-26T22:17:58.226Z",
+      "request": "Swap: Rakdos Guildgate → Terramorphic Expanse",
+      "target": "original",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Rakdos Guildgate",
+          "qty": 1,
+          "reason": "[[Rakdos Guildgate]] always enters tapped; [[Terramorphic Expanse]] fetches a tapped basic land that produces blue, black, or red, helping blue and red, which are short."
+        },
+        {
+          "action": "add",
+          "name": "Terramorphic Expanse",
+          "qty": 1,
+          "reason": "[[Rakdos Guildgate]] always enters tapped; [[Terramorphic Expanse]] fetches a tapped basic land that produces blue, black, or red, helping blue and red, which are short."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-26T22:24:14.881Z",
+      "request": "Declined: Molten Disaster → Arcane Denial",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Arcane Denial",
+          "qty": 1,
+          "reason": "Declined the doc's swap."
+        },
+        {
+          "action": "add",
+          "name": "Molten Disaster",
+          "qty": 1,
+          "reason": "Declined the doc's swap."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-26T22:25:47.912Z",
+      "request": "Declined: Helm of the Ghastlord → Baleful Mastery",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Baleful Mastery",
+          "qty": 1,
+          "reason": "Declined the doc's swap."
+        },
+        {
+          "action": "add",
+          "name": "Helm of the Ghastlord",
+          "qty": 1,
+          "reason": "Declined the doc's swap."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-26T22:26:06.426Z",
+      "request": "Declined: Earthquake → Orcish Bowmasters",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Orcish Bowmasters",
+          "qty": 1,
+          "reason": "Declined the doc's swap."
+        },
+        {
+          "action": "add",
+          "name": "Earthquake",
+          "qty": 1,
+          "reason": "Declined the doc's swap."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-26T22:26:18.718Z",
+      "request": "Declined: Journeyer's Kite → Dark Deal",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Dark Deal",
+          "qty": 1,
+          "reason": "Declined the doc's swap."
+        },
+        {
+          "action": "add",
+          "name": "Journeyer's Kite",
+          "qty": 1,
+          "reason": "Declined the doc's swap."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-26T22:27:06.926Z",
+      "request": "i've replaced earthquake with arcane denial",
+      "target": "original",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Earthquake",
+          "qty": 1,
+          "reason": "Out for a counterspell; you lose a sweeper and your only mass-damage reset."
+        },
+        {
+          "action": "add",
+          "name": "Arcane Denial",
+          "qty": 1,
+          "reason": "Counterspell to protect [[Nekusar, the Mindrazer]], and the two cards it hands out trigger his ping."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-26T22:28:51.246Z",
+      "request": "replace grixis charm with baleful mastery",
+      "target": "original",
+      "changes": [
+        {
+          "action": "remove",
+          "name": "Grixis Charm",
+          "qty": 1,
+          "reason": "Two-mode card at three mana; [[Baleful Mastery]] is cheaper and hits planeswalkers too"
+        },
+        {
+          "action": "add",
+          "name": "Baleful Mastery",
+          "qty": 1,
+          "reason": "Two-mana unconditional removal, and the draw-two alternative cost turns into [[Nekusar, the Mindrazer]] damage"
         }
       ]
     }

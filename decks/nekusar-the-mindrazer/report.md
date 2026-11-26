@@ -1,9 +1,9 @@
 # Nekusar, the Mindrazer: Commander deck report
 
-> **How to read this report.** Part 1 is the deck exactly as its owner submitted it: the cards they play today, with its stats, bracket, combos and synergies. Part 2 is what the mtg doc suggests changing: 16 optional swaps, what they would change, and the deck they would make. Nothing in Part 2 is in the deck yet: when asked what the deck plays, use Part 1.
+> **How to read this report.** Part 1 is the deck exactly as its owner submitted it: the cards they play today, with its stats, bracket, combos and synergies. Part 2 is what the mtg doc suggests changing: 7 optional swaps, what they would change, and the deck they would make. Nothing in Part 2 is in the deck yet: when asked what the deck plays, use Part 1.
 
 - Commander: Nekusar, the Mindrazer
-- Deck as submitted: 100 cards, about $276
+- Deck as submitted: 100 cards, about $290
 - Bracket as submitted: 3 (Upgraded)
 - Themes: Wheels, Draw Punishment, Group Slug, Discard Value
 - Generated: 2026-11-21T22:22:56.259Z with gpt-6.2-sol
@@ -17,8 +17,9 @@
 
 - 1 Nekusar, the Mindrazer {2}{U}{B}{R}
 
-#### Creature (18)
+#### Creature (19)
 
+- 1 Kederekt Parasite {B}
 - 1 Harmonic Prodigy {1}{R}
 - 1 Kami of the Crescent Moon {U}{U}
 - 1 Nightscape Familiar {1}{B}
@@ -42,21 +43,21 @@
 
 - 1 Ob Nixilis, the Hate-Twisted {3}{B}{B}
 
-#### Instant (8)
+#### Instant (9)
 
+- 1 Arcane Denial {1}{U}
 - 1 Starstorm {X}{R}{R}
 - 1 Terminate {B}{R}
 - 1 Blue Sun's Zenith {X}{U}{U}{U}
 - 1 Crosis's Charm {U}{B}{R}
-- 1 Grixis Charm {U}{B}{R}
 - 1 Mana Sculpt {1}{U}{U}
 - 1 Sudden Spoiling {1}{B}{B}
+- 1 Baleful Mastery {3}{B}
 - 1 Wild Ricochet {2}{R}{R}
 
-#### Sorcery (13)
+#### Sorcery (12)
 
 - 1 Wheel of Fate
-- 1 Earthquake {X}{R}
 - 1 Minds Aglow {U}
 - 1 Prosperity {X}{U}
 - 1 Winds of Change {R}
@@ -69,7 +70,7 @@
 - 1 Reforge the Soul {3}{R}{R}
 - 1 Decree of Pain {6}{B}{B}
 
-#### Artifact (13)
+#### Artifact (12)
 
 - 1 Sol Ring {1}
 - 1 Wayfarer's Bauble {1}
@@ -80,7 +81,6 @@
 - 1 Lightning Greaves {2}
 - 1 Swiftfoot Boots {2}
 - 1 Darksteel Ingot {3}
-- 1 Diviner's Wand {3}
 - 1 Temple Bell {3}
 - 1 Otherworld Atlas {4}
 - 1 Teferi's Puzzle Box {4}
@@ -116,96 +116,97 @@
 - 4 Mountain
 - 1 Opal Palace
 - 1 Rakdos Carnarium
-- 1 Rakdos Guildgate
 - 1 Reliquary Tower
 - 6 Swamp
+- 1 Terramorphic Expanse
 - 1 Vivid Creek
 - 1 Vivid Marsh
 
 ### How to play
 
-Nekusar, the Mindrazer makes every opposing draw hurt, so refilling everyone's hand can finish the table. Niv-Mizzet, the Firemind and Helm of the Ghastlord offer a separate combo finish.
+This deck forces everyone to draw extra cards while Nekusar, the Mindrazer and every draw-punisher bleed the table dry. It wins by stacking those pain effects until opponents simply run out of life.
 
 **Early game**
 
-- Play Crumbling Necropolis early so you're not waiting on it when you need all three colors.
-- Use Arcane Signet to fix your colors, since Sol Ring only covers the generic cost.
-- Set up Underworld Dreams before handing out extra cards.
+- Land Sol Ring or Arcane Signet so Nekusar, the Mindrazer arrives early.
+- Drop Kederekt Parasite or Underworld Dreams to punish draws before your commander lands.
+- Prefer Command Tower and Exotic Orchard over lands that enter tapped.
 
 **Mid game**
 
-- Give Jace's Archivist haste with Swiftfoot Boots to refill hands before opponents can untap.
-- Pair Teferi's Puzzle Box with Nekusar, the Mindrazer to punish opponents for keeping full hands.
-- Put Sigil of Sleep on Razorkin Needlehead to bounce creatures when their controllers draw.
+- Harmonic Prodigy doubles the punishing triggers of your wizard-shaped sources.
+- Teferi's Puzzle Box with Scrawling Crawler turns every draw step into steady life loss.
+- Hold Arcane Denial for real threats, since the extra cards it hands out hurt them too.
 
 **Late game**
 
-- Cast Windfall when someone has a big hand and your draw punishers are ready.
-- With Nekusar, the Mindrazer out, aim Blue Sun's Zenith at an opponent you can finish.
+- Fire a large Prosperity or Minds Aglow to close the game in one burst.
+- Psychosis Crawler alongside Nekusar, the Mindrazer means each drawn card bleeds everyone.
+- Torbran, Thane of Red Fell turns every single-point ping into a much bigger hit.
 
 **How it wins**
 
-- Stack Nekusar, the Mindrazer and Underworld Dreams, then deal damage with Reforge the Soul.
-- Cast a big Prosperity with Psychosis Crawler out to drain every opponent.
-- Enchant Niv-Mizzet, the Firemind with Helm of the Ghastlord, then draw and ping opponents repeatedly.
+- Drain the table with Nekusar, the Mindrazer backed by Underworld Dreams and Fate Unraveler.
+- Niv-Mizzet, the Firemind enchanted by Helm of the Ghastlord draws forever and kills everyone.
+- A huge Blue Sun's Zenith or Prosperity with Psychosis Crawler out finishes the table.
 
 **Key cards**
 
-- Nekusar, the Mindrazer: Gives everyone extra cards but damages only opponents for drawing.
-- Scrawling Crawler: Makes everyone draw on your upkeep and drains opponents.
-- Jace's Archivist: Turns the biggest hand into a repeatable table-wide refill.
-- Ob Nixilis, Captive Kingpin: Turns one-point life losses into growth and access to cards.
-- Teferi's Puzzle Box: Makes opponents redraw their hands every turn without discarding.
+- Nekusar, the Mindrazer: Your commander turns every opponent draw into damage.
+- Underworld Dreams: Cheap, sticky punishment for every card they draw.
+- Spiteful Visions: Extra draws for everyone, pain for each of them.
+- Prosperity: Converts a pile of mana into lethal draw triggers.
+- Swiftfoot Boots: Keeps your commander alive and swinging immediately.
+- Manabarbs: Taxes every tapped land, especially opponents tapping out.
 
-**Mulligan:** Keep three lands, access to all three colors through lands or Arcane Signet, and an early punisher like Razorkin Needlehead.
+**Mulligan:** Keep three lands, one mana rock, and either Nekusar, the Mindrazer or a cheap draw-punisher.
 
 **Watch out for**
 
-- Without Nekusar, the Mindrazer or another punisher, Windfall can hand opponents the answers they need.
-- Spiteful Visions also hurts you, so check your life total before casting Prosperity.
-- Keep Lightning Greaves off Niv-Mizzet, the Firemind until Helm of the Ghastlord is attached.
+- Manabarbs hits you too, so tap lands carefully once it resolves.
+- Opponents will save removal for Underworld Dreams and Spiteful Visions.
+- You hand out cards freely, so fast aggressive decks may race your engine.
 
 ### Stats
 
 | | Value |
 |---|---|
 | Cards | 100 |
-| Price | $276 |
+| Price | $290 |
 | Lands | 36 (recommended 36) |
 | Average mana value of spells | 3.03 |
 | Ramp pieces | 9 |
-| Lands that enter tapped | 10 |
-| Lands making U | 19 (target 21) |
+| Lands that enter tapped | 9 |
+| Lands making U | 20 (target 21) |
 | Lands making B | 20 (target 21) |
 | Lands making R | 18 (target 21) |
-| Mulligan rate | 20.7% |
-| Land drop on turn 2 | 99.7% |
-| Land drop on turn 3 | 89.1% |
-| Land drop on turn 4 | 71.7% |
+| Mulligan rate | 21.4% |
+| Land drop on turn 2 | 99.6% |
+| Land drop on turn 3 | 89.2% |
+| Land drop on turn 4 | 72% |
 | Land drop on turn 5 | 52.9% |
-| Commander cast on curve | 58.3% |
-| All colors by turn 3 | 84.7% |
-| Mana available on turn 4 | 4.37 |
-| Mana screw (under 3 lands on turn 4) | 6.5% |
-| Flood (10+ lands seen by turn 7) | 0.3% |
+| Commander cast on curve | 60.4% |
+| All colors by turn 3 | 85.6% |
+| Mana available on turn 4 | 4.38 |
+| Mana screw (under 3 lands on turn 4) | 6.8% |
+| Flood (10+ lands seen by turn 7) | 0.4% |
 | Role: land | 36 |
 | Role: ramp | 9 (target 10) |
-| Role: draw | 30 (target 10) |
+| Role: draw | 32 (target 10) |
 | Role: removal | 6 (target 8) |
 | Role: wipe | 2 (target 2) |
-| Role: counter | 1 (target 0) |
+| Role: counter | 2 (target 0) |
 | Role: tutor | 0 (target 0) |
 | Role: protection | 2 (target 3) |
 | Role: recursion | 1 (target 2) |
 | Role: wincon | 1 |
-| Role: other | 17 |
+| Role: other | 16 |
 
-- ⚠️ Blue: 19 lands make it, about 21 wanted.
 - ⚠️ Red: 18 lands make it, about 21 wanted.
-- ⚠️ 10 lands enter tapped unconditionally; aim for 4 or fewer.
+- ⚠️ 9 lands enter tapped unconditionally; aim for 4 or fewer.
 - ⚠️ 2 colorless-only lands strain a 3-color mana base.
 
-Lands that enter tapped: Akoum Refuge, Bojuka Bog, Crumbling Necropolis, Dimir Guildgate, Izzet Boilerworks, Izzet Guildgate, Rakdos Carnarium, Rakdos Guildgate, Vivid Creek, Vivid Marsh
+Lands that enter tapped: Akoum Refuge, Bojuka Bog, Crumbling Necropolis, Dimir Guildgate, Izzet Boilerworks, Izzet Guildgate, Rakdos Carnarium, Vivid Creek, Vivid Marsh
 
 Lands that only make colorless: Mikokoro, Center of the Sea, Reliquary Tower
 
@@ -213,7 +214,7 @@ Goldfish numbers come from 10,000 solo games with a free mulligan and greedy lan
 
 ### Bracket 3: Upgraded
 
-Power 36 of 100. Bracket 3 games are expected to last at least 6 turns.
+Power 38 of 100. Bracket 3 games are expected to last at least 6 turns.
 
 Checked against the rules of bracket 3:
 
@@ -222,7 +223,7 @@ Checked against the rules of bracket 3:
 - ✅ **Extra turns:** none
 - ✅ **Two-card combos:** only late-game ones
 - Game Changers: Rhystic Study
-- Two-card combo: Niv-Mizzet, the Firemind + Helm of the Ghastlord (0.1% of games assembled before turn 6)
+- Two-card combo: Niv-Mizzet, the Firemind + Helm of the Ghastlord (0.2% of games assembled before turn 6)
 
 ### Combos in the deck
 
@@ -244,10 +245,24 @@ Checked against the rules of bracket 3:
 ### Synergies
 
 - **Every Point Pays** (Nekusar, the Mindrazer + Ob Nixilis, Captive Kingpin + Psychosis Crawler + Prosperity): Every card an opponent draws from Prosperity produces a separate 1-damage trigger from Nekusar, the Mindrazer, growing Ob Nixilis, Captive Kingpin and exiling a card you can play. Each card you draw also triggers Psychosis Crawler, and its simultaneous 1-life loss across all opponents triggers Ob Nixilis, Captive Kingpin once per card you draw.
-- **Wheel on Demand** (Nekusar, the Mindrazer + Jace's Archivist + Swiftfoot Boots): Swiftfoot Boots gives Jace's Archivist haste to activate immediately and hexproof to help keep the repeatable wheel online. Nekusar, the Mindrazer helps keep hands stocked between activations and turns each opponent's refill into damage.
-- **The Box Keeps Billing** (Nekusar, the Mindrazer + Scrawling Crawler + Teferi's Puzzle Box): Scrawling Crawler adds a card to each player's hand on your upkeep, giving Teferi's Puzzle Box another card to replace if they hold onto it. When both draw-step abilities trigger, resolve Nekusar, the Mindrazer first so that extra card also gets replaced; every opponent draw costs them 1 damage and 1 life.
+- **Wheel on Demand** (Nekusar, the Mindrazer + Jace's Archivist + Swiftfoot Boots): Swiftfoot Boots gives Jace's Archivist haste to activate immediately and hexproof to help keep the repeatable wheel online. Nekusar, the Mindrazer turns each opponent's refill into damage.
+- **The Box Keeps Billing** (Nekusar, the Mindrazer + Scrawling Crawler + Teferi's Puzzle Box): Scrawling Crawler adds a card to each player's hand on your upkeep, giving Teferi's Puzzle Box another card to replace if they hold onto it. When both abilities trigger, resolve Nekusar, the Mindrazer first so that extra card also gets replaced; every opponent draw costs them 1 damage and 1 life.
 - **Draw, Ping, Bounce** (Razorkin Needlehead + Sigil of Sleep + Scrawling Crawler): Enchant Razorkin Needlehead with Sigil of Sleep so its damage can bounce a creature every time that creature's controller draws. Scrawling Crawler gives you a round of bounce triggers on your upkeep while adding its own life loss.
 - **Nobody Draws for Free** (Nekusar, the Mindrazer + Scrawling Crawler + Psychosis Crawler): Scrawling Crawler makes everyone draw on your upkeep, and Nekusar, the Mindrazer gives everyone another card on their own draw step. Psychosis Crawler turns your draws into life loss for every opponent, while the other two punish each opponent for their own draws.
+- **Ramp Without the Burn** (Manabarbs + Darksteel Ingot): Manabarbs punishes every player who taps lands for mana, but Darksteel Ingot and the deck's other mana rocks let you develop your mana without ever tapping a land, so you keep casting wheels and pingers while opponents bleed for theirs.
+- **Triple Tap Tax** (Manabarbs + Torbran, Thane of Red Fell): Torbran, Thane of Red Fell turns each Manabarbs trigger into a much harsher punishment, so opponents are squeezed hard every time they tap a land for mana to cast spells or pay attack taxes.
+- **Pay to Attack, Bleed to Tap** (Manabarbs + Propaganda + Collective Restraint): Propaganda and Collective Restraint force attackers to spend mana, and every land tapped to pay that tax bleeds them through Manabarbs, so opponents are damned whether they attack or not.
+- **Indestructible Metalcraft** (Darksteel Ingot + Molten Psyche + Starstorm): Darksteel Ingot survives your own Starstorm and other sweepers, keeping your artifact count high so Molten Psyche reliably hits metalcraft and burns the table alongside each wheel.
+- **Parasite's Red Rider** (Kederekt Parasite + Nekusar, the Mindrazer): Nekusar, the Mindrazer is a red permanent that turns on Kederekt Parasite, so every extra card an opponent draws during their draw step triggers each damage dealer at once.
+- **Visions of Suffering** (Kederekt Parasite + Spiteful Visions): Spiteful Visions is a red permanent that enables Kederekt Parasite and adds an extra draw each draw step; each effect punishes every card drawn.
+- **Needle, Horror, Dreams** (Kederekt Parasite + Razorkin Needlehead + Underworld Dreams): Razorkin Needlehead provides the red permanent Kederekt Parasite needs, and with Underworld Dreams every opponent draw is punished by each of them.
+- **Crescent Moon Parasite** (Kederekt Parasite + Kami of the Crescent Moon + Nekusar, the Mindrazer): Kami of the Crescent Moon and Nekusar, the Mindrazer each add an extra draw to every draw step, and the latter is red to enable Kederekt Parasite; each opponent's draw step becomes a pile of damage triggers.
+- **Fetching Without the Burn** (Terramorphic Expanse + Manabarbs): Terramorphic Expanse is cracked for a land instead of being tapped to produce mana, so it never turns Manabarbs against you, and the land it finds arrives tapped, holding off your own payment even longer while opponents bleed for every land they tap.
+- **Basic Types Make the Tax Bite** (Terramorphic Expanse + Collective Restraint + Propaganda): Terramorphic Expanse searches out basic lands, whose land types count toward the payment Collective Restraint demands, and Propaganda stacks on top so attackers must pay for both while Nekusar, the Mindrazer keeps pinging.
+- **Double Red Made Easy** (Izzet Guildgate + Terramorphic Expanse + Torbran, Thane of Red Fell + Nekusar, the Mindrazer): Izzet Guildgate plus a red basic found by Terramorphic Expanse cover the steep red cost of Torbran, Thane of Red Fell, whose boost makes every draw that Nekusar, the Mindrazer punishes hurt more.
+- **Counter Feeds the Punishment** (Arcane Denial + Nekusar, the Mindrazer): Arcane Denial turns a counter into extra opponent draws, so Nekusar, the Mindrazer pings that opponent for each card and your delayed draw can trigger your own draw-payoffs.
+- **Cheap Removal, Free Ping** (Baleful Mastery + Nekusar, the Mindrazer + Ob Nixilis, Captive Kingpin): Paying the alternate cost of Baleful Mastery exiles a threat while making an opponent draw; that draw becomes a Nekusar, the Mindrazer ping that satisfies Ob Nixilis, Captive Kingpin and exiles a card.
+- **Asymmetric Disaster** (Molten Disaster + Torbran, Thane of Red Fell): Kicked Molten Disaster has split second, and Torbran, Thane of Red Fell makes its damage to opponents and their creatures larger while leaving your side alone.
 
 ## Part 2: The doc's suggestions (not in the deck yet)
 
@@ -255,87 +270,76 @@ These are optional changes to the deck in Part 1, aiming for bracket 3 (Upgraded
 
 ### Strategy
 
-Build up draw punishment, then use wheels to turn full hands into table-wide damage; wait to commit Nekusar, the Mindrazer until you can protect him or capitalize on his triggers. Cheaper fixing and interaction make that setup more reliable without replacing the deck’s group-slug identity. This is a Bracket 3 build with three Game Changers, no mass land denial, no extra turns, and no two-card infinite combo; it aims to close from turn six onward through accumulated pressure rather than a fast combo.
+This is a Bracket 3 build with two Game Changers, no mass land denial, no extra turns, and only a late-game two-card combo; it aims to close from turn six onward through accumulated pressure rather than a fast combo.
 
 ### How to play the suggested deck
 
-Nekusar, the Mindrazer turns opposing draws into damage, while Waste Not rewards forced discards. Stack draw punishers, then finish the table with Wheel and Deal or Prosperity.
+This is a Nekusar draw-punishment deck: you force everyone to draw extra cards while Nekusar, the Mindrazer and friends bleed them for each one. You win by stacking those pings and wheel effects until the table dies.
 
 **Early game**
 
-- Use Arcane Signet to fix colors for Nekusar, the Mindrazer.
-- Play Waste Not before making opponents discard with Windfall.
-- Play Propaganda early if attackers might overwhelm you before Nekusar, the Mindrazer arrives.
+- Ramp with Sol Ring and Arcane Signet so Nekusar, the Mindrazer arrives ahead of schedule.
+- Deploy Kederekt Parasite or Underworld Dreams early to tax every draw immediately.
+- Nightscape Familiar and Talisman of Creativity make your blue and red spells cheaper.
 
 **Mid game**
 
-- Give Jace's Archivist haste with Swiftfoot Boots to replace everyone's hand immediately.
-- Pair Teferi's Puzzle Box with Scrawling Crawler to punish opponents for replacing their hands.
-- Enchant Razorkin Needlehead with Sigil of Sleep to bounce creatures when opponents draw.
+- Cast Nekusar, the Mindrazer, then follow with Windfall to punish full hands.
+- Waste Not converts their forced discards into black mana and Zombie tokens.
+- Teferi's Puzzle Box rewrites every draw step and retriggers all your punishers.
 
 **Late game**
 
-- Overload Cyclonic Rift before your turn, then use Windfall to discard the returned cards.
-- Use Wheel and Deal with Nekusar, the Mindrazer to deal seven damage to each target.
+- Psychosis Crawler and Spiteful Visions drain the whole table as cards flow.
+- Molten Psyche with three artifacts deals massive damage right after a wheel.
+- Torbran, Thane of Red Fell makes every point of your red ping hit harder.
 
 **How it wins**
 
-- Cast a large Prosperity with Nekusar, the Mindrazer and Psychosis Crawler to drain the table.
-- Stack Underworld Dreams with Nekusar, the Mindrazer, then cast Reforge the Soul for lethal damage.
+- Nekusar, the Mindrazer plus Underworld Dreams and forced draws kills everyone.
+- Niv-Mizzet, the Firemind enchanted by Helm of the Ghastlord draws your deck infinitely.
+- Blue Sun's Zenith forces enormous draws that each ping through Nekusar, the Mindrazer.
 
 **Key cards**
 
-- Nekusar, the Mindrazer: Gives everyone extra draws and damages opponents for each draw.
-- Waste Not: Turns opposing discards into creatures, mana, or cards.
-- Windfall: Turns the biggest discarded hand into everyone's new hand size.
-- Teferi's Puzzle Box: Makes opponents redraw their hands every turn.
-- Psychosis Crawler: Makes your own draws drain every opponent.
+- Nekusar, the Mindrazer: Your engine; every opponent draw deals one damage.
+- Waste Not: Turns wheel discards into mana and Zombie tokens.
+- Windfall: Refills hands so punishers trigger many times at once.
+- Torbran, Thane of Red Fell: Turns each one-damage ping into three damage.
+- Manabarbs: Punishes opponents for tapping lands to answer you.
+- Helm of the Ghastlord: With Niv-Mizzet, the Firemind it draws your deck.
 
-**Mulligan:** Keep three lands, color fixing like Arcane Signet, and a payoff like Waste Not.
+**Mulligan:** Keep three lands, a mana rock, and one draw-punisher like Underworld Dreams.
 
 **Watch out for**
 
-- Don't cast Windfall into empty opposing hands unless your own hand makes it worthwhile.
-- Keep mana for Arcane Denial when opponents try removing Nekusar, the Mindrazer before a wheel.
-- Watch your life total because Spiteful Visions punishes your draws too.
+- Cards like Spiteful Visions and Manabarbs also hurt you and your lands.
+- Wheels hand opponents fresh answers, so hold Cyclonic Rift for their turn.
+- Fast aggro can race you before engines matter; Propaganda slows them down.
 
-### Suggested swaps (16)
+### Suggested swaps (7)
 
 | # | Cut | Add | Category | Why |
 |---|---|---|---|---|
 | 1 | Decree of Pain | Cyclonic Rift | interaction | Cyclonic Rift answers an urgent nonland permanent for two mana or clears opposing blockers and engines at seven without touching your own board. Overloading it also puts cards back into opponents’ hands for your next wheel, while Decree of Pain can wipe out your own damage engines. |
-| 2 | Journeyer's Kite | Dark Deal | synergy | Dark Deal gives you another three-mana wheel that triggers both draw and discard payoffs, even though everyone redraws one fewer card than they discarded. Journeyer's Kite helps make land drops, but it takes repeated mana payments without accelerating you or pressuring the table. |
-| 3 | Diviner's Wand | Kederekt Parasite | synergy | Kederekt Parasite turns opponents’ draws into damage while you control a red permanent, including your commander. It gives your wheels another payoff for one mana instead of asking you to invest in Diviner's Wand for a single larger attacker. |
-| 4 | Earthquake | Orcish Bowmasters | interaction | Orcish Bowmasters can pick off a small creature at instant speed and then turn wheel draws into targeted damage and a growing Army. It gives you pressure and removal without the symmetrical damage of Earthquake. |
-| 5 | Frozen Aether | Talisman of Creativity | ramp | Talisman of Creativity accelerates your commander and helps cover the deck’s blue and red requirements. Frozen Aether slows opponents down but doesn’t help you get an engine online or leave mana open to protect it. |
-| 6 | Darksteel Ingot | Talisman of Dominance | mana | Talisman of Dominance gives you blue or black fixing a turn earlier than Darksteel Ingot. Losing indestructibility and red fixing is worth the lower cost when the deck needs to develop its mana and still hold up interaction. |
-| 7 | Leyline of Punishment | Waste Not | synergy | Waste Not makes the discard half of your wheels productive, turning opposing cards into mana, Zombies, or cards of your own. It contributes in more games than Leyline of Punishment, which mainly matters against lifegain and damage prevention. |
-| 8 | Manabarbs | Fevered Visions | synergy | Fevered Visions pressures opponents with full hands and feeds your draw triggers at each end step. Unlike Manabarbs, it lets you tap out for a wheel or hold up interaction without paying for your own mana in life. |
-| 9 | Molten Disaster | Arcane Denial | interaction | Arcane Denial protects your engine or stops a pivotal spell for two mana without clearing away your own creatures. The cards it offers the opposing caster can become damage if a draw punisher is still on the battlefield. |
-| 10 | Helm of the Ghastlord | Baleful Mastery | bracket | The swap breaks up the draw-damage loop with Niv-Mizzet, the Firemind, and Baleful Mastery gives you flexible exile removal for creatures and planeswalkers. Its cheaper mode can turn the opposing card draw into a damage trigger, so it supports the plan without relying on a fragile Aura. |
-| 11 | Nivix Guildmage | Wheel and Deal | draw | Wheel and Deal lets you hold up interaction and then wheel opponents at instant speed without discarding your own hand. It delivers a burst of draw and discard triggers where Nivix Guildmage asks for repeated mana just to filter your own cards. |
-| 12 | Dimir Guildgate | Watery Grave | mana | Watery Grave keeps both colors from Dimir Guildgate but can enter untapped when you need to deploy a payoff or answer a spell on curve. The option to pay two life is worth having in a deck that needs all three colors and often wants mana left over. |
-| 13 | Akoum Refuge | Reflecting Pool | mana | Akoum Refuge always enters tapped; Reflecting Pool enters untapped and can make blue, black, or red if another land you control could produce that color. |
-| 14 | Izzet Guildgate | Seething Landscape | mana | Izzet Guildgate always enters tapped; Seething Landscape enters untapped, taps for colorless mana, and can fetch a tapped basic land that produces blue, black, or red, helping blue and black and red, which are short. |
-| 15 | Rakdos Guildgate | Terramorphic Expanse | mana | Rakdos Guildgate always enters tapped; Terramorphic Expanse fetches a tapped basic land that produces blue, black, or red, helping blue and red, which are short. |
-| 16 | Izzet Boilerworks | Steam Vents | mana | Izzet Boilerworks always enters tapped; Steam Vents makes red or blue and can enter untapped if you pay two life, helping red, which is short. |
+| 2 | Frozen Aether | Talisman of Creativity | ramp | Talisman of Creativity accelerates your commander and helps cover the deck’s blue and red requirements. Frozen Aether slows opponents down but doesn’t help you get an engine online or leave mana open to protect it. |
+| 3 | Leyline of Punishment | Waste Not | synergy | Waste Not makes the discard half of your wheels productive, turning opposing cards into mana, Zombies, or cards of your own. It contributes in more games than Leyline of Punishment, which mainly matters against lifegain and damage prevention. |
+| 4 | Nivix Guildmage | Wheel and Deal | draw | Wheel and Deal lets you hold up interaction and then wheel opponents at instant speed. It delivers a burst of draw and discard triggers where Nivix Guildmage asks for repeated mana just to filter your own cards. |
+| 5 | Dimir Guildgate | Watery Grave | mana | Watery Grave keeps both colors from Dimir Guildgate but can enter untapped when you need to deploy a payoff or answer a spell on curve. The option to pay two life is worth having in a deck that needs all three colors and often wants mana left over. |
+| 6 | Akoum Refuge | Reflecting Pool | mana | Akoum Refuge always enters tapped; Reflecting Pool enters untapped and can make blue, black, or red if another land you control could produce that color. |
+| 7 | Izzet Boilerworks | Steam Vents | mana | Izzet Boilerworks always enters tapped; Steam Vents makes red or blue and can enter untapped if you pay two life, helping red, which is short. |
 
 Other cards that could take the same slot:
 
 - Instead of Cyclonic Rift: Howling Mine
-- Instead of Dark Deal: Peer into the Abyss, Sheoldred, the Apocalypse
-- Instead of Kederekt Parasite: Thought Vessel, Peer into the Abyss
-- Instead of Orcish Bowmasters: Thought Vessel, Peer into the Abyss
 - Instead of Talisman of Creativity: Thought Vessel, Peer into the Abyss
 - Instead of Waste Not: Sheoldred, the Apocalypse
-- Instead of Fevered Visions: Sheoldred, the Apocalypse, Forced Fruition
-- Instead of Arcane Denial: Forced Fruition, Stormfist Crusader
 - Instead of Wheel and Deal: Forced Fruition, Stormfist Crusader
 
 ### More land swaps to consider
 
+- Cut Island, Add City of Brass: You have plenty of blue sources; City of Brass makes black and red and blue untapped, helping black and red, which are short.
 - Cut Island, Add Sulfur Falls: You have plenty of blue sources; Sulfur Falls makes red and blue untapped, helping red, which is short.
-- Cut Island, Add City of Brass: You have plenty of blue sources; City of Brass makes black and red and blue untapped, helping red, which is short.
 - Cut Island, Add Shivan Reef: You have plenty of blue sources; Shivan Reef makes red and blue untapped, helping red, which is short.
 
 ### What the swaps change
@@ -343,70 +347,64 @@ Other cards that could take the same slot:
 | | Deck as submitted | With the swaps |
 |---|---|---|
 | Bracket | 3 | 3 |
-| Power (0-100) | 36 | 42 |
+| Power (0-100) | 38 | 44 |
 | Cards | 100 | 100 |
-| Price | $276 | $397 |
+| Price | $290 | $369 |
 | Lands | 36 (recommended 36) | 36 (recommended 36) |
-| Average mana value of spells | 3.03 | 2.87 |
+| Average mana value of spells | 3.03 | 2.9 |
 | Ramp pieces | 9 | 10 |
-| Lands that enter tapped | 10 | 5 |
-| Lands making U | 19 (target 21) | 21 (target 21) |
-| Lands making B | 20 (target 21) | 21 (target 21) |
+| Lands that enter tapped | 9 | 6 |
+| Lands making U | 20 (target 21) | 21 (target 21) |
+| Lands making B | 20 (target 21) | 20 (target 21) |
 | Lands making R | 18 (target 21) | 18 (target 21) |
-| Mulligan rate | 20.7% | 21.3% |
-| Land drop on turn 2 | 99.7% | 99.6% |
-| Land drop on turn 3 | 89.1% | 89% |
-| Land drop on turn 4 | 71.7% | 71.6% |
+| Mulligan rate | 21.4% | 20.5% |
+| Land drop on turn 2 | 99.6% | 99.7% |
+| Land drop on turn 3 | 89.2% | 89% |
+| Land drop on turn 4 | 72% | 71.7% |
 | Land drop on turn 5 | 52.9% | 52.4% |
-| Commander cast on curve | 58.3% | 68% |
-| All colors by turn 3 | 84.7% | 89.3% |
-| Mana available on turn 4 | 4.37 | 4.49 |
-| Mana screw (under 3 lands on turn 4) | 6.5% | 6.9% |
-| Flood (10+ lands seen by turn 7) | 0.3% | 0.3% |
+| Commander cast on curve | 60.4% | 66.5% |
+| All colors by turn 3 | 85.6% | 88.8% |
+| Mana available on turn 4 | 4.38 | 4.47 |
+| Mana screw (under 3 lands on turn 4) | 6.8% | 6.9% |
+| Flood (10+ lands seen by turn 7) | 0.4% | 0.4% |
 | Role: land | 36 | 36 |
 | Role: ramp | 9 (target 10) | 10 (target 10) |
-| Role: draw | 30 (target 10) | 34 (target 10) |
-| Role: removal | 6 (target 8) | 9 (target 8) |
+| Role: draw | 32 (target 10) | 32 (target 10) |
+| Role: removal | 6 (target 8) | 7 (target 8) |
 | Role: wipe | 2 (target 2) | 1 (target 2) |
-| Role: counter | 1 (target 0) | 2 (target 0) |
+| Role: counter | 2 (target 0) | 2 (target 0) |
 | Role: tutor | 0 (target 0) | 0 (target 0) |
 | Role: protection | 2 (target 3) | 2 (target 3) |
 | Role: recursion | 1 (target 2) | 1 (target 2) |
 | Role: wincon | 1 | 1 |
-| Role: other | 17 | 11 |
+| Role: other | 16 | 14 |
 
 - ⚠️ After the swaps: Red: 18 lands make it, about 21 wanted.
-- ⚠️ After the swaps: 5 lands enter tapped unconditionally; aim for 4 or fewer.
+- ⚠️ After the swaps: 6 lands enter tapped unconditionally; aim for 4 or fewer.
 - ⚠️ After the swaps: 2 colorless-only lands strain a 3-color mana base.
 
 ### Bracket after the swaps: 3
 
-Power 42 of 100, mid in bracket 3 (Upgraded).
+Power 44 of 100, mid in bracket 3 (Upgraded).
 
 Checked against the rules of bracket 3:
 
-- ✅ **Game Changers:** 3 of 3 allowed
+- ✅ **Game Changers:** 2 of 3 allowed
 - ✅ **Mass land denial:** none
 - ✅ **Extra turns:** none
 - ✅ **Two-card combos:** only late-game ones
-- Game Changers: Cyclonic Rift, Orcish Bowmasters, Rhystic Study
+- Game Changers: Cyclonic Rift, Rhystic Study
+- Two-card combo: Niv-Mizzet, the Firemind + Helm of the Ghastlord (0.1% of games assembled before turn 6)
 
 ### Strong cards skipped to stay in the bracket
 
 - Kefka, Court Mage // Kefka, Ruler of Ruin: completes Kefka, Court Mage // Kefka, Ruler of Ruin + Psychosis Crawler, a two-card combo bracket 3 doesn't allow
 
-### Combos the swaps break
-
-- [Niv-Mizzet, the Firemind + Helm of the Ghastlord](https://commanderspellbook.com/combo/384-4971/): Infinite card draw, Infinite draw triggers, Near-infinite damage
-
-### New combos one card away
-
-- Add **Peer into the Abyss** to complete [Orcish Bowmasters + Peer into the Abyss](https://commanderspellbook.com/combo/1561-3862/): Infinite +1/+1 counters on a creature, Near-infinite card draw for target opponent, Near-infinite damage, Near-infinite draw triggers for target opponent, Target opponent loses the game
-
 ### Synergies the swaps add
 
-- **Discard Pays, Drawing Hurts** (Nekusar, the Mindrazer + Waste Not + Wheel and Deal): Wheel and Deal turns the chosen opponents' discards into creatures, mana, or cards through Waste Not, then gives each of those opponents seven draws to trigger Nekusar, the Mindrazer. You get those payoffs at instant speed without discarding your own hand.
+- **Discard Pays, Drawing Hurts** (Nekusar, the Mindrazer + Waste Not + Wheel and Deal): Wheel and Deal turns the chosen opponents' discards into creatures, mana, or cards through Waste Not, then gives each of those opponents seven draws to trigger Nekusar, the Mindrazer. You get those payoffs at instant speed, though you also discard your own hand.
 - **Bounce, Then Bin** (Cyclonic Rift + Windfall + Nekusar, the Mindrazer): Overload Cyclonic Rift before your turn to return opposing nonland permanents to hand, then cast Windfall to make opponents discard them before they can rebuild. The swollen hands can raise the draw count for everyone, turning the reset into a burst of damage from Nekusar, the Mindrazer.
+- **Helm Turns Nekusar Rack** (Nekusar, the Mindrazer + Helm of the Ghastlord + Waste Not): Helm of the Ghastlord on Nekusar, the Mindrazer makes each draw-ping also draw you a card and force that opponent to discard; Waste Not turns those discards into mana, creatures, or more cards.
 
 ### Suggested decklist (100 cards)
 
@@ -414,13 +412,12 @@ Checked against the rules of bracket 3:
 
 - 1 Nekusar, the Mindrazer {2}{U}{B}{R}
 
-#### Creature (19)
+#### Creature (18)
 
-- 1 Kederekt Parasite {B} _(new)_
+- 1 Kederekt Parasite {B}
 - 1 Harmonic Prodigy {1}{R}
 - 1 Kami of the Crescent Moon {U}{U}
 - 1 Nightscape Familiar {1}{B}
-- 1 Orcish Bowmasters {1}{B} _(new)_
 - 1 Razorkin Needlehead {R}{R}
 - 1 Burnished Hart {3}
 - 1 Jace's Archivist {1}{U}{U}
@@ -440,18 +437,17 @@ Checked against the rules of bracket 3:
 
 - 1 Ob Nixilis, the Hate-Twisted {3}{B}{B}
 
-#### Instant (12)
+#### Instant (11)
 
-- 1 Arcane Denial {1}{U} _(new)_
+- 1 Arcane Denial {1}{U}
 - 1 Cyclonic Rift {1}{U} _(new)_
 - 1 Starstorm {X}{R}{R}
 - 1 Terminate {B}{R}
 - 1 Blue Sun's Zenith {X}{U}{U}{U}
 - 1 Crosis's Charm {U}{B}{R}
-- 1 Grixis Charm {U}{B}{R}
 - 1 Mana Sculpt {1}{U}{U}
 - 1 Sudden Spoiling {1}{B}{B}
-- 1 Baleful Mastery {3}{B} _(new)_
+- 1 Baleful Mastery {3}{B}
 - 1 Wheel and Deal {3}{U} _(new)_
 - 1 Wild Ricochet {2}{R}{R}
 
@@ -461,38 +457,40 @@ Checked against the rules of bracket 3:
 - 1 Minds Aglow {U}
 - 1 Prosperity {X}{U}
 - 1 Winds of Change {R}
+- 1 Molten Disaster {X}{R}{R}
 - 1 Skyscribing {X}{U}{U}
-- 1 Dark Deal {2}{B} _(new)_
 - 1 Molten Psyche {1}{R}{R}
 - 1 Windfall {2}{U}
 - 1 Whispering Madness {2}{U}{B}
 - 1 Incendiary Command {3}{R}{R}
 - 1 Reforge the Soul {3}{R}{R}
 
-#### Artifact (12)
+#### Artifact (13)
 
 - 1 Sol Ring {1}
 - 1 Wayfarer's Bauble {1}
 - 1 Arcane Signet {2}
 - 1 Dimir Signet {2}
 - 1 Izzet Signet {2}
+- 1 Journeyer's Kite {2}
 - 1 Lightning Greaves {2}
 - 1 Swiftfoot Boots {2}
 - 1 Talisman of Creativity {2} _(new)_
-- 1 Talisman of Dominance {2} _(new)_
+- 1 Darksteel Ingot {3}
 - 1 Temple Bell {3}
 - 1 Otherworld Atlas {4}
 - 1 Teferi's Puzzle Box {4}
 
-#### Enchantment (8)
+#### Enchantment (9)
 
 - 1 Sigil of Sleep {U}
 - 1 Waste Not {1}{B} _(new)_
-- 1 Fevered Visions {1}{U}{R} _(new)_
 - 1 Propaganda {2}{U}
 - 1 Rhystic Study {2}{U}
 - 1 Underworld Dreams {B}{B}{B}
 - 1 Collective Restraint {3}{U}
+- 1 Helm of the Ghastlord {3}{U/B}
+- 1 Manabarbs {3}{R}
 - 1 Spiteful Visions {2}{B/R}{B/R}
 
 #### Land (36)
@@ -504,6 +502,7 @@ Checked against the rules of bracket 3:
 - 1 Exotic Orchard
 - 1 Grixis Panorama
 - 8 Island
+- 1 Izzet Guildgate
 - 1 Mikokoro, Center of the Sea
 - 1 Molten Slagheap
 - 4 Mountain
@@ -511,10 +510,9 @@ Checked against the rules of bracket 3:
 - 1 Rakdos Carnarium
 - 1 Reflecting Pool _(new)_
 - 1 Reliquary Tower
-- 1 Seething Landscape _(new)_
 - 1 Steam Vents _(new)_
 - 6 Swamp
-- 1 Terramorphic Expanse _(new)_
+- 1 Terramorphic Expanse
 - 1 Vivid Creek
 - 1 Vivid Marsh
 - 1 Watery Grave _(new)_
@@ -526,6 +524,17 @@ Cards marked _(new)_ are the ones the swaps add.
 - 2026-11-21 (made in the deck as submitted) “Swap: Insurrection → Scrawling Crawler”: −Insurrection, +Scrawling Crawler
 - 2026-11-21 (made in the deck as submitted) “Swap: Charmbreaker Devils → Razorkin Needlehead”: −Charmbreaker Devils, +Razorkin Needlehead
 - 2026-11-21 (made in the deck as submitted) “Swap: Price of Knowledge → Teferi's Puzzle Box”: −Price of Knowledge, +Teferi's Puzzle Box
+- 2026-11-26 “Declined: Darksteel Ingot → Talisman of Dominance”: −Talisman of Dominance, +Darksteel Ingot
+- 2026-11-26 “Declined: Manabarbs → Fevered Visions”: −Fevered Visions, +Manabarbs
+- 2026-11-26 (made in the deck as submitted) “Swap: Diviner's Wand → Kederekt Parasite”: −Diviner's Wand, +Kederekt Parasite
+- 2026-11-26 “Declined: Izzet Guildgate → Seething Landscape”: −Seething Landscape, +Izzet Guildgate
+- 2026-11-26 (made in the deck as submitted) “Swap: Rakdos Guildgate → Terramorphic Expanse”: −Rakdos Guildgate, +Terramorphic Expanse
+- 2026-11-26 “Declined: Molten Disaster → Arcane Denial”: −Arcane Denial, +Molten Disaster
+- 2026-11-26 “Declined: Helm of the Ghastlord → Baleful Mastery”: −Baleful Mastery, +Helm of the Ghastlord
+- 2026-11-26 “Declined: Earthquake → Orcish Bowmasters”: −Orcish Bowmasters, +Earthquake
+- 2026-11-26 “Declined: Journeyer's Kite → Dark Deal”: −Dark Deal, +Journeyer's Kite
+- 2026-11-26 (made in the deck as submitted) “i've replaced earthquake with arcane denial”: −Earthquake, +Arcane Denial
+- 2026-11-26 (made in the deck as submitted) “replace grixis charm with baleful mastery”: −Grixis Charm, +Baleful Mastery
 
 ## Background
 

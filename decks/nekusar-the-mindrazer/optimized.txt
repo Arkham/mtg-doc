@@ -13,27 +13,30 @@ Deck
 1 Crosis's Charm
 1 Crumbling Necropolis
 1 Cyclonic Rift
-1 Dark Deal
+1 Darksteel Ingot
 1 Dimir Signet
 1 Evolving Wilds
 1 Exotic Orchard
 1 Fate Unraveler
-1 Fevered Visions
-1 Grixis Charm
 1 Grixis Panorama
 1 Harmonic Prodigy
+1 Helm of the Ghastlord
 1 Incendiary Command
 8 Island
+1 Izzet Guildgate
 1 Izzet Signet
 1 Jace's Archivist
+1 Journeyer's Kite
 1 Kami of the Crescent Moon
 1 Kederekt Parasite
 1 Lightning Greaves
 1 Magus of the Wheel
 1 Mana Sculpt
+1 Manabarbs
 1 Mikokoro, Center of the Sea
 1 Minds Aglow
 1 Mnemonic Wall
+1 Molten Disaster
 1 Molten Psyche
 1 Molten Slagheap
 4 Mountain
@@ -42,7 +45,6 @@ Deck
 1 Ob Nixilis, Captive Kingpin
 1 Ob Nixilis, the Hate-Twisted
 1 Opal Palace
-1 Orcish Bowmasters
 1 Otherworld Atlas
 1 Propaganda
 1 Prosperity
@@ -54,7 +56,6 @@ Deck
 1 Reliquary Tower
 1 Rhystic Study
 1 Scrawling Crawler
-1 Seething Landscape
 1 Seizan, Perverter of Truth
 1 Sigil of Sleep
 1 Skyscribing
@@ -67,7 +68,6 @@ Deck
 6 Swamp
 1 Swiftfoot Boots
 1 Talisman of Creativity
-1 Talisman of Dominance
 1 Teferi's Puzzle Box
 1 Temple Bell
 1 Terminate

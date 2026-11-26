@@ -3,7 +3,9 @@ Commander
 
 Deck
 1 Akoum Refuge
+1 Arcane Denial
 1 Arcane Signet
+1 Baleful Mastery
 1 Blue Sun's Zenith
 1 Bojuka Bog
 1 Burnished Hart
@@ -15,13 +17,10 @@ Deck
 1 Decree of Pain
 1 Dimir Guildgate
 1 Dimir Signet
-1 Diviner's Wand
-1 Earthquake
 1 Evolving Wilds
 1 Exotic Orchard
 1 Fate Unraveler
 1 Frozen Aether
-1 Grixis Charm
 1 Grixis Panorama
 1 Harmonic Prodigy
 1 Helm of the Ghastlord
@@ -33,6 +32,7 @@ Deck
 1 Jace's Archivist
 1 Journeyer's Kite
 1 Kami of the Crescent Moon
+1 Kederekt Parasite
 1 Leyline of Punishment
 1 Lightning Greaves
 1 Magus of the Wheel
@@ -56,7 +56,6 @@ Deck
 1 Prosperity
 1 Psychosis Crawler
 1 Rakdos Carnarium
-1 Rakdos Guildgate
 1 Razorkin Needlehead
 1 Reforge the Soul
 1 Reliquary Tower
@@ -75,6 +74,7 @@ Deck
 1 Teferi's Puzzle Box
 1 Temple Bell
 1 Terminate
+1 Terramorphic Expanse
 1 Torbran, Thane of Red Fell
 1 Underworld Dreams
 1 Vampire Nighthawk
