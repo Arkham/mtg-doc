@@ -1,8 +1,8 @@
 module Page.Report exposing (Chrome, ComboFilter, Copy, DecklistView, Model, Msg, Note(..), Out(..), Page, Section, Verdict, chrome, closeHowToPlay, decklistViewDecoder, decklistViewToString, init, load, sectionId, subscriptions, update, view, viewChat)
 
 import Api
+import Cards
 import Chat
-import Collate
 import Combos
 import Dict
 import Env exposing (Env)
@@ -1855,9 +1855,13 @@ decklist env ctx model cards swaps =
                                 ( g
                                 , cards
                                     |> List.filter (\c -> c.group == g)
-                                    |> List.map (\c -> ( ( c.cmc, Collate.key c.name ), c ))
-                                    |> List.sortBy Tuple.first
-                                    |> List.map Tuple.second
+                                    |> Cards.sortByManaValue
+                                        (\c ->
+                                            Just
+                                                { cmc = c.cmc
+                                                , manaCost = Maybe.withDefault "" c.manaCost
+                                                }
+                                        )
                                 )
                             )
                         |> List.filter (\( _, cs ) -> not (List.isEmpty cs))

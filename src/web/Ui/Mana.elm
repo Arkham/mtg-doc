@@ -1,4 +1,4 @@
-module Ui.Mana exposing (colorIdentity, cost, costSymbols, oracleText, symbolUrl)
+module Ui.Mana exposing (colorIdentity, coloredSymbols, cost, costSymbols, hasX, oracleText, symbolUrl)
 
 import Html exposing (Html, div, em, img, p, span, text)
 import Html.Attributes exposing (attribute, height, width)
@@ -30,6 +30,24 @@ symbolRe =
 costSymbols : String -> List String
 costSymbols manaCost =
     Regex.find symbolRe manaCost |> List.filterMap (.submatches >> List.head >> Maybe.andThen identity)
+
+
+{-| Whether a mana cost has an X, whose value the card's mana value counts as zero.
+-}
+hasX : String -> Bool
+hasX manaCost =
+    costSymbols manaCost |> List.map String.toUpper |> List.member "X"
+
+
+{-| How many symbols in a mana cost are colored: {W}{U} is 2, {1}{W} and {W/U} are 1.
+-}
+coloredSymbols : String -> Int
+coloredSymbols manaCost =
+    let
+        colored sym =
+            List.any (\c -> String.contains c sym) [ "W", "U", "B", "R", "G" ]
+    in
+    costSymbols manaCost |> List.filter colored |> List.length
 
 
 {-| A mana cost like "{2}{G}{B/P}" in Scryfall's symbols.

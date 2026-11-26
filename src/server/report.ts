@@ -39,14 +39,31 @@ function table(cols: string[], rows: unknown[][]): string[] {
   ];
 }
 
-/** A full list grouped by type, cheapest first, so readers (and agents) get every card. */
-function decklist(title: string, cards: DecklistCard[], markNew = false): string[] {
+/** Whether a mana cost has an X, whose value the card's mana value counts as zero. */
+const hasX = (manaCost: string | undefined) => /\{X\}/i.test(manaCost ?? "");
+
+/** How many mana symbols in a cost are colored: {W}{U} is 2, {1}{W} and {W/U} are 1. */
+const coloredSymbols = (manaCost: string | undefined) =>
+  [...(manaCost ?? "").matchAll(/\{([^}]+)\}/g)].filter(([, sym]) => /[WUBRG]/i.test(sym)).length;
+
+/**
+ * A full list grouped by type, cheapest first, so readers (and agents) get every card. Cards with X
+ * in their mana cost go last: their mana value doesn't count the X. At the same mana value, the one
+ * that asks for fewer colored symbols comes first.
+ */
+export function renderDecklist(title: string, cards: DecklistCard[], markNew = false): string[] {
   const total = cards.reduce((n, c) => n + c.qty, 0);
   const out = [`### ${title} (${total} cards)`, ""];
   for (const g of GROUPS) {
     const group = cards
       .filter((c) => c.group === g)
-      .sort((a, b) => a.cmc - b.cmc || a.name.localeCompare(b.name));
+      .sort(
+        (a, b) =>
+          Number(hasX(a.manaCost)) - Number(hasX(b.manaCost)) ||
+          a.cmc - b.cmc ||
+          coloredSymbols(a.manaCost) - coloredSymbols(b.manaCost) ||
+          a.name.localeCompare(b.name),
+      );
     if (!group.length) continue;
     out.push(`#### ${g} (${group.reduce((n, c) => n + c.qty, 0)})`, "");
     for (const c of group)
@@ -171,7 +188,7 @@ export function renderMarkdown(withRefs: Report): string {
 
   // ---- Part 1: the deck as submitted ----
   lines.push("## Part 1: The deck as submitted", "");
-  if (o) lines.push(...decklist("Decklist", o.decklist));
+  if (o) lines.push(...renderDecklist("Decklist", o.decklist));
   if (r.howToPlay?.original) lines.push(...guideLines("How to play", r.howToPlay.original));
   lines.push("### Stats", "", ...table(["", "Value"], statRows(b)));
   for (const i of b.mana.issues) lines.push(`- ⚠️ ${i}`);
@@ -329,7 +346,7 @@ export function renderMarkdown(withRefs: Report): string {
     );
 
     if (r.decklist) {
-      lines.push(...decklist("Suggested decklist", r.decklist, true));
+      lines.push(...renderDecklist("Suggested decklist", r.decklist, true));
       lines.push("Cards marked _(new)_ are the ones the swaps add.", "");
     }
 

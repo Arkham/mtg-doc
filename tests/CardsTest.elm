@@ -12,15 +12,35 @@ suite =
     describe "Cards"
         [ test "sortByManaValue sorts by mana value, then name; unknown cards count as zero" <|
             \_ ->
-                [ { name = "Wrath", card = Just { cmc = 4 } }
-                , { name = "Sol Ring", card = Just { cmc = 1 } }
-                , { name = "Arcane Signet", card = Just { cmc = 2 } }
-                , { name = "Mind Stone", card = Just { cmc = 2 } }
+                [ { name = "Wrath", card = Just { cmc = 4, manaCost = "{2}{W}{W}" } }
+                , { name = "Sol Ring", card = Just { cmc = 1, manaCost = "{1}" } }
+                , { name = "Arcane Signet", card = Just { cmc = 2, manaCost = "{2}" } }
+                , { name = "Mind Stone", card = Just { cmc = 2, manaCost = "{2}" } }
                 , { name = "Typo", card = Nothing }
                 ]
-                    |> Cards.sortByManaValue (.card >> Maybe.map .cmc)
+                    |> Cards.sortByManaValue (.card >> Maybe.map (\c -> { cmc = c.cmc, manaCost = c.manaCost }))
                     |> List.map .name
                     |> Expect.equal [ "Typo", "Sol Ring", "Arcane Signet", "Mind Stone", "Wrath" ]
+        , test "sortByManaValue puts cards with X in their mana cost last" <|
+            \_ ->
+                [ { name = "Fireball", card = Just { cmc = 1, manaCost = "{X}{R}" } }
+                , { name = "Opt", card = Just { cmc = 1, manaCost = "{U}" } }
+                , { name = "Walking Ballista", card = Just { cmc = 0, manaCost = "{X}{X}" } }
+                , { name = "Ornithopter", card = Just { cmc = 0, manaCost = "{0}" } }
+                ]
+                    |> Cards.sortByManaValue (.card >> Maybe.map (\c -> { cmc = c.cmc, manaCost = c.manaCost }))
+                    |> List.map .name
+                    |> Expect.equal [ "Ornithopter", "Opt", "Walking Ballista", "Fireball" ]
+        , test "sortByManaValue puts cards with fewer colored symbols first at the same mana value" <|
+            \_ ->
+                [ { name = "Counterspell", card = Just { cmc = 2, manaCost = "{U}{U}" } }
+                , { name = "Mana Leak", card = Just { cmc = 2, manaCost = "{1}{U}" } }
+                , { name = "Remove Soul", card = Just { cmc = 2, manaCost = "{1}{U}" } }
+                , { name = "Essence Scatter", card = Just { cmc = 2, manaCost = "{1}{U}" } }
+                ]
+                    |> Cards.sortByManaValue (.card >> Maybe.map (\c -> { cmc = c.cmc, manaCost = c.manaCost }))
+                    |> List.map .name
+                    |> Expect.equal [ "Essence Scatter", "Mana Leak", "Remove Soul", "Counterspell" ]
         , test "names sort like localeCompare: case and accents only break ties, punctuation first" <|
             \_ ->
                 [ "Lim-Dûl's Vault", "limb", "Limit", "Lim-Dul's Vault", "Æther Vial", "Aetherflux", "Ajani", "aether", "Assassin's Trophy", "Assassins" ]

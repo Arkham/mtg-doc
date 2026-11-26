@@ -525,16 +525,6 @@
                     <span class="mana-face">
                       <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
                       <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                <li class="">
-                  <span class="qty">
-                    "1"
-                  <span class="card-name grow">
-                    <a href="https://scryfall.com/card/j25/683/leaf-crowned-visionary?utm_source=api" rel="noreferrer" target="_blank">
-                      "Leaf-Crowned Visionary"
-                  <span aria-label="{G}{G}" class="mana-cost">
-                    <span class="mana-face">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                 <li class="new">
                   <span class="qty">
                     "1"
@@ -573,44 +563,10 @@
                   <span class="qty">
                     "1"
                   <span class="card-name grow">
-                    <a href="https://scryfall.com/card/khc/81/abomination-of-llanowar?utm_source=api" rel="noreferrer" target="_blank">
-                      "Abomination of Llanowar"
-                  <span aria-label="{1}{B}{G}" class="mana-cost">
+                    <a href="https://scryfall.com/card/j25/683/leaf-crowned-visionary?utm_source=api" rel="noreferrer" target="_blank">
+                      "Leaf-Crowned Visionary"
+                  <span aria-label="{G}{G}" class="mana-cost">
                     <span class="mana-face">
-                      <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
-                      <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                <li class="">
-                  <span class="qty">
-                    "1"
-                  <span class="card-name grow">
-                    <a href="https://scryfall.com/card/afr/176/circle-of-dreams-druid?utm_source=api" rel="noreferrer" target="_blank">
-                      "Circle of Dreams Druid"
-                  <span aria-label="{G}{G}{G}" class="mana-cost">
-                    <span class="mana-face">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                <li class="">
-                  <span class="qty">
-                    "1"
-                  <span class="card-name grow">
-                    <a href="https://scryfall.com/card/hoc/204/elvish-archdruid?utm_source=api" rel="noreferrer" target="_blank">
-                      "Elvish Archdruid"
-                  <span aria-label="{1}{G}{G}" class="mana-cost">
-                    <span class="mana-face">
-                      <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                <li class="">
-                  <span class="qty">
-                    "1"
-                  <span class="card-name grow">
-                    <a href="https://scryfall.com/card/10e/261/elvish-champion?utm_source=api" rel="noreferrer" target="_blank">
-                      "Elvish Champion"
-                  <span aria-label="{1}{G}{G}" class="mana-cost">
-                    <span class="mana-face">
-                      <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
                       <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                       <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                 <li class="">
@@ -622,17 +578,6 @@
                   <span aria-label="{2}{G}" class="mana-cost">
                     <span class="mana-face">
                       <img alt="{2}" height="13" src="./symbols/2.svg" width="13">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                <li class="">
-                  <span class="qty">
-                    "1"
-                  <span class="card-name grow">
-                    <a href="https://scryfall.com/card/ddu/1/ezuri-renegade-leader?utm_source=api" rel="noreferrer" target="_blank">
-                      "Ezuri, Renegade Leader"
-                  <span aria-label="{1}{G}{G}" class="mana-cost">
-                    <span class="mana-face">
-                      <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                       <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                 <li class="">
                   <span class="qty">
@@ -658,33 +603,11 @@
                   <span class="qty">
                     "1"
                   <span class="card-name grow">
-                    <a href="https://scryfall.com/card/ecl/236/morcants-loyalist?utm_source=api" rel="noreferrer" target="_blank">
-                      "Morcant's Loyalist"
-                  <span aria-label="{1}{B}{G}" class="mana-cost">
-                    <span class="mana-face">
-                      <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
-                      <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                <li class="">
-                  <span class="qty">
-                    "1"
-                  <span class="card-name grow">
                     <a href="https://scryfall.com/card/fdn/231/reclamation-sage?utm_source=api" rel="noreferrer" target="_blank">
                       "Reclamation Sage"
                   <span aria-label="{2}{G}" class="mana-cost">
                     <span class="mana-face">
                       <img alt="{2}" height="13" src="./symbols/2.svg" width="13">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                <li class="">
-                  <span class="qty">
-                    "1"
-                  <span class="card-name grow">
-                    <a href="https://scryfall.com/card/khc/92/shaman-of-the-pack?utm_source=api" rel="noreferrer" target="_blank">
-                      "Shaman of the Pack"
-                  <span aria-label="{1}{B}{G}" class="mana-cost">
-                    <span class="mana-face">
-                      <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
-                      <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
                       <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                 <li class="">
                   <span class="qty">
@@ -712,11 +635,77 @@
                   <span class="qty">
                     "1"
                   <span class="card-name grow">
-                    <a href="https://scryfall.com/card/clu/158/beast-whisperer?utm_source=api" rel="noreferrer" target="_blank">
-                      "Beast Whisperer"
-                  <span aria-label="{2}{G}{G}" class="mana-cost">
+                    <a href="https://scryfall.com/card/khc/81/abomination-of-llanowar?utm_source=api" rel="noreferrer" target="_blank">
+                      "Abomination of Llanowar"
+                  <span aria-label="{1}{B}{G}" class="mana-cost">
                     <span class="mana-face">
-                      <img alt="{2}" height="13" src="./symbols/2.svg" width="13">
+                      <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
+                      <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                <li class="">
+                  <span class="qty">
+                    "1"
+                  <span class="card-name grow">
+                    <a href="https://scryfall.com/card/hoc/204/elvish-archdruid?utm_source=api" rel="noreferrer" target="_blank">
+                      "Elvish Archdruid"
+                  <span aria-label="{1}{G}{G}" class="mana-cost">
+                    <span class="mana-face">
+                      <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                <li class="">
+                  <span class="qty">
+                    "1"
+                  <span class="card-name grow">
+                    <a href="https://scryfall.com/card/10e/261/elvish-champion?utm_source=api" rel="noreferrer" target="_blank">
+                      "Elvish Champion"
+                  <span aria-label="{1}{G}{G}" class="mana-cost">
+                    <span class="mana-face">
+                      <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                <li class="">
+                  <span class="qty">
+                    "1"
+                  <span class="card-name grow">
+                    <a href="https://scryfall.com/card/ddu/1/ezuri-renegade-leader?utm_source=api" rel="noreferrer" target="_blank">
+                      "Ezuri, Renegade Leader"
+                  <span aria-label="{1}{G}{G}" class="mana-cost">
+                    <span class="mana-face">
+                      <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                <li class="">
+                  <span class="qty">
+                    "1"
+                  <span class="card-name grow">
+                    <a href="https://scryfall.com/card/ecl/236/morcants-loyalist?utm_source=api" rel="noreferrer" target="_blank">
+                      "Morcant's Loyalist"
+                  <span aria-label="{1}{B}{G}" class="mana-cost">
+                    <span class="mana-face">
+                      <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
+                      <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                <li class="">
+                  <span class="qty">
+                    "1"
+                  <span class="card-name grow">
+                    <a href="https://scryfall.com/card/khc/92/shaman-of-the-pack?utm_source=api" rel="noreferrer" target="_blank">
+                      "Shaman of the Pack"
+                  <span aria-label="{1}{B}{G}" class="mana-cost">
+                    <span class="mana-face">
+                      <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
+                      <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                <li class="">
+                  <span class="qty">
+                    "1"
+                  <span class="card-name grow">
+                    <a href="https://scryfall.com/card/afr/176/circle-of-dreams-druid?utm_source=api" rel="noreferrer" target="_blank">
+                      "Circle of Dreams Druid"
+                  <span aria-label="{G}{G}{G}" class="mana-cost">
+                    <span class="mana-face">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                       <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                       <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                 <li class="">
@@ -753,6 +742,59 @@
                   <span class="qty">
                     "1"
                   <span class="card-name grow">
+                    <a href="https://scryfall.com/card/cmr/234/immaculate-magistrate?utm_source=api" rel="noreferrer" target="_blank">
+                      "Immaculate Magistrate"
+                  <span aria-label="{3}{G}" class="mana-cost">
+                    <span class="mana-face">
+                      <img alt="{3}" height="13" src="./symbols/3.svg" width="13">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                <li class="new">
+                  <span class="qty">
+                    "1"
+                  <span class="card-name grow">
+                    <a href="https://scryfall.com/card/khc/70/nullmage-shepherd?utm_source=api" rel="noreferrer" target="_blank">
+                      "Nullmage Shepherd"
+                  <span class="badge new">
+                    "new"
+                  <span aria-label="{3}{G}" class="mana-cost">
+                    <span class="mana-face">
+                      <img alt="{3}" height="13" src="./symbols/3.svg" width="13">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                <li class="">
+                  <span class="qty">
+                    "1"
+                  <span class="card-name grow">
+                    <a href="https://scryfall.com/card/j25/489/skemfar-shadowsage?utm_source=api" rel="noreferrer" target="_blank">
+                      "Skemfar Shadowsage"
+                  <span aria-label="{3}{B}" class="mana-cost">
+                    <span class="mana-face">
+                      <img alt="{3}" height="13" src="./symbols/3.svg" width="13">
+                      <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
+                <li class="">
+                  <span class="qty">
+                    "1"
+                  <span class="card-name grow">
+                    <a href="https://scryfall.com/card/khc/79/wirewood-channeler?utm_source=api" rel="noreferrer" target="_blank">
+                      "Wirewood Channeler"
+                  <span aria-label="{3}{G}" class="mana-cost">
+                    <span class="mana-face">
+                      <img alt="{3}" height="13" src="./symbols/3.svg" width="13">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                <li class="">
+                  <span class="qty">
+                    "1"
+                  <span class="card-name grow">
+                    <a href="https://scryfall.com/card/clu/158/beast-whisperer?utm_source=api" rel="noreferrer" target="_blank">
+                      "Beast Whisperer"
+                  <span aria-label="{2}{G}{G}" class="mana-cost">
+                    <span class="mana-face">
+                      <img alt="{2}" height="13" src="./symbols/2.svg" width="13">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                <li class="">
+                  <span class="qty">
+                    "1"
+                  <span class="card-name grow">
                     <a href="https://scryfall.com/card/fdn/217/dwynen-gilt-leaf-daen?utm_source=api" rel="noreferrer" target="_blank">
                       "Dwynen, Gilt-Leaf Daen"
                   <span aria-label="{2}{G}{G}" class="mana-cost">
@@ -775,34 +817,12 @@
                   <span class="qty">
                     "1"
                   <span class="card-name grow">
-                    <a href="https://scryfall.com/card/cmr/234/immaculate-magistrate?utm_source=api" rel="noreferrer" target="_blank">
-                      "Immaculate Magistrate"
-                  <span aria-label="{3}{G}" class="mana-cost">
-                    <span class="mana-face">
-                      <img alt="{3}" height="13" src="./symbols/3.svg" width="13">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                <li class="">
-                  <span class="qty">
-                    "1"
-                  <span class="card-name grow">
                     <a href="https://scryfall.com/card/khc/67/lys-alana-huntmaster?utm_source=api" rel="noreferrer" target="_blank">
                       "Lys Alana Huntmaster"
                   <span aria-label="{2}{G}{G}" class="mana-cost">
                     <span class="mana-face">
                       <img alt="{2}" height="13" src="./symbols/2.svg" width="13">
                       <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                <li class="new">
-                  <span class="qty">
-                    "1"
-                  <span class="card-name grow">
-                    <a href="https://scryfall.com/card/khc/70/nullmage-shepherd?utm_source=api" rel="noreferrer" target="_blank">
-                      "Nullmage Shepherd"
-                  <span class="badge new">
-                    "new"
-                  <span aria-label="{3}{G}" class="mana-cost">
-                    <span class="mana-face">
-                      <img alt="{3}" height="13" src="./symbols/3.svg" width="13">
                       <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                 <li class="">
                   <span class="qty">
@@ -814,26 +834,6 @@
                     <span class="mana-face">
                       <img alt="{2}" height="13" src="./symbols/2.svg" width="13">
                       <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                <li class="">
-                  <span class="qty">
-                    "1"
-                  <span class="card-name grow">
-                    <a href="https://scryfall.com/card/j25/489/skemfar-shadowsage?utm_source=api" rel="noreferrer" target="_blank">
-                      "Skemfar Shadowsage"
-                  <span aria-label="{3}{B}" class="mana-cost">
-                    <span class="mana-face">
-                      <img alt="{3}" height="13" src="./symbols/3.svg" width="13">
-                      <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
-                <li class="">
-                  <span class="qty">
-                    "1"
-                  <span class="card-name grow">
-                    <a href="https://scryfall.com/card/khc/79/wirewood-channeler?utm_source=api" rel="noreferrer" target="_blank">
-                      "Wirewood Channeler"
-                  <span aria-label="{3}{G}" class="mana-cost">
-                    <span class="mana-face">
-                      <img alt="{3}" height="13" src="./symbols/3.svg" width="13">
                       <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                 <li class="">
                   <span class="qty">
@@ -906,6 +906,16 @@
                   <span class="qty">
                     "1"
                   <span class="card-name grow">
+                    <a href="https://scryfall.com/card/trc/465/heroic-intervention?utm_source=api" rel="noreferrer" target="_blank">
+                      "Heroic Intervention"
+                  <span aria-label="{1}{G}" class="mana-cost">
+                    <span class="mana-face">
+                      <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
+                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
+                <li class="">
+                  <span class="qty">
+                    "1"
+                  <span class="card-name grow">
                     <a href="https://scryfall.com/card/soc/294/assassins-trophy?utm_source=api" rel="noreferrer" target="_blank">
                       "Assassin's Trophy"
                   <span aria-label="{B}{G}" class="mana-cost">
@@ -921,16 +931,6 @@
                   <span aria-label="{B}{G}" class="mana-cost">
                     <span class="mana-face">
                       <img alt="{B}" height="13" src="./symbols/B.svg" width="13">
-                      <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
-                <li class="">
-                  <span class="qty">
-                    "1"
-                  <span class="card-name grow">
-                    <a href="https://scryfall.com/card/trc/465/heroic-intervention?utm_source=api" rel="noreferrer" target="_blank">
-                      "Heroic Intervention"
-                  <span aria-label="{1}{G}" class="mana-cost">
-                    <span class="mana-face">
-                      <img alt="{1}" height="13" src="./symbols/1.svg" width="13">
                       <img alt="{G}" height="13" src="./symbols/G.svg" width="13">
                 <li class="">
                   <span class="qty">

@@ -283,6 +283,36 @@
                 <li class="card-row  ">
                   <div class="thumb">
                     <span class="card-name ">
+                      <a href="https://scryfall.com/card/mh3/286/priest-of-titania?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/e/b/eb11921b-1b28-483f-a707-4de21a6daa31.jpg?1783911212">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Priest of Titania">
+                    <div class="card-row-sub small">
+                      <span class="muted">
+                        <span class="card-row-cost-inline">
+                          <span aria-label="{1}{G}" class="mana-cost">
+                            <span class="mana-face">
+                              <img alt="{1}" height="13" src="/symbols/1.svg" width="13">
+                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
+                        "Creature — Elf Druid"
+                  <span class="card-row-cost">
+                    <span aria-label="{1}{G}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{1}" height="15" src="/symbols/1.svg" width="15">
+                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Priest of Titania" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+                <li class="card-row  ">
+                  <div class="thumb">
+                    <span class="card-name ">
                       <a href="https://scryfall.com/card/j25/683/leaf-crowned-visionary?utm_source=api" rel="noreferrer" target="_blank">
                         <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/2/3/236bd163-baee-4971-8678-49db750ed294.jpg?1783908634">
                   <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
@@ -313,23 +343,23 @@
                 <li class="card-row  ">
                   <div class="thumb">
                     <span class="card-name ">
-                      <a href="https://scryfall.com/card/mh3/286/priest-of-titania?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/e/b/eb11921b-1b28-483f-a707-4de21a6daa31.jpg?1783911212">
+                      <a href="https://scryfall.com/card/evg/4/elvish-harbinger?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/7/8/78db70ff-f68c-474a-9785-12a71be4f699.jpg?1783938774">
                   <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
                   <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Priest of Titania">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Elvish Harbinger">
                     <div class="card-row-sub small">
                       <span class="muted">
                         <span class="card-row-cost-inline">
-                          <span aria-label="{1}{G}" class="mana-cost">
+                          <span aria-label="{2}{G}" class="mana-cost">
                             <span class="mana-face">
-                              <img alt="{1}" height="13" src="/symbols/1.svg" width="13">
+                              <img alt="{2}" height="13" src="/symbols/2.svg" width="13">
                               <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
                         "Creature — Elf Druid"
                   <span class="card-row-cost">
-                    <span aria-label="{1}{G}" class="mana-cost">
+                    <span aria-label="{2}{G}" class="mana-cost">
                       <span class="mana-face">
-                        <img alt="{1}" height="15" src="/symbols/1.svg" width="15">
+                        <img alt="{2}" height="15" src="/symbols/2.svg" width="15">
                         <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
                   <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
                     <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
@@ -337,7 +367,127 @@
                       <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
                     <span class="lock-label">
                       "Keep"
-                  <button aria-label="Remove Priest of Titania" class="icon">
+                  <button aria-label="Remove Elvish Harbinger" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+                <li class="card-row  ">
+                  <div class="thumb">
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/fdn/719/imperious-perfect?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/8/3/83b4a09f-ea53-42b4-a41a-4299192a6fd3.jpg?1783908890">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Imperious Perfect">
+                    <div class="card-row-sub small">
+                      <span class="muted">
+                        <span class="card-row-cost-inline">
+                          <span aria-label="{2}{G}" class="mana-cost">
+                            <span class="mana-face">
+                              <img alt="{2}" height="13" src="/symbols/2.svg" width="13">
+                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
+                        "Creature — Elf Warrior"
+                  <span class="card-row-cost">
+                    <span aria-label="{2}{G}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{2}" height="15" src="/symbols/2.svg" width="15">
+                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Imperious Perfect" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+                <li class="card-row  ">
+                  <div class="thumb">
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/j25/687/marwyn-the-nurturer?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/4/c/4c92e444-2a33-4e67-a8be-8cf5d564e589.jpg?1783908631">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Marwyn, the Nurturer">
+                    <div class="card-row-sub small">
+                      <span class="muted">
+                        <span class="card-row-cost-inline">
+                          <span aria-label="{2}{G}" class="mana-cost">
+                            <span class="mana-face">
+                              <img alt="{2}" height="13" src="/symbols/2.svg" width="13">
+                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
+                        "Legendary Creature — Elf Druid"
+                  <span class="card-row-cost">
+                    <span aria-label="{2}{G}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{2}" height="15" src="/symbols/2.svg" width="15">
+                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Marwyn, the Nurturer" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+                <li class="card-row  ">
+                  <div class="thumb">
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/fdn/231/reclamation-sage?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/1/9/1918ea65-ab7f-4d40-97fd-a656c892a2a1.jpg?1783909055">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Reclamation Sage">
+                    <div class="card-row-sub small">
+                      <span class="muted">
+                        <span class="card-row-cost-inline">
+                          <span aria-label="{2}{G}" class="mana-cost">
+                            <span class="mana-face">
+                              <img alt="{2}" height="13" src="/symbols/2.svg" width="13">
+                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
+                        "Creature — Elf Shaman"
+                  <span class="card-row-cost">
+                    <span aria-label="{2}{G}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{2}" height="15" src="/symbols/2.svg" width="15">
+                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Reclamation Sage" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+                <li class="card-row  ">
+                  <div class="thumb">
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/khc/76/timberwatch-elf?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/3/8/38807f17-1cf2-4736-ad10-df6c8b1a9f55.jpg?1783928309">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Timberwatch Elf">
+                    <div class="card-row-sub small">
+                      <span class="muted">
+                        <span class="card-row-cost-inline">
+                          <span aria-label="{2}{G}" class="mana-cost">
+                            <span class="mana-face">
+                              <img alt="{2}" height="13" src="/symbols/2.svg" width="13">
+                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
+                        "Creature — Elf"
+                  <span class="card-row-cost">
+                    <span aria-label="{2}{G}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{2}" height="15" src="/symbols/2.svg" width="15">
+                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Timberwatch Elf" class="icon">
                     <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
                       <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
                 <li class="card-row  ">
@@ -370,38 +520,6 @@
                     <span class="lock-label">
                       "Keep"
                   <button aria-label="Remove Abomination of Llanowar" class="icon">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
-                <li class="card-row  ">
-                  <div class="thumb">
-                    <span class="card-name ">
-                      <a href="https://scryfall.com/card/afr/176/circle-of-dreams-druid?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/b/e/be6fdec0-a2c4-4da2-ae14-961185eaee66.jpg?1783926466">
-                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
-                  <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Circle of Dreams Druid">
-                    <div class="card-row-sub small">
-                      <span class="muted">
-                        <span class="card-row-cost-inline">
-                          <span aria-label="{G}{G}{G}" class="mana-cost">
-                            <span class="mana-face">
-                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
-                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
-                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
-                        "Creature — Elf Druid"
-                  <span class="card-row-cost">
-                    <span aria-label="{G}{G}{G}" class="mana-cost">
-                      <span class="mana-face">
-                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
-                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
-                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
-                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
-                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
-                    <span class="lock-label">
-                      "Keep"
-                  <button aria-label="Remove Circle of Dreams Druid" class="icon">
                     <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
                       <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
                 <li class="card-row  ">
@@ -471,36 +589,6 @@
                 <li class="card-row  ">
                   <div class="thumb">
                     <span class="card-name ">
-                      <a href="https://scryfall.com/card/evg/4/elvish-harbinger?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/7/8/78db70ff-f68c-474a-9785-12a71be4f699.jpg?1783938774">
-                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
-                  <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Elvish Harbinger">
-                    <div class="card-row-sub small">
-                      <span class="muted">
-                        <span class="card-row-cost-inline">
-                          <span aria-label="{2}{G}" class="mana-cost">
-                            <span class="mana-face">
-                              <img alt="{2}" height="13" src="/symbols/2.svg" width="13">
-                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
-                        "Creature — Elf Druid"
-                  <span class="card-row-cost">
-                    <span aria-label="{2}{G}" class="mana-cost">
-                      <span class="mana-face">
-                        <img alt="{2}" height="15" src="/symbols/2.svg" width="15">
-                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
-                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
-                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
-                    <span class="lock-label">
-                      "Keep"
-                  <button aria-label="Remove Elvish Harbinger" class="icon">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
-                <li class="card-row  ">
-                  <div class="thumb">
-                    <span class="card-name ">
                       <a href="https://scryfall.com/card/ddu/1/ezuri-renegade-leader?utm_source=api" rel="noreferrer" target="_blank">
                         <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/8/a/8a448dbf-08a1-4145-a4b2-0265cc9f2e53.jpg?1783935094">
                   <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
@@ -528,66 +616,6 @@
                     <span class="lock-label">
                       "Keep"
                   <button aria-label="Remove Ezuri, Renegade Leader" class="icon">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
-                <li class="card-row  ">
-                  <div class="thumb">
-                    <span class="card-name ">
-                      <a href="https://scryfall.com/card/fdn/719/imperious-perfect?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/8/3/83b4a09f-ea53-42b4-a41a-4299192a6fd3.jpg?1783908890">
-                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
-                  <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Imperious Perfect">
-                    <div class="card-row-sub small">
-                      <span class="muted">
-                        <span class="card-row-cost-inline">
-                          <span aria-label="{2}{G}" class="mana-cost">
-                            <span class="mana-face">
-                              <img alt="{2}" height="13" src="/symbols/2.svg" width="13">
-                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
-                        "Creature — Elf Warrior"
-                  <span class="card-row-cost">
-                    <span aria-label="{2}{G}" class="mana-cost">
-                      <span class="mana-face">
-                        <img alt="{2}" height="15" src="/symbols/2.svg" width="15">
-                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
-                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
-                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
-                    <span class="lock-label">
-                      "Keep"
-                  <button aria-label="Remove Imperious Perfect" class="icon">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
-                <li class="card-row  ">
-                  <div class="thumb">
-                    <span class="card-name ">
-                      <a href="https://scryfall.com/card/j25/687/marwyn-the-nurturer?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/4/c/4c92e444-2a33-4e67-a8be-8cf5d564e589.jpg?1783908631">
-                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
-                  <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Marwyn, the Nurturer">
-                    <div class="card-row-sub small">
-                      <span class="muted">
-                        <span class="card-row-cost-inline">
-                          <span aria-label="{2}{G}" class="mana-cost">
-                            <span class="mana-face">
-                              <img alt="{2}" height="13" src="/symbols/2.svg" width="13">
-                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
-                        "Legendary Creature — Elf Druid"
-                  <span class="card-row-cost">
-                    <span aria-label="{2}{G}" class="mana-cost">
-                      <span class="mana-face">
-                        <img alt="{2}" height="15" src="/symbols/2.svg" width="15">
-                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
-                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
-                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
-                    <span class="lock-label">
-                      "Keep"
-                  <button aria-label="Remove Marwyn, the Nurturer" class="icon">
                     <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
                       <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
                 <li class="card-row  ">
@@ -625,36 +653,6 @@
                 <li class="card-row  ">
                   <div class="thumb">
                     <span class="card-name ">
-                      <a href="https://scryfall.com/card/fdn/231/reclamation-sage?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/1/9/1918ea65-ab7f-4d40-97fd-a656c892a2a1.jpg?1783909055">
-                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
-                  <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Reclamation Sage">
-                    <div class="card-row-sub small">
-                      <span class="muted">
-                        <span class="card-row-cost-inline">
-                          <span aria-label="{2}{G}" class="mana-cost">
-                            <span class="mana-face">
-                              <img alt="{2}" height="13" src="/symbols/2.svg" width="13">
-                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
-                        "Creature — Elf Shaman"
-                  <span class="card-row-cost">
-                    <span aria-label="{2}{G}" class="mana-cost">
-                      <span class="mana-face">
-                        <img alt="{2}" height="15" src="/symbols/2.svg" width="15">
-                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
-                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
-                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
-                    <span class="lock-label">
-                      "Keep"
-                  <button aria-label="Remove Reclamation Sage" class="icon">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
-                <li class="card-row  ">
-                  <div class="thumb">
-                    <span class="card-name ">
                       <a href="https://scryfall.com/card/khc/92/shaman-of-the-pack?utm_source=api" rel="noreferrer" target="_blank">
                         <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/d/a/da9705e2-40e5-4ec9-8aef-2eab28d5a66f.jpg?1783928301">
                   <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
@@ -687,54 +685,24 @@
                 <li class="card-row  ">
                   <div class="thumb">
                     <span class="card-name ">
-                      <a href="https://scryfall.com/card/khc/76/timberwatch-elf?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/3/8/38807f17-1cf2-4736-ad10-df6c8b1a9f55.jpg?1783928309">
+                      <a href="https://scryfall.com/card/afr/176/circle-of-dreams-druid?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/b/e/be6fdec0-a2c4-4da2-ae14-961185eaee66.jpg?1783926466">
                   <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
                   <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Timberwatch Elf">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Circle of Dreams Druid">
                     <div class="card-row-sub small">
                       <span class="muted">
                         <span class="card-row-cost-inline">
-                          <span aria-label="{2}{G}" class="mana-cost">
+                          <span aria-label="{G}{G}{G}" class="mana-cost">
                             <span class="mana-face">
-                              <img alt="{2}" height="13" src="/symbols/2.svg" width="13">
                               <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
-                        "Creature — Elf"
-                  <span class="card-row-cost">
-                    <span aria-label="{2}{G}" class="mana-cost">
-                      <span class="mana-face">
-                        <img alt="{2}" height="15" src="/symbols/2.svg" width="15">
-                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
-                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
-                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
-                    <span class="lock-label">
-                      "Keep"
-                  <button aria-label="Remove Timberwatch Elf" class="icon">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
-                <li class="card-row  ">
-                  <div class="thumb">
-                    <span class="card-name ">
-                      <a href="https://scryfall.com/card/clu/158/beast-whisperer?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/d/a/daf4bcd2-3ae4-4803-9ea1-3bcc3de5ca59.jpg?1783912531">
-                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
-                  <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Beast Whisperer">
-                    <div class="card-row-sub small">
-                      <span class="muted">
-                        <span class="card-row-cost-inline">
-                          <span aria-label="{2}{G}{G}" class="mana-cost">
-                            <span class="mana-face">
-                              <img alt="{2}" height="13" src="/symbols/2.svg" width="13">
                               <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
                               <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
                         "Creature — Elf Druid"
                   <span class="card-row-cost">
-                    <span aria-label="{2}{G}{G}" class="mana-cost">
+                    <span aria-label="{G}{G}{G}" class="mana-cost">
                       <span class="mana-face">
-                        <img alt="{2}" height="15" src="/symbols/2.svg" width="15">
+                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
                         <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
                         <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
                   <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
@@ -743,7 +711,7 @@
                       <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
                     <span class="lock-label">
                       "Keep"
-                  <button aria-label="Remove Beast Whisperer" class="icon">
+                  <button aria-label="Remove Circle of Dreams Druid" class="icon">
                     <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
                       <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
                 <li class="card-row  ">
@@ -839,6 +807,128 @@
                 <li class="card-row  ">
                   <div class="thumb">
                     <span class="card-name ">
+                      <a href="https://scryfall.com/card/cmr/234/immaculate-magistrate?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/d/9/d9208db8-1ba5-4f9c-90a4-03e377ae6f86.jpg?1783928793">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Immaculate Magistrate">
+                    <div class="card-row-sub small">
+                      <span class="muted">
+                        <span class="card-row-cost-inline">
+                          <span aria-label="{3}{G}" class="mana-cost">
+                            <span class="mana-face">
+                              <img alt="{3}" height="13" src="/symbols/3.svg" width="13">
+                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
+                        "Creature — Elf Shaman"
+                  <span class="card-row-cost">
+                    <span aria-label="{3}{G}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{3}" height="15" src="/symbols/3.svg" width="15">
+                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Immaculate Magistrate" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+                <li class="card-row  ">
+                  <div class="thumb">
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/j25/489/skemfar-shadowsage?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/3/0/306e67b5-7d00-412a-894d-c9412cb9e4f2.jpg?1783908711">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Skemfar Shadowsage">
+                    <div class="card-row-sub small">
+                      <span class="muted">
+                        <span class="card-row-cost-inline">
+                          <span aria-label="{3}{B}" class="mana-cost">
+                            <span class="mana-face">
+                              <img alt="{3}" height="13" src="/symbols/3.svg" width="13">
+                              <img alt="{B}" height="13" src="/symbols/B.svg" width="13">
+                        "Creature — Elf Cleric"
+                  <span class="card-row-cost">
+                    <span aria-label="{3}{B}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{3}" height="15" src="/symbols/3.svg" width="15">
+                        <img alt="{B}" height="15" src="/symbols/B.svg" width="15">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Skemfar Shadowsage" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+                <li class="card-row  ">
+                  <div class="thumb">
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/khc/79/wirewood-channeler?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/5/6/5670ae47-befb-4aaf-a77a-d7dbd4d8dc08.jpg?1783928307">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Wirewood Channeler">
+                    <div class="card-row-sub small">
+                      <span class="muted">
+                        <span class="card-row-cost-inline">
+                          <span aria-label="{3}{G}" class="mana-cost">
+                            <span class="mana-face">
+                              <img alt="{3}" height="13" src="/symbols/3.svg" width="13">
+                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
+                        "Creature — Elf Druid"
+                  <span class="card-row-cost">
+                    <span aria-label="{3}{G}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{3}" height="15" src="/symbols/3.svg" width="15">
+                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Wirewood Channeler" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+                <li class="card-row  ">
+                  <div class="thumb">
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/clu/158/beast-whisperer?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/d/a/daf4bcd2-3ae4-4803-9ea1-3bcc3de5ca59.jpg?1783912531">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Beast Whisperer">
+                    <div class="card-row-sub small">
+                      <span class="muted">
+                        <span class="card-row-cost-inline">
+                          <span aria-label="{2}{G}{G}" class="mana-cost">
+                            <span class="mana-face">
+                              <img alt="{2}" height="13" src="/symbols/2.svg" width="13">
+                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
+                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
+                        "Creature — Elf Druid"
+                  <span class="card-row-cost">
+                    <span aria-label="{2}{G}{G}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{2}" height="15" src="/symbols/2.svg" width="15">
+                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
+                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Beast Whisperer" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+                <li class="card-row  ">
+                  <div class="thumb">
+                    <span class="card-name ">
                       <a href="https://scryfall.com/card/fdn/217/dwynen-gilt-leaf-daen?utm_source=api" rel="noreferrer" target="_blank">
                         <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/0/1/01c00d7b-7fac-4f8c-a1ea-de2cf4d06627.jpg?1783909060">
                   <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
@@ -903,36 +993,6 @@
                 <li class="card-row  ">
                   <div class="thumb">
                     <span class="card-name ">
-                      <a href="https://scryfall.com/card/cmr/234/immaculate-magistrate?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/d/9/d9208db8-1ba5-4f9c-90a4-03e377ae6f86.jpg?1783928793">
-                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
-                  <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Immaculate Magistrate">
-                    <div class="card-row-sub small">
-                      <span class="muted">
-                        <span class="card-row-cost-inline">
-                          <span aria-label="{3}{G}" class="mana-cost">
-                            <span class="mana-face">
-                              <img alt="{3}" height="13" src="/symbols/3.svg" width="13">
-                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
-                        "Creature — Elf Shaman"
-                  <span class="card-row-cost">
-                    <span aria-label="{3}{G}" class="mana-cost">
-                      <span class="mana-face">
-                        <img alt="{3}" height="15" src="/symbols/3.svg" width="15">
-                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
-                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
-                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
-                    <span class="lock-label">
-                      "Keep"
-                  <button aria-label="Remove Immaculate Magistrate" class="icon">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
-                <li class="card-row  ">
-                  <div class="thumb">
-                    <span class="card-name ">
                       <a href="https://scryfall.com/card/khc/67/lys-alana-huntmaster?utm_source=api" rel="noreferrer" target="_blank">
                         <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/0/8/0849f67b-da5d-49f7-840f-f87f48518156.jpg?1783928313">
                   <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
@@ -992,66 +1052,6 @@
                     <span class="lock-label">
                       "Keep"
                   <button aria-label="Remove Poison-Tip Archer" class="icon">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
-                <li class="card-row  ">
-                  <div class="thumb">
-                    <span class="card-name ">
-                      <a href="https://scryfall.com/card/j25/489/skemfar-shadowsage?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/3/0/306e67b5-7d00-412a-894d-c9412cb9e4f2.jpg?1783908711">
-                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
-                  <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Skemfar Shadowsage">
-                    <div class="card-row-sub small">
-                      <span class="muted">
-                        <span class="card-row-cost-inline">
-                          <span aria-label="{3}{B}" class="mana-cost">
-                            <span class="mana-face">
-                              <img alt="{3}" height="13" src="/symbols/3.svg" width="13">
-                              <img alt="{B}" height="13" src="/symbols/B.svg" width="13">
-                        "Creature — Elf Cleric"
-                  <span class="card-row-cost">
-                    <span aria-label="{3}{B}" class="mana-cost">
-                      <span class="mana-face">
-                        <img alt="{3}" height="15" src="/symbols/3.svg" width="15">
-                        <img alt="{B}" height="15" src="/symbols/B.svg" width="15">
-                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
-                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
-                    <span class="lock-label">
-                      "Keep"
-                  <button aria-label="Remove Skemfar Shadowsage" class="icon">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
-                <li class="card-row  ">
-                  <div class="thumb">
-                    <span class="card-name ">
-                      <a href="https://scryfall.com/card/khc/79/wirewood-channeler?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/5/6/5670ae47-befb-4aaf-a77a-d7dbd4d8dc08.jpg?1783928307">
-                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
-                  <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Wirewood Channeler">
-                    <div class="card-row-sub small">
-                      <span class="muted">
-                        <span class="card-row-cost-inline">
-                          <span aria-label="{3}{G}" class="mana-cost">
-                            <span class="mana-face">
-                              <img alt="{3}" height="13" src="/symbols/3.svg" width="13">
-                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
-                        "Creature — Elf Druid"
-                  <span class="card-row-cost">
-                    <span aria-label="{3}{G}" class="mana-cost">
-                      <span class="mana-face">
-                        <img alt="{3}" height="15" src="/symbols/3.svg" width="15">
-                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
-                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
-                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
-                    <span class="lock-label">
-                      "Keep"
-                  <button aria-label="Remove Wirewood Channeler" class="icon">
                     <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
                       <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
                 <li class="card-row  ">
@@ -1279,66 +1279,6 @@
                 <li class="card-row  ">
                   <div class="thumb">
                     <span class="card-name ">
-                      <a href="https://scryfall.com/card/soc/294/assassins-trophy?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/a/a/aaf258fc-3ba4-4b83-bdbf-10a07e0b6c03.jpg?1783903757">
-                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
-                  <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Assassin's Trophy">
-                    <div class="card-row-sub small">
-                      <span class="muted">
-                        <span class="card-row-cost-inline">
-                          <span aria-label="{B}{G}" class="mana-cost">
-                            <span class="mana-face">
-                              <img alt="{B}" height="13" src="/symbols/B.svg" width="13">
-                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
-                        "Instant"
-                  <span class="card-row-cost">
-                    <span aria-label="{B}{G}" class="mana-cost">
-                      <span class="mana-face">
-                        <img alt="{B}" height="15" src="/symbols/B.svg" width="15">
-                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
-                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
-                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
-                    <span class="lock-label">
-                      "Keep"
-                  <button aria-label="Remove Assassin's Trophy" class="icon">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
-                <li class="card-row  ">
-                  <div class="thumb">
-                    <span class="card-name ">
-                      <a href="https://scryfall.com/card/uma/201/golgari-charm?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/9/d/9d467e61-bbec-4cea-bd5d-f10555910c9d.jpg?1783933777">
-                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
-                  <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Golgari Charm">
-                    <div class="card-row-sub small">
-                      <span class="muted">
-                        <span class="card-row-cost-inline">
-                          <span aria-label="{B}{G}" class="mana-cost">
-                            <span class="mana-face">
-                              <img alt="{B}" height="13" src="/symbols/B.svg" width="13">
-                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
-                        "Instant"
-                  <span class="card-row-cost">
-                    <span aria-label="{B}{G}" class="mana-cost">
-                      <span class="mana-face">
-                        <img alt="{B}" height="15" src="/symbols/B.svg" width="15">
-                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
-                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
-                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
-                    <span class="lock-label">
-                      "Keep"
-                  <button aria-label="Remove Golgari Charm" class="icon">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
-                <li class="card-row  ">
-                  <div class="thumb">
-                    <span class="card-name ">
                       <a href="https://scryfall.com/card/trc/465/heroic-intervention?utm_source=api" rel="noreferrer" target="_blank">
                         <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/2/e/2ed6abbe-3ec0-48a9-94ad-e62660a63de0.jpg?1793281401">
                   <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
@@ -1394,6 +1334,66 @@
                     <span class="lock-label">
                       "Keep"
                   <button aria-label="Remove Seedtime" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+                <li class="card-row  ">
+                  <div class="thumb">
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/soc/294/assassins-trophy?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/a/a/aaf258fc-3ba4-4b83-bdbf-10a07e0b6c03.jpg?1783903757">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Assassin's Trophy">
+                    <div class="card-row-sub small">
+                      <span class="muted">
+                        <span class="card-row-cost-inline">
+                          <span aria-label="{B}{G}" class="mana-cost">
+                            <span class="mana-face">
+                              <img alt="{B}" height="13" src="/symbols/B.svg" width="13">
+                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
+                        "Instant"
+                  <span class="card-row-cost">
+                    <span aria-label="{B}{G}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{B}" height="15" src="/symbols/B.svg" width="15">
+                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Assassin's Trophy" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+                <li class="card-row  ">
+                  <div class="thumb">
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/uma/201/golgari-charm?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/9/d/9d467e61-bbec-4cea-bd5d-f10555910c9d.jpg?1783933777">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Golgari Charm">
+                    <div class="card-row-sub small">
+                      <span class="muted">
+                        <span class="card-row-cost-inline">
+                          <span aria-label="{B}{G}" class="mana-cost">
+                            <span class="mana-face">
+                              <img alt="{B}" height="13" src="/symbols/B.svg" width="13">
+                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
+                        "Instant"
+                  <span class="card-row-cost">
+                    <span aria-label="{B}{G}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{B}" height="15" src="/symbols/B.svg" width="15">
+                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Golgari Charm" class="icon">
                     <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
                       <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
                 <li class="card-row  ">
@@ -1555,38 +1555,6 @@
                 <li class="card-row  ">
                   <div class="thumb">
                     <span class="card-name ">
-                      <a href="https://scryfall.com/card/cmm/289/finale-of-devastation?utm_source=api" rel="noreferrer" target="_blank">
-                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/b/1/b10d99bf-b2ce-4443-b924-ff0eb8be1033.jpg?1783915632">
-                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
-                  <div class="card-row-main">
-                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Finale of Devastation">
-                    <div class="card-row-sub small">
-                      <span class="muted">
-                        <span class="card-row-cost-inline">
-                          <span aria-label="{X}{G}{G}" class="mana-cost">
-                            <span class="mana-face">
-                              <img alt="{X}" height="13" src="/symbols/X.svg" width="13">
-                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
-                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
-                        "Sorcery"
-                  <span class="card-row-cost">
-                    <span aria-label="{X}{G}{G}" class="mana-cost">
-                      <span class="mana-face">
-                        <img alt="{X}" height="15" src="/symbols/X.svg" width="15">
-                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
-                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
-                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
-                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
-                    <span class="lock-label">
-                      "Keep"
-                  <button aria-label="Remove Finale of Devastation" class="icon">
-                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
-                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
-                <li class="card-row  ">
-                  <div class="thumb">
-                    <span class="card-name ">
                       <a href="https://scryfall.com/card/trc/460/cultivate?utm_source=api" rel="noreferrer" target="_blank">
                         <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/a/7/a78f5d3f-74d6-4ec1-89c4-e24639d3f4ba.jpg?1793281380">
                   <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
@@ -1737,6 +1705,38 @@
                     <span class="lock-label">
                       "Keep"
                   <button aria-label="Remove Casualties of War" class="icon">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
+                <li class="card-row  ">
+                  <div class="thumb">
+                    <span class="card-name ">
+                      <a href="https://scryfall.com/card/cmm/289/finale-of-devastation?utm_source=api" rel="noreferrer" target="_blank">
+                        <img alt="" loading="eager" src="https://cards.scryfall.io/art_crop/front/b/1/b10d99bf-b2ce-4443-b924-ff0eb8be1033.jpg?1783915632">
+                  <input aria-label="Quantity" class="qty" inputmode="numeric" min="1" type="number" .value="1">
+                  <div class="card-row-main">
+                    <input aria-label="Card name" class="name" list="name-ac" placeholder="Card name" .value="Finale of Devastation">
+                    <div class="card-row-sub small">
+                      <span class="muted">
+                        <span class="card-row-cost-inline">
+                          <span aria-label="{X}{G}{G}" class="mana-cost">
+                            <span class="mana-face">
+                              <img alt="{X}" height="13" src="/symbols/X.svg" width="13">
+                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
+                              <img alt="{G}" height="13" src="/symbols/G.svg" width="13">
+                        "Sorcery"
+                  <span class="card-row-cost">
+                    <span aria-label="{X}{G}{G}" class="mana-cost">
+                      <span class="mana-face">
+                        <img alt="{X}" height="15" src="/symbols/X.svg" width="15">
+                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
+                        <img alt="{G}" height="15" src="/symbols/G.svg" width="15">
+                  <button aria-pressed="false" class="lock " title="Keep this card (never cut)">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
+                      <rect fill="none" height="10" rx="2" width="16" x="4" y="11">
+                      <path d="M8 11V7a4 4 0 0 1 7.5-1.9">
+                    <span class="lock-label">
+                      "Keep"
+                  <button aria-label="Remove Finale of Devastation" class="icon">
                     <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="18">
                       <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3">
                 <li class="group-head">

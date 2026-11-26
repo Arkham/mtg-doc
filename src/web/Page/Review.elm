@@ -718,7 +718,11 @@ view env config model =
             rows
                 |> List.filter (\r -> model.view == All || needsAttention model r)
                 |> List.filter (\r -> model.search == "" || String.contains (String.toLower model.search) (String.toLower r.name))
-                |> Cards.sortByManaValue (.match >> cardOf >> Maybe.map .cmc)
+                |> Cards.sortByManaValue
+                    (.match
+                        >> cardOf
+                        >> Maybe.map (\c -> { cmc = c.cmc, manaCost = c.manaCost })
+                    )
 
         groups =
             groupOrder
